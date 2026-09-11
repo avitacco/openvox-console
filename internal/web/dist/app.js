@@ -1,0 +1,472 @@
+// Shared helpers for the console frontend. Plain ES modules, no bundler -
+// see design.md (phase-1-inventory-and-reporting) for why.
+
+// Pairs with the head-blocking script in every page's <head>: that script
+// hides <body> until this fires (or a timeout elapses), so the correct
+// dark/light background is in place before first paint instead of
+// flashing the wrong one. Every page module imports this file, so this
+// runs exactly once per page load.
+document.addEventListener('DOMContentLoaded', () => {
+  document.documentElement.setAttribute('data-vox-ready', '');
+});
+
+const ACCESS_TOKEN_KEY = 'console.accessToken';
+const REFRESH_TOKEN_KEY = 'console.refreshToken';
+const REFRESH_MARGIN_MS = 60_000; // refresh this long before actual expiry
+
+export function getAccessToken() {
+  return localStorage.getItem(ACCESS_TOKEN_KEY);
+}
+
+export function getRefreshToken() {
+  return localStorage.getItem(REFRESH_TOKEN_KEY);
+}
+
+export function setTokens(accessToken, refreshToken) {
+  localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
+  localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
+  scheduleRefresh();
+}
+
+export function clearTokens() {
+  localStorage.removeItem(ACCESS_TOKEN_KEY);
+  localStorage.removeItem(REFRESH_TOKEN_KEY);
+}
+
+function decodeJWTPayload(token) {
+  try {
+    const payload = token.split('.')[1];
+    const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
+    return JSON.parse(atob(base64));
+  } catch {
+    return null;
+  }
+}
+
+// Reads the current access token's claims client-side, for UX decisions
+// (nav visibility, redirecting away from admin pages) - not a security
+// boundary, since the server independently enforces every permission
+// check on the API itself.
+export function getClaims() {
+  const token = getAccessToken();
+  if (!token) return null;
+  return decodeJWTPayload(token);
+}
+
+export function hasPermission(permission) {
+  const claims = getClaims();
+  return !!claims && Array.isArray(claims.permissions) && claims.permissions.includes(permission);
+}
+
+let refreshTimer;
+
+// Schedules a proactive refresh shortly before the current access token's
+// exp claim - so a session survives past its original expiry without the
+// user being prompted to log in again, rather than only reacting to a 401
+// after the token has already expired.
+function scheduleRefresh() {
+  clearTimeout(refreshTimer);
+  const token = getAccessToken();
+  if (!token) return;
+  const claims = decodeJWTPayload(token);
+  if (!claims || !claims.exp) return;
+
+  const delay = Math.max(claims.exp * 1000 - Date.now() - REFRESH_MARGIN_MS, 0);
+  refreshTimer = setTimeout(() => {
+    refreshAccessToken().catch(() => redirectToLogin());
+  }, delay);
+}
+
+async function refreshAccessToken() {
+  const refreshToken = getRefreshToken();
+  if (!refreshToken) throw new Error('no refresh token');
+
+  const res = await fetch('/api/v1/auth/refresh', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ refreshToken }),
+  });
+  if (!res.ok) throw new Error('refresh failed');
+
+  const data = await res.json();
+  setTokens(data.accessToken, data.refreshToken);
+  return data.accessToken;
+}
+
+function redirectToLogin() {
+  clearTimeout(refreshTimer);
+  clearTokens();
+  window.location.href = '/login.html';
+}
+
+export function logout() {
+  const token = getAccessToken();
+  clearTimeout(refreshTimer);
+  clearTokens();
+  if (token) {
+    fetch('/api/v1/auth/logout', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}` },
+    }).catch(() => {});
+  }
+  window.location.href = '/login.html';
+}
+
+// Every page's fetchJSON call attaches the access token and, on a 401,
+// tries exactly one refresh-and-retry before giving up and sending the
+// user to the login page - this is what "wires every existing page's
+// fetch calls" without touching each page's own JS.
+export async function fetchJSON(url, options = {}) {
+  const attempt = async () => {
+    const token = getAccessToken();
+    const headers = { ...(options.headers || {}) };
+    if (token) headers.Authorization = `Bearer ${token}`;
+    // no-store: every response here is live, permission-gated data, and
+    // this API sends no Cache-Control/ETag of its own - without this,
+    // Chromium's default heuristic caching can serve a stale response
+    // for an identical URL requested again shortly after (confirmed
+    // live in add-node-deletion: a just-deleted node kept reappearing
+    // in a reloaded list because of exactly this, invisible before
+    // since nothing previously needed to see its own write reflected
+    // immediately).
+    return fetch(url, { ...options, headers, cache: 'no-store' });
+  };
+
+  let res = await attempt();
+
+  if (res.status === 401) {
+    try {
+      await refreshAccessToken();
+      res = await attempt();
+    } catch {
+      redirectToLogin();
+      throw new Error('session expired');
+    }
+  }
+
+  if (res.status === 401) {
+    redirectToLogin();
+    throw new Error('session expired');
+  }
+
+  if (!res.ok) {
+    let message = `request failed: ${res.status}`;
+    try {
+      const body = await res.json();
+      if (body && body.error) message = body.error;
+    } catch {
+      // response wasn't JSON; keep the generic message
+    }
+    throw new Error(message);
+  }
+  if (res.status === 204) return null;
+  return res.json();
+}
+
+// Convenience wrapper for POST/PUT bodies - fetchJSON handles the rest
+// (auth header, refresh-and-retry, error extraction, 204-no-body
+// responses).
+export function sendJSON(url, method, body) {
+  return fetchJSON(url, {
+    method,
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+}
+
+// The fixed permission set the backend defines (see cmd/console/main.go's
+// allPermissions) - shared by the roles and service-tokens admin pages'
+// permission pickers. There is no endpoint to discover this dynamically;
+// it's a fixed, small set, not user-extensible.
+export const ALL_PERMISSIONS = [
+  'nodes:read',
+  'nodes:certs:manage',
+  'classifier:read',
+  'classifier:write',
+  'enc:read',
+  'rbac:admin',
+  'activity:read',
+  'code:deploy',
+  'code:read',
+  'orchestrator:read',
+  'orchestrator:run',
+];
+
+// Redirects to / if the current session lacks the given permission - used
+// by the admin pages. This is a UX convenience: the server independently
+// enforces the same permission on every admin endpoint these pages call.
+export function requirePermission(permission) {
+  if (!hasPermission(permission)) {
+    window.location.href = '/';
+    return false;
+  }
+  return true;
+}
+
+export function qs(name) {
+  return new URLSearchParams(window.location.search).get(name);
+}
+
+// Populates a filter <vox-select> (id has a leading "" All option
+// already in the markup) with real recorded values from url, e.g.
+// activity's /api/v1/audit-log/categories or code-deploys' .../refs -
+// these are effectively enums (a bounded, discrete set of values) but
+// not ones defined anywhere as a fixed list, so the option list has to
+// come from what's actually been recorded rather than a hardcoded
+// guess. Leaves just "All" if the fetch fails - the filter still works,
+// it just won't have pre-populated choices.
+export async function loadFilterOptions(selectEl, url) {
+  try {
+    const values = await fetchJSON(url);
+    for (const value of values) {
+      const option = document.createElement('option');
+      option.value = value;
+      option.textContent = value;
+      selectEl.appendChild(option);
+    }
+  } catch {
+    // leave just the "All" option
+  }
+}
+
+// confirmDialog shows a vox-dialog modal in place of window.confirm(),
+// resolving true only when the confirm button was clicked - every other
+// exit (cancel button, backdrop click via light-dismiss, Escape, or the
+// dialog's own built-in close button) routes through the same vox-close
+// event and resolves false, since only the confirm click ever sets
+// `confirmed`. body is trusted HTML (matching this codebase's existing
+// innerHTML-template convention elsewhere, e.g. certActionsCell,
+// showActionError) - callers must escapeHtml() any interpolated value.
+export function confirmDialog({ heading, body, confirmLabel = 'Confirm', danger = false }) {
+  return new Promise((resolve) => {
+    let confirmed = false;
+    const dialog = document.createElement('vox-dialog');
+    dialog.heading = heading;
+    dialog.setAttribute('light-dismiss', '');
+    dialog.innerHTML = `
+      ${body}
+      <div slot="footer">
+        <vox-button variant="alt" data-action="cancel">Cancel</vox-button>
+        <vox-button variant="${danger ? 'danger' : 'brand'}" data-action="confirm">${escapeHtml(confirmLabel)}</vox-button>
+      </div>`;
+    dialog.addEventListener('vox-close', () => {
+      dialog.remove();
+      resolve(confirmed);
+    });
+    dialog.querySelector('[data-action="cancel"]').addEventListener('click', () => dialog.close());
+    dialog.querySelector('[data-action="confirm"]').addEventListener('click', () => {
+      confirmed = true;
+      dialog.close();
+    });
+    document.body.appendChild(dialog);
+    dialog.show();
+  });
+}
+
+export function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, (c) => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;',
+  }[c]));
+}
+
+async function sha256Hex(text) {
+  const bytes = new TextEncoder().encode(text);
+  const digest = await crypto.subtle.digest('SHA-256', bytes);
+  return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+
+// Resolves to true only if url actually loads an image - Gravatar's own
+// default (a generic silhouette) is avoided with d=404 in gravatarURL,
+// so "doesn't load" reliably means "this email has no Gravatar", not a
+// network hiccup we should also treat as absent. Callers fall back to
+// initials in that case, same as <vox-avatar> does when src is unset.
+function imageLoads(url) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve(true);
+    img.onerror = () => resolve(false);
+    img.src = url;
+  });
+}
+
+// Builds a Gravatar URL from email (see https://docs.gravatar.com -
+// trim + lowercase, then SHA-256, not the legacy MD5 hash). Returns null
+// for no email, so callers can skip the lookup entirely.
+export async function gravatarURL(email, size = 80) {
+  if (!email) return null;
+  const hash = await sha256Hex(email.trim().toLowerCase());
+  return `https://www.gravatar.com/avatar/${hash}?s=${size}&d=404`;
+}
+
+export function initialsFor(firstName, lastName, username) {
+  if (firstName || lastName) {
+    return `${(firstName || '').charAt(0)}${(lastName || '').charAt(0)}`.toUpperCase();
+  }
+  return (username || '').slice(0, 2).toUpperCase();
+}
+
+// Populates a <vox-avatar> element from a profile - a real Gravatar
+// image when the email has one, initials otherwise. Used for the
+// header's own avatar (from the current session's claims) and the users
+// admin table (one per row, from each listed user).
+export async function applyAvatar(el, { firstName, lastName, email, username }) {
+  el.initials = initialsFor(firstName, lastName, username);
+  el.alt = [firstName, lastName].filter(Boolean).join(' ') || username || '';
+  const url = await gravatarURL(email);
+  if (url && (await imageLoads(url))) {
+    el.src = url;
+  }
+}
+
+const STATUS_VARIANTS = {
+  success: 'tip',
+  succeeded: 'tip',
+  changed: 'tip',
+  unchanged: 'neutral',
+  failed: 'danger',
+  failure: 'danger',
+  noop: 'warning',
+  running: 'warning',
+};
+
+export function statusVariant(status) {
+  if (!status) return 'neutral';
+  return STATUS_VARIANTS[status] || 'neutral';
+}
+
+// Renders a job's target node(s) from the lightweight targetCount/
+// targetPreview fields ListJobs returns (see internal/orchestrator's
+// Store.ListJobs - the full per-target detail isn't loaded for list
+// views). A single-target job links straight to that node; a fan-out
+// job shows a few certnames plus how many more there were.
+export function targetSummaryHTML(job) {
+  const preview = job.targetPreview || [];
+  if (preview.length === 0) return '';
+
+  const nodeLink = (certname) => `<a href="/node.html?name=${encodeURIComponent(certname)}">${escapeHtml(certname)}</a>`;
+
+  if (job.targetCount === 1) return nodeLink(preview[0]);
+
+  const shown = preview.map(nodeLink).join(', ');
+  const more = job.targetCount - preview.length;
+  return more > 0 ? `${shown}, +${more} more` : shown;
+}
+
+// Same summary as targetSummaryHTML, but plain text - for contexts like
+// a title="" tooltip where markup can't render.
+export function targetSummaryText(job) {
+  const preview = job.targetPreview || [];
+  if (preview.length === 0) return '';
+  if (job.targetCount === 1) return preview[0];
+
+  const shown = preview.join(', ');
+  const more = job.targetCount - preview.length;
+  return more > 0 ? `${shown}, +${more} more` : shown;
+}
+
+// value has already been decoded from JSON by fetchJSON (res.json()), so
+// this only needs to decide how to *display* it - not parse it again.
+export function formatValue(value) {
+  if (value === undefined || value === null) return '';
+  if (typeof value === 'string') return value;
+  return JSON.stringify(value, null, 2);
+}
+
+// Builds a <vox-pagination> block for a paginated API response
+// ({items, page, pageSize, total} - see internal/pagination). Returns ''
+// when everything fits on one page, so callers can splice this straight
+// into their results.innerHTML template without a conditional. Links
+// carry a real ?page= href (so open-in-new-tab/bookmarking still does
+// something sane) but callers must call bindPagination() after setting
+// innerHTML to intercept clicks and re-fetch instead of navigating -
+// this app never does full-page reloads for state changes.
+export function paginationHTML(page, pageSize, total) {
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
+  if (totalPages <= 1) return '';
+
+  const link = (targetPage, label, current) =>
+    `<a href="?page=${targetPage}" data-page="${targetPage}"${current ? ' aria-current="page"' : ''}>${label}</a>`;
+
+  const windowSize = 2;
+  const pages = new Set([1, totalPages]);
+  for (let p = page - windowSize; p <= page + windowSize; p++) {
+    if (p >= 1 && p <= totalPages) pages.add(p);
+  }
+  const sorted = [...pages].sort((a, b) => a - b);
+
+  let items = '';
+  if (page > 1) items += link(page - 1, '←', false);
+  let prevPage = 0;
+  for (const p of sorted) {
+    if (prevPage && p - prevPage > 1) items += '<span aria-hidden="true">&hellip;</span>';
+    items += link(p, String(p), p === page);
+    prevPage = p;
+  }
+  if (page < totalPages) items += link(page + 1, '→', false);
+
+  return `<vox-pagination class="vox-m-top-lg" label="Pagination">${items}</vox-pagination>`;
+}
+
+// Intercepts clicks on the links paginationHTML() rendered inside
+// container, calling onNavigate(targetPage) instead of letting the
+// browser navigate.
+export function bindPagination(container, onNavigate) {
+  container.querySelectorAll('vox-pagination a[data-page]').forEach((a) => {
+    a.addEventListener('click', (ev) => {
+      ev.preventDefault();
+      onNavigate(Number(a.dataset.page));
+    });
+  });
+}
+
+// Side effects on import, so every page that uses app.js gets them for
+// free: schedule a proactive refresh if a session already exists, and
+// wire up a logout button if the page has one (id="logout-button").
+scheduleRefresh();
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('logout-button')?.addEventListener('click', logout);
+  if (hasPermission('rbac:admin')) {
+    const adminLink = document.getElementById('nav-admin-link');
+    if (adminLink) adminLink.style.display = '';
+  }
+  if (hasPermission('activity:read')) {
+    const activityLink = document.getElementById('nav-activity-link');
+    if (activityLink) activityLink.style.display = '';
+  }
+  if (hasPermission('code:read')) {
+    const deploysLink = document.getElementById('nav-deploys-link');
+    if (deploysLink) deploysLink.style.display = '';
+  }
+  if (hasPermission('orchestrator:read')) {
+    const jobsLink = document.getElementById('nav-jobs-link');
+    if (jobsLink) jobsLink.style.display = '';
+  }
+
+  const avatarEl = document.getElementById('user-avatar');
+  const claims = getClaims();
+  if (avatarEl && claims) {
+    // Fetches the current profile rather than reading firstName/lastName/
+    // email off the token: those claims are only as fresh as the last
+    // login/refresh, so editing your profile in Preferences and then
+    // navigating elsewhere would still show the pre-edit avatar/initials
+    // until the access token happened to be reissued. /api/v1/me is
+    // always current. Falls back to the token's username-only initials
+    // if the request itself fails, rather than showing nothing.
+    fetchJSON('/api/v1/me')
+      .then((me) => applyAvatar(avatarEl, { firstName: me.firstName, lastName: me.lastName, email: me.email, username: me.username }))
+      .catch(() => applyAvatar(avatarEl, { username: claims.sub }));
+  }
+
+  // Footer version - see layout.html.tmpl. Absent on the header-less
+  // pages (login, oidc-callback), hence the optional chaining.
+  const footerVersionEl = document.getElementById('footer-version');
+  if (footerVersionEl) {
+    fetchJSON('/api/v1/version')
+      .then((v) => { footerVersionEl.textContent = v.version; })
+      .catch(() => { footerVersionEl.textContent = 'unknown'; });
+  }
+});

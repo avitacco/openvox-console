@@ -1,0 +1,177 @@
+/* Shared page-level layout. Almost everything here is handled by
+   voxblocks' own utility classes (see docs/guide/utilities) applied
+   directly in markup - this file only holds the handful of things that
+   have no utility-class equivalent: filter-input sizing, monospace
+   fact-value formatting, and the login page's narrower column. */
+
+.filters vox-input,
+.filters vox-select {
+  min-width: 12rem;
+}
+
+/* Sticky footer: on a page whose sidenav+content (.app-main) doesn't
+   fill the viewport, vox-footer would otherwise sit right below that
+   short content instead of at the bottom of the page. Stretching body
+   to at least the viewport height and letting .app-main (not
+   vox-header or vox-footer, both left at their natural size) absorb
+   any extra space pushes the footer down to the viewport's bottom on
+   a short page, while a tall page still scrolls normally - the footer
+   only ever comes right after .app-main, never overlapping it.
+   Harmless on the header-less login/oidc-callback pages too: with no
+   vox-footer there, body's single child (main.login-container) is
+   just this flex column's only item, and stretches full-width same as
+   a plain block would. */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-main {
+  flex: 1 1 auto;
+}
+
+/* Recent runs' status badge should sit flush against the card's right
+   edge, like a table's trailing column. vox-record-list's :host sizes
+   its 3 content columns (heading/meta/end) as max-content and adds a
+   4th, always-empty 1fr column after them (no slot ever renders into
+   it) purely to soak up leftover row width - so by default "end" only
+   ever gets exactly as wide as the badge itself, with that dead
+   column sitting between it and the card edge instead of the badge
+   itself reaching the edge.
+   Overriding grid-template-columns here works despite that being set
+   on the component's own :host: shadow encapsulation only stops
+   selectors from an outside stylesheet reaching INTO the shadow tree,
+   not from styling the host element itself, and #recent-jobs
+   vox-record-list (1,0,1) outweighs the component's bare :host rule
+   (0,1,0) regardless of source order. Dropping the dead trailing
+   column and making "end" the flexible one instead means the badge
+   can be pushed to its own column's right edge below - the .cell box
+   vox-record-list-item renders around each slot stretches to fill its
+   column by default (grid items' default justify-self), so a
+   block-level child with margin-left: auto lands flush against it. */
+#recent-jobs vox-record-list {
+  grid-template-columns: max-content max-content 1fr;
+}
+
+#recent-jobs [slot='end'] {
+  display: block;
+  margin-left: auto;
+  width: fit-content;
+}
+
+/* voxblocks deliberately has no global link color - only .vox-prose a
+   gets one, opt-in per content area (see its own styles/utilities.css).
+   A plain <a> anywhere else in this app (table cells, list items, ...)
+   was falling back to the browser's default link blue/purple, which
+   reads fine on a light background but is nearly illegible on the dark
+   theme's. Mirrors .vox-prose's own convention (brand-1, brand-2 on
+   hover) so every link is theme-correct without a separate light/dark
+   override. A component with its own more specific slotted-link rule
+   (vox-breadcrumbs, vox-menu's ::slotted(a)) is unaffected - a bare
+   element selector always loses that specificity fight. */
+a {
+  color: var(--vox-color-brand-1);
+}
+
+a:hover {
+  color: var(--vox-color-brand-2);
+}
+
+section + section {
+  margin-top: var(--vox-space-8);
+}
+
+pre.value {
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 0;
+  font-family: var(--vox-font-family-mono);
+  font-size: 13px;
+}
+
+.login-container {
+  max-width: 24rem;
+}
+
+/* Fixed layout so the Value column has a definite width - otherwise
+   the table's auto layout sizes the column (and the whole table) to
+   fit a wide vox-code-block's full unwrapped content, forcing the
+   *entire table* to scroll sideways together in .vox-table-wrap
+   instead of each code block scrolling independently within its own
+   cell. */
+#facts table {
+  table-layout: fixed;
+}
+
+#facts th:first-child,
+#facts td:first-child {
+  width: 16rem;
+}
+
+/* Group edit form: a single readable column rather than controls
+   stretched across the full container. A number field ("Priority: 100")
+   spanning 1100px reads as an unstructured wall; capping the column and
+   letting each section share the same left/right edges is what makes a
+   settings form look deliberate. */
+.group-form,
+#matching-nodes-section {
+  max-width: 44rem;
+}
+
+.form-section-heading {
+  margin: 0 0 var(--vox-space-6);
+  padding-bottom: var(--vox-space-3);
+  border-bottom: 2px solid var(--vox-color-border);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--vox-color-text-1);
+}
+
+/* Sections need more air than the app-wide `section + section` 2rem -
+   at that spacing the headings read as part of the field above them
+   rather than as the start of something new. */
+.group-form section + section {
+  margin-top: var(--vox-space-8);
+  padding-top: var(--vox-space-6);
+}
+
+/* Priority holds 1-3 digits; environment takes the rest of the row. */
+.field-narrow {
+  flex: 0 0 auto;
+  width: 8rem;
+}
+
+.field-grow {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* Match-rule conditions (see add-match-rule-builder-ui). Each condition
+   is a bordered card (.vox-border-all/.vox-bg-soft utility classes in
+   group.js's markup) rather than one unbroken row of controls - that
+   made a condition read as part of the surrounding form instead of a
+   distinct, grouped unit. The card fills the form column so its edges
+   line up with every other field; fact path gets its own line inside
+   it (dotted fact paths run long), with operator compact beside value. */
+
+.rule-condition .rule-value {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* Centers Remove against the Operator/Value input BOXES specifically,
+   not the label-plus-box block above them. vox-input/vox-select render
+   a label+gap block (~21px, measured live) above a ~39px-tall control;
+   Remove has no label, so its wrapper skips that same 21px with
+   margin-top, then centers the button within a zone matching the
+   control's own height - not the full labeled control's height, which
+   would sit noticeably above where the actual text boxes are. */
+.rule-remove-wrap {
+  margin-top: 1.3125rem;
+  height: 2.4375rem;
+  display: flex;
+  align-items: center;
+}

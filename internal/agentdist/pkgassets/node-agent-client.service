@@ -1,0 +1,13 @@
+[Unit]
+Description=OpenVox Console node-agent-client
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+EnvironmentFile=/etc/node-agent-client/environment
+ExecStart=/usr/bin/node-agent-client
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,12 @@
+/frontend/node_modules/
+/bin/
+/.env
+/certs/
+/.dev/
+/internal/agentdist/bin/
+/internal/agentdist/packages/
+
+# Production secrets for docker-compose.yml (CONSOLE_SECRETS_DIR).
+# dev-secrets/ is deliberately NOT ignored - it holds throwaway values
+# for the local stack, see dev-secrets/README.md.
+/secrets/

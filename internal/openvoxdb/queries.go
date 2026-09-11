@@ -1,0 +1,216 @@
+package openvoxdb
+
+import (
+	"context"
+	"encoding/json"
+	"errors"
+	"fmt"
+	"io"
+	"net/http"
+	"net/url"
+	"time"
+)
+
+// Node is a single entry from openvoxdb's node inventory.
+type Node struct {
+	Certname           string     `json:"certname"`
+	LatestReportStatus *string    `json:"latest_report_status"`
+	ReportTimestamp    *time.Time `json:"report_timestamp"`
+	// LatestReportCorrectiveChange is nil when Puppet's corrective-change
+	// tracking isn't enabled for this node (or there's no report to
+	// judge), true when the latest report corrected unexpected drift,
+	// and false when it changed with no corrective drift involved. This
+	// field is already present on every real nodes{} response - no PQL
+	// query change was needed to add it, only this struct field.
+	LatestReportCorrectiveChange *bool `json:"latest_report_corrective_change"`
+	// Deactivated and Expired are always nil on a row returned by Nodes -
+	// openvoxdb's nodes query entity unconditionally excludes deactivated
+	// and expired nodes with no documented way to override that from a
+	// PQL query (confirmed live and against PuppetDB's own docs - see
+	// design.md in add-node-deletion; even an explicit
+	// `certname = "..."` or `deactivated is not null` filter still
+	// returns nothing for a deactivated node). They're only ever
+	// populated on a Node returned by the separate NodeByCertname, which
+	// uses openvoxdb's single-node lookup route instead - that route
+	// does not apply the same exclusion.
+	Deactivated *time.Time `json:"deactivated"`
+	Expired     *time.Time `json:"expired"`
+}
+
+// Nodes returns every active node known to openvoxdb - deactivated and
+// expired nodes are excluded unconditionally by openvoxdb itself, not
+// by anything this query adds (see the Node.Deactivated doc comment).
+func (c *Client) Nodes(ctx context.Context) ([]Node, error) {
+	var nodes []Node
+	if err := c.query(ctx, "nodes {}", &nodes); err != nil {
+		return nil, err
+	}
+	return nodes, nil
+}
+
+// ErrNodeNotFound is returned by NodeByCertname when openvoxdb has no
+// record of that certname at all - as opposed to a certname it knows
+// about but that's deactivated, which NodeByCertname still returns
+// successfully (see its own doc comment).
+var ErrNodeNotFound = errors.New("node not found")
+
+// NodeByCertname fetches a single node by certname via openvoxdb's
+// direct node-lookup route (GET /pdb/query/v4/nodes/<certname>), not the
+// general PQL query endpoint Nodes uses - confirmed live (see design.md
+// in add-node-deletion) that this is the one route that returns a
+// deactivated node's record rather than excluding it; a certname
+// openvoxdb has never heard of still 404s, translated here to
+// ErrNodeNotFound.
+func (c *Client) NodeByCertname(ctx context.Context, certname string) (*Node, error) {
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, c.baseURL+"/pdb/query/v4/nodes/"+url.PathEscape(certname), nil)
+	if err != nil {
+		return nil, fmt.Errorf("build openvoxdb node lookup request: %w", err)
+	}
+
+	resp, err := c.http.Do(req)
+	if err != nil {
+		return nil, fmt.Errorf("openvoxdb unreachable: %w", err)
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("openvoxdb unreachable: read response: %w", err)
+	}
+
+	if resp.StatusCode == http.StatusNotFound {
+		return nil, ErrNodeNotFound
+	}
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("openvoxdb node lookup failed (status %d): %s", resp.StatusCode, describeError(body))
+	}
+
+	var node Node
+	if err := json.Unmarshal(body, &node); err != nil {
+		return nil, fmt.Errorf("parse openvoxdb response: %w", err)
+	}
+	return &node, nil
+}
+
+// Fact is a single fact reported by a node. Value is left as raw JSON
+// since a fact's value can be a string, number, bool, array, or object.
+type Fact struct {
+	Certname string          `json:"certname"`
+	Name     string          `json:"name"`
+	Value    json.RawMessage `json:"value"`
+}
+
+// Facts returns every fact reported by the node named certname.
+func (c *Client) Facts(ctx context.Context, certname string) ([]Fact, error) {
+	var facts []Fact
+	pql := fmt.Sprintf("facts { certname = %s }", pqlString(certname))
+	if err := c.query(ctx, pql, &facts); err != nil {
+		return nil, err
+	}
+	return facts, nil
+}
+
+// FactCertnames returns the certnames of every node reporting the fact
+// named name with exactly value.
+func (c *Client) FactCertnames(ctx context.Context, name, value string) ([]string, error) {
+	var facts []Fact
+	pql := fmt.Sprintf("facts { name = %s and value = %s }", pqlString(name), pqlString(value))
+	if err := c.query(ctx, pql, &facts); err != nil {
+		return nil, err
+	}
+	certnames := make([]string, 0, len(facts))
+	for _, f := range facts {
+		certnames = append(certnames, f.Certname)
+	}
+	return certnames, nil
+}
+
+// Report is a single catalog run recorded for a node.
+type Report struct {
+	Hash        string    `json:"hash"`
+	Certname    string    `json:"certname"`
+	Status      string    `json:"status"`
+	StartTime   time.Time `json:"start_time"`
+	EndTime     time.Time `json:"end_time"`
+	ReceiveTime time.Time `json:"receive_time"`
+}
+
+// Reports returns the report history for the node named certname, most
+// recent first.
+func (c *Client) Reports(ctx context.Context, certname string) ([]Report, error) {
+	var reports []Report
+	pql := fmt.Sprintf("reports { certname = %s }", pqlString(certname))
+	if err := c.query(ctx, pql, &reports); err != nil {
+		return nil, err
+	}
+	sortReportsDescending(reports)
+	return reports, nil
+}
+
+func sortReportsDescending(reports []Report) {
+	// Small result sets (see design.md - no pagination for this phase), so
+	// a simple insertion sort keeps this dependency-free and readable.
+	for i := 1; i < len(reports); i++ {
+		for j := i; j > 0 && reports[j].StartTime.After(reports[j-1].StartTime); j-- {
+			reports[j], reports[j-1] = reports[j-1], reports[j]
+		}
+	}
+}
+
+// Package is a single package known to be installed on a node, as
+// reported by openvoxdb's package_inventory query entity.
+type Package struct {
+	Certname    string `json:"certname"`
+	PackageName string `json:"package_name"`
+	Provider    string `json:"provider"`
+	Version     string `json:"version"`
+}
+
+// NodePackages returns every package openvoxdb knows to be installed on
+// the node named certname.
+func (c *Client) NodePackages(ctx context.Context, certname string) ([]Package, error) {
+	var packages []Package
+	pql := fmt.Sprintf("package_inventory { certname = %s }", pqlString(certname))
+	if err := c.query(ctx, pql, &packages); err != nil {
+		return nil, err
+	}
+	return packages, nil
+}
+
+// SearchPackages returns every package_inventory row for the package
+// named name, optionally narrowed to an exact version.
+func (c *Client) SearchPackages(ctx context.Context, name string, version *string) ([]Package, error) {
+	var packages []Package
+	pql := fmt.Sprintf("package_inventory { package_name = %s", pqlString(name))
+	if version != nil {
+		pql += fmt.Sprintf(" and version = %s", pqlString(*version))
+	}
+	pql += " }"
+	if err := c.query(ctx, pql, &packages); err != nil {
+		return nil, err
+	}
+	return packages, nil
+}
+
+// Event is a single resource-level event within a report.
+type Event struct {
+	ResourceType  string          `json:"resource_type"`
+	ResourceTitle string          `json:"resource_title"`
+	Property      *string         `json:"property"`
+	Status        string          `json:"status"`
+	OldValue      json.RawMessage `json:"old_value"`
+	NewValue      json.RawMessage `json:"new_value"`
+	Message       *string         `json:"message"`
+	Timestamp     time.Time       `json:"timestamp"`
+}
+
+// Events returns the resource-level events for the report identified by
+// hash.
+func (c *Client) Events(ctx context.Context, hash string) ([]Event, error) {
+	var events []Event
+	pql := fmt.Sprintf("events { report = %s }", pqlString(hash))
+	if err := c.query(ctx, pql, &events); err != nil {
+		return nil, err
+	}
+	return events, nil
+}

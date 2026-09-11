@@ -1,0 +1,35 @@
+{{define "content" -}}
+    <main class="vox-container vox-p-y-xl">
+      <vox-subnav label="Admin" class="vox-m-bottom-lg">
+        <a href="/users.html" aria-current="page">Users</a>
+        <a href="/roles.html">Roles</a>
+        <a href="/service-tokens.html">Service tokens</a>
+      </vox-subnav>
+
+      <h1 class="vox-ts-xl vox-m-bottom-md">Users</h1>
+
+      <section>
+        <h2>New user</h2>
+        <div id="create-error"></div>
+        <div class="vox-m-bottom-md">
+          <vox-input id="new-username" label="Username" required></vox-input>
+        </div>
+        <div class="vox-m-bottom-md">
+          <vox-input id="new-password" label="Password" type="password" required></vox-input>
+        </div>
+        <div class="vox-display-flex vox-gap-md vox-flex-wrap vox-m-bottom-md">
+          <vox-input id="new-first-name" label="First name (optional)"></vox-input>
+          <vox-input id="new-last-name" label="Last name (optional)"></vox-input>
+          <vox-input id="new-email" label="Email (optional)" type="email"></vox-input>
+        </div>
+        <div class="vox-display-flex vox-gap-sm vox-m-top-lg">
+          <vox-button id="create-user" variant="brand">Create user</vox-button>
+        </div>
+      </section>
+
+      <section>
+        <h2>All users</h2>
+        <div id="results"></div>
+      </section>
+    </main>
+{{- end}}

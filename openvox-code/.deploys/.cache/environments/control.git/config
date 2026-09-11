@@ -1,0 +1,9 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = true
+[remote "origin"]
+	url = file:///home/anthony/Projects/voxpupuli/enterprise-console/.dev/control-repo.git
+	tagOpt = --no-tags
+	fetch = +refs/*:refs/*
+	mirror = true

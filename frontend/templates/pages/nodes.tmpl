@@ -1,0 +1,29 @@
+{{define "content" -}}
+    <main class="vox-container vox-p-y-xl">
+      <div class="vox-display-flex vox-justify-between vox-items-center vox-gap-md vox-m-bottom-lg">
+        <h1 class="vox-ts-xl vox-m-y-none">Nodes</h1>
+        <vox-button id="add-node" variant="brand">Add node</vox-button>
+      </div>
+
+      <div id="action-error"></div>
+
+      <div class="filters vox-display-flex vox-items-end vox-gap-md vox-flex-wrap vox-m-bottom-lg">
+        <vox-input id="name-filter" label="Node name" placeholder="Filter by name…"></vox-input>
+        <vox-select id="connection-filter" label="Connection">
+          <option value="">All</option>
+          <option value="connected">Connected</option>
+          <option value="not-connected">Not connected</option>
+        </vox-select>
+        <vox-select id="cert-status-filter" label="Cert status">
+          <option value="">All</option>
+          <option value="signed">Signed</option>
+          <option value="requested">Requested</option>
+          <option value="revoked">Revoked</option>
+          <option value="unknown">Unknown</option>
+        </vox-select>
+        <vox-switch id="show-infrastructure">Show infrastructure certs</vox-switch>
+      </div>
+
+      <div id="results"></div>
+    </main>
+{{- end}}

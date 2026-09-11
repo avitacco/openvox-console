@@ -1,0 +1,205 @@
+# Production stack for OpenVox Console.
+#
+# This file alone is the deployable one. Local development lives in
+# docker-compose.override.yml, which Compose loads automatically for bare
+# `docker compose` commands (and which `make up` relies on) - so a
+# developer gets the dev stack with no extra flags, while a deployment
+# runs this file explicitly and gets none of it:
+#
+#   docker compose -f docker-compose.yml up -d
+#
+# See SETUP.md for the full walkthrough, including generating the
+# certificates and secrets referenced below.
+
+services:
+  console:
+    build:
+      context: .
+    hostname: console
+    restart: unless-stopped
+    environment:
+      # Connection details that are not secret. The password lives in
+      # the DSN, so the whole DSN is supplied as a secret file below
+      # rather than assembled here.
+      CONSOLE_HTTP_ADDR: ":8080"
+      CONSOLE_BASE_URL: ${CONSOLE_BASE_URL:?set CONSOLE_BASE_URL to this console's externally-reachable URL}
+      CONSOLE_OPENVOXDB_URL: https://openvoxdb:8081
+
+      # Credentials issued by the OpenVox CA - see SETUP.md step 4.
+      # Mounted read-only from CONSOLE_CERTS_DIR below.
+      CONSOLE_OPENVOXDB_CERT_FILE: /etc/openvox-console/console-cert.pem
+      CONSOLE_OPENVOXDB_KEY_FILE: /etc/openvox-console/console-key.pem
+      CONSOLE_OPENVOXDB_CA_FILE: /etc/openvox-console/ca.pem
+      CONSOLE_RBAC_SIGNING_KEY_FILE: /etc/openvox-console/rbac-signing-key.pem
+
+      # Secrets, read from files rather than the environment so they stay
+      # out of `docker inspect` and the process environment - the console
+      # resolves any <NAME>_FILE itself (internal/runtime.LoadConfig).
+      CONSOLE_POSTGRES_DSN_FILE: /run/secrets/console_postgres_dsn
+      CONSOLE_BOOTSTRAP_ADMIN_USERNAME: ${CONSOLE_BOOTSTRAP_ADMIN_USERNAME:-}
+      CONSOLE_BOOTSTRAP_ADMIN_PASSWORD_FILE: /run/secrets/console_bootstrap_admin_password
+
+      # Node transport (orchestration). PUBLIC_ADDR is what a remote node
+      # dials, and its host must be a name in the transport certificate.
+      CONSOLE_NODE_TRANSPORT_ADDR: ":8142"
+      CONSOLE_NODE_TRANSPORT_PUBLIC_ADDR: ${CONSOLE_NODE_TRANSPORT_PUBLIC_ADDR:?set the address nodes dial for the node transport}
+      CONSOLE_NODE_TRANSPORT_CERT_FILE: /etc/openvox-console/node-transport-cert.pem
+      CONSOLE_NODE_TRANSPORT_KEY_FILE: /etc/openvox-console/node-transport-key.pem
+      CONSOLE_NODE_TRANSPORT_CA_FILE: /etc/openvox-console/ca.pem
+
+      # The Puppet server a *node* enrols against (node-facing - not the
+      # console's own view of the CA).
+      CONSOLE_PUPPET_SERVER_PUBLIC_ADDR: ${CONSOLE_PUPPET_SERVER_PUBLIC_ADDR:-}
+    volumes:
+      - ${CONSOLE_CERTS_DIR:-./certs}:/etc/openvox-console:ro
+    secrets:
+      - console_postgres_dsn
+      - console_bootstrap_admin_password
+    depends_on:
+      console-postgres:
+        condition: service_healthy
+      openvoxdb:
+        condition: service_healthy
+    ports:
+      - "${CONSOLE_HTTP_PORT:-8080}:8080"
+      - "${CONSOLE_NODE_TRANSPORT_PORT:-8142}:8142"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:8080/health | grep -q '\"status\":\"ok\"'"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # --- The console's own database -----------------------------------
+  # Separate from openvoxdb's Postgres below. Not published to the host:
+  # only the console talks to it, over the compose network.
+  console-postgres:
+    image: postgres:${CONSOLE_POSTGRES_VERSION:-18-alpine}
+    hostname: console-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${CONSOLE_POSTGRES_USER:-console}
+      POSTGRES_DB: ${CONSOLE_POSTGRES_DB:-console}
+      POSTGRES_PASSWORD_FILE: /run/secrets/console_postgres_password
+    secrets:
+      - console_postgres_password
+    volumes:
+      - console-postgres-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${CONSOLE_POSTGRES_USER:-console}"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  # --- OpenVox stack -------------------------------------------------
+  openvoxserver:
+    image: ghcr.io/openvoxproject/openvoxserver:${OPENVOX_VERSION:-latest}
+    hostname: openvoxserver
+    restart: unless-stopped
+    environment:
+      OPENVOXSERVER_HOSTNAME: ${OPENVOXSERVER_HOSTNAME:-openvoxserver}
+      # Every name anything reaches this server by must be listed here,
+      # or TLS verification fails. A certificate is always valid for its
+      # own certname, so this is only for *additional* names.
+      DNS_ALT_NAMES: ${OPENVOXSERVER_DNS_ALT_NAMES:-}
+      CA_ALLOW_SUBJECT_ALT_NAMES: "true"
+      # Off by default here, deliberately: autosigning every CSR means
+      # anything that can reach port 8140 can enrol itself. Turn it on
+      # only where that is an accepted trade-off (the dev override does).
+      AUTOSIGN: ${OPENVOXSERVER_AUTOSIGN:-false}
+      # Classification. enc-bridge runs inside this container and calls
+      # the console; its token is a file so it never lands in the
+      # environment of a process spawned per classification request.
+      ENC_BRIDGE_URL: ${ENC_BRIDGE_URL:-http://console:8080}
+      ENC_BRIDGE_TOKEN_FILE: /run/secrets/enc_bridge_token
+    secrets:
+      - enc_bridge_token
+    extra_hosts:
+      # puppet.conf's ca_server stays hardcoded to "puppet" regardless of
+      # OPENVOXSERVER_HOSTNAME, so `puppetserver ca ...` run via
+      # docker exec cannot resolve it without this alias.
+      - "puppet:127.0.0.1"
+    volumes:
+      - openvoxserver-ssl:/etc/puppetlabs/puppet/ssl
+      - openvoxserver-ca:/etc/puppetlabs/puppetserver/ca
+      - openvoxserver-code:/etc/puppetlabs/code
+    ports:
+      - "${OPENVOXSERVER_PORT:-8140}:8140"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -ksS https://127.0.0.1:8140/status/v1/simple | grep -q '^running$$'"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 120s
+
+  openvoxdb-postgres:
+    image: postgres:${OPENVOXDB_POSTGRES_VERSION:-17-alpine}
+    hostname: openvoxdb-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${OPENVOXDB_POSTGRES_DB:-openvoxdb}
+      POSTGRES_USER: ${OPENVOXDB_POSTGRES_USER:-openvoxdb}
+      # NOTE: not a secret file, unlike console-postgres above. openvoxdb
+      # itself can only take this password from an environment variable
+      # (its database.conf interpolates ${OPENVOXDB_POSTGRES_PASSWORD}),
+      # so a secret file here would only move half the pair out of the
+      # environment while the other half stayed in it. Required with no
+      # default so a deployment cannot silently run on a known password.
+      POSTGRES_PASSWORD: ${OPENVOXDB_POSTGRES_PASSWORD:?set OPENVOXDB_POSTGRES_PASSWORD}
+    volumes:
+      - openvoxdb-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${OPENVOXDB_POSTGRES_USER:-openvoxdb} -d ${OPENVOXDB_POSTGRES_DB:-openvoxdb}"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  openvoxdb:
+    image: ghcr.io/openvoxproject/openvoxdb:${OPENVOX_VERSION:-latest}
+    hostname: openvoxdb
+    restart: unless-stopped
+    environment:
+      OPENVOXSERVER_HOSTNAME: ${OPENVOXSERVER_HOSTNAME:-openvoxserver}
+      OPENVOXDB_POSTGRES_HOSTNAME: openvoxdb-postgres
+      OPENVOXDB_POSTGRES_DATABASE: ${OPENVOXDB_POSTGRES_DB:-openvoxdb}
+      OPENVOXDB_POSTGRES_USER: ${OPENVOXDB_POSTGRES_USER:-openvoxdb}
+      OPENVOXDB_POSTGRES_PASSWORD: ${OPENVOXDB_POSTGRES_PASSWORD:?set OPENVOXDB_POSTGRES_PASSWORD}
+      DNS_ALT_NAMES: ${OPENVOXDB_DNS_ALT_NAMES:-}
+    volumes:
+      # Persist openvoxdb's own keypair/cert across recreation - a fresh
+      # container has no keypair, but the CA still remembers the signed
+      # cert for that certname and refuses to reissue, so it fails to
+      # start without this.
+      - openvoxdb-ssl:/opt/puppetlabs/server/data/puppetdb/certs
+    depends_on:
+      openvoxserver:
+        condition: service_healthy
+      openvoxdb-postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -ksS https://127.0.0.1:8081/status/v1/simple | grep -q '^running$$'"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 120s
+
+# Secret files, read at container start. Paths are overridable so a
+# deployment can point them at whatever manages its secrets; the defaults
+# assume a directory beside this file that is not in version control.
+secrets:
+  console_postgres_dsn:
+    file: ${CONSOLE_SECRETS_DIR:-./secrets}/console_postgres_dsn
+  console_postgres_password:
+    file: ${CONSOLE_SECRETS_DIR:-./secrets}/console_postgres_password
+  console_bootstrap_admin_password:
+    file: ${CONSOLE_SECRETS_DIR:-./secrets}/console_bootstrap_admin_password
+  enc_bridge_token:
+    file: ${CONSOLE_SECRETS_DIR:-./secrets}/enc_bridge_token
+
+volumes:
+  console-postgres-data:
+  openvoxdb-postgres-data:
+  openvoxserver-ssl:
+  openvoxserver-ca:
+  openvoxserver-code:
+  openvoxdb-ssl:

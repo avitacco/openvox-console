@@ -1,0 +1,44 @@
+{{define "content" -}}
+    <main class="vox-container vox-p-y-xl">
+      <vox-breadcrumbs>
+        <a href="/">Nodes</a>
+        <span id="node-name" aria-current="page">…</span>
+      </vox-breadcrumbs>
+      <div class="vox-display-flex vox-justify-between vox-items-center vox-gap-md vox-m-bottom-md">
+        <h1 id="node-heading" class="vox-ts-xl vox-m-y-none">…</h1>
+        <vox-button id="run-now" variant="brand" style="display: none">Run now</vox-button>
+      </div>
+
+      <div id="run-now-error"></div>
+
+      <section>
+        <h2>Facts</h2>
+        <div id="facts"></div>
+      </section>
+
+      <section>
+        <div class="vox-display-flex vox-justify-between vox-items-center vox-gap-md vox-m-bottom-md">
+          <h2 class="vox-m-y-none">Packages</h2>
+          <div id="package-inventory-toggle" style="display: none">
+            <vox-switch id="package-inventory-switch">Report installed packages</vox-switch>
+          </div>
+        </div>
+        <div id="package-inventory-status"></div>
+        <div id="packages"></div>
+      </section>
+
+      <section>
+        <h2>Report history</h2>
+        <div class="filters vox-display-flex vox-items-end vox-gap-md vox-flex-wrap vox-m-bottom-lg">
+          <vox-select id="status-filter" label="Status">
+            <option value="">All</option>
+            <option value="changed">Changed</option>
+            <option value="unchanged">Unchanged</option>
+            <option value="failed">Failed</option>
+            <option value="noop">Noop</option>
+          </vox-select>
+        </div>
+        <div id="reports"></div>
+      </section>
+    </main>
+{{- end}}

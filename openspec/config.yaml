@@ -1,0 +1,68 @@
+schema: spec-driven
+
+# Project context (optional)
+# This is shown to AI when creating artifacts.
+context: |
+  Project: OpenVox Console - a Puppet Enterprise console equivalent for the
+  OpenVox project. Single Go binary reusing openvox-server and openvoxdb for
+  the data/compilation plane; the control plane (dashboard, classification,
+  RBAC, code deployment, orchestration) is built fresh.
+
+  Full context lives in two companion docs at the repo root - read them before
+  writing specs, design, or tasks for any change:
+    - architecture-summary.md: goals, non-goals, reused components, and the
+      key architectural decisions with their rationale (service topology,
+      node classifier, RBAC/JWT design, embedded NATS messaging, g10k code
+      manager, event-driven code distribution, node transport, HA/failover).
+    - phased-build-plan.md: the phase-by-phase build order (Phase 0
+      Foundations through Phase 8 Hardening), each phase's dependencies and
+      exit criteria, and the dependency graph between phases.
+
+  Tech stack: Go, single binary per component, embedded NATS, Postgres
+  (via openvoxdb), embedded frontend assets (embed.FS).
+
+  Conventions and constraints to respect in every artifact:
+    - Single binary, no internal HTTP hops between services - internal
+      packages communicate via direct function calls.
+    - External wire compatibility is required wherever OpenVox agents or
+      tooling depend on it (e.g. the ENC API) even when internal design
+      departs from Puppet Enterprise's approach. The node transport is
+      this project's own protocol over NATS, with both ends shipped
+      here, so it carries no such external constraint.
+    - v1 non-goals: full Ruby-semantics Puppetfile parsing, multi-broker
+      federation (design the interface, defer the implementation), LDAP/SAML
+      directory sync, encrypted (JWE) tokens.
+    - Favor stateless services reading from Postgres over local in-process
+      state, to keep failover simple.
+
+  Change proposals should generally track a phase (or a slice of a phase)
+  from phased-build-plan.md unless the user directs otherwise.
+
+# Add your tech stack, conventions, style guides, domain knowledge, etc.
+# Example:
+#   context: |
+#     Tech stack: TypeScript, React, Node.js
+#     We use conventional commits
+#     Domain: e-commerce platform
+
+# Per-artifact rules (optional)
+# Add custom rules for specific artifacts.
+# Example:
+#   rules:
+#     proposal:
+#       - Keep proposals under 500 words
+#       - Always include a "Non-goals" section
+#     tasks:
+#       - Break tasks into chunks of max 2 hours
+
+# Per-operation guidance (optional)
+# Add advisory guidance for how apply and archive work should be conducted.
+# This is separate from artifact rules above.
+# Example:
+#   operations:
+#     apply:
+#       guidance:
+#         - Keep test summaries concise
+#     archive:
+#       guidance:
+#         - Summarize the archive outcome before finishing

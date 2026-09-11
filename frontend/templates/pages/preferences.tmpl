@@ -1,0 +1,40 @@
+{{define "content" -}}
+    <main class="vox-container vox-p-y-xl">
+      <h1 class="vox-ts-xl vox-m-bottom-md">Preferences</h1>
+
+      <section>
+        <div class="vox-display-flex vox-items-center vox-gap-md vox-m-bottom-lg">
+          <vox-avatar id="preferences-avatar" size="lg"></vox-avatar>
+          <span id="preferences-username" class="vox-ts-lg"></span>
+        </div>
+
+        <h2>Profile</h2>
+        <div id="profile-error"></div>
+        <div class="vox-display-flex vox-gap-md vox-flex-wrap vox-m-bottom-md">
+          <vox-input id="first-name" label="First name"></vox-input>
+          <vox-input id="last-name" label="Last name"></vox-input>
+        </div>
+        <div class="vox-m-bottom-md">
+          <vox-input id="email" label="Email" type="email"></vox-input>
+        </div>
+        <div class="vox-display-flex vox-gap-sm vox-m-top-lg">
+          <vox-button id="save-profile" variant="brand">Save profile</vox-button>
+        </div>
+      </section>
+
+      <section>
+        <h2>Change password</h2>
+        <div id="password-error"></div>
+        <div id="password-success"></div>
+        <div class="vox-m-bottom-md">
+          <vox-input id="current-password" label="Current password" type="password" required></vox-input>
+        </div>
+        <div class="vox-m-bottom-md">
+          <vox-input id="new-password" label="New password" type="password" required></vox-input>
+        </div>
+        <div class="vox-display-flex vox-gap-sm vox-m-top-lg">
+          <vox-button id="save-password" variant="brand">Change password</vox-button>
+        </div>
+      </section>
+    </main>
+{{- end}}

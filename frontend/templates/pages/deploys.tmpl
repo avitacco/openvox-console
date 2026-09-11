@@ -1,0 +1,29 @@
+{{define "content" -}}
+    <main class="vox-container vox-p-y-xl">
+      <div class="vox-display-flex vox-justify-between vox-items-center vox-gap-md vox-m-bottom-lg">
+        <h1 class="vox-ts-xl vox-m-y-none">Deploys</h1>
+        <vox-button id="trigger-deploy" variant="brand" style="display: none">Deploy now</vox-button>
+      </div>
+
+      <div id="trigger-error"></div>
+
+      <div class="filters vox-display-flex vox-items-end vox-gap-md vox-flex-wrap vox-m-bottom-lg">
+        <vox-select id="ref-filter" label="Ref">
+          <option value="">All</option>
+        </vox-select>
+        <vox-input id="triggered-by-filter" label="Triggered by" placeholder="Filter by actor"></vox-input>
+        <vox-select id="status-filter" label="Status">
+          <option value="">All</option>
+          <option value="running">Running</option>
+          <option value="succeeded">Succeeded</option>
+          <option value="failed">Failed</option>
+        </vox-select>
+        <vox-select id="sort-order" label="Order">
+          <option value="desc">Newest first</option>
+          <option value="asc">Oldest first</option>
+        </vox-select>
+      </div>
+
+      <div id="results"></div>
+    </main>
+{{- end}}

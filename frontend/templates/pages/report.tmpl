@@ -1,0 +1,22 @@
+{{define "content" -}}
+    <main class="vox-container vox-p-y-xl">
+      <vox-breadcrumbs>
+        <a href="/">Nodes</a>
+        <a id="node-link" href="/">…</a>
+        <span aria-current="page">Report</span>
+      </vox-breadcrumbs>
+      <h1 class="vox-ts-xl vox-m-bottom-md">Resource events</h1>
+
+      <div class="filters vox-display-flex vox-items-end vox-gap-md vox-flex-wrap vox-m-bottom-lg">
+        <vox-select id="status-filter" label="Status">
+          <option value="">All</option>
+          <option value="success">Success</option>
+          <option value="failure">Failure</option>
+          <option value="noop">Noop</option>
+          <option value="skipped">Skipped</option>
+        </vox-select>
+      </div>
+
+      <div id="events"></div>
+    </main>
+{{- end}}

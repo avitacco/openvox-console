@@ -1,0 +1,15 @@
+{{define "content" -}}
+    <main class="vox-container vox-p-y-xl">
+      <h1 class="vox-ts-xl vox-m-bottom-lg">Packages</h1>
+
+      <div id="search-error"></div>
+
+      <div class="filters vox-display-flex vox-items-end vox-gap-md vox-flex-wrap vox-m-bottom-lg">
+        <vox-input id="name-search" label="Package name" placeholder="e.g. openssl"></vox-input>
+        <vox-input id="version-search" label="Version (optional)" placeholder="e.g. 3.0.2-0ubuntu1.10"></vox-input>
+        <vox-button id="search-button" variant="brand">Search</vox-button>
+      </div>
+
+      <div id="results"></div>
+    </main>
+{{- end}}

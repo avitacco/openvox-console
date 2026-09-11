@@ -1,0 +1,32 @@
+{{define "content" -}}
+    <main class="vox-container vox-p-y-xl">
+      <vox-subnav label="Admin" class="vox-m-bottom-lg">
+        <a href="/users.html">Users</a>
+        <a href="/roles.html">Roles</a>
+        <a href="/service-tokens.html" aria-current="page">Service tokens</a>
+      </vox-subnav>
+
+      <h1 class="vox-ts-xl vox-m-bottom-md">Service tokens</h1>
+
+      <div id="new-token-panel"></div>
+
+      <section>
+        <h2>New service token</h2>
+        <div id="create-error"></div>
+        <div class="vox-m-bottom-md">
+          <vox-input id="new-token-name" label="Name" required></vox-input>
+        </div>
+        <div class="vox-m-bottom-md">
+          <div id="new-token-permissions" class="vox-display-flex vox-flex-wrap vox-gap-md"></div>
+        </div>
+        <div class="vox-display-flex vox-gap-sm vox-m-top-lg">
+          <vox-button id="create-token" variant="brand">Create service token</vox-button>
+        </div>
+      </section>
+
+      <section>
+        <h2>All service tokens</h2>
+        <div id="results"></div>
+      </section>
+    </main>
+{{- end}}

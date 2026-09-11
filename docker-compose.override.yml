@@ -1,0 +1,193 @@
+# Local development overrides.
+#
+# Compose loads this automatically for bare `docker compose ...` commands,
+# so `make up` and friends give you the dev stack with no extra flags. A
+# deployment runs the base file explicitly and gets none of it:
+#
+#   docker compose -f docker-compose.yml up -d      # production
+#   docker compose up -d                            # development (this file)
+#
+# What development changes, and why:
+#   - the console runs on the HOST (`make run`), not in a container, so
+#     the console service is parked behind a profile and never starts
+#   - services publish their ports to the host, since the host-run console
+#     and your own tooling reach them over localhost
+#   - "localhost" is added to certificate alt names for the same reason
+#   - secrets and passwords get throwaway defaults
+#   - repo directories are bind-mounted so edits take effect immediately
+#   - the test agent and the Postgres replication fixture exist at all
+
+services:
+  # The console runs on the host in development (`make run`), against the
+  # containers below. A profile no other command names keeps it out of
+  # `docker compose up` entirely - `docker compose --profile console-container
+  # up console` still starts it if you want to test the image locally.
+  console:
+    profiles:
+      - console-container
+
+  console-postgres:
+    environment:
+      # Throwaway dev credentials, plain env rather than a secret file -
+      # nothing here is worth protecting, and it keeps `make up` working
+      # on a fresh clone with no secrets directory.
+      POSTGRES_PASSWORD: console
+      POSTGRES_PASSWORD_FILE: ""
+    ports:
+      - "5432:5432"
+
+  openvoxserver:
+    environment:
+      # The console runs on the host, so it reaches this service via
+      # localhost - the server cert needs that as a SAN or TLS fails.
+      # "puppet" is the name nodes use (see .env's
+      # CONSOLE_PUPPET_SERVER_PUBLIC_ADDR).
+      DNS_ALT_NAMES: localhost,puppet
+      # Autosign every CSR so `make openvox-test` and the agent install
+      # script run unattended. Override to exercise the not-autosigned
+      # path, which needs the container recreated (Puppet Server reads
+      # this once at startup):
+      #   OPENVOXSERVER_AUTOSIGN=false docker compose up -d openvoxserver
+      AUTOSIGN: ${OPENVOXSERVER_AUTOSIGN:-true}
+      # enc-bridge runs in this container but calls the console on the
+      # host, and takes its token straight from .env rather than a
+      # secrets file.
+      ENC_BRIDGE_URL: http://host.docker.internal:8080
+      ENC_BRIDGE_TOKEN: ${ENC_BRIDGE_TOKEN:-}
+      ENC_BRIDGE_TOKEN_FILE: ""
+    extra_hosts:
+      - "puppet:127.0.0.1"
+      # Lets enc-bridge reach the console running on the host.
+      # host-gateway is a Docker Engine 20.10+ builtin.
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - openvoxserver-ssl:/etc/puppetlabs/puppet/ssl
+      - openvoxserver-ca:/etc/puppetlabs/puppetserver/ca
+      # Bind-mounted rather than a named volume so code you edit in the
+      # repo is live, and so `make control-repo-fixture` output is visible.
+      - ./openvox-code:/etc/puppetlabs/code
+      # ENC wiring, applied on every boot, plus the enc-bridge binary
+      # `make build` produces - build it before recreating this service.
+      - ./openvoxserver-init:/container-custom-entrypoint.d
+      - ./bin/enc-bridge:/usr/local/bin/enc-bridge:ro
+
+  openvoxdb-postgres:
+    environment:
+      POSTGRES_PASSWORD: ${OPENVOXDB_POSTGRES_PASSWORD:-openvoxdb}
+    volumes:
+      - openvoxdb-postgres-data:/var/lib/postgresql/data
+      - ./openvoxdb-postgres-init:/docker-entrypoint-initdb.d
+
+  openvoxdb:
+    environment:
+      OPENVOXDB_POSTGRES_PASSWORD: ${OPENVOXDB_POSTGRES_PASSWORD:-openvoxdb}
+      # Same reason as openvoxserver's: the console queries this from the
+      # host via localhost.
+      DNS_ALT_NAMES: localhost
+    ports:
+      - "8081:8081"
+
+  # A real openvox-agent, used only to generate real catalog runs and
+  # reports against the stack (`make openvox-test`). Not part of the
+  # application - development only.
+  openvox-testing-agent:
+    image: ghcr.io/openvoxproject/openvoxagent:${OPENVOX_VERSION:-latest}
+    container_name: enterprise-console-openvox-testing-agent
+    hostname: openvox-testing-agent
+    extra_hosts:
+      # Lets the node-agent installed here (via the install script) reach
+      # the console's node transport and package routes on the host.
+      # "node-transport" is what CONSOLE_NODE_TRANSPORT_PUBLIC_ADDR
+      # serves, and is a SAN on the transport cert precisely so this
+      # network and any node outside it can use the same name.
+      - "host.docker.internal:host-gateway"
+      - "node-transport:host-gateway"
+    volumes:
+      - openvox-testing-agent-ssl:/etc/puppetlabs/puppet/ssl
+    profiles:
+      - openvox-test
+
+  # --- Postgres streaming replication fixture (phase-8-hardening) -----
+  # A real primary + standby pair, entirely separate from
+  # console-postgres, backing operations.md's failover runbook.
+  # `make postgres-replication-up`/`-down` control just this fixture.
+  postgres-primary:
+    image: postgres:${CONSOLE_POSTGRES_VERSION:-18-alpine}
+    hostname: postgres-primary
+    environment:
+      POSTGRES_USER: console
+      POSTGRES_PASSWORD: console
+      POSTGRES_DB: console
+    command: >
+      postgres
+      -c wal_level=replica
+      -c max_wal_senders=10
+      -c max_replication_slots=10
+      -c hot_standby=on
+    volumes:
+      - postgres-primary-data:/var/lib/postgresql
+      - ./postgres-replication-init/primary:/docker-entrypoint-initdb.d
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U console"]
+      interval: 2s
+      timeout: 2s
+      retries: 15
+
+  postgres-standby:
+    image: postgres:${CONSOLE_POSTGRES_VERSION:-18-alpine}
+    hostname: postgres-standby
+    environment:
+      POSTGRES_USER: console
+      POSTGRES_PASSWORD: console
+      POSTGRES_DB: console
+    entrypoint: ["/bin/bash", "/standby-entrypoint.sh"]
+    volumes:
+      - postgres-standby-data:/var/lib/postgresql
+      - ./postgres-replication-init/standby-entrypoint.sh:/standby-entrypoint.sh:ro
+    depends_on:
+      postgres-primary:
+        condition: service_healthy
+    ports:
+      - "5434:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U console"]
+      interval: 2s
+      timeout: 2s
+      retries: 15
+
+  # A stable address a client's DSN can hold across a failover. Starts
+  # pointed at postgres-primary; `make postgres-replication-failover`
+  # repoints it at the promoted standby.
+  postgres-proxy:
+    image: alpine/socat
+    hostname: postgres-proxy
+    environment:
+      POSTGRES_PROXY_TARGET: ${POSTGRES_PROXY_TARGET:-postgres-primary}
+    entrypoint: ["/bin/sh", "/proxy-entrypoint.sh"]
+    volumes:
+      - ./postgres-replication-init/proxy-entrypoint.sh:/proxy-entrypoint.sh:ro
+    # Deliberately no depends_on: a real failover assumes the primary may
+    # be permanently gone, so recreating this proxy must not resurrect it.
+    ports:
+      - "5500:5432"
+
+# Point every secret at the committed throwaway dev values, so `make up`
+# works on a fresh clone with no setup step. Production uses
+# CONSOLE_SECRETS_DIR (./secrets by default), which is gitignored and
+# which you populate yourself - see dev-secrets/README.md.
+secrets:
+  console_postgres_dsn:
+    file: ./dev-secrets/console_postgres_dsn
+  console_postgres_password:
+    file: ./dev-secrets/console_postgres_password
+  console_bootstrap_admin_password:
+    file: ./dev-secrets/console_bootstrap_admin_password
+  enc_bridge_token:
+    file: ./dev-secrets/enc_bridge_token
+
+volumes:
+  openvox-testing-agent-ssl:
+  postgres-primary-data:
+  postgres-standby-data:

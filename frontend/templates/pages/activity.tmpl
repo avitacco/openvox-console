@@ -1,0 +1,21 @@
+{{define "content" -}}
+    <main class="vox-container vox-p-y-xl">
+      <h1 class="vox-ts-xl vox-m-bottom-md">Activity</h1>
+
+      <div class="filters vox-display-flex vox-items-end vox-gap-md vox-flex-wrap vox-m-bottom-lg">
+        <vox-select id="category-filter" label="Category">
+          <option value="">All</option>
+        </vox-select>
+        <vox-select id="action-filter" label="Action">
+          <option value="">All</option>
+        </vox-select>
+        <vox-input id="actor-filter" label="Actor" placeholder="Filter by actor"></vox-input>
+        <vox-select id="sort-order" label="Order">
+          <option value="desc">Newest first</option>
+          <option value="asc">Oldest first</option>
+        </vox-select>
+      </div>
+
+      <div id="results"></div>
+    </main>
+{{- end}}

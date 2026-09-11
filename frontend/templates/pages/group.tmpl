@@ -1,0 +1,84 @@
+{{define "content" -}}
+    <main class="vox-container vox-p-y-xl">
+      <vox-breadcrumbs>
+        <a href="/groups.html">Node groups</a>
+        <span id="breadcrumb-current" aria-current="page">New group</span>
+      </vox-breadcrumbs>
+      <h1 id="heading" class="vox-ts-xl vox-m-bottom-lg">New group</h1>
+
+      <div class="group-form">
+        <div id="form-error"></div>
+
+        <section>
+          <h2 class="form-section-heading">Details</h2>
+          <div class="vox-m-bottom-lg">
+            <vox-input id="name" label="Name" required></vox-input>
+          </div>
+          <div class="vox-display-flex vox-gap-lg vox-flex-wrap vox-items-start">
+            <vox-input id="priority" class="field-narrow" label="Priority" type="number" required
+              note="Higher wins a conflict."></vox-input>
+            <vox-input id="environment" class="field-grow" label="Environment (optional)"
+              note="Puppet environment matching nodes compile against. Blank means this group doesn't set one."></vox-input>
+          </div>
+          <p class="vox-ts-sm vox-color-text-2 vox-m-top-sm vox-m-bottom-none">
+            A node can match several groups at once. Their classes and parameters are combined; when two
+            groups set the <em>same</em> class parameter, top-scope parameter, or environment, the one with
+            the higher priority wins. Priorities must be unique.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="form-section-heading">Classification</h2>
+          <vox-disclosure id="classes-disclosure" summary="Classes (JSON)">
+            <vox-textarea id="classes" rows="6" class="vox-width-full"
+              placeholder='[{"name": "ntp", "parameters": {"server": "0.pool.ntp.org"}}]'
+              note="Puppet classes applied to every node in this group, each with optional parameters. A list of {&quot;name&quot;, &quot;parameters&quot;} objects."></vox-textarea>
+          </vox-disclosure>
+          <vox-disclosure id="parameters-disclosure" class="vox-m-top-lg" summary="Top-scope parameters (JSON)">
+            <vox-textarea id="parameters" rows="4" class="vox-width-full"
+              placeholder='{"role": "web"}'
+              note="Variables set for every manifest compiled for these nodes, available as $variable. An object of name/value pairs."></vox-textarea>
+          </vox-disclosure>
+        </section>
+
+        <section>
+          <h2 class="form-section-heading">Matching</h2>
+          <div class="vox-display-flex vox-justify-between vox-items-center vox-m-bottom-xs">
+            <label class="vox-ts-sm vox-text-semibold">Match rule</label>
+            <vox-switch id="rule-json-toggle">Edit as JSON</vox-switch>
+          </div>
+          <p class="vox-ts-sm vox-color-text-2 vox-m-top-none vox-m-bottom-md">
+            A node joins this group when its facts satisfy <em>every</em> condition below. Fact path is a
+            dotted path into the node's facts, like <code>os.family</code> or <code>networking.fqdn</code> —
+            open a node's page to see the facts it reports. With no conditions and no pinned nodes, the
+            group matches nothing.
+          </p>
+          <div id="rule-builder"></div>
+          <vox-button id="rule-add-condition" size="sm">Add condition</vox-button>
+          <div id="rule-error" class="vox-m-top-sm"></div>
+          <vox-textarea id="rule" rows="6" class="vox-width-full" style="display: none"
+            placeholder='[{"factPath": "os.family", "operator": "=", "value": "Debian"}]'></vox-textarea>
+
+          <vox-disclosure id="pins-disclosure" class="vox-m-top-lg" summary="Pinned node certnames (JSON array)">
+            <vox-textarea id="pins" rows="3" class="vox-width-full"
+              placeholder='["web01.example.com"]'
+              note="Certnames listed here are always in this group, whether or not the match rule matches them."></vox-textarea>
+          </vox-disclosure>
+        </section>
+
+        <div class="vox-display-flex vox-gap-sm vox-m-top-xl">
+          <vox-button id="save" variant="brand">Save</vox-button>
+          <vox-button id="delete" variant="danger" style="display: none">Delete</vox-button>
+        </div>
+      </div>
+
+      <section id="matching-nodes-section" class="vox-m-top-xl" style="display: none">
+        <div class="vox-display-flex vox-justify-between vox-items-center vox-gap-md vox-m-bottom-md">
+          <h2 class="vox-m-y-none">Matching nodes</h2>
+          <vox-button id="run-now" variant="brand" style="display: none">Run now</vox-button>
+        </div>
+        <div id="run-now-error"></div>
+        <div id="matching-nodes"></div>
+      </section>
+    </main>
+{{- end}}

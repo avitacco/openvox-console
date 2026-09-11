@@ -1,0 +1,12 @@
+{
+  "name": "@voxpupuli/enterprise-console-frontend",
+  "version": "0.0.0",
+  "private": true,
+  "description": "OpenVox Console frontend shell, embedded into the console binary at build time.",
+  "scripts": {
+    "build": "./build.sh"
+  },
+  "dependencies": {
+    "@openvoxproject/voxblocks": "^0.14.0"
+  }
+}
