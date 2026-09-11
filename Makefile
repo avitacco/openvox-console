@@ -36,7 +36,10 @@ agent-packages: agent-binaries ## Build node-agent-client .deb/.rpm packages for
 	go run ./cmd/build-agent-packages "$(VERSION)"
 
 docker-build: ## Build a container image of the console (not part of the normal dev workflow)
-	docker build -t $(IMAGE) .
+	# Self-contained: the Dockerfile generates the frontend bundle and the
+	# embedded node-agent-client binaries/packages itself, so this works
+	# from a clean checkout with no prior make targets.
+	docker build --build-arg VERSION=$(VERSION) -t $(IMAGE) .
 
 up: ## Start every service the application depends on (Postgres, openvox stack, postgres-replication fixture)
 	docker compose up -d --wait

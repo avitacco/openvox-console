@@ -1,0 +1,133 @@
+name: CI
+
+# Builds and publishes the console container image to GHCR.
+#
+# Pull requests build the image but never push it, so a fork or an
+# untrusted PR cannot publish. Pushes to main publish :main and
+# :sha-<commit>; a v* tag additionally publishes semver tags and :latest.
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  # One run per ref - a new push supersedes an in-flight build of the
+  # same branch, except on tags/main where the publish should complete.
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    services:
+      # The Postgres-backed tests skip themselves when
+      # CONSOLE_TEST_POSTGRES_DSN is unset. Giving CI a real database
+      # means they actually run rather than silently passing.
+      postgres:
+        image: postgres:18-alpine
+        env:
+          POSTGRES_USER: console
+          POSTGRES_PASSWORD: console
+          POSTGRES_DB: console
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U console"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 26
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      # internal/web/dist and internal/agentdist/{bin,packages} are
+      # generated, not committed, and are go:embed inputs - without them
+      # the build fails with "pattern all:bin: no matching files found".
+      - name: Generate embedded assets
+        run: |
+          ./frontend/build.sh
+          make agent-binaries
+          make agent-packages
+
+      - name: Check formatting
+        run: |
+          unformatted=$(gofmt -l .)
+          if [ -n "$unformatted" ]; then
+            echo "These files need gofmt:"; echo "$unformatted"; exit 1
+          fi
+
+      - name: Vet
+        run: go vet ./...
+
+      - name: Test
+        env:
+          CONSOLE_TEST_POSTGRES_DSN: postgres://console:console@localhost:5432/console?sslmode=disable
+        # -p 1 because the Postgres-backed tests share one database and
+        # would otherwise race each other across packages.
+        run: go test -p 1 ./...
+
+  image:
+    name: Build image
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: docker/setup-buildx-action@v4
+
+      # Skipped for pull requests: a PR build verifies the image still
+      # builds, but must not publish anything.
+      - name: Log in to GHCR
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v4
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Derive image tags
+        id: meta
+        uses: docker/metadata-action@v6
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha,prefix=sha-
+            type=raw,value=latest,enable=${{ startsWith(github.ref, 'refs/tags/v') }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          # The Dockerfile cross-compiles from the build host's own
+          # architecture, so arm64 costs no emulation time.
+          platforms: linux/amd64,linux/arm64
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            VERSION=${{ github.ref_type == 'tag' && github.ref_name || format('dev-{0}', github.sha) }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
