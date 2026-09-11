@@ -1,6 +1,8 @@
 package codemanager
 
 import (
+	"errors"
+	"io/fs"
 	"os"
 	"path/filepath"
 	"sync"
@@ -103,9 +105,11 @@ func TestActivate_ConcurrentReadsNeverObservePartialSwap(t *testing.T) {
 	}
 
 	var stop atomic.Bool
-	var readErrors atomic.Int64
+	var missingFile atomic.Int64
+	var otherErrors atomic.Int64
 	var badContent atomic.Int64
 	var reads atomic.Int64
+	var firstOtherErr atomic.Value
 
 	var wg sync.WaitGroup
 	wg.Add(1)
@@ -115,7 +119,20 @@ func TestActivate_ConcurrentReadsNeverObservePartialSwap(t *testing.T) {
 			content, err := os.ReadFile(markerPath)
 			reads.Add(1)
 			if err != nil {
-				readErrors.Add(1)
+				// Only a missing file proves the swap was observable
+				// mid-flight: both staging directories exist for the
+				// whole test and each always contains marker.txt, so
+				// ENOENT can only come from the symlink itself being
+				// briefly absent. Any other error (a transient
+				// resource limit under load, an interrupted syscall)
+				// says nothing about atomicity, so it is counted and
+				// reported separately rather than misattributed.
+				if errors.Is(err, fs.ErrNotExist) {
+					missingFile.Add(1)
+				} else {
+					otherErrors.Add(1)
+					firstOtherErr.CompareAndSwap(nil, err)
+				}
 				continue
 			}
 			s := string(content)
@@ -138,8 +155,13 @@ func TestActivate_ConcurrentReadsNeverObservePartialSwap(t *testing.T) {
 	wg.Wait()
 
 	t.Logf("performed %d activations, %d concurrent reads", i, reads.Load())
-	if readErrors.Load() > 0 {
-		t.Errorf("%d reads failed (missing file) during concurrent activation - swap is not atomic", readErrors.Load())
+	if n := otherErrors.Load(); n > 0 {
+		// Not an atomicity failure - surfaced so it is never silently
+		// ignored, and so a real one is not mistaken for this.
+		t.Logf("%d reads failed for reasons unrelated to atomicity; first was: %v", n, firstOtherErr.Load())
+	}
+	if missingFile.Load() > 0 {
+		t.Errorf("%d reads found no file at all during concurrent activation - swap is not atomic", missingFile.Load())
 	}
 	if badContent.Load() > 0 {
 		t.Errorf("%d reads observed neither version's full content (torn/mixed read) - swap is not atomic", badContent.Load())

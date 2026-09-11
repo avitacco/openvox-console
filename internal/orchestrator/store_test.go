@@ -2,12 +2,11 @@ package orchestrator
 
 import (
 	"context"
-	"os"
 	"slices"
 	"strings"
 	"testing"
 
-	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/voxpupuli/enterprise-console/internal/testdb"
 )
 
 // testStore builds a Store against a real Postgres instance from
@@ -16,16 +15,7 @@ import (
 func testStore(t *testing.T) *Store {
 	t.Helper()
 
-	dsn := os.Getenv("CONSOLE_TEST_POSTGRES_DSN")
-	if dsn == "" {
-		t.Skip("CONSOLE_TEST_POSTGRES_DSN not set; skipping integration test")
-	}
-
-	pool, err := pgxpool.New(context.Background(), dsn)
-	if err != nil {
-		t.Fatalf("pgxpool.New() error: %v", err)
-	}
-	t.Cleanup(pool.Close)
+	pool := testdb.Pool(t)
 
 	return NewStore(pool)
 }
