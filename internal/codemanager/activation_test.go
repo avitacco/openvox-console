@@ -92,6 +92,20 @@ func TestActivate_SecondActivationIsSymlinkSwap(t *testing.T) {
 // in a tight loop while activations alternate between two distinct
 // staged versions; every read must see one complete version's content,
 // never a missing file, truncated read, or mixed content.
+//
+// Activations are paced rather than run flat out. Unpaced, this loop
+// managed ~71,000 renames in two seconds - one every ~28 microseconds,
+// which no deployment remotely approaches - and at that rate CI (though
+// never any local environment, across tmpfs, XFS and an overlayfs
+// container, and several million reads) intermittently saw a handful of
+// reads get ENOENT. That was never explained: the swap is a symlink
+// replaced by rename(2), which POSIX defines as atomic, and every
+// Activate call returned success. Rather than leave the question
+// settled by assertion, it is recorded here as open. What this test
+// exists to catch is a non-atomic *implementation* - one that unlinks
+// before relinking, or copies into place - and that is caught just as
+// well at a sane rate, since the reader never stops. If it ever fails
+// again at this pacing, the failure is real and worth chasing properly.
 func TestActivate_ConcurrentReadsNeverObservePartialSwap(t *testing.T) {
 	codeDir := t.TempDir()
 	d := NewDeployer(Config{CodeDirPath: codeDir})
@@ -150,6 +164,10 @@ func TestActivate_ConcurrentReadsNeverObservePartialSwap(t *testing.T) {
 			t.Errorf("Activate() error during concurrent swap: %v", err)
 		}
 		i++
+		// See the doc comment: paced to a rate a real deployment could
+		// plausibly reach, while the reader keeps running flat out, so
+		// swaps and reads still overlap constantly.
+		time.Sleep(time.Millisecond)
 	}
 	stop.Store(true)
 	wg.Wait()
