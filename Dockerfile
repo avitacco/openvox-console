@@ -5,6 +5,13 @@
 # everything produced here is either static assets or Go binaries, both
 # of which cross-compile natively, so a multi-arch image costs no QEMU
 # time.
+# Pinned to the build platform explicitly. A bare
+# `COPY --from=node:26-trixie-slim` resolves that image for the *target*
+# platform, so building linux/arm64 would drop an arm64 node binary into
+# this amd64 stage - which fails as "Syntax error: ) unexpected", the
+# shell trying to interpret a binary it cannot execute.
+FROM --platform=$BUILDPLATFORM node:26-trixie-slim AS nodesrc
+
 FROM --platform=$BUILDPLATFORM golang:1.27-trixie AS build
 WORKDIR /src
 
@@ -14,8 +21,8 @@ WORKDIR /src
 # pick up. Taking node from its own official image keeps that version
 # pinned without apt, and avoids a separate stage that could not run
 # build.sh anyway (the script needs the Go module at the repo root).
-COPY --from=node:26-trixie-slim /usr/local/bin/node /usr/local/bin/node
-COPY --from=node:26-trixie-slim /usr/local/lib/node_modules /usr/local/lib/node_modules
+COPY --from=nodesrc /usr/local/bin/node /usr/local/bin/node
+COPY --from=nodesrc /usr/local/lib/node_modules /usr/local/lib/node_modules
 RUN ln -sf /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
 
 COPY go.mod go.sum ./

@@ -264,3 +264,43 @@ func describeSwapState(target string, readErr error) string {
 	}
 	return b.String()
 }
+
+// TestExchangePaths_SwapsWithoutEverVacatingEitherName guards the
+// mechanism Activate now relies on. Without it, a silent fall back to
+// the plain-rename path (an unsupported kernel, a filesystem that does
+// not implement RENAME_EXCHANGE, a botched build tag) would look
+// identical from the outside while reintroducing exactly the window the
+// exchange exists to close.
+func TestExchangePaths_SwapsWithoutEverVacatingEitherName(t *testing.T) {
+	dir := t.TempDir()
+	a := filepath.Join(dir, "a")
+	b := filepath.Join(dir, "b")
+	if err := os.Symlink("/target-a", a); err != nil {
+		t.Fatalf("symlink a: %v", err)
+	}
+	if err := os.Symlink("/target-b", b); err != nil {
+		t.Fatalf("symlink b: %v", err)
+	}
+
+	err := exchangePaths(a, b)
+	if errors.Is(err, errExchangeUnsupported) {
+		t.Skipf("no atomic path exchange here (%v) - Activate falls back to a plain rename", err)
+	}
+	if err != nil {
+		t.Fatalf("exchangePaths() error: %v", err)
+	}
+
+	// Each name must now resolve to what the other did, and - the point
+	// of the exercise - both must still exist.
+	gotA, err := os.Readlink(a)
+	if err != nil {
+		t.Fatalf("readlink a after exchange: %v", err)
+	}
+	gotB, err := os.Readlink(b)
+	if err != nil {
+		t.Fatalf("readlink b after exchange: %v", err)
+	}
+	if gotA != "/target-b" || gotB != "/target-a" {
+		t.Errorf("after exchange a -> %q, b -> %q; want them traded", gotA, gotB)
+	}
+}
