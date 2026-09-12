@@ -2,9 +2,11 @@ package codemanager
 
 import (
 	"errors"
+	"fmt"
 	"io/fs"
 	"os"
 	"path/filepath"
+	"strings"
 	"sync"
 	"sync/atomic"
 	"testing"
@@ -104,15 +106,30 @@ func TestActivate_SecondActivationIsSymlinkSwap(t *testing.T) {
 // settled by assertion, it is recorded here as open. What this test
 // exists to catch is a non-atomic *implementation* - one that unlinks
 // before relinking, or copies into place - and that is caught just as
-// well at a sane rate, since the reader never stops. If it ever fails
-// again at this pacing, the failure is real and worth chasing properly.
+// well at a sane rate, since the reader never stops.
+//
+// It DID fail again at this pacing (1 ENOENT in ~206,000 reads on CI),
+// so the pacing theory was wrong. Ruled out since, by reproduction
+// attempts totalling ~10 million reads without a single failure: tmpfs,
+// XFS, overlayfs in a container, and real ext4 on a loop device; CPU
+// contention; both churn rates; test parallelism. The remaining
+// difference is the kernel - CI runs Ubuntu 24.04 on 6.8.x, the machine
+// that could not reproduce it runs 7.2 - which containers cannot
+// isolate, since they share the host kernel.
+//
+// Hence the diagnostic below: when this fails, it should say which link
+// in the chain was missing rather than leaving the next person to infer
+// it. Note the state is captured just after the failing read, so it may
+// already have healed - if everything reads as present, that itself
+// says the window is transient rather than a lasting broken state.
 func TestActivate_ConcurrentReadsNeverObservePartialSwap(t *testing.T) {
 	codeDir := t.TempDir()
 	d := NewDeployer(Config{CodeDirPath: codeDir})
 
 	stagingA := stagingDirWithMarker(t, "version-A-content")
 	stagingB := stagingDirWithMarker(t, "version-B-content")
-	markerPath := filepath.Join(codeDir, "environments", "production", "marker.txt")
+	target := filepath.Join(codeDir, "environments", "production")
+	markerPath := filepath.Join(target, "marker.txt")
 
 	if err := d.Activate("production", stagingA); err != nil {
 		t.Fatalf("initial Activate() error: %v", err)
@@ -124,6 +141,8 @@ func TestActivate_ConcurrentReadsNeverObservePartialSwap(t *testing.T) {
 	var badContent atomic.Int64
 	var reads atomic.Int64
 	var firstOtherErr atomic.Value
+	var diagnostic atomic.Value
+	var captureDiagnostic sync.Once
 
 	var wg sync.WaitGroup
 	wg.Add(1)
@@ -143,6 +162,14 @@ func TestActivate_ConcurrentReadsNeverObservePartialSwap(t *testing.T) {
 				// reported separately rather than misattributed.
 				if errors.Is(err, fs.ErrNotExist) {
 					missingFile.Add(1)
+					// Capture what the filesystem actually looked like
+					// at the instant of the first failure. Without this
+					// a failure only says "something was missing",
+					// which is exactly how far this got chased on
+					// guesswork alone - see the doc comment.
+					captureDiagnostic.Do(func() {
+						diagnostic.Store(describeSwapState(target, err))
+					})
 				} else {
 					otherErrors.Add(1)
 					firstOtherErr.CompareAndSwap(nil, err)
@@ -180,6 +207,9 @@ func TestActivate_ConcurrentReadsNeverObservePartialSwap(t *testing.T) {
 	}
 	if missingFile.Load() > 0 {
 		t.Errorf("%d reads found no file at all during concurrent activation - swap is not atomic", missingFile.Load())
+		if d, ok := diagnostic.Load().(string); ok {
+			t.Errorf("state at the first such read:\n%s", d)
+		}
 	}
 	if badContent.Load() > 0 {
 		t.Errorf("%d reads observed neither version's full content (torn/mixed read) - swap is not atomic", badContent.Load())
@@ -187,4 +217,50 @@ func TestActivate_ConcurrentReadsNeverObservePartialSwap(t *testing.T) {
 	if reads.Load() == 0 {
 		t.Fatal("reader goroutine never completed a read - test didn't exercise anything")
 	}
+}
+
+// describeSwapState records what the live environment path looked like
+// at the moment a read found nothing, so a failure identifies which link
+// in the chain was missing - the symlink itself, its destination, or the
+// file inside it - rather than leaving that to inference.
+func describeSwapState(target string, readErr error) string {
+	var b strings.Builder
+	fmt.Fprintf(&b, "  read error: %v\n", readErr)
+
+	info, err := os.Lstat(target)
+	switch {
+	case err != nil:
+		fmt.Fprintf(&b, "  lstat(%s): %v  <- the environment symlink itself was absent\n", target, err)
+	default:
+		fmt.Fprintf(&b, "  lstat(%s): mode=%v symlink=%t\n", target, info.Mode(), info.Mode()&os.ModeSymlink != 0)
+	}
+
+	dest, err := os.Readlink(target)
+	if err != nil {
+		fmt.Fprintf(&b, "  readlink: %v\n", err)
+	} else {
+		fmt.Fprintf(&b, "  readlink -> %s\n", dest)
+		if _, err := os.Stat(dest); err != nil {
+			fmt.Fprintf(&b, "  stat(destination): %v  <- symlink pointed somewhere absent\n", err)
+		} else {
+			fmt.Fprintf(&b, "  stat(destination): present\n")
+		}
+		if _, err := os.Stat(filepath.Join(dest, "marker.txt")); err != nil {
+			fmt.Fprintf(&b, "  stat(destination/marker.txt): %v  <- file inside the destination was absent\n", err)
+		} else {
+			fmt.Fprintf(&b, "  stat(destination/marker.txt): present\n")
+		}
+	}
+
+	entries, err := os.ReadDir(filepath.Dir(target))
+	if err != nil {
+		fmt.Fprintf(&b, "  readdir(environments): %v\n", err)
+	} else {
+		names := make([]string, 0, len(entries))
+		for _, e := range entries {
+			names = append(names, e.Name())
+		}
+		fmt.Fprintf(&b, "  environments/ contains: %v\n", names)
+	}
+	return b.String()
 }
