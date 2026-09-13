@@ -25,6 +25,11 @@ services:
   console:
     profiles:
       - console-container
+    # Build from the working tree rather than pulling the published
+    # image: when you do start this in development, the point is to
+    # exercise your own changes.
+    build:
+      context: .
 
   console-postgres:
     environment:

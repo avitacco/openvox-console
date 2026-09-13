@@ -486,15 +486,35 @@ authoritative list of what is read.
 
 ## 6. Run the console
 
-There is no `.deb`/`.rpm` for the console itself - it is a single static
-binary or a container image. (The *node* agent does have packages; that
-is step 8.)
+There is no `.deb`/`.rpm` for the console itself - it is a published
+container image or a single static binary. (The *node* agent does have
+packages; that is step 8.)
 
 ### Containers
 
+The image is built and published by this project's own CI on every push
+to `main`, for `linux/amd64` and `linux/arm64`:
+
+```
+ghcr.io/avitacco/openvox-console
+```
+
+**Which tag to use.** `:main` tracks the latest commit on `main` and is
+the compose file's default. `:latest` and semver tags
+(`:1.2.3`, `:1.2`) are published only when a `v*` git tag is pushed - so
+until the first release is cut, **`:latest` does not exist** and asking
+for it fails with `manifest unknown`. Every build also publishes an
+immutable `:sha-<commit>` tag, which is what to pin for a deployment you
+want to hold still:
+
+```sh
+CONSOLE_IMAGE_TAG=sha-a1b2c3d      # exact commit
+CONSOLE_IMAGE_TAG=v1.2.3           # once releases exist
+```
+
 `docker-compose.yml` in this repo is the production stack - console,
-both databases, openvoxserver and openvoxdb - and defines the console
-service itself. Copy it (and nothing else) to the deployment host:
+both databases, openvoxserver and openvoxdb. It pulls the image above;
+nothing is built on the deployment host. Copy that one file across:
 
 ```sh
 mkdir -p /opt/openvox-console/{secrets,certs}
@@ -516,12 +536,16 @@ chmod 600 secrets/*
 
 Set the deployment's own variables in a `.env` beside it
 (`CONSOLE_BASE_URL`, `CONSOLE_NODE_TRANSPORT_PUBLIC_ADDR`,
-`OPENVOXDB_POSTGRES_PASSWORD`, and optionally `OPENVOX_VERSION` to pin
-image versions), then:
+`OPENVOXDB_POSTGRES_PASSWORD`, plus `CONSOLE_IMAGE_TAG` to pin the
+console and `OPENVOX_VERSION` to pin openvoxserver/openvoxdb), then:
 
 ```sh
+docker compose -f docker-compose.yml pull
 docker compose -f docker-compose.yml up -d
 ```
+
+To upgrade later, change `CONSOLE_IMAGE_TAG` (or re-`pull` if you track
+`:main`) and `up -d` again - Compose recreates only what changed.
 
 **Always pass `-f docker-compose.yml` explicitly.** A bare
 `docker compose up` also loads `docker-compose.override.yml`, which is
@@ -536,6 +560,10 @@ The compose file refuses to start if `CONSOLE_BASE_URL`,
 are unset, so a deployment cannot come up on a placeholder.
 
 ### Binary
+
+Use this when you would rather run the console under systemd than in a
+container. Building needs Go and Node; the Dockerfile route needs
+neither beyond Docker itself.
 
 ```sh
 make build             # produces bin/console (and bin/enc-bridge)
@@ -639,11 +667,20 @@ should contain the class the group declares.
 
 ## 8. Enrol nodes
 
-### Build the agent packages first
+### If you built the binary yourself, build the agent packages too
 
 The console serves `node-agent-client` from its own apt/yum repository
-routes, but only if those artifacts were built into the binary. If you
-skip this, the repo routes return 404 and node installs fail:
+routes, and those artifacts are embedded into the console binary at
+build time rather than fetched at runtime. They are generated, not
+committed.
+
+**Using the published image? Nothing to do** - the Dockerfile builds the
+per-platform agent binaries and their `.deb`/`.rpm` packages as part of
+the image build, so they are already inside it.
+
+If you built the binary yourself (the `make build` route in step 6),
+build them first or the repository routes return 404 and every node
+install fails:
 
 ```sh
 make agent-binaries    # cross-compiles node-agent-client for each platform

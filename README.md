@@ -11,6 +11,13 @@ enrolment, with both container and package instructions for each. The
 section below is the throwaway local dev stack instead, and
 `operations.md` covers running a deployment once it exists.
 
+**Container image:** `ghcr.io/avitacco/openvox-console`, built for
+`linux/amd64` and `linux/arm64` by `.github/workflows/ci.yml` on every
+push to `main`. `:main` follows that branch and every build also gets an
+immutable `:sha-<commit>`; `:latest` and semver tags appear only when a
+`v*` tag is pushed. `docker-compose.yml` pulls this image - see
+`SETUP.md` step 6.
+
 ## Local development
 
 The console binary is built and run directly on the host - only its

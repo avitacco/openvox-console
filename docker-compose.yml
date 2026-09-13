@@ -13,8 +13,16 @@
 
 services:
   console:
-    build:
-      context: .
+    # Published by .github/workflows/ci.yml on every push to main, for
+    # linux/amd64 and linux/arm64. Note the default is :main, not
+    # :latest - CI only publishes :latest (and semver tags) when a v*
+    # git tag is pushed, so :latest does not exist until the first
+    # release is cut. Pin a release or an exact commit once you have
+    # one:
+    #   CONSOLE_IMAGE_TAG=v1.2.3
+    #   CONSOLE_IMAGE_TAG=sha-a1b2c3d
+    # The dev override builds this from source instead.
+    image: ${CONSOLE_IMAGE:-ghcr.io/avitacco/openvox-console}:${CONSOLE_IMAGE_TAG:-main}
     hostname: console
     restart: unless-stopped
     environment:
