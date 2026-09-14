@@ -101,7 +101,12 @@ services:
 
   # --- OpenVox stack -------------------------------------------------
   openvoxserver:
-    image: ghcr.io/openvoxproject/openvoxserver:${OPENVOX_VERSION:-latest}
+    # NOT the stock openvoxserver image: this one adds the enc-bridge
+    # binary and the node_terminus=exec wiring that make the console this
+    # server's External Node Classifier (see Dockerfile.openvoxserver).
+    # On the stock image everything still starts and looks healthy, but
+    # node groups silently classify nothing.
+    image: ${OPENVOXSERVER_IMAGE:-ghcr.io/avitacco/openvox-console-server}:${OPENVOXSERVER_IMAGE_TAG:-main}
     hostname: openvoxserver
     restart: unless-stopped
     environment:
@@ -111,10 +116,17 @@ services:
       # own certname, so this is only for *additional* names.
       DNS_ALT_NAMES: ${OPENVOXSERVER_DNS_ALT_NAMES:-}
       CA_ALLOW_SUBJECT_ALT_NAMES: "true"
-      # Off by default here, deliberately: autosigning every CSR means
-      # anything that can reach port 8140 can enrol itself. Turn it on
-      # only where that is an accepted trade-off (the dev override does).
-      AUTOSIGN: ${OPENVOXSERVER_AUTOSIGN:-false}
+      # Accepts true|false|<path to an autosign allowlist>. The default
+      # is an allowlist naming ONLY openvoxdb, because openvoxdb enrols
+      # itself on first boot and gives up after 120s - with plain
+      # `false` it fails, writes a non-certificate into its cert file,
+      # and every later restart skips enrolment because that file is
+      # non-empty, so the stack never recovers on its own.
+      #
+      # Real nodes are deliberately NOT covered: they still need signing
+      # from the Nodes page. Setting this to `true` would let anything
+      # that can reach port 8140 enrol itself.
+      AUTOSIGN: ${OPENVOXSERVER_AUTOSIGN:-/etc/puppetlabs/puppet/autosign.conf}
       # Classification. enc-bridge runs inside this container and calls
       # the console; its token is a file so it never lands in the
       # environment of a process spawned per classification request.
@@ -122,6 +134,9 @@ services:
       ENC_BRIDGE_TOKEN_FILE: /run/secrets/enc_bridge_token
     secrets:
       - enc_bridge_token
+    configs:
+      - source: openvoxserver_autosign
+        target: /etc/puppetlabs/puppet/autosign.conf
     extra_hosts:
       # puppet.conf's ca_server stays hardcoded to "puppet" regardless of
       # OPENVOXSERVER_HOSTNAME, so `puppetserver ca ...` run via
@@ -141,7 +156,7 @@ services:
       start_period: 120s
 
   openvoxdb-postgres:
-    image: postgres:${OPENVOXDB_POSTGRES_VERSION:-17-alpine}
+    image: postgres:${OPENVOXDB_POSTGRES_VERSION:-18-alpine}
     hostname: openvoxdb-postgres
     restart: unless-stopped
     environment:
@@ -154,8 +169,23 @@ services:
       # environment while the other half stayed in it. Required with no
       # default so a deployment cannot silently run on a known password.
       POSTGRES_PASSWORD: ${OPENVOXDB_POSTGRES_PASSWORD:?set OPENVOXDB_POSTGRES_PASSWORD}
+    configs:
+      # openvoxdb refuses to start without pg_trgm ("PuppetDB requires the
+      # PostgreSQL `pg_trgm` extension"), and creates it itself. Inline
+      # rather than a mounted file so this compose file stays deployable
+      # on its own. Postgres runs this only while initialising an EMPTY
+      # data directory - an existing database needs it created by hand,
+      # see operations.md.
+      - source: openvoxdb_pg_trgm
+        target: /docker-entrypoint-initdb.d/pg_trgm.sql
     volumes:
-      - openvoxdb-postgres-data:/var/lib/postgresql/data
+      # Mounted at /var/lib/postgresql, NOT .../data: Postgres 18+ images
+      # store the cluster in a major-version subdirectory (18/docker) so
+      # `pg_upgrade --link` can work across versions without crossing a
+      # mount boundary. An 18+ image started against a .../data mount
+      # holding pre-18 data refuses to start rather than risk it - see
+      # operations.md for the upgrade path.
+      - openvoxdb-postgres-data:/var/lib/postgresql
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${OPENVOXDB_POSTGRES_USER:-openvoxdb} -d ${OPENVOXDB_POSTGRES_DB:-openvoxdb}"]
       interval: 10s
@@ -190,6 +220,18 @@ services:
       timeout: 5s
       retries: 5
       start_period: 120s
+
+configs:
+  openvoxdb_pg_trgm:
+    content: |
+      CREATE EXTENSION IF NOT EXISTS pg_trgm;
+
+  # Infrastructure certnames that may enrol unattended. openvoxdb is a
+  # service in this stack, not a managed node - it has no operator to
+  # wait for it. Do NOT add node names here.
+  openvoxserver_autosign:
+    content: |
+      openvoxdb
 
 # Secret files, read at container start. Paths are overridable so a
 # deployment can point them at whatever manages its secrets; the defaults

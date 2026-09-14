@@ -1,0 +1,46 @@
+# syntax=docker/dockerfile:1
+
+# openvoxserver, plus the pieces that make this console its External Node
+# Classifier. The stock openvoxserver image has neither, and a deployment
+# host has no repo to bind-mount them from (development does exactly that
+# - see docker-compose.override.yml), so they are baked in here.
+#
+# Without this image a stack still starts and looks healthy: nodes enrol,
+# facts and reports flow. Only classification is silently inert - node
+# groups have no effect on any catalog, with no error anywhere.
+
+# Cross-compiles rather than emulating: enc-bridge is a static Go binary
+# with no cgo, so a multi-arch build costs no QEMU time. Pinned to the
+# build platform for the same reason as Dockerfile's nodesrc stage.
+FROM --platform=$BUILDPLATFORM golang:1.27-trixie AS build
+WORKDIR /src
+
+COPY go.mod go.sum ./
+RUN go mod download
+
+COPY . .
+
+ARG TARGETOS
+ARG TARGETARCH
+ARG VERSION=dev
+
+RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} \
+    go build -trimpath -ldflags "-s -w -X main.version=${VERSION}" \
+    -o /out/enc-bridge ./cmd/enc-bridge
+
+FROM ghcr.io/openvoxproject/openvoxserver:latest
+
+# Puppet's exec terminus runs this once per catalog compile, as the
+# puppet user: `/usr/local/bin/enc-bridge <certname>`. It calls the
+# console's GET /api/v1/enc/{certname} and prints the YAML the terminus
+# expects on stdout.
+COPY --from=build /out/enc-bridge /usr/local/bin/enc-bridge
+
+# Sets node_terminus/external_nodes in puppet.conf on every boot. The
+# entrypoint regenerates puppet.conf from environment variables each
+# start, so this has to re-apply every time rather than once at build.
+COPY openvoxserver-init/10-configure-enc.sh \
+     /container-custom-entrypoint.d/10-configure-enc.sh
+
+RUN chmod 0755 /usr/local/bin/enc-bridge \
+               /container-custom-entrypoint.d/10-configure-enc.sh

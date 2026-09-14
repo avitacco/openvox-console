@@ -11,12 +11,19 @@ enrolment, with both container and package instructions for each. The
 section below is the throwaway local dev stack instead, and
 `operations.md` covers running a deployment once it exists.
 
-**Container image:** `ghcr.io/avitacco/openvox-console`, built for
-`linux/amd64` and `linux/arm64` by `.github/workflows/ci.yml` on every
-push to `main`. `:main` follows that branch and every build also gets an
-immutable `:sha-<commit>`; `:latest` and semver tags appear only when a
-`v*` tag is pushed. `docker-compose.yml` pulls this image - see
-`SETUP.md` step 6.
+**Container images:** two, built together for `linux/amd64` and
+`linux/arm64` by `.github/workflows/ci.yml` on every push to `main`:
+
+- `ghcr.io/avitacco/openvox-console` - the console itself.
+- `ghcr.io/avitacco/openvox-console-server` - openvoxserver plus the
+  `enc-bridge` binary and the `node_terminus = exec` wiring that make the
+  console its node classifier (`Dockerfile.openvoxserver`). The stock
+  openvoxserver image starts and looks healthy but classifies nothing.
+
+`:main` follows that branch and every build also gets an immutable
+`:sha-<commit>`; `:latest` and semver tags appear only when a `v*` tag is
+pushed. Run matching tags for the two. `docker-compose.yml` pulls both -
+see `SETUP.md` step 6.
 
 ## Local development
 

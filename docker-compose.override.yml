@@ -42,6 +42,12 @@ services:
       - "5432:5432"
 
   openvoxserver:
+    # Development uses the stock image and bind-mounts enc-bridge and the
+    # ENC init script over it (below), so an edit + `make build` takes
+    # effect on the next recreate. Production runs the published
+    # openvox-console-server image, which bakes both in - see
+    # Dockerfile.openvoxserver.
+    image: ghcr.io/openvoxproject/openvoxserver:${OPENVOX_VERSION:-latest}
     environment:
       # The console runs on the host, so it reaches this service via
       # localhost - the server cert needs that as a SAN or TLS fails.
@@ -80,8 +86,9 @@ services:
     environment:
       POSTGRES_PASSWORD: ${OPENVOXDB_POSTGRES_PASSWORD:-openvoxdb}
     volumes:
-      - openvoxdb-postgres-data:/var/lib/postgresql/data
-      - ./openvoxdb-postgres-init:/docker-entrypoint-initdb.d
+      # pg_trgm comes from the base file's inline config - a bind mount
+      # over /docker-entrypoint-initdb.d here would shadow it.
+      - openvoxdb-postgres-data:/var/lib/postgresql
 
   openvoxdb:
     environment:

@@ -852,3 +852,81 @@ asserted in `internal/agentdist/handlers_test.go`, and the PowerShell
 one is parse-checked with a real `pwsh`, but this project's dev
 environment has no macOS or Windows host to run either on. Same posture
 as the rest of the multi-platform agent work.
+
+## Postgres 18 data layout, and upgrading a pre-18 deployment
+
+Both databases default to `postgres:18-alpine`, and both volumes are
+mounted at `/var/lib/postgresql` - **not** `/var/lib/postgresql/data`.
+Postgres 18+ images put the cluster in a major-version subdirectory
+(`/var/lib/postgresql/18/docker`) so `pg_upgrade --link` can run across
+versions without crossing a mount boundary.
+
+An 18+ image started against a `.../data` mount that already holds
+pre-18 data refuses to start, with:
+
+```
+Error: in 18+, these Docker images are configured to store database data in a
+       format which is compatible with "pg_ctlcluster" ...
+       Counter to that, there appears to be PostgreSQL data in:
+         /var/lib/postgresql/data (unused mount/volume)
+```
+
+This is a refusal, not corruption - the old data is untouched.
+
+openvoxdb 8.15.0 is verified against PostgreSQL 18.6: all 62 schema
+migrations apply and the service reaches `status=running`.
+
+### Upgrading an existing 17 deployment
+
+Dump and restore. `pg_upgrade` would need both major versions present in
+one image, which these images do not provide.
+
+```sh
+# 1. Stop the writers, leaving the databases up.
+docker compose -f docker-compose.yml stop console openvoxdb
+
+# 2. Dump each database from the still-running 17 containers.
+docker compose -f docker-compose.yml exec -T openvoxdb-postgres \
+  pg_dumpall -U openvoxdb > openvoxdb-17.sql
+docker compose -f docker-compose.yml exec -T console-postgres \
+  pg_dumpall -U console > console-17.sql
+
+# 3. Check both dumps are non-empty BEFORE destroying anything.
+ls -l openvoxdb-17.sql console-17.sql
+
+# 4. Remove the old volumes. This deletes the 17 data - the dumps above
+#    are now the only copy, so do not skip step 3.
+docker compose -f docker-compose.yml down
+docker volume rm <project>_openvoxdb-postgres-data <project>_console-postgres-data
+
+# 5. Start just the databases on 18 - they initialise empty, and
+#    openvoxdb-postgres gets pg_trgm from the compose file's config.
+docker compose -f docker-compose.yml up -d openvoxdb-postgres console-postgres
+
+# 6. Restore.
+docker compose -f docker-compose.yml exec -T openvoxdb-postgres \
+  psql -U openvoxdb < openvoxdb-17.sql
+docker compose -f docker-compose.yml exec -T console-postgres \
+  psql -U console < console-17.sql
+
+# 7. Bring the stack back up.
+docker compose -f docker-compose.yml up -d
+```
+
+Staying on 17 is also supported, but takes two changes rather than one -
+set `OPENVOXDB_POSTGRES_VERSION=17-alpine` **and** move that service's
+volume mount back to `/var/lib/postgresql/data`. Changing only the
+version reproduces the error above.
+
+### pg_trgm
+
+openvoxdb exits at startup with `PuppetDB requires the PostgreSQL
+`pg_trgm` extension` if it is missing. `docker-compose.yml` supplies it
+as an inline config mounted into `/docker-entrypoint-initdb.d`, which
+Postgres runs **only while initialising an empty data directory**. A
+database that already exists needs it created by hand:
+
+```sh
+docker compose -f docker-compose.yml exec openvoxdb-postgres \
+  psql -U openvoxdb -c 'CREATE EXTENSION IF NOT EXISTS pg_trgm;'
+```

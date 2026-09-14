@@ -70,8 +70,15 @@ docker run -d --name openvoxserver \
   -e CA_ALLOW_SUBJECT_ALT_NAMES=true \
   -v openvoxserver-ssl:/etc/puppetlabs/puppet/ssl \
   -v openvoxserver-ca:/etc/puppetlabs/puppetserver/ca \
-  ghcr.io/openvoxproject/openvoxserver:latest
+  ghcr.io/avitacco/openvox-console-server:main
 ```
+
+**Note the image.** That is openvoxserver plus the `enc-bridge` binary
+and the `node_terminus = exec` wiring that make the console its node
+classifier (step 7). The stock `ghcr.io/openvoxproject/openvoxserver`
+image works fine for everything else, but with it node groups silently
+classify nothing - the stack looks completely healthy and no error
+appears anywhere.
 
 `DNS_ALT_NAMES` must list every name anything will use to reach this
 server. `CA_ALLOW_SUBJECT_ALT_NAMES=true` is required for the CA to issue
@@ -169,8 +176,12 @@ curl -ksS https://<openvoxserver>:8140/status/v1/simple   # expect: running
 docker run -d --name openvoxdb-postgres \
   -e POSTGRES_USER=openvoxdb -e POSTGRES_PASSWORD=<password> \
   -e POSTGRES_DB=openvoxdb \
-  -v openvoxdb-postgres-data:/var/lib/postgresql/data \
-  postgres:17
+  -v openvoxdb-postgres-data:/var/lib/postgresql \
+  postgres:18
+
+# openvoxdb refuses to start without this extension.
+docker exec openvoxdb-postgres \
+  psql -U openvoxdb -c 'CREATE EXTENSION IF NOT EXISTS pg_trgm;'
 
 docker run -d --name openvoxdb \
   -h openvoxdb \
@@ -185,6 +196,38 @@ docker run -d --name openvoxdb \
 Keep the `openvoxdb-ssl` volume. Without it, a recreated container has no
 keypair, but the CA still remembers a signed certificate for that
 certname and refuses to reissue - and the container fails to start.
+
+**openvoxdb enrols itself, and gives up after 120 seconds.** It requests
+a certificate from the CA on first boot. If nothing signs that request in
+time it fails, and - this is the trap - it writes the failure response
+into its own certificate file. Every later restart then sees a non-empty
+certificate file, skips enrolment entirely, and puppetdb dies with
+`No certs found in 'ssl-cert' file`. The stack never recovers on its own.
+
+`docker-compose.yml` avoids this by autosigning exactly one certname,
+`openvoxdb`, through an allowlist (real nodes still need signing). If you
+are running the `docker run` commands above instead, sign it yourself
+while openvoxdb waits:
+
+```sh
+# in a second terminal, right after starting openvoxdb
+for i in $(seq 1 24); do
+  docker exec openvoxserver puppetserver ca sign --certname openvoxdb && break
+  sleep 5
+done
+```
+
+If you already hit the trap, reset that identity rather than restarting:
+
+```sh
+docker rm -f openvoxdb
+docker volume rm openvoxdb-ssl
+docker exec openvoxserver puppetserver ca clean --certname openvoxdb
+# then start openvoxdb again, and sign as above
+```
+
+Skipping the `ca clean` gives you `No keypair on disk and CA already has
+signed certificate for 'openvoxdb'` on the fresh volume.
 
 ### Packages
 
@@ -216,6 +259,9 @@ sudo apt-get install -y postgresql       # or: sudo dnf install -y postgresql-se
 sudo systemctl enable --now postgresql
 sudo -u postgres createuser --pwprompt puppetdb
 sudo -u postgres createdb --owner=puppetdb puppetdb
+# openvoxdb refuses to start without this extension. Creating it needs
+# superuser rights, so run it as postgres rather than as puppetdb.
+sudo -u postgres psql -d puppetdb -c 'CREATE EXTENSION IF NOT EXISTS pg_trgm;'
 ```
 
 On Debian/Ubuntu, `systemctl status postgresql` reporting **`active
@@ -282,8 +328,8 @@ docker run -d --name console-postgres \
   -e POSTGRES_USER=console -e POSTGRES_PASSWORD=<password> \
   -e POSTGRES_DB=console \
   -p 5432:5432 \
-  -v console-postgres-data:/var/lib/postgresql/data \
-  postgres:17
+  -v console-postgres-data:/var/lib/postgresql \
+  postgres:18
 ```
 
 ### Packages
@@ -630,8 +676,39 @@ curl -X POST "$CONSOLE_BASE_URL/api/v1/service-tokens" \
 
 The response's `token` field is shown **once** - copy it now.
 
-Install the bridge on the **openvoxserver** host (or into that container)
-and configure it:
+### Containers
+
+The binary and the `puppet.conf` wiring are already in the
+`openvox-console-server` image from step 1 - there is nothing to install.
+You only supply the token.
+
+`docker-compose.yml` reads it from the `enc_bridge_token` secret file:
+
+```sh
+printf '%s' '<the enc:read service token>' > secrets/enc_bridge_token
+```
+
+**Permissions matter here, and differently from the other secrets.**
+puppetserver runs as `puppet:0`, not root, and Compose bind-mounts secret
+files with their host ownership - so a `chmod 600` file owned by your
+login user is unreadable inside the container and classification fails.
+Give group 0 read access, and protect the directory instead:
+
+```sh
+sudo chgrp 0 secrets/enc_bridge_token
+chmod 640 secrets/enc_bridge_token
+chmod 700 secrets
+```
+
+Then recreate the container so it picks up the new token:
+
+```sh
+docker compose -f docker-compose.yml up -d --force-recreate openvoxserver
+```
+
+### Packages
+
+Install the bridge on the **openvoxserver** host and configure it:
 
 ```sh
 sudo install -m 0755 bin/enc-bridge /usr/local/bin/enc-bridge
@@ -652,16 +729,53 @@ node_terminus = exec
 external_nodes = /usr/local/bin/enc-bridge
 ```
 
-Restart openvoxserver. For the container path, bind-mount the binary to
-`/usr/local/bin/enc-bridge` and pass both variables as container
-environment; `openvoxserver-init/10-configure-enc.sh` in this repo shows
-the puppet.conf edit applied on every boot.
+Restart openvoxserver.
 
 ### Verify
 
-Create a node group in the console (Groups page) matching a fact you know
-a node reports, then run `puppet agent -t` on that node - the catalog
-should contain the class the group declares.
+Ask the bridge directly, as puppetserver runs it. This checks the binary,
+the token, the permissions and the console's reply in one command:
+
+```sh
+# container path
+docker compose -f docker-compose.yml exec -u puppet:0 openvoxserver \
+  /usr/local/bin/enc-bridge <a certname>
+
+# package path
+sudo -u puppet /usr/local/bin/enc-bridge <a certname>
+```
+
+`{}` means it worked and that node matches no group yet. Create a node
+group in the console (Groups page) that pins that certname, run the same
+command again, and you should get its classes back:
+
+```yaml
+classes:
+    ntp:
+        servers:
+            - time.example.com
+parameters:
+    role: prodtest
+environment: production
+```
+
+An error here is the real failure mode to catch: `permission denied`
+means the token file is not readable by `puppet:0`, and a 401 means the
+token is wrong or lacks `enc:read`.
+
+Then run `puppet agent -t` on that node. If it fails with `Could not find
+class <name>`, classification is working - the ENC told puppetserver to
+include a class your Puppet code does not define yet. puppetserver caches
+environments, so after adding the code, flush the cache or the same error
+persists:
+
+```sh
+docker compose -f docker-compose.yml exec openvoxserver sh -c \
+  'curl -ksS -X DELETE \
+     --cert /etc/puppetlabs/puppet/ssl/certs/openvoxserver.pem \
+     --key /etc/puppetlabs/puppet/ssl/private_keys/openvoxserver.pem \
+     https://127.0.0.1:8140/puppet-admin-api/v1/environment-cache'
+```
 
 ---
 
