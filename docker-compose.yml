@@ -72,7 +72,10 @@ services:
       - "${CONSOLE_HTTP_PORT:-8080}:8080"
       - "${CONSOLE_NODE_TRANSPORT_PORT:-8142}:8142"
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:8080/health | grep -q '\"status\":\"ok\"'"]
+      # Exec form calling the binary itself: the image is distroless, with
+      # no shell and no wget, so a CMD-SHELL pipeline never runs and the
+      # container reports unhealthy forever while serving fine.
+      test: ["CMD", "/console", "--health-check"]
       interval: 15s
       timeout: 5s
       retries: 5
@@ -111,10 +114,24 @@ services:
     restart: unless-stopped
     environment:
       OPENVOXSERVER_HOSTNAME: ${OPENVOXSERVER_HOSTNAME:-openvoxserver}
+      # Pinned, not left to the image's `hostname -f` fallback: on a host
+      # with a DNS search domain that fallback silently becomes
+      # "openvoxserver.example.com" instead of "openvoxserver", so the
+      # same compose file produces a different identity depending on the
+      # host's resolver - and every `puppetserver ca --config` or
+      # certificate path that assumed the short name then fails.
+      CERTNAME: ${OPENVOXSERVER_HOSTNAME:-openvoxserver}
       # Every name anything reaches this server by must be listed here,
       # or TLS verification fails. A certificate is always valid for its
       # own certname, so this is only for *additional* names.
-      DNS_ALT_NAMES: ${OPENVOXSERVER_DNS_ALT_NAMES:-}
+      #
+      # "puppet" is always appended: puppet.conf hardcodes
+      # `ca_server = puppet` regardless of OPENVOXSERVER_HOSTNAME, and
+      # extra_hosts below maps that name to this container precisely so
+      # `puppetserver ca ...` works over docker exec. Without it in the
+      # certificate, every CA command fails with
+      # "certificate verify failed (hostname mismatch)".
+      DNS_ALT_NAMES: ${OPENVOXSERVER_DNS_ALT_NAMES:+${OPENVOXSERVER_DNS_ALT_NAMES},}puppet
       CA_ALLOW_SUBJECT_ALT_NAMES: "true"
       # Accepts true|false|<path to an autosign allowlist>. The default
       # is an allowlist naming ONLY openvoxdb, because openvoxdb enrols
