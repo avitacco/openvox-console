@@ -348,10 +348,18 @@ func main() {
 	// runs, so the console would show it as an empty row until its own
 	// scheduled run came around. Dispatch that first run for it. Inert
 	// without a node transport, since there would be no connections to
-	// observe. The job is recorded and audited like any other, via the
-	// dispatcher configured above.
+	// observe. The job is recorded and audited like any other.
+	//
+	// Constructed here but NOT started: its queue accepts notifications
+	// immediately, so a node connecting during the rest of startup is
+	// buffered rather than dropped, while no dispatch happens until the
+	// workers start below - after dispatcher.Run, which is the only
+	// consumer of the dispatcher's unbuffered outcomes channel. A
+	// dispatch before that blocks with nobody receiving, leaving its job
+	// stuck at "running".
+	var initialRunTriggerImpl *initialrun.Trigger
 	if nodeTransport != nil {
-		trigger := initialrun.NewTrigger(
+		initialRunTriggerImpl = initialrun.NewTrigger(
 			initialrun.NewStore(db.Pool),
 			func(ctx context.Context, certname string) (bool, error) {
 				_, err := openvoxdbClient.NodeByCertname(ctx, certname)
@@ -375,9 +383,7 @@ func main() {
 			},
 			logger,
 		)
-		trigger.Start(context.Background())
-		defer trigger.Stop()
-		initialRunTrigger.Store(trigger)
+		initialRunTrigger.Store(initialRunTriggerImpl)
 	}
 
 	agentDistHandlers := agentdist.NewHandlers(agentdist.Config{
@@ -530,6 +536,12 @@ func main() {
 
 	go runtime.PollDependencyHealth(ctx, metrics, db, bus)
 	go dispatcher.Run(ctx)
+
+	// Workers start only now: see the construction comment above.
+	if initialRunTriggerImpl != nil {
+		initialRunTriggerImpl.Start(ctx)
+		defer initialRunTriggerImpl.Stop()
+	}
 
 	go func() {
 		<-ctx.Done()
