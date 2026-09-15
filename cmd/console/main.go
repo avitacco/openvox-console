@@ -8,6 +8,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"log/slog"
@@ -15,6 +16,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"sync/atomic"
 	"syscall"
 	"time"
 
@@ -29,6 +31,7 @@ import (
 	"github.com/voxpupuli/enterprise-console/internal/encapi"
 	"github.com/voxpupuli/enterprise-console/internal/groupnodes"
 	"github.com/voxpupuli/enterprise-console/internal/infracert"
+	"github.com/voxpupuli/enterprise-console/internal/initialrun"
 	"github.com/voxpupuli/enterprise-console/internal/inventory"
 	"github.com/voxpupuli/enterprise-console/internal/messaging"
 	"github.com/voxpupuli/enterprise-console/internal/nodeconnectivity"
@@ -288,6 +291,16 @@ func main() {
 	// (see disabledTransport below). Matches G10K's "never fatal at
 	// startup" posture (see runtime.Config).
 	orchestratorStore := orchestrator.NewStore(db.Pool)
+
+	// The initial-run trigger needs the dispatcher, the dispatcher needs
+	// the transport, and the transport is where connect notifications
+	// come from - so the observer is wired now and filled in below, once
+	// the trigger exists. Atomic because a node can connect the moment
+	// the transport binds, which is before that assignment. A node that
+	// connects inside that window misses its automatic run, which the
+	// design already tolerates (see design.md's Risks).
+	var initialRunTrigger atomic.Pointer[initialrun.Trigger]
+
 	var nodeTransport *nodetransport.Server
 	if cfg.NodeTransportAddr != "" {
 		nodeTransport, err = nodetransport.New(nodetransport.Config{
@@ -295,6 +308,11 @@ func main() {
 			CertFile:   cfg.NodeTransportCertFile,
 			KeyFile:    cfg.NodeTransportKeyFile,
 			CAFile:     cfg.NodeTransportCAFile,
+			OnNodeConnect: func(certname string) {
+				if t := initialRunTrigger.Load(); t != nil {
+					t.Notify(certname)
+				}
+			},
 		})
 		if err != nil {
 			logger.Error("failed to initialize node transport", "error", err)
@@ -326,6 +344,42 @@ func main() {
 	dispatcher.SetAuditRecorder(auditWriteNoRequest(auditlog.CategoryOrchestrator))
 	orchestratorHandlers := orchestrator.NewHandlers(orchestratorStore, dispatcher, actorFromRequest, auditRead(auditlog.CategoryOrchestrator))
 
+	// A node that enrols and connects has nothing in openvoxdb until it
+	// runs, so the console would show it as an empty row until its own
+	// scheduled run came around. Dispatch that first run for it. Inert
+	// without a node transport, since there would be no connections to
+	// observe. The job is recorded and audited like any other, via the
+	// dispatcher configured above.
+	if nodeTransport != nil {
+		trigger := initialrun.NewTrigger(
+			initialrun.NewStore(db.Pool),
+			func(ctx context.Context, certname string) (bool, error) {
+				_, err := openvoxdbClient.NodeByCertname(ctx, certname)
+				switch {
+				case errors.Is(err, openvoxdb.ErrNodeNotFound):
+					return false, nil
+				case err != nil:
+					return false, err
+				default:
+					return true, nil
+				}
+			},
+			func(ctx context.Context, certname string) error {
+				job, err := orchestratorStore.CreateJob(ctx, orchestrator.JobKindRun, "", "", nil,
+					[]string{certname}, initialrun.TriggeredBy)
+				if err != nil {
+					return err
+				}
+				dispatcher.DispatchRun(ctx, job)
+				return nil
+			},
+			logger,
+		)
+		trigger.Start(context.Background())
+		defer trigger.Stop()
+		initialRunTrigger.Store(trigger)
+	}
+
 	agentDistHandlers := agentdist.NewHandlers(agentdist.Config{
 		ConsoleBaseURL:   cfg.ConsoleBaseURL,
 		TransportAddr:    cfg.NodeTransportPublicAddr,
@@ -355,10 +409,17 @@ func main() {
 			CAFile:   cfg.CAClientCAFile,
 		})
 		if err != nil {
-			logger.Error("failed to initialize certificate status client", "error", err)
-			os.Exit(1)
+			// Degrade, don't die. Certificate reporting is optional and
+			// already has a defined "off" state - every node reports
+			// status "unknown" - so an unreadable or missing credential
+			// must not take down classification, orchestration and the
+			// dashboards with it. Exiting here also produced a crash
+			// loop that hid the real cause behind restart spam.
+			logger.Error("failed to initialize certificate status client; "+
+				"certificate status reporting is disabled", "error", err)
+		} else {
+			caClient = client
 		}
-		caClient = client
 	} else {
 		logger.Warn("CONSOLE_CA_CLIENT_URL not set; certificate status reporting is disabled")
 	}
@@ -376,13 +437,27 @@ func main() {
 		}
 		name, err := infracert.SelfCertname(certFile)
 		if err != nil {
-			logger.Warn("failed to determine infrastructure certname", "cert", label, "error", err)
+			// label is a sentence fragment meant to be interpolated -
+			// logged bare it reads as nonsense, so interpolate it here
+			// the same way Add does below.
+			logger.Warn("failed to determine infrastructure certname",
+				"certificate", "the certificate this console uses "+label,
+				"file", certFile, "error", err)
 			return
 		}
 		infraCerts.Add(name, "the certificate this console uses "+label)
 	}
 	addSelfCertname("to connect to openvoxdb", cfg.OpenvoxdbCertFile)
-	addSelfCertname("as its CA-client credential for certificate status/management", cfg.CAClientCertFile)
+
+	// Only when the CA-client credential is actually in use. Its file
+	// paths are configured unconditionally (so the feature switches on
+	// with one variable), but with no URL set nothing reads them - and
+	// warning about a file we will never open is pure noise.
+	caClientCertFile := cfg.CAClientCertFile
+	if cfg.CAClientURL == "" {
+		caClientCertFile = ""
+	}
+	addSelfCertname("as its CA-client credential for certificate status/management", caClientCertFile)
 	addSelfCertname("for its node transport's own server identity", cfg.NodeTransportCertFile)
 
 	addPeerCertname := func(label, addr, certFile, keyFile, caFile string) {

@@ -76,7 +76,9 @@ async function loadStatusSummary() {
         html: `
         <vox-empty-state heading="No nodes yet">
           <vox-icon slot="icon" name="node" size="lg"></vox-icon>
-          Run <code>make openvox-test</code> to generate one.
+          Go to the <a href="/nodes.html">Nodes</a> page and choose
+          <strong>Add node</strong> for the command to run on the machine
+          you want to manage.
         </vox-empty-state>`,
       };
       renderStatusSummary();
@@ -203,8 +205,7 @@ function renderNodes(page) {
     results.innerHTML = `
       <vox-empty-state heading="No nodes found">
         <vox-icon slot="icon" name="search" size="lg"></vox-icon>
-        No nodes matched. Try a different filter, or run
-        <code>make openvox-test</code> to generate one.
+        No nodes matched. Try a different search term or filter.
       </vox-empty-state>`;
     return;
   }

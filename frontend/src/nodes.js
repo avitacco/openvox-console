@@ -206,7 +206,8 @@ function render() {
       : `
       <vox-empty-state heading="No nodes found">
         <vox-icon slot="icon" name="node" size="lg"></vox-icon>
-        No nodes known yet. Run <code>make openvox-test</code> to generate one.
+        No nodes known yet. Choose <strong>Add node</strong> above for the
+        command to run on the machine you want to manage.
       </vox-empty-state>`;
     return;
   }

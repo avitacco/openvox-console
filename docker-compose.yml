@@ -58,6 +58,40 @@ services:
       # The Puppet server a *node* enrols against (node-facing - not the
       # console's own view of the CA).
       CONSOLE_PUPPET_SERVER_PUBLIC_ADDR: ${CONSOLE_PUPPET_SERVER_PUBLIC_ADDR:-}
+
+      # Optional: certificate management from the Nodes page. Unset, the
+      # page can only show nodes that have connected or reported - a node
+      # whose certificate is still awaiting signature never appears,
+      # because the CA is the only thing that knows it exists.
+      #
+      # WARNING: this credential is full CA admin. Puppet Server gates
+      # every CA endpoint behind one authorization extension, so a cert
+      # that can read statuses can also sign, revoke and clean any node's
+      # certificate. There is no read-only variant - see operations.md.
+      CONSOLE_CA_CLIENT_URL: ${CONSOLE_CA_CLIENT_URL:-}
+      CONSOLE_CA_CLIENT_CERT_FILE: /etc/openvox-console/ca-client-cert.pem
+      CONSOLE_CA_CLIENT_KEY_FILE: /etc/openvox-console/ca-client-key.pem
+      CONSOLE_CA_CLIENT_CA_FILE: /etc/openvox-console/ca.pem
+
+      # Optional OIDC login. Inactive while CONSOLE_OIDC_ISSUER is unset,
+      # and it never replaces local login or service tokens. The callback
+      # path is fixed: <CONSOLE_OIDC_REDIRECT_URL> must end in
+      # /api/v1/auth/oidc/callback and be registered with the provider.
+      #
+      # The client secret is passed as an environment variable rather than
+      # a Docker secret because a secret file must exist for Compose to
+      # start at all, which would make an optional feature mandatory. To
+      # move it out of the environment, add your own entry under
+      # `secrets:` below and set CONSOLE_OIDC_CLIENT_SECRET_FILE instead -
+      # the console resolves any <NAME>_FILE itself.
+      CONSOLE_OIDC_ISSUER: ${CONSOLE_OIDC_ISSUER:-}
+      CONSOLE_OIDC_CLIENT_ID: ${CONSOLE_OIDC_CLIENT_ID:-}
+      CONSOLE_OIDC_CLIENT_SECRET: ${CONSOLE_OIDC_CLIENT_SECRET:-}
+      CONSOLE_OIDC_REDIRECT_URL: ${CONSOLE_OIDC_REDIRECT_URL:-}
+      CONSOLE_OIDC_SCOPES: ${CONSOLE_OIDC_SCOPES:-}
+      CONSOLE_OIDC_USERNAME_CLAIM: ${CONSOLE_OIDC_USERNAME_CLAIM:-}
+      CONSOLE_OIDC_ROLE_CLAIM: ${CONSOLE_OIDC_ROLE_CLAIM:-}
+      CONSOLE_OIDC_ROLE_MAPPING: ${CONSOLE_OIDC_ROLE_MAPPING:-}
     volumes:
       - ${CONSOLE_CERTS_DIR:-./certs}:/etc/openvox-console:ro
     secrets:

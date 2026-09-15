@@ -111,7 +111,7 @@ async function loadReports() {
       reportsEl.innerHTML = `
         <vox-empty-state heading="No reports yet">
           <vox-icon slot="icon" name="report" size="lg"></vox-icon>
-          Run <code>make openvox-test</code> to generate a real catalog run.
+          Reports appear here after this node's next Puppet run.
         </vox-empty-state>`;
       return;
     }

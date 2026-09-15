@@ -419,10 +419,13 @@ Copy out the certificate and key the same way as 4a. Nodes authenticate
 back with their own Puppet certificates, which is why the CA bundle is
 the same one.
 
-### 4d. CA admin certificate (optional - certificate management in the UI)
+### 4d. CA admin certificate (signing certificates from the console)
 
-Only needed for the Nodes page to show certificate status and to
-sign/revoke/clean certificates from the console.
+This is what lets the Nodes page show certificate status and sign,
+revoke and clean certificates. Without it the console can only list
+nodes that have already connected or reported - a node waiting for its
+certificate to be signed does not appear at all, because the CA is the
+only component that knows it exists.
 
 **This credential is full CA admin.** Puppet Server gates every CA
 endpoint behind one authorization extension, so a certificate that can
@@ -433,23 +436,76 @@ Generation writes to CA state that a running server also writes, so stop
 the server first:
 
 ```sh
-# container path
-docker stop openvoxserver
-docker run --rm --entrypoint "" \
-  -v openvoxserver-ssl:/etc/puppetlabs/puppet/ssl \
-  -v openvoxserver-ca:/etc/puppetlabs/puppetserver/ca \
-  ghcr.io/openvoxproject/openvoxserver:latest \
-  puppetserver ca generate --ca-client --certname console-ca-client
-docker start openvoxserver
+# container path - note --force, and the volume names are
+# <project>_<volume>, so check them with `docker volume ls` first
+docker compose -f docker-compose.yml stop openvoxserver
 
-# package path
+docker run --rm --entrypoint "" \
+  -v console_openvoxserver-ssl:/etc/puppetlabs/puppet/ssl \
+  -v console_openvoxserver-ca:/etc/puppetlabs/puppetserver/ca \
+  ghcr.io/avitacco/openvox-console-server:main \
+  puppetserver ca generate --ca-client --force --certname console-ca-client
+
+docker compose -f docker-compose.yml start openvoxserver
+
+# package path - the service really is stopped, so no --force needed
 sudo systemctl stop puppetserver
 sudo puppetserver ca generate --ca-client --certname console-ca-client
 sudo systemctl start puppetserver
 ```
 
-The output path is version-dependent - check
-`puppetserver ca generate --help`.
+**`--force` is required for the container path and its absence is the
+usual reason this step silently produces nothing.** Before signing,
+`ca generate` probes `https://puppet:8140` to check the server is really
+stopped. Inside a bare `docker run` that name does not resolve, so it
+cannot tell, and refuses:
+
+```
+Could not determine whether Puppet Server is online.
+If you are certain that the Puppetserver service is stopped,
+run this command again with the '--force' flag.
+```
+
+It exits non-zero having created nothing. Read the output - do not
+assume it worked.
+
+**Ignore the paths it prints on success.** It reports writing to
+`/opt/puppetlabs/server/data/puppetserver/.puppetlabs/etc/puppet/ssl/...`,
+which is a HOME-relative view of the same files. In the mounted volumes
+they land in the usual place:
+
+```sh
+C=$(docker compose -f docker-compose.yml ps -q openvoxserver)
+docker cp "$C:/etc/puppetlabs/puppet/ssl/certs/console-ca-client.pem" \
+  certs/ca-client-cert.pem
+docker cp "$C:/etc/puppetlabs/puppet/ssl/private_keys/console-ca-client.pem" \
+  certs/ca-client-key.pem
+```
+
+Then set the URL in `.env` - it must be a name that both resolves from
+the console container **and** appears in openvoxserver's certificate:
+
+```sh
+CONSOLE_CA_CLIENT_URL=https://puppet.example.com:8140
+```
+
+#### Verify
+
+Confirm the credential works against the exact endpoint the console
+calls, before restarting the console:
+
+```sh
+docker compose -f docker-compose.yml exec openvoxserver \
+  curl -sS -o /dev/null -w 'HTTP %{http_code}\n' \
+  --cert /etc/puppetlabs/puppet/ssl/certs/console-ca-client.pem \
+  --key  /etc/puppetlabs/puppet/ssl/private_keys/console-ca-client.pem \
+  --cacert /etc/puppetlabs/puppet/ssl/certs/ca.pem \
+  https://puppet.example.com:8140/puppet-ca/v1/certificate_statuses/all
+```
+
+`HTTP 200` means the certificate carries the `pp_cli_auth` extension and
+the CA accepts it. Restart the console, and a node awaiting signature
+appears on the Nodes page with a Sign action.
 
 ---
 

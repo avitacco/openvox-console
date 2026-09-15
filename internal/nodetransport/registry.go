@@ -19,12 +19,23 @@ const internalAdminConnName = "nodetransport-internal-admin"
 
 // Registry tracks which nodes currently hold a live connection, fed by
 // the embedded NATS server's $SYS.ACCOUNT.<account>.CONNECT/.DISCONNECT
-// events. This exists purely for observability (a
+// events.
+//
+// The connected-state *map* is observability only (a
 // console_node_agent_connected-style metric, and this package's own
-// Lookup/Len) - dispatch itself does not depend on it (see dispatch.go:
-// it relies on NATS's own no-responders signal instead), so a brief
-// disagreement between this map and reality during a connect/disconnect
-// race is never load-bearing for dispatch correctness.
+// Lookup/Len) - dispatch does not consult it (see dispatch.go: it relies
+// on NATS's own no-responders signal instead), so a brief disagreement
+// between this map and reality during a connect/disconnect race is never
+// load-bearing for dispatch correctness.
+//
+// Connect *notifications* are different, and are load-bearing: the same
+// CONNECT events also drive Config.OnNodeConnect, which triggers a
+// node's initial Puppet run. That path is deliberately built to tolerate
+// what this source can do to it - the same notification arriving twice,
+// or not arriving at all - by claiming each certname atomically in
+// Postgres before dispatching, and by accepting that a node which
+// connects while the console is down simply waits for its own scheduled
+// run. Do not add a consumer here that needs exactly-once delivery.
 type Registry struct {
 	mu        sync.Mutex
 	connected map[string]bool
@@ -117,6 +128,29 @@ func (r *Registry) markDisconnected(certname string) {
 	r.history[certname] = h
 }
 
+// notifyConnect delivers a connect notification without letting the
+// observer affect the transport. Two protections, both deliberate:
+//
+//   - its own goroutine, so an observer that blocks cannot stall this
+//     NATS callback, and through it the subscription that feeds the
+//     connected-state map for every other node;
+//   - a recover, because a panic on a NATS callback goroutine would
+//     otherwise take the whole console process down over a bug in a
+//     consumer of an advisory notification.
+//
+// A panicking observer is a bug worth surfacing, but this package has no
+// logger, and the callers that matter log for themselves - so it is
+// swallowed here rather than printed to stderr from library code.
+func notifyConnect(onConnect func(certname string), certname string) {
+	if onConnect == nil {
+		return
+	}
+	go func() {
+		defer func() { _ = recover() }()
+		onConnect(certname)
+	}()
+}
+
 // connectEvent/disconnectEvent decode just the field this package needs
 // from nats-server's server.ConnectEventMsg/DisconnectEventMsg - the
 // certname a node authenticated as, carried in ClientInfo.User because
@@ -132,7 +166,7 @@ type systemEvent struct {
 // can see $SYS.> events that a regular global-account connection cannot)
 // to connect/disconnect events for accName - the account nodes actually
 // connect into (the default global account) - feeding a Registry.
-func startRegistry(ns *server.Server, accName string) (*Registry, *nats.Conn, error) {
+func startRegistry(ns *server.Server, accName string, onConnect func(certname string)) (*Registry, *nats.Conn, error) {
 	conn, err := nats.Connect("", nats.InProcessServer(ns), nats.Name(internalAdminConnName))
 	if err != nil {
 		return nil, nil, fmt.Errorf("connect internal registry client: %w", err)
@@ -144,6 +178,7 @@ func startRegistry(ns *server.Server, accName string) (*Registry, *nats.Conn, er
 		var evt systemEvent
 		if json.Unmarshal(msg.Data, &evt) == nil && evt.Client.User != "" {
 			reg.markConnected(evt.Client.User)
+			notifyConnect(onConnect, evt.Client.User)
 		}
 	}); err != nil {
 		conn.Close()

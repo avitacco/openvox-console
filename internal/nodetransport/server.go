@@ -30,6 +30,19 @@ type Config struct {
 	CertFile   string // this console's own server certificate
 	KeyFile    string
 	CAFile     string // CA used to verify a node's client certificate
+
+	// OnNodeConnect, when set, is called with a node's certname each
+	// time that node connects. Optional; nil disables notification.
+	//
+	// It is called on its own goroutine and its panics are recovered,
+	// so a slow or broken observer cannot delay a connection or bring
+	// down the transport. In exchange, the observer gets no delivery
+	// guarantee: it may be called more than once for what is logically
+	// one connection (a reconnect during a partition, or two console
+	// instances observing the same event), and a notification can be
+	// missed entirely if the console is not running. Observers must be
+	// idempotent and must not treat a missed call as impossible.
+	OnNodeConnect func(certname string)
 }
 
 // Server is the console-side NATS server managed nodes connect to.
@@ -97,7 +110,7 @@ func New(cfg Config) (*Server, error) {
 		return nil, fmt.Errorf("connect internal client to node transport server: %w", err)
 	}
 
-	registry, registryConn, err := startRegistry(ns, server.DEFAULT_GLOBAL_ACCOUNT)
+	registry, registryConn, err := startRegistry(ns, server.DEFAULT_GLOBAL_ACCOUNT, cfg.OnNodeConnect)
 	if err != nil {
 		conn.Close()
 		ns.Shutdown()
