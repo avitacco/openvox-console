@@ -1052,8 +1052,15 @@ assessed*, with each provider's reason - never as clean:
   distribution's own rating (Ubuntu priority, Debian urgency). This makes Debian
   and Ubuntu nodes look noisy: many CVEs the distribution rates "unimportant" or
   has decided not to fix still carry a high CVSS score and appear as open findings
-  with "No fix released" (on the verification nodes, most of a Debian 12 node's
-  ~185 findings). Filter on "Fix available" to see what patching would change.
+  with "No fix released" - on an Ubuntu 24.04 node, thousands of them, mostly
+  CVEs Canonical has marked ignored, deferred, or needs-triage (a status OSV's
+  feed does not carry, so the console cannot tell them apart). The fleet list
+  therefore defaults its Fix filter to "Fix available", showing what patching
+  would actually change; set Fix to "All" to see everything, including findings
+  with no fix released. Severity prefers the distribution's own rating
+  (Ubuntu priority, Debian urgency) over CVSS on Debian and Ubuntu, since a CVE
+  the distribution calls negligible should not read as critical; the Red Hat
+  family keeps CVSS first, as that is the distribution's own assessment there.
   AlmaLinux publishes no severity, so its findings show "Unknown".
 - Findings refresh when each provider syncs (default hourly for OSV), not on every
   Puppet run.

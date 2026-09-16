@@ -13,6 +13,13 @@ if (requirePermission('vulnerabilities:read')) {
 
   let currentPage = 1;
 
+  // Default to findings a patch would actually fix. Debian and Ubuntu
+  // publish a record for every CVE ever triaged against a source package,
+  // including ones they have decided not to fix, so an unfiltered list is
+  // dominated by findings nobody can act on (thousands per node). The
+  // select shows the active filter, and "All" is one click away.
+  fixFilter.value = 'true';
+
   if (canManage) {
     providersLink.style.display = '';
     // Listing providers needs vulnerabilities:manage, so the provider
@@ -54,10 +61,19 @@ if (requirePermission('vulnerabilities:read')) {
       const unassessed = page.coverage.notAssessedNodes > 0
         ? ` ${page.coverage.notAssessedNodes} node(s) weren't assessed, so aren't known to be clean.`
         : '';
+      const onlyFixable = fixFilter.value === 'true' && !severityFilter.value && !providerFilter.value && !packageFilter.value.trim();
+      let body;
+      if (onlyFixable) {
+        body = `No open finding on the ${page.coverage.assessedNodes} assessed nodes has a fix released. Set Fix to "All" to include findings with no fix available.${unassessed}`;
+      } else if (filtered) {
+        body = 'No open finding matches these filters.';
+      } else {
+        body = `None of the ${page.coverage.assessedNodes} assessed nodes has an open finding.${unassessed}`;
+      }
       results.innerHTML = `
         <vox-empty-state heading="${filtered ? 'No matching vulnerabilities' : 'No open vulnerabilities'}">
           <vox-icon slot="icon" name="vulnerability" size="lg"></vox-icon>
-          ${filtered ? 'No open finding matches these filters.' : `None of the ${page.coverage.assessedNodes} assessed nodes has an open finding.${unassessed}`}
+          ${body}
         </vox-empty-state>`;
       return;
     }
@@ -67,7 +83,7 @@ if (requirePermission('vulnerabilities:read')) {
         <tr>
           <th scope="row"><a href="/vulnerability.html?id=${encodeURIComponent(v.vulnId)}">${escapeHtml(v.vulnId)}</a></th>
           <td>${severityBadge(v.severity)}</td>
-          <td>${v.affectedNodes}</td>
+          <td><a href="/vulnerability.html?id=${encodeURIComponent(v.vulnId)}">${v.affectedNodes}</a></td>
           <td>${v.fixAvailable ? 'Available' : 'None released'}</td>
           <td>${escapeHtml(v.packages.join(', ')) || '—'}</td>
           <td>${escapeHtml(v.providers.map((p) => p.name).join(', '))}</td>
