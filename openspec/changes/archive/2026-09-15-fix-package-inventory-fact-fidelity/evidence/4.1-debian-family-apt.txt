@@ -1,0 +1,26 @@
+Task 4.1 - live verification, Debian family (apt)
+Date: 2026-09-15
+Node: pkgfix-deb.test - fresh jrei/systemd-ubuntu:24.04 container (real systemd),
+enrolled and installed via the console's own /packages/install.sh, which
+installed node-agent-client 0.0.0+bbba663-dirty (this change's build) from the
+console's apt repo. /usr/bin/awk in the container is mawk (Debian/Ubuntu
+default), so the fact script's awk ran under mawk, not gawk.
+
+$ PUT /api/v1/nodes/pkgfix-deb.test/packages/reporting {"enabled":true}
+{"enabled":true,"exitCode":0}
+
+$ PQL: facts { certname = "pkgfix-deb.test" and name = "console_package_inventory" }
+  (filtered to format, entry count, and a sample)
+{"format":2,"sourceEntries":121,"sample":{"libssl3t64":["openssl","3.0.13-0ubuntu3.11"],"libc6":["glibc","2.39-0ubuntu8.7"]}}
+
+$ PQL: package_inventory { certname = "pkgfix-deb.test" }
+  (row count and a sample - tuples keep binary name/version/apt)
+{"rows":166,"sample":[{"certname":"pkgfix-deb.test","package_name":"openssl","version":"3.0.13-0ubuntu3.11","provider":"apt"},{"certname":"pkgfix-deb.test","package_name":"libssl3t64","version":"3.0.13-0ubuntu3.11","provider":"apt"},{"certname":"pkgfix-deb.test","package_name":"bash","version":"5.2.21-2ubuntu4","provider":"apt"}]}
+
+$ GET /api/v1/nodes/pkgfix-deb.test/packages  (sample)
+[{"packageName":"openssl","provider":"apt","version":"3.0.13-0ubuntu3.11","sourcePackage":"openssl","sourceVersion":"3.0.13-0ubuntu3.11"},{"packageName":"libssl3t64","provider":"apt","version":"3.0.13-0ubuntu3.11","sourcePackage":"openssl","sourceVersion":"3.0.13-0ubuntu3.11"},{"packageName":"bash","provider":"apt","version":"5.2.21-2ubuntu4","sourcePackage":"bash","sourceVersion":"5.2.21-2ubuntu4"}]
+
+Result: companion fact present with format 2; libssl3t64 (a binary built
+from openssl) is mapped to its source; openssl and bash, their own sources,
+are absent from the map and reported by the console as their own source;
+package_inventory tuples unchanged in shape.

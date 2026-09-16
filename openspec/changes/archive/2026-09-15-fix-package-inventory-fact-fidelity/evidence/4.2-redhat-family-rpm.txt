@@ -1,0 +1,27 @@
+Task 4.2 - live verification, RedHat family (rpm)
+Date: 2026-09-15
+Node: pkgfix-rpm.test - fresh rockylinux/rockylinux:9-ubi-init container (real
+systemd), enrolled and installed via the console's own /packages/install.sh,
+which installed node-agent-client bbba663_dirty-1 (this change's build) from
+the console's yum repo.
+
+$ PUT /api/v1/nodes/pkgfix-rpm.test/packages/reporting {"enabled":true}
+{"enabled":true,"exitCode":0}
+
+Ground truth, in the container:
+$ rpm -q --queryformat '%{NAME} epoch=%{EPOCH} %{VERSION}-%{RELEASE}\n' openssl-libs glibc
+openssl-libs epoch=1 3.5.5-2.el9_8
+glibc epoch=(none) 2.34-266.el9_8
+
+$ PQL: package_inventory { certname = "pkgfix-rpm.test" }
+  (row count, rows with an epoch prefix, and a sample)
+{"rows":165,"epochRows":13,"sample":[{"certname":"pkgfix-rpm.test","package_name":"glibc","version":"2.34-266.el9_8","provider":"rpm"},{"certname":"pkgfix-rpm.test","package_name":"openssl-libs","version":"1:3.5.5-2.el9_8","provider":"rpm"}]}
+
+$ PQL: facts { certname = "pkgfix-rpm.test" and name = "console_package_inventory" }
+{"format":2}
+
+Result: openssl-libs (epoch 1) reports 1:3.5.5-2.el9_8; glibc (no epoch)
+reports 2.34-266.el9_8, unchanged in form; 13 of 165 packages carry an
+epoch. Confirms real rpm renders the script's
+%|EPOCH?{%{EPOCH}:}:{}| conditional as intended (tasks.md 1.1 quoted the
+equivalent form without the explicit empty else-branch).

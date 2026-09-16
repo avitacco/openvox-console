@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&family=Inter:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <title>Vulnerabilities - OpenVox Console</title>
+    <script>
+      (function () {
+        var stored = localStorage.getItem('vox-theme');
+        var theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-vox-theme', theme);
+      })();
+    </script>
+    <style>
+      html { background-color: #f5faf9; }
+      html[data-vox-theme='dark'] { background-color: #0d1417; }
+      html:not([data-vox-ready]) body { visibility: hidden; }
+    </style>
+    <noscript><style>body { visibility: visible !important; }</style></noscript>
+    <script>
+      setTimeout(function () {
+        document.documentElement.setAttribute('data-vox-ready', '');
+      }, 2000);
+    </script>
+    <link rel="stylesheet" href="/vendor/voxblocks.css" />
+    <link rel="stylesheet" href="/shell.css" />
+    <script type="module" src="/vendor/voxblocks.js"></script>
+    <script type="module" src="/vulnerabilities.js"></script>
+  </head>
+  <body>
+    <vox-header site-title="OpenVox Console" href="/">
+      
+      <svg slot="logo" viewBox="0 0 2560 2478" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M1946.22 272.18L1874.51 643.161C1840.69 625.335 1769.51 597.048 1744.63 592.202L1946.22 272.18ZM1647.05 893.509C1735.54 894.748 1789.05 935.815 1845.35 1010.52C1716.57 1047.71 1641.84 987.053 1586.85 899.704C1600.03 898.445 1634.39 893.339 1647.05 893.509ZM1421.62 600.655C1288.19 638.415 1170.91 730.251 1126.1 808.997C1126.1 808.997 1186.31 336.289 1244.88 158.652C1315.83 282.552 1421.62 600.655 1421.62 600.655ZM2477.39 1158.21C2342.39 1125.61 2074.76 1042.77 2053.7 881.139C2043.59 803.362 1980.86 717.271 1947.86 694.589L2004.72 106.064L1517.51 580.681C1517.51 580.681 1358.55 170.153 1243.89 0C1100.67 241.805 932.123 707.949 896.253 809.107L1227.33 1744.42C1243.68 1615.28 1328.09 1472.06 1428.27 1381.86C1350.61 1280.89 1210.56 1250.76 1151.7 1289.73C1228.31 1186.22 1376.21 1050.44 1651.27 1124.86C1773.51 1157.92 1898.72 1222.92 1978.75 1240.54C2184.12 1285.76 2337.81 1231.2 2337.81 1231.2C2336.23 1279.58 2360.5 1315.47 2410.61 1338.87C2196.05 1539.04 1914.11 1376.52 1715.51 1407.29C1514.8 1438.43 1238.87 2011.65 1201.73 2093.07L593.825 394.322L584.775 369.242C535.086 234.271 451.316 124.12 296.898 124.12H0V473.618H92.0793C145.649 473.618 170.849 489.355 189.769 542.882L903.123 2478H1248.99L1312.45 2324.93L1556.24 1812.6C1660.38 1581.57 1765.81 1518.18 2072.12 1531.73C2162.6 1535.73 2349.93 1537.27 2457.29 1405.96C2611.96 1216.8 2569.29 1180.38 2477.43 1158.16" fill="currentColor" />
+      </svg>
+      <vox-theme-toggle slot="actions"></vox-theme-toggle>
+      <vox-menu label="Account menu" slot="actions">
+        <vox-avatar slot="trigger" id="user-avatar" size="sm"></vox-avatar>
+        <a href="/preferences.html">Preferences</a>
+        <hr />
+        <button type="button" id="logout-button">Log out</button>
+      </vox-menu>
+    </vox-header>
+
+    <div class="app-main vox-display-flex vox-items-start vox-gap-xl vox-p-all-lg">
+      <div style="flex: 0 0 13rem;">
+        <vox-sidenav label="Main">
+          <vox-sidenav-item href="/">
+            <vox-icon slot="icon" name="dashboard"></vox-icon>
+            Dashboard
+          </vox-sidenav-item>
+          <vox-sidenav-item href="/nodes.html">
+            <vox-icon slot="icon" name="plug"></vox-icon>
+            Nodes
+          </vox-sidenav-item>
+          <vox-sidenav-item href="/packages.html">
+            <vox-icon slot="icon" name="collection"></vox-icon>
+            Packages
+          </vox-sidenav-item>
+          <vox-sidenav-item href="/vulnerabilities.html" id="nav-vulnerabilities-link" current>
+            <vox-icon slot="icon" name="vulnerability"></vox-icon>
+            Vulnerabilities
+          </vox-sidenav-item>
+          <vox-sidenav-item href="/groups.html">
+            <vox-icon slot="icon" name="node-group"></vox-icon>
+            Groups
+          </vox-sidenav-item>
+          <vox-sidenav-item href="/jobs.html" id="nav-jobs-link" style="display: none">
+            <vox-icon slot="icon" name="orchestrate"></vox-icon>
+            Jobs
+          </vox-sidenav-item>
+          <vox-sidenav-item href="/deploys.html" id="nav-deploys-link" style="display: none">
+            <vox-icon slot="icon" name="deploy"></vox-icon>
+            Deploys
+          </vox-sidenav-item>
+          <vox-sidenav-item href="/activity.html" id="nav-activity-link" style="display: none">
+            <vox-icon slot="icon" name="activity-log"></vox-icon>
+            Activity
+          </vox-sidenav-item>
+          <vox-sidenav-item href="/users.html" id="nav-admin-link" style="display: none">
+            <vox-icon slot="icon" name="people"></vox-icon>
+            Admin
+          </vox-sidenav-item>
+        </vox-sidenav>
+      </div>
+      <div style="flex: 1 1 auto; min-width: 0;">
+        <main class="vox-container vox-p-y-xl">
+      <div class="vox-display-flex vox-justify-between vox-items-center vox-gap-md vox-m-bottom-md">
+        <h1 class="vox-ts-xl vox-m-y-none">Vulnerabilities</h1>
+        <a id="providers-link" href="/vulnerability-providers.html" style="display: none">Manage providers</a>
+      </div>
+
+      <div id="coverage" class="vox-m-bottom-lg"></div>
+
+      <div class="filters vox-display-flex vox-items-end vox-gap-md vox-flex-wrap vox-m-bottom-lg">
+        <vox-select id="severity-filter" label="Severity">
+          <option value="">All</option>
+          <option value="critical">Critical</option>
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
+          <option value="unknown">Unknown</option>
+        </vox-select>
+        <vox-select id="fix-filter" label="Fix">
+          <option value="">All</option>
+          <option value="true">Fix available</option>
+          <option value="false">No fix released</option>
+        </vox-select>
+        <vox-select id="provider-filter" label="Provider" style="display: none">
+          <option value="">All</option>
+        </vox-select>
+        <vox-input id="package-filter" label="Package" placeholder="e.g. openssl"></vox-input>
+        <vox-select id="sort-order" label="Sort">
+          <option value="severity">Most severe first</option>
+          <option value="affected">Most affected nodes first</option>
+        </vox-select>
+      </div>
+
+      <div id="results"></div>
+    </main>
+      </div>
+    </div>
+
+    <vox-footer>
+      <vox-footer-column heading="OpenVox Console">
+        <a href="https://openvoxproject.github.io/" target="_blank" rel="noopener">OpenVox project</a>
+
+      </vox-footer-column>
+      <div slot="bottom" class="vox-display-flex vox-justify-between vox-items-center">
+        <span><a href="/LICENSE" target="_blank" rel="noopener">License (GPL-3.0)</a></span>
+        <span>Version <span id="footer-version">&hellip;</span></span>
+      </div>
+    </vox-footer>
+
+    </body>
+</html>

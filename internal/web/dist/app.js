@@ -151,13 +151,20 @@ export async function fetchJSON(url, options = {}) {
 
   if (!res.ok) {
     let message = `request failed: ${res.status}`;
+    let fields;
     try {
       const body = await res.json();
       if (body && body.error) message = body.error;
+      // Per-field validation messages, where an endpoint provides them
+      // (e.g. vulnerability provider configuration).
+      if (body && body.fields) fields = body.fields;
     } catch {
       // response wasn't JSON; keep the generic message
     }
-    throw new Error(message);
+    const err = new Error(message);
+    err.status = res.status;
+    if (fields) err.fields = fields;
+    throw err;
   }
   if (res.status === 204) return null;
   return res.json();
@@ -190,6 +197,8 @@ export const ALL_PERMISSIONS = [
   'code:read',
   'orchestrator:read',
   'orchestrator:run',
+  'vulnerabilities:read',
+  'vulnerabilities:manage',
 ];
 
 // Redirects to / if the current session lacks the given permission - used
@@ -445,6 +454,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const jobsLink = document.getElementById('nav-jobs-link');
     if (jobsLink) jobsLink.style.display = '';
   }
+  if (hasPermission('vulnerabilities:read')) {
+    const vulnerabilitiesLink = document.getElementById('nav-vulnerabilities-link');
+    if (vulnerabilitiesLink) vulnerabilitiesLink.style.display = '';
+  }
 
   const avatarEl = document.getElementById('user-avatar');
   const claims = getClaims();
@@ -470,3 +483,39 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(() => { footerVersionEl.textContent = 'unknown'; });
   }
 });
+
+// Severity badges for vulnerability views (add-vulnerability-tracking).
+// Badges have no "critical" variant, so critical and high share danger and
+// the label carries the difference.
+const SEVERITY_VARIANTS = { critical: 'danger', high: 'danger', medium: 'warning', low: 'neutral', unknown: 'neutral' };
+
+export function severityBadge(severity) {
+  const s = severity || 'unknown';
+  return `<vox-badge variant="${SEVERITY_VARIANTS[s] || 'neutral'}">${escapeHtml(s.charAt(0).toUpperCase() + s.slice(1))}</vox-badge>`;
+}
+
+// Why a vulnerability provider didn't assess a node, in words.
+const COVERAGE_REASONS = {
+  unsupported_os: 'operating system not supported by this provider',
+  no_package_data: 'no package inventory reported',
+  agent_upgrade_required: 'node agent needs upgrading to report accurate package data',
+  not_seen_by_tenable: 'no matching Tenable asset',
+  not_yet_synced: 'provider has not synced yet',
+};
+
+export function coverageReasonText(reason) {
+  return COVERAGE_REASONS[reason] || reason || 'not assessed';
+}
+
+const CLOSE_REASONS = { fixed: 'fixed', provider_disabled: 'provider disabled', node_removed: 'node removed' };
+
+export function closeReasonText(reason) {
+  return CLOSE_REASONS[reason] || reason || 'closed';
+}
+
+// Only https links from provider data are rendered as links, so a
+// malformed or hostile reference URL can never become a javascript: link.
+export function safeLink(url, label) {
+  if (typeof url !== 'string' || !url.startsWith('https://')) return escapeHtml(label);
+  return `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(label)}</a>`;
+}

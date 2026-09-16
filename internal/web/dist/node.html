@@ -63,6 +63,10 @@
             <vox-icon slot="icon" name="collection"></vox-icon>
             Packages
           </vox-sidenav-item>
+          <vox-sidenav-item href="/vulnerabilities.html" id="nav-vulnerabilities-link" style="display: none">
+            <vox-icon slot="icon" name="vulnerability"></vox-icon>
+            Vulnerabilities
+          </vox-sidenav-item>
           <vox-sidenav-item href="/groups.html">
             <vox-icon slot="icon" name="node-group"></vox-icon>
             Groups
@@ -112,6 +116,15 @@
         </div>
         <div id="package-inventory-status"></div>
         <div id="packages"></div>
+      </section>
+
+      <section id="vulnerabilities-section" style="display: none">
+        <div class="vox-display-flex vox-justify-between vox-items-center vox-gap-md vox-m-bottom-md">
+          <h2 class="vox-m-y-none">Vulnerabilities</h2>
+          <vox-switch id="vulnerabilities-closed-switch">Show closed</vox-switch>
+        </div>
+        <div id="vulnerabilities-coverage"></div>
+        <div id="vulnerabilities"></div>
       </section>
 
       <section>

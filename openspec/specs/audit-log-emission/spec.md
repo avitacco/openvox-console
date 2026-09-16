@@ -7,7 +7,7 @@ Reliably emits a complete, structured stream of audit-relevant events - authenti
 ## Requirements
 
 ### Requirement: Independently configurable audit level per category
-The system SHALL support an audit level of `off`, `writes`, or `full`, configured independently for each capability category (nodes/inventory, classifier/groups, rbac/users, auth, code deploys, orchestrator jobs). `off` emits nothing for that category. `writes` emits mutating actions and authentication events for that category. `full` emits everything `writes` does, plus read/view access to that category's data.
+The system SHALL support an audit level of `off`, `writes`, or `full`, configured independently for each capability category (nodes/inventory, classifier/groups, rbac/users, auth, code deploys, orchestrator jobs, vulnerabilities). `off` emits nothing for that category. `writes` emits mutating actions and authentication events for that category. `full` emits everything `writes` does, plus read/view access to that category's data.
 
 #### Scenario: A category left at the default emits writes and auth events only
 - **WHEN** a category's audit level is `writes`
@@ -24,6 +24,10 @@ The system SHALL support an audit level of `off`, `writes`, or `full`, configure
 #### Scenario: Categories are configured independently
 - **WHEN** one category's audit level is set to `full` and another's is set to `off`
 - **THEN** each category's emission behavior reflects only its own configured level, unaffected by the other
+
+#### Scenario: Vulnerability provider changes are audited at the default level
+- **WHEN** the vulnerabilities category's audit level is `writes` and an administrator creates, updates, enables, disables, or deletes a vulnerability provider, or starts a manual sync
+- **THEN** an audit event records the action, the acting identity, and the affected provider, without including any credential value
 
 ### Requirement: Structured audit event emission
 The system SHALL emit each audit event as a single structured (JSON) record containing at minimum a stable event/action identifier, the acting identity, the category, a timestamp, and structured identifiers for the affected resource. A change to existing data SHALL include the before and after values where the underlying store makes them available.

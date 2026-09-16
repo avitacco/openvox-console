@@ -192,6 +192,74 @@ func (c *Client) SearchPackages(ctx context.Context, name string, version *strin
 	return packages, nil
 }
 
+// NodeFact returns the fact named name reported by the node named
+// certname, or nil if the node has not reported it.
+func (c *Client) NodeFact(ctx context.Context, certname, name string) (*Fact, error) {
+	var facts []Fact
+	pql := fmt.Sprintf("facts { certname = %s and name = %s }", pqlString(certname), pqlString(name))
+	if err := c.query(ctx, pql, &facts); err != nil {
+		return nil, err
+	}
+	if len(facts) == 0 {
+		return nil, nil
+	}
+	return &facts[0], nil
+}
+
+// FleetPackages returns every package_inventory row openvoxdb holds,
+// across all nodes, in one query. Callers wanting only active nodes
+// filter against Nodes - package_inventory has no deactivation state of
+// its own to filter on.
+func (c *Client) FleetPackages(ctx context.Context) ([]Package, error) {
+	var packages []Package
+	if err := c.query(ctx, "package_inventory {}", &packages); err != nil {
+		return nil, err
+	}
+	return packages, nil
+}
+
+// OSFact is the subset of Facter's structured os fact the console uses.
+type OSFact struct {
+	Name    string `json:"name"`
+	Family  string `json:"family"`
+	Release struct {
+		Full  string `json:"full"`
+		Major string `json:"major"`
+	} `json:"release"`
+}
+
+// ConsolePackageInventory is the companion fact the Linux
+// package-inventory fact scripts emit alongside _puppet_inventory_1 (see
+// design.md in fix-package-inventory-fact-fidelity). Sources maps a
+// binary apt package to [source name, source version], only for
+// binaries whose source differs.
+type ConsolePackageInventory struct {
+	Format  int                 `json:"format"`
+	Sources map[string][]string `json:"sources"`
+}
+
+// NodeFacts is one node's facts relevant to vulnerability assessment.
+// Each pointer is nil when the node hasn't reported that fact.
+type NodeFacts struct {
+	Certname                string                   `json:"certname"`
+	OS                      *OSFact                  `json:"facts.os"`
+	FQDN                    *string                  `json:"facts.networking.fqdn"`
+	ConsolePackageInventory *ConsolePackageInventory `json:"facts.console_package_inventory"`
+}
+
+// FleetNodeFacts returns NodeFacts for every node openvoxdb has an
+// inventory record for, in one query - the inventory entity's dotted
+// fact projections avoid pulling each node's whole (large) networking
+// fact. As with FleetPackages, filter against Nodes for active nodes.
+func (c *Client) FleetNodeFacts(ctx context.Context) ([]NodeFacts, error) {
+	var facts []NodeFacts
+	pql := "inventory[certname, facts.os, facts.networking.fqdn, facts.console_package_inventory] {}"
+	if err := c.query(ctx, pql, &facts); err != nil {
+		return nil, err
+	}
+	return facts, nil
+}
+
 // Event is a single resource-level event within a report.
 type Event struct {
 	ResourceType  string          `json:"resource_type"`

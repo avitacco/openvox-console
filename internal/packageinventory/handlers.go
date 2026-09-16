@@ -20,8 +20,14 @@ import (
 // handlers can be tested against a fake without a live openvoxdb.
 type queryClient interface {
 	NodePackages(ctx context.Context, certname string) ([]openvoxdb.Package, error)
+	NodeFact(ctx context.Context, certname, name string) (*openvoxdb.Fact, error)
 	SearchPackages(ctx context.Context, name string, version *string) ([]openvoxdb.Package, error)
 }
+
+// consolePackageInventoryFact is the companion fact the Linux
+// package-inventory fact scripts emit alongside _puppet_inventory_1 (see
+// design.md in fix-package-inventory-fact-fidelity).
+const consolePackageInventoryFact = "console_package_inventory"
 
 // Handlers serves the package-inventory HTTP API.
 type Handlers struct {
@@ -53,10 +59,14 @@ func (h *Handlers) Register(mux *http.ServeMux, authorize func(permission string
 	mux.HandleFunc("PUT /api/v1/nodes/{name}/packages/reporting", authorize("orchestrator:run", h.setReporting))
 }
 
+// packageSummary's source fields are only set for apt packages on a node
+// that has reported source-package data - see aptSources.
 type packageSummary struct {
-	PackageName string `json:"packageName"`
-	Provider    string `json:"provider"`
-	Version     string `json:"version"`
+	PackageName   string `json:"packageName"`
+	Provider      string `json:"provider"`
+	Version       string `json:"version"`
+	SourcePackage string `json:"sourcePackage,omitempty"`
+	SourceVersion string `json:"sourceVersion,omitempty"`
 }
 
 func toPackageSummary(p openvoxdb.Package) packageSummary {
@@ -72,12 +82,64 @@ func (h *Handlers) listNodePackages(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	sources, err := h.aptSources(r.Context(), certname, packages)
+	if err != nil {
+		writeError(w, err)
+		return
+	}
+
 	summaries := make([]packageSummary, 0, len(packages))
 	for _, p := range packages {
-		summaries = append(summaries, toPackageSummary(p))
+		s := toPackageSummary(p)
+		if sources != nil && p.Provider == "apt" {
+			// A binary absent from sources is its own source package.
+			s.SourcePackage, s.SourceVersion = p.PackageName, p.Version
+			if src, ok := sources[p.PackageName]; ok {
+				s.SourcePackage, s.SourceVersion = src[0], src[1]
+			}
+		}
+		summaries = append(summaries, s)
 	}
 	h.recordAuditRead(r, auditlog.Event{Action: "node.packages.viewed", ResourceType: "node", ResourceID: certname})
 	writeJSON(w, summaries)
+}
+
+// aptSources returns certname's binary package -> [source name, source
+// version] map from its companion fact, or nil when packages has no apt
+// entries (no lookup made) or the node hasn't reported usable source
+// data - an older fact script, or a malformed fact. Its apt packages then
+// carry no source fields rather than a guessed source. Only a failed
+// openvoxdb lookup is an error; the fact itself is node-produced data.
+func (h *Handlers) aptSources(ctx context.Context, certname string, packages []openvoxdb.Package) (map[string][2]string, error) {
+	hasApt := false
+	for _, p := range packages {
+		if p.Provider == "apt" {
+			hasApt = true
+			break
+		}
+	}
+	if !hasApt {
+		return nil, nil
+	}
+
+	fact, err := h.client.NodeFact(ctx, certname, consolePackageInventoryFact)
+	if err != nil || fact == nil {
+		return nil, err
+	}
+	var value struct {
+		Format  int                 `json:"format"`
+		Sources map[string][]string `json:"sources"`
+	}
+	if err := json.Unmarshal(fact.Value, &value); err != nil || value.Format < 2 || value.Sources == nil {
+		return nil, nil
+	}
+	sources := make(map[string][2]string, len(value.Sources))
+	for binary, src := range value.Sources {
+		if len(src) == 2 {
+			sources[binary] = [2]string{src[0], src[1]}
+		}
+	}
+	return sources, nil
 }
 
 type packageSearchResult struct {

@@ -309,12 +309,13 @@ func TestLoadConfig_AuditLevelsDefaultToWrites(t *testing.T) {
 		t.Fatalf("unexpected error: %v", err)
 	}
 	for name, level := range map[string]auditlog.Level{
-		"AuditNodes":        cfg.AuditNodes,
-		"AuditClassifier":   cfg.AuditClassifier,
-		"AuditRBAC":         cfg.AuditRBAC,
-		"AuditAuth":         cfg.AuditAuth,
-		"AuditCode":         cfg.AuditCode,
-		"AuditOrchestrator": cfg.AuditOrchestrator,
+		"AuditNodes":           cfg.AuditNodes,
+		"AuditClassifier":      cfg.AuditClassifier,
+		"AuditRBAC":            cfg.AuditRBAC,
+		"AuditAuth":            cfg.AuditAuth,
+		"AuditCode":            cfg.AuditCode,
+		"AuditOrchestrator":    cfg.AuditOrchestrator,
+		"AuditVulnerabilities": cfg.AuditVulnerabilities,
 	} {
 		if level != auditlog.LevelWrites {
 			t.Errorf("%s = %v, want LevelWrites by default", name, level)
@@ -324,8 +325,9 @@ func TestLoadConfig_AuditLevelsDefaultToWrites(t *testing.T) {
 
 func TestLoadConfig_AuditLevelExplicitValue(t *testing.T) {
 	cfg, err := LoadConfig(envMap(validEnv(map[string]string{
-		"CONSOLE_AUDIT_NODES": "full",
-		"CONSOLE_AUDIT_RBAC":  "off",
+		"CONSOLE_AUDIT_NODES":           "full",
+		"CONSOLE_AUDIT_RBAC":            "off",
+		"CONSOLE_AUDIT_VULNERABILITIES": "full",
 	})))
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -335,6 +337,9 @@ func TestLoadConfig_AuditLevelExplicitValue(t *testing.T) {
 	}
 	if cfg.AuditRBAC != auditlog.LevelOff {
 		t.Errorf("AuditRBAC = %v, want LevelOff", cfg.AuditRBAC)
+	}
+	if cfg.AuditVulnerabilities != auditlog.LevelFull {
+		t.Errorf("AuditVulnerabilities = %v, want LevelFull", cfg.AuditVulnerabilities)
 	}
 	// Unrelated categories are unaffected.
 	if cfg.AuditClassifier != auditlog.LevelWrites {
@@ -346,6 +351,7 @@ func TestLoadConfig_AuditLevelInvalidValueIsRejected(t *testing.T) {
 	for _, env := range []string{
 		"CONSOLE_AUDIT_NODES", "CONSOLE_AUDIT_CLASSIFIER", "CONSOLE_AUDIT_RBAC",
 		"CONSOLE_AUDIT_AUTH", "CONSOLE_AUDIT_CODE", "CONSOLE_AUDIT_ORCHESTRATOR",
+		"CONSOLE_AUDIT_VULNERABILITIES",
 	} {
 		_, err := LoadConfig(envMap(validEnv(map[string]string{env: "bogus"})))
 		if err == nil {

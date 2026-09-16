@@ -16,12 +16,15 @@ func noopRecordAuditRead(_ *http.Request, _ auditlog.Event) {}
 
 type fakeClient struct {
 	nodePackages map[string][]openvoxdb.Package
+	nodeFacts    map[string]*openvoxdb.Fact // by certname; only one fact name is ever asked for
 	searchResult []openvoxdb.Package
 	gotSearch    struct {
 		name    string
 		version *string
 	}
-	err error
+	err       error
+	factErr   error
+	factCalls int
 }
 
 func (f *fakeClient) NodePackages(_ context.Context, certname string) ([]openvoxdb.Package, error) {
@@ -29,6 +32,14 @@ func (f *fakeClient) NodePackages(_ context.Context, certname string) ([]openvox
 		return nil, f.err
 	}
 	return f.nodePackages[certname], nil
+}
+
+func (f *fakeClient) NodeFact(_ context.Context, certname, _ string) (*openvoxdb.Fact, error) {
+	f.factCalls++
+	if f.factErr != nil {
+		return nil, f.factErr
+	}
+	return f.nodeFacts[certname], nil
 }
 
 func (f *fakeClient) SearchPackages(_ context.Context, name string, version *string) ([]openvoxdb.Package, error) {

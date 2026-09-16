@@ -19,7 +19,7 @@ type page struct {
 	Title      string
 	Script     string // page JS entry, without the .js extension
 	ShowHeader bool
-	ActiveNav  string // "nodes" | "node-connectivity" | "packages" | "groups" | "admin" | "activity" | "deploys" | "jobs" | "" (preferences.html deliberately has none - it's reached from the header's user menu, not the sidenav)
+	ActiveNav  string // "nodes" | "node-connectivity" | "packages" | "vulnerabilities" | "groups" | "admin" | "activity" | "deploys" | "jobs" | "" (preferences.html deliberately has none - it's reached from the header's user menu, not the sidenav)
 }
 
 var pages = []page{
@@ -28,6 +28,9 @@ var pages = []page{
 	{Name: "report.html", Title: "Report - OpenVox Console", Script: "report", ShowHeader: true, ActiveNav: "nodes"},
 	{Name: "nodes.html", Title: "Nodes - OpenVox Console", Script: "nodes", ShowHeader: true, ActiveNav: "node-connectivity"},
 	{Name: "packages.html", Title: "Packages - OpenVox Console", Script: "packages", ShowHeader: true, ActiveNav: "packages"},
+	{Name: "vulnerabilities.html", Title: "Vulnerabilities - OpenVox Console", Script: "vulnerabilities", ShowHeader: true, ActiveNav: "vulnerabilities"},
+	{Name: "vulnerability.html", Title: "Vulnerability - OpenVox Console", Script: "vulnerability", ShowHeader: true, ActiveNav: "vulnerabilities"},
+	{Name: "vulnerability-providers.html", Title: "Vulnerability Providers - OpenVox Console", Script: "vulnerability-providers", ShowHeader: true, ActiveNav: "vulnerabilities"},
 	{Name: "group.html", Title: "Node Group - OpenVox Console", Script: "group", ShowHeader: true, ActiveNav: "groups"},
 	{Name: "groups.html", Title: "Node Groups - OpenVox Console", Script: "groups", ShowHeader: true, ActiveNav: "groups"},
 	{Name: "users.html", Title: "Users - OpenVox Console", Script: "users", ShowHeader: true, ActiveNav: "admin"},

@@ -1,0 +1,36 @@
+{{define "content" -}}
+    <main class="vox-container vox-p-y-xl">
+      <div class="vox-display-flex vox-justify-between vox-items-center vox-gap-md vox-m-bottom-md">
+        <h1 class="vox-ts-xl vox-m-y-none">Vulnerabilities</h1>
+        <a id="providers-link" href="/vulnerability-providers.html" style="display: none">Manage providers</a>
+      </div>
+
+      <div id="coverage" class="vox-m-bottom-lg"></div>
+
+      <div class="filters vox-display-flex vox-items-end vox-gap-md vox-flex-wrap vox-m-bottom-lg">
+        <vox-select id="severity-filter" label="Severity">
+          <option value="">All</option>
+          <option value="critical">Critical</option>
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
+          <option value="unknown">Unknown</option>
+        </vox-select>
+        <vox-select id="fix-filter" label="Fix">
+          <option value="">All</option>
+          <option value="true">Fix available</option>
+          <option value="false">No fix released</option>
+        </vox-select>
+        <vox-select id="provider-filter" label="Provider" style="display: none">
+          <option value="">All</option>
+        </vox-select>
+        <vox-input id="package-filter" label="Package" placeholder="e.g. openssl"></vox-input>
+        <vox-select id="sort-order" label="Sort">
+          <option value="severity">Most severe first</option>
+          <option value="affected">Most affected nodes first</option>
+        </vox-select>
+      </div>
+
+      <div id="results"></div>
+    </main>
+{{- end}}

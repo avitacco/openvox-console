@@ -1,0 +1,45 @@
+Task 4.3 - live verification, stale fact refreshed by a real package upgrade
+Date: 2026-09-15
+Node: pkgfix-upgrade.test - jrei/systemd-ubuntu:24.04 container (real systemd),
+enrolled via the console's /packages/install.sh.
+
+Setup (a node on the pre-change agent with reporting enabled):
+- Built pre-change agent packages from a `git archive` of HEAD (bbba663)
+  into the scratchpad: node-agent-client_0.0.0+bbba663_amd64.deb.
+- Disabled reporting, `dpkg -i` the pre-change .deb (dpkg: "downgrading
+  node-agent-client from 0.0.0+bbba663-dirty to 0.0.0+bbba663"), restarted
+  the service, waited for it to reconnect, then enabled reporting through
+  the console so the *old* agent wrote its own script.
+- Confirmed the on-disk script is byte-identical to HEAD's apt script:
+    HEAD apt script sha: 59d33e3daa0218ae2e3c61b91c41df6af327caec16b29cf323a6d2605cf9f880
+    on-disk script sha:  59d33e3daa0218ae2e3c61b91c41df6af327caec16b29cf323a6d2605cf9f880
+    mentions console_package_inventory: 0
+  (A first attempt at this setup silently didn't downgrade: `docker cp`
+  into /tmp wrote beneath the container's tmpfs mount, so dpkg never saw
+  the file. Redone with the package copied to /root.)
+
+Baseline:
+agent: 0.0.0+bbba663
+script sha: 59d33e3daa0218ae2e3c61b91c41df6af327caec16b29cf323a6d2605cf9f880
+PQL facts { certname = "pkgfix-upgrade.test" and name = "console_package_inventory" } -> {"companionFactRows":0}
+latest report receive_time: 2026-09-15T15:36:52.860Z
+
+Upgrade from the console's apt repo:
+$ apt-get install -y node-agent-client
+Unpacking node-agent-client (0.0.0+bbba663-dirty) over (0.0.0+bbba663) ...
+Setting up node-agent-client (0.0.0+bbba663-dirty) ...
+
+After the package's service restart (checked 20 s later):
+new embedded apt script sha: 0b0e084d8d513f022755c555668528aea42f7af6c577dd0c9647fdf9aff5d540
+on-disk script sha:          0b0e084d8d513f022755c555668528aea42f7af6c577dd0c9647fdf9aff5d540
+journal: {"time":"2026-09-15T15:37:35.833421511Z","level":"INFO","msg":"refreshed package-inventory fact to this client's version","factsDir":"/opt/puppetlabs/facter/facts.d"}
+journal: {"time":"2026-09-15T15:37:35.833478901Z","level":"INFO","msg":"node-agent-client starting","transport":"node-transport:8142"}
+latest report receive_time: 2026-09-15T15:36:52.860Z (unchanged: yes - no Puppet run triggered)
+
+Next run:
+$ puppet agent -t   -> exit 0
+PQL facts { ... name = "console_package_inventory" } -> {"format":2,"sourceEntries":121,"libssl3t64":["openssl","3.0.13-0ubuntu3.11"]}
+
+Result: upgrading the package alone replaced the stale script on restart,
+without triggering a Puppet run, and the next run reported corrected data.
+UI rendering evidence: 4.3-node-page-source-package.png.

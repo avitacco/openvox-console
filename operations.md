@@ -432,6 +432,50 @@ verifying `package_inventory` rows actually appear for it (the same
 proof already done for Linux) is the natural next check, not an
 assumption to make from the static review alone.
 
+**Linux package data carries full RPM versions and apt source packages**
+(`fix-package-inventory-fact-fidelity`), because the original facts
+dropped information any version-accurate consumer (vulnerability
+matching in particular) needs:
+
+- **RPM versions include the epoch when a package has one** -
+  `openssl-libs` on Rocky 9 reports `1:3.5.5-2.el9_8`, while epoch-less
+  `glibc` still reports `2.34-266.el9_8`, exactly as before (confirmed
+  live: 13 of 165 packages on a stock Rocky 9 container carry an epoch).
+  This is RPM's own `epoch:version-release` form. **Consequence for the
+  fleet-wide Packages search:** an exact-version search for an
+  epoch-bearing RPM package now has to include the epoch
+  (`1:3.5.5-2.el9_8`); the epoch-less string it used to match was never
+  the version the package manager itself reports. Searches by name alone
+  are unaffected.
+- **A companion fact, `console_package_inventory`, rides alongside
+  `_puppet_inventory_1`** - an ordinary fact, since openvoxdb's
+  package tuples have no room for extra fields. On every Linux node it
+  carries `format: 2`; a node without it (format 1, implicit) is still
+  running an older fact script, so a consumer can tell old data from
+  corrected data instead of silently trusting either. On apt nodes it
+  also carries `sources`, mapping each binary package whose source
+  package differs in name or version to that source (for example
+  `libssl3t64` → `openssl`) - a binary absent from the map is its own
+  source. The `_puppet_inventory_1` tuples themselves are unchanged for
+  apt, so searching still works by the binary name `dpkg -l` shows. The
+  node detail page shows a "from <source> <version>" line under packages
+  whose source differs.
+- **Upgrading node-agent-client is enough to fix a node that already
+  reports package inventory.** On start, the client compares an existing
+  `facts.d/package_inventory.sh` with the script built into it and
+  rewrites it if they differ - no toggle needed, no Puppet run triggered
+  (the next scheduled run sends corrected data), and a node with
+  reporting disabled stays disabled. Confirmed live with a real package
+  upgrade from a pre-change build: the service restart rewrote the
+  script, no new report arrived until the next `puppet agent -t`, and
+  that run produced `format: 2` data. The comparison is for inequality,
+  not newer-ness, so downgrading the client puts the older script back on
+  its next start.
+- **A failed package query now reports nothing rather than an empty
+  inventory** - both scripts exit non-zero with no output if
+  `dpkg-query`/`rpm` fails, since an empty `_puppet_inventory_1` would
+  make openvoxdb drop every package row for that node.
+
 **Original investigation, for context**: checked for an agent-side
 setting analogous to how `corrective_change` detection is a genuine
 agent-side behavior (`puppet config print all` against the real
@@ -930,3 +974,119 @@ database that already exists needs it created by hand:
 docker compose -f docker-compose.yml exec openvoxdb-postgres \
   psql -U openvoxdb -c 'CREATE EXTENSION IF NOT EXISTS pg_trgm;'
 ```
+
+## Vulnerability tracking: providers, credentials, mirrors, and limits
+
+`add-vulnerability-tracking` reports which nodes are affected by which
+vulnerabilities, merged across one or more *providers*. A provider type is
+compiled into the console (today `osv` and `tenable`); administrators create
+instances of them on the Vulnerabilities → Providers page, and any number can
+be enabled at once. Each vulnerability on a node is one finding, listing every
+enabled provider that reports it with that provider's own severity, package,
+and fixed version.
+
+**Existing deployments must grant the new permissions.** `vulnerabilities:read`
+(the Vulnerabilities pages, the node page's Vulnerabilities section, their API)
+and `vulnerabilities:manage` (the Providers page and its API) are only given to
+the bootstrap admin role of a *fresh* install - on an upgraded deployment no role
+has them until an administrator adds them on Admin → Roles, the same as
+`nodes:certs:manage` before them. `nodes:read` alone is deliberately not enough:
+findings are more sensitive than inventory. The new `CONSOLE_AUDIT_VULNERABILITIES`
+category (default `writes`) audits provider changes and manual syncs; audit
+events name changed fields and which credentials are set, never credential
+values. At `full` it also audits views.
+
+**`CONSOLE_SECRETS_KEY_FILE` holds the key that seals provider credentials** in
+Postgres (AES-256-GCM, bound to the provider's id). Generate one with
+`openssl rand -base64 32 > secrets.key` (mode 0600) and point the variable at it -
+or set `CONSOLE_SECRETS_KEY` directly, though a file keeps it out of the process
+environment. It is optional: without it, OSV works normally and any provider
+with credentials (Tenable) is refused at configuration time with an error naming
+the setting. **Back the key up with the database backups but store it
+separately.** Losing it doesn't lose findings, but every stored credential
+becomes unreadable: those providers' syncs fail with a decryption error until an
+administrator re-enters their credentials under a new key. The API never returns
+credential values, only whether each is set; leaving a credential field empty
+when editing keeps the stored value.
+
+**Outbound network access**, per provider - nothing leaves the console until an
+administrator enables one:
+- `osv`: HTTPS to its data location, by default
+  `storage.googleapis.com/osv-vulnerabilities` - `all.zip` per distribution
+  directory on the first sync (Debian ~70 MB, Rocky Linux ~5 MB, AlmaLinux ~6 MB,
+  Red Hat ~26 MB, Ubuntu ~700 MB, streamed to a temporary file and filtered to
+  the releases the fleet runs), then `modified_id.csv` and changed records.
+  Only directories for distributions present in the fleet are downloaded.
+- `tenable`: HTTPS to `cloud.tenable.com` (or the configured API location).
+
+**Air-gapped sites point an OSV instance at an internal mirror** (its "Data
+location"). The mirror must reproduce OSV's bucket layout for each distribution
+the fleet runs: `<Directory>/all.zip`, `<Directory>/modified_id.csv`
+(`<modified>,<id>` lines, newest first), and `<Directory>/<id>.json` for records
+listed there as changed - a record that 404s is treated as withdrawn and removed.
+`gsutil -m rsync -r gs://osv-vulnerabilities/Debian ./Debian` (per directory)
+produces exactly that. Directory names contain spaces (`Rocky Linux`, `Red Hat`).
+A plain static web server is enough. Two OSV instances with different data
+locations keep separate mirrors and work side by side.
+
+**Coverage is explicit.** A node no enabled provider assessed is shown as *not
+assessed*, with each provider's reason - never as clean:
+- `unsupported_os`: OSV covers Debian, Ubuntu, AlmaLinux, Rocky Linux, and RHEL
+  7-10; Windows, macOS, SUSE, and others aren't assessed.
+- `no_package_data`: the node reports no package inventory (enable it on the
+  node page).
+- `agent_upgrade_required`: the node's package data comes from a package-inventory
+  fact older than `fix-package-inventory-fact-fidelity` (no epochs, no apt source
+  packages), which would give wrong answers; upgrading node-agent-client fixes it
+  on the node's next Puppet run.
+- `not_seen_by_tenable`: no Tenable asset correlated to the node.
+- `not_yet_synced`: the provider hasn't completed a sync.
+
+**OSV limits to know:**
+- RHEL matching uses the mainline repositories only (RHEL 7 server/workstation/
+  client/computenode; 8 and 9 BaseOS/AppStream/CRB; 10.x every minor release up
+  to the node's). Nodes on EUS/AUS/E4S or add-on repositories are matched against
+  mainline data and can be over-reported. Ubuntu Pro, FIPS, and Realtime streams
+  aren't used either.
+- Severity is the highest CVSS v3 base score in the advisory, falling back to the
+  distribution's own rating (Ubuntu priority, Debian urgency). This makes Debian
+  and Ubuntu nodes look noisy: many CVEs the distribution rates "unimportant" or
+  has decided not to fix still carry a high CVSS score and appear as open findings
+  with "No fix released" (on the verification nodes, most of a Debian 12 node's
+  ~185 findings). Filter on "Fix available" to see what patching would change.
+  AlmaLinux publishes no severity, so its findings show "Unknown".
+- Findings refresh when each provider syncs (default hourly for OSV), not on every
+  Puppet run.
+
+**Tenable correlation.** A full sync (the first, then daily) exports every host
+asset and every open or reopened finding; syncs in between export changes since the
+last one, including fixed findings, which close. Info-severity plugins aren't
+imported - they are detections, not vulnerabilities. Each asset is matched to a
+node by comparing, case-insensitively, its FQDNs and then its hostnames against
+every node's certname and reported FQDN. An asset whose names match no node, or
+more than one, is not guessed at: its findings are skipped and it is counted in
+the provider's "unmatched assets" statistic - a growing count usually means
+certnames that differ from what Tenable sees (short hostnames, a different
+domain). A scanned node with no findings still counts as assessed.
+
+**What was verified, and how** (evidence in the `add-vulnerability-tracking`
+change's `evidence/` directory under `openspec/changes/`, or its dated copy under
+`openspec/changes/archive/` once archived):
+- OSV, live: real Debian 12 and Rocky 9 systemd containers enrolled through the
+  install script - source-package matching, epoch-aware RPM matching, a finding
+  closing as fixed after a real package upgrade while the same finding stayed
+  open on another node, disable/re-enable keeping the original first-seen time,
+  `agent_upgrade_required` and `no_package_data` coverage, and two OSV instances
+  (public bucket and a local static mirror) enabled together, with the mirror
+  instance's syncs making no connection beyond the mirror. A first sync of
+  Debian 12 plus Rocky 9 took ~17 s and mirrored ~50,000 advisories.
+- Tenable, fake-backed: no Tenable tenant exists in this environment, so the
+  provider ran inside a real console process against a standalone fake of
+  Tenable's export API (HTTPS, key-checked) with assets named after the live
+  nodes - full then incremental syncs with the expected export filters, a CVE
+  merged into the same finding OSV reports on that node, a plugin-only finding,
+  hostname-only correlation, an unmatched asset counted and skipped, and
+  credentials absent from every API response and log line. Behaviour against a
+  real tenant (export timings, rate limiting, data quirks) is untested.
+- Not live: the Ubuntu import (~700 MB download) was only exercised with small
+  fixture archives, not against the real directory.

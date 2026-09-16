@@ -48,6 +48,8 @@ func run(ctx context.Context, logger *slog.Logger) error {
 		return err
 	}
 
+	refreshPackageInventoryFact(logger, cfg.FactsDDir, nodeagent.FileExists)
+
 	handler := nodeagent.NewHandler(nodeagent.RunCommand, cfg.PuppetBinPath, cfg.FactsDDir, nodeagent.FileExists)
 	client := nodeagent.New(cfg, handler, logger)
 
@@ -57,4 +59,20 @@ func run(ctx context.Context, logger *slog.Logger) error {
 		return err
 	}
 	return nil
+}
+
+// refreshPackageInventoryFact brings an already-enabled package-inventory
+// fact up to this client's version (see
+// nodeagent.RefreshPackageInventoryFact). A failure is logged, never
+// fatal - a stale fact is no reason to leave the node unreachable for
+// runs and tasks.
+func refreshPackageInventoryFact(logger *slog.Logger, factsDir string, fileExists func(string) bool) {
+	changed, err := nodeagent.RefreshPackageInventoryFact(factsDir, fileExists)
+	if err != nil {
+		logger.Warn("could not refresh package-inventory fact", "error", err)
+		return
+	}
+	if changed {
+		logger.Info("refreshed package-inventory fact to this client's version", "factsDir", factsDir)
+	}
 }

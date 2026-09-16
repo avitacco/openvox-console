@@ -1,11 +1,13 @@
 package nodeagent
 
 import (
+	"bytes"
 	"context"
 	"os"
 	"path/filepath"
 	"strings"
 	"testing"
+	"time"
 )
 
 func fileExistsAt(existing ...string) func(string) bool {
@@ -246,5 +248,81 @@ func TestHandler_PackageInventorySet_AlreadyDisabledIsNoop(t *testing.T) {
 	}
 	if ranPuppet {
 		t.Error("puppet was invoked for a no-op toggle (already in the requested state)")
+	}
+}
+
+func TestRefreshPackageInventoryFact(t *testing.T) {
+	aptScript, _ := packageInventoryFactScript(familyAPT)
+	past := time.Now().Add(-time.Hour).Truncate(time.Second)
+
+	cases := []struct {
+		name        string
+		seed        []byte // nil: no fact file
+		fileExists  func(string) bool
+		wantChanged bool
+		wantContent []byte // nil: file must not exist
+	}{
+		{"stale fact is rewritten", []byte("#!/bin/sh\nold script\n"), fileExistsAt("/usr/bin/dpkg-query"), true, aptScript},
+		{"current fact is untouched", aptScript, fileExistsAt("/usr/bin/dpkg-query"), false, aptScript},
+		{"absent fact is not created", nil, fileExistsAt("/usr/bin/dpkg-query"), false, nil},
+		{"unknown family leaves a stale fact alone", []byte("old script\n"), noFileExists, false, []byte("old script\n")},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			factsDir := t.TempDir()
+			factPath := filepath.Join(factsDir, packageInventoryFactFilename)
+			if tc.seed != nil {
+				if err := os.WriteFile(factPath, tc.seed, 0o755); err != nil {
+					t.Fatalf("seed fact file: %v", err)
+				}
+				if err := os.Chtimes(factPath, past, past); err != nil {
+					t.Fatalf("set mtime: %v", err)
+				}
+			}
+
+			changed, err := RefreshPackageInventoryFact(factsDir, tc.fileExists)
+			if err != nil {
+				t.Fatalf("RefreshPackageInventoryFact() error: %v", err)
+			}
+			if changed != tc.wantChanged {
+				t.Errorf("changed = %v, want %v", changed, tc.wantChanged)
+			}
+
+			content, err := os.ReadFile(factPath)
+			if tc.wantContent == nil {
+				if !os.IsNotExist(err) {
+					t.Errorf("fact file exists (err %v), want it absent", err)
+				}
+				return
+			}
+			if err != nil || !bytes.Equal(content, tc.wantContent) {
+				t.Errorf("fact content = %q (err %v), want %q", content, err, tc.wantContent)
+			}
+			if !tc.wantChanged {
+				info, err := os.Stat(factPath)
+				if err != nil || !info.ModTime().Equal(past) {
+					t.Errorf("fact file was rewritten (mtime %v, err %v), want it untouched", info.ModTime(), err)
+				}
+			}
+		})
+	}
+}
+
+func TestRefreshPackageInventoryFact_UnwritableReturnsError(t *testing.T) {
+	if os.Geteuid() == 0 {
+		t.Skip("root ignores file permissions")
+	}
+	factsDir := t.TempDir()
+	factPath := filepath.Join(factsDir, packageInventoryFactFilename)
+	if err := os.WriteFile(factPath, []byte("old script\n"), 0o555); err != nil {
+		t.Fatalf("seed fact file: %v", err)
+	}
+
+	changed, err := RefreshPackageInventoryFact(factsDir, fileExistsAt("/usr/bin/rpm"))
+	if err == nil {
+		t.Error("error is nil, want a write failure")
+	}
+	if changed {
+		t.Error("changed = true, want false after a failed write")
 	}
 }

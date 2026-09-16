@@ -1,7 +1,9 @@
 package nodeagent
 
 import (
+	"bytes"
 	"embed"
+	"fmt"
 	"os"
 )
 
@@ -68,4 +70,32 @@ func packageInventoryFactScript(family packageManagerFamily) ([]byte, bool) {
 		return nil, false
 	}
 	return data, true
+}
+
+// RefreshPackageInventoryFact rewrites factsDir's package-inventory fact
+// with the script embedded in this client when the fact is present but
+// its content differs, reporting whether it rewrote it. An absent fact
+// means reporting is disabled, so it is left absent; a node whose
+// package-manager family can't be detected is left untouched, since
+// there's no embedded script to compare against. No Puppet run is
+// triggered - the node's next scheduled run picks the new fact up (see
+// design.md in fix-package-inventory-fact-fidelity).
+func RefreshPackageInventoryFact(factsDir string, fileExists func(string) bool) (bool, error) {
+	factPath := packageInventoryFactPath(factsDir)
+	current, err := os.ReadFile(factPath)
+	if os.IsNotExist(err) {
+		return false, nil
+	}
+	if err != nil {
+		return false, fmt.Errorf("read package-inventory fact: %w", err)
+	}
+
+	script, ok := packageInventoryFactScript(detectPackageManagerFamily(fileExists))
+	if !ok || bytes.Equal(current, script) {
+		return false, nil
+	}
+	if err := os.WriteFile(factPath, script, 0o755); err != nil { //nolint:gosec // the fact script must be executable
+		return false, fmt.Errorf("write package-inventory fact: %w", err)
+	}
+	return true, nil
 }

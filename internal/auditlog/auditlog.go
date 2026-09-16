@@ -22,6 +22,9 @@ const (
 	CategoryAuth         Category = "auth"
 	CategoryCode         Category = "code"
 	CategoryOrchestrator Category = "orchestrator"
+	// CategoryVulnerabilities covers vulnerability provider management
+	// and findings views (add-vulnerability-tracking).
+	CategoryVulnerabilities Category = "vulnerabilities"
 )
 
 // Level is how much a Category emits. Levels are ordered: Full satisfies

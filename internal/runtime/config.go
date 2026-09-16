@@ -3,11 +3,13 @@
 package runtime
 
 import (
+	"encoding/base64"
 	"fmt"
 	"os"
 	"strings"
 
 	"github.com/voxpupuli/enterprise-console/internal/auditlog"
+	"github.com/voxpupuli/enterprise-console/internal/sealer"
 )
 
 // Config holds the console binary's startup configuration.
@@ -114,18 +116,26 @@ type Config struct {
 	// internal/auditlog) - each defaults to "writes" (mutating actions
 	// and authentication events; see configurable-audit-logging's
 	// design.md) if unset, independent of the others.
-	AuditNodes        auditlog.Level
-	AuditClassifier   auditlog.Level
-	AuditRBAC         auditlog.Level
-	AuditAuth         auditlog.Level
-	AuditCode         auditlog.Level
-	AuditOrchestrator auditlog.Level
+	AuditNodes           auditlog.Level
+	AuditClassifier      auditlog.Level
+	AuditRBAC            auditlog.Level
+	AuditAuth            auditlog.Level
+	AuditCode            auditlog.Level
+	AuditOrchestrator    auditlog.Level
+	AuditVulnerabilities auditlog.Level
 
 	// Optional: file path to emit audit events to instead of the
 	// console's standard log output. Empty means stdout, alongside
 	// ordinary operational logs (distinguished by category/action
 	// fields, not a separate stream).
 	AuditLogPath string
+
+	// Optional: the key sealing secrets stored in Postgres - vulnerability
+	// provider credentials, today (see internal/sealer). sealer.KeySize
+	// bytes, supplied base64-encoded via CONSOLE_SECRETS_KEY or, better,
+	// CONSOLE_SECRETS_KEY_FILE. Unset means no provider type that needs
+	// credentials can be configured; nothing else is affected.
+	SecretsKey []byte
 }
 
 // LoadConfig reads configuration from environment variables via getenv,
@@ -222,6 +232,7 @@ func LoadConfig(getenv func(string) string) (Config, error) {
 		{"CONSOLE_AUDIT_AUTH", &cfg.AuditAuth},
 		{"CONSOLE_AUDIT_CODE", &cfg.AuditCode},
 		{"CONSOLE_AUDIT_ORCHESTRATOR", &cfg.AuditOrchestrator},
+		{"CONSOLE_AUDIT_VULNERABILITIES", &cfg.AuditVulnerabilities},
 	}
 	for _, a := range auditLevels {
 		raw := getenv(a.env)
@@ -261,11 +272,26 @@ func LoadConfig(getenv func(string) string) (Config, error) {
 		cfg.NodeTransportPublicAddr = cfg.NodeTransportAddr
 	}
 
+	// Read before the fileErr check so an unreadable
+	// CONSOLE_SECRETS_KEY_FILE is reported as itself; decoded after it.
+	secretsKey := getenv("CONSOLE_SECRETS_KEY")
+
 	// Checked before the required-value loop below so an unreadable
 	// secret file is reported as itself, rather than as whichever
 	// setting it happened to leave empty.
 	if fileErr != nil {
 		return Config{}, fileErr
+	}
+
+	if secretsKey != "" {
+		key, err := base64.StdEncoding.DecodeString(secretsKey)
+		if err != nil {
+			return Config{}, fmt.Errorf("CONSOLE_SECRETS_KEY: not valid base64: %w", err)
+		}
+		if len(key) != sealer.KeySize {
+			return Config{}, fmt.Errorf("CONSOLE_SECRETS_KEY: must decode to %d bytes, got %d", sealer.KeySize, len(key))
+		}
+		cfg.SecretsKey = key
 	}
 
 	required := map[string]string{

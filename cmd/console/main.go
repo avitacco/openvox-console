@@ -43,12 +43,16 @@ import (
 	"github.com/voxpupuli/enterprise-console/internal/rbac"
 	"github.com/voxpupuli/enterprise-console/internal/reporting"
 	"github.com/voxpupuli/enterprise-console/internal/runtime"
+	"github.com/voxpupuli/enterprise-console/internal/sealer"
+	"github.com/voxpupuli/enterprise-console/internal/vulnerability"
+	"github.com/voxpupuli/enterprise-console/internal/vulnerability/osv"
+	"github.com/voxpupuli/enterprise-console/internal/vulnerability/tenable"
 	"github.com/voxpupuli/enterprise-console/internal/web"
 )
 
 // allPermissions is granted to the bootstrap admin role - see
 // bootstrapAdmin. Every other role is configured by an admin afterward.
-var allPermissions = []string{"nodes:read", "nodes:certs:manage", "nodes:manage", "classifier:read", "classifier:write", "enc:read", "rbac:admin", "activity:read", "code:deploy", "code:read", "orchestrator:read", "orchestrator:run"}
+var allPermissions = []string{"nodes:read", "nodes:certs:manage", "nodes:manage", "classifier:read", "classifier:write", "enc:read", "rbac:admin", "activity:read", "code:deploy", "code:read", "orchestrator:read", "orchestrator:run", "vulnerabilities:read", "vulnerabilities:manage"}
 
 // runHealthCheck implements the container healthcheck. The image has no
 // shell and no wget - it is distroless, so a HEALTHCHECK expressed as a
@@ -200,12 +204,13 @@ func main() {
 	// closures the same shape as recordActivity, so consuming packages
 	// never hold the *auditlog.Emitter itself.
 	auditEmitter := auditlog.NewEmitter(auditlog.Config{
-		auditlog.CategoryNodes:        cfg.AuditNodes,
-		auditlog.CategoryClassifier:   cfg.AuditClassifier,
-		auditlog.CategoryRBAC:         cfg.AuditRBAC,
-		auditlog.CategoryAuth:         cfg.AuditAuth,
-		auditlog.CategoryCode:         cfg.AuditCode,
-		auditlog.CategoryOrchestrator: cfg.AuditOrchestrator,
+		auditlog.CategoryNodes:           cfg.AuditNodes,
+		auditlog.CategoryClassifier:      cfg.AuditClassifier,
+		auditlog.CategoryRBAC:            cfg.AuditRBAC,
+		auditlog.CategoryAuth:            cfg.AuditAuth,
+		auditlog.CategoryCode:            cfg.AuditCode,
+		auditlog.CategoryOrchestrator:    cfg.AuditOrchestrator,
+		auditlog.CategoryVulnerabilities: cfg.AuditVulnerabilities,
 	}, runtime.NewLogger(openAuditOutput(logger, cfg.AuditLogPath)))
 	auditWrite := func(category auditlog.Category) func(r *http.Request, event auditlog.Event) {
 		return func(r *http.Request, event auditlog.Event) {
@@ -499,6 +504,30 @@ func main() {
 	metrics.GaugeFunc("console_rbac_revoked_tokens", "Currently-tracked revoked token count.",
 		func() float64 { return float64(revoker.Len()) })
 
+	// Vulnerability tracking (add-vulnerability-tracking). Provider types
+	// are compiled in and registered explicitly here; instances are
+	// configured at runtime. Credential fields need
+	// CONSOLE_SECRETS_KEY_FILE - without it, providers without credentials
+	// (OSV) still work and the rest are refused at configuration time.
+	var secretsSealer *sealer.Sealer
+	if cfg.SecretsKey != nil {
+		secretsSealer, err = sealer.New(cfg.SecretsKey)
+		if err != nil {
+			logger.Error("invalid CONSOLE_SECRETS_KEY_FILE", "error", err)
+			os.Exit(1)
+		}
+	}
+	vulnRegistry := vulnerability.NewRegistry()
+	if err := vulnRegistry.Register(osv.Type, tenable.Type); err != nil {
+		logger.Error("failed to register vulnerability provider types", "error", err)
+		os.Exit(1)
+	}
+	vulnStore := vulnerability.NewStore(db.Pool, vulnRegistry, secretsSealer)
+	vulnEngine := vulnerability.NewEngine(db.Pool)
+	vulnScheduler := vulnerability.NewScheduler(vulnStore, vulnEngine,
+		vulnerability.NewLeases(db.Pool, vulnerability.DefaultLeaseTTL), openvoxdbClient,
+		vulnerability.Deps{Pool: db.Pool, HTTPClient: &http.Client{}, Logger: logger}, logger)
+
 	mux := http.NewServeMux()
 	mux.Handle("/health", runtime.HealthHandler(db, bus))
 	mux.Handle("/metrics", metrics.Handler())
@@ -520,6 +549,8 @@ func main() {
 	).Register(mux, verifier.Authorize)
 	encapi.NewHandlers(classifierStore, openvoxdbClient).Register(mux, verifier.Authorize)
 	groupnodes.NewHandlers(classifierStore, openvoxdbClient, auditRead(auditlog.CategoryClassifier)).Register(mux, verifier.Authorize)
+	vulnerability.NewHandlers(vulnStore, vulnEngine, vulnScheduler, openvoxdbClient,
+		auditWrite(auditlog.CategoryVulnerabilities), auditRead(auditlog.CategoryVulnerabilities)).Register(mux, verifier.Authorize)
 	activity.NewHandlers(activityStore).Register(mux, verifier.Authorize)
 	codemanagerHandlers.Register(mux, verifier.Authorize)
 	orchestratorHandlers.Register(mux, verifier.Authorize)
@@ -541,6 +572,12 @@ func main() {
 	if initialRunTriggerImpl != nil {
 		initialRunTriggerImpl.Start(ctx)
 		defer initialRunTriggerImpl.Stop()
+	}
+	// The scheduler's tables come from migrations; with them unapplied it
+	// would only log failures every tick. Syncs stop when ctx is cancelled
+	// (their leases simply expire if the process exits first).
+	if migrationsOK {
+		go vulnScheduler.Run(ctx)
 	}
 
 	go func() {

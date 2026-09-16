@@ -114,6 +114,96 @@ func TestSearchPackages_NameAndVersion(t *testing.T) {
 	}
 }
 
+func TestNodeFact_Present(t *testing.T) {
+	client, gotQuery := fakeQueryServer(t, `[{"certname":"web01","name":"console_package_inventory","value":{"format":2}}]`)
+
+	fact, err := client.NodeFact(context.Background(), "web01", "console_package_inventory")
+	if err != nil {
+		t.Fatalf("NodeFact() error: %v", err)
+	}
+	want := `facts { certname = "web01" and name = "console_package_inventory" }`
+	if *gotQuery != want {
+		t.Errorf("PQL query = %q, want %q", *gotQuery, want)
+	}
+	if fact == nil || fact.Name != "console_package_inventory" || string(fact.Value) != `{"format":2}` {
+		t.Errorf("fact = %+v, want console_package_inventory with value {\"format\":2}", fact)
+	}
+}
+
+func TestNodeFact_Absent(t *testing.T) {
+	client, _ := fakeQueryServer(t, `[]`)
+
+	fact, err := client.NodeFact(context.Background(), "web01", "console_package_inventory")
+	if err != nil {
+		t.Fatalf("NodeFact() error: %v", err)
+	}
+	if fact != nil {
+		t.Errorf("fact = %+v, want nil", fact)
+	}
+}
+
+func TestFleetPackages(t *testing.T) {
+	client, gotQuery := fakeQueryServer(t, `[
+		{"certname":"web01","package_name":"libssl3t64","version":"3.0.13-0ubuntu3.11","provider":"apt"},
+		{"certname":"db01","package_name":"openssl-libs","version":"1:3.5.5-2.el9_8","provider":"rpm"}
+	]`)
+
+	packages, err := client.FleetPackages(context.Background())
+	if err != nil {
+		t.Fatalf("FleetPackages() error: %v", err)
+	}
+	if want := `package_inventory {}`; *gotQuery != want {
+		t.Errorf("PQL query = %q, want %q", *gotQuery, want)
+	}
+	if len(packages) != 2 || packages[1].Certname != "db01" || packages[1].Version != "1:3.5.5-2.el9_8" {
+		t.Errorf("packages = %+v, want both rows decoded", packages)
+	}
+}
+
+// Response shape confirmed live against openvoxdb: each dotted projection
+// is its own top-level key, null when the node hasn't reported the fact.
+func TestFleetNodeFacts(t *testing.T) {
+	client, gotQuery := fakeQueryServer(t, `[
+		{"certname":"web01",
+		 "facts.os":{"name":"Ubuntu","family":"Debian","release":{"full":"24.04","major":"24.04"}},
+		 "facts.networking.fqdn":"web01.example.com",
+		 "facts.console_package_inventory":{"format":2,"sources":{"libssl3t64":["openssl","3.0.13-0ubuntu3.11"]}}},
+		{"certname":"bare01",
+		 "facts.os":null,
+		 "facts.networking.fqdn":null,
+		 "facts.console_package_inventory":null}
+	]`)
+
+	facts, err := client.FleetNodeFacts(context.Background())
+	if err != nil {
+		t.Fatalf("FleetNodeFacts() error: %v", err)
+	}
+	want := `inventory[certname, facts.os, facts.networking.fqdn, facts.console_package_inventory] {}`
+	if *gotQuery != want {
+		t.Errorf("PQL query = %q, want %q", *gotQuery, want)
+	}
+	if len(facts) != 2 {
+		t.Fatalf("got %d rows, want 2", len(facts))
+	}
+
+	web := facts[0]
+	if web.OS == nil || web.OS.Name != "Ubuntu" || web.OS.Release.Major != "24.04" {
+		t.Errorf("web01 OS = %+v, want Ubuntu 24.04", web.OS)
+	}
+	if web.FQDN == nil || *web.FQDN != "web01.example.com" {
+		t.Errorf("web01 FQDN = %v, want web01.example.com", web.FQDN)
+	}
+	cpi := web.ConsolePackageInventory
+	if cpi == nil || cpi.Format != 2 || len(cpi.Sources["libssl3t64"]) != 2 || cpi.Sources["libssl3t64"][0] != "openssl" {
+		t.Errorf("web01 console_package_inventory = %+v, want format 2 with the libssl3t64 source", cpi)
+	}
+
+	bare := facts[1]
+	if bare.OS != nil || bare.FQDN != nil || bare.ConsolePackageInventory != nil {
+		t.Errorf("bare01 = %+v, want every fact nil when unreported", bare)
+	}
+}
+
 func TestNodes(t *testing.T) {
 	client := testClient(t)
 
