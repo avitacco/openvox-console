@@ -51,11 +51,28 @@ func TestClient_ReconnectsAfterConnectionDrop(t *testing.T) {
 	waitForConnected()
 
 	// And the resubscription must actually work, not just the raw
-	// connection.
+	// connection. The registry marks the node connected as soon as its
+	// connection is back, which is strictly earlier than its dispatch
+	// subscription being live again: in that window a dispatch either
+	// finds no responder or is published to nobody and times out. Retry
+	// until the subscription is really back rather than judging the
+	// reconnect on one attempt - a single try is what made this test
+	// flaky on slower CI runners.
 	req := requestPayload(t, "puppet", actionRun, nil)
-	resp, err := transport.Dispatch(context.Background(), "web01.example.com", req, 3*time.Second)
+	var (
+		resp []byte
+		err  error
+	)
+	deadline := time.Now().Add(15 * time.Second)
+	for {
+		resp, err = transport.Dispatch(context.Background(), "web01.example.com", req, time.Second)
+		if err == nil || time.Now().After(deadline) {
+			break
+		}
+		time.Sleep(50 * time.Millisecond)
+	}
 	if err != nil {
-		t.Fatalf("Dispatch() after reconnect error: %v", err)
+		t.Fatalf("Dispatch() never succeeded after reconnect: %v", err)
 	}
 	wr := decodeWireResponse(t, resp)
 	if wr.Result == nil || wr.Result.Output.Stdout != "ok" {
