@@ -282,7 +282,14 @@ export function escapeHtml(s) {
   }[c]));
 }
 
+// Returns null when SubtleCrypto isn't available rather than throwing.
+// crypto.subtle is only exposed in a secure context - HTTPS, or
+// http://localhost during development - so on a console served over
+// plain http it is undefined. That's a cosmetic avatar's problem alone,
+// and it must not surface as a failure of the page around it: callers
+// treat a null hash exactly like "no email", falling back to initials.
 async function sha256Hex(text) {
+  if (!globalThis.crypto?.subtle) return null;
   const bytes = new TextEncoder().encode(text);
   const digest = await crypto.subtle.digest('SHA-256', bytes);
   return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, '0')).join('');
@@ -304,10 +311,12 @@ function imageLoads(url) {
 
 // Builds a Gravatar URL from email (see https://docs.gravatar.com -
 // trim + lowercase, then SHA-256, not the legacy MD5 hash). Returns null
-// for no email, so callers can skip the lookup entirely.
+// for no email, or when the email can't be hashed here (see sha256Hex),
+// so callers can skip the lookup entirely.
 export async function gravatarURL(email, size = 80) {
   if (!email) return null;
   const hash = await sha256Hex(email.trim().toLowerCase());
+  if (!hash) return null;
   return `https://www.gravatar.com/avatar/${hash}?s=${size}&d=404`;
 }
 

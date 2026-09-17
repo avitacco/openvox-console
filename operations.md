@@ -471,6 +471,22 @@ matching in particular) needs:
   that run produced `format: 2` data. The comparison is for inequality,
   not newer-ness, so downgrading the client puts the older script back on
   its next start.
+- **Only packages that are actually installed are reported.** `dpkg-query
+  -W` also lists packages in dpkg's `config-files` state - `dpkg -l` shows
+  these as `rc`: removed, but their configuration files retained - and the
+  fact used to emit them as though they were installed. On a node that has
+  been upgraded for a while this is mostly old kernels, which match every
+  advisory fixed after their version, so it produced findings for software
+  that was not on the machine at all. The fact now filters on install
+  status, covering both the `_puppet_inventory_1` tuples and the
+  `console_package_inventory` sources map. It filters on install status
+  and deliberately not on selection state: a held package's selection is
+  `hold` rather than `install` while the package is still installed, so
+  filtering on selection would drop it and hide it from vulnerability
+  scanning. On rpm nodes the equivalent cleanup is dropping `gpg-pubkey`
+  entries - the repository signing keys `rpm -qa` lists alongside real
+  packages - and nothing more, since erasing an rpm package removes its
+  rpmdb entry outright and leaves no residual state to filter.
 - **A failed package query now reports nothing rather than an empty
   inventory** - both scripts exit non-zero with no output if
   `dpkg-query`/`rpm` fails, since an empty `_puppet_inventory_1` would
@@ -1064,6 +1080,26 @@ assessed*, with each provider's reason - never as clean:
   AlmaLinux publishes no severity, so its findings show "Unknown".
 - Findings refresh when each provider syncs (default hourly for OSV), not on every
   Puppet run.
+
+**Findings against packages that were never installed.** Until this was fixed,
+the apt fact reported packages in dpkg's `config-files` state (removed, but their
+configuration files retained) as installed, so the console raised findings against
+software that was not on the node - overwhelmingly old kernels, which match every
+advisory fixed after their version. On one three-node Ubuntu 24.04 fleet that
+accounted for roughly 3,192 findings with a fix available, which was the entire
+fix-available list. This is a different problem from the "No fix released" noise
+above: that noise is real CVEs the distribution has chosen not to fix, whereas
+these were findings for packages that did not exist on the machine. Two things to
+know when looking at a console that has not converged yet:
+- The findings clear on convergence, not immediately. Upgrading node-agent-client
+  rewrites the fact in place (see the package inventory section above - no Puppet
+  run is triggered, and a node with reporting disabled stays disabled), the node's
+  next scheduled Puppet run republishes corrected inventory, and findings whose
+  packages are no longer reported close on the provider's next sync.
+- To clear the stale entries from the node itself, purge them: `apt purge '~c'`.
+  `apt autoremove` does not touch them and reports nothing to remove, because the
+  packages are already removed - only their configuration files remain, which is
+  exactly why they stay invisible to an operator while still being reported.
 
 **Tenable correlation.** A full sync (the first, then daily) exports every host
 asset and every open or reopened finding; syncs in between export changes since the
