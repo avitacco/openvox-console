@@ -16,6 +16,7 @@ func noopRecordAuditRead(_ *http.Request, _ auditlog.Event) {}
 
 type fakeGroups struct {
 	groups map[int64]classifier.Group
+	all    []classifier.Group
 }
 
 func (f *fakeGroups) GetGroup(_ context.Context, id int64) (classifier.Group, error) {
@@ -26,9 +27,14 @@ func (f *fakeGroups) GetGroup(_ context.Context, id int64) (classifier.Group, er
 	return g, nil
 }
 
+func (f *fakeGroups) ListAllGroups(context.Context) ([]classifier.Group, error) {
+	return f.all, nil
+}
+
 type fakeInventory struct {
-	nodes []openvoxdb.Node
-	facts map[string][]openvoxdb.Fact
+	nodes      []openvoxdb.Node
+	facts      map[string][]openvoxdb.Fact
+	fleetFacts []openvoxdb.NodeAllFacts
 }
 
 func (f *fakeInventory) Nodes(context.Context) ([]openvoxdb.Node, error) {
@@ -37,6 +43,48 @@ func (f *fakeInventory) Nodes(context.Context) ([]openvoxdb.Node, error) {
 
 func (f *fakeInventory) Facts(_ context.Context, certname string) ([]openvoxdb.Fact, error) {
 	return f.facts[certname], nil
+}
+
+func (f *fakeInventory) FleetFacts(context.Context) ([]openvoxdb.NodeAllFacts, error) {
+	return f.fleetFacts, nil
+}
+
+// TestNodeCounts_CountsPerGroup covers the counts endpoint: each group
+// is matched against one fleet snapshot, pins count as members, and a
+// group matching nothing still reports a zero rather than going absent
+// (the page needs a number for every row).
+func TestNodeCounts_CountsPerGroup(t *testing.T) {
+	groups := &fakeGroups{all: []classifier.Group{
+		{ID: 1, Name: "debian", Rule: []classifier.Condition{{FactPath: "osfamily", Operator: "=", Value: "Debian"}}},
+		{ID: 2, Name: "redhat", Rule: []classifier.Condition{{FactPath: "osfamily", Operator: "=", Value: "RedHat"}}},
+		{ID: 3, Name: "pinned-only", Pins: []string{"c.example.com"}},
+	}}
+	inv := &fakeInventory{fleetFacts: []openvoxdb.NodeAllFacts{
+		{Certname: "a.example.com", Facts: map[string]any{"osfamily": "Debian"}},
+		{Certname: "b.example.com", Facts: map[string]any{"osfamily": "Debian"}},
+		{Certname: "c.example.com", Facts: map[string]any{"osfamily": "Windows"}},
+	}}
+	h := NewHandlers(groups, inv, noopRecordAuditRead)
+
+	rec := httptest.NewRecorder()
+	h.nodeCounts(rec, httptest.NewRequest(http.MethodGet, "/api/v1/groups/node-counts", nil))
+	if rec.Code != http.StatusOK {
+		t.Fatalf("status = %d, want 200", rec.Code)
+	}
+
+	var got CountsResponse
+	if err := json.NewDecoder(rec.Body).Decode(&got); err != nil {
+		t.Fatalf("decode: %v", err)
+	}
+	want := map[int64]int{1: 2, 2: 0, 3: 1}
+	if len(got.Counts) != len(want) {
+		t.Fatalf("got %d counts, want %d: %+v", len(got.Counts), len(want), got.Counts)
+	}
+	for _, c := range got.Counts {
+		if w, ok := want[c.GroupID]; !ok || c.Nodes != w {
+			t.Errorf("group %d counted %d nodes, want %d", c.GroupID, c.Nodes, want[c.GroupID])
+		}
+	}
 }
 
 func newRequest(id string) (*httptest.ResponseRecorder, *http.Request) {

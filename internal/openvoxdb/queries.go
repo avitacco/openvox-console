@@ -8,6 +8,8 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"regexp"
+	"strings"
 	"time"
 )
 
@@ -190,6 +192,148 @@ func (c *Client) SearchPackages(ctx context.Context, name string, version *strin
 		return nil, err
 	}
 	return packages, nil
+}
+
+// NodeAllFacts is every fact one node reports, as the inventory
+// endpoint's bare `facts` field returns it.
+type NodeAllFacts struct {
+	Certname string         `json:"certname"`
+	Facts    map[string]any `json:"facts"`
+}
+
+// FleetFacts returns every node's complete fact set in a single query.
+// Facts() fetches one node at a time, so evaluating every group against
+// every node that way is an N+1 - a page of 25 groups over 1000 nodes
+// would be 25,000 queries. This is one, and callers match in memory.
+func (c *Client) FleetFacts(ctx context.Context) ([]NodeAllFacts, error) {
+	var facts []NodeAllFacts
+	if err := c.query(ctx, "inventory[certname, facts] {}", &facts); err != nil {
+		return nil, err
+	}
+	return facts, nil
+}
+
+// PackageVersion is one distinct package-name/version pair openvoxdb
+// holds across the fleet.
+type PackageVersion struct {
+	PackageName string `json:"package_name"`
+	Version     string `json:"version"`
+}
+
+// NodePackageCount is how many package_inventory rows one node reports.
+type NodePackageCount struct {
+	Certname string `json:"certname"`
+	Count    int    `json:"count"`
+}
+
+// PackageFilter narrows the fleet package catalogue. A zero filter
+// matches everything.
+//
+// Certnames restricts to a set of nodes. A nil slice means "no node
+// restriction"; callers with an empty-but-non-nil set (a group matching
+// nothing) must not query at all, since an empty `in []` is not a
+// meaningful condition - see packagesCatalog.
+type PackageFilter struct {
+	NameContains    string
+	VersionContains string
+	Provider        string
+	Certnames       []string
+}
+
+// where renders the filter as PQL conditions, ready to precede a
+// `group by`. NameContains becomes a regex match, so the caller's text
+// is quoted with regexp.QuoteMeta first - otherwise a package name
+// containing "+" or "." (libstdc++6, python3.12) would be read as a
+// pattern and match the wrong rows, and "(" would be a syntax error.
+func (f PackageFilter) where() string {
+	var conds []string
+	if f.NameContains != "" {
+		conds = append(conds, fmt.Sprintf("package_name ~ %s", pqlString(regexp.QuoteMeta(f.NameContains))))
+	}
+	if f.VersionContains != "" {
+		conds = append(conds, fmt.Sprintf("version ~ %s", pqlString(regexp.QuoteMeta(f.VersionContains))))
+	}
+	if f.Provider != "" {
+		conds = append(conds, fmt.Sprintf("provider = %s", pqlString(f.Provider)))
+	}
+	if len(f.Certnames) > 0 {
+		quoted := make([]string, 0, len(f.Certnames))
+		for _, c := range f.Certnames {
+			quoted = append(quoted, pqlString(c))
+		}
+		conds = append(conds, fmt.Sprintf("certname in [%s]", strings.Join(quoted, ", ")))
+	}
+	if len(conds) == 0 {
+		return ""
+	}
+	return strings.Join(conds, " and ") + " "
+}
+
+// PackageNameCount is one package name, as reported by one provider,
+// with how many package_inventory rows carry it.
+type PackageNameCount struct {
+	PackageName string `json:"package_name"`
+	Provider    string `json:"provider"`
+	Count       int    `json:"count"`
+}
+
+// ProviderCount is one package provider and how many rows it accounts
+// for across the fleet.
+type ProviderCount struct {
+	Provider string `json:"provider"`
+	Count    int    `json:"count"`
+}
+
+// PackageNameCounts returns the fleet's distinct package names matching
+// filter, each with the provider reporting it and its row count.
+func (c *Client) PackageNameCounts(ctx context.Context, filter PackageFilter) ([]PackageNameCount, error) {
+	var counts []PackageNameCount
+	pql := fmt.Sprintf("package_inventory[package_name, provider, count()] { %sgroup by package_name, provider }", filter.where())
+	if err := c.query(ctx, pql, &counts); err != nil {
+		return nil, err
+	}
+	return counts, nil
+}
+
+// PackageProviders returns every package provider in use across the
+// fleet, for populating a filter control. Deliberately unfiltered: the
+// choices shouldn't disappear as the user narrows the list.
+func (c *Client) PackageProviders(ctx context.Context) ([]ProviderCount, error) {
+	var providers []ProviderCount
+	if err := c.query(ctx, "package_inventory[provider, count()] { group by provider }", &providers); err != nil {
+		return nil, err
+	}
+	return providers, nil
+}
+
+// PackageVersions returns every distinct package-name/version pair
+// matching filter. Grouped server-side deliberately: the ungrouped row
+// set is (nodes x packages), which is hundreds of thousands of rows on
+// a large fleet to transfer and immediately discard, while the distinct
+// pairs stay in the low thousands however many nodes report them.
+//
+// openvoxdb rejects `limit` and `order by` alongside `group by` (both
+// return 400), so callers that want a top-N rank in Go.
+func (c *Client) PackageVersions(ctx context.Context, filter PackageFilter) ([]PackageVersion, error) {
+	var versions []PackageVersion
+	pql := fmt.Sprintf("package_inventory[package_name, version] { %sgroup by package_name, version }", filter.where())
+	if err := c.query(ctx, pql, &versions); err != nil {
+		return nil, err
+	}
+	return versions, nil
+}
+
+// PackageCountsByNode returns, for each node reporting package
+// inventory, how many packages it reports. A node absent from the
+// result reports none - which is how the caller tells "reporting
+// nothing" apart from "not reporting at all".
+func (c *Client) PackageCountsByNode(ctx context.Context) ([]NodePackageCount, error) {
+	var counts []NodePackageCount
+	pql := "package_inventory[certname, count()] { group by certname }"
+	if err := c.query(ctx, pql, &counts); err != nil {
+		return nil, err
+	}
+	return counts, nil
 }
 
 // NodeFact returns the fact named name reported by the node named

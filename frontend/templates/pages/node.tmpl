@@ -11,43 +11,49 @@
 
       <div id="run-now-error"></div>
 
-      <section>
-        <h2>Facts</h2>
-        <div id="facts"></div>
-      </section>
+      <vox-tabs>
+        <vox-tab slot="tab" panel="facts" selected>Facts</vox-tab>
+        <vox-tab slot="tab" panel="packages">Packages</vox-tab>
+        <vox-tab slot="tab" panel="vulnerabilities" id="vulnerabilities-tab" style="display: none">Vulnerabilities</vox-tab>
+        <vox-tab slot="tab" panel="runs">Runs</vox-tab>
 
-      <section>
-        <div class="vox-display-flex vox-justify-between vox-items-center vox-gap-md vox-m-bottom-md">
-          <h2 class="vox-m-y-none">Packages</h2>
-          <div id="package-inventory-toggle" style="display: none">
-            <vox-switch id="package-inventory-switch">Report installed packages</vox-switch>
+        <vox-tab-panel name="facts">
+          <div class="vox-display-flex vox-justify-end vox-items-center vox-gap-md vox-m-bottom-md">
+            <vox-switch id="facts-raw-switch">Raw JSON</vox-switch>
           </div>
-        </div>
-        <div id="package-inventory-status"></div>
-        <div id="packages"></div>
-      </section>
+          <div id="facts"></div>
+        </vox-tab-panel>
 
-      <section id="vulnerabilities-section" style="display: none">
-        <div class="vox-display-flex vox-justify-between vox-items-center vox-gap-md vox-m-bottom-md">
-          <h2 class="vox-m-y-none">Vulnerabilities</h2>
-          <vox-switch id="vulnerabilities-closed-switch">Show closed</vox-switch>
-        </div>
-        <div id="vulnerabilities-coverage"></div>
-        <div id="vulnerabilities"></div>
-      </section>
+        <vox-tab-panel name="packages">
+          <div class="vox-display-flex vox-justify-end vox-items-center vox-gap-md vox-m-bottom-md">
+            <div id="package-inventory-toggle" style="display: none">
+              <vox-switch id="package-inventory-switch">Report installed packages</vox-switch>
+            </div>
+          </div>
+          <div id="package-inventory-status"></div>
+          <div id="packages"></div>
+        </vox-tab-panel>
 
-      <section>
-        <h2>Report history</h2>
-        <div class="filters vox-display-flex vox-items-end vox-gap-md vox-flex-wrap vox-m-bottom-lg">
-          <vox-select id="status-filter" label="Status">
-            <option value="">All</option>
-            <option value="changed">Changed</option>
-            <option value="unchanged">Unchanged</option>
-            <option value="failed">Failed</option>
-            <option value="noop">Noop</option>
-          </vox-select>
-        </div>
-        <div id="reports"></div>
-      </section>
+        <vox-tab-panel name="vulnerabilities">
+          <div class="vox-display-flex vox-justify-end vox-items-center vox-gap-md vox-m-bottom-md">
+            <vox-switch id="vulnerabilities-closed-switch">Show closed</vox-switch>
+          </div>
+          <div id="vulnerabilities-coverage"></div>
+          <div id="vulnerabilities"></div>
+        </vox-tab-panel>
+
+        <vox-tab-panel name="runs">
+          <div class="filters vox-display-flex vox-items-end vox-gap-md vox-flex-wrap vox-m-bottom-lg">
+            <vox-select id="status-filter" label="Status">
+              <option value="">All</option>
+              <option value="changed">Changed</option>
+              <option value="unchanged">Unchanged</option>
+              <option value="failed">Failed</option>
+              <option value="noop">Noop</option>
+            </vox-select>
+          </div>
+          <div id="reports"></div>
+        </vox-tab-panel>
+      </vox-tabs>
     </main>
 {{- end}}

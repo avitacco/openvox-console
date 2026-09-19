@@ -1,9 +1,10 @@
-import { fetchJSON, sendJSON, escapeHtml, hasPermission, statusVariant, qs, severityBadge, coverageReasonText, closeReasonText } from './app.js';
+import { fetchJSON, sendJSON, escapeHtml, hasPermission, statusVariant, qs, severityBadge, coverageReasonText, closeReasonText, paginationHTML, bindPagination } from './app.js';
 
 const certname = qs('name');
 const factsEl = document.getElementById('facts');
+const factsRawSwitch = document.getElementById('facts-raw-switch');
 const packagesEl = document.getElementById('packages');
-const vulnerabilitiesSection = document.getElementById('vulnerabilities-section');
+const vulnerabilitiesTab = document.getElementById('vulnerabilities-tab');
 const vulnerabilitiesCoverageEl = document.getElementById('vulnerabilities-coverage');
 const vulnerabilitiesEl = document.getElementById('vulnerabilities');
 const vulnerabilitiesClosedSwitch = document.getElementById('vulnerabilities-closed-switch');
@@ -14,6 +15,42 @@ const runNowError = document.getElementById('run-now-error');
 const packageInventoryToggleEl = document.getElementById('package-inventory-toggle');
 const packageInventorySwitch = document.getElementById('package-inventory-switch');
 const packageInventoryStatusEl = document.getElementById('package-inventory-status');
+
+// Neither node endpoint takes a limit or page parameter - both return
+// every row for the node - so these lists cap what they show to the
+// first PAGE_SIZE and let "View all" page over the array already
+// fetched, rather than refetching or rendering thousands of rows at
+// once. A single node can carry thousands of findings.
+const PAGE_SIZE = 25;
+const vulnState = { all: [], expanded: false, page: 1, assessed: false };
+const reportState = { all: [], expanded: false, page: 1 };
+
+// Header shared by both capped lists: says what's on screen out of the
+// total, and toggles between the top-PAGE_SIZE view and the full
+// paginated one. Absent entirely when everything already fits.
+function listHeader(expanded, total, showing, nounPlural) {
+  if (total <= PAGE_SIZE) return '';
+  const label = expanded
+    ? `Showing ${showing} of ${total} ${nounPlural}`
+    : `Top ${showing} of ${total} ${nounPlural}`;
+  const action = expanded ? `Show top ${PAGE_SIZE} only` : `View all ${total}`;
+  return `
+    <div class="vox-display-flex vox-justify-between vox-items-center vox-gap-md vox-m-bottom-md">
+      <span class="vox-ts-sm">${label}</span>
+      <a href="#" data-list-toggle>${escapeHtml(action)}</a>
+    </div>`;
+}
+
+function bindListHeader(container, state, rerender) {
+  const toggle = container.querySelector('[data-list-toggle]');
+  if (!toggle) return;
+  toggle.addEventListener('click', (ev) => {
+    ev.preventDefault();
+    state.expanded = !state.expanded;
+    state.page = 1;
+    rerender();
+  });
+}
 
 document.getElementById('node-heading').textContent = certname;
 document.getElementById('node-name').textContent = certname;
@@ -35,44 +72,255 @@ runNowButton.addEventListener('click', async () => {
   }
 });
 
-// Structured fact values (hashes, arrays) render as a real JSON code
-// block - matches voxblocks' own documented facts-table example
-// (docs/components/code-block: no-header/no-border for a table-cell
-// block). A plain string fact stays plain text - stringifying it as
-// "JSON" would just wrap it in pointless quotes.
-function renderFactValue(value) {
-  if (value === undefined || value === null) return '';
-  if (typeof value === 'string') return escapeHtml(value);
-  const json = JSON.stringify(value, null, 2);
-  return `<vox-code-block language="json" no-header no-border>${escapeHtml(json)}</vox-code-block>`;
+// Facts render two ways, chosen by the Raw JSON switch: a curated view
+// of the handful an operator actually reads, and the complete fact set
+// as JSON. A node reports 30-40 top-level facts (~60 KB on a real
+// server), which is what Raw is for - the curated view deliberately
+// shows a fraction of it.
+const factsState = { all: null, showAllMounts: false };
+
+// Facter reports capacity as a preformatted string ("3.67%"). Parsed
+// rather than recomputed from the *_bytes fields, since the string is
+// what the node itself reported.
+function capacityPercent(capacity) {
+  const n = Number.parseFloat(String(capacity ?? '').replace('%', ''));
+  return Number.isFinite(n) ? Math.min(Math.max(n, 0), 100) : null;
+}
+
+// voxblocks has no progress/meter component, so the bar is local markup
+// (see shell.css). The percentage stays as text beside it rather than
+// colour alone carrying the meaning.
+function usageBar(capacity, detail, { muted = false } = {}) {
+  const pct = capacityPercent(capacity);
+  if (pct === null) return '—';
+  const level = muted ? 'none' : pct >= 90 ? 'crit' : pct >= 75 ? 'warn' : 'ok';
+  return `
+    <div class="usage" data-level="${level}"${detail ? ` title="${escapeHtml(detail)}"` : ''}>
+      <div class="usage-track"><span class="usage-fill" style="width: ${pct}%"></span></div>
+      <span class="usage-pct">${escapeHtml(String(capacity))}</span>
+    </div>`;
+}
+
+// A Nomad CSI mount path runs past 150 characters and what distinguishes
+// one volume from another sits at the END, so trim from the middle
+// rather than the right. Full path stays in the title.
+function middleEllipsis(text, max = 44) {
+  if (text.length <= max) return text;
+  const head = Math.ceil((max - 1) / 2);
+  const tail = Math.floor((max - 1) / 2);
+  return `${text.slice(0, head)}…${text.slice(text.length - tail)}`;
+}
+
+// Docker bind-mounts exactly these three files into every container, and
+// each reports the *host* filesystem's usage under what looks like a
+// config-file path - never what an operator means by storage.
+const BIND_MOUNT_FILES = new Set(['/etc/hosts', '/etc/hostname', '/etc/resolv.conf']);
+
+// Of 47 mountpoints on a real server, 3 are worth showing. Keeping only
+// mounts backed by a real block device drops tmpfs, nsfs, per-container
+// overlay layer directories, and the zero-byte pseudo-filesystems that
+// report a meaningless 100%. "/" is kept regardless because its device
+// is `overlay` on a containerised node and would otherwise vanish. One
+// device can appear at several paths (a CSI volume is mounted at both a
+// per-alloc and a staging path), so the shortest path per device wins.
+function interestingMounts(mountpoints) {
+  const kept = new Map();
+  for (const [path, m] of Object.entries(mountpoints || {})) {
+    if (!m || (m.size_bytes ?? 0) <= 0) continue;
+    if (BIND_MOUNT_FILES.has(path)) continue;
+    const device = m.device || '';
+    if (!device.startsWith('/dev/') && path !== '/') continue;
+    const existing = kept.get(device);
+    if (!existing || path.length < existing.path.length) kept.set(device, { path, m });
+  }
+  return [...kept.values()].sort((a, b) => a.path.localeCompare(b.path));
+}
+
+function factsSection(heading, body) {
+  if (!body) return '';
+  return `<section class="vox-m-bottom-lg"><h3 class="vox-m-bottom-md">${escapeHtml(heading)}</h3>${body}</section>`;
+}
+
+function factsTable(headers, rows) {
+  return `
+    <div class="vox-table-wrap">
+      <table class="vox-table vox-table--striped">
+        <thead><tr>${headers.map((h) => `<th scope="col">${escapeHtml(h)}</th>`).join('')}</tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+}
+
+// Every pair is conditional: a container reports no dmi, a VM no serial,
+// and an unreachable fact should leave no empty row behind.
+function overviewHTML(f) {
+  const pairs = [];
+  const add = (label, value) => { if (value) pairs.push([label, String(value)]); };
+  const os = f.os || {};
+  add('Operating system', os.distro?.description || [os.name, os.release?.full].filter(Boolean).join(' '));
+  add('Architecture', os.architecture);
+  add('Kernel', [f.kernel, f.kernelrelease].filter(Boolean).join(' '));
+  add('Uptime', f.system_uptime?.uptime);
+  add('Virtualization', f.is_virtual === false ? 'physical' : f.virtual);
+  const p = f.processors || {};
+  if (p.count) {
+    add('Processors', `${p.count} × ${p.models?.[0] || p.isa || 'CPU'}${p.speed ? ` @ ${p.speed}` : ''}`);
+  }
+  const n = f.networking || {};
+  add('FQDN', n.fqdn);
+  add('Primary address', n.ip ? `${n.ip}${n.primary ? ` (${n.primary})` : ''}` : '');
+  add('Puppet agent', f.aio_agent_version || f.puppetversion);
+  if (pairs.length === 0) return '';
+  return `<dl class="fact-overview">${pairs
+    .map(([k, v]) => `<div><dt>${escapeHtml(k)}</dt><dd>${escapeHtml(v)}</dd></div>`)
+    .join('')}</dl>`;
+}
+
+function memoryHTML(memory) {
+  const rows = ['system', 'swap']
+    .filter((k) => memory?.[k])
+    .map((k) => {
+      const m = memory[k];
+      return `
+        <tr>
+          <th scope="row">${k === 'system' ? 'RAM' : 'Swap'}</th>
+          <td class="usage-cell">${usageBar(m.capacity, `${m.used || '?'} used of ${m.total || '?'}, ${m.available || '?'} free`)}</td>
+          <td>${escapeHtml(m.used || '—')} / ${escapeHtml(m.total || '—')}</td>
+          <td>${escapeHtml(m.available || '—')}</td>
+        </tr>`;
+    })
+    .join('');
+  return rows ? factsTable(['', 'Used', 'Used / total', 'Available'], rows) : '';
+}
+
+// Disks carry no usage figure - that lives on mountpoints - so this is
+// identity only, with model/serial/vendor on hover. A Ceph RBD device
+// reports none of those three, hence the fallbacks.
+function disksHTML(disks) {
+  const entries = Object.entries(disks || {}).sort(([a], [b]) => a.localeCompare(b));
+  if (entries.length === 0) return '';
+  const rows = entries
+    .map(([name, d]) => {
+      // Model is its own column now, so the tooltip carries what's left.
+      // A Ceph RBD device reports none of the three, and then there is
+      // no tooltip rather than an empty one.
+      const detail = [d.vendor, d.serial ? `serial ${d.serial}` : '']
+        .filter(Boolean).join(' · ');
+      return `
+        <tr${detail ? ` title="${escapeHtml(detail)}"` : ''}>
+          <th scope="row" title="${escapeHtml(name)}">${escapeHtml(name)}</th>
+          <td title="${escapeHtml(d.model || '')}">${escapeHtml(d.model || '—')}</td>
+          <td>${escapeHtml(d.size || '—')}</td>
+          <td>${escapeHtml(d.type || '—')}</td>
+        </tr>`;
+    })
+    .join('');
+  return factsTable(['Device', 'Model', 'Size', 'Type'], rows);
+}
+
+function mountRow(path, m) {
+  const detail = `${path}\n${m.filesystem || '?'} on ${m.device || '?'}\n${m.used || '?'} used of ${m.size || '?'}, ${m.available || '?'} free`;
+  // A zero-byte pseudo-filesystem reports a meaningless "100%" (nsfs,
+  // mqueue and devpts all do), and these only appear at all once
+  // everything is expanded. They still get a bar, so the column reads
+  // consistently, but a muted one: colouring it danger red would say a
+  // disk is about to fill up, which is the opposite of the truth.
+  const zeroCapacity = (m.size_bytes ?? 0) <= 0;
+  const usage = usageBar(
+    m.capacity,
+    zeroCapacity ? `${detail}\n\nNo capacity to fill - the 100% is an artefact of a pseudo-filesystem, not a full disk.` : detail,
+    { muted: zeroCapacity },
+  );
+  return `
+    <tr>
+      <th scope="row" title="${escapeHtml(path)}">${escapeHtml(middleEllipsis(path))}</th>
+      <td class="usage-cell">${usage}</td>
+      <td>${escapeHtml(m.used || '—')} / ${escapeHtml(m.size || '—')}</td>
+      <td title="${escapeHtml(m.filesystem || '')}">${escapeHtml(m.filesystem || '—')}</td>
+      <td title="${escapeHtml(m.device || '')}">${escapeHtml(m.device || '—')}</td>
+    </tr>`;
+}
+
+function mountsHTML(mountpoints) {
+  const all = Object.entries(mountpoints || {})
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([path, m]) => ({ path, m }));
+  if (all.length === 0) return '';
+
+  const interesting = interestingMounts(mountpoints);
+  const hidden = all.length - interesting.length;
+  const showAll = factsState.showAllMounts;
+  const visible = showAll ? all : interesting;
+
+  // The filter is stated rather than applied silently - on a Nomad
+  // server it hides 44 of 47 mounts, too much to do invisibly - but the
+  // count rides on the link instead of a long sentence listing every
+  // filesystem type that didn't make the cut.
+  const note = hidden > 0
+    ? `<p class="vox-ts-sm vox-m-top-md">${showAll
+        ? `Showing all ${all.length} mounts. <a href="#" data-mounts-toggle>Show only real filesystems</a>`
+        : `Only showing real filesystems. <a href="#" data-mounts-toggle>Show all ${all.length}</a>`}</p>`
+    : '';
+
+  // A node can have mounts where none survive the filter (every one a
+  // tmpfs). The note still has to render, or there is no way back.
+  if (visible.length === 0) return note;
+
+  return factsTable(['Mount', 'Used', 'Used / size', 'Type', 'Device'],
+    visible.map(({ path, m }) => mountRow(path, m)).join('')) + note;
+}
+
+function renderFacts() {
+  const f = factsState.all;
+  if (!f) return;
+  if (Object.keys(f).length === 0) {
+    factsEl.innerHTML = `<vox-empty-state heading="No facts reported"></vox-empty-state>`;
+    return;
+  }
+
+  if (factsRawSwitch?.checked) {
+    // Sorted by rebuilding the object, NOT via a replacer array: an
+    // array replacer applies at every level, so nested fact structures
+    // would lose any key that isn't also a top-level fact name.
+    const sorted = Object.fromEntries(Object.keys(f).sort().map((k) => [k, f[k]]));
+    const json = JSON.stringify(sorted, null, 2);
+    factsEl.innerHTML = `<vox-code-block language="json" no-header no-border>${escapeHtml(json)}</vox-code-block>`;
+    return;
+  }
+
+  const body = [
+    overviewHTML(f),
+    factsSection('Memory', memoryHTML(f.memory)),
+    factsSection('Disks', disksHTML(f.disks)),
+    factsSection('Filesystems', mountsHTML(f.mountpoints)),
+  ].join('');
+
+  // A node can report facts without reporting any of the hardware ones
+  // this view curates - say a fact-collection failure, or a platform
+  // Facter has less to say about. Saying so beats a blank panel.
+  factsEl.innerHTML = body.trim()
+    ? body
+    : `<vox-empty-state heading="Nothing to summarise">This node reported no hardware facts. Switch to Raw JSON for everything it did report.</vox-empty-state>`;
+
+  // Rebound on every render - innerHTML above replaces the link.
+  factsEl.querySelector('[data-mounts-toggle]')?.addEventListener('click', (ev) => {
+    ev.preventDefault();
+    factsState.showAllMounts = !factsState.showAllMounts;
+    renderFacts();
+  });
 }
 
 async function loadFacts() {
   try {
     const detail = await fetchJSON(`/api/v1/nodes/${encodeURIComponent(certname)}`);
-    const names = Object.keys(detail.facts).sort();
-    if (names.length === 0) {
-      factsEl.innerHTML = `<vox-empty-state heading="No facts reported"></vox-empty-state>`;
-      return;
-    }
-    const rows = names
-      .map((name) => `
-        <tr>
-          <th scope="row">${escapeHtml(name)}</th>
-          <td>${renderFactValue(detail.facts[name])}</td>
-        </tr>`)
-      .join('');
-    factsEl.innerHTML = `
-      <div class="vox-table-wrap">
-        <table class="vox-table vox-table--striped">
-          <thead><tr><th scope="col">Fact</th><th scope="col">Value</th></tr></thead>
-          <tbody>${rows}</tbody>
-        </table>
-      </div>`;
+    factsState.all = detail.facts || {};
+    renderFacts();
   } catch (err) {
     factsEl.innerHTML = `<vox-alert variant="danger">${escapeHtml(err.message)}</vox-alert>`;
   }
 }
+
+factsRawSwitch?.addEventListener('change', renderFacts);
 
 async function loadPackages() {
   try {
@@ -114,34 +362,54 @@ async function loadReports() {
     if (statusFilter.value) params.set('status', statusFilter.value);
     const qsStr = params.toString();
     const url = `/api/v1/nodes/${encodeURIComponent(certname)}/reports${qsStr ? `?${qsStr}` : ''}`;
-    const reports = await fetchJSON(url);
-
-    if (reports.length === 0) {
-      reportsEl.innerHTML = `
-        <vox-empty-state heading="No reports yet">
-          <vox-icon slot="icon" name="report" size="lg"></vox-icon>
-          Reports appear here after this node's next Puppet run.
-        </vox-empty-state>`;
-      return;
-    }
-
-    const rows = reports
-      .map((r) => `
-        <tr>
-          <td><a href="/report.html?id=${encodeURIComponent(r.hash)}&node=${encodeURIComponent(certname)}">${new Date(r.startTime).toLocaleString()}</a></td>
-          <td><vox-badge variant="${statusVariant(r.status)}">${escapeHtml(r.status)}</vox-badge></td>
-          <td>${new Date(r.endTime).toLocaleString()}</td>
-        </tr>`)
-      .join('');
-    reportsEl.innerHTML = `
-      <div class="vox-table-wrap">
-        <table class="vox-table vox-table--striped">
-          <thead><tr><th scope="col">Started</th><th scope="col">Status</th><th scope="col">Ended</th></tr></thead>
-          <tbody>${rows}</tbody>
-        </table>
-      </div>`;
+    reportState.all = await fetchJSON(url);
+    reportState.expanded = false;
+    reportState.page = 1;
+    renderReports();
   } catch (err) {
     reportsEl.innerHTML = `<vox-alert variant="danger">${escapeHtml(err.message)}</vox-alert>`;
+  }
+}
+
+// openvoxdb returns a node's reports newest-first, so the uncapped view
+// is simply the first PAGE_SIZE of them - no client-side sort needed.
+function renderReports() {
+  const all = reportState.all;
+  if (all.length === 0) {
+    reportsEl.innerHTML = `
+      <vox-empty-state heading="No reports yet">
+        <vox-icon slot="icon" name="report" size="lg"></vox-icon>
+        Reports appear here after this node's next Puppet run.
+      </vox-empty-state>`;
+    return;
+  }
+
+  const start = reportState.expanded ? (reportState.page - 1) * PAGE_SIZE : 0;
+  const visible = all.slice(start, start + PAGE_SIZE);
+  const rows = visible
+    .map((r) => `
+      <tr>
+        <td><a href="/report.html?id=${encodeURIComponent(r.hash)}&node=${encodeURIComponent(certname)}">${new Date(r.startTime).toLocaleString()}</a></td>
+        <td><vox-badge variant="${statusVariant(r.status)}">${escapeHtml(r.status)}</vox-badge></td>
+        <td>${new Date(r.endTime).toLocaleString()}</td>
+      </tr>`)
+    .join('');
+  reportsEl.innerHTML = `
+    ${listHeader(reportState.expanded, all.length, visible.length, 'runs')}
+    <div class="vox-table-wrap">
+      <table class="vox-table vox-table--striped">
+        <thead><tr><th scope="col">Started</th><th scope="col">Status</th><th scope="col">Ended</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+    ${reportState.expanded ? paginationHTML(reportState.page, PAGE_SIZE, all.length) : ''}`;
+
+  bindListHeader(reportsEl, reportState, renderReports);
+  if (reportState.expanded) {
+    bindPagination(reportsEl, (target) => {
+      reportState.page = target;
+      renderReports();
+    });
   }
 }
 
@@ -207,7 +475,7 @@ statusFilter.addEventListener('change', loadReports);
 // Vulnerabilities section (add-vulnerability-tracking): only shown with
 // vulnerabilities:read, and never presents an unassessed node as clean.
 async function loadVulnerabilities() {
-  vulnerabilitiesSection.style.display = '';
+  vulnerabilitiesTab.style.display = '';
   const includeClosed = vulnerabilitiesClosedSwitch.checked;
   try {
     const data = await fetchJSON(`/api/v1/nodes/${encodeURIComponent(certname)}/vulnerabilities${includeClosed ? '?includeClosed=true' : ''}`);
@@ -225,33 +493,58 @@ async function loadVulnerabilities() {
       vulnerabilitiesCoverageEl.innerHTML = `<p class="vox-ts-sm">Assessed by ${assessedBy}.</p>${notAssessedBy.length ? `<p class="vox-ts-sm">Not assessed by:</p><ul class="vox-ts-sm">${reasons}</ul>` : ''}`;
     }
 
-    if (data.findings.length === 0) {
-      vulnerabilitiesEl.innerHTML = cov.assessed
-        ? `<vox-empty-state heading="No open vulnerabilities"><vox-icon slot="icon" name="shield" size="lg"></vox-icon>No enabled provider reports an open finding on this node.</vox-empty-state>`
-        : '';
-      return;
-    }
-    const rows = data.findings
-      .map((f) => `
-        <tr>
-          <th scope="row"><a href="/vulnerability.html?id=${encodeURIComponent(f.vulnId)}">${escapeHtml(f.vulnId)}</a></th>
-          <td>${f.status === 'open' ? severityBadge(f.severity) : '—'}</td>
-          <td>${f.status === 'open' ? 'Open' : `Closed (${escapeHtml(closeReasonText(f.closeReason))})`}</td>
-          <td>${f.status !== 'open' ? '—' : f.fixAvailable ? 'Available' : 'None released'}</td>
-          <td>${escapeHtml(f.packages.join(', ')) || '—'}</td>
-          <td>${escapeHtml(new Date(f.firstSeen).toLocaleString())}</td>
-          <td>${escapeHtml(f.providers.map((p) => p.name).join(', ')) || '—'}</td>
-        </tr>`)
-      .join('');
-    vulnerabilitiesEl.innerHTML = `
-      <div class="vox-table-wrap">
-        <table class="vox-table vox-table--striped">
-          <thead><tr><th scope="col">Vulnerability</th><th scope="col">Severity</th><th scope="col">Status</th><th scope="col">Fix</th><th scope="col">Packages</th><th scope="col">First seen</th><th scope="col">Providers</th></tr></thead>
-          <tbody>${rows}</tbody>
-        </table>
-      </div>`;
+    vulnState.all = data.findings;
+    vulnState.assessed = cov.assessed;
+    vulnState.expanded = false;
+    vulnState.page = 1;
+    renderVulnerabilities();
   } catch (err) {
     vulnerabilitiesEl.innerHTML = `<vox-alert variant="danger">${escapeHtml(err.message)}</vox-alert>`;
+  }
+}
+
+// The API already returns a node's findings open-first, then by
+// descending severity, so the capped view is the most severe open
+// findings without this having to re-sort anything.
+function renderVulnerabilities() {
+  const all = vulnState.all;
+  if (all.length === 0) {
+    vulnerabilitiesEl.innerHTML = vulnState.assessed
+      ? `<vox-empty-state heading="No open vulnerabilities"><vox-icon slot="icon" name="shield" size="lg"></vox-icon>No enabled provider reports an open finding on this node.</vox-empty-state>`
+      : '';
+    return;
+  }
+
+  const start = vulnState.expanded ? (vulnState.page - 1) * PAGE_SIZE : 0;
+  const visible = all.slice(start, start + PAGE_SIZE);
+  const rows = visible
+    .map((f) => `
+      <tr>
+        <th scope="row"><a href="/vulnerability.html?id=${encodeURIComponent(f.vulnId)}">${escapeHtml(f.vulnId)}</a></th>
+        <td>${f.status === 'open' ? severityBadge(f.severity) : '—'}</td>
+        <td>${f.status === 'open' ? 'Open' : `Closed (${escapeHtml(closeReasonText(f.closeReason))})`}</td>
+        <td>${f.status !== 'open' ? '—' : f.fixAvailable ? 'Available' : 'None released'}</td>
+        <td>${escapeHtml(f.packages.join(', ')) || '—'}</td>
+        <td>${escapeHtml(new Date(f.firstSeen).toLocaleString())}</td>
+        <td>${escapeHtml(f.providers.map((p) => p.name).join(', ')) || '—'}</td>
+      </tr>`)
+    .join('');
+  vulnerabilitiesEl.innerHTML = `
+    ${listHeader(vulnState.expanded, all.length, visible.length, 'findings')}
+    <div class="vox-table-wrap">
+      <table class="vox-table vox-table--striped">
+        <thead><tr><th scope="col">Vulnerability</th><th scope="col">Severity</th><th scope="col">Status</th><th scope="col">Fix</th><th scope="col">Packages</th><th scope="col">First seen</th><th scope="col">Providers</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+    ${vulnState.expanded ? paginationHTML(vulnState.page, PAGE_SIZE, all.length) : ''}`;
+
+  bindListHeader(vulnerabilitiesEl, vulnState, renderVulnerabilities);
+  if (vulnState.expanded) {
+    bindPagination(vulnerabilitiesEl, (target) => {
+      vulnState.page = target;
+      renderVulnerabilities();
+    });
   }
 }
 

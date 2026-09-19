@@ -21,12 +21,14 @@ import (
 // groupGetter is the subset of classifier.Store this package needs.
 type groupGetter interface {
 	GetGroup(ctx context.Context, id int64) (classifier.Group, error)
+	ListAllGroups(ctx context.Context) ([]classifier.Group, error)
 }
 
 // inventory is the subset of *openvoxdb.Client this package needs.
 type inventory interface {
 	Nodes(ctx context.Context) ([]openvoxdb.Node, error)
 	Facts(ctx context.Context, certname string) ([]openvoxdb.Fact, error)
+	FleetFacts(ctx context.Context) ([]openvoxdb.NodeAllFacts, error)
 }
 
 // Handlers serves the group-nodes HTTP API.
@@ -48,6 +50,90 @@ func NewHandlers(groups groupGetter, nodes inventory, recordAuditRead func(r *ht
 // the same permission the group's own detail view requires.
 func (h *Handlers) Register(mux *http.ServeMux, authorize func(permission string, next http.HandlerFunc) http.HandlerFunc) {
 	mux.HandleFunc("GET /api/v1/groups/{id}/nodes", authorize("classifier:read", h.matchingNodes))
+	mux.HandleFunc("GET /api/v1/groups/node-counts", authorize("classifier:read", h.nodeCounts))
+}
+
+// Resolver answers "which nodes are in this group" for packages
+// outside this one, so they can scope a query to a group without
+// importing the classifier themselves.
+type Resolver struct {
+	groups groupGetter
+	nodes  inventory
+}
+
+// NewResolver builds a Resolver over the same dependencies Handlers
+// uses.
+func NewResolver(groups groupGetter, nodes inventory) *Resolver {
+	return &Resolver{groups: groups, nodes: nodes}
+}
+
+// GroupCertnames returns the certnames currently matching the group, or
+// classifier.ErrNotFound if no such group exists. One fleet-wide fact
+// query, not one per node.
+func (r *Resolver) GroupCertnames(ctx context.Context, id int64) ([]string, error) {
+	group, err := r.groups.GetGroup(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+	fleet, err := r.nodes.FleetFacts(ctx)
+	if err != nil {
+		return nil, err
+	}
+	certnames := make([]string, 0)
+	for _, node := range fleet {
+		if classifier.Matches(group, node.Certname, node.Facts) {
+			certnames = append(certnames, node.Certname)
+		}
+	}
+	return certnames, nil
+}
+
+// NodeCount is how many nodes currently match one group.
+type NodeCount struct {
+	GroupID int64 `json:"groupId"`
+	Nodes   int   `json:"nodes"`
+}
+
+// CountsResponse is the node-counts endpoint's JSON shape.
+type CountsResponse struct {
+	Counts []NodeCount `json:"counts"`
+}
+
+// nodeCounts reports the matching-node total for every group at once.
+//
+// Deliberately not "call matchingNodes per group": that resolves one
+// group by fetching each node's facts individually, so a page of 25
+// groups across 1000 nodes would be 25,000 openvoxdb queries. Here the
+// fleet's facts are fetched once and every group is matched against
+// that snapshot in memory, which is two queries regardless of how many
+// groups or nodes exist.
+func (h *Handlers) nodeCounts(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	groups, err := h.groups.ListAllGroups(ctx)
+	if err != nil {
+		writeError(w, http.StatusBadGateway, err)
+		return
+	}
+	fleet, err := h.nodes.FleetFacts(ctx)
+	if err != nil {
+		writeError(w, http.StatusBadGateway, err)
+		return
+	}
+
+	counts := make([]NodeCount, 0, len(groups))
+	for _, g := range groups {
+		matched := 0
+		for _, node := range fleet {
+			if classifier.Matches(g, node.Certname, node.Facts) {
+				matched++
+			}
+		}
+		counts = append(counts, NodeCount{GroupID: g.ID, Nodes: matched})
+	}
+
+	h.recordAuditRead(r, auditlog.Event{Action: "group.nodecounts.viewed", ResourceType: "group"})
+	writeJSON(w, http.StatusOK, CountsResponse{Counts: counts})
 }
 
 // Response is the group-nodes endpoint's JSON shape.

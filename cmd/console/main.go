@@ -541,7 +541,21 @@ func main() {
 	rbacHandlers.Register(mux)
 	inventory.NewHandlers(openvoxdbClient, caClient, auditWrite(auditlog.CategoryNodes), auditRead(auditlog.CategoryNodes)).Register(mux, verifier.Authorize)
 	nodeConnectivityHandlers.Register(mux, verifier.Authorize)
-	packageinventory.NewHandlers(openvoxdbClient, transport, auditWrite(auditlog.CategoryNodes), auditRead(auditlog.CategoryNodes)).Register(mux, verifier.Authorize)
+	packageHandlers := packageinventory.NewHandlers(openvoxdbClient, transport, auditWrite(auditlog.CategoryNodes), auditRead(auditlog.CategoryNodes))
+	// The package catalogue's group filter needs the classifier, which
+	// packageinventory deliberately doesn't import. It also has to
+	// enforce classifier:read itself: the catalogue route is gated on
+	// nodes:read, and filtering packages by group would otherwise tell
+	// a caller without it which nodes are in that group.
+	groupResolver := groupnodes.NewResolver(classifierStore, openvoxdbClient)
+	packageHandlers.SetGroupResolver(func(r *http.Request, groupID int64) ([]string, error) {
+		claims, ok := rbac.ClaimsFromContext(r.Context())
+		if !ok || !claims.HasPermission("classifier:read") {
+			return nil, packageinventory.ErrGroupForbidden
+		}
+		return groupResolver.GroupCertnames(r.Context(), groupID)
+	})
+	packageHandlers.Register(mux, verifier.Authorize)
 	reporting.NewHandlers(openvoxdbClient, auditRead(auditlog.CategoryNodes)).Register(mux, verifier.Authorize)
 	classifier.NewHandlers(
 		classifierStore, recordActivity(classifierActivityPublisher),

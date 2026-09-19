@@ -94,12 +94,10 @@ pre.value {
   max-width: 24rem;
 }
 
-/* Fixed layout so the Value column has a definite width - otherwise
-   the table's auto layout sizes the column (and the whole table) to
-   fit a wide vox-code-block's full unwrapped content, forcing the
-   *entire table* to scroll sideways together in .vox-table-wrap
-   instead of each code block scrolling independently within its own
-   cell. */
+/* Fixed layout, so every column after the first gets an equal share of
+   the row rather than being sized by whichever cell happens to hold the
+   longest string. The first column is the label one (fact name, mount
+   path, device) and gets a definite width. */
 #facts table {
   table-layout: fixed;
 }
@@ -108,6 +106,111 @@ pre.value {
 #facts td:first-child {
   width: 16rem;
 }
+
+/* Values that outrun their column are truncated rather than wrapped -
+   "/dev/mapper/MyVolGroup-root" broken across two lines reads as two
+   separate values. The full string is on the cell's title attribute.
+   The usage cell is excluded: its bar carries a min-width slightly
+   wider than the column's content box, so clipping it would cut the
+   bar off rather than truncate any text. */
+#facts th:not(.usage-cell),
+#facts td:not(.usage-cell) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Raw facts JSON. vox-code-block brings its own chrome and syntax
+   colouring, so all this adds is a height bound: the component has no
+   max-height of its own and a node's facts run to ~60 KB, which renders
+   as a 20,000px block that pushes everything else off the page. */
+#facts vox-code-block {
+  display: block;
+  max-height: 32rem;
+  overflow: auto;
+}
+
+/* Usage bars for memory and filesystem capacity. voxblocks has no
+   progress/meter component (checked in 0.14.0), so this is deliberately
+   minimal: a track, a fill, and a tabular-numerals percentage that
+   doesn't jitter as values change. Thresholds colour the fill only -
+   the number stays readable text rather than becoming a colour-only
+   signal. */
+.usage {
+  display: flex;
+  align-items: center;
+  gap: var(--vox-space-2);
+  min-width: 11rem;
+}
+
+.usage-track {
+  flex: 1;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: var(--vox-color-bg-soft);
+  border: 1px solid var(--vox-color-border);
+  overflow: hidden;
+}
+
+.usage-fill {
+  display: block;
+  height: 100%;
+  background: var(--vox-color-brand-1);
+}
+
+.usage[data-level='warn'] .usage-fill {
+  background: var(--vox-color-warning-1);
+}
+
+.usage[data-level='crit'] .usage-fill {
+  background: var(--vox-color-danger-1);
+}
+
+/* A pseudo-filesystem with no capacity (nsfs, mqueue, devpts) reports
+   "100%". It gets a bar so the column stays visually consistent, but a
+   muted one - danger red there would read as a disk about to fill up,
+   which is the opposite of what it means. */
+.usage[data-level='none'] .usage-fill {
+  background: var(--vox-color-text-3);
+}
+
+.usage-pct {
+  min-width: 3.75rem;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Overview pairs: label above value, wrapping into as many columns as
+   fit rather than a fixed grid, so a node missing half these facts
+   doesn't leave holes. */
+.fact-overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: var(--vox-space-4);
+  margin: 0 0 var(--vox-space-6);
+}
+
+.fact-overview div {
+  min-width: 0;
+}
+
+.fact-overview dt {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--vox-color-text-3);
+}
+
+.fact-overview dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Mount paths reach 150+ characters on a Nomad CSI volume. They are
+   middle-ellipsised in JS first, because the part that distinguishes one
+   volume from another sits at the end and a trailing ellipsis would cut
+   exactly that off; the cell rule above then clips whatever still
+   doesn't fit, with the full path on the cell's title. */
 
 /* Group edit form: a single readable column rather than controls
    stretched across the full container. A number field ("Priority: 100")

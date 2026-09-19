@@ -4,7 +4,7 @@ const results = document.getElementById('results');
 
 let currentPage = 1;
 
-function renderGroups(page) {
+function renderGroups(page, nodeCounts) {
   if (page.items.length === 0) {
     results.innerHTML = `
       <vox-empty-state heading="No node groups yet">
@@ -21,6 +21,7 @@ function renderGroups(page) {
         <td>${g.priority}</td>
         <td>${escapeHtml(g.environment || '')}</td>
         <td>${g.classes.length}</td>
+        <td>${nodeCounts ? (nodeCounts.get(g.id) ?? 0) : '—'}</td>
         <td>${g.pins.length}</td>
       </tr>`)
     .join('');
@@ -29,7 +30,7 @@ function renderGroups(page) {
     <div class="vox-table-wrap">
       <table class="vox-table vox-table--striped">
         <thead>
-          <tr><th scope="col">Name</th><th scope="col">Priority</th><th scope="col">Environment</th><th scope="col">Classes</th><th scope="col">Pinned nodes</th></tr>
+          <tr><th scope="col">Name</th><th scope="col">Priority</th><th scope="col">Environment</th><th scope="col">Classes</th><th scope="col">Matching nodes</th><th scope="col">Pinned nodes</th></tr>
         </thead>
         <tbody>${rows}</tbody>
       </table>
@@ -47,12 +48,20 @@ async function load() {
     // node_groups is already ordered by priority server-side (see
     // internal/classifier.Store.ListGroups), so no client-side sort
     // needed - it'd only be able to sort the current page anyway.
-    const page = await fetchJSON(`/api/v1/groups?page=${currentPage}`);
+    // Counts come from their own endpoint (one fleet-wide fact snapshot
+    // matched against every group) rather than per row, and a failure
+    // there shows as "-" instead of failing the whole list - the group
+    // list is still useful without it.
+    const [page, counts] = await Promise.all([
+      fetchJSON(`/api/v1/groups?page=${currentPage}`),
+      fetchJSON('/api/v1/groups/node-counts').catch(() => null),
+    ]);
     if (page.items.length === 0 && page.page > 1 && page.total > 0) {
       currentPage = 1;
       return load();
     }
-    renderGroups(page);
+    const nodeCounts = counts ? new Map(counts.counts.map((c) => [c.groupId, c.nodes])) : null;
+    renderGroups(page, nodeCounts);
   } catch (err) {
     results.innerHTML = `<vox-alert variant="danger">${escapeHtml(err.message)}</vox-alert>`;
   }

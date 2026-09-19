@@ -140,9 +140,17 @@ async function loadRecentActivity() {
         const occurred = new Date(e.occurredAt);
         const time = occurred.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
         const fullDate = occurred.toLocaleString([], { dateStyle: 'full', timeStyle: 'medium' });
+        // Who did it, matching the Recent runs list's use of vox-datum
+        // above. Omitted rather than shown blank for an event with no
+        // actor - a scheduled sync has no user behind it, and "User:"
+        // with nothing after it reads as missing data.
+        const actor = e.actor
+          ? `<vox-datum name="User">${escapeHtml(e.actor)}</vox-datum>`
+          : '';
         return `
       <vox-record-list-item size="sm" heading="${escapeHtml(time)}" title="${escapeHtml(fullDate)}">
         <vox-badge variant="neutral" title="${escapeHtml(e.category)}">${escapeHtml(e.category)}</vox-badge>
+        ${actor}
         <span slot="end" title="${escapeHtml(e.summary)}">${escapeHtml(e.summary)}</span>
       </vox-record-list-item>`;
       })

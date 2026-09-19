@@ -4,12 +4,18 @@
 
       <div id="search-error"></div>
 
-      <div class="filters vox-display-flex vox-items-end vox-gap-md vox-flex-wrap vox-m-bottom-lg">
-        <vox-input id="name-search" label="Package name" placeholder="e.g. openssl"></vox-input>
-        <vox-input id="version-search" label="Version (optional)" placeholder="e.g. 3.0.2-0ubuntu1.10"></vox-input>
-        <vox-button id="search-button" variant="brand">Search</vox-button>
+      <div class="filters vox-display-flex vox-items-end vox-gap-md vox-flex-wrap vox-m-bottom-md">
+        <vox-input id="name-filter" label="Package name" placeholder="Filter by name"></vox-input>
+        <vox-input id="version-filter" label="Version" placeholder="Filter by version"></vox-input>
+        <vox-select id="provider-filter" label="Provider">
+          <option value="">All</option>
+        </vox-select>
+        <vox-select id="group-filter" label="Group" style="display: none">
+          <option value="">All</option>
+        </vox-select>
       </div>
 
+      <div id="coverage" class="vox-ts-sm vox-m-bottom-md"></div>
       <div id="results"></div>
     </main>
 {{- end}}

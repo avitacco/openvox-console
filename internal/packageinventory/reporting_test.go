@@ -241,7 +241,9 @@ func TestRegister_ReportingPermissions(t *testing.T) {
 	}
 	h.Register(mux, authorize)
 
-	want := []string{"nodes:read", "nodes:read", "nodes:read", "orchestrator:run"}
+	// Four reads (node package list, fleet search, fleet summary,
+	// reporting status) then the one dispatching write.
+	want := []string{"nodes:read", "nodes:read", "nodes:read", "nodes:read", "orchestrator:run"}
 	if len(order) != len(want) {
 		t.Fatalf("Register called authorize %d times, want %d: %v", len(order), len(want), order)
 	}
