@@ -77,7 +77,7 @@ runNowButton.addEventListener('click', async () => {
 // as JSON. A node reports 30-40 top-level facts (~60 KB on a real
 // server), which is what Raw is for - the curated view deliberately
 // shows a fraction of it.
-const factsState = { all: null, showAllMounts: false };
+const factsState = { all: null, showAllMounts: false, showAllInterfaces: false };
 
 // Facter reports capacity as a preformatted string ("3.67%"). Parsed
 // rather than recomputed from the *_bytes fields, since the string is
@@ -168,12 +168,74 @@ function overviewHTML(f) {
   }
   const n = f.networking || {};
   add('FQDN', n.fqdn);
-  add('Primary address', n.ip ? `${n.ip}${n.primary ? ` (${n.primary})` : ''}` : '');
+  add('Domain', n.domain);
   add('Puppet agent', f.aio_agent_version || f.puppetversion);
   if (pairs.length === 0) return '';
   return `<dl class="fact-overview">${pairs
     .map(([k, v]) => `<div><dt>${escapeHtml(k)}</dt><dd>${escapeHtml(v)}</dd></div>`)
     .join('')}</dl>`;
+}
+
+// An interface's addresses, preferring the bindings arrays (an
+// interface can hold several) and falling back to the singular ip/ip6
+// a node reports when it has just one.
+function interfaceAddresses(iface) {
+  const v4 = (iface.bindings || []).map((b) => b.address).filter(Boolean);
+  if (v4.length === 0 && iface.ip) v4.push(iface.ip);
+  const v6 = (iface.bindings6 || []).map((b) => b.address).filter(Boolean);
+  if (v6.length === 0 && iface.ip6) v6.push(iface.ip6);
+  return { v4, v6 };
+}
+
+// A veth with only an fe80:: address is container plumbing, not network
+// configuration - a Nomad host has eight of them against four real
+// interfaces, so they'd bury the addresses worth reading.
+function linkLocalOnly({ v4, v6 }) {
+  return v4.length === 0 && v6.length > 0 && v6.every((a) => a.toLowerCase().startsWith('fe80:'));
+}
+
+function networkHTML(networking) {
+  const all = Object.entries(networking?.interfaces || {})
+    .map(([name, iface]) => ({ name, iface, addrs: interfaceAddresses(iface) }))
+    .filter((i) => i.addrs.v4.length > 0 || i.addrs.v6.length > 0)
+    .sort((a, b) => a.name.localeCompare(b.name));
+  if (all.length === 0) return '';
+
+  const interesting = all.filter((i) => !linkLocalOnly(i.addrs));
+  const hidden = all.length - interesting.length;
+  const showAll = factsState.showAllInterfaces;
+  const visible = showAll ? all : interesting;
+
+  const rows = visible
+    .map(({ name, iface, addrs }) => {
+      const isPrimary = name === networking.primary;
+      // The primary is marked on the interface rather than the address:
+      // networking.ip names one address, but it's the interface that is
+      // the node's primary, and it can hold several.
+      const label = `${escapeHtml(name)}${isPrimary ? ' <vox-badge variant="tip">primary</vox-badge>' : ''}`;
+      // Joined on one line rather than broken with <br>: these cells
+      // are nowrap/ellipsised (see shell.css), so a second line would
+      // be clipped anyway. The full set stays on the title.
+      const addr = (list) => (list.length
+        ? `<span title="${escapeHtml(list.join(', '))}">${escapeHtml(list.join(', '))}</span>`
+        : '—');
+      return `
+        <tr>
+          <th scope="row">${label}</th>
+          <td>${addr(addrs.v4)}</td>
+          <td>${addr(addrs.v6)}</td>
+          <td>${escapeHtml(iface.mac || '—')}</td>
+        </tr>`;
+    })
+    .join('');
+
+  const note = hidden > 0
+    ? `<p class="vox-ts-sm vox-m-top-md">${showAll
+        ? `Showing all ${all.length} interfaces. <a href="#" data-interfaces-toggle>Show only addressed interfaces</a>`
+        : `Only showing interfaces with a routable address. <a href="#" data-interfaces-toggle>Show all ${all.length}</a>`}</p>`
+    : '';
+
+  return factsTable(['Interface', 'IPv4', 'IPv6', 'MAC'], rows) + note;
 }
 
 function memoryHTML(memory) {
@@ -290,6 +352,7 @@ function renderFacts() {
 
   const body = [
     overviewHTML(f),
+    factsSection('Network', networkHTML(f.networking)),
     factsSection('Memory', memoryHTML(f.memory)),
     factsSection('Disks', disksHTML(f.disks)),
     factsSection('Filesystems', mountsHTML(f.mountpoints)),
@@ -302,10 +365,15 @@ function renderFacts() {
     ? body
     : `<vox-empty-state heading="Nothing to summarise">This node reported no hardware facts. Switch to Raw JSON for everything it did report.</vox-empty-state>`;
 
-  // Rebound on every render - innerHTML above replaces the link.
+  // Rebound on every render - innerHTML above replaces the links.
   factsEl.querySelector('[data-mounts-toggle]')?.addEventListener('click', (ev) => {
     ev.preventDefault();
     factsState.showAllMounts = !factsState.showAllMounts;
+    renderFacts();
+  });
+  factsEl.querySelector('[data-interfaces-toggle]')?.addEventListener('click', (ev) => {
+    ev.preventDefault();
+    factsState.showAllInterfaces = !factsState.showAllInterfaces;
     renderFacts();
   });
 }
