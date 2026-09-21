@@ -111,7 +111,7 @@ func (c *Client) query(ctx context.Context, pql string, out any) error {
 	return nil
 }
 
-// command submits a command to openvoxdb's command API - the write-side
+// Command submits a command to openvoxdb's command API - the write-side
 // counterpart to query. commandName and version identify the command
 // (e.g. "deactivate node", 3); payload is that command's own JSON body,
 // separate from the certname/command/version query parameters openvoxdb
@@ -122,7 +122,7 @@ func (c *Client) query(ctx context.Context, pql string, out any) error {
 // considers stale (an old producer_timestamp), which is why callers like
 // DeactivateNode always generate a current one rather than accepting it
 // from outside.
-func (c *Client) command(ctx context.Context, commandName string, version int, certname string, payload any) error {
+func (c *Client) Command(ctx context.Context, commandName string, version int, certname string, payload any) error {
 	body, err := json.Marshal(payload)
 	if err != nil {
 		return fmt.Errorf("encode openvoxdb command payload: %w", err)

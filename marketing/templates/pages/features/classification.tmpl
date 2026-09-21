@@ -1,0 +1,49 @@
+{{define "content"}}
+<vox-hero eyebrow="Classification" heading="Decide what runs where">
+  <p>
+    Node groups match on the facts your nodes already report and hand
+    openvox-server the answer over the ENC contract it expects.
+  </p>
+</vox-hero>
+
+<section class="site-section">
+  <h2 class="vox-ts-xxl">Groups that match real nodes</h2>
+  <div class="vox-prose">
+    <p>
+      Build a rule from facts &mdash; <code>os.family = Debian</code>,
+      <code>role = web</code> &mdash; and the console tells you how many
+      nodes it matches right now. A rule that catches nothing is obvious
+      immediately, instead of at the next Puppet run.
+    </p>
+  </div>
+</section>
+
+{{screenshot "groups-list"}}
+
+<section class="site-section">
+  <h2 class="vox-ts-xxl">Precedence you can read off the page</h2>
+  <div class="vox-prose">
+    <p>
+      When several groups apply to a node, one number decides which wins.
+      Groups are flat and each carries an explicit priority, so working
+      out why a node got a class means reading a list, not tracing an
+      inheritance tree.
+    </p>
+  </div>
+</section>
+
+<vox-step-indicator>
+  <vox-step>A node asks for its catalog</vox-step>
+  <vox-step>openvox-server asks the console what applies</vox-step>
+  <vox-step>Matching groups merge by priority</vox-step>
+  <vox-step>Classes, parameters and environment come back</vox-step>
+</vox-step-indicator>
+
+<vox-callout variant="warning" heading="Rules match on reported facts">
+  <p>
+    A node that has never checked in has no facts yet, so no fact-based
+    rule can match it. Pin it to a group directly if it needs
+    classification before its first run.
+  </p>
+</vox-callout>
+{{end}}

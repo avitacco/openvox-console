@@ -9,7 +9,14 @@ VERSION := $(shell git describe --tags --always --dirty 2>/dev/null || echo dev)
 -include .env
 export
 
-.PHONY: build frontend agent-binaries agent-packages docker-build up down openvox-up openvox-down openvox-test g10k-install control-repo-fixture code-sources-fixture rbac-keys rbac-rotate-key postgres-replication-up postgres-replication-down postgres-replication-failover run test clean
+.PHONY: build frontend agent-binaries agent-packages docker-build up down openvox-up openvox-down openvox-test g10k-install control-repo-fixture code-sources-fixture rbac-keys rbac-rotate-key postgres-replication-up postgres-replication-down postgres-replication-failover run test clean demo-seed screenshots-up screenshots-down
+
+# Compose invocation for a screenshot capture run. All three files, in
+# this order: naming any -f turns off compose's automatic loading of
+# docker-compose.override.yml, and without the override openvoxdb comes
+# back with no published port and no "localhost" alt name - healthy, and
+# unreachable from the host where the seed and capture tools run.
+SCREENSHOT_COMPOSE := docker compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose.screenshots.yml
 
 build: ## Build the console binary and enc-bridge for your local OS/arch
 	go build -ldflags "-X github.com/voxpupuli/enterprise-console/internal/runtime.Version=$(VERSION)" -o $(BINARY) ./cmd/console
@@ -131,6 +138,31 @@ postgres-replication-down: ## Stop just the replication fixture, leaving everyth
 postgres-replication-failover: ## Promote the standby and repoint the proxy at it, without touching the console (see operations.md)
 	docker exec $$(docker compose ps -q postgres-standby) psql -U console -d console -c "SELECT pg_promote();"
 	POSTGRES_PROXY_TARGET=postgres-standby docker compose up -d postgres-proxy
+
+demo-seed: ## Fill a LOCAL console with a fabricated demo fleet for screenshots/demos (see marketing/README.md; refuses any non-local target)
+	# --reset first deletes the demo fleet from openvoxdb. Without it a
+	# re-run is a no-op for reports: openvoxdb deduplicates them by
+	# content hash and this seed is deterministic, so a fleet stored
+	# under the wrong settings can never be corrected in place.
+	go run ./cmd/demo-seed --reset --i-know-this-is-a-demo-console
+
+marketing: ## Build the marketing site into marketing/dist
+	cd marketing && ./build.sh
+
+marketing-screenshots: ## Refresh every marketing screenshot (needs `make screenshots-up` first)
+	# Runs its own throwaway console against its own database, so your
+	# development console's jobs, deploys and users stay out of the
+	# published images - see marketing/screenshots.sh.
+	./marketing/screenshots.sh
+
+screenshots-up: ## Start the stack configured for screenshot capture (retention off, headless browser on)
+	$(SCREENSHOT_COMPOSE) up -d --wait
+
+screenshots-down: ## Stop the screenshot stack and return the services to their normal configuration
+	$(SCREENSHOT_COMPOSE) down
+	@echo
+	@echo "openvoxdb's normal retention is back. It will garbage-collect the"
+	@echo "demo fleet on its own schedule - reseed before capturing again."
 
 run: build ## Run the binary locally against the dependency services (make up first); reads config from .env
 	./$(BINARY)

@@ -1,0 +1,41 @@
+{{define "content"}}
+<vox-hero eyebrow="Orchestration" heading="Run it now, everywhere">
+  <p>
+    Trigger Puppet runs, tasks and plans against the nodes you pick, and
+    watch the results come back one node at a time.
+  </p>
+</vox-hero>
+
+<section class="site-section">
+  <h2 class="vox-ts-xxl">Results per node, not per job</h2>
+  <div class="vox-prose">
+    <p>
+      Every target is recorded on its own: status, exit code and output.
+      A job that worked on nine nodes and failed on one says exactly that,
+      instead of collapsing to a single verdict you then have to go and
+      investigate.
+    </p>
+    <p>
+      Where a job caused a Puppet run, its result links straight to the
+      report that run produced &mdash; so "what did this actually change"
+      is one click away.
+    </p>
+  </div>
+</section>
+
+{{screenshot "jobs-list"}}
+
+<vox-timeline>
+  <vox-timeline-item heading="Job created">Targets recorded, each one pending.</vox-timeline-item>
+  <vox-timeline-item heading="Dispatched">Work goes out to the nodes.</vox-timeline-item>
+  <vox-timeline-item heading="Results arrive">Each node reports back as it finishes.</vox-timeline-item>
+  <vox-timeline-item heading="Job completed">The job takes the status its targets add up to.</vox-timeline-item>
+</vox-timeline>
+
+<vox-callout variant="tip" heading="Built to keep up">
+  <p>
+    Orchestration runs over NATS, so reaching a large fleet is a matter of
+    adding capacity rather than reworking how messages are routed.
+  </p>
+</vox-callout>
+{{end}}

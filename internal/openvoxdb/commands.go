@@ -27,5 +27,5 @@ func (c *Client) DeactivateNode(ctx context.Context, certname string) error {
 		Certname:          certname,
 		ProducerTimestamp: time.Now().UTC().Format("2006-01-02T15:04:05.000Z"),
 	}
-	return c.command(ctx, "deactivate node", 3, certname, payload)
+	return c.Command(ctx, "deactivate node", 3, certname, payload)
 }

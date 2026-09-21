@@ -25,6 +25,23 @@ section below is the throwaway local dev stack instead, and
 pushed. Run matching tags for the two. `docker-compose.yml` pulls both -
 see `SETUP.md` step 6.
 
+**Marketing site:** `marketing/` holds the public site describing what the
+console does, illustrated with screenshots captured from a running
+instance rather than drawn. It is published to GitHub Pages by
+`.github/workflows/marketing.yml` and is no part of the console binary.
+
+```sh
+make marketing              # build the site into marketing/dist
+make screenshots-up         # stack configured for capture (retention off, browser up)
+make marketing-screenshots  # refresh every screenshot
+make screenshots-down       # back to normal
+```
+
+Refreshing runs its own throwaway console against its own database, so
+your development console's jobs, deploys and users stay out of the
+published images. See `marketing/README.md` for the details, including an
+honest note on which parts of the demo data are fabricated.
+
 ## Local development
 
 The console binary is built and run directly on the host - only its

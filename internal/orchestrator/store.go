@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -17,11 +18,31 @@ var ErrNotFound = errors.New("job not found")
 // Store persists jobs and their per-target results in Postgres.
 type Store struct {
 	pool *pgxpool.Pool
+	// now supplies the timestamps written to started_at and
+	// finished_at. It is a field rather than SQL's now() so that a
+	// caller which needs to control when a job appears to have run can
+	// do so - see NewStoreWithClock.
+	now func() time.Time
 }
 
-// NewStore builds a Store backed by pool.
+// NewStore builds a Store backed by pool, timestamping jobs with the
+// current time.
 func NewStore(pool *pgxpool.Pool) *Store {
-	return &Store{pool: pool}
+	return NewStoreWithClock(pool, time.Now)
+}
+
+// NewStoreWithClock builds a Store that takes its timestamps from now
+// instead of the system clock.
+//
+// This exists for callers that must place job history at a chosen time
+// rather than at the moment of the write: the demo seeder, which dates a
+// whole fabricated fleet to one fixed instant, and tests that assert on
+// ordering or duration without sleeping. Production uses NewStore.
+func NewStoreWithClock(pool *pgxpool.Pool, now func() time.Time) *Store {
+	if now == nil {
+		now = time.Now
+	}
+	return &Store{pool: pool, now: now}
 }
 
 // CreateJob records a new job (status StatusRunning - dispatch begins
@@ -35,7 +56,7 @@ func (s *Store) CreateJob(ctx context.Context, kind JobKind, taskName, planName 
 	}
 	defer tx.Rollback(ctx)
 
-	id, err := createJobTx(ctx, tx, kind, taskName, planName, params, targets, triggeredBy, nil, nil)
+	id, err := createJobTx(ctx, tx, s.now(), kind, taskName, planName, params, targets, triggeredBy, nil, nil)
 	if err != nil {
 		return Job{}, err
 	}
@@ -71,17 +92,22 @@ func (s *Store) CreatePlan(ctx context.Context, planName string, steps []PlanSte
 	}
 	defer tx.Rollback(ctx)
 
+	// One timestamp for the plan and every step it contains: they are
+	// created together, and reading the clock per row would scatter a
+	// plan's steps across a few microseconds for no reason.
+	startedAt := s.now()
+
 	// The plan row itself is never directly dispatched (only its step
 	// jobs are - see Dispatcher.DispatchPlan), so it gets no job_targets
 	// of its own; insertJobRow, not createJobTx.
-	planID, err := insertJobRow(ctx, tx, JobKindPlan, "", planName, nil, StatusRunning, triggeredBy, nil, nil)
+	planID, err := insertJobRow(ctx, tx, startedAt, JobKindPlan, "", planName, nil, StatusRunning, triggeredBy, nil, nil)
 	if err != nil {
 		return Job{}, err
 	}
 
 	for i, step := range steps {
 		order := i
-		if _, err := createJobTx(ctx, tx, step.Kind, step.TaskName, "", step.Params, targets, triggeredBy, &planID, &order); err != nil {
+		if _, err := createJobTx(ctx, tx, startedAt, step.Kind, step.TaskName, "", step.Params, targets, triggeredBy, &planID, &order); err != nil {
 			return Job{}, fmt.Errorf("create plan step %d: %w", i, err)
 		}
 	}
@@ -97,12 +123,12 @@ func (s *Store) CreatePlan(ctx context.Context, planName string, steps []PlanSte
 // returning the new job's ID. Shared by CreateJob and CreatePlan (for
 // step jobs specifically - the plan row itself uses insertJobRow, see
 // CreatePlan).
-func createJobTx(ctx context.Context, tx pgx.Tx, kind JobKind, taskName, planName string, params json.RawMessage, targets []string, triggeredBy string, parentJobID *int64, stepOrder *int) (int64, error) {
+func createJobTx(ctx context.Context, tx pgx.Tx, startedAt time.Time, kind JobKind, taskName, planName string, params json.RawMessage, targets []string, triggeredBy string, parentJobID *int64, stepOrder *int) (int64, error) {
 	if len(targets) == 0 {
 		return 0, errors.New("create job: at least one target is required")
 	}
 
-	id, err := insertJobRow(ctx, tx, kind, taskName, planName, params, StatusRunning, triggeredBy, parentJobID, stepOrder)
+	id, err := insertJobRow(ctx, tx, startedAt, kind, taskName, planName, params, StatusRunning, triggeredBy, parentJobID, stepOrder)
 	if err != nil {
 		return 0, err
 	}
@@ -121,12 +147,12 @@ func createJobTx(ctx context.Context, tx pgx.Tx, kind JobKind, taskName, planNam
 
 // insertJobRow inserts just the jobs row (no job_targets) within tx,
 // returning the new job's ID.
-func insertJobRow(ctx context.Context, tx pgx.Tx, kind JobKind, taskName, planName string, params json.RawMessage, status, triggeredBy string, parentJobID *int64, stepOrder *int) (int64, error) {
+func insertJobRow(ctx context.Context, tx pgx.Tx, startedAt time.Time, kind JobKind, taskName, planName string, params json.RawMessage, status, triggeredBy string, parentJobID *int64, stepOrder *int) (int64, error) {
 	var id int64
 	err := tx.QueryRow(ctx,
 		`INSERT INTO jobs (kind, task_name, plan_name, params, status, triggered_by, started_at, parent_job_id, step_order)
-		 VALUES ($1, $2, $3, $4, $5, $6, now(), $7, $8) RETURNING id`,
-		string(kind), nullIfEmpty(taskName), nullIfEmpty(planName), nullIfEmptyJSON(params), status, triggeredBy, parentJobID, stepOrder,
+		 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id`,
+		string(kind), nullIfEmpty(taskName), nullIfEmpty(planName), nullIfEmptyJSON(params), status, triggeredBy, startedAt, parentJobID, stepOrder,
 	).Scan(&id)
 	if err != nil {
 		return 0, fmt.Errorf("create job: %w", err)
@@ -172,12 +198,13 @@ func (s *Store) GetPlanSteps(ctx context.Context, planJobID int64) ([]Job, error
 // RecordTargetResult records one target's terminal outcome within a
 // job (status should be StatusSucceeded or StatusFailed).
 func (s *Store) RecordTargetResult(ctx context.Context, jobID int64, certname, status string, exitCode *int, output, errorDetail string) error {
+	at := s.now()
 	tag, err := s.pool.Exec(ctx,
 		`UPDATE job_targets
-		 SET status = $1, started_at = COALESCE(started_at, now()), finished_at = now(),
-		     exit_code = $2, output = $3, error_detail = $4
-		 WHERE job_id = $5 AND certname = $6`,
-		status, exitCode, nullIfEmpty(output), nullIfEmpty(errorDetail), jobID, certname,
+		 SET status = $1, started_at = COALESCE(started_at, $2), finished_at = $2,
+		     exit_code = $3, output = $4, error_detail = $5
+		 WHERE job_id = $6 AND certname = $7`,
+		status, at, exitCode, nullIfEmpty(output), nullIfEmpty(errorDetail), jobID, certname,
 	)
 	if err != nil {
 		return fmt.Errorf("record job target result: %w", err)
@@ -209,8 +236,8 @@ func (s *Store) SetTargetReport(ctx context.Context, jobID int64, certname, repo
 // (StatusSucceeded or StatusFailed).
 func (s *Store) CompleteJob(ctx context.Context, jobID int64, status string) error {
 	tag, err := s.pool.Exec(ctx,
-		`UPDATE jobs SET status = $1, finished_at = now() WHERE id = $2`,
-		status, jobID,
+		`UPDATE jobs SET status = $1, finished_at = $2 WHERE id = $3`,
+		status, s.now(), jobID,
 	)
 	if err != nil {
 		return fmt.Errorf("complete job: %w", err)

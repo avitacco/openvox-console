@@ -1,0 +1,107 @@
+# Overlay for capturing marketing screenshots. Used together with the
+# other compose files, never on its own:
+#
+#   docker compose -f docker-compose.yml -f docker-compose.override.yml \
+#                  -f docker-compose.screenshots.yml up -d --wait
+#
+# or just `make marketing-screenshots`, which does that for you.
+#
+# Naming docker-compose.override.yml explicitly is not optional. Compose
+# loads it automatically only for a bare `docker compose` with no -f
+# flags; the moment you pass one -f, you get exactly the files you named.
+# Leaving it out silently drops the dev stack's port publishing and its
+# "localhost" certificate alt names, so openvoxdb comes back up healthy
+# and simply unreachable from the host - which is where the seed and the
+# capture tool run.
+#
+# It does two things: it turns off openvoxdb's data retention, and it adds
+# the pinned headless browser that capture drives.
+#
+# --- why retention has to go ---
+#
+# The demo fleet is pinned to a fixed instant in the past
+# (internal/demodata.Instant), because that is what makes two capture runs
+# produce byte-identical images: "4 minutes ago" has to stay "4 minutes
+# ago" whenever the capture happens.
+#
+# openvoxdb's defaults are hostile to that. With the stock 14d/7d/14d
+# settings, data dated months ago is born already past every threshold:
+#
+#   - report-ttl / resource-events-ttl: the report row stores, but its
+#     resource events are discarded at ingest, so every report detail
+#     page screenshots with an empty event list. Confirmed live: two
+#     byte-identical report payloads differing only in timestamp, and
+#     only the recent one kept its events.
+#   - node-ttl: the fleet is deactivated on the next GC pass, and
+#     openvoxdb's nodes query excludes deactivated nodes unconditionally,
+#     so the whole fleet vanishes from the console between seeding and
+#     capture.
+#
+# Setting these to a hundred years is not a production recommendation and
+# is not meant to be one. It applies only while this overlay is in use.
+#
+# Running plain `make up` afterwards restores the defaults, and openvoxdb
+# will then garbage-collect the demo fleet on its own schedule. That is
+# expected: reseed before capturing again.
+
+services:
+  openvoxdb:
+    environment:
+      # 36500d rather than "100y": days are the unit the stock config
+      # already uses, so this needs no assumption about which larger
+      # units this openvoxdb build's period parser accepts.
+      OPENVOXDB_NODE_TTL: 36500d
+      OPENVOXDB_NODE_PURGE_TTL: 36500d
+      OPENVOXDB_REPORT_TTL: 36500d
+    configs:
+      # resource-events-ttl is the one retention setting the openvoxdb
+      # image does not template from the environment, so it arrives as a
+      # config file instead. Files in conf.d are merged, so this adds to
+      # the stock database.conf rather than replacing it.
+      - source: openvoxdb_screenshot_retention
+        target: /etc/puppetlabs/puppetdb/conf.d/zz-screenshot-retention.conf
+
+  # The browser capture drives. Pinned by digest-bearing tag rather than
+  # :latest because an updated Chrome rerenders text differently, and a
+  # screenshot set that changes because the browser moved is exactly the
+  # noise the determinism requirement exists to prevent.
+  #
+  # It sits on the compose network, so it reaches the console at
+  # http://console:8080 with no host-gateway plumbing.
+  headless-chrome:
+    image: chromedp/headless-shell:131.0.6778.86
+    hostname: headless-chrome
+    # Chrome needs more than the default 64MB of shared memory or it
+    # crashes part-way through rendering a large page.
+    shm_size: 1gb
+    init: true
+    command:
+      - --no-sandbox
+      - --disable-gpu
+      - --remote-debugging-address=0.0.0.0
+      - --remote-debugging-port=9222
+      # Font rendering has to be identical run to run; these disable the
+      # sources of variation that are not the page itself.
+      - --force-device-scale-factor=2
+      - --hide-scrollbars
+      - --disable-lcd-text
+      - --disable-font-subpixel-positioning
+      - --force-color-profile=srgb
+      - --disable-features=NetworkService
+    ports:
+      - "${HEADLESS_CHROME_PORT:-9222}:9222"
+    extra_hosts:
+      # In development the console runs on the host (`make run`), not in
+      # a container, so "localhost" inside this container is the browser
+      # itself. This is the name to point --console-url at:
+      #   --console-url http://host.docker.internal:8080
+      # A console running as a container on this network is reachable as
+      # http://console:8080 instead, with no need for this.
+      - "host.docker.internal:host-gateway"
+
+configs:
+  openvoxdb_screenshot_retention:
+    content: |
+      database: {
+        resource-events-ttl: 36500d
+      }

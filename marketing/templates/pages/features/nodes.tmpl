@@ -1,0 +1,64 @@
+{{define "content"}}
+<vox-hero eyebrow="Nodes and inventory" heading="Every node, and what it actually did">
+  <p>
+    The console reads openvoxdb directly, so what you see is what your
+    agents reported &mdash; nothing to sync, and nothing to change on the
+    node side.
+  </p>
+</vox-hero>
+
+<section class="site-section">
+  <h2 class="vox-ts-xxl">Start with what needs attention</h2>
+  <div class="vox-prose">
+    <p>
+      Runs are grouped the way you would triage them: what failed, what
+      changed on purpose, what corrected drift, and what was already as
+      you asked. Reachability is tracked separately, because a node that
+      has gone quiet and a node that reported a failure are different
+      problems with different fixes.
+    </p>
+  </div>
+</section>
+
+{{screenshot "dashboard"}}
+
+<section class="site-section">
+  <h2 class="vox-ts-xxl">Search the fleet by any fact</h2>
+  <div class="vox-prose">
+    <p>
+      Filter by name, or by anything your agents report &mdash; operating
+      system, kernel, architecture, a custom fact of your own. Answers
+      come from openvoxdb as it stands right now, not from a cache.
+    </p>
+    <p>
+      Certificate state sits alongside, and with CA access configured you
+      can sign and revoke from the same page instead of finding a shell on
+      the server.
+    </p>
+  </div>
+</section>
+
+{{screenshot "nodes-list"}}
+
+<section class="site-section">
+  <h2 class="vox-ts-xxl">One node in full</h2>
+  <div class="vox-prose">
+    <p>
+      A node's own page gathers its facts, its recent runs, the classes
+      classification gave it, what it has installed and which
+      vulnerabilities touch it &mdash; everything you want when one
+      machine, rather than the fleet, is the question.
+    </p>
+  </div>
+</section>
+
+{{screenshot "node-detail"}}
+
+<vox-callout variant="tip" heading="Reports keep their detail">
+  <p>
+    Every resource event a run produced is here, with the old and new
+    value for each change and the manifest and line that caused it. It is
+    what the agent sent, not a summary of it.
+  </p>
+</vox-callout>
+{{end}}

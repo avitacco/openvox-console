@@ -1,0 +1,106 @@
+/*
+ * Marketing site styles.
+ *
+ * Deliberately tiny. Layout, typography and spacing come from voxblocks:
+ * `vox-container` for the page width (it matches vox-header and
+ * vox-footer, which hand-rolled widths do not), `.vox-prose` for body
+ * copy, `vox-ts-*` for headings, and the components themselves for
+ * structure. What is left here is the screenshot frame, which the
+ * library has no component for, and the rhythm between sections.
+ *
+ * Every custom property below is one that exists in voxblocks'
+ * src/tokens/tokens.css. An invented name silently produces no
+ * declaration at all - which is how an earlier version of this file
+ * ended up with no spacing between sections and elements colliding.
+ * The scale is --vox-space-1,2,3,4,6,8; there is no 5, 7, 9 or 10.
+ */
+
+body {
+  margin: 0;
+  font-family: var(--vox-font-family-base);
+  color: var(--vox-color-text-1);
+  background: var(--vox-color-bg);
+}
+
+/* --- rhythm ------------------------------------------------------- */
+
+.site-main {
+  display: block;
+  padding-top: var(--vox-space-8);
+  padding-bottom: var(--vox-space-8);
+}
+
+.site-main > * + * {
+  margin-top: var(--vox-space-8);
+}
+
+/* A section heading sits closer to its own copy than to the section
+   before it. */
+.site-section > h2 {
+  margin: 0 0 var(--vox-space-3);
+}
+
+.site-section > .vox-prose {
+  margin-top: 0;
+}
+
+.site-subnav {
+  border-bottom: 1px solid var(--vox-color-divider);
+}
+
+/* --- screenshots -------------------------------------------------- */
+
+/*
+ * The frame is what separates a light-theme screenshot from the light
+ * page behind it; without a border the console's own background merges
+ * into the site's and the image looks like a rendering fault.
+ */
+.shot {
+  margin: 0;
+  border: 1px solid var(--vox-color-border);
+  border-radius: var(--vox-radius-lg);
+  overflow: hidden;
+  background: var(--vox-color-bg-elv);
+  box-shadow: var(--vox-shadow-1);
+}
+
+.shot picture,
+.shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/*
+ * On a phone a console screenshot is too wide to read either way. It is
+ * shown whole and scaled down rather than cropped to its left edge:
+ * scrolled-to-the-left, all a reader sees is the sidebar, which is the
+ * least informative part of every one of these views. Shrunk, the shape
+ * of the page still reads even when the text does not.
+ */
+
+/* --- footer ------------------------------------------------------- */
+
+/*
+ * The two notes in the footer's bottom row sit side by side where there
+ * is room and stack where there is not, instead of squeezing into two
+ * cramped columns on a phone.
+ */
+.footer-note {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--vox-space-1) var(--vox-space-4);
+  justify-content: space-between;
+}
+
+/* --- focus -------------------------------------------------------- */
+
+/*
+ * The library styles focus on its own components; this covers the plain
+ * links the site adds in the subnav and footer.
+ */
+a:focus-visible {
+  outline: 2px solid var(--vox-color-brand-1);
+  outline-offset: 2px;
+  border-radius: var(--vox-radius-sm);
+}

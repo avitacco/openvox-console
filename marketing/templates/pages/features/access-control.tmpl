@@ -1,0 +1,63 @@
+{{define "content"}}
+<vox-hero eyebrow="Access control and audit" heading="Who can do what, and who did what">
+  <p>
+    Give people exactly the access they need, give your automation its own
+    credentials, and keep a record of every change.
+  </p>
+</vox-hero>
+
+<section class="site-section">
+  <h2 class="vox-ts-xxl">Roles are permission sets</h2>
+  <div class="vox-prose">
+    <p>
+      A role is a named list of permissions &mdash; read nodes, deploy
+      code, run orchestration, manage vulnerability providers. Give a
+      person one role or several. They see the parts of the console their
+      roles cover, and nothing else: no buttons that fail when clicked.
+    </p>
+  </div>
+</section>
+
+{{screenshot "roles"}}
+
+<vox-grid min="240px" gap="lg">
+  <vox-card heading="People">
+    <vox-icon slot="icon" name="people"></vox-icon>
+    Accounts managed in the console, or signed in through your existing
+    OIDC provider and mapped onto the same roles.
+  </vox-card>
+  <vox-card heading="Machines">
+    <vox-icon slot="icon" name="key"></vox-icon>
+    Service tokens scoped to just the permissions an integration needs.
+    Shown once, revocable at any time.
+  </vox-card>
+  <vox-card heading="Everything else">
+    <vox-icon slot="icon" name="activity-log"></vox-icon>
+    Every consequential action recorded with its actor, filterable by
+    category, action and who did it.
+  </vox-card>
+</vox-grid>
+
+<section class="site-section">
+  <h2 class="vox-ts-xxl">An audit trail that names names</h2>
+  <div class="vox-prose">
+    <p>
+      Every entry records who did it and when, so "who changed this group"
+      is a question with an answer. Work done by a scheduled task or by
+      the console itself is shown as exactly that, rather than being
+      pinned on a placeholder account.
+    </p>
+  </div>
+</section>
+
+{{screenshot "activity"}}
+
+<vox-callout variant="tip" heading="Built to survive a lost laptop">
+  <p>
+    Sessions are short-lived and refresh in the background, so a token
+    that leaks stops working on its own. When you need someone out
+    immediately, revoking their session takes effect across every console
+    instance at once rather than waiting for it to expire.
+  </p>
+</vox-callout>
+{{end}}
