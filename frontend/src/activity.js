@@ -1,4 +1,4 @@
-import { fetchJSON, escapeHtml, requirePermission, paginationHTML, bindPagination, loadFilterOptions } from './app.js';
+import { fetchJSON, escapeHtml, requirePermission, paginationHTML, bindPagination, loadFilterOptions, withLoading } from './app.js';
 
 if (requirePermission('activity:read')) {
   const results = document.getElementById('results');
@@ -65,7 +65,7 @@ if (requirePermission('activity:read')) {
 
   async function load() {
     try {
-      const page = await fetchJSON(buildQuery());
+      const page = await withLoading(results, () => fetchJSON(buildQuery()));
       if (page.items.length === 0 && page.page > 1 && page.total > 0) {
         currentPage = 1;
         return load();

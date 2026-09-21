@@ -17,6 +17,11 @@ const DeployedSubject = "codemanager.deployed"
 
 // DeployedEvent is the payload published on DeployedSubject.
 type DeployedEvent struct {
+	// Source is the control repo the deploy came from. Environment
+	// alone no longer identifies it: two sources can carry the same
+	// branch name, and a subscriber deciding what to fetch needs to
+	// know which repo's code just became live.
+	Source      string    `json:"source"`
 	Environment string    `json:"environment"`
 	Ref         string    `json:"ref"`
 	DeployedAt  time.Time `json:"deployedAt"`
@@ -29,12 +34,13 @@ type eventPublisher interface {
 	Publish(subject string, data []byte) error
 }
 
-// PublishDeployed publishes a DeployedEvent for environment/ref. Called
-// only after a deploy's activation has genuinely succeeded - see
-// design.md: "published only after the atomic swap completes
-// successfully."
-func PublishDeployed(bus eventPublisher, environment, ref string) error {
+// PublishDeployed publishes a DeployedEvent for a source's
+// environment/ref. Called only after a deploy's activation has
+// genuinely succeeded - see design.md: "published only after the
+// atomic swap completes successfully."
+func PublishDeployed(bus eventPublisher, source, environment, ref string) error {
 	data, err := json.Marshal(DeployedEvent{
+		Source:      source,
 		Environment: environment,
 		Ref:         ref,
 		DeployedAt:  time.Now().UTC(),

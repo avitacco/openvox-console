@@ -1,4 +1,4 @@
-import { fetchJSON, sendJSON, escapeHtml, requirePermission, ALL_PERMISSIONS } from './app.js';
+import { fetchJSON, sendJSON, escapeHtml, requirePermission, ALL_PERMISSIONS, withLoading } from './app.js';
 
 if (requirePermission('rbac:admin')) {
   const results = document.getElementById('results');
@@ -85,7 +85,7 @@ if (requirePermission('rbac:admin')) {
 
   async function load() {
     try {
-      const roles = await fetchJSON('/api/v1/roles');
+      const roles = await withLoading(results, () => fetchJSON('/api/v1/roles'));
       renderRoles(roles);
     } catch (err) {
       results.innerHTML = `<vox-alert variant="danger">${escapeHtml(err.message)}</vox-alert>`;

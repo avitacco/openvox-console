@@ -75,9 +75,9 @@
             <vox-icon slot="icon" name="orchestrate"></vox-icon>
             Jobs
           </vox-sidenav-item>
-          <vox-sidenav-item href="/deploys.html" id="nav-deploys-link" style="display: none">
+          <vox-sidenav-item href="/code.html" id="nav-code-link" style="display: none">
             <vox-icon slot="icon" name="deploy"></vox-icon>
-            Deploys
+            Code
           </vox-sidenav-item>
           <vox-sidenav-item href="/activity.html" id="nav-activity-link" current>
             <vox-icon slot="icon" name="activity-log"></vox-icon>
@@ -94,12 +94,12 @@
       <h1 class="vox-ts-xl vox-m-bottom-md">Activity</h1>
 
       <div class="filters vox-display-flex vox-items-end vox-gap-md vox-flex-wrap vox-m-bottom-lg">
-        <vox-select id="category-filter" label="Category">
+        <vox-combobox id="category-filter" label="Category" placeholder="All">
           <option value="">All</option>
-        </vox-select>
-        <vox-select id="action-filter" label="Action">
+        </vox-combobox>
+        <vox-combobox id="action-filter" label="Action" placeholder="All">
           <option value="">All</option>
-        </vox-select>
+        </vox-combobox>
         <vox-input id="actor-filter" label="Actor" placeholder="Filter by actor"></vox-input>
         <vox-select id="sort-order" label="Order">
           <option value="desc">Newest first</option>

@@ -53,7 +53,7 @@ document.getElementById('save-password').addEventListener('click', async () => {
     await sendJSON('/api/v1/me', 'PUT', { currentPassword, newPassword });
     currentPasswordEl.value = '';
     newPasswordEl.value = '';
-    passwordSuccess.innerHTML = `<vox-alert variant="tip">Password changed.</vox-alert>`;
+    passwordSuccess.innerHTML = `<vox-alert variant="success">Password changed.</vox-alert>`;
   } catch (err) {
     passwordError.innerHTML = `<vox-alert variant="danger">${escapeHtml(err.message)}</vox-alert>`;
   }

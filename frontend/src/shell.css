@@ -5,7 +5,8 @@
    fact-value formatting, and the login page's narrower column. */
 
 .filters vox-input,
-.filters vox-select {
+.filters vox-select,
+.filters vox-combobox {
   min-width: 12rem;
 }
 
@@ -277,4 +278,128 @@ pre.value {
   height: 2.4375rem;
   display: flex;
   align-items: center;
+}
+
+/* Code page, repositories tab.
+
+   One grid holding every field, rather than letting the record item's
+   own .meta lay them out: that is a wrapping flex in its shadow root,
+   so each datum's position depends on the width of everything before
+   it and no two records line up. Fixed columns plus an explicit cell
+   per field means a missing prefix leaves a gap instead of shifting
+   the rest of the row. */
+.repo-data {
+  display: grid;
+  grid-template-columns: 12rem 6rem 10rem 8rem;
+  grid-template-areas:
+    "remote   prefix    envs deployed"
+    "assigned reporting size .";
+  gap: .3rem 1rem;
+  align-items: center;
+}
+/* Below this the four fixed tracks no longer fit beside the sidenav and
+   status column, so the same fields stack into two. Still explicit
+   tracks and areas rather than a free-flowing grid: letting them flow
+   would put each record's fields wherever its own content happened to
+   end, which is the misalignment this layout exists to avoid. */
+@media (max-width: 1200px) {
+  .repo-data {
+    grid-template-columns: 11rem 9rem;
+    grid-template-areas:
+      "remote   prefix"
+      "envs     deployed"
+      "assigned reporting"
+      "size     .";
+  }
+}
+
+/* A value longer than its track ellipsizes instead of spilling into the
+   next column. The track is a fixed width, so without this a long
+   remote overlaps whatever sits beside it. The full value is in each
+   datum's title. */
+.repo-data vox-datum {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.repo-state {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: .3rem;
+  width: 12rem;
+}
+
+/* Badge and action on one line: stacked, the button floated below a
+   wrapping note and read as detached from the row it belongs to. */
+.repo-state-row {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.repo-note {
+  font-size: .8rem;
+  color: var(--vox-color-text-3, #5c7377);
+  white-space: nowrap;
+}
+@media (max-width: 640px) {
+  /* Even two tracks overflow here - the sidenav still reserves its
+     width, leaving the record barely 250px - so the fields go to a
+     single column, which fits at any width and is aligned by
+     definition. */
+  .repo-data {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "remote" "prefix" "envs" "deployed" "assigned" "reporting" "size";
+  }
+  /* Narrow enough that a side-by-side status column crowds the data;
+     let the row stack and start the status block on the left. */
+  .repo-state { width: auto; align-items: flex-start; }
+  .repo-note { white-space: normal; }
+}
+
+/* Active filter chips on the Code page's deploy history. Arriving from
+   a repository record applies a filter the reader did not set, so what
+   is filtered has to be visible and clearable at the point the results
+   are - not only as a preselected value in a select above. */
+.filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .4rem;
+  margin-bottom: .85rem;
+}
+.filter-chips-lead {
+  font-size: .8rem;
+  color: var(--vox-color-text-3, #5c7377);
+}
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  padding: .2rem .55rem;
+  border: 1px solid var(--vox-color-divider, rgba(18,38,44,.12));
+  border-radius: 999px;
+  background: var(--vox-color-bg-soft, #e8f1ef);
+  color: inherit;
+  font: inherit;
+  font-size: .8rem;
+  cursor: pointer;
+}
+.filter-chip:hover,
+.filter-chip:focus-visible {
+  border-color: var(--vox-color-border, rgba(18,38,44,.55));
+  background: var(--vox-color-bg-elv, #ffffff);
+}
+.filter-chip-label { color: var(--vox-color-text-3, #5c7377); }
+.filter-chip--all { font-weight: 600; }
+
+/* Centres the spinner showLoading() drops into a results container, so
+   it sits where the content will be rather than hugging the top-left. */
+.loading-pane {
+  display: flex;
+  justify-content: center;
+  padding: var(--vox-space-8) 0;
 }

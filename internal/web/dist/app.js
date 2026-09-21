@@ -216,6 +216,36 @@ export function qs(name) {
   return new URLSearchParams(window.location.search).get(name);
 }
 
+// How long a fetch has to be in flight before a spinner appears. A
+// spinner that flashes for 80ms and vanishes reads as a glitch rather
+// than as feedback, and most of these requests return faster than that
+// against a local console - so nothing is shown until the wait is long
+// enough to be worth acknowledging.
+const LOADING_DELAY_MS = 150;
+
+// withLoading runs work, showing a vox-loader in el if it is still
+// running after LOADING_DELAY_MS, and returns whatever work returns.
+//
+// It wraps the work rather than handing back a cancel function so that
+// clearing the timer cannot be forgotten on one branch: a timer that
+// survives its fetch fires later and wipes out content that has already
+// been rendered. Wrap the fetch, not the render, so the spinner covers
+// exactly the wait:
+//
+//   const page = await withLoading(results, () => fetchJSON(url));
+//   render(page);
+export async function withLoading(el, work, label = 'Loading') {
+  if (!el) return work();
+  const timer = setTimeout(() => {
+    el.innerHTML = `<div class="loading-pane"><vox-loader label="${escapeHtml(label)}"></vox-loader></div>`;
+  }, LOADING_DELAY_MS);
+  try {
+    return await work();
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 // Populates a filter <vox-select> (id has a leading "" All option
 // already in the markup) with real recorded values from url, e.g.
 // activity's /api/v1/audit-log/categories or code-deploys' .../refs -
@@ -456,8 +486,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (activityLink) activityLink.style.display = '';
   }
   if (hasPermission('code:read')) {
-    const deploysLink = document.getElementById('nav-deploys-link');
-    if (deploysLink) deploysLink.style.display = '';
+    const codeLink = document.getElementById('nav-code-link');
+    if (codeLink) codeLink.style.display = '';
   }
   if (hasPermission('orchestrator:read')) {
     const jobsLink = document.getElementById('nav-jobs-link');

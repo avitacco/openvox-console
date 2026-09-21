@@ -1,4 +1,4 @@
-import { fetchJSON, escapeHtml, paginationHTML, bindPagination } from './app.js';
+import { fetchJSON, escapeHtml, paginationHTML, bindPagination, withLoading } from './app.js';
 
 const results = document.getElementById('results');
 
@@ -53,7 +53,7 @@ async function load() {
     // there shows as "-" instead of failing the whole list - the group
     // list is still useful without it.
     const [page, counts] = await Promise.all([
-      fetchJSON(`/api/v1/groups?page=${currentPage}`),
+      withLoading(results, () => fetchJSON(`/api/v1/groups?page=${currentPage}`)),
       fetchJSON('/api/v1/groups/node-counts').catch(() => null),
     ]);
     if (page.items.length === 0 && page.page > 1 && page.total > 0) {

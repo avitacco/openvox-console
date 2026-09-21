@@ -1,4 +1,4 @@
-import { fetchJSON, sendJSON, escapeHtml, requirePermission, applyAvatar } from './app.js';
+import { fetchJSON, sendJSON, escapeHtml, requirePermission, applyAvatar, withLoading } from './app.js';
 
 if (requirePermission('rbac:admin')) {
   const results = document.getElementById('results');
@@ -99,7 +99,8 @@ if (requirePermission('rbac:admin')) {
 
   async function load() {
     try {
-      const [users, roles] = await Promise.all([fetchJSON('/api/v1/users'), fetchJSON('/api/v1/roles')]);
+      const [users, roles] = await withLoading(results, () =>
+        Promise.all([fetchJSON('/api/v1/users'), fetchJSON('/api/v1/roles')]));
       allRoles = roles;
       const withRoles = await Promise.all(
         users.map(async (u) => {

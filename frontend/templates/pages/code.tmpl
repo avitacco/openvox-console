@@ -1,0 +1,67 @@
+{{define "content" -}}
+    <main class="vox-container vox-p-y-xl">
+      <h1 class="vox-ts-xl vox-m-y-none vox-m-bottom-lg">Code</h1>
+
+      <vox-tabs id="code-tabs">
+        <vox-tab slot="tab" panel="repositories">Repositories</vox-tab>
+        <vox-tab slot="tab" panel="deploys">Deploy history</vox-tab>
+
+        <vox-tab-panel name="repositories">
+          <p class="vox-ts-sm vox-m-bottom-md vox-color-text-3">
+            <strong>Assigned</strong> counts nodes classification sends to a repo's environments;
+            <strong>reporting</strong> counts nodes that last ran from one. They are shown
+            separately because the gap between them is the useful signal.
+          </p>
+          <div id="repo-trigger-error"></div>
+          <div id="repo-unattributed"></div>
+          <div id="repo-results"></div>
+        </vox-tab-panel>
+
+        <vox-tab-panel name="deploys">
+          <div class="vox-display-flex vox-justify-end vox-m-bottom-md">
+            <!-- One attached control, because the picker and the button
+                 are one action: "deploy <source> now". The picker stays
+                 hidden unless more than one source is configured, and
+                 vox-input-group then leaves the button as the group's
+                 only child, so a single-control-repo console looks
+                 exactly as it did. -->
+            <vox-input-group>
+              <!-- aria-label, not label: vox-input-group stretches its
+                   children to equal height, so a visible label above the
+                   select makes the whole group as tall as label+control
+                   and the button grows into a slab beside it. The
+                   component's own example uses aria-label for this
+                   reason; the selected source names itself, and "Deploy
+                   now" sits right beside it. -->
+              <vox-select id="trigger-source" aria-label="Source to deploy" class="vox-hide"></vox-select>
+              <vox-button id="trigger-deploy" variant="brand" style="display: none">Deploy now</vox-button>
+            </vox-input-group>
+          </div>
+
+          <div id="trigger-error"></div>
+
+          <div class="filters vox-display-flex vox-items-end vox-gap-md vox-flex-wrap vox-m-bottom-lg">
+            <vox-combobox id="source-filter" label="Source" placeholder="All">
+              <option value="">All</option>
+            </vox-combobox>
+            <vox-combobox id="ref-filter" label="Ref" placeholder="All">
+              <option value="">All</option>
+            </vox-combobox>
+            <vox-input id="triggered-by-filter" label="Triggered by" placeholder="Filter by actor"></vox-input>
+            <vox-select id="status-filter" label="Status">
+              <option value="">All</option>
+              <option value="running">Running</option>
+              <option value="succeeded">Succeeded</option>
+              <option value="failed">Failed</option>
+            </vox-select>
+            <vox-select id="sort-order" label="Order">
+              <option value="desc">Newest first</option>
+              <option value="asc">Oldest first</option>
+            </vox-select>
+          </div>
+          <div id="deploy-active-filters"></div>
+          <div id="deploy-results"></div>
+        </vox-tab-panel>
+      </vox-tabs>
+    </main>
+{{- end}}

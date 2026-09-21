@@ -1,4 +1,4 @@
-import { fetchJSON, escapeHtml, hasPermission, paginationHTML, bindPagination } from './app.js';
+import { fetchJSON, escapeHtml, hasPermission, paginationHTML, bindPagination, withLoading } from './app.js';
 
 const nameFilter = document.getElementById('name-filter');
 const versionFilter = document.getElementById('version-filter');
@@ -100,7 +100,7 @@ async function loadCatalog() {
   if (groupFilter.value) params.set('group', groupFilter.value);
 
   try {
-    const page = await fetchJSON(`/api/v1/packages/catalog?${params.toString()}`);
+    const page = await withLoading(results, () => fetchJSON(`/api/v1/packages/catalog?${params.toString()}`));
     // Filtering down can leave the current page past the end.
     if (page.items.length === 0 && page.page > 1 && page.total > 0) {
       currentPage = 1;

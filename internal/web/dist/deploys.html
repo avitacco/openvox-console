@@ -31,7 +31,7 @@
     <link rel="stylesheet" href="/vendor/voxblocks.css" />
     <link rel="stylesheet" href="/shell.css" />
     <script type="module" src="/vendor/voxblocks.js"></script>
-    <script type="module" src="/deploys.js"></script>
+    <script type="module" src="/deploys-redirect.js"></script>
   </head>
   <body>
     <vox-header site-title="OpenVox Console" href="/">
@@ -75,9 +75,9 @@
             <vox-icon slot="icon" name="orchestrate"></vox-icon>
             Jobs
           </vox-sidenav-item>
-          <vox-sidenav-item href="/deploys.html" id="nav-deploys-link" current>
+          <vox-sidenav-item href="/code.html" id="nav-code-link" current>
             <vox-icon slot="icon" name="deploy"></vox-icon>
-            Deploys
+            Code
           </vox-sidenav-item>
           <vox-sidenav-item href="/activity.html" id="nav-activity-link" style="display: none">
             <vox-icon slot="icon" name="activity-log"></vox-icon>
@@ -91,31 +91,7 @@
       </div>
       <div style="flex: 1 1 auto; min-width: 0;">
         <main class="vox-container vox-p-y-xl">
-      <div class="vox-display-flex vox-justify-between vox-items-center vox-gap-md vox-m-bottom-lg">
-        <h1 class="vox-ts-xl vox-m-y-none">Deploys</h1>
-        <vox-button id="trigger-deploy" variant="brand" style="display: none">Deploy now</vox-button>
-      </div>
-
-      <div id="trigger-error"></div>
-
-      <div class="filters vox-display-flex vox-items-end vox-gap-md vox-flex-wrap vox-m-bottom-lg">
-        <vox-select id="ref-filter" label="Ref">
-          <option value="">All</option>
-        </vox-select>
-        <vox-input id="triggered-by-filter" label="Triggered by" placeholder="Filter by actor"></vox-input>
-        <vox-select id="status-filter" label="Status">
-          <option value="">All</option>
-          <option value="running">Running</option>
-          <option value="succeeded">Succeeded</option>
-          <option value="failed">Failed</option>
-        </vox-select>
-        <vox-select id="sort-order" label="Order">
-          <option value="desc">Newest first</option>
-          <option value="asc">Oldest first</option>
-        </vox-select>
-      </div>
-
-      <div id="results"></div>
+      <p>Deploy history has moved to the <a href="/code.html?tab=deploys">Code</a> page. Redirecting&hellip;</p>
     </main>
       </div>
     </div>

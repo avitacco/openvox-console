@@ -207,3 +207,84 @@ func TestMatchingNodes_NoMatchesReturnsEmptyNotNull(t *testing.T) {
 		t.Errorf("Certnames = %v, want empty", resp.Certnames)
 	}
 }
+
+func TestAssignedEnvironments_HighestPriorityGroupWins(t *testing.T) {
+	// The requirement this exists for: a node matching several groups
+	// that name different environments is counted once, against the
+	// environment it would actually be sent to - not once per group.
+	prod, staging, unused := "production", "team_a_staging", "never_wins"
+
+	groups := []classifier.Group{
+		{
+			ID: 1, Name: "all-linux", Priority: 10, Environment: &unused,
+			Rule: []classifier.Condition{{FactPath: "kernel", Operator: "=", Value: "Linux"}},
+		},
+		{
+			ID: 2, Name: "webservers", Priority: 30, Environment: &prod,
+			Rule: []classifier.Condition{{FactPath: "role", Operator: "=", Value: "web"}},
+		},
+		{
+			ID: 3, Name: "team-a-owned", Priority: 20, Environment: &staging,
+			Rule: []classifier.Condition{{FactPath: "team", Operator: "=", Value: "a"}},
+		},
+	}
+
+	resolver := NewResolver(
+		&fakeGroups{all: groups},
+		&fakeInventory{fleetFacts: []openvoxdb.NodeAllFacts{
+			// Matches all three; priority 30 (production) must win.
+			{Certname: "web01", Facts: map[string]any{"kernel": "Linux", "role": "web", "team": "a"}},
+			// Matches two; priority 20 (team_a_staging) wins.
+			{Certname: "db01", Facts: map[string]any{"kernel": "Linux", "team": "a"}},
+			// Matches only the lowest-priority group.
+			{Certname: "misc01", Facts: map[string]any{"kernel": "Linux"}},
+			// Matches nothing: no environment at all.
+			{Certname: "win01", Facts: map[string]any{"kernel": "windows"}},
+		}},
+	)
+
+	assigned, err := resolver.AssignedEnvironments(context.Background())
+	if err != nil {
+		t.Fatalf("AssignedEnvironments() error: %v", err)
+	}
+	if len(assigned) != 4 {
+		t.Fatalf("got %d entries, want one per node (4)", len(assigned))
+	}
+
+	got := make(map[string]string, len(assigned))
+	for _, node := range assigned {
+		if node.Environment == nil {
+			got[node.Certname] = "<none>"
+			continue
+		}
+		got[node.Certname] = *node.Environment
+	}
+
+	for certname, want := range map[string]string{
+		"web01":  prod,
+		"db01":   staging,
+		"misc01": unused,
+		"win01":  "<none>",
+	} {
+		if got[certname] != want {
+			t.Errorf("%s assigned %q, want %q", certname, got[certname], want)
+		}
+	}
+}
+
+func TestAssignedEnvironments_NoGroupsMeansNoEnvironments(t *testing.T) {
+	resolver := NewResolver(
+		&fakeGroups{},
+		&fakeInventory{fleetFacts: []openvoxdb.NodeAllFacts{
+			{Certname: "a", Facts: map[string]any{"kernel": "Linux"}},
+		}},
+	)
+
+	assigned, err := resolver.AssignedEnvironments(context.Background())
+	if err != nil {
+		t.Fatalf("AssignedEnvironments() error: %v", err)
+	}
+	if len(assigned) != 1 || assigned[0].Environment != nil {
+		t.Errorf("assigned = %+v, want one entry with no environment", assigned)
+	}
+}

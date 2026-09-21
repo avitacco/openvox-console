@@ -75,9 +75,9 @@
             <vox-icon slot="icon" name="orchestrate"></vox-icon>
             Jobs
           </vox-sidenav-item>
-          <vox-sidenav-item href="/deploys.html" id="nav-deploys-link" style="display: none">
+          <vox-sidenav-item href="/code.html" id="nav-code-link" style="display: none">
             <vox-icon slot="icon" name="deploy"></vox-icon>
-            Deploys
+            Code
           </vox-sidenav-item>
           <vox-sidenav-item href="/activity.html" id="nav-activity-link" style="display: none">
             <vox-icon slot="icon" name="activity-log"></vox-icon>
@@ -101,9 +101,9 @@
         <vox-select id="provider-filter" label="Provider">
           <option value="">All</option>
         </vox-select>
-        <vox-select id="group-filter" label="Group" style="display: none">
+        <vox-combobox id="group-filter" label="Group" style="display: none" placeholder="All">
           <option value="">All</option>
-        </vox-select>
+        </vox-combobox>
       </div>
 
       <div id="coverage" class="vox-ts-sm vox-m-bottom-md"></div>

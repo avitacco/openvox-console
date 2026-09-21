@@ -51,12 +51,20 @@ type Config struct {
 	OIDCRoleClaim     string
 	OIDCRoleMapping   string
 
-	// Optional: code deployment. Leaving G10KBinPath or ControlRepoURL
-	// unset disables deploy triggers - code-manager endpoints error per
-	// request rather than the console failing to start, matching OIDC's
-	// "never fatal at startup" posture.
+	// Optional: code deployment. Leaving G10KBinPath unset, or both
+	// ControlRepoURL and CodeSourcesPath unset, disables deploy
+	// triggers - code-manager endpoints error per request rather than
+	// the console failing to start, matching OIDC's "never fatal at
+	// startup" posture.
+	//
+	// ControlRepoURL and CodeSourcesPath are the two ways to declare
+	// what to deploy from, and are mutually exclusive: the first is a
+	// single control repo, the second a file declaring any number of
+	// them. Setting both is a startup error rather than a merge, so
+	// that reading one of them always tells you the whole answer.
 	G10KBinPath       string
 	ControlRepoURL    string
+	CodeSourcesPath   string
 	CodeWebhookSecret string
 	CodeDirPath       string
 
@@ -202,6 +210,7 @@ func LoadConfig(getenv func(string) string) (Config, error) {
 
 		G10KBinPath:       getenv("CONSOLE_G10K_BIN_PATH"),
 		ControlRepoURL:    getenv("CONSOLE_CONTROL_REPO_URL"),
+		CodeSourcesPath:   getenv("CONSOLE_CODE_SOURCES_PATH"),
 		CodeWebhookSecret: getenv("CONSOLE_CODE_WEBHOOK_SECRET"),
 		CodeDirPath:       getenv("CONSOLE_CODE_DIR_PATH"),
 
@@ -292,6 +301,15 @@ func LoadConfig(getenv func(string) string) (Config, error) {
 			return Config{}, fmt.Errorf("CONSOLE_SECRETS_KEY: must decode to %d bytes, got %d", sealer.KeySize, len(key))
 		}
 		cfg.SecretsKey = key
+	}
+
+	// Refused rather than merged: were both honoured, the same repo
+	// could be declared twice with different prefixes, and reading the
+	// sources file alone would not tell you what actually deploys.
+	if cfg.ControlRepoURL != "" && cfg.CodeSourcesPath != "" {
+		return Config{}, fmt.Errorf(
+			"CONSOLE_CONTROL_REPO_URL and CONSOLE_CODE_SOURCES_PATH are mutually exclusive: " +
+				"declare the single control repo in the sources file and unset CONSOLE_CONTROL_REPO_URL, or unset CONSOLE_CODE_SOURCES_PATH")
 	}
 
 	required := map[string]string{

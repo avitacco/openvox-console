@@ -12,14 +12,10 @@ const (
 	moduleNamePuppet = "puppet"
 	actionRun        = "run"
 	actionRunTask    = "run_task"
-	// actionPackageInventoryStatus and actionPackageInventorySet are new
-	// as of add-package-inventory-toggle - still the same module, since
-	// a state change still triggers a real Puppet run, recognizably the
-	// same kind of operation as actionRun/actionRunTask rather than a
-	// new category the wire scheme needs to model separately (see
-	// design.md there).
-	actionPackageInventoryStatus = "package_inventory_status"
-	actionPackageInventorySet    = "package_inventory_set"
+	// The package-inventory actions are deliberately not declared here.
+	// This package never dispatches them: internal/packageinventory
+	// owns that exchange and declares its own copies, the same way
+	// internal/nodeagent does on the other end of the wire.
 )
 
 // requestData is a dispatch request's payload, sent over a node's
@@ -39,13 +35,6 @@ type requestData struct {
 type taskParams struct {
 	Task   string          `json:"task"`
 	Params json.RawMessage `json:"params,omitempty"`
-}
-
-// packageInventorySetParams is requestData.Params' shape for an
-// actionPackageInventorySet request. Not needed for
-// actionPackageInventoryStatus, which takes no params.
-type packageInventorySetParams struct {
-	Enabled bool `json:"enabled"`
 }
 
 // wireResponse is what a node-agent replies with on a dispatch's reply

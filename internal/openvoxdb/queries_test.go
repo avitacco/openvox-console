@@ -378,3 +378,28 @@ func TestEvents(t *testing.T) {
 		t.Error("expected a non-empty ResourceType on the event")
 	}
 }
+
+func TestNodes_PopulatesReportEnvironment(t *testing.T) {
+	// report_environment needed no PQL change - the nodes entity
+	// already returns it - so this asserts against a real openvoxdb
+	// that the field genuinely arrives, rather than trusting the tag.
+	client := testClient(t)
+
+	nodes, err := client.Nodes(context.Background())
+	if err != nil {
+		t.Fatalf("Nodes() error: %v", err)
+	}
+	if len(nodes) == 0 {
+		t.Skip("no nodes in this openvoxdb; nothing to assert against")
+	}
+
+	var reported int
+	for _, n := range nodes {
+		if n.ReportTimestamp != nil && n.ReportEnvironment != nil {
+			reported++
+		}
+	}
+	if reported == 0 {
+		t.Errorf("no node carries a report_environment despite %d nodes present; the field is not arriving", len(nodes))
+	}
+}

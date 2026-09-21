@@ -279,10 +279,20 @@ func main() {
 	)
 
 	codemanagerStore := codemanager.NewStore(db.Pool)
+	// A malformed sources file IS fatal, unlike an absent one: the
+	// operator asked for those repos, and starting with code deployment
+	// quietly inactive would look exactly like a working console until
+	// the first push failed to deploy. LoadConfig has already refused
+	// the case where both forms are set, so at most one branch applies.
+	codeSources, err := loadCodeSources(cfg)
+	if err != nil {
+		logger.Error("invalid code source configuration", "error", err)
+		os.Exit(1)
+	}
 	codemanagerDeployer := codemanager.NewDeployer(codemanager.Config{
-		G10KBinPath:    cfg.G10KBinPath,
-		ControlRepoURL: cfg.ControlRepoURL,
-		CodeDirPath:    cfg.CodeDirPath,
+		G10KBinPath: cfg.G10KBinPath,
+		Sources:     codeSources,
+		CodeDirPath: cfg.CodeDirPath,
 	})
 	codemanagerHandlers := codemanager.NewHandlers(
 		codemanagerDeployer, codemanagerStore, bus, cfg.CodeWebhookSecret, logger,
@@ -566,6 +576,46 @@ func main() {
 	vulnerability.NewHandlers(vulnStore, vulnEngine, vulnScheduler, openvoxdbClient,
 		auditWrite(auditlog.CategoryVulnerabilities), auditRead(auditlog.CategoryVulnerabilities)).Register(mux, verifier.Authorize)
 	activity.NewHandlers(activityStore).Register(mux, verifier.Authorize)
+	// The repository overview's node counts need openvoxdb and the
+	// classifier, neither of which codemanager imports. Both readings
+	// are assembled here and handed in, the same shape as
+	// packageHandlers.SetGroupResolver above.
+	codemanagerHandlers.SetUsageResolver(codemanager.NewUsageResolver(
+		// Assigned: what classification would send each node. The
+		// resolver merges every matching group by priority, so a node
+		// matching several groups yields the one environment it would
+		// actually be sent to rather than one entry per group.
+		func(ctx context.Context) ([]codemanager.NodeEnvironment, error) {
+			assigned, err := groupResolver.AssignedEnvironments(ctx)
+			if err != nil {
+				return nil, err
+			}
+			out := make([]codemanager.NodeEnvironment, 0, len(assigned))
+			for _, node := range assigned {
+				out = append(out, codemanager.NodeEnvironment{
+					Certname:    node.Certname,
+					Environment: node.Environment,
+				})
+			}
+			return out, nil
+		},
+		// Reporting: what each node last actually ran. The nodes entity
+		// already carries report_environment, so this is one query.
+		func(ctx context.Context) ([]codemanager.NodeEnvironment, error) {
+			nodes, err := openvoxdbClient.Nodes(ctx)
+			if err != nil {
+				return nil, err
+			}
+			reporting := make([]codemanager.NodeEnvironment, 0, len(nodes))
+			for _, node := range nodes {
+				reporting = append(reporting, codemanager.NodeEnvironment{
+					Certname:    node.Certname,
+					Environment: node.ReportEnvironment,
+				})
+			}
+			return reporting, nil
+		},
+	))
 	codemanagerHandlers.Register(mux, verifier.Authorize)
 	orchestratorHandlers.Register(mux, verifier.Authorize)
 	agentDistHandlers.Register(mux)
@@ -672,4 +722,31 @@ func openAuditOutput(logger *slog.Logger, path string) io.Writer {
 		return os.Stdout
 	}
 	return f
+}
+
+// loadCodeSources resolves the two mutually exclusive ways of declaring
+// what the code manager deploys from into the single list the Deployer
+// takes: a sources file naming any number of control repos, or
+// CONSOLE_CONTROL_REPO_URL naming one.
+//
+// The single-repo form becomes a source named "control" with no prefix.
+// Both halves of that matter for an upgrade: the name is what existing
+// deploy history rows already carry, and the absent prefix is what
+// keeps its branches deploying to environments/<branch> rather than
+// moving every environment openvoxserver is compiling from.
+//
+// Neither configured is not an error - code deployment is simply
+// inactive, and the deploy endpoints say so per request (see
+// runtime.Config's "never fatal at startup" posture).
+func loadCodeSources(cfg runtime.Config) (codemanager.Sources, error) {
+	if cfg.CodeSourcesPath != "" {
+		return codemanager.LoadSourcesFile(cfg.CodeSourcesPath)
+	}
+	if cfg.ControlRepoURL != "" {
+		return codemanager.Sources{{
+			Name:   codemanager.DefaultSourceName,
+			Remote: cfg.ControlRepoURL,
+		}}, nil
+	}
+	return nil, nil
 }

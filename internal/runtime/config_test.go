@@ -461,3 +461,43 @@ func TestLoadConfig_FileWorksForOptionalSecrets(t *testing.T) {
 		t.Errorf("CodeWebhookSecret = %q, want it read from the file", cfg.CodeWebhookSecret)
 	}
 }
+
+func TestLoadConfig_CodeSourcesPathAndControlRepoURLAreMutuallyExclusive(t *testing.T) {
+	// Merging the two would let the same repo be declared twice with
+	// different prefixes, and would mean the sources file no longer
+	// tells you what actually deploys.
+	_, err := LoadConfig(envMap(validEnv(map[string]string{
+		"CONSOLE_CONTROL_REPO_URL":  "git@example.com:org/control.git",
+		"CONSOLE_CODE_SOURCES_PATH": "/etc/openvox-console/code-sources.yaml",
+	})))
+	if err == nil {
+		t.Fatal("LoadConfig() succeeded, want an error")
+	}
+	for _, want := range []string{"CONSOLE_CONTROL_REPO_URL", "CONSOLE_CODE_SOURCES_PATH"} {
+		if !strings.Contains(err.Error(), want) {
+			t.Errorf("error = %q, want it to name %s", err, want)
+		}
+	}
+}
+
+func TestLoadConfig_EitherCodeSourceFormAloneIsAccepted(t *testing.T) {
+	single, err := LoadConfig(envMap(validEnv(map[string]string{
+		"CONSOLE_CONTROL_REPO_URL": "git@example.com:org/control.git",
+	})))
+	if err != nil {
+		t.Fatalf("single control repo: unexpected error: %v", err)
+	}
+	if single.ControlRepoURL != "git@example.com:org/control.git" || single.CodeSourcesPath != "" {
+		t.Errorf("ControlRepoURL = %q, CodeSourcesPath = %q", single.ControlRepoURL, single.CodeSourcesPath)
+	}
+
+	multi, err := LoadConfig(envMap(validEnv(map[string]string{
+		"CONSOLE_CODE_SOURCES_PATH": "/etc/openvox-console/code-sources.yaml",
+	})))
+	if err != nil {
+		t.Fatalf("sources file: unexpected error: %v", err)
+	}
+	if multi.CodeSourcesPath != "/etc/openvox-console/code-sources.yaml" || multi.ControlRepoURL != "" {
+		t.Errorf("ControlRepoURL = %q, CodeSourcesPath = %q", multi.ControlRepoURL, multi.CodeSourcesPath)
+	}
+}

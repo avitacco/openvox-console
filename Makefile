@@ -9,7 +9,7 @@ VERSION := $(shell git describe --tags --always --dirty 2>/dev/null || echo dev)
 -include .env
 export
 
-.PHONY: build frontend agent-binaries agent-packages docker-build up down openvox-up openvox-down openvox-test g10k-install control-repo-fixture rbac-keys rbac-rotate-key postgres-replication-up postgres-replication-down postgres-replication-failover run test clean
+.PHONY: build frontend agent-binaries agent-packages docker-build up down openvox-up openvox-down openvox-test g10k-install control-repo-fixture code-sources-fixture rbac-keys rbac-rotate-key postgres-replication-up postgres-replication-down postgres-replication-failover run test clean
 
 build: ## Build the console binary and enc-bridge for your local OS/arch
 	go build -ldflags "-X github.com/voxpupuli/enterprise-console/internal/runtime.Version=$(VERSION)" -o $(BINARY) ./cmd/console
@@ -57,14 +57,18 @@ openvox-test: ## Run a real openvox-agent against openvoxserver to generate real
 	docker compose --profile openvox-test run --rm openvox-testing-agent agent -t --server openvoxserver --waitforcert 0
 
 g10k-install: ## Build a real g10k binary into bin/ (one-time local dev setup)
-	# voxpupuli/g10k's go.mod still declares its module path as
-	# github.com/xorpaul/g10k (the upstream it's forked from), so `go
-	# install github.com/voxpupuli/g10k@latest` fails on a module-path
-	# mismatch. Cloning and building locally sidesteps that - it doesn't
-	# depend on the module's self-declared import path.
+	# Cloned rather than `go install ...@latest` so this doesn't depend
+	# on upstream having tagged a release. The main package is
+	# ./cmd/g10k, not the repository root - building "." fails with
+	# "no Go files in ...". The container image builds it the same way,
+	# see Dockerfile.
+	# The -X flags are g10k's own: without them `g10k -version` reports an
+	# empty version.
 	tmpdir=$$(mktemp -d); \
 	git clone --depth 1 https://github.com/voxpupuli/g10k.git "$$tmpdir" && \
-	(cd "$$tmpdir" && go build -o $(CURDIR)/bin/g10k .); \
+	(cd "$$tmpdir" && go build \
+		-ldflags "-X main.buildversion=$$(git describe --tags --always 2>/dev/null || echo dev) -X main.buildtime=$$(date -u '+%Y-%m-%d_%H:%M:%S')" \
+		-o $(CURDIR)/bin/g10k ./cmd/g10k); \
 	rm -rf "$$tmpdir"
 
 control-repo-fixture: ## Create a real local bare git control repo for code-manager dev/testing (one-time setup)
@@ -80,6 +84,28 @@ control-repo-fixture: ## Create a real local bare git control repo for code-mana
 	(cd "$$tmpdir" && git -c user.email=dev@localhost -c user.name=dev -c commit.gpgsign=false add -A && git -c user.email=dev@localhost -c user.name=dev -c commit.gpgsign=false commit -q -m "initial control repo fixture" && git branch -M production && git push -q origin production); \
 	rm -rf "$$tmpdir"
 	git -C .dev/control-repo.git symbolic-ref HEAD refs/heads/production
+
+code-sources-fixture: control-repo-fixture ## Add a second control repo + a code-sources.yaml, for multi-source code deployment dev/testing
+	# Deliberately a SECOND repo with the same `production` branch name:
+	# that collision is the thing prefixes exist to resolve, so a
+	# fixture without it would not exercise the feature at all.
+	rm -rf .dev/team-a-control.git
+	git init --bare -q .dev/team-a-control.git
+	tmpdir=$$(mktemp -d); \
+	git clone -q .dev/team-a-control.git "$$tmpdir" && \
+	mkdir -p "$$tmpdir/manifests" && \
+	printf 'node default {\n  class { '"'"'team_a_marker'"'"': }\n}\n\nclass team_a_marker {\n  file { '"'"'/tmp/enterprise-console-team-a-marker'"'"':\n    ensure  => file,\n    content => "deployed from the team_a control repo\\n",\n  }\n}\n' > "$$tmpdir/manifests/site.pp" && \
+	printf 'modulepath = modules:site\n' > "$$tmpdir/environment.conf" && \
+	(cd "$$tmpdir" && git -c user.email=dev@localhost -c user.name=dev -c commit.gpgsign=false add -A && git -c user.email=dev@localhost -c user.name=dev -c commit.gpgsign=false commit -q -m "team_a control repo fixture" && git branch -M production && git push -q origin production); \
+	rm -rf "$$tmpdir"
+	git -C .dev/team-a-control.git symbolic-ref HEAD refs/heads/production
+	printf 'sources:\n  control:\n    remote: file://$(CURDIR)/.dev/control-repo.git\n    prefix: false\n  team_a:\n    remote: file://$(CURDIR)/.dev/team-a-control.git\n    prefix: true\n' > .dev/code-sources.yaml
+	@echo
+	@echo "Wrote .dev/code-sources.yaml. To use it, set in .env:"
+	@echo "  CONSOLE_CODE_SOURCES_PATH=$(CURDIR)/.dev/code-sources.yaml"
+	@echo "and unset CONSOLE_CONTROL_REPO_URL - the two are mutually exclusive."
+	@echo "Deploying production from each lands in environments/production"
+	@echo "and environments/team_a_production respectively."
 
 rbac-keys: ## Generate a local ES256 signing key for RBAC (one-time dev setup)
 	mkdir -p certs

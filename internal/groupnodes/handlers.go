@@ -211,3 +211,43 @@ func writeError(w http.ResponseWriter, status int, err error) {
 	w.WriteHeader(status)
 	_ = json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
 }
+
+// NodeEnvironment is one node and the environment classification
+// resolves for it, nil when no matching group names one.
+type NodeEnvironment struct {
+	Certname    string
+	Environment *string
+}
+
+// AssignedEnvironments resolves every node's effective classification
+// environment in one pass.
+//
+// Effective, not per-group: classifier.Classify merges every matching
+// group by priority, so a node matching three groups that name
+// different environments yields the single environment it would
+// actually be sent to. Counting per matching group instead would count
+// such a node several times and attribute it to environments it will
+// never run in.
+//
+// Two queries regardless of fleet size, matching nodeCounts' approach:
+// the groups once, the fleet's facts once, and all matching in memory.
+func (r *Resolver) AssignedEnvironments(ctx context.Context) ([]NodeEnvironment, error) {
+	groups, err := r.groups.ListAllGroups(ctx)
+	if err != nil {
+		return nil, err
+	}
+	fleet, err := r.nodes.FleetFacts(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	assigned := make([]NodeEnvironment, 0, len(fleet))
+	for _, node := range fleet {
+		classification := classifier.Classify(groups, node.Certname, node.Facts)
+		assigned = append(assigned, NodeEnvironment{
+			Certname:    node.Certname,
+			Environment: classification.Environment,
+		})
+	}
+	return assigned, nil
+}

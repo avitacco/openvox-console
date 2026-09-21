@@ -1,4 +1,4 @@
-import { fetchJSON, sendJSON, escapeHtml, hasPermission, statusVariant, qs, severityBadge, coverageReasonText, closeReasonText, paginationHTML, bindPagination } from './app.js';
+import { fetchJSON, sendJSON, escapeHtml, hasPermission, statusVariant, qs, severityBadge, coverageReasonText, closeReasonText, paginationHTML, bindPagination, withLoading } from './app.js';
 
 const certname = qs('name');
 const factsEl = document.getElementById('facts');
@@ -169,7 +169,7 @@ function overviewHTML(f) {
   const n = f.networking || {};
   add('FQDN', n.fqdn);
   add('Domain', n.domain);
-  add('Puppet agent', f.aio_agent_version || f.puppetversion);
+  add('Agent version', f.aio_agent_version || f.puppetversion);
   if (pairs.length === 0) return '';
   return `<dl class="fact-overview">${pairs
     .map(([k, v]) => `<div><dt>${escapeHtml(k)}</dt><dd>${escapeHtml(v)}</dd></div>`)
@@ -392,7 +392,7 @@ factsRawSwitch?.addEventListener('change', renderFacts);
 
 async function loadPackages() {
   try {
-    const packages = await fetchJSON(`/api/v1/nodes/${encodeURIComponent(certname)}/packages`);
+    const packages = await withLoading(packagesEl, () => fetchJSON(`/api/v1/nodes/${encodeURIComponent(certname)}/packages`));
 
     if (packages.length === 0) {
       packagesEl.innerHTML = `<vox-empty-state heading="No package data reported"></vox-empty-state>`;
@@ -430,7 +430,7 @@ async function loadReports() {
     if (statusFilter.value) params.set('status', statusFilter.value);
     const qsStr = params.toString();
     const url = `/api/v1/nodes/${encodeURIComponent(certname)}/reports${qsStr ? `?${qsStr}` : ''}`;
-    reportState.all = await fetchJSON(url);
+    reportState.all = await withLoading(reportsEl, () => fetchJSON(url));
     reportState.expanded = false;
     reportState.page = 1;
     renderReports();
@@ -501,7 +501,7 @@ async function loadPackageInventoryToggle() {
   }
   if (!connected) {
     packageInventorySwitch.disabled = true;
-    packageInventoryStatusEl.innerHTML = `<vox-alert variant="neutral">Node is offline - package-inventory reporting can't be changed until it reconnects.</vox-alert>`;
+    packageInventoryStatusEl.innerHTML = `<vox-alert variant="info">Node is offline - package-inventory reporting can't be changed until it reconnects.</vox-alert>`;
     return;
   }
 
@@ -527,7 +527,7 @@ packageInventorySwitch.addEventListener('change', async () => {
       // and refresh the packages table since the run may have changed
       // what's reported.
       const succeeded = result.output.exitCode === 0 || result.output.exitCode === 2;
-      packageInventoryStatusEl.innerHTML = `<vox-alert variant="${succeeded ? 'tip' : 'danger'}">Puppet run completed (exit code ${result.output.exitCode}).</vox-alert>`;
+      packageInventoryStatusEl.innerHTML = `<vox-alert variant="${succeeded ? 'success' : 'danger'}">Puppet run completed (exit code ${result.output.exitCode}).</vox-alert>`;
       loadPackages();
     }
   } catch (err) {
@@ -553,7 +553,7 @@ async function loadVulnerabilities() {
       .map((p) => `<li>${escapeHtml(p.provider.name)}: ${escapeHtml(coverageReasonText(p.reason))}</li>`)
       .join('');
     if (cov.noProvidersEnabled) {
-      vulnerabilitiesCoverageEl.innerHTML = `<vox-alert variant="neutral">No vulnerability provider is enabled, so this node hasn't been assessed.</vox-alert>`;
+      vulnerabilitiesCoverageEl.innerHTML = `<vox-alert variant="info">No vulnerability provider is enabled, so this node hasn't been assessed.</vox-alert>`;
     } else if (!cov.assessed) {
       vulnerabilitiesCoverageEl.innerHTML = `<vox-alert variant="warning">No provider has assessed this node, so it isn't known to be free of vulnerabilities.<ul>${reasons}</ul></vox-alert>`;
     } else {

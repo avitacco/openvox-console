@@ -1,4 +1,4 @@
-import { fetchJSON, escapeHtml, statusVariant, formatValue, qs } from './app.js';
+import { fetchJSON, escapeHtml, statusVariant, formatValue, qs, withLoading } from './app.js';
 
 const reportId = qs('id');
 const node = qs('node');
@@ -19,7 +19,7 @@ async function loadEvents() {
     if (statusFilter.value) params.set('status', statusFilter.value);
     const qsStr = params.toString();
     const url = `/api/v1/reports/${encodeURIComponent(reportId)}/events${qsStr ? `?${qsStr}` : ''}`;
-    const events = await fetchJSON(url);
+    const events = await withLoading(eventsEl, () => fetchJSON(url));
 
     if (events.length === 0) {
       eventsEl.innerHTML = `

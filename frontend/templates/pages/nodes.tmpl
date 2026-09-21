@@ -24,6 +24,16 @@
         <vox-switch id="show-infrastructure">Show infrastructure certs</vox-switch>
       </div>
 
+      <!-- vox-hide, not style="display:none": vox-display-flex is
+           declared with !important, so an inline display would lose to
+           it. vox-hide is also !important and declared later, so it
+           wins. -->
+      <div id="selection-bar" class="vox-display-flex vox-items-center vox-gap-md vox-m-bottom-md vox-hide">
+        <span id="selection-count" class="vox-ts-sm"></span>
+        <vox-button id="run-selected" variant="brand" size="sm">Run Puppet</vox-button>
+        <vox-button id="clear-selection" variant="alt" size="sm">Clear</vox-button>
+      </div>
+
       <div id="results"></div>
     </main>
 {{- end}}

@@ -1,4 +1,4 @@
-import { fetchJSON, sendJSON, escapeHtml, hasPermission, confirmDialog } from './app.js';
+import { fetchJSON, sendJSON, escapeHtml, hasPermission, confirmDialog, withLoading } from './app.js';
 
 const results = document.getElementById('results');
 const actionError = document.getElementById('action-error');
@@ -7,6 +7,10 @@ const connectionFilterEl = document.getElementById('connection-filter');
 const certStatusFilterEl = document.getElementById('cert-status-filter');
 const showInfrastructureEl = document.getElementById('show-infrastructure');
 const addNodeButton = document.getElementById('add-node');
+const selectionBar = document.getElementById('selection-bar');
+const selectionCount = document.getElementById('selection-count');
+const runSelectedButton = document.getElementById('run-selected');
+const clearSelectionButton = document.getElementById('clear-selection');
 
 // inventoryCertnames: null until /api/v1/nodes (fetched in full - see
 // fetchAllNodes) resolves; certname -> true for nodes openvoxdb knows about.
@@ -71,7 +75,7 @@ function certActionsCell(certname) {
   if (connectivityByCertname !== null && hasPermission('nodes:certs:manage')) {
     const status = connectivityByCertname.get(certname)?.certStatus ?? 'unknown';
     if (status === 'requested') {
-      buttons.push(`<vox-button data-sign-certname="${escapeHtml(certname)}" variant="primary" size="sm">Sign</vox-button>`);
+      buttons.push(`<vox-button data-sign-certname="${escapeHtml(certname)}" variant="brand" size="sm">Sign</vox-button>`);
     }
     if (status === 'signed') {
       buttons.push(`<vox-button data-revoke-certname="${escapeHtml(certname)}" variant="danger" size="sm">Revoke</vox-button>`);
@@ -97,9 +101,21 @@ function infrastructureBadge(certname) {
   return ` <vox-badge variant="neutral">Infrastructure</vox-badge>`;
 }
 
+// Selecting nodes to run against. Gated on orchestrator:run, the same
+// permission the node detail page's own Run now button uses.
+const canRun = hasPermission('orchestrator:run');
+const selected = new Set();
+
+function selectCell(certname) {
+  if (!canRun) return '';
+  const checked = selected.has(certname) ? ' checked' : '';
+  return `<td><vox-checkbox data-select-certname="${escapeHtml(certname)}"${checked}></vox-checkbox></td>`;
+}
+
 function nodeRow(certname, nodeLink) {
   return `
         <tr>
+          ${selectCell(certname)}
           <td>${nodeLink}${infrastructureBadge(certname)}</td>
           <td>${connectivityBadge(certname)}</td>
           <td>${lastConnectedCell(certname)}</td>
@@ -194,8 +210,10 @@ function render() {
   if (inventoryCertnames === null) return; // still loading the initial node list
 
   const certnames = sortedCertnames();
+  pruneSelection(certnames);
 
   if (certnames.length === 0) {
+    renderSelectionBar();
     const hasAnyNodes = allCertnames().length > 0;
     results.innerHTML = hasAnyNodes
       ? `
@@ -227,6 +245,7 @@ function render() {
       <table class="vox-table vox-table--striped">
         <thead>
           <tr>
+            ${canRun ? '<th scope="col"><vox-checkbox id="select-all"></vox-checkbox></th>' : ''}
             ${sortableHeader('name', 'Node')}
             ${sortableHeader('connection', 'Connection')}
             ${sortableHeader('lastConnected', 'Last connected')}
@@ -252,7 +271,84 @@ function render() {
     });
   });
 
+  bindSelection(certnames);
   bindCertActions();
+}
+
+// Selection is pruned to what's currently visible on every render, so a
+// filter change can't leave nodes silently selected off-screen and then
+// run against them.
+function pruneSelection(visible) {
+  const shown = new Set(visible);
+  for (const certname of selected) {
+    if (!shown.has(certname)) selected.delete(certname);
+  }
+}
+
+function renderSelectionBar() {
+  if (!canRun) return;
+  const count = selected.size;
+  selectionBar.classList.toggle('vox-hide', count === 0);
+  selectionCount.textContent = `${count} node${count === 1 ? '' : 's'} selected`;
+}
+
+function bindSelection(visible) {
+  if (!canRun) return;
+  results.querySelectorAll('vox-checkbox[data-select-certname]').forEach((el) => {
+    el.addEventListener('change', () => {
+      const certname = el.dataset.selectCertname;
+      if (el.checked) selected.add(certname);
+      else selected.delete(certname);
+      syncSelectAll(visible);
+      renderSelectionBar();
+    });
+  });
+
+  const selectAll = results.querySelector('#select-all');
+  if (selectAll) {
+    syncSelectAll(visible);
+    selectAll.addEventListener('change', () => {
+      for (const certname of visible) {
+        if (selectAll.checked) selected.add(certname);
+        else selected.delete(certname);
+      }
+      // Re-render rather than poking each checkbox, so the rows and the
+      // bar can't disagree about what's selected.
+      render();
+    });
+  }
+  renderSelectionBar();
+}
+
+function syncSelectAll(visible) {
+  const selectAll = results.querySelector('#select-all');
+  if (!selectAll) return;
+  selectAll.checked = visible.length > 0 && visible.every((c) => selected.has(c));
+}
+
+// A run applies configuration on every target, so the count is
+// confirmed before anything is dispatched - selecting 200 nodes with a
+// header checkbox is one click away.
+async function runSelected() {
+  const targets = [...selected];
+  if (targets.length === 0) return;
+  actionError.innerHTML = '';
+
+  const preview = targets.slice(0, 5).map((t) => escapeHtml(t)).join(', ');
+  const more = targets.length > 5 ? `, and ${targets.length - 5} more` : '';
+  const confirmed = await confirmDialog({
+    heading: 'Run Puppet',
+    body: `<p>Run Puppet on ${targets.length} node${targets.length === 1 ? '' : 's'}?</p><p class="vox-ts-sm">${preview}${more}</p>`,
+    confirmLabel: 'Run',
+  });
+  if (!confirmed) return;
+
+  try {
+    const job = await sendJSON('/api/v1/orchestrator/runs', 'POST', { targets });
+    window.location.href = `/job.html?id=${job.id}`;
+  } catch (err) {
+    showActionError(err.message);
+  }
 }
 
 function showActionError(message) {
@@ -401,7 +497,7 @@ async function fetchAllNodes() {
   let items = [];
   let total = Infinity;
   while (items.length < total) {
-    const res = await fetchJSON(`/api/v1/nodes?page=${page}&pageSize=${pageSize}`);
+    const res = await withLoading(results, () => fetchJSON(`/api/v1/nodes?page=${page}&pageSize=${pageSize}`));
     if (res.items.length === 0) break;
     items = items.concat(res.items);
     total = res.total;
@@ -436,6 +532,12 @@ nameFilterEl.addEventListener('input', render);
 connectionFilterEl.addEventListener('change', render);
 certStatusFilterEl.addEventListener('change', render);
 showInfrastructureEl.addEventListener('change', render);
+
+runSelectedButton?.addEventListener('click', runSelected);
+clearSelectionButton?.addEventListener('click', () => {
+  selected.clear();
+  render();
+});
 
 load();
 loadConnectivity();

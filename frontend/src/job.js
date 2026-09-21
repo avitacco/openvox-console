@@ -1,4 +1,4 @@
-import { fetchJSON, escapeHtml, requirePermission, statusVariant, qs } from './app.js';
+import { fetchJSON, escapeHtml, requirePermission, statusVariant, qs, withLoading } from './app.js';
 
 if (requirePermission('orchestrator:read')) {
   const jobId = qs('id');
@@ -59,7 +59,7 @@ if (requirePermission('orchestrator:read')) {
 
   async function load() {
     try {
-      const job = await fetchJSON(`/api/v1/orchestrator/jobs/${encodeURIComponent(jobId)}`);
+      const job = await withLoading(summaryEl, () => fetchJSON(`/api/v1/orchestrator/jobs/${encodeURIComponent(jobId)}`));
       renderSummary(job);
       renderTargets(job.targets);
     } catch (err) {

@@ -125,7 +125,7 @@ func (h *Handlers) login(w http.ResponseWriter, r *http.Request) {
 		writeJSONError(w, http.StatusUnauthorized, "invalid credentials")
 		return
 	}
-	writeJSON(w, http.StatusOK, tokenPairResponse{AccessToken: pair.AccessToken, RefreshToken: pair.RefreshToken})
+	writeJSON(w, http.StatusOK, tokenPairResponse(pair))
 }
 
 type refreshRequest struct {
@@ -144,7 +144,7 @@ func (h *Handlers) refresh(w http.ResponseWriter, r *http.Request) {
 		writeJSONError(w, http.StatusUnauthorized, "invalid or expired refresh token")
 		return
 	}
-	writeJSON(w, http.StatusOK, tokenPairResponse{AccessToken: pair.AccessToken, RefreshToken: pair.RefreshToken})
+	writeJSON(w, http.StatusOK, tokenPairResponse(pair))
 }
 
 // authMethodsResponse reports which login methods the frontend should

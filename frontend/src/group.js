@@ -1,4 +1,4 @@
-import { fetchJSON, sendJSON, escapeHtml, hasPermission, qs } from './app.js';
+import { fetchJSON, sendJSON, escapeHtml, hasPermission, qs, withLoading } from './app.js';
 
 const id = qs('id');
 const isEdit = Boolean(id);
@@ -248,7 +248,7 @@ async function loadForEdit() {
 
 async function loadMatchingNodes() {
   try {
-    const resp = await fetchJSON(`/api/v1/groups/${encodeURIComponent(id)}/nodes`);
+    const resp = await withLoading(matchingNodesEl, () => fetchJSON(`/api/v1/groups/${encodeURIComponent(id)}/nodes`));
     matchingCertnames = resp.certnames || [];
 
     if (matchingCertnames.length === 0) {

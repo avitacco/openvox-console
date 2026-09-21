@@ -37,6 +37,18 @@ type Node struct {
 	// does not apply the same exclusion.
 	Deactivated *time.Time `json:"deactivated"`
 	Expired     *time.Time `json:"expired"`
+	// ReportEnvironment is the Puppet environment the node's most
+	// recent report ran in - what it is actually running, as opposed to
+	// what classification would assign it. Like
+	// LatestReportCorrectiveChange above, this needed no PQL change:
+	// the nodes entity already returns it.
+	//
+	// catalog_environment is deliberately not used in its place.
+	// Verified against a real openvoxdb that it is null for nodes that
+	// have reported but whose catalogs openvoxdb has not stored, which
+	// makes it unusable as a "what is this node running" signal;
+	// report_environment is populated wherever a report exists.
+	ReportEnvironment *string `json:"report_environment"`
 }
 
 // Nodes returns every active node known to openvoxdb - deactivated and

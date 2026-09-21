@@ -19,7 +19,7 @@ type page struct {
 	Title      string
 	Script     string // page JS entry, without the .js extension
 	ShowHeader bool
-	ActiveNav  string // "nodes" | "node-connectivity" | "packages" | "vulnerabilities" | "groups" | "admin" | "activity" | "deploys" | "jobs" | "" (preferences.html deliberately has none - it's reached from the header's user menu, not the sidenav)
+	ActiveNav  string // "nodes" | "node-connectivity" | "packages" | "vulnerabilities" | "groups" | "admin" | "activity" | "code" | "jobs" | "" (preferences.html deliberately has none - it's reached from the header's user menu, not the sidenav)
 }
 
 var pages = []page{
@@ -37,7 +37,11 @@ var pages = []page{
 	{Name: "roles.html", Title: "Roles - OpenVox Console", Script: "roles", ShowHeader: true, ActiveNav: "admin"},
 	{Name: "service-tokens.html", Title: "Service Tokens - OpenVox Console", Script: "service-tokens", ShowHeader: true, ActiveNav: "admin"},
 	{Name: "activity.html", Title: "Activity - OpenVox Console", Script: "activity", ShowHeader: true, ActiveNav: "activity"},
-	{Name: "deploys.html", Title: "Deploys - OpenVox Console", Script: "deploys", ShowHeader: true, ActiveNav: "deploys"},
+	{Name: "code.html", Title: "Code - OpenVox Console", Script: "code", ShowHeader: true, ActiveNav: "code"},
+	// Redirects into code.html's Deploy history tab. Kept rather than
+	// removed so existing bookmarks and the setup runbooks' links still
+	// resolve - see deploys-redirect.js.
+	{Name: "deploys.html", Title: "Deploys - OpenVox Console", Script: "deploys-redirect", ShowHeader: true, ActiveNav: "code"},
 	{Name: "jobs.html", Title: "Jobs - OpenVox Console", Script: "jobs", ShowHeader: true, ActiveNav: "jobs"},
 	{Name: "job.html", Title: "Job - OpenVox Console", Script: "job", ShowHeader: true, ActiveNav: "jobs"},
 	{Name: "preferences.html", Title: "Preferences - OpenVox Console", Script: "preferences", ShowHeader: true},

@@ -1,4 +1,4 @@
-import { fetchJSON, escapeHtml, requirePermission, hasPermission, paginationHTML, bindPagination, severityBadge } from './app.js';
+import { fetchJSON, escapeHtml, requirePermission, hasPermission, paginationHTML, bindPagination, severityBadge, withLoading } from './app.js';
 
 if (requirePermission('vulnerabilities:read')) {
   const results = document.getElementById('results');
@@ -116,7 +116,7 @@ if (requirePermission('vulnerabilities:read')) {
 
   async function load() {
     try {
-      const page = await fetchJSON(buildQuery());
+      const page = await withLoading(results, () => fetchJSON(buildQuery()));
       if (page.items.length === 0 && page.page > 1 && page.total > 0) {
         currentPage = 1;
         return load();

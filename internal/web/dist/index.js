@@ -1,4 +1,4 @@
-import { fetchJSON, escapeHtml, hasPermission, statusVariant, targetSummaryText, paginationHTML, bindPagination } from './app.js';
+import { fetchJSON, escapeHtml, hasPermission, statusVariant, targetSummaryText, paginationHTML, bindPagination, withLoading } from './app.js';
 
 const results = document.getElementById('results');
 const nameFilter = document.getElementById('name-filter');
@@ -252,7 +252,7 @@ function renderNodes(page) {
 
 async function load() {
   try {
-    const page = await fetchJSON(buildQuery());
+    const page = await withLoading(results, () => fetchJSON(buildQuery()));
     if (page.items.length === 0 && page.page > 1 && page.total > 0) {
       currentPage = 1;
       return load();

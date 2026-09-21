@@ -231,6 +231,96 @@ make g10k-install          # builds a real g10k binary into bin/
 make control-repo-fixture  # creates a real local bare git control repo at .dev/control-repo.git
 ```
 
+The container image needs neither: it builds `g10k` itself, installs it
+at `/usr/local/bin/g10k` with the `git`/`ssh` it shells out to, and
+presets `CONSOLE_G10K_BIN_PATH`. Code deployment still stays off until
+`CONSOLE_CONTROL_REPO_URL` is set. `--build-arg G10K_REF=<tag-or-sha>`
+pins the g10k revision; the default tracks its default branch.
+
+**Multiple control repos.** `CONSOLE_CONTROL_REPO_URL` declares one. To
+deploy from several, point `CONSOLE_CODE_SOURCES_PATH` at a YAML file
+instead - the two are **mutually exclusive**, and setting both is a
+startup error rather than a merge:
+
+```yaml
+sources:
+  control:
+    remote: git@github.com:org/control-repo.git
+    prefix: false        # -> environments/production
+  team_a:
+    remote: git@github.com:org/team-a-control.git
+    prefix: true         # -> environments/team_a_production
+    private_key: /etc/openvox-console/keys/team_a
+    webhook_secret_file: /run/secrets/team_a_webhook
+```
+
+`prefix` decides the Puppet environment name a source's branches
+produce, and is how two repos can each carry a `production` branch. It
+takes `true` (prefix with the source name), `false`/unset (no prefix),
+or a literal string. Because two unprefixed sources would collide the
+moment they shared a branch name, the console requires every source's
+effective prefix to be distinct and refuses to start otherwise - in
+practice, at most one source may be unprefixed.
+
+Each source gets its own webhook endpoint,
+`POST /api/v1/code-deploys/webhook/<source>`, verified against that
+source's own `webhook_secret`. The unsuffixed
+`/api/v1/code-deploys/webhook` continues to serve the default source
+using `CONSOLE_CODE_WEBHOOK_SECRET`, so an existing git host needs no
+change. Source names may contain only `[a-z0-9_]` - they become part of
+a Puppet environment name.
+
+`make code-sources-fixture` sets up a second local control repo and a
+matching `.dev/code-sources.yaml` to develop against.
+
+**The Code page** (`/code.html`, `code:read`) has two tabs.
+**Repositories** lists every configured repo with its remote, prefix,
+deployed environments, size and last successful deploy, plus two node
+counts; clicking one opens **Deploy history** filtered to it.
+`/deploys.html` redirects to that tab, so existing links still work.
+The two counts are:
+
+- **Assigned** - nodes the classifier sends to one of this repo's
+  environments, using each node's *effective* classification, so a node
+  matching several groups counts once against the environment it would
+  actually be sent to.
+- **Reporting** - nodes whose most recent Puppet run happened in one of
+  them.
+
+They are shown separately because the gap is the useful part. Assigned
+with no reporting means code that has deployed but nothing has run yet;
+reporting with no assigned means nodes running code no group directs
+them to - usually an environment left behind by a removed source, or a
+node with a hardcoded `environment` in its `puppet.conf`. The page names
+these states rather than leaving you to compare two numbers.
+
+Two things the numbers do *not* mean:
+
+- **Size is content size, not disk usage.** It sums file sizes in the
+  deployed tree. g10k hardlinks modules from a shared cache, so repos
+  sharing a module version share those bytes on disk and the figures
+  overlap. Deduplicating would make one repo's size change when an
+  unrelated repo is deployed, which is worse.
+- **Size and environments are recorded at deploy time**, so both read as
+  "&mdash;" for deploys made before this shipped. They fill in on the
+  next deploy.
+
+Remotes are shown with any embedded credentials redacted
+(`https://REDACTED@host/org/repo.git`), so a `code:read` user can see a
+repo's host and path but not a token placed in its URL. Nodes using an
+environment no configured repo has deployed are reported separately
+rather than attributed to the unprefixed repo, which would be a guess.
+
+Two things to expect when adding a source:
+
+- A **prefixed source deploys successfully but changes nothing** until
+  nodes are classified into its new environment name. Nothing
+  reassigns them, so the first deploy looks like a no-op.
+- **Removing a source from the config does not remove its
+  environments.** Deploys stop; `environments/team_a_*` stays on disk
+  and openvoxserver keeps compiling from it. Delete it by hand when
+  that is what you meant.
+
 `control-repo-fixture` is a genuine git repository (not a mock) with a
 real Puppetfile (`puppetlabs/stdlib`) and a `code_manager_test_marker`
 class, on a `production` branch - point `.env`'s

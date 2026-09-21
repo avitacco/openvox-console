@@ -579,10 +579,19 @@ same for a systemd unit pointed at files on disk. `enc-bridge` reads
 
 Optional subsystems documented elsewhere: OIDC login
 (`CONSOLE_OIDC_*`), code deployment (`CONSOLE_G10K_BIN_PATH`,
-`CONSOLE_CONTROL_REPO_URL`, `CONSOLE_CODE_WEBHOOK_SECRET`,
+`CONSOLE_CONTROL_REPO_URL` **or** `CONSOLE_CODE_SOURCES_PATH` - never
+both, see below, plus `CONSOLE_CODE_WEBHOOK_SECRET` and
 `CONSOLE_CODE_DIR_PATH`), and audit levels (`CONSOLE_AUDIT_*`,
 `CONSOLE_AUDIT_LOG_PATH`). `internal/runtime/config.go` is the
 authoritative list of what is read.
+
+`CONSOLE_CONTROL_REPO_URL` declares a single control repo;
+`CONSOLE_CODE_SOURCES_PATH` points at a YAML file declaring several
+(see README.md for the format). Setting both is a startup error, not a
+merge - so whichever one you set is the whole answer to "what deploys".
+Each source in that file may carry its own prefix, deploy key and
+webhook secret, and gets its own webhook endpoint at
+`/api/v1/code-deploys/webhook/<source>`.
 
 ---
 

@@ -95,23 +95,42 @@ func TestPollDependencyHealth_RecordsInitialStateImmediately(t *testing.T) {
 
 	// PollDependencyHealth checks once synchronously before its first
 	// ticker wait, but it's still running in its own goroutine - poll
-	// briefly for the gauge to land rather than racing it.
-	deadline := time.Now().Add(time.Second)
+	// briefly for the gauges to land rather than racing it.
+	//
+	// Every gauge, not just the first: its check loop sets them one at
+	// a time (see PollDependencyHealth), so postgres can be readable
+	// while nats has not been written yet. Waiting on one and then
+	// asserting both is a race, and it was flaking roughly half the
+	// time. Deriving the wait condition and the assertions from the
+	// same list is what stops the two drifting apart again.
+	want := []string{
+		`console_dependency_up{dependency="postgres"} 1`,
+		`console_dependency_up{dependency="nats"} 0`,
+	}
+	settled := func(body string) bool {
+		for _, w := range want {
+			if !strings.Contains(body, w) {
+				return false
+			}
+		}
+		return true
+	}
+
+	deadline := time.Now().Add(2 * time.Second)
 	var body string
-	for time.Now().Before(deadline) {
+	for {
 		rec := httptest.NewRecorder()
 		m.Handler().ServeHTTP(rec, httptest.NewRequest(http.MethodGet, "/metrics", nil))
 		body = rec.Body.String()
-		if strings.Contains(body, `console_dependency_up{dependency="postgres"} 1`) {
+		if settled(body) || !time.Now().Before(deadline) {
 			break
 		}
 		time.Sleep(10 * time.Millisecond)
 	}
-	if !strings.Contains(body, `console_dependency_up{dependency="postgres"} 1`) {
-		t.Errorf("expected postgres up=1 in:\n%s", body)
-	}
-	if !strings.Contains(body, `console_dependency_up{dependency="nats"} 0`) {
-		t.Errorf("expected nats up=0 in:\n%s", body)
+	for _, w := range want {
+		if !strings.Contains(body, w) {
+			t.Errorf("expected %s in:\n%s", w, body)
+		}
 	}
 
 	cancel()

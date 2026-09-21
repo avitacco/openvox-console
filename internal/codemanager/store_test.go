@@ -23,7 +23,7 @@ func TestCreateDeploy_AndListDeploys(t *testing.T) {
 	s := testStore(t)
 	ctx := context.Background()
 
-	id, err := s.CreateDeploy(ctx, "codemanager-store-test-ref-1", "codemanager-store-test-actor")
+	id, err := s.CreateDeploy(ctx, DefaultSourceName, "codemanager-store-test-ref-1", "codemanager-store-test-actor")
 	if err != nil {
 		t.Fatalf("CreateDeploy() error: %v", err)
 	}
@@ -67,12 +67,12 @@ func TestCompleteDeploy_Succeeded(t *testing.T) {
 	s := testStore(t)
 	ctx := context.Background()
 
-	id, err := s.CreateDeploy(ctx, "codemanager-store-test-ref-2", "codemanager-store-test-actor")
+	id, err := s.CreateDeploy(ctx, DefaultSourceName, "codemanager-store-test-ref-2", "codemanager-store-test-actor")
 	if err != nil {
 		t.Fatalf("CreateDeploy() error: %v", err)
 	}
 
-	if err := s.CompleteDeploy(ctx, id, StatusSucceeded, ""); err != nil {
+	if err := s.CompleteDeploy(ctx, id, StatusSucceeded, "", nil, nil); err != nil {
 		t.Fatalf("CompleteDeploy() error: %v", err)
 	}
 
@@ -95,12 +95,12 @@ func TestCompleteDeploy_FailedWithErrorDetail(t *testing.T) {
 	s := testStore(t)
 	ctx := context.Background()
 
-	id, err := s.CreateDeploy(ctx, "codemanager-store-test-ref-3", "codemanager-store-test-actor")
+	id, err := s.CreateDeploy(ctx, DefaultSourceName, "codemanager-store-test-ref-3", "codemanager-store-test-actor")
 	if err != nil {
 		t.Fatalf("CreateDeploy() error: %v", err)
 	}
 
-	if err := s.CompleteDeploy(ctx, id, StatusFailed, "module resolution failed: boom"); err != nil {
+	if err := s.CompleteDeploy(ctx, id, StatusFailed, "module resolution failed: boom", nil, nil); err != nil {
 		t.Fatalf("CompleteDeploy() error: %v", err)
 	}
 
@@ -126,7 +126,7 @@ func TestGetDeploy_NotFound(t *testing.T) {
 
 func TestCompleteDeploy_NotFound(t *testing.T) {
 	s := testStore(t)
-	err := s.CompleteDeploy(context.Background(), -1, StatusSucceeded, "")
+	err := s.CompleteDeploy(context.Background(), -1, StatusSucceeded, "", nil, nil)
 	if err != ErrNotFound {
 		t.Errorf("error = %v, want ErrNotFound", err)
 	}
@@ -136,11 +136,11 @@ func TestListDeploys_MostRecentFirst(t *testing.T) {
 	s := testStore(t)
 	ctx := context.Background()
 
-	firstID, err := s.CreateDeploy(ctx, "codemanager-store-test-order-1", "actor")
+	firstID, err := s.CreateDeploy(ctx, DefaultSourceName, "codemanager-store-test-order-1", "actor")
 	if err != nil {
 		t.Fatalf("CreateDeploy() error: %v", err)
 	}
-	secondID, err := s.CreateDeploy(ctx, "codemanager-store-test-order-2", "actor")
+	secondID, err := s.CreateDeploy(ctx, DefaultSourceName, "codemanager-store-test-order-2", "actor")
 	if err != nil {
 		t.Fatalf("CreateDeploy() error: %v", err)
 	}
@@ -171,11 +171,11 @@ func TestListDeploys_Pagination(t *testing.T) {
 	s := testStore(t)
 	ctx := context.Background()
 
-	firstID, err := s.CreateDeploy(ctx, "codemanager-store-test-page-1", "actor")
+	firstID, err := s.CreateDeploy(ctx, DefaultSourceName, "codemanager-store-test-page-1", "actor")
 	if err != nil {
 		t.Fatalf("CreateDeploy() error: %v", err)
 	}
-	secondID, err := s.CreateDeploy(ctx, "codemanager-store-test-page-2", "actor")
+	secondID, err := s.CreateDeploy(ctx, DefaultSourceName, "codemanager-store-test-page-2", "actor")
 	if err != nil {
 		t.Fatalf("CreateDeploy() error: %v", err)
 	}
@@ -211,11 +211,11 @@ func TestListDeploys_FilterByRef(t *testing.T) {
 	s := testStore(t)
 	ctx := context.Background()
 
-	targetID, err := s.CreateDeploy(ctx, "codemanager-store-test-filter-ref-target", "actor")
+	targetID, err := s.CreateDeploy(ctx, DefaultSourceName, "codemanager-store-test-filter-ref-target", "actor")
 	if err != nil {
 		t.Fatalf("CreateDeploy() error: %v", err)
 	}
-	if _, err := s.CreateDeploy(ctx, "codemanager-store-test-filter-ref-other", "actor"); err != nil {
+	if _, err := s.CreateDeploy(ctx, DefaultSourceName, "codemanager-store-test-filter-ref-other", "actor"); err != nil {
 		t.Fatalf("CreateDeploy() error: %v", err)
 	}
 
@@ -248,15 +248,15 @@ func TestListDeploys_FilterByStatus(t *testing.T) {
 	s := testStore(t)
 	ctx := context.Background()
 
-	runningID, err := s.CreateDeploy(ctx, "codemanager-store-test-filter-status-running", "actor")
+	runningID, err := s.CreateDeploy(ctx, DefaultSourceName, "codemanager-store-test-filter-status-running", "actor")
 	if err != nil {
 		t.Fatalf("CreateDeploy() error: %v", err)
 	}
-	succeededID, err := s.CreateDeploy(ctx, "codemanager-store-test-filter-status-succeeded", "actor")
+	succeededID, err := s.CreateDeploy(ctx, DefaultSourceName, "codemanager-store-test-filter-status-succeeded", "actor")
 	if err != nil {
 		t.Fatalf("CreateDeploy() error: %v", err)
 	}
-	if err := s.CompleteDeploy(ctx, succeededID, StatusSucceeded, ""); err != nil {
+	if err := s.CompleteDeploy(ctx, succeededID, StatusSucceeded, "", nil, nil); err != nil {
 		t.Fatalf("CompleteDeploy() error: %v", err)
 	}
 
@@ -285,11 +285,11 @@ func TestListDeploys_FilterByTriggeredBy(t *testing.T) {
 	s := testStore(t)
 	ctx := context.Background()
 
-	targetID, err := s.CreateDeploy(ctx, "codemanager-store-test-filter-triggeredby", "codemanager-filter-test-actor")
+	targetID, err := s.CreateDeploy(ctx, DefaultSourceName, "codemanager-store-test-filter-triggeredby", "codemanager-filter-test-actor")
 	if err != nil {
 		t.Fatalf("CreateDeploy() error: %v", err)
 	}
-	if _, err := s.CreateDeploy(ctx, "codemanager-store-test-filter-triggeredby-other", "someone-else"); err != nil {
+	if _, err := s.CreateDeploy(ctx, DefaultSourceName, "codemanager-store-test-filter-triggeredby-other", "someone-else"); err != nil {
 		t.Fatalf("CreateDeploy() error: %v", err)
 	}
 
@@ -321,11 +321,11 @@ func TestListDeploys_SortAsc(t *testing.T) {
 	// table - see the identical fix (and why) in orchestrator's
 	// TestListJobs_SortAsc.
 	const triggeredBy = "codemanager-store-test-sortasc-actor"
-	firstID, err := s.CreateDeploy(ctx, "codemanager-store-test-sortasc-1", triggeredBy)
+	firstID, err := s.CreateDeploy(ctx, DefaultSourceName, "codemanager-store-test-sortasc-1", triggeredBy)
 	if err != nil {
 		t.Fatalf("CreateDeploy() error: %v", err)
 	}
-	secondID, err := s.CreateDeploy(ctx, "codemanager-store-test-sortasc-2", triggeredBy)
+	secondID, err := s.CreateDeploy(ctx, DefaultSourceName, "codemanager-store-test-sortasc-2", triggeredBy)
 	if err != nil {
 		t.Fatalf("CreateDeploy() error: %v", err)
 	}
@@ -356,7 +356,7 @@ func TestDistinctRefs_IncludesRecordedRef(t *testing.T) {
 	s := testStore(t)
 	ctx := context.Background()
 
-	if _, err := s.CreateDeploy(ctx, "codemanager-store-test-distinct-ref", "actor"); err != nil {
+	if _, err := s.CreateDeploy(ctx, DefaultSourceName, "codemanager-store-test-distinct-ref", "actor"); err != nil {
 		t.Fatalf("CreateDeploy() error: %v", err)
 	}
 
@@ -369,5 +369,239 @@ func TestDistinctRefs_IncludesRecordedRef(t *testing.T) {
 	}
 	if !slices.IsSorted(refs) {
 		t.Errorf("DistinctRefs() = %v, want alphabetically sorted", refs)
+	}
+}
+
+func TestCreateDeploy_RoundTripsSource(t *testing.T) {
+	s := testStore(t)
+	ctx := context.Background()
+
+	id, err := s.CreateDeploy(ctx, "codemanager_store_test_source_a", "codemanager-store-test-source-ref", "actor")
+	if err != nil {
+		t.Fatalf("CreateDeploy() error: %v", err)
+	}
+
+	found, err := s.GetDeploy(ctx, id)
+	if err != nil {
+		t.Fatalf("GetDeploy() error: %v", err)
+	}
+	if found.Source != "codemanager_store_test_source_a" {
+		t.Errorf("Source = %q, want the source it was created with", found.Source)
+	}
+
+	deploys, _, err := s.ListDeploys(ctx, 1, 1000, DeployFilter{Source: "codemanager_store_test_source_a"})
+	if err != nil {
+		t.Fatalf("ListDeploys() error: %v", err)
+	}
+	var listed bool
+	for _, d := range deploys {
+		if d.Source != "codemanager_store_test_source_a" {
+			t.Errorf("source filter returned a deploy from %q", d.Source)
+		}
+		if d.ID == id {
+			listed = true
+		}
+	}
+	if !listed {
+		t.Error("source filter excluded the matching deploy")
+	}
+}
+
+func TestListDeploys_SameRefFromDifferentSourcesAreDistinguishable(t *testing.T) {
+	// The reason ref alone stopped being enough: two control repos can
+	// each have a production branch, and their attempts must not read
+	// as repeated deploys of one thing.
+	s := testStore(t)
+	ctx := context.Background()
+
+	const ref = "codemanager-store-test-shared-ref"
+	aID, err := s.CreateDeploy(ctx, "codemanager_store_test_src_one", ref, "actor")
+	if err != nil {
+		t.Fatalf("CreateDeploy() error: %v", err)
+	}
+	bID, err := s.CreateDeploy(ctx, "codemanager_store_test_src_two", ref, "actor")
+	if err != nil {
+		t.Fatalf("CreateDeploy() error: %v", err)
+	}
+
+	byRef, _, err := s.ListDeploys(ctx, 1, 1000, DeployFilter{Ref: ref})
+	if err != nil {
+		t.Fatalf("ListDeploys() error: %v", err)
+	}
+	seen := map[int64]string{}
+	for _, d := range byRef {
+		seen[d.ID] = d.Source
+	}
+	if seen[aID] != "codemanager_store_test_src_one" || seen[bID] != "codemanager_store_test_src_two" {
+		t.Errorf("attempts sharing a ref did not keep their own sources: %v", seen)
+	}
+
+	// Filtering by source narrows a shared ref to one source's attempts.
+	oneOnly, _, err := s.ListDeploys(ctx, 1, 1000, DeployFilter{Ref: ref, Source: "codemanager_store_test_src_one"})
+	if err != nil {
+		t.Fatalf("ListDeploys() error: %v", err)
+	}
+	for _, d := range oneOnly {
+		if d.ID == bID {
+			t.Error("source filter returned the other source's attempt for a shared ref")
+		}
+	}
+}
+
+func TestDistinctSources_ReturnsRecordedSource(t *testing.T) {
+	s := testStore(t)
+	ctx := context.Background()
+
+	if _, err := s.CreateDeploy(ctx, "codemanager_store_test_distinct_src", "codemanager-store-test-distinct-source-ref", "actor"); err != nil {
+		t.Fatalf("CreateDeploy() error: %v", err)
+	}
+
+	sources, err := s.DistinctSources(ctx)
+	if err != nil {
+		t.Fatalf("DistinctSources() error: %v", err)
+	}
+	if !slices.Contains(sources, "codemanager_store_test_distinct_src") {
+		t.Errorf("sources = %v, want it to contain the just-created source", sources)
+	}
+}
+
+func TestCompleteDeploy_RecordsEnvironmentAndSize(t *testing.T) {
+	s := testStore(t)
+	ctx := context.Background()
+
+	id, err := s.CreateDeploy(ctx, "codemanager_store_test_sized", "codemanager-store-test-sized-ref", "actor")
+	if err != nil {
+		t.Fatalf("CreateDeploy() error: %v", err)
+	}
+
+	// A running attempt has neither yet.
+	running, err := s.GetDeploy(ctx, id)
+	if err != nil {
+		t.Fatalf("GetDeploy() error: %v", err)
+	}
+	if running.Environment != nil || running.SizeBytes != nil {
+		t.Errorf("a running deploy already carries environment=%v size=%v", running.Environment, running.SizeBytes)
+	}
+
+	env, size := "codemanager_store_test_sized_production", int64(4096)
+	if err := s.CompleteDeploy(ctx, id, StatusSucceeded, "", &env, &size); err != nil {
+		t.Fatalf("CompleteDeploy() error: %v", err)
+	}
+
+	done, err := s.GetDeploy(ctx, id)
+	if err != nil {
+		t.Fatalf("GetDeploy() error: %v", err)
+	}
+	if done.Environment == nil || *done.Environment != env {
+		t.Errorf("Environment = %v, want %q", done.Environment, env)
+	}
+	if done.SizeBytes == nil || *done.SizeBytes != size {
+		t.Errorf("SizeBytes = %v, want %d", done.SizeBytes, size)
+	}
+}
+
+func TestCompleteDeploy_AbsentSizeStaysAbsentRatherThanZero(t *testing.T) {
+	// The distinction the nullable column exists for: a failed deploy
+	// produced no tree, which must not read as an empty repository.
+	s := testStore(t)
+	ctx := context.Background()
+
+	id, err := s.CreateDeploy(ctx, "codemanager_store_test_unsized", "codemanager-store-test-unsized-ref", "actor")
+	if err != nil {
+		t.Fatalf("CreateDeploy() error: %v", err)
+	}
+	if err := s.CompleteDeploy(ctx, id, StatusFailed, "boom", nil, nil); err != nil {
+		t.Fatalf("CompleteDeploy() error: %v", err)
+	}
+
+	found, err := s.GetDeploy(ctx, id)
+	if err != nil {
+		t.Fatalf("GetDeploy() error: %v", err)
+	}
+	if found.SizeBytes != nil {
+		t.Errorf("SizeBytes = %v, want nil (absent, not zero)", *found.SizeBytes)
+	}
+	if found.Environment != nil {
+		t.Errorf("Environment = %v, want nil", *found.Environment)
+	}
+
+	// And through the list path, not just the single-row lookup.
+	deploys, _, err := s.ListDeploys(ctx, 1, 1000, DeployFilter{Source: "codemanager_store_test_unsized"})
+	if err != nil {
+		t.Fatalf("ListDeploys() error: %v", err)
+	}
+	for _, d := range deploys {
+		if d.ID == id && d.SizeBytes != nil {
+			t.Errorf("listed SizeBytes = %v, want nil", *d.SizeBytes)
+		}
+	}
+}
+
+func TestDeploySummaryBySource(t *testing.T) {
+	s := testStore(t)
+	ctx := context.Background()
+
+	const (
+		multi  = "codemanager_summary_multi"
+		failed = "codemanager_summary_failed"
+	)
+
+	// A source with two environments, the later one carrying a size.
+	prodSize := int64(1024)
+	prodID, err := s.CreateDeploy(ctx, multi, "abc", "actor")
+	if err != nil {
+		t.Fatalf("CreateDeploy() error: %v", err)
+	}
+	if err := s.CompleteDeploy(ctx, prodID, StatusSucceeded, "", strptr(multi+"_production"), &prodSize); err != nil {
+		t.Fatalf("CompleteDeploy() error: %v", err)
+	}
+	stagingSize := int64(2048)
+	stagingID, err := s.CreateDeploy(ctx, multi, "def", "actor")
+	if err != nil {
+		t.Fatalf("CreateDeploy() error: %v", err)
+	}
+	if err := s.CompleteDeploy(ctx, stagingID, StatusSucceeded, "", strptr(multi+"_staging"), &stagingSize); err != nil {
+		t.Fatalf("CompleteDeploy() error: %v", err)
+	}
+
+	// A source whose only attempt failed: it has deployed nothing.
+	failedID, err := s.CreateDeploy(ctx, failed, "ghi", "actor")
+	if err != nil {
+		t.Fatalf("CreateDeploy() error: %v", err)
+	}
+	if err := s.CompleteDeploy(ctx, failedID, StatusFailed, "boom", nil, nil); err != nil {
+		t.Fatalf("CompleteDeploy() error: %v", err)
+	}
+
+	summaries, err := s.DeploySummaryBySource(ctx)
+	if err != nil {
+		t.Fatalf("DeploySummaryBySource() error: %v", err)
+	}
+
+	got, ok := summaries[multi]
+	if !ok {
+		t.Fatalf("no summary for %q", multi)
+	}
+	if len(got.Environments) != 2 {
+		t.Errorf("Environments = %v, want both deployed environments", got.Environments)
+	}
+	if got.LastDeployAt == nil {
+		t.Error("LastDeployAt is nil for a source that deployed successfully")
+	}
+	// Size comes from the most recent success, not a sum across
+	// environments - summing would double count hardlinked modules and
+	// grow with branch count rather than with the repository.
+	if got.SizeBytes == nil || *got.SizeBytes != stagingSize {
+		t.Errorf("SizeBytes = %v, want %d (the most recent success)", got.SizeBytes, stagingSize)
+	}
+
+	if _, ok := summaries[failed]; ok {
+		t.Errorf("a source whose only deploy failed appears as having deployed: %+v", summaries[failed])
+	}
+
+	// A configured source that has never deployed is simply absent, and
+	// the caller reports it as absent rather than zero.
+	if _, ok := summaries["codemanager_summary_never_deployed"]; ok {
+		t.Error("a source with no deploys at all appears in the summary")
 	}
 }
