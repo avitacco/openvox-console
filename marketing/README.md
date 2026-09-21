@@ -1,8 +1,13 @@
 # Marketing site
 
 The public site describing what OpenVox Console does, built from the
-console's own screenshots. Published to GitHub Pages from `main` by
-`.github/workflows/marketing.yml`.
+console's own screenshots.
+
+**It is built here and committed, not built in CI.** `make marketing`
+regenerates `docs/`, you look at the result, and you push it. GitHub
+Pages serves `docs/` straight from the branch, so what is published is
+something a person has actually seen - not whatever a workflow made of
+the last commit.
 
 Nothing here is part of the console binary. The site is a sibling of
 `frontend/`, not part of it, and neither this directory nor
@@ -12,21 +17,36 @@ asserts exactly that (`internal/demodata`'s `TestDemoDataIsNotShipped`).
 ## Layout
 
 ```
-marketing/
-  build.sh              builds the site into dist/
+marketing/              the source
+  build.sh              builds the site into ../docs
   gen/                  renders templates/ into HTML (build-time only)
   templates/            layout.html.tmpl + pages/*.tmpl
   src/                  site.css, theme.js
   shots/                the screenshot manifest - what gets captured
   capture/              drives a headless browser to take the screenshots
   screenshots.sh        the full refresh: demo console, seed, capture
-  assets/screenshots/   the committed PNGs
+
+docs/                   the built site, committed, served by Pages
+  index.html            generated - do not edit
+  features/*.html       generated - do not edit
+  site.css, theme.js    copied from marketing/src
+  vendor/               copied from the frontend's voxblocks
+  assets/screenshots/   the PNGs - content, not build output
 ```
+
+`docs/assets/screenshots` is the one thing under `docs/` that the build
+does not generate. Capture writes the images straight there rather than
+into `marketing/` to be copied at build time, so they are committed once
+instead of twice - 2MB either way, but only one copy churning per
+refresh. `build.sh` removes only what it generates, so a rebuild never
+takes the screenshots with it.
 
 ## Building
 
 ```sh
-make marketing          # -> marketing/dist/
+make marketing          # regenerate docs/
+make marketing-serve    # look at it: http://localhost:8777/
+git add docs && git commit && git push
 ```
 
 `voxblocks` comes from `frontend/node_modules`, not a second
@@ -62,8 +82,8 @@ stops it. Your own console is never touched and need not be running.
 ### Why openvoxdb's retention has to be turned off
 
 The demo fleet is dated to a fixed instant in the past
-(`internal/demodata.Instant`), which is what makes two capture runs
-produce identical images: "4 minutes ago" stays "4 minutes ago". With
+(`internal/demodata.Instant`), so that "4 minutes ago" stays "4 minutes
+ago" however long after seeding the capture runs. With
 openvoxdb's stock 14d/7d retention, data that old is born expired - its
 resource events are discarded at ingest (so report pages screenshot
 empty) and the fleet is deactivated on the next GC pass (so it vanishes
@@ -79,15 +99,14 @@ the refresh command, so this is not something to remember.
 - `make g10k-install` - the Code page needs real deploys to show.
 - `make code-sources-fixture` - creates the two control repositories the
   seed deploys from.
-- Settings → Pages → Source → "GitHub Actions" on the repository, once,
-  before the workflow can publish. No workflow can do this for itself;
-  until it is done the site builds and fails at the deploy step.
+- Settings → Pages → Source → "Deploy from a branch", branch `main`,
+  folder `/docs`. Once, on the repository. Nothing publishes until that
+  is set.
 
-### Determinism
+### What capture pins, and what it does not
 
-Two runs against the same seeded console produce byte-identical images,
-so a refresh that changes nothing produces no diff. That is not a
-coincidence and it is easy to break. What holds it up:
+Capture controls the things that belong to screenshotting rather than to
+the product:
 
 - the browser is a pinned container image, not whatever Chrome is
   installed locally;
@@ -99,10 +118,13 @@ coincidence and it is easy to break. What holds it up:
 - the viewport is fixed per shot;
 - every id, hash and timestamp the seed writes is derived, never random.
 
-If you add something to the console that varies per render - a relative
-timestamp computed from the real clock, a random id, an animation that
-does not respect the stillness stylesheet - the images will start
-churning on every refresh. That is the signal, not a flake.
+Images are **not** expected to be byte-identical between runs. Measured
+across two full refreshes, 14 of 20 were; the other six move because the
+activity log stamps its entries from the real clock, and because a couple
+of list queries impose no total order, so tied rows can come back in a
+different order. Both are real product behavior, and bending the console
+to suit its own marketing photographs would be the wrong trade. Expect a
+refresh to produce a small diff even when nothing has changed.
 
 ### Adding a screenshot
 
@@ -118,6 +140,73 @@ churning on every refresh. That is the signal, not a flake.
 Each PNG must stay under `shots.MaxBytes` (1.5 MB) and capture fails on
 one that does not. They are committed and replaced on every refresh, so
 an oversized image grows the repository's history permanently.
+
+## Accessibility
+
+The target is **WCAG 2.2 level AA**.
+
+```sh
+make screenshots-up    # the audit needs the headless browser
+make marketing-a11y
+```
+
+`marketing/a11y` loads every page in a real browser and runs axe-core
+over it in **both themes at both a desktop and a phone viewport** - 28
+renders. Contrast depends on the theme and reflow depends on the width,
+so a single pass would miss half of what there is to find. It also makes
+three checks axe cannot: reflow at 320px (SC 1.4.10), survival of the
+WCAG text-spacing overrides (SC 1.4.12), and that the skip link exists,
+points at something real, and appears when focused (SC 2.4.1).
+
+**It asserts that the rules it cares about actually ran.** `target-size`
+(SC 2.5.8) ships *disabled* in axe-core, so selecting the `wcag22aa` tag
+is not enough to run it - and a rule that does not run reports no
+violations, which is indistinguishable from passing. The audit fails if
+`target-size` or `color-contrast` is missing from the results.
+
+### Accepted exceptions
+
+One, recorded in `accepted` in `marketing/a11y/main.go` with its reason:
+axe's best-practice `region` rule flags the skip link for sitting outside
+every landmark, which is exactly where a skip link has to be. It is
+suppressed for that element only; any other `region` finding still fails.
+
+### What was found and fixed
+
+- **Header GitHub link at 1.97:1.** A plain `<a>` slotted into
+  `vox-header` gets the browser's default `#0000ee`, because the header's
+  shadow styles do not reach it. Now styled from `site.css`, which can,
+  because slotted elements live in the light DOM.
+- **Footer bottom row at 4.37:1.** `vox-footer` styles it with
+  `--vox-color-text-3` at 13px, which in the light theme is just under
+  the 4.5:1 minimum. Overridden to `--vox-color-text-2` (5.48:1).
+  **This is a voxblocks issue, not ours** - the console's own footer has
+  it too, and it is worth reporting upstream rather than every site
+  patching around it.
+- **The call-to-action band sat outside every landmark**, so anyone
+  navigating by landmark skipped the page's primary actions. `<main>` now
+  wraps it.
+- **No skip link.** A keyboard user tabbed through the header and six
+  subnav links before reaching content, on every page. Added.
+- **No reduced-motion handling.** Added, covering the voxblocks
+  components' transitions as well as our own.
+
+### Reviewed by hand, because no tool can check it
+
+- **Alt text says what the console is showing**, not which page it is:
+  "Node groups listed with their environment, priority and the number of
+  nodes each rule currently matches", not "Groups page". The text lives
+  in the shot's `Caption` in `marketing/shots`.
+- **Heading structure.** One `h1` per page (rendered by `vox-hero` into
+  its shadow DOM), `h2` for each section, no levels skipped.
+- **Link text makes sense out of context** - "Setup guide", "Source on
+  GitHub", "Container images" - since a screen reader can list links
+  with no surrounding prose.
+- **Focus order follows the visual order**, and the phone layout's one
+  unfocusable link is the header's GitHub link, which `vox-header`
+  collapses into its menu at that width. A link that is not rendered
+  should not be focusable, and the same destination stays reachable from
+  the footer and the closing call to action.
 
 ## An honest note about the demo data
 

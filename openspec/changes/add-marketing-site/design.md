@@ -38,7 +38,7 @@ See proposal.md - Why. The constraints that shape the approach:
 - One build pattern shared with `frontend/`, so a contributor who has
   touched one can touch the other without learning a second toolchain.
 - Screenshots that cannot silently become fiction: produced from the real
-  UI, regenerable in one command, and byte-stable when nothing changed.
+  UI and regenerable in one command.
 - Zero effect on the console binary, its tests, or its image pipeline.
 
 **Non-Goals:**
@@ -61,16 +61,14 @@ dependency set and a second set of conventions with it.
 **Decision:** `marketing/` reproduces the `frontend/` pattern -
 `marketing/build.sh`, `marketing/gen/main.go`, `marketing/templates/`
 (a shared `layout.html.tmpl` plus `pages/*.tmpl`), `marketing/src/*.css` -
-emitting to `marketing/dist/`. The page list is a Go slice in
-`gen/main.go`, exactly as `frontend/gen/main.go` holds the console's.
+emitting to `docs/`, which is what GitHub Pages serves (decision 10). The
+page list is a Go slice in `gen/main.go`, exactly as
+`frontend/gen/main.go` holds the console's.
 
 *Why:* the site is roughly seven static pages with no data behind them.
 That is below the threshold where a generator earns its onboarding cost,
 and the pattern being identical to `frontend/`'s is worth more here than
-any feature a generator would add. `marketing/dist/` is a normal build
-output directory rather than `frontend/`'s unusual `internal/web/dist`
-target - that indirection exists only because `go:embed` cannot reach
-above its own directory, and nothing embeds the marketing site.
+any feature a generator would add.
 
 *Alternative considered:* extending `frontend/gen` with marketing pages.
 Rejected - it would put public pages in the binary's embed tree, which
@@ -95,25 +93,45 @@ Rejected as more machinery than one `cp` line needs.
 
 | Page | Covers | Principal components |
 |---|---|---|
-| `index.html` | what the console is, capability summary, get started | `vox-hero`, `vox-grid` + `vox-card`, `vox-stat`, `vox-cta-band` |
-| `features/nodes.html` | inventory, reports, connectivity, certificates | `vox-billboard` (alternating `reverse`), `vox-callout` |
-| `features/classification.html` | node groups, match rules, ENC | `vox-billboard`, `vox-step-indicator` |
-| `features/code.html` | multi-source code deployment, deploy history | `vox-billboard`, `vox-code-block` |
-| `features/orchestration.html` | tasks, plans, job runs | `vox-billboard`, `vox-timeline` |
-| `features/security.html` | package inventory, vulnerability tracking | `vox-billboard`, `vox-grid` + `vox-stat` |
-| `features/access-control.html` | RBAC, service tokens, audit trail | `vox-billboard`, `vox-card` |
+| `index.html` | what the console is, capability hub, get started | `vox-hero`, `vox-link-hub`, `vox-stat`, `vox-callout`, `vox-cta-band` |
+| `features/nodes.html` | inventory, reports, connectivity, certificates | prose sections + full-width screenshots, `vox-callout` |
+| `features/classification.html` | node groups, match rules, ENC | `vox-step-indicator`, `vox-callout` |
+| `features/code.html` | multi-source code deployment, deploy history | `vox-code-block`, `vox-callout` |
+| `features/orchestration.html` | tasks, plans, job runs | `vox-timeline`, `vox-callout` |
+| `features/security.html` | package inventory, vulnerability tracking | prose sections + screenshots, `vox-callout` |
+| `features/access-control.html` | RBAC, service tokens, audit trail | `vox-grid` + `vox-card`, `vox-callout` |
 
 Shared across every page: `vox-header` (with the same inline OpenVox
 hexagon mark and `vox-theme-toggle` the console's layout uses),
-`vox-subnav` for the capability pages, `vox-footer`, and `vox-toc` on any
-page long enough to need one. A screenshot sits in `vox-billboard`'s
-`media` slot, which is what that component's split media/copy layout is
-for.
+`vox-subnav` for the capability pages, `vox-cta-band`, and `vox-footer`.
 
-Hand-written CSS in `marketing/src/` is limited to what no component
-covers: the screenshot frame (border, radius, shadow, theme swapping) and
-page-level spacing. If a rule starts reproducing a component, that is the
-signal to use the component.
+**`vox-link-hub`, not `vox-card`, for the capability hub.** The library
+documents link-hub as "a grid of prominent links with descriptions, for
+hub/landing pages", which is exactly what that section is; cards are for
+content blocks that happen to be adjacent. The first version used cards
+and looked like it.
+
+**Screenshots are full-width figures, not `vox-billboard` media.** A
+billboard splits its row between media and copy, which leaves a dense
+console table at roughly half the page width and illegible. The copy goes
+above, the screenshot spans the column.
+
+### 3a. Layout comes from the library, and its tokens are not guessable
+
+`vox-container` sets the page width - it matches `vox-header` and
+`vox-footer`, which a hand-rolled `max-width` does not. `.vox-prose` sets
+the body-copy measure and colour, `vox-ts-*` the heading sizes. What
+remains in `marketing/src/site.css` is the screenshot frame and the
+rhythm between sections.
+
+**Every custom property used must be one that exists.** The scale is
+`--vox-space-1,2,3,4,6,8` - no 5, 7, 9 or 10 - and backgrounds are
+`--vox-color-bg`, `-alt`, `-elv`, `-soft`, not `-1/-2/-3`. An invented
+name does not warn; it produces no declaration at all. The first version
+of this file spaced its sections with `var(--vox-space-10)`, got no
+margin whatsoever, and rendered with sections overlapping each other.
+This is the same trap `specs/web-shell` already records for component
+properties, and it applies just as much to tokens.
 
 ### 4. Theme-matched screenshots via `<picture>`, not JavaScript
 
@@ -271,23 +289,39 @@ confirmation is present, refusing with a message naming the target
 otherwise. Fabricated fleet data written into a real deployment is
 corruption of that deployment's inventory.
 
-### 10. Site links are relative; publication is a separate workflow
+### 10. Site links are relative; the built site is committed
 
 Every internal link and asset reference is relative (`./`, `../`), so the
 site works from `/openvox-console/` and from a domain root without a
 configured base URL.
 
-`.github/workflows/marketing.yml` is new and independent: on a push to
-`main` touching `marketing/`, it runs `marketing/build.sh` and publishes
-`marketing/dist/` with `actions/deploy-pages`. It is not added to
-`ci.yml`, so a site build failure cannot block an image publish, and the
-previously published site simply remains.
+**Publication is by committing the built output.** `marketing/build.sh`
+writes into `docs/`, and GitHub Pages serves `docs/` directly from the
+branch. There is no publishing workflow, and `ci.yml` is untouched.
 
-Screenshot capture does **not** run in CI. It needs the full compose stack
-and a seeded console; running that per-push to regenerate images that are
-already committed would be slow and would defeat the byte-stability the
-images are meant to have. Refresh is a deliberate local act, documented in
-`marketing/README.md` and reachable as `make marketing-screenshots`.
+*Why not build in CI:* a workflow-built site is published without anyone
+having looked at it. Every defect this change actually shipped - sections
+colliding because a CSS custom property did not exist, a screenshot
+rendering as an empty panel, a caption describing a tab the screenshot
+was not showing - would have gone straight to visitors, because each one
+passed every automated check. Building locally puts a person between the
+change and the publish, which is the only control that catches those.
+
+*Consequence:* `docs/` is committed build output, and a rebuild must be
+run before pushing or the published site lags its source. The trade is
+deliberate - a stale site is a smaller failure than a broken one nobody
+saw.
+
+**Screenshots live under `docs/assets/screenshots` rather than being
+copied there at build time.** They are the one thing under `docs/` the
+build does not generate. Keeping them there means one committed copy
+instead of two, and `build.sh` deletes only what it generates so a
+rebuild cannot take them with it - they cost several minutes and a seeded
+console to reproduce.
+
+Screenshot capture does **not** run in CI either, for the same reasons
+plus a practical one: it needs the full compose stack and a seeded
+console.
 
 ## Risks / Trade-offs
 

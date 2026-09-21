@@ -112,25 +112,61 @@ showing, not merely naming the page.
   reader
 - **THEN** its text alternative describes what the console is showing in it
 
-### Requirement: Readable on a phone and usable from a keyboard
-The site SHALL be usable at phone width: no page may scroll horizontally,
-and content SHALL reflow rather than requiring the visitor to pan.
-Screenshots, which are wide by nature, SHALL remain legible at that width -
-scaled, cropped, or individually scrollable - rather than being shrunk to
-illegibility.
+### Requirement: WCAG 2.2 level AA
+The site SHALL meet WCAG 2.2 level AA.
 
-Every interactive element SHALL be reachable and operable by keyboard, with
-a visible focus indicator.
+Conformance SHALL be checked in both themes and at both a desktop and a
+phone viewport, because contrast depends on the theme and reflow depends
+on the width: a single pass cannot see either failure.
 
-#### Scenario: Phone-width layout
-- **WHEN** a page is viewed at a narrow viewport
-- **THEN** its content reflows to that width and the page does not scroll
-  horizontally
+In particular the site SHALL:
 
-#### Scenario: Keyboard navigation
-- **WHEN** a visitor moves through a page using only the keyboard
-- **THEN** every link and control can be reached and activated, and the
-  focused element is visibly indicated
+- reflow to 320 CSS pixels without horizontal scrolling (SC 1.4.10);
+- survive the text-spacing overrides of SC 1.4.12 without clipping text;
+- meet the 4.5:1 contrast minimum for body text in both themes
+  (SC 1.4.3), including elements slotted into components, whose shadow
+  styles do not reach them and which therefore fall back to browser
+  defaults;
+- offer a way to bypass the header and navigation that repeat on every
+  page (SC 2.4.1);
+- keep every interactive element keyboard-reachable with a visible focus
+  indicator (SC 2.1.1, 2.4.7);
+- meet the 24-by-24 minimum target size (SC 2.5.8);
+- contain all content within landmarks, so nothing is skipped by someone
+  navigating by landmark.
+
+Automated checking SHALL verify that the rules it relies on actually ran.
+A rule that does not run reports no violations, which is indistinguishable
+from passing, and at least one relevant rule is disabled by default in the
+tooling.
+
+Checks a tool cannot make - whether alt text describes the right thing,
+whether link text means anything out of context, whether focus order
+matches the visual order - SHALL be reviewed by a person, and that review
+SHALL be recorded rather than merely performed.
+
+#### Scenario: Reflow at the narrowest supported width
+- **WHEN** a page is rendered at 320 CSS pixels wide
+- **THEN** its content reflows and the page does not scroll horizontally
+
+#### Scenario: Contrast in both themes
+- **WHEN** a page is checked for contrast in the light theme and again in
+  the dark theme
+- **THEN** body text meets 4.5:1 in both
+
+#### Scenario: Bypassing the repeated navigation
+- **WHEN** a keyboard user begins tabbing through any page
+- **THEN** the first focusable element offers to skip past the header and
+  navigation to the content, and is visible once focused
+
+#### Scenario: A rule that did not run
+- **WHEN** the audit's tooling silently skips a rule the site relies on
+- **THEN** the audit fails rather than reporting no violations
+
+#### Scenario: Screenshots at phone width
+- **WHEN** a page carrying a console screenshot is viewed at phone width
+- **THEN** the screenshot is shown whole rather than cropped to an
+  uninformative corner of itself
 
 ### Requirement: Self-contained static output
 The site's build SHALL produce static files requiring no application
@@ -159,22 +195,43 @@ public marketing material, and the console serves an authenticated product.
 - **THEN** it embeds and serves exactly what it did before this capability
   existed
 
-### Requirement: Published automatically
-The site SHALL be rebuilt and published from the default branch
-automatically, so that what is published matches what is committed without
-anyone performing a manual deployment step.
+### Requirement: Built locally, published by committing
+The site SHALL be built by a person on their own machine and committed,
+and the hosting SHALL serve those committed files directly. It SHALL NOT
+be rebuilt by CI on push.
 
-A failed site build SHALL NOT publish a partially built site, and SHALL NOT
-block or fail the repository's existing image and test pipeline.
+This is deliberate. A site built by a workflow is published without anyone
+having seen it; a broken layout, a caption describing the wrong thing, or
+a screenshot that did not render all reach visitors before they reach the
+author. Building locally makes looking at the result a step you cannot
+skip, because you are the one publishing it.
 
-#### Scenario: A change to the site is published
-- **WHEN** a commit changing the site lands on the default branch
-- **THEN** the site is rebuilt and the published site reflects that commit
+A build SHALL NOT overwrite the committed screenshots, which are content
+rather than build output and cannot be regenerated without a seeded
+console.
 
-#### Scenario: The site build fails
-- **WHEN** the site build fails
-- **THEN** nothing is published, the previously published site remains, and
-  the image and test pipeline is unaffected
+The build SHALL fail rather than emit a site with a missing or
+undeclared screenshot, so a forgotten capture is caught before anything
+is committed.
+
+#### Scenario: Publishing a change to the site
+- **WHEN** an author rebuilds the site and commits the result
+- **THEN** the published site serves those committed files, with no build
+  step between the commit and what a visitor sees
+
+#### Scenario: A push that does not rebuild the site
+- **WHEN** a commit lands that changes the site's source but not its built
+  output
+- **THEN** the published site is unchanged, because nothing rebuilds it
+  automatically
+
+#### Scenario: Rebuilding does not destroy the screenshots
+- **WHEN** the site is rebuilt
+- **THEN** the committed screenshots are still present and unmodified
+
+#### Scenario: A declared screenshot is missing
+- **WHEN** the site is built and a screenshot a page references is absent
+- **THEN** the build fails naming it, and no site is produced
 
 ### Requirement: Routes visitors to the real thing
 The site SHALL link a visitor to the material they need next: the source

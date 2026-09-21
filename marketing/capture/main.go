@@ -2,14 +2,14 @@
 //
 // It drives a real browser against a real console: it logs in, visits
 // each view declared in marketing/shots, and writes a light and a dark
-// PNG per view into marketing/assets/screenshots.
+// PNG per view into docs/assets/screenshots - the directory GitHub Pages
+// serves, so the images are committed once rather than copied at build
+// time.
 //
-// The images are committed, and two runs against the same seeded console
-// must produce identical bytes - otherwise every refresh rewrites every
-// file and the diff is meaningless. Everything that would vary between
-// runs and is not the page itself is pinned: the browser (a fixed
-// container image), the clock (the demo instant), the viewport, and
-// animation. See determinism.go.
+// Everything that would vary between runs and is not the page itself is
+// pinned: the browser (a fixed container image), the clock (the demo
+// instant), the viewport, and animation. See determinism.go. Byte-for-
+// byte identical output is not guaranteed - see marketing/README.md.
 //
 // Usage:
 //
@@ -27,6 +27,8 @@ import (
 	"os/signal"
 	"path/filepath"
 	"syscall"
+
+	"github.com/voxpupuli/enterprise-console/marketing/shots"
 	"time"
 )
 
@@ -67,7 +69,7 @@ func run() error {
 	flag.StringVar(&opts.consoleURL, "console-url", envOr("CAPTURE_CONSOLE_URL", "http://localhost:8080"), "console URL as reachable from here, used to log in")
 	flag.StringVar(&opts.browserConsoleURL, "browser-console-url", os.Getenv("CAPTURE_BROWSER_CONSOLE_URL"), "console URL as reachable from the browser container (default: same as --console-url; use http://host.docker.internal:8080 for a console running on the host)")
 	flag.StringVar(&opts.browserURL, "browser-url", envOr("CAPTURE_BROWSER_URL", "http://localhost:9222"), "DevTools endpoint of the headless browser")
-	flag.StringVar(&opts.outDir, "out", "", "directory to write PNGs into (default: marketing/assets/screenshots beside this tool)")
+	flag.StringVar(&opts.outDir, "out", "", "directory to write PNGs into (default: docs/assets/screenshots in this repository)")
 	flag.StringVar(&opts.username, "username", envOr("CONSOLE_BOOTSTRAP_ADMIN_USERNAME", "admin"), "console user to log in as")
 	flag.StringVar(&opts.password, "password", os.Getenv("CONSOLE_BOOTSTRAP_ADMIN_PASSWORD"), "that user's password (or set CONSOLE_BOOTSTRAP_ADMIN_PASSWORD)")
 	flag.StringVar(&opts.only, "only", "", "capture just this one shot, by name")
@@ -100,25 +102,28 @@ func run() error {
 	return capture(ctx, opts)
 }
 
-// defaultOutDir resolves the asset directory relative to this source
-// file's location, so the tool works from any working directory.
+// defaultOutDir resolves where screenshots are written.
+//
+// They go into docs/, the directory GitHub Pages serves, because that is
+// where the published site reads them from. Writing them anywhere else
+// would mean committing the same 2MB of images twice.
+//
+// The repository root is found by walking up for the marketing
+// directory, so this works whether the tool is run from the root or from
+// marketing/capture.
 func defaultOutDir() (string, error) {
 	wd, err := os.Getwd()
 	if err != nil {
 		return "", err
 	}
-	// Walk up until the directory containing marketing/ is found, so
-	// `go run ./marketing/capture` from the repo root and a direct run
-	// from marketing/capture both resolve to the same place.
 	dir := wd
 	for {
-		candidate := filepath.Join(dir, "marketing")
-		if info, err := os.Stat(candidate); err == nil && info.IsDir() {
-			return filepath.Join(candidate, "assets", "screenshots"), nil
+		if info, err := os.Stat(filepath.Join(dir, "marketing")); err == nil && info.IsDir() {
+			return filepath.Join(dir, "docs", shots.AssetDir), nil
 		}
 		parent := filepath.Dir(dir)
 		if parent == dir {
-			return "", fmt.Errorf("could not find the marketing directory from %s - pass --out", wd)
+			return "", fmt.Errorf("could not find the repository root from %s - pass --out", wd)
 		}
 		dir = parent
 	}

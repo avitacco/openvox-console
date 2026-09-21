@@ -1,19 +1,25 @@
 #!/usr/bin/env bash
-# Builds the marketing site into marketing/dist.
+# Builds the marketing site into docs/, which is what GitHub Pages
+# serves.
 #
-# The same shape as frontend/build.sh deliberately: voxblocks ships a
-# self-contained CDN bundle, so this is an asset copy rather than a
-# bundler step, and the HTML is rendered from templates/ by gen/main.go,
-# a build-time-only Go program.
+# The site is built here and committed, not built in CI. `make marketing`
+# regenerates docs/, you look at the result, and you push it - so what is
+# published is something somebody has actually seen, rather than whatever
+# a workflow produced from the last commit.
 #
-# Unlike the frontend's, the output is a plain dist/ beside this script.
-# frontend/ writes into internal/web/dist only because go:embed cannot
-# reach above its own directory - nothing embeds this site, so it has no
-# reason to inherit that.
+# docs/ is therefore committed build output, with one exception:
+# docs/assets/screenshots is not output at all. Those images come from
+# `make marketing-screenshots` and are the site's content. They live
+# under docs/ rather than being copied there so that they are committed
+# once instead of twice.
+#
+# Like frontend/build.sh, this is an asset copy rather than a bundler
+# step - voxblocks ships a self-contained CDN bundle - plus gen/main.go,
+# a build-time-only Go program, to render the HTML.
 set -euo pipefail
 cd "$(dirname "$0")"
 
-OUT=dist
+OUT=../docs
 VOXBLOCKS=../frontend/node_modules/@openvoxproject/voxblocks
 
 # The design system comes from the frontend's lockfile rather than a
@@ -26,21 +32,24 @@ if [ ! -d "$VOXBLOCKS" ]; then
   (cd ../frontend && npm install --no-audit --no-fund)
 fi
 
-rm -rf "$OUT"
-mkdir -p "$OUT/vendor"
+# Remove what this script generates, and only that. A blanket rm would
+# take the screenshots with it, and they are not regenerable from here -
+# recapturing them needs a seeded console and several minutes.
+rm -rf "$OUT/vendor" "$OUT/features"
+rm -f "$OUT"/*.html "$OUT"/*.css "$OUT"/*.js
+mkdir -p "$OUT/vendor" "$OUT/assets/screenshots"
 
 cp "$VOXBLOCKS/dist/cdn/voxblocks.js" "$OUT/vendor/voxblocks.js"
 cp "$VOXBLOCKS/dist/cdn/voxblocks.css" "$OUT/vendor/voxblocks.css"
 cp src/*.css src/*.js "$OUT/"
 
-# Screenshots are committed, not generated here. gen fails if one a page
-# needs is missing, so a forgotten capture stops the build rather than
-# publishing a broken image.
-mkdir -p "$OUT/assets/screenshots"
-if compgen -G "assets/screenshots/*.png" > /dev/null; then
-  cp assets/screenshots/*.png "$OUT/assets/screenshots/"
-fi
+# Tells GitHub Pages to serve the directory as-is rather than running it
+# through Jekyll, which would otherwise skip anything whose name begins
+# with an underscore.
+touch "$OUT/.nojekyll"
 
 go run ./gen "$OUT"
 
-echo "Marketing site built into marketing/$OUT"
+echo
+echo "Marketing site built into docs/"
+echo "Look at it before pushing:  (cd docs && python3 -m http.server 8777)"

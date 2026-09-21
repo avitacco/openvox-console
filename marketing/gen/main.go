@@ -102,11 +102,10 @@ func run() error {
 	}
 	outDir := os.Args[1]
 
-	assetDir := filepath.Join("..", shots.AssetDir)
-	if _, err := os.Stat(shots.AssetDir); err == nil {
-		assetDir = shots.AssetDir
-	}
-
+	// The screenshots live inside the output directory rather than being
+	// copied into it, so this is both where they are checked and where
+	// the published pages will reference them from.
+	assetDir := filepath.Join(outDir, shots.AssetDir)
 	if err := verifyScreenshots(assetDir); err != nil {
 		return err
 	}

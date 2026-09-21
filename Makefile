@@ -9,7 +9,7 @@ VERSION := $(shell git describe --tags --always --dirty 2>/dev/null || echo dev)
 -include .env
 export
 
-.PHONY: build frontend agent-binaries agent-packages docker-build up down openvox-up openvox-down openvox-test g10k-install control-repo-fixture code-sources-fixture rbac-keys rbac-rotate-key postgres-replication-up postgres-replication-down postgres-replication-failover run test clean demo-seed screenshots-up screenshots-down
+.PHONY: build frontend agent-binaries agent-packages docker-build up down openvox-up openvox-down openvox-test g10k-install control-repo-fixture code-sources-fixture rbac-keys rbac-rotate-key postgres-replication-up postgres-replication-down postgres-replication-failover run test clean demo-seed screenshots-up screenshots-down marketing marketing-serve marketing-screenshots marketing-a11y
 
 # Compose invocation for a screenshot capture run. All three files, in
 # this order: naming any -f turns off compose's automatic loading of
@@ -146,8 +146,21 @@ demo-seed: ## Fill a LOCAL console with a fabricated demo fleet for screenshots/
 	# under the wrong settings can never be corrected in place.
 	go run ./cmd/demo-seed --reset --i-know-this-is-a-demo-console
 
-marketing: ## Build the marketing site into marketing/dist
+marketing: ## Rebuild the marketing site into docs/ (commit and push the result - it is not built in CI)
 	cd marketing && ./build.sh
+
+marketing-a11y: ## Audit the built site against WCAG 2.2 AA (needs `make screenshots-up` for the browser)
+	# Serves docs/ on a spare port, runs the audit against it, stops the
+	# server whichever way the audit ends.
+	@cd docs && python3 -m http.server 8778 >/dev/null 2>&1 & \
+	server=$$!; \
+	trap "kill $$server 2>/dev/null" EXIT; \
+	sleep 1; \
+	go run ./marketing/a11y --base http://host.docker.internal:8778 --best-practice
+
+marketing-serve: ## Serve the built site locally so you can look at it before pushing
+	@echo "Serving docs/ at http://localhost:8777/ - Ctrl-C to stop"
+	@cd docs && python3 -m http.server 8777
 
 marketing-screenshots: ## Refresh every marketing screenshot (needs `make screenshots-up` first)
 	# Runs its own throwaway console against its own database, so your

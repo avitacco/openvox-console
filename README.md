@@ -25,13 +25,20 @@ section below is the throwaway local dev stack instead, and
 pushed. Run matching tags for the two. `docker-compose.yml` pulls both -
 see `SETUP.md` step 6.
 
-**Marketing site:** `marketing/` holds the public site describing what the
-console does, illustrated with screenshots captured from a running
-instance rather than drawn. It is published to GitHub Pages by
-`.github/workflows/marketing.yml` and is no part of the console binary.
+**Marketing site:** `marketing/` holds the source of the public site
+describing what the console does, illustrated with screenshots captured
+from a running instance rather than drawn. `docs/` is the built site,
+committed and served by GitHub Pages straight from the branch. Neither is
+part of the console binary.
+
+It is built locally and pushed, not built in CI - so what is published is
+something somebody has looked at.
 
 ```sh
-make marketing              # build the site into marketing/dist
+make marketing              # regenerate docs/
+make marketing-serve        # look at it before pushing
+                            # then: git add docs && git commit && git push
+
 make screenshots-up         # stack configured for capture (retention off, browser up)
 make marketing-screenshots  # refresh every screenshot
 make screenshots-down       # back to normal
