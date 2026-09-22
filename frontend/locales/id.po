@@ -56,6 +56,8 @@ msgstr "Administrasi"
 msgid "Affected nodes"
 msgstr "Nodes terdampak"
 
+#: src/packages.js:169
+#: src/packages.js:26
 #: templates/pages/activity.tmpl:10
 #: templates/pages/activity.tmpl:6
 #: templates/pages/activity.tmpl:7
@@ -96,7 +98,7 @@ msgstr "Semua pengguna"
 msgid "Applies to this browser only. Without a choice here, the console follows your browser's language."
 msgstr "Hanya berlaku untuk peramban ini. Tanpa pilihan di sini, konsol mengikuti bahasa peramban Anda."
 
-#: src/app.js:325
+#: src/app.js:355
 #: src/vulnerability-providers.js:157
 msgid "Cancel"
 msgstr "Batal"
@@ -106,6 +108,7 @@ msgstr "Batal"
 msgid "Category"
 msgstr "Kategori"
 
+#: src/nodes.js:252
 #: templates/pages/nodes.tmpl:17
 msgid "Cert status"
 msgstr "Status sertifikat"
@@ -150,16 +153,19 @@ msgid "Code"
 msgstr "Code"
 
 #: src/i18n.js:172
-#: src/index.js:111
+#: src/index.js:114
+#: src/nodes.js:42
 #: templates/pages/nodes.tmpl:14
 msgid "Connected"
 msgstr "Terhubung"
 
+#: src/nodes.js:250
 #: templates/pages/nodes.tmpl:12
 msgid "Connection"
 msgstr "Koneksi"
 
 #: src/i18n.js:171
+#: src/index.js:23
 msgid "Corrected"
 msgstr "Dikoreksi"
 
@@ -175,10 +181,11 @@ msgstr "Buat token layanan"
 msgid "Create user"
 msgstr "Buat pengguna"
 
-#: src/service-tokens.js:40
+#: src/service-tokens.js:43
 msgid "Created"
 msgstr "Dibuat"
 
+#: src/app.js:602
 #: templates/pages/vulnerabilities.tmpl:13
 msgid "Critical"
 msgstr "Kritis"
@@ -194,14 +201,14 @@ msgstr "Dashboard"
 
 #: src/nodes.js:88
 #: src/roles.js:36
-#: src/service-tokens.js:31
+#: src/service-tokens.js:34
 #: src/users.js:51
 #: src/vulnerability-providers.js:67
 #: templates/pages/group.tmpl:71
 msgid "Delete"
 msgstr "Hapus"
 
-#: src/code-repositories.js:119
+#: src/code-repositories.js:124
 msgid "Deploy"
 msgstr "Deploy"
 
@@ -217,7 +224,7 @@ msgstr "Deploy sekarang"
 msgid "Details"
 msgstr "Detail"
 
-#: src/index.js:111
+#: src/index.js:114
 msgid "Disconnected"
 msgstr "Terputus"
 
@@ -238,6 +245,8 @@ msgstr "Email"
 msgid "Email (optional)"
 msgstr "Email (opsional)"
 
+#: src/vulnerability-providers.js:153
+#: src/vulnerability-providers.js:59
 #: src/vulnerability-providers.js:75
 msgid "Enabled"
 msgstr "Aktif"
@@ -281,6 +290,7 @@ msgid "Facts"
 msgstr "Facts"
 
 #: src/i18n.js:164
+#: src/index.js:22
 #: templates/pages/code.tmpl:55
 #: templates/pages/jobs.tmpl:17
 #: templates/pages/node.tmpl:51
@@ -358,6 +368,7 @@ msgstr "Grup"
 msgid "Groups"
 msgstr "Grup"
 
+#: src/app.js:603
 #: templates/pages/vulnerabilities.tmpl:14
 msgid "High"
 msgstr "Tinggi"
@@ -390,7 +401,7 @@ msgstr "Jenis"
 msgid "Language"
 msgstr "Bahasa"
 
-#: src/index.js:240
+#: src/index.js:246
 msgid "Last check-in"
 msgstr "Kontak terakhir"
 
@@ -422,6 +433,7 @@ msgstr "Masuk dengan SSO"
 msgid "Log out"
 msgstr "Keluar"
 
+#: src/app.js:605
 #: templates/pages/vulnerabilities.tmpl:16
 msgid "Low"
 msgstr "Rendah"
@@ -443,6 +455,7 @@ msgstr "Kecocokan"
 msgid "Matching nodes"
 msgstr "Nodes yang cocok"
 
+#: src/app.js:604
 #: templates/pages/vulnerabilities.tmpl:15
 msgid "Medium"
 msgstr "Sedang"
@@ -462,7 +475,7 @@ msgstr "Paling parah dahulu"
 #: src/groups.js:33
 #: src/jobs.js:54
 #: src/roles.js:45
-#: src/service-tokens.js:40
+#: src/service-tokens.js:43
 #: src/users.js:60
 #: src/vulnerability-providers.js:150
 #: src/vulnerability-providers.js:75
@@ -508,7 +521,7 @@ msgstr "Terbaru dahulu"
 msgid "No activity recorded yet"
 msgstr "Belum ada aktivitas tercatat"
 
-#: src/index.js:132
+#: src/index.js:135
 msgid "No activity yet"
 msgstr "Belum ada aktivitas"
 
@@ -516,7 +529,7 @@ msgstr "Belum ada aktivitas"
 msgid "No affected nodes"
 msgstr "Tidak ada Node terdampak"
 
-#: src/code-repositories.js:126
+#: src/code-repositories.js:131
 msgid "No code repositories configured"
 msgstr "Tidak ada repositori kode yang dikonfigurasi"
 
@@ -553,12 +566,12 @@ msgstr "Belum ada grup Node"
 msgid "No nodes currently match this group"
 msgstr "Saat ini tidak ada Node yang cocok dengan grup ini"
 
-#: src/index.js:214
+#: src/index.js:220
 #: src/nodes.js:225
 msgid "No nodes found"
 msgstr "Node tidak ditemukan"
 
-#: src/index.js:77
+#: src/index.js:80
 msgid "No nodes yet"
 msgstr "Belum ada Node"
 
@@ -586,7 +599,7 @@ msgstr "Belum ada Report"
 msgid "No roles yet"
 msgstr "Belum ada peran"
 
-#: src/index.js:172
+#: src/index.js:175
 msgid "No runs yet"
 msgstr "Belum ada eksekusi"
 
@@ -606,8 +619,10 @@ msgstr "Belum ada pengguna"
 msgid "No vulnerability providers"
 msgstr "Tidak ada penyedia kerentanan"
 
-#: src/index.js:240
+#: src/index.js:193
+#: src/index.js:246
 #: src/job.js:53
+#: src/nodes.js:249
 #: src/packages.js:146
 #: src/vulnerability.js:54
 msgid "Node"
@@ -650,6 +665,7 @@ msgid "Noop"
 msgstr "Noop"
 
 #: src/i18n.js:173
+#: src/nodes.js:43
 #: templates/pages/nodes.tmpl:15
 msgid "Not connected"
 msgstr "Tidak terhubung"
@@ -707,7 +723,7 @@ msgstr "Nama paket"
 msgid "Packages"
 msgstr "Paket"
 
-#: src/app.js:496
+#: src/app.js:526
 msgid "Pagination"
 msgstr "Penomoran halaman"
 
@@ -721,7 +737,7 @@ msgid "Pending"
 msgstr "Menunggu"
 
 #: src/roles.js:45
-#: src/service-tokens.js:40
+#: src/service-tokens.js:43
 msgid "Permissions"
 msgstr "Izin"
 
@@ -847,6 +863,7 @@ msgstr "Peran"
 msgid "Run"
 msgstr "Jalankan"
 
+#: src/nodes.js:340
 #: templates/pages/nodes.tmpl:33
 msgid "Run Puppet"
 msgstr "Jalankan Puppet"
@@ -884,7 +901,7 @@ msgstr "Simpan bahasa"
 msgid "Save profile"
 msgstr "Simpan profil"
 
-#: src/service-tokens.js:87
+#: src/service-tokens.js:90
 msgid "Service token created - copy it now, it won't be shown again"
 msgstr "Token layanan dibuat — salin sekarang, token tidak akan ditampilkan lagi"
 
@@ -952,7 +969,7 @@ msgid "Started"
 msgstr "Dimulai"
 
 #: src/deploys.js:57
-#: src/index.js:240
+#: src/index.js:246
 #: src/job.js:53
 #: src/jobs.js:54
 #: src/node.js:469
@@ -1013,16 +1030,19 @@ msgstr "Parameter lingkup teratas (JSON)"
 msgid "Triggered by"
 msgstr "Dipicu oleh"
 
+#: src/vulnerability-providers.js:148
 #: src/vulnerability-providers.js:149
 #: src/vulnerability-providers.js:75
 msgid "Type"
 msgstr "Tipe"
 
 #: src/i18n.js:168
+#: src/index.js:25
 #: templates/pages/node.tmpl:50
 msgid "Unchanged"
 msgstr "Tidak berubah"
 
+#: src/app.js:606
 #: src/i18n.js:177
 #: templates/pages/nodes.tmpl:22
 #: templates/pages/vulnerabilities.tmpl:17
@@ -1100,7 +1120,7 @@ msgid "{count} node selected"
 msgid_plural "{count} nodes selected"
 msgstr[0] "{count} Node dipilih"
 
-#: src/code-repositories.js:228
+#: src/code-repositories.js:232
 msgid "{count} node using an environment no repository here has deployed."
 msgid_plural "{count} nodes using an environment no repository here has deployed."
 msgstr[0] "{count} Node menggunakan Environment yang belum di-deploy oleh repositori mana pun di sini."
@@ -1109,6 +1129,7 @@ msgstr[0] "{count} Node menggunakan Environment yang belum di-deploy oleh reposi
 msgid "Automatic"
 msgstr "Otomatis"
 
+#: src/index.js:192
 #: templates/pages/job.tmpl:5
 msgid "Job"
 msgstr "Job"
@@ -1120,3 +1141,211 @@ msgstr "Kelola penyedia"
 #: templates/pages/login.tmpl:17
 msgid "or"
 msgstr "atau"
+
+#: src/nodes.js:338
+msgid ", and {count} more"
+msgid_plural ", and {count} more"
+msgstr[0] ", dan {count} lainnya"
+
+#: templates/pages/code.tmpl:10
+msgid "<strong>Assigned</strong> counts nodes classification sends to a repo's environments; <strong>reporting</strong> counts nodes that last ran from one. They are shown separately because the gap between them is the useful signal."
+msgstr "<strong>Ditugaskan</strong> menghitung Nodes yang dikirim klasifikasi ke Environments sebuah repositori; <strong>melapor</strong> menghitung Nodes yang terakhir berjalan dari salah satunya. Keduanya ditampilkan terpisah karena selisih di antaranya adalah sinyal yang berguna."
+
+#: templates/pages/group.tmpl:23
+msgid "A node can match several groups at once. Their classes and parameters are combined; when two groups set the <em>same</em> class parameter, top-scope parameter, or environment, the one with the higher priority wins. Priorities must be unique."
+msgstr "Sebuah Node dapat cocok dengan beberapa grup sekaligus. Kelas dan parameternya digabungkan; ketika dua grup menetapkan parameter kelas, parameter lingkup atas, atau Environment yang <em>sama</em>, yang berprioritas lebih tinggi menang. Prioritas harus unik."
+
+#: templates/pages/group.tmpl:50
+msgid "A node joins this group when its facts satisfy <em>every</em> condition below. Fact path is a dotted path into the node's facts, like <code>os.family</code> or <code>networking.fqdn</code> — open a node's page to see the facts it reports. With no conditions and no pinned nodes, the group matches nothing."
+msgstr "Sebuah Node bergabung ke grup ini ketika Facts-nya memenuhi <em>setiap</em> kondisi di bawah. Jalur Fact adalah jalur bertitik ke dalam Facts Node, seperti <code>os.family</code> atau <code>networking.fqdn</code> — buka halaman sebuah Node untuk melihat Facts yang dilaporkannya. Tanpa kondisi dan tanpa Nodes yang disematkan, grup tidak cocok dengan apa pun."
+
+#: src/activity.js:17
+msgid "Actions taken through the console will show up here."
+msgstr "Tindakan yang dilakukan melalui konsol akan muncul di sini."
+
+#: src/code-repositories.js:94
+msgid "Assigned, none reporting"
+msgstr "Ditugaskan, tidak ada yang melapor"
+
+#: templates/pages/group.tmpl:63
+msgid "Certnames listed here are always in this group, whether or not the match rule matches them."
+msgstr "Certname yang tercantum di sini selalu berada dalam grup ini, terlepas dari apakah aturan pencocokan mencocokkannya."
+
+#: src/code-repositories.js:109
+msgid "Converging"
+msgstr "Menyelaras"
+
+#: src/code-repositories.js:87
+msgid "Deployed, but no node is classified into or reporting from its environments"
+msgstr "Ter-deploy, tetapi tidak ada Node yang diklasifikasikan ke Environments-nya atau melapor dari sana"
+
+#: templates/pages/group.tmpl:18
+msgid "Higher wins a conflict."
+msgstr "Prioritas lebih tinggi menang saat konflik."
+
+#: src/code-repositories.js:116
+msgid "In use"
+msgstr "Digunakan"
+
+#: src/nodes.js:101
+msgid "Infrastructure"
+msgstr "Infrastruktur"
+
+#: src/index.js:24
+msgid "Intentional changes"
+msgstr "Perubahan yang disengaja"
+
+#: src/login.js:22
+msgid "Invalid username or password."
+msgstr "Nama pengguna atau kata sandi tidak valid."
+
+#: src/nodes.js:251
+msgid "Last connected"
+msgstr "Terakhir terhubung"
+
+#: src/job.js:71
+msgid "No job specified."
+msgstr "Job tidak ditentukan."
+
+#: src/node.js:622
+msgid "No node specified."
+msgstr "Node tidak ditentukan."
+
+#: src/code-repositories.js:86
+msgid "No nodes assigned or reporting"
+msgstr "Tidak ada Nodes yang ditugaskan atau melapor"
+
+#: src/report.js:61
+msgid "No report specified."
+msgstr "Report tidak ditentukan."
+
+#: src/vulnerability.js:64
+msgid "No vulnerability specified."
+msgstr "Kerentanan tidak ditentukan."
+
+#: src/code-repositories.js:110
+msgid "Not all nodes have run"
+msgstr "Belum semua Nodes berjalan"
+
+#: src/code-repositories.js:93
+msgid "Not running yet"
+msgstr "Belum berjalan"
+
+#: templates/pages/group.tmpl:33
+#~ msgid "Puppet classes applied to every node in this group, each with optional parameters. A list of {&quot;name&quot;, &quot;parameters&quot;} objects."
+#~ msgstr "Kelas Puppet yang diterapkan ke setiap Node dalam grup ini, masing-masing dengan parameter opsional. Daftar objek {&quot;name&quot;, &quot;parameters&quot;}."
+
+#: templates/pages/group.tmpl:20
+#~ msgid "Puppet environment matching nodes compile against. Blank means this group doesn"
+#~ msgstr ""
+
+#: src/code-repositories.js:102
+msgid "Reporting, none assigned"
+msgstr "Melapor, tidak ada yang ditugaskan"
+
+#: src/code-repositories.js:133
+msgid "Set CONSOLE_CONTROL_REPO_URL for a single control repo, or CONSOLE_CODE_SOURCES_PATH for several. See the README."
+msgstr "Setel CONSOLE_CONTROL_REPO_URL untuk satu control repo, atau CONSOLE_CODE_SOURCES_PATH untuk beberapa. Lihat README."
+
+#: src/code-repositories.js:101
+msgid "Unclassified"
+msgstr "Tidak terklasifikasi"
+
+#: src/code-repositories.js:85
+msgid "Unused"
+msgstr "Tidak digunakan"
+
+#: templates/pages/group.tmpl:38
+msgid "Variables set for every manifest compiled for these nodes, available as $variable. An object of name/value pairs."
+msgstr "Variabel yang ditetapkan untuk setiap manifest yang dikompilasi bagi Nodes ini, tersedia sebagai $variable. Objek berisi pasangan nama/nilai."
+
+#: src/job.js:36
+msgid "View report"
+msgstr "Lihat Report"
+
+#: src/nodes.js:38
+#: src/nodes.js:54
+msgid "checking…"
+msgstr "memeriksa…"
+
+#: src/nodes.js:49
+msgid "never"
+msgstr "tidak pernah"
+
+#: src/index.js:189
+msgid "no targets"
+msgstr "tanpa target"
+
+#: src/code-repositories.js:111
+msgid "{assigned} assigned against {reporting} reporting - some nodes have not run since the change"
+msgstr "{assigned} ditugaskan berbanding {reporting} melapor — sebagian Nodes belum berjalan sejak perubahan"
+
+#: src/code-repositories.js:95
+msgid "{assigned} node(s) are classified into its environments, but none has reported from one yet"
+msgstr "{assigned} Node diklasifikasikan ke Environments-nya, tetapi belum ada yang melapor dari sana"
+
+#: src/code-repositories.js:118
+msgid "{assigned} node(s) assigned and reporting"
+msgstr "{assigned} Node ditugaskan dan melapor"
+
+#: src/code-repositories.js:103
+msgid "{reporting} node(s) report from its environments, but no group assigns any node there"
+msgstr "{reporting} Node melapor dari Environments-nya, tetapi tidak ada grup yang menugaskan Node di sana"
+
+#: templates/pages/group.tmpl:20
+msgid "Puppet environment matching nodes compile against. Blank means this group doesn't set one."
+msgstr "Environment Puppet tempat Nodes yang cocok melakukan kompilasi. Kosong berarti grup ini tidak menetapkannya."
+
+#: src/app.js:471
+#: src/app.js:483
+msgid ", +{count} more"
+msgid_plural ", +{count} more"
+msgstr[0] ", +{count} lagi"
+
+#: templates/pages/group.tmpl:33
+msgid "Puppet classes applied to every node in this group, each with optional parameters. A list of {\"name\", \"parameters\"} objects."
+msgstr "Kelas Puppet yang diterapkan ke setiap Node dalam grup ini, masing-masing dengan parameter opsional. Daftar objek {\"name\", \"parameters\"}."
+
+#: src/vulnerabilities.js:87
+msgid "Available"
+msgstr "Tersedia"
+
+#: src/vulnerability-providers.js:27
+msgid "Disabled"
+msgstr "Nonaktif"
+
+#: src/vulnerability-providers.js:29
+msgid "Failing"
+msgstr "Gagal"
+
+#: src/vulnerability-providers.js:30
+msgid "Healthy"
+msgstr "Sehat"
+
+#: src/vulnerability-providers.js:34
+msgid "Last error: {error}"
+msgstr "Kesalahan terakhir: {error}"
+
+#: src/vulnerability-providers.js:33
+msgid "Last success: {when}"
+msgstr "Keberhasilan terakhir: {when}"
+
+#: src/vulnerabilities.js:87
+msgid "None released"
+msgstr "Belum dirilis"
+
+#: src/vulnerability-providers.js:31
+msgid "Not synced yet"
+msgstr "Belum disinkronkan"
+
+#: src/vulnerability-providers.js:28
+msgid "Syncing"
+msgstr "Menyinkronkan"
+
+#: src/index.js:151
+msgid "User"
+msgstr "Pengguna"
+
+#: src/vulnerability-providers.js:60
+msgid "{minutes} min"
+msgstr "{minutes} mnt"

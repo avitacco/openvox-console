@@ -84,7 +84,7 @@ if (requirePermission('vulnerabilities:read')) {
           <th scope="row"><a href="/vulnerability.html?id=${encodeURIComponent(v.vulnId)}">${escapeHtml(v.vulnId)}</a></th>
           <td>${severityBadge(v.severity)}</td>
           <td><a href="/vulnerability.html?id=${encodeURIComponent(v.vulnId)}">${v.affectedNodes}</a></td>
-          <td>${v.fixAvailable ? 'Available' : 'None released'}</td>
+          <td>${v.fixAvailable ? t('Available') : t('None released')}</td>
           <td>${escapeHtml(v.packages.join(', ')) || '—'}</td>
           <td>${escapeHtml(v.providers.map((p) => p.name).join(', '))}</td>
         </tr>`)

@@ -58,7 +58,7 @@ async function loadEvents() {
 statusFilter.addEventListener('change', loadEvents);
 
 if (!reportId) {
-  eventsEl.innerHTML = `<vox-alert variant="danger">No report specified.</vox-alert>`;
+  eventsEl.innerHTML = `<vox-alert variant="danger">${t('No report specified.')}</vox-alert>`;
 } else {
   loadEvents();
 }

@@ -56,6 +56,8 @@ msgstr "Administration"
 msgid "Affected nodes"
 msgstr "Nodes concernés"
 
+#: src/packages.js:169
+#: src/packages.js:26
 #: templates/pages/activity.tmpl:10
 #: templates/pages/activity.tmpl:6
 #: templates/pages/activity.tmpl:7
@@ -96,7 +98,7 @@ msgstr "Tous les utilisateurs"
 msgid "Applies to this browser only. Without a choice here, the console follows your browser's language."
 msgstr "S'applique uniquement à ce navigateur. Sans choix ici, la console suit la langue de votre navigateur."
 
-#: src/app.js:325
+#: src/app.js:355
 #: src/vulnerability-providers.js:157
 msgid "Cancel"
 msgstr "Annuler"
@@ -106,6 +108,7 @@ msgstr "Annuler"
 msgid "Category"
 msgstr "Catégorie"
 
+#: src/nodes.js:252
 #: templates/pages/nodes.tmpl:17
 msgid "Cert status"
 msgstr "État du certificat"
@@ -150,16 +153,19 @@ msgid "Code"
 msgstr "Code"
 
 #: src/i18n.js:172
-#: src/index.js:111
+#: src/index.js:114
+#: src/nodes.js:42
 #: templates/pages/nodes.tmpl:14
 msgid "Connected"
 msgstr "Connecté"
 
+#: src/nodes.js:250
 #: templates/pages/nodes.tmpl:12
 msgid "Connection"
 msgstr "Connexion"
 
 #: src/i18n.js:171
+#: src/index.js:23
 msgid "Corrected"
 msgstr "Corrigé"
 
@@ -175,10 +181,11 @@ msgstr "Créer un jeton de service"
 msgid "Create user"
 msgstr "Créer un utilisateur"
 
-#: src/service-tokens.js:40
+#: src/service-tokens.js:43
 msgid "Created"
 msgstr "Créé"
 
+#: src/app.js:602
 #: templates/pages/vulnerabilities.tmpl:13
 msgid "Critical"
 msgstr "Critique"
@@ -194,14 +201,14 @@ msgstr "Dashboard"
 
 #: src/nodes.js:88
 #: src/roles.js:36
-#: src/service-tokens.js:31
+#: src/service-tokens.js:34
 #: src/users.js:51
 #: src/vulnerability-providers.js:67
 #: templates/pages/group.tmpl:71
 msgid "Delete"
 msgstr "Supprimer"
 
-#: src/code-repositories.js:119
+#: src/code-repositories.js:124
 msgid "Deploy"
 msgstr "Deploy"
 
@@ -217,7 +224,7 @@ msgstr "Déployer maintenant"
 msgid "Details"
 msgstr "Détails"
 
-#: src/index.js:111
+#: src/index.js:114
 msgid "Disconnected"
 msgstr "Déconnecté"
 
@@ -238,6 +245,8 @@ msgstr "E-mail"
 msgid "Email (optional)"
 msgstr "E-mail (facultatif)"
 
+#: src/vulnerability-providers.js:153
+#: src/vulnerability-providers.js:59
 #: src/vulnerability-providers.js:75
 msgid "Enabled"
 msgstr "Activé"
@@ -281,6 +290,7 @@ msgid "Facts"
 msgstr "Facts"
 
 #: src/i18n.js:164
+#: src/index.js:22
 #: templates/pages/code.tmpl:55
 #: templates/pages/jobs.tmpl:17
 #: templates/pages/node.tmpl:51
@@ -358,6 +368,7 @@ msgstr "Groupe"
 msgid "Groups"
 msgstr "Groupes"
 
+#: src/app.js:603
 #: templates/pages/vulnerabilities.tmpl:14
 msgid "High"
 msgstr "Élevée"
@@ -390,7 +401,7 @@ msgstr "Type"
 msgid "Language"
 msgstr "Langue"
 
-#: src/index.js:240
+#: src/index.js:246
 msgid "Last check-in"
 msgstr "Dernier contact"
 
@@ -422,6 +433,7 @@ msgstr "Se connecter avec SSO"
 msgid "Log out"
 msgstr "Se déconnecter"
 
+#: src/app.js:605
 #: templates/pages/vulnerabilities.tmpl:16
 msgid "Low"
 msgstr "Faible"
@@ -443,6 +455,7 @@ msgstr "Correspondance"
 msgid "Matching nodes"
 msgstr "Nodes correspondants"
 
+#: src/app.js:604
 #: templates/pages/vulnerabilities.tmpl:15
 msgid "Medium"
 msgstr "Moyenne"
@@ -462,7 +475,7 @@ msgstr "Plus graves d'abord"
 #: src/groups.js:33
 #: src/jobs.js:54
 #: src/roles.js:45
-#: src/service-tokens.js:40
+#: src/service-tokens.js:43
 #: src/users.js:60
 #: src/vulnerability-providers.js:150
 #: src/vulnerability-providers.js:75
@@ -508,7 +521,7 @@ msgstr "Plus récents d'abord"
 msgid "No activity recorded yet"
 msgstr "Aucune activité enregistrée pour l'instant"
 
-#: src/index.js:132
+#: src/index.js:135
 msgid "No activity yet"
 msgstr "Aucune activité pour l'instant"
 
@@ -516,7 +529,7 @@ msgstr "Aucune activité pour l'instant"
 msgid "No affected nodes"
 msgstr "Aucun Node concerné"
 
-#: src/code-repositories.js:126
+#: src/code-repositories.js:131
 msgid "No code repositories configured"
 msgstr "Aucun dépôt de code configuré"
 
@@ -553,12 +566,12 @@ msgstr "Aucun groupe de Nodes pour l'instant"
 msgid "No nodes currently match this group"
 msgstr "Aucun Node ne correspond actuellement à ce groupe"
 
-#: src/index.js:214
+#: src/index.js:220
 #: src/nodes.js:225
 msgid "No nodes found"
 msgstr "Aucun Node trouvé"
 
-#: src/index.js:77
+#: src/index.js:80
 msgid "No nodes yet"
 msgstr "Aucun Node pour l'instant"
 
@@ -586,7 +599,7 @@ msgstr "Aucun Report pour l'instant"
 msgid "No roles yet"
 msgstr "Aucun rôle pour l'instant"
 
-#: src/index.js:172
+#: src/index.js:175
 msgid "No runs yet"
 msgstr "Aucune exécution pour l'instant"
 
@@ -606,8 +619,10 @@ msgstr "Aucun utilisateur pour l'instant"
 msgid "No vulnerability providers"
 msgstr "Aucun fournisseur de vulnérabilités"
 
-#: src/index.js:240
+#: src/index.js:193
+#: src/index.js:246
 #: src/job.js:53
+#: src/nodes.js:249
 #: src/packages.js:146
 #: src/vulnerability.js:54
 msgid "Node"
@@ -650,6 +665,7 @@ msgid "Noop"
 msgstr "Noop"
 
 #: src/i18n.js:173
+#: src/nodes.js:43
 #: templates/pages/nodes.tmpl:15
 msgid "Not connected"
 msgstr "Non connecté"
@@ -707,7 +723,7 @@ msgstr "Nom du paquet"
 msgid "Packages"
 msgstr "Paquets"
 
-#: src/app.js:496
+#: src/app.js:526
 msgid "Pagination"
 msgstr "Pagination"
 
@@ -721,7 +737,7 @@ msgid "Pending"
 msgstr "En attente"
 
 #: src/roles.js:45
-#: src/service-tokens.js:40
+#: src/service-tokens.js:43
 msgid "Permissions"
 msgstr "Permissions"
 
@@ -847,6 +863,7 @@ msgstr "Rôles"
 msgid "Run"
 msgstr "Exécuter"
 
+#: src/nodes.js:340
 #: templates/pages/nodes.tmpl:33
 msgid "Run Puppet"
 msgstr "Exécuter Puppet"
@@ -885,7 +902,7 @@ msgstr "Enregistrer la langue"
 msgid "Save profile"
 msgstr "Enregistrer le profil"
 
-#: src/service-tokens.js:87
+#: src/service-tokens.js:90
 msgid "Service token created - copy it now, it won't be shown again"
 msgstr "Jeton de service créé : copiez-le maintenant, il ne sera plus affiché"
 
@@ -953,7 +970,7 @@ msgid "Started"
 msgstr "Démarré"
 
 #: src/deploys.js:57
-#: src/index.js:240
+#: src/index.js:246
 #: src/job.js:53
 #: src/jobs.js:54
 #: src/node.js:469
@@ -1014,16 +1031,19 @@ msgstr "Paramètres de portée globale (JSON)"
 msgid "Triggered by"
 msgstr "Déclenché par"
 
+#: src/vulnerability-providers.js:148
 #: src/vulnerability-providers.js:149
 #: src/vulnerability-providers.js:75
 msgid "Type"
 msgstr "Type"
 
 #: src/i18n.js:168
+#: src/index.js:25
 #: templates/pages/node.tmpl:50
 msgid "Unchanged"
 msgstr "Inchangé"
 
+#: src/app.js:606
 #: src/i18n.js:177
 #: templates/pages/nodes.tmpl:22
 #: templates/pages/vulnerabilities.tmpl:17
@@ -1103,7 +1123,7 @@ msgid_plural "{count} nodes selected"
 msgstr[0] "{count} Node sélectionné"
 msgstr[1] "{count} Nodes sélectionnés"
 
-#: src/code-repositories.js:228
+#: src/code-repositories.js:232
 msgid "{count} node using an environment no repository here has deployed."
 msgid_plural "{count} nodes using an environment no repository here has deployed."
 msgstr[0] "{count} Node utilise un Environment qu'aucun dépôt ici n'a déployé."
@@ -1113,6 +1133,7 @@ msgstr[1] "{count} Nodes utilisent un Environment qu'aucun dépôt ici n'a dépl
 msgid "Automatic"
 msgstr "Automatique"
 
+#: src/index.js:192
 #: templates/pages/job.tmpl:5
 msgid "Job"
 msgstr "Job"
@@ -1124,3 +1145,213 @@ msgstr "Gérer les fournisseurs"
 #: templates/pages/login.tmpl:17
 msgid "or"
 msgstr "ou"
+
+#: src/nodes.js:338
+msgid ", and {count} more"
+msgid_plural ", and {count} more"
+msgstr[0] ", et {count} autre"
+msgstr[1] ", et {count} autres"
+
+#: templates/pages/code.tmpl:10
+msgid "<strong>Assigned</strong> counts nodes classification sends to a repo's environments; <strong>reporting</strong> counts nodes that last ran from one. They are shown separately because the gap between them is the useful signal."
+msgstr "<strong>Assignés</strong> compte les Nodes que la classification dirige vers les Environments d'un dépôt ; <strong>rapportant</strong> compte les Nodes ayant exécuté depuis l'un d'eux. Ils sont affichés séparément car c'est l'écart entre les deux qui est le signal utile."
+
+#: templates/pages/group.tmpl:23
+msgid "A node can match several groups at once. Their classes and parameters are combined; when two groups set the <em>same</em> class parameter, top-scope parameter, or environment, the one with the higher priority wins. Priorities must be unique."
+msgstr "Un Node peut correspondre à plusieurs groupes à la fois. Leurs classes et paramètres sont combinés ; lorsque deux groupes définissent le <em>même</em> paramètre de classe, paramètre de portée globale ou Environment, celui dont la priorité est la plus élevée l'emporte. Les priorités doivent être uniques."
+
+#: templates/pages/group.tmpl:50
+msgid "A node joins this group when its facts satisfy <em>every</em> condition below. Fact path is a dotted path into the node's facts, like <code>os.family</code> or <code>networking.fqdn</code> — open a node's page to see the facts it reports. With no conditions and no pinned nodes, the group matches nothing."
+msgstr "Un Node rejoint ce groupe lorsque ses Facts satisfont <em>chaque</em> condition ci-dessous. Le chemin de Fact est un chemin pointé dans les Facts du Node, comme <code>os.family</code> ou <code>networking.fqdn</code> — ouvrez la page d'un Node pour voir les Facts qu'il rapporte. Sans condition et sans Node épinglé, le groupe ne correspond à rien."
+
+#: src/activity.js:17
+msgid "Actions taken through the console will show up here."
+msgstr "Les actions effectuées depuis la console apparaîtront ici."
+
+#: src/code-repositories.js:94
+msgid "Assigned, none reporting"
+msgstr "Assignés, aucun rapportant"
+
+#: templates/pages/group.tmpl:63
+msgid "Certnames listed here are always in this group, whether or not the match rule matches them."
+msgstr "Les certnames listés ici appartiennent toujours à ce groupe, que la règle de correspondance s'applique ou non."
+
+#: src/code-repositories.js:109
+msgid "Converging"
+msgstr "Convergence"
+
+#: src/code-repositories.js:87
+msgid "Deployed, but no node is classified into or reporting from its environments"
+msgstr "Déployé, mais aucun Node n'est classifié dans ses Environments ni n'en rapporte"
+
+#: templates/pages/group.tmpl:18
+msgid "Higher wins a conflict."
+msgstr "La priorité la plus élevée l'emporte en cas de conflit."
+
+#: src/code-repositories.js:116
+msgid "In use"
+msgstr "Utilisé"
+
+#: src/nodes.js:101
+msgid "Infrastructure"
+msgstr "Infrastructure"
+
+#: src/index.js:24
+msgid "Intentional changes"
+msgstr "Changements intentionnels"
+
+#: src/login.js:22
+msgid "Invalid username or password."
+msgstr "Nom d'utilisateur ou mot de passe invalide."
+
+#: src/nodes.js:251
+msgid "Last connected"
+msgstr "Dernière connexion"
+
+#: src/job.js:71
+msgid "No job specified."
+msgstr "Aucun Job spécifié."
+
+#: src/node.js:622
+msgid "No node specified."
+msgstr "Aucun Node spécifié."
+
+#: src/code-repositories.js:86
+msgid "No nodes assigned or reporting"
+msgstr "Aucun Node assigné ni rapportant"
+
+#: src/report.js:61
+msgid "No report specified."
+msgstr "Aucun Report spécifié."
+
+#: src/vulnerability.js:64
+msgid "No vulnerability specified."
+msgstr "Aucune vulnérabilité spécifiée."
+
+#: src/code-repositories.js:110
+msgid "Not all nodes have run"
+msgstr "Tous les Nodes n'ont pas exécuté"
+
+#: src/code-repositories.js:93
+msgid "Not running yet"
+msgstr "Pas encore exécuté"
+
+#: templates/pages/group.tmpl:33
+#~ msgid "Puppet classes applied to every node in this group, each with optional parameters. A list of {&quot;name&quot;, &quot;parameters&quot;} objects."
+#~ msgstr "Classes Puppet appliquées à chaque Node de ce groupe, chacune avec des paramètres facultatifs. Une liste d'objets {&quot;name&quot;, &quot;parameters&quot;}."
+
+#: templates/pages/group.tmpl:20
+#~ msgid "Puppet environment matching nodes compile against. Blank means this group doesn"
+#~ msgstr ""
+
+#: src/code-repositories.js:102
+msgid "Reporting, none assigned"
+msgstr "Rapportant, aucun assigné"
+
+#: src/code-repositories.js:133
+msgid "Set CONSOLE_CONTROL_REPO_URL for a single control repo, or CONSOLE_CODE_SOURCES_PATH for several. See the README."
+msgstr "Définissez CONSOLE_CONTROL_REPO_URL pour un seul control repo, ou CONSOLE_CODE_SOURCES_PATH pour plusieurs. Voir le README."
+
+#: src/code-repositories.js:101
+msgid "Unclassified"
+msgstr "Non classifié"
+
+#: src/code-repositories.js:85
+msgid "Unused"
+msgstr "Inutilisé"
+
+#: templates/pages/group.tmpl:38
+msgid "Variables set for every manifest compiled for these nodes, available as $variable. An object of name/value pairs."
+msgstr "Variables définies pour chaque manifeste compilé pour ces Nodes, disponibles via $variable. Un objet de paires nom/valeur."
+
+#: src/job.js:36
+msgid "View report"
+msgstr "Voir le Report"
+
+#: src/nodes.js:38
+#: src/nodes.js:54
+msgid "checking…"
+msgstr "vérification…"
+
+#: src/nodes.js:49
+msgid "never"
+msgstr "jamais"
+
+#: src/index.js:189
+msgid "no targets"
+msgstr "aucune cible"
+
+#: src/code-repositories.js:111
+msgid "{assigned} assigned against {reporting} reporting - some nodes have not run since the change"
+msgstr "{assigned} assignés contre {reporting} rapportant – certains Nodes n'ont pas exécuté depuis le changement"
+
+#: src/code-repositories.js:95
+msgid "{assigned} node(s) are classified into its environments, but none has reported from one yet"
+msgstr "{assigned} Node(s) sont classifiés dans ses Environments, mais aucun n'en a encore rapporté"
+
+#: src/code-repositories.js:118
+msgid "{assigned} node(s) assigned and reporting"
+msgstr "{assigned} Node(s) assignés et rapportant"
+
+#: src/code-repositories.js:103
+msgid "{reporting} node(s) report from its environments, but no group assigns any node there"
+msgstr "{reporting} Node(s) rapportent depuis ses Environments, mais aucun groupe n'y assigne de Node"
+
+#: templates/pages/group.tmpl:20
+msgid "Puppet environment matching nodes compile against. Blank means this group doesn't set one."
+msgstr "Environment Puppet contre lequel les Nodes correspondants compilent. Vide signifie que ce groupe n'en définit aucun."
+
+#: src/app.js:471
+#: src/app.js:483
+msgid ", +{count} more"
+msgid_plural ", +{count} more"
+msgstr[0] ", +{count} autre"
+msgstr[1] ", +{count} autres"
+
+#: templates/pages/group.tmpl:33
+msgid "Puppet classes applied to every node in this group, each with optional parameters. A list of {\"name\", \"parameters\"} objects."
+msgstr "Classes Puppet appliquées à chaque Node de ce groupe, chacune avec des paramètres facultatifs. Une liste d'objets {\"name\", \"parameters\"}."
+
+#: src/vulnerabilities.js:87
+msgid "Available"
+msgstr "Disponible"
+
+#: src/vulnerability-providers.js:27
+msgid "Disabled"
+msgstr "Désactivé"
+
+#: src/vulnerability-providers.js:29
+msgid "Failing"
+msgstr "En échec"
+
+#: src/vulnerability-providers.js:30
+msgid "Healthy"
+msgstr "Sain"
+
+#: src/vulnerability-providers.js:34
+msgid "Last error: {error}"
+msgstr "Dernière erreur : {error}"
+
+#: src/vulnerability-providers.js:33
+msgid "Last success: {when}"
+msgstr "Dernier succès : {when}"
+
+#: src/vulnerabilities.js:87
+msgid "None released"
+msgstr "Aucun publié"
+
+#: src/vulnerability-providers.js:31
+msgid "Not synced yet"
+msgstr "Pas encore synchronisé"
+
+#: src/vulnerability-providers.js:28
+msgid "Syncing"
+msgstr "Synchronisation"
+
+#: src/index.js:151
+msgid "User"
+msgstr "Utilisateur"
+
+#: src/vulnerability-providers.js:60
+msgid "{minutes} min"
+msgstr "{minutes} min"

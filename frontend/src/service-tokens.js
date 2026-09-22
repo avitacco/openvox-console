@@ -21,14 +21,17 @@ if (requirePermission('rbac:admin')) {
       return;
     }
 
+    // Named `token`, not `t`: `t` is the translation function, and
+    // shadowing it here turned every t('...') in this scope into a call
+    // on a token object.
     const rows = tokens
       .map(
-        (t) => `
+        (token) => `
       <tr>
-        <td>${escapeHtml(t.name)}</td>
-        <td>${t.permissions.map((p) => `<vox-badge variant="neutral">${escapeHtml(p)}</vox-badge>`).join(' ')}</td>
-        <td>${escapeHtml(t.createdAt ? formatDateTime(t.createdAt) : '')}</td>
-        <td><vox-button data-delete-id="${t.id}" variant="danger" size="sm">${t('Delete')}</vox-button></td>
+        <td>${escapeHtml(token.name)}</td>
+        <td>${token.permissions.map((p) => `<vox-badge variant="neutral">${escapeHtml(p)}</vox-badge>`).join(' ')}</td>
+        <td>${escapeHtml(token.createdAt ? formatDateTime(token.createdAt) : '')}</td>
+        <td><vox-button data-delete-id="${token.id}" variant="danger" size="sm">${t('Delete')}</vox-button></td>
       </tr>`
       )
       .join('');

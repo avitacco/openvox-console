@@ -14,7 +14,7 @@ if (requirePermission('activity:read')) {
       results.innerHTML = `
         <vox-empty-state heading="${t('No activity recorded yet')}">
           <vox-icon slot="icon" name="activity-log" size="lg"></vox-icon>
-          Actions taken through the console will show up here.
+          ${t('Actions taken through the console will show up here.')}
         </vox-empty-state>`;
       return;
     }

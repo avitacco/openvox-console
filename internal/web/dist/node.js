@@ -619,7 +619,7 @@ function renderVulnerabilities() {
 vulnerabilitiesClosedSwitch.addEventListener('change', loadVulnerabilities);
 
 if (!certname) {
-  factsEl.innerHTML = `<vox-alert variant="danger">No node specified.</vox-alert>`;
+  factsEl.innerHTML = `<vox-alert variant="danger">${t('No node specified.')}</vox-alert>`;
 } else {
   loadFacts();
   loadPackages();

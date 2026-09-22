@@ -56,6 +56,8 @@ msgstr "प्रशासन"
 msgid "Affected nodes"
 msgstr "प्रभावित Nodes"
 
+#: src/packages.js:169
+#: src/packages.js:26
 #: templates/pages/activity.tmpl:10
 #: templates/pages/activity.tmpl:6
 #: templates/pages/activity.tmpl:7
@@ -96,7 +98,7 @@ msgstr "सभी उपयोगकर्ता"
 msgid "Applies to this browser only. Without a choice here, the console follows your browser's language."
 msgstr "केवल इस ब्राउज़र पर लागू होता है। यहाँ चयन न होने पर कंसोल आपके ब्राउज़र की भाषा का अनुसरण करता है।"
 
-#: src/app.js:325
+#: src/app.js:355
 #: src/vulnerability-providers.js:157
 msgid "Cancel"
 msgstr "रद्द करें"
@@ -106,6 +108,7 @@ msgstr "रद्द करें"
 msgid "Category"
 msgstr "श्रेणी"
 
+#: src/nodes.js:252
 #: templates/pages/nodes.tmpl:17
 msgid "Cert status"
 msgstr "प्रमाणपत्र स्थिति"
@@ -150,16 +153,19 @@ msgid "Code"
 msgstr "Code"
 
 #: src/i18n.js:172
-#: src/index.js:111
+#: src/index.js:114
+#: src/nodes.js:42
 #: templates/pages/nodes.tmpl:14
 msgid "Connected"
 msgstr "कनेक्टेड"
 
+#: src/nodes.js:250
 #: templates/pages/nodes.tmpl:12
 msgid "Connection"
 msgstr "कनेक्शन"
 
 #: src/i18n.js:171
+#: src/index.js:23
 msgid "Corrected"
 msgstr "सुधारा गया"
 
@@ -175,10 +181,11 @@ msgstr "सेवा टोकन बनाएँ"
 msgid "Create user"
 msgstr "उपयोगकर्ता बनाएँ"
 
-#: src/service-tokens.js:40
+#: src/service-tokens.js:43
 msgid "Created"
 msgstr "बनाया गया"
 
+#: src/app.js:602
 #: templates/pages/vulnerabilities.tmpl:13
 msgid "Critical"
 msgstr "गंभीर"
@@ -194,14 +201,14 @@ msgstr "Dashboard"
 
 #: src/nodes.js:88
 #: src/roles.js:36
-#: src/service-tokens.js:31
+#: src/service-tokens.js:34
 #: src/users.js:51
 #: src/vulnerability-providers.js:67
 #: templates/pages/group.tmpl:71
 msgid "Delete"
 msgstr "हटाएँ"
 
-#: src/code-repositories.js:119
+#: src/code-repositories.js:124
 msgid "Deploy"
 msgstr "Deploy"
 
@@ -217,7 +224,7 @@ msgstr "अभी deploy करें"
 msgid "Details"
 msgstr "विवरण"
 
-#: src/index.js:111
+#: src/index.js:114
 msgid "Disconnected"
 msgstr "डिस्कनेक्टेड"
 
@@ -238,6 +245,8 @@ msgstr "ईमेल"
 msgid "Email (optional)"
 msgstr "ईमेल (वैकल्पिक)"
 
+#: src/vulnerability-providers.js:153
+#: src/vulnerability-providers.js:59
 #: src/vulnerability-providers.js:75
 msgid "Enabled"
 msgstr "सक्षम"
@@ -281,6 +290,7 @@ msgid "Facts"
 msgstr "Facts"
 
 #: src/i18n.js:164
+#: src/index.js:22
 #: templates/pages/code.tmpl:55
 #: templates/pages/jobs.tmpl:17
 #: templates/pages/node.tmpl:51
@@ -358,6 +368,7 @@ msgstr "समूह"
 msgid "Groups"
 msgstr "समूह"
 
+#: src/app.js:603
 #: templates/pages/vulnerabilities.tmpl:14
 msgid "High"
 msgstr "उच्च"
@@ -390,7 +401,7 @@ msgstr "प्रकार"
 msgid "Language"
 msgstr "भाषा"
 
-#: src/index.js:240
+#: src/index.js:246
 msgid "Last check-in"
 msgstr "अंतिम संपर्क"
 
@@ -422,6 +433,7 @@ msgstr "SSO से लॉग इन करें"
 msgid "Log out"
 msgstr "लॉग आउट करें"
 
+#: src/app.js:605
 #: templates/pages/vulnerabilities.tmpl:16
 msgid "Low"
 msgstr "निम्न"
@@ -443,6 +455,7 @@ msgstr "मिलान"
 msgid "Matching nodes"
 msgstr "मिलते Nodes"
 
+#: src/app.js:604
 #: templates/pages/vulnerabilities.tmpl:15
 msgid "Medium"
 msgstr "मध्यम"
@@ -462,7 +475,7 @@ msgstr "सर्वाधिक गंभीर पहले"
 #: src/groups.js:33
 #: src/jobs.js:54
 #: src/roles.js:45
-#: src/service-tokens.js:40
+#: src/service-tokens.js:43
 #: src/users.js:60
 #: src/vulnerability-providers.js:150
 #: src/vulnerability-providers.js:75
@@ -508,7 +521,7 @@ msgstr "नवीनतम पहले"
 msgid "No activity recorded yet"
 msgstr "अभी तक कोई गतिविधि दर्ज नहीं"
 
-#: src/index.js:132
+#: src/index.js:135
 msgid "No activity yet"
 msgstr "अभी तक कोई गतिविधि नहीं"
 
@@ -516,7 +529,7 @@ msgstr "अभी तक कोई गतिविधि नहीं"
 msgid "No affected nodes"
 msgstr "कोई प्रभावित Node नहीं"
 
-#: src/code-repositories.js:126
+#: src/code-repositories.js:131
 msgid "No code repositories configured"
 msgstr "कोई कोड रिपॉज़िटरी कॉन्फ़िगर नहीं"
 
@@ -553,12 +566,12 @@ msgstr "अभी तक कोई Node समूह नहीं"
 msgid "No nodes currently match this group"
 msgstr "वर्तमान में कोई Node इस समूह से मेल नहीं खाता"
 
-#: src/index.js:214
+#: src/index.js:220
 #: src/nodes.js:225
 msgid "No nodes found"
 msgstr "कोई Node नहीं मिला"
 
-#: src/index.js:77
+#: src/index.js:80
 msgid "No nodes yet"
 msgstr "अभी तक कोई Nodes नहीं"
 
@@ -586,7 +599,7 @@ msgstr "अभी तक कोई Reports नहीं"
 msgid "No roles yet"
 msgstr "अभी तक कोई भूमिका नहीं"
 
-#: src/index.js:172
+#: src/index.js:175
 msgid "No runs yet"
 msgstr "अभी तक कोई रन नहीं"
 
@@ -606,8 +619,10 @@ msgstr "अभी तक कोई उपयोगकर्ता नहीं"
 msgid "No vulnerability providers"
 msgstr "कोई भेद्यता प्रदाता नहीं"
 
-#: src/index.js:240
+#: src/index.js:193
+#: src/index.js:246
 #: src/job.js:53
+#: src/nodes.js:249
 #: src/packages.js:146
 #: src/vulnerability.js:54
 msgid "Node"
@@ -650,6 +665,7 @@ msgid "Noop"
 msgstr "Noop"
 
 #: src/i18n.js:173
+#: src/nodes.js:43
 #: templates/pages/nodes.tmpl:15
 msgid "Not connected"
 msgstr "कनेक्टेड नहीं"
@@ -707,7 +723,7 @@ msgstr "पैकेज नाम"
 msgid "Packages"
 msgstr "पैकेज"
 
-#: src/app.js:496
+#: src/app.js:526
 msgid "Pagination"
 msgstr "पृष्ठ क्रमांकन"
 
@@ -721,7 +737,7 @@ msgid "Pending"
 msgstr "लंबित"
 
 #: src/roles.js:45
-#: src/service-tokens.js:40
+#: src/service-tokens.js:43
 msgid "Permissions"
 msgstr "अनुमतियाँ"
 
@@ -847,6 +863,7 @@ msgstr "भूमिकाएँ"
 msgid "Run"
 msgstr "चलाएँ"
 
+#: src/nodes.js:340
 #: templates/pages/nodes.tmpl:33
 msgid "Run Puppet"
 msgstr "Puppet चलाएँ"
@@ -885,7 +902,7 @@ msgstr "भाषा सहेजें"
 msgid "Save profile"
 msgstr "प्रोफ़ाइल सहेजें"
 
-#: src/service-tokens.js:87
+#: src/service-tokens.js:90
 msgid "Service token created - copy it now, it won't be shown again"
 msgstr "सेवा टोकन बनाया गया — इसे अभी कॉपी करें, यह दोबारा नहीं दिखाया जाएगा"
 
@@ -953,7 +970,7 @@ msgid "Started"
 msgstr "प्रारंभ"
 
 #: src/deploys.js:57
-#: src/index.js:240
+#: src/index.js:246
 #: src/job.js:53
 #: src/jobs.js:54
 #: src/node.js:469
@@ -1014,16 +1031,19 @@ msgstr "टॉप-स्कोप पैरामीटर (JSON)"
 msgid "Triggered by"
 msgstr "द्वारा ट्रिगर"
 
+#: src/vulnerability-providers.js:148
 #: src/vulnerability-providers.js:149
 #: src/vulnerability-providers.js:75
 msgid "Type"
 msgstr "प्रकार"
 
 #: src/i18n.js:168
+#: src/index.js:25
 #: templates/pages/node.tmpl:50
 msgid "Unchanged"
 msgstr "अपरिवर्तित"
 
+#: src/app.js:606
 #: src/i18n.js:177
 #: templates/pages/nodes.tmpl:22
 #: templates/pages/vulnerabilities.tmpl:17
@@ -1103,7 +1123,7 @@ msgid_plural "{count} nodes selected"
 msgstr[0] "{count} Node चयनित"
 msgstr[1] "{count} Nodes चयनित"
 
-#: src/code-repositories.js:228
+#: src/code-repositories.js:232
 msgid "{count} node using an environment no repository here has deployed."
 msgid_plural "{count} nodes using an environment no repository here has deployed."
 msgstr[0] "{count} Node ऐसा Environment उपयोग कर रहा है जिसे यहाँ किसी रिपॉज़िटरी ने deploy नहीं किया।"
@@ -1113,6 +1133,7 @@ msgstr[1] "{count} Nodes ऐसा Environment उपयोग कर रहे 
 msgid "Automatic"
 msgstr "स्वचालित"
 
+#: src/index.js:192
 #: templates/pages/job.tmpl:5
 msgid "Job"
 msgstr "Job"
@@ -1124,3 +1145,213 @@ msgstr "प्रदाता प्रबंधित करें"
 #: templates/pages/login.tmpl:17
 msgid "or"
 msgstr "या"
+
+#: src/nodes.js:338
+msgid ", and {count} more"
+msgid_plural ", and {count} more"
+msgstr[0] ", और {count} अन्य"
+msgstr[1] ", और {count} अन्य"
+
+#: templates/pages/code.tmpl:10
+msgid "<strong>Assigned</strong> counts nodes classification sends to a repo's environments; <strong>reporting</strong> counts nodes that last ran from one. They are shown separately because the gap between them is the useful signal."
+msgstr "<strong>आवंटित</strong> उन Nodes की गिनती करता है जिन्हें वर्गीकरण किसी रिपॉजिटरी के Environments में भेजता है; <strong>रिपोर्ट करने वाले</strong> उन Nodes की गिनती करता है जो अंतिम बार उनमें से किसी एक से चले। इन्हें अलग-अलग दिखाया जाता है क्योंकि इनके बीच का अंतर ही उपयोगी संकेत है।"
+
+#: templates/pages/group.tmpl:23
+msgid "A node can match several groups at once. Their classes and parameters are combined; when two groups set the <em>same</em> class parameter, top-scope parameter, or environment, the one with the higher priority wins. Priorities must be unique."
+msgstr "एक Node एक साथ कई समूहों से मेल खा सकता है। उनकी क्लासें और पैरामीटर जोड़े जाते हैं; जब दो समूह <em>एक ही</em> क्लास पैरामीटर, टॉप-स्कोप पैरामीटर या Environment सेट करते हैं, तो उच्च प्राथमिकता वाला जीतता है। प्राथमिकताएँ अनन्य होनी चाहिए।"
+
+#: templates/pages/group.tmpl:50
+msgid "A node joins this group when its facts satisfy <em>every</em> condition below. Fact path is a dotted path into the node's facts, like <code>os.family</code> or <code>networking.fqdn</code> — open a node's page to see the facts it reports. With no conditions and no pinned nodes, the group matches nothing."
+msgstr "एक Node इस समूह में तब शामिल होता है जब उसके Facts नीचे दी गई <em>हर</em> शर्त को पूरा करते हैं। Fact पाथ Node के Facts में एक डॉटवाला पाथ है, जैसे <code>os.family</code> या <code>networking.fqdn</code> — किसी Node का पृष्ठ खोलकर उसके द्वारा रिपोर्ट किए गए Facts देखें। बिना शर्तों और बिना पिन किए गए Nodes के, समूह किसी से मेल नहीं खाता।"
+
+#: src/activity.js:17
+msgid "Actions taken through the console will show up here."
+msgstr "कंसोल से की गई कार्रवाइयाँ यहाँ दिखाई देंगी।"
+
+#: src/code-repositories.js:94
+msgid "Assigned, none reporting"
+msgstr "आवंटित, कोई रिपोर्ट नहीं कर रहा"
+
+#: templates/pages/group.tmpl:63
+msgid "Certnames listed here are always in this group, whether or not the match rule matches them."
+msgstr "यहाँ सूचीबद्ध certname हमेशा इस समूह में रहते हैं, चाहे मिलान नियम उनसे मेल खाए या नहीं।"
+
+#: src/code-repositories.js:109
+msgid "Converging"
+msgstr "अभिसरण हो रहा है"
+
+#: src/code-repositories.js:87
+msgid "Deployed, but no node is classified into or reporting from its environments"
+msgstr "Deploy किया गया, परंतु कोई भी Node इसके Environments में वर्गीकृत नहीं है और न ही वहाँ से रिपोर्ट कर रहा है"
+
+#: templates/pages/group.tmpl:18
+msgid "Higher wins a conflict."
+msgstr "टकराव होने पर उच्च प्राथमिकता जीतती है।"
+
+#: src/code-repositories.js:116
+msgid "In use"
+msgstr "उपयोग में"
+
+#: src/nodes.js:101
+msgid "Infrastructure"
+msgstr "इन्फ्रास्ट्रक्चर"
+
+#: src/index.js:24
+msgid "Intentional changes"
+msgstr "इरादतन किए गए परिवर्तन"
+
+#: src/login.js:22
+msgid "Invalid username or password."
+msgstr "उपयोगकर्ता नाम या पासवर्ड अमान्य है।"
+
+#: src/nodes.js:251
+msgid "Last connected"
+msgstr "अंतिम कनेक्शन"
+
+#: src/job.js:71
+msgid "No job specified."
+msgstr "कोई Job निर्दिष्ट नहीं।"
+
+#: src/node.js:622
+msgid "No node specified."
+msgstr "कोई Node निर्दिष्ट नहीं।"
+
+#: src/code-repositories.js:86
+msgid "No nodes assigned or reporting"
+msgstr "कोई Nodes आवंटित या रिपोर्ट करते नहीं"
+
+#: src/report.js:61
+msgid "No report specified."
+msgstr "कोई Report निर्दिष्ट नहीं।"
+
+#: src/vulnerability.js:64
+msgid "No vulnerability specified."
+msgstr "कोई कमजोरी निर्दिष्ट नहीं।"
+
+#: src/code-repositories.js:110
+msgid "Not all nodes have run"
+msgstr "सभी Nodes नहीं चले हैं"
+
+#: src/code-repositories.js:93
+msgid "Not running yet"
+msgstr "अभी तक नहीं चला"
+
+#: templates/pages/group.tmpl:33
+#~ msgid "Puppet classes applied to every node in this group, each with optional parameters. A list of {&quot;name&quot;, &quot;parameters&quot;} objects."
+#~ msgstr "इस समूह के प्रत्येक Node पर लागू Puppet क्लासें, प्रत्येक वैकल्पिक पैरामीटरों के साथ। {&quot;name&quot;, &quot;parameters&quot;} ऑब्जेक्ट्स की एक सूची।"
+
+#: templates/pages/group.tmpl:20
+#~ msgid "Puppet environment matching nodes compile against. Blank means this group doesn"
+#~ msgstr ""
+
+#: src/code-repositories.js:102
+msgid "Reporting, none assigned"
+msgstr "रिपोर्ट कर रहे हैं, कोई आवंटित नहीं"
+
+#: src/code-repositories.js:133
+msgid "Set CONSOLE_CONTROL_REPO_URL for a single control repo, or CONSOLE_CODE_SOURCES_PATH for several. See the README."
+msgstr "एक ही control repo के लिए CONSOLE_CONTROL_REPO_URL सेट करें, या कई के लिए CONSOLE_CODE_SOURCES_PATH। README देखें।"
+
+#: src/code-repositories.js:101
+msgid "Unclassified"
+msgstr "अवर्गीकृत"
+
+#: src/code-repositories.js:85
+msgid "Unused"
+msgstr "अप्रयुक्त"
+
+#: templates/pages/group.tmpl:38
+msgid "Variables set for every manifest compiled for these nodes, available as $variable. An object of name/value pairs."
+msgstr "इन Nodes के लिए कंपाइल किए गए प्रत्येक manifest के लिए सेट किए गए चर, $variable के रूप में उपलब्ध। नाम/मान युग्मों का एक ऑब्जेक्ट।"
+
+#: src/job.js:36
+msgid "View report"
+msgstr "Report देखें"
+
+#: src/nodes.js:38
+#: src/nodes.js:54
+msgid "checking…"
+msgstr "जाँच हो रही है…"
+
+#: src/nodes.js:49
+msgid "never"
+msgstr "कभी नहीं"
+
+#: src/index.js:189
+msgid "no targets"
+msgstr "कोई लक्ष्य नहीं"
+
+#: src/code-repositories.js:111
+msgid "{assigned} assigned against {reporting} reporting - some nodes have not run since the change"
+msgstr "{assigned} आवंटित बनाम {reporting} रिपोर्ट करते हुए — परिवर्तन के बाद कुछ Nodes नहीं चले हैं"
+
+#: src/code-repositories.js:95
+msgid "{assigned} node(s) are classified into its environments, but none has reported from one yet"
+msgstr "{assigned} Node(s) इसके Environments में वर्गीकृत हैं, परंतु अभी तक किसी ने वहाँ से रिपोर्ट नहीं किया"
+
+#: src/code-repositories.js:118
+msgid "{assigned} node(s) assigned and reporting"
+msgstr "{assigned} Node(s) आवंटित और रिपोर्ट कर रहे हैं"
+
+#: src/code-repositories.js:103
+msgid "{reporting} node(s) report from its environments, but no group assigns any node there"
+msgstr "{reporting} Node(s) इसके Environments से रिपोर्ट करते हैं, परंतु कोई समूह वहाँ Node आवंटित नहीं करता"
+
+#: templates/pages/group.tmpl:20
+msgid "Puppet environment matching nodes compile against. Blank means this group doesn't set one."
+msgstr "Puppet Environment जिसके सापेक्ष मेल खाने वाले Nodes कंपाइल करते हैं। रिक्त का अर्थ है कि यह समूह कोई सेट नहीं करता।"
+
+#: src/app.js:471
+#: src/app.js:483
+msgid ", +{count} more"
+msgid_plural ", +{count} more"
+msgstr[0] ", +{count} और"
+msgstr[1] ", +{count} और"
+
+#: templates/pages/group.tmpl:33
+msgid "Puppet classes applied to every node in this group, each with optional parameters. A list of {\"name\", \"parameters\"} objects."
+msgstr "इस समूह के प्रत्येक Node पर लागू Puppet क्लासें, प्रत्येक वैकल्पिक पैरामीटरों के साथ। {\"name\", \"parameters\"} ऑब्जेक्ट्स की एक सूची।"
+
+#: src/vulnerabilities.js:87
+msgid "Available"
+msgstr "उपलब्ध"
+
+#: src/vulnerability-providers.js:27
+msgid "Disabled"
+msgstr "निष्क्रिय"
+
+#: src/vulnerability-providers.js:29
+msgid "Failing"
+msgstr "विफल"
+
+#: src/vulnerability-providers.js:30
+msgid "Healthy"
+msgstr "स्वस्थ"
+
+#: src/vulnerability-providers.js:34
+msgid "Last error: {error}"
+msgstr "अंतिम त्रुटि: {error}"
+
+#: src/vulnerability-providers.js:33
+msgid "Last success: {when}"
+msgstr "अंतिम सफलता: {when}"
+
+#: src/vulnerabilities.js:87
+msgid "None released"
+msgstr "कोई जारी नहीं"
+
+#: src/vulnerability-providers.js:31
+msgid "Not synced yet"
+msgstr "अभी तक सिंक नहीं"
+
+#: src/vulnerability-providers.js:28
+msgid "Syncing"
+msgstr "सिंक हो रहा है"
+
+#: src/index.js:151
+msgid "User"
+msgstr "उपयोगकर्ता"
+
+#: src/vulnerability-providers.js:60
+msgid "{minutes} min"
+msgstr "{minutes} मिनट"

@@ -82,36 +82,41 @@ function usageState(repo, countsAvailable) {
   if (assigned === 0 && reporting === 0) {
     return {
       variant: 'warning',
-      label: 'Unused',
-      note: 'No nodes assigned or reporting',
-      title: 'Deployed, but no node is classified into or reporting from its environments',
+      label: t('Unused'),
+      note: t('No nodes assigned or reporting'),
+      title: t('Deployed, but no node is classified into or reporting from its environments'),
     };
   }
   if (reporting === 0) {
     return {
       variant: 'warning',
-      label: 'Not running yet',
-      note: 'Assigned, none reporting',
-      title: `${assigned} node(s) are classified into its environments, but none has reported from one yet`,
+      label: t('Not running yet'),
+      note: t('Assigned, none reporting'),
+      title: t('{assigned} node(s) are classified into its environments, but none has reported from one yet', { assigned }),
     };
   }
   if (assigned === 0) {
     return {
       variant: 'warning',
-      label: 'Unclassified',
-      note: 'Reporting, none assigned',
-      title: `${reporting} node(s) report from its environments, but no group assigns any node there`,
+      label: t('Unclassified'),
+      note: t('Reporting, none assigned'),
+      title: t('{reporting} node(s) report from its environments, but no group assigns any node there', { reporting }),
     };
   }
   if (assigned !== reporting) {
     return {
       variant: 'tip',
-      label: 'Converging',
-      note: 'Not all nodes have run',
-      title: `${assigned} assigned against ${reporting} reporting - some nodes have not run since the change`,
+      label: t('Converging'),
+      note: t('Not all nodes have run'),
+      title: t('{assigned} assigned against {reporting} reporting - some nodes have not run since the change', { assigned, reporting }),
     };
   }
-  return { variant: 'tip', label: 'In use', note: '', title: `${assigned} node(s) assigned and reporting` };
+  return {
+    variant: 'tip',
+    label: t('In use'),
+    note: '',
+    title: t('{assigned} node(s) assigned and reporting', { assigned }),
+  };
 }
 
 function deployButton(repo) {
@@ -125,8 +130,7 @@ function renderRepositories(results, data) {
     results.innerHTML = `
       <vox-empty-state heading="${t('No code repositories configured')}">
         <vox-icon slot="icon" name="deploy" size="lg"></vox-icon>
-        Set CONSOLE_CONTROL_REPO_URL for a single control repo, or
-        CONSOLE_CODE_SOURCES_PATH for several. See the README.
+        ${t('Set CONSOLE_CONTROL_REPO_URL for a single control repo, or CONSOLE_CODE_SOURCES_PATH for several. See the README.')}
       </vox-empty-state>`;
     return;
   }

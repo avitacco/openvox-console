@@ -23,7 +23,7 @@ function nodeLink(certname) {
 function fillProviders(providers) {
   if (providersLoaded || providers.length === 0) return;
   providersLoaded = true;
-  providerFilter.innerHTML = `<option value="">All</option>${providers
+  providerFilter.innerHTML = `<option value="">${t('All')}</option>${providers
     .map((p) => `<option value="${escapeHtml(p)}">${escapeHtml(p)}</option>`)
     .join('')}`;
 }
@@ -166,7 +166,7 @@ async function loadGroups() {
   try {
     const page = await fetchJSON('/api/v1/groups?pageSize=100');
     if (page.items.length === 0) return;
-    groupFilter.innerHTML = `<option value="">All</option>${page.items
+    groupFilter.innerHTML = `<option value="">${t('All')}</option>${page.items
       .map((g) => `<option value="${g.id}">${escapeHtml(g.name)}</option>`)
       .join('')}`;
     groupFilter.style.display = '';

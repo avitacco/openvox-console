@@ -317,9 +317,10 @@ export async function load(lang) {
 /**
  * Translates the static markup of the current document.
  *
- * Two markings, matching what the extractor looks for:
+ * Three markings, matching what the extractor looks for:
  *   <h1 data-i18n>Nodes</h1>
  *   <vox-input data-i18n-attr="label" label="Node name">
+ *   <p data-i18n-html><strong>Assigned</strong> counts nodes ...</p>
  *
  * The English text stays in the HTML as the source string, so a page
  * with JavaScript disabled, or a catalogue that failed to load, still
@@ -335,9 +336,26 @@ export function translateDocument(root = document) {
     const translated = t(source);
     if (translated !== el.textContent) {
       el.textContent = translated;
-      const host = el.closest('vox-select');
+      const host = el.closest('vox-select, vox-combobox');
       if (host) needResync.add(host);
     }
+  }
+
+  // Prose that carries inline markup - <strong>, <em>, <code>, a link.
+  // data-i18n above sets textContent, which would throw the markup
+  // away, so these paragraphs were simply left untranslated until now.
+  //
+  // The msgid is the inner HTML including the tags, so a translator
+  // sees and moves the emphasis with the words it belongs to rather
+  // than being handed a sentence chopped into fragments. That means a
+  // catalogue can introduce markup, so the result is sanitised to the
+  // handful of inline tags this is for; a translation is data, and
+  // writing unrestricted data into innerHTML is how a catalogue becomes
+  // a script-injection vector.
+  for (const el of root.querySelectorAll('[data-i18n-html]')) {
+    const source = normaliseSpace(el.innerHTML);
+    const translated = t(source);
+    if (translated !== source) el.innerHTML = sanitiseInline(translated);
   }
 
   for (const el of root.querySelectorAll('[data-i18n-attr]')) {
@@ -355,10 +373,59 @@ export function translateDocument(root = document) {
 }
 
 /**
+ * Collapses runs of whitespace, so an msgid does not depend on how the
+ * template happened to be indented.
+ */
+export function normaliseSpace(html) {
+  return html.replace(/\s+/g, ' ').trim();
+}
+
+/** The only tags a translated paragraph may contain. */
+const INLINE_TAGS = new Set(['STRONG', 'EM', 'B', 'I', 'CODE', 'SPAN', 'BR', 'ABBR', 'KBD']);
+
+/**
+ * Strips everything but plain inline emphasis from translated markup.
+ *
+ * Elements outside INLINE_TAGS are replaced by their text, and every
+ * attribute is dropped - including href, so a catalogue cannot
+ * introduce a link, and event handlers along with it. Unwrapping rather
+ * than deleting means a translation with an unexpected tag loses its
+ * formatting but never its words.
+ *
+ * Exported for the unit tests, which is the only reason this is not a
+ * file-local function.
+ */
+export function sanitiseInline(html) {
+  const template = document.createElement('template');
+  template.innerHTML = html;
+
+  const walk = (node) => {
+    for (const child of [...node.childNodes]) {
+      if (child.nodeType === Node.TEXT_NODE) continue;
+      if (child.nodeType !== Node.ELEMENT_NODE) {
+        // Comments, CDATA and the like carry nothing worth keeping.
+        child.remove();
+        continue;
+      }
+      walk(child);
+      if (INLINE_TAGS.has(child.tagName)) {
+        for (const attr of [...child.attributes]) child.removeAttribute(attr.name);
+      } else {
+        child.replaceWith(...child.childNodes);
+      }
+    }
+  };
+
+  walk(template.content);
+  return template.innerHTML;
+}
+
+/**
  * Makes vox-select notice that its options were translated.
  *
- * vox-select does not slot its <option> children - it clones them into
- * a <select> inside its shadow root, and re-clones on slotchange.
+ * vox-select and vox-combobox do not slot their <option> children -
+ * they clone them into a control inside their shadow root, and re-clone
+ * on slotchange.
  * Changing an option's text is a character-data mutation, which does
  * not fire slotchange, so the clone keeps the English text and the
  * dropdown stays English while the label beside it is translated.

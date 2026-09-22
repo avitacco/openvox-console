@@ -16,11 +16,11 @@
           </div>
           <div class="vox-display-flex vox-gap-lg vox-flex-wrap vox-items-start">
             <vox-input id="priority" class="field-narrow" label="Priority" type="number" required
-              note="Higher wins a conflict." data-i18n-attr="label"></vox-input>
+              note="Higher wins a conflict." data-i18n-attr="label,note"></vox-input>
             <vox-input id="environment" class="field-grow" label="Environment (optional)"
-              note="Puppet environment matching nodes compile against. Blank means this group doesn't set one." data-i18n-attr="label"></vox-input>
+              note="Puppet environment matching nodes compile against. Blank means this group doesn't set one." data-i18n-attr="label,note"></vox-input>
           </div>
-          <p class="vox-ts-sm vox-color-text-2 vox-m-top-sm vox-m-bottom-none">
+          <p class="vox-ts-sm vox-color-text-2 vox-m-top-sm vox-m-bottom-none" data-i18n-html>
             A node can match several groups at once. Their classes and parameters are combined; when two
             groups set the <em>same</em> class parameter, top-scope parameter, or environment, the one with
             the higher priority wins. Priorities must be unique.
@@ -32,12 +32,12 @@
           <vox-disclosure id="classes-disclosure" summary="Classes (JSON)" data-i18n-attr="summary">
             <vox-textarea id="classes" rows="6" class="vox-width-full"
               placeholder='[{"name": "ntp", "parameters": {"server": "0.pool.ntp.org"}}]'
-              note="Puppet classes applied to every node in this group, each with optional parameters. A list of {&quot;name&quot;, &quot;parameters&quot;} objects."></vox-textarea>
+              note="Puppet classes applied to every node in this group, each with optional parameters. A list of {&quot;name&quot;, &quot;parameters&quot;} objects." data-i18n-attr="note"></vox-textarea>
           </vox-disclosure>
           <vox-disclosure id="parameters-disclosure" class="vox-m-top-lg" summary="Top-scope parameters (JSON)" data-i18n-attr="summary">
             <vox-textarea id="parameters" rows="4" class="vox-width-full"
               placeholder='{"role": "web"}'
-              note="Variables set for every manifest compiled for these nodes, available as $variable. An object of name/value pairs."></vox-textarea>
+              note="Variables set for every manifest compiled for these nodes, available as $variable. An object of name/value pairs." data-i18n-attr="note"></vox-textarea>
           </vox-disclosure>
         </section>
 
@@ -47,7 +47,7 @@
             <label class="vox-ts-sm vox-text-semibold" data-i18n>Match rule</label>
             <vox-switch id="rule-json-toggle" data-i18n>Edit as JSON</vox-switch>
           </div>
-          <p class="vox-ts-sm vox-color-text-2 vox-m-top-none vox-m-bottom-md">
+          <p class="vox-ts-sm vox-color-text-2 vox-m-top-none vox-m-bottom-md" data-i18n-html>
             A node joins this group when its facts satisfy <em>every</em> condition below. Fact path is a
             dotted path into the node's facts, like <code>os.family</code> or <code>networking.fqdn</code> —
             open a node's page to see the facts it reports. With no conditions and no pinned nodes, the
@@ -62,7 +62,7 @@
           <vox-disclosure id="pins-disclosure" class="vox-m-top-lg" summary="Pinned node certnames (JSON array)" data-i18n-attr="summary">
             <vox-textarea id="pins" rows="3" class="vox-width-full"
               placeholder='["web01.example.com"]'
-              note="Certnames listed here are always in this group, whether or not the match rule matches them."></vox-textarea>
+              note="Certnames listed here are always in this group, whether or not the match rule matches them." data-i18n-attr="note"></vox-textarea>
           </vox-disclosure>
         </section>
 

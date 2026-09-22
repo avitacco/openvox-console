@@ -1,4 +1,4 @@
-import { fetchJSON, sendJSON, escapeHtml, hasPermission, confirmDialog, withLoading, tn, t, formatDateTime } from './app.js';
+import { fetchJSON, sendJSON, escapeHtml, hasPermission, confirmDialog, withLoading, tn, t, statusLabel, formatDateTime } from './app.js';
 
 const results = document.getElementById('results');
 const actionError = document.getElementById('action-error');
@@ -35,27 +35,27 @@ const CERT_STATUS_RANK = { signed: 0, requested: 1, revoked: 2, unknown: 3 };
 
 function connectivityBadge(certname) {
   if (connectivityByCertname === null) {
-    return `<vox-badge variant="neutral">checking…</vox-badge>`;
+    return `<vox-badge variant="neutral">${t('checking…')}</vox-badge>`;
   }
   const entry = connectivityByCertname.get(certname);
   return entry?.connected
-    ? `<vox-badge variant="tip">Connected</vox-badge>`
-    : `<vox-badge variant="neutral">Not connected</vox-badge>`;
+    ? `<vox-badge variant="tip">${t('Connected')}</vox-badge>`
+    : `<vox-badge variant="neutral">${t('Not connected')}</vox-badge>`;
 }
 
 function lastConnectedCell(certname) {
   if (connectivityByCertname === null) return '…';
   const entry = connectivityByCertname.get(certname);
-  return entry?.lastConnected ? escapeHtml(formatDateTime(entry.lastConnected)) : 'never';
+  return entry?.lastConnected ? escapeHtml(formatDateTime(entry.lastConnected)) : t('never');
 }
 
 function certStatusBadge(certname) {
   if (connectivityByCertname === null) {
-    return `<vox-badge variant="neutral">checking…</vox-badge>`;
+    return `<vox-badge variant="neutral">${t('checking…')}</vox-badge>`;
   }
   const status = connectivityByCertname.get(certname)?.certStatus ?? 'unknown';
   const variant = CERT_STATUS_VARIANTS[status] ?? 'neutral';
-  return `<vox-badge variant="${variant}">${escapeHtml(status)}</vox-badge>`;
+  return `<vox-badge variant="${variant}">${escapeHtml(statusLabel(status))}</vox-badge>`;
 }
 
 // certActionsCell renders sign/revoke/clean/delete buttons for
@@ -98,7 +98,7 @@ function certActionsCell(certname) {
 // distinction once revealed would just recreate the original confusion.
 function infrastructureBadge(certname) {
   if (!connectivityByCertname?.get(certname)?.isInfrastructure) return '';
-  return ` <vox-badge variant="neutral">Infrastructure</vox-badge>`;
+  return ` <vox-badge variant="neutral">${t('Infrastructure')}</vox-badge>`;
 }
 
 // Selecting nodes to run against. Gated on orchestrator:run, the same
@@ -246,10 +246,10 @@ function render() {
         <thead>
           <tr>
             ${canRun ? '<th scope="col"><vox-checkbox id="select-all"></vox-checkbox></th>' : ''}
-            ${sortableHeader('name', 'Node')}
-            ${sortableHeader('connection', 'Connection')}
-            ${sortableHeader('lastConnected', 'Last connected')}
-            ${sortableHeader('certStatus', 'Cert status')}
+            ${sortableHeader('name', t('Node'))}
+            ${sortableHeader('connection', t('Connection'))}
+            ${sortableHeader('lastConnected', t('Last connected'))}
+            ${sortableHeader('certStatus', t('Cert status'))}
             <th scope="col"></th>
           </tr>
         </thead>
@@ -334,10 +334,10 @@ async function runSelected() {
   if (targets.length === 0) return;
   actionError.innerHTML = '';
 
-  const preview = targets.slice(0, 5).map((t) => escapeHtml(t)).join(', ');
-  const more = targets.length > 5 ? `, and ${targets.length - 5} more` : '';
+  const preview = targets.slice(0, 5).map((name) => escapeHtml(name)).join(', ');
+  const more = targets.length > 5 ? tn(', and {count} more', ', and {count} more', targets.length - 5) : '';
   const confirmed = await confirmDialog({
-    heading: 'Run Puppet',
+    heading: t('Run Puppet'),
     body: `<p>${escapeHtml(tn('Run Puppet on {count} node?', 'Run Puppet on {count} nodes?', targets.length))}</p><p class="vox-ts-sm">${preview}${more}</p>`,
     confirmLabel: 'Run',
   });

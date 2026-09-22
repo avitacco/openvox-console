@@ -1,4 +1,4 @@
-import { fetchJSON, escapeHtml, requirePermission, statusVariant, qs, withLoading, t, formatDateTime } from './app.js';
+import { fetchJSON, escapeHtml, requirePermission, statusVariant, statusLabel, qs, withLoading, t, formatDateTime } from './app.js';
 
 if (requirePermission('orchestrator:read')) {
   const jobId = qs('id');
@@ -31,17 +31,17 @@ if (requirePermission('orchestrator:read')) {
     }
 
     const rows = targets
-      .map((t) => {
-        const report = t.reportHash
-          ? `<a href="/report.html?id=${encodeURIComponent(t.reportHash)}&node=${encodeURIComponent(t.certname)}">View report</a>`
+      .map((target) => {
+        const report = target.reportHash
+          ? `<a href="/report.html?id=${encodeURIComponent(target.reportHash)}&node=${encodeURIComponent(target.certname)}">${t('View report')}</a>`
           : '';
         return `
         <tr>
-          <td><a href="/node.html?name=${encodeURIComponent(t.certname)}">${escapeHtml(t.certname)}</a></td>
-          <td><vox-badge variant="${statusVariant(t.status)}">${escapeHtml(t.status)}</vox-badge></td>
-          <td>${t.exitCode === undefined || t.exitCode === null ? '' : t.exitCode}</td>
+          <td><a href="/node.html?name=${encodeURIComponent(target.certname)}">${escapeHtml(target.certname)}</a></td>
+          <td><vox-badge variant="${statusVariant(target.status)}">${escapeHtml(statusLabel(target.status))}</vox-badge></td>
+          <td>${target.exitCode === undefined || target.exitCode === null ? '' : target.exitCode}</td>
           <td>${report}</td>
-          <td>${t.errorDetail ? escapeHtml(t.errorDetail) : ''}</td>
+          <td>${target.errorDetail ? escapeHtml(target.errorDetail) : ''}</td>
         </tr>`;
       })
       .join('');
@@ -68,7 +68,7 @@ if (requirePermission('orchestrator:read')) {
   }
 
   if (!jobId) {
-    summaryEl.innerHTML = `<vox-alert variant="danger">No job specified.</vox-alert>`;
+    summaryEl.innerHTML = `<vox-alert variant="danger">${t('No job specified.')}</vox-alert>`;
   } else {
     load();
   }

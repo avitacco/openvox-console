@@ -1,7 +1,7 @@
 // Shared helpers for the console frontend. Plain ES modules, no bundler -
 // see design.md (phase-1-inventory-and-reporting) for why.
 
-import { load as i18nLoad, preferredLanguage, translateDocument, t } from './i18n.js';
+import { load as i18nLoad, preferredLanguage, translateDocument, t, tn, N_ } from './i18n.js';
 
 // Re-exported so a page module imports one thing: `import { t } from
 // './app.js'` alongside the helpers it already takes from here. `t` is
@@ -10,6 +10,7 @@ import { load as i18nLoad, preferredLanguage, translateDocument, t } from './i18
 export {
   t,
   tn,
+  N_,
   language,
   languages,
   setLanguage,
@@ -25,27 +26,56 @@ export {
   formatNumber,
 } from './i18n.js';
 
-// Pairs with the head-blocking script in every page's <head>: that script
-// hides <body> until this fires (or a timeout elapses), so the correct
-// dark/light background is in place before first paint instead of
-// flashing the wrong one. Every page module imports this file, so this
-// runs exactly once per page load.
+// Pairs with the head-blocking script in every page's <head>: that
+// script hides <body> until data-vox-ready is set below (or a timeout
+// elapses), so the correct dark/light background and the translated
+// text are both in place before first paint instead of flashing the
+// wrong one. Every page module imports this file, so this runs exactly
+// once per page load.
 //
-// Translations are applied in the same window, for the same reason: a
-// translated console should not render English and then repaint. The
-// catalogue is one small JSON file, and this resolves either way - a
-// failed load falls back to English rather than leaving the body hidden
-// (see i18n.js).
-document.addEventListener('DOMContentLoaded', async () => {
+// The catalogue is awaited at module scope, not inside the
+// DOMContentLoaded handler below, and that placement is the whole
+// point: every page module imports this file, so a top-level await here
+// blocks their evaluation until the catalogue is in place.
+//
+// Loading it in the handler instead left t() racing the page's own
+// fetches - whichever resolved first decided the language. The
+// dashboard lost that race in practice and rendered its stat labels in
+// English on a Japanese page, with nothing to re-render them.
+//
+// The cost is one small same-origin fetch before the first page module
+// runs, and none at all for English, which returns without fetching.
+try {
+  await i18nLoad(preferredLanguage());
+} catch (e) {
+  // i18nLoad already falls back to English internally; this only
+  // catches something unforeseen, and a dead page is worse than an
+  // untranslated one.
+  console.warn('Translation failed; showing English.', e);
+}
+
+function applyTranslations() {
   try {
-    await i18nLoad(preferredLanguage());
+    // Needs the parsed document; the catalogue itself is already loaded
+    // by the time anything can call t().
     translateDocument();
   } catch (e) {
-    console.warn('Translation failed; showing English.', e);
+    console.warn('Applying translations to the document failed.', e);
   } finally {
     document.documentElement.setAttribute('data-vox-ready', '');
   }
-});
+}
+
+// Not an unconditional addEventListener: the top-level await above
+// defers this module's evaluation, and by the time it resumes
+// DOMContentLoaded has usually already fired - a listener added then
+// never runs, and the whole page stays in English with only the lang
+// attribute changed. readyState is what distinguishes the two cases.
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', applyTranslations);
+} else {
+  applyTranslations();
+}
 
 const ACCESS_TOKEN_KEY = 'console.accessToken';
 const REFRESH_TOKEN_KEY = 'console.refreshToken';
@@ -438,7 +468,7 @@ export function targetSummaryHTML(job) {
 
   const shown = preview.map(nodeLink).join(', ');
   const more = job.targetCount - preview.length;
-  return more > 0 ? `${shown}, +${more} more` : shown;
+  return more > 0 ? `${shown}${tn(', +{count} more', ', +{count} more', more)}` : shown;
 }
 
 // Same summary as targetSummaryHTML, but plain text - for contexts like
@@ -450,7 +480,7 @@ export function targetSummaryText(job) {
 
   const shown = preview.join(', ');
   const more = job.targetCount - preview.length;
-  return more > 0 ? `${shown}, +${more} more` : shown;
+  return more > 0 ? `${shown}${tn(', +{count} more', ', +{count} more', more)}` : shown;
 }
 
 // value has already been decoded from JSON by fetchJSON (res.json()), so
@@ -565,9 +595,22 @@ document.addEventListener('DOMContentLoaded', () => {
 // the label carries the difference.
 const SEVERITY_VARIANTS = { critical: 'danger', high: 'danger', medium: 'warning', low: 'neutral', unknown: 'neutral' };
 
+// The API's severity values stay English (scripts match on them), so
+// the display label is mapped here rather than title-casing the raw
+// value - which rendered "Critical" on a Japanese page.
+const SEVERITY_LABELS = {
+  critical: N_('Critical'),
+  high: N_('High'),
+  medium: N_('Medium'),
+  low: N_('Low'),
+  unknown: N_('Unknown'),
+};
+
 export function severityBadge(severity) {
   const s = severity || 'unknown';
-  return `<vox-badge variant="${SEVERITY_VARIANTS[s] || 'neutral'}">${escapeHtml(s.charAt(0).toUpperCase() + s.slice(1))}</vox-badge>`;
+  const label = SEVERITY_LABELS[s];
+  const text = label ? t(label) : s.charAt(0).toUpperCase() + s.slice(1);
+  return `<vox-badge variant="${SEVERITY_VARIANTS[s] || 'neutral'}">${escapeHtml(text)}</vox-badge>`;
 }
 
 // Why a vulnerability provider didn't assess a node, in words.

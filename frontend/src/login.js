@@ -1,4 +1,4 @@
-import { setTokens, escapeHtml } from './app.js';
+import { setTokens, escapeHtml, t } from './app.js';
 
 const usernameEl = document.getElementById('username');
 const passwordEl = document.getElementById('password');
@@ -19,7 +19,7 @@ async function login() {
     });
 
     if (!res.ok) {
-      errorEl.innerHTML = `<vox-alert variant="danger">Invalid username or password.</vox-alert>`;
+      errorEl.innerHTML = `<vox-alert variant="danger">${t('Invalid username or password.')}</vox-alert>`;
       return;
     }
 

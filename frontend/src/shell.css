@@ -50,9 +50,19 @@ body {
    can be pushed to its own column's right edge below - the .cell box
    vox-record-list-item renders around each slot stretches to fill its
    column by default (grid items' default justify-self), so a
-   block-level child with margin-left: auto lands flush against it. */
+   block-level child with margin-left: auto lands flush against it.
+   Which column flexes matters as much as the count. The meta column
+   holds the one value that can run long (a node name, or a list of
+   them), so it is the one given minmax(0, 1fr) - it absorbs the slack
+   when the row is short and gives way when it is not. Sizing it
+   max-content instead let it take 470px of a 578px row and starve the
+   trailing column to 0px, so the badge spilled out of a zero-width
+   cell - the same symptom as the original bug, one column along.
+   heading and end stay max-content so a timestamp and a status badge
+   are never clipped; only the long value ellipsises (see the
+   truncation rules further down). */
 #recent-jobs vox-record-list {
-  grid-template-columns: max-content max-content 1fr;
+  grid-template-columns: max-content minmax(0, 1fr) max-content;
 }
 
 #recent-jobs [slot='end'] {
@@ -402,4 +412,64 @@ pre.value {
   display: flex;
   justify-content: center;
   padding: var(--vox-space-8) 0;
+}
+
+/* --- vox-record-list overflow -------------------------------------
+   Two separate concerns, with two different lifetimes.
+
+   1. The track override below is a WORKAROUND for a voxblocks defect:
+      vox-record-list sets `grid-template-columns: repeat(3, max-content)
+      1fr` in its shadow root, and a bare max-content track has no upper
+      bound, so one long cell (a fully-qualified hostname in Recent runs)
+      made the grid wider than the card holding it - measured at 510px of
+      content in a 483px container. An author rule on the host element
+      wins over the component's own :host rule, which is the only reason
+      this reaches it at all.
+
+      Fixed upstream in vox-record-list.ts. DELETE THIS RULE once the
+      console's voxblocks dependency is past 0.16.0 and carries the fix;
+      it is harmless until then, and identical to what upstream now does.
+
+   2. The truncation is NOT a workaround and stays. voxblocks
+      deliberately does not ellipsise record-list cells by default -
+      plenty of lists want their text to wrap - so wanting a single
+      clipped line here is this console's own decision, applied to the
+      slotted content it owns. Every truncated value carries a title so
+      the full text is still reachable on hover and to assistive tech. */
+vox-record-list {
+  grid-template-columns: repeat(3, minmax(0, max-content)) 1fr;
+}
+
+/* Truncation is opt-in per cell, via .truncate, rather than applied to
+   every cell in the row. The row's meta cell is a flex container whose
+   items are the slotted elements directly (a <slot> is display:contents),
+   so flex distributes shrinkage across all of them - blanket-truncating
+   rendered the job id "#1134" as "#11..." and squeezed a one-character
+   actor name to zero width, while the long hostname beside them still
+   had room. Only the value that can genuinely run long opts in. */
+vox-record-list .truncate {
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* text-overflow only does anything on a block container, so anything
+   opting in has to be one. vox-datum is inline-flex by default and a
+   bare <span> is inline - measured at scrollWidth 0, which is what an
+   inline box reports, and the ellipsis was silently doing nothing.
+   Safe for vox-datum only because these lists pass no icon into its
+   icon slot; a datum with an icon would need the ellipsis on an inner
+   wrapper instead. */
+vox-record-list vox-datum.truncate,
+vox-record-list span.truncate {
+  display: block;
+}
+
+/* Everything that did not opt in holds its natural width, so the one
+   cell that did is the only one that gives way. */
+vox-record-list vox-datum:not(.truncate),
+vox-record-list vox-badge:not(.truncate) {
+  flex: none;
 }

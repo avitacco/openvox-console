@@ -56,6 +56,8 @@ msgstr "管理"
 msgid "Affected nodes"
 msgstr "受影响的 Nodes"
 
+#: src/packages.js:169
+#: src/packages.js:26
 #: templates/pages/activity.tmpl:10
 #: templates/pages/activity.tmpl:6
 #: templates/pages/activity.tmpl:7
@@ -96,7 +98,7 @@ msgstr "所有用户"
 msgid "Applies to this browser only. Without a choice here, the console follows your browser's language."
 msgstr "仅适用于此浏览器。未在此处选择时，控制台将跟随浏览器语言。"
 
-#: src/app.js:325
+#: src/app.js:355
 #: src/vulnerability-providers.js:157
 msgid "Cancel"
 msgstr "取消"
@@ -106,6 +108,7 @@ msgstr "取消"
 msgid "Category"
 msgstr "类别"
 
+#: src/nodes.js:252
 #: templates/pages/nodes.tmpl:17
 msgid "Cert status"
 msgstr "证书状态"
@@ -150,16 +153,19 @@ msgid "Code"
 msgstr "Code"
 
 #: src/i18n.js:172
-#: src/index.js:111
+#: src/index.js:114
+#: src/nodes.js:42
 #: templates/pages/nodes.tmpl:14
 msgid "Connected"
 msgstr "已连接"
 
+#: src/nodes.js:250
 #: templates/pages/nodes.tmpl:12
 msgid "Connection"
 msgstr "连接"
 
 #: src/i18n.js:171
+#: src/index.js:23
 msgid "Corrected"
 msgstr "已纠正"
 
@@ -175,10 +181,11 @@ msgstr "创建服务令牌"
 msgid "Create user"
 msgstr "创建用户"
 
-#: src/service-tokens.js:40
+#: src/service-tokens.js:43
 msgid "Created"
 msgstr "创建时间"
 
+#: src/app.js:602
 #: templates/pages/vulnerabilities.tmpl:13
 msgid "Critical"
 msgstr "严重"
@@ -194,14 +201,14 @@ msgstr "Dashboard"
 
 #: src/nodes.js:88
 #: src/roles.js:36
-#: src/service-tokens.js:31
+#: src/service-tokens.js:34
 #: src/users.js:51
 #: src/vulnerability-providers.js:67
 #: templates/pages/group.tmpl:71
 msgid "Delete"
 msgstr "删除"
 
-#: src/code-repositories.js:119
+#: src/code-repositories.js:124
 msgid "Deploy"
 msgstr "Deploy"
 
@@ -217,7 +224,7 @@ msgstr "立即 deploy"
 msgid "Details"
 msgstr "详情"
 
-#: src/index.js:111
+#: src/index.js:114
 msgid "Disconnected"
 msgstr "已断开"
 
@@ -238,6 +245,8 @@ msgstr "电子邮件"
 msgid "Email (optional)"
 msgstr "电子邮件（可选）"
 
+#: src/vulnerability-providers.js:153
+#: src/vulnerability-providers.js:59
 #: src/vulnerability-providers.js:75
 msgid "Enabled"
 msgstr "已启用"
@@ -281,6 +290,7 @@ msgid "Facts"
 msgstr "Facts"
 
 #: src/i18n.js:164
+#: src/index.js:22
 #: templates/pages/code.tmpl:55
 #: templates/pages/jobs.tmpl:17
 #: templates/pages/node.tmpl:51
@@ -358,6 +368,7 @@ msgstr "组"
 msgid "Groups"
 msgstr "组"
 
+#: src/app.js:603
 #: templates/pages/vulnerabilities.tmpl:14
 msgid "High"
 msgstr "高"
@@ -390,7 +401,7 @@ msgstr "种类"
 msgid "Language"
 msgstr "语言"
 
-#: src/index.js:240
+#: src/index.js:246
 msgid "Last check-in"
 msgstr "最后签入"
 
@@ -422,6 +433,7 @@ msgstr "使用 SSO 登录"
 msgid "Log out"
 msgstr "退出登录"
 
+#: src/app.js:605
 #: templates/pages/vulnerabilities.tmpl:16
 msgid "Low"
 msgstr "低"
@@ -443,6 +455,7 @@ msgstr "匹配"
 msgid "Matching nodes"
 msgstr "匹配的 Nodes"
 
+#: src/app.js:604
 #: templates/pages/vulnerabilities.tmpl:15
 msgid "Medium"
 msgstr "中"
@@ -462,7 +475,7 @@ msgstr "最严重优先"
 #: src/groups.js:33
 #: src/jobs.js:54
 #: src/roles.js:45
-#: src/service-tokens.js:40
+#: src/service-tokens.js:43
 #: src/users.js:60
 #: src/vulnerability-providers.js:150
 #: src/vulnerability-providers.js:75
@@ -508,7 +521,7 @@ msgstr "最新优先"
 msgid "No activity recorded yet"
 msgstr "尚未记录任何活动"
 
-#: src/index.js:132
+#: src/index.js:135
 msgid "No activity yet"
 msgstr "暂无活动"
 
@@ -516,7 +529,7 @@ msgstr "暂无活动"
 msgid "No affected nodes"
 msgstr "无受影响的 Node"
 
-#: src/code-repositories.js:126
+#: src/code-repositories.js:131
 msgid "No code repositories configured"
 msgstr "未配置代码仓库"
 
@@ -553,12 +566,12 @@ msgstr "暂无 Node 组"
 msgid "No nodes currently match this group"
 msgstr "当前没有 Node 匹配此组"
 
-#: src/index.js:214
+#: src/index.js:220
 #: src/nodes.js:225
 msgid "No nodes found"
 msgstr "未找到 Node"
 
-#: src/index.js:77
+#: src/index.js:80
 msgid "No nodes yet"
 msgstr "暂无 Nodes"
 
@@ -586,7 +599,7 @@ msgstr "暂无 Reports"
 msgid "No roles yet"
 msgstr "暂无角色"
 
-#: src/index.js:172
+#: src/index.js:175
 msgid "No runs yet"
 msgstr "暂无运行记录"
 
@@ -606,8 +619,10 @@ msgstr "暂无用户"
 msgid "No vulnerability providers"
 msgstr "无漏洞提供方"
 
-#: src/index.js:240
+#: src/index.js:193
+#: src/index.js:246
 #: src/job.js:53
+#: src/nodes.js:249
 #: src/packages.js:146
 #: src/vulnerability.js:54
 msgid "Node"
@@ -650,6 +665,7 @@ msgid "Noop"
 msgstr "Noop"
 
 #: src/i18n.js:173
+#: src/nodes.js:43
 #: templates/pages/nodes.tmpl:15
 msgid "Not connected"
 msgstr "未连接"
@@ -707,7 +723,7 @@ msgstr "软件包名称"
 msgid "Packages"
 msgstr "软件包"
 
-#: src/app.js:496
+#: src/app.js:526
 msgid "Pagination"
 msgstr "分页"
 
@@ -721,7 +737,7 @@ msgid "Pending"
 msgstr "待处理"
 
 #: src/roles.js:45
-#: src/service-tokens.js:40
+#: src/service-tokens.js:43
 msgid "Permissions"
 msgstr "权限"
 
@@ -847,6 +863,7 @@ msgstr "角色"
 msgid "Run"
 msgstr "运行"
 
+#: src/nodes.js:340
 #: templates/pages/nodes.tmpl:33
 msgid "Run Puppet"
 msgstr "运行 Puppet"
@@ -884,7 +901,7 @@ msgstr "保存语言"
 msgid "Save profile"
 msgstr "保存个人资料"
 
-#: src/service-tokens.js:87
+#: src/service-tokens.js:90
 msgid "Service token created - copy it now, it won't be shown again"
 msgstr "服务令牌已创建 — 请立即复制，它不会再次显示"
 
@@ -952,7 +969,7 @@ msgid "Started"
 msgstr "开始"
 
 #: src/deploys.js:57
-#: src/index.js:240
+#: src/index.js:246
 #: src/job.js:53
 #: src/jobs.js:54
 #: src/node.js:469
@@ -1013,16 +1030,19 @@ msgstr "顶层作用域参数 (JSON)"
 msgid "Triggered by"
 msgstr "触发者"
 
+#: src/vulnerability-providers.js:148
 #: src/vulnerability-providers.js:149
 #: src/vulnerability-providers.js:75
 msgid "Type"
 msgstr "类型"
 
 #: src/i18n.js:168
+#: src/index.js:25
 #: templates/pages/node.tmpl:50
 msgid "Unchanged"
 msgstr "未更改"
 
+#: src/app.js:606
 #: src/i18n.js:177
 #: templates/pages/nodes.tmpl:22
 #: templates/pages/vulnerabilities.tmpl:17
@@ -1100,7 +1120,7 @@ msgid "{count} node selected"
 msgid_plural "{count} nodes selected"
 msgstr[0] "已选择 {count} 个 Node"
 
-#: src/code-repositories.js:228
+#: src/code-repositories.js:232
 msgid "{count} node using an environment no repository here has deployed."
 msgid_plural "{count} nodes using an environment no repository here has deployed."
 msgstr[0] "{count} 个 Node 使用了此处任何仓库都未 deploy 的 Environment。"
@@ -1109,6 +1129,7 @@ msgstr[0] "{count} 个 Node 使用了此处任何仓库都未 deploy 的 Environ
 msgid "Automatic"
 msgstr "自动"
 
+#: src/index.js:192
 #: templates/pages/job.tmpl:5
 msgid "Job"
 msgstr "Job"
@@ -1120,3 +1141,211 @@ msgstr "管理提供方"
 #: templates/pages/login.tmpl:17
 msgid "or"
 msgstr "或"
+
+#: src/nodes.js:338
+msgid ", and {count} more"
+msgid_plural ", and {count} more"
+msgstr[0] "，以及其他 {count} 个"
+
+#: templates/pages/code.tmpl:10
+msgid "<strong>Assigned</strong> counts nodes classification sends to a repo's environments; <strong>reporting</strong> counts nodes that last ran from one. They are shown separately because the gap between them is the useful signal."
+msgstr "<strong>已分配</strong>统计分类规则将其送往某仓库 Environments 的 Nodes；<strong>上报中</strong>统计最近从其中一个 Environment 运行过的 Nodes。两者分开显示，因为它们之间的差距才是有用的信号。"
+
+#: templates/pages/group.tmpl:23
+msgid "A node can match several groups at once. Their classes and parameters are combined; when two groups set the <em>same</em> class parameter, top-scope parameter, or environment, the one with the higher priority wins. Priorities must be unique."
+msgstr "一个 Node 可以同时匹配多个组。它们的类和参数会合并；当两个组设置了<em>相同的</em>类参数、顶层作用域参数或 Environment 时，优先级高者胜出。优先级必须唯一。"
+
+#: templates/pages/group.tmpl:50
+msgid "A node joins this group when its facts satisfy <em>every</em> condition below. Fact path is a dotted path into the node's facts, like <code>os.family</code> or <code>networking.fqdn</code> — open a node's page to see the facts it reports. With no conditions and no pinned nodes, the group matches nothing."
+msgstr "当一个 Node 的 Facts 满足下方<em>每一项</em>条件时，它就加入本组。Fact 路径是指向 Node 的 Facts 的点分隔路径，例如 <code>os.family</code> 或 <code>networking.fqdn</code> — 打开某个 Node 的页面即可查看其上报的 Facts。若既无条件也无固定 Nodes，则本组不匹配任何对象。"
+
+#: src/activity.js:17
+msgid "Actions taken through the console will show up here."
+msgstr "通过控制台执行的操作将在此处显示。"
+
+#: src/code-repositories.js:94
+msgid "Assigned, none reporting"
+msgstr "已分配，无上报"
+
+#: templates/pages/group.tmpl:63
+msgid "Certnames listed here are always in this group, whether or not the match rule matches them."
+msgstr "此处列出的 certname 始终属于本组，无论匹配规则是否匹配它们。"
+
+#: src/code-repositories.js:109
+msgid "Converging"
+msgstr "收敛中"
+
+#: src/code-repositories.js:87
+msgid "Deployed, but no node is classified into or reporting from its environments"
+msgstr "已 deploy，但没有 Node 被分类到其 Environments，也没有从中上报"
+
+#: templates/pages/group.tmpl:18
+msgid "Higher wins a conflict."
+msgstr "冲突时优先级高者胜出。"
+
+#: src/code-repositories.js:116
+msgid "In use"
+msgstr "使用中"
+
+#: src/nodes.js:101
+msgid "Infrastructure"
+msgstr "基础设施"
+
+#: src/index.js:24
+msgid "Intentional changes"
+msgstr "有意变更"
+
+#: src/login.js:22
+msgid "Invalid username or password."
+msgstr "用户名或密码无效。"
+
+#: src/nodes.js:251
+msgid "Last connected"
+msgstr "最后连接"
+
+#: src/job.js:71
+msgid "No job specified."
+msgstr "未指定 Job。"
+
+#: src/node.js:622
+msgid "No node specified."
+msgstr "未指定 Node。"
+
+#: src/code-repositories.js:86
+msgid "No nodes assigned or reporting"
+msgstr "没有已分配或上报的 Nodes"
+
+#: src/report.js:61
+msgid "No report specified."
+msgstr "未指定 Report。"
+
+#: src/vulnerability.js:64
+msgid "No vulnerability specified."
+msgstr "未指定漏洞。"
+
+#: src/code-repositories.js:110
+msgid "Not all nodes have run"
+msgstr "并非所有 Nodes 都已运行"
+
+#: src/code-repositories.js:93
+msgid "Not running yet"
+msgstr "尚未运行"
+
+#: templates/pages/group.tmpl:33
+#~ msgid "Puppet classes applied to every node in this group, each with optional parameters. A list of {&quot;name&quot;, &quot;parameters&quot;} objects."
+#~ msgstr "应用于本组每个 Node 的 Puppet 类，每个可附带可选参数。一个由 {&quot;name&quot;, &quot;parameters&quot;} 对象组成的列表。"
+
+#: templates/pages/group.tmpl:20
+#~ msgid "Puppet environment matching nodes compile against. Blank means this group doesn"
+#~ msgstr ""
+
+#: src/code-repositories.js:102
+msgid "Reporting, none assigned"
+msgstr "上报中，未分配"
+
+#: src/code-repositories.js:133
+msgid "Set CONSOLE_CONTROL_REPO_URL for a single control repo, or CONSOLE_CODE_SOURCES_PATH for several. See the README."
+msgstr "单个 control repo 请设置 CONSOLE_CONTROL_REPO_URL，多个请设置 CONSOLE_CODE_SOURCES_PATH。详见 README。"
+
+#: src/code-repositories.js:101
+msgid "Unclassified"
+msgstr "未分类"
+
+#: src/code-repositories.js:85
+msgid "Unused"
+msgstr "未使用"
+
+#: templates/pages/group.tmpl:38
+msgid "Variables set for every manifest compiled for these nodes, available as $variable. An object of name/value pairs."
+msgstr "为这些 Nodes 编译的每个 manifest 设置的变量，可通过 $variable 访问。一个名称/值键值对的对象。"
+
+#: src/job.js:36
+msgid "View report"
+msgstr "查看 Report"
+
+#: src/nodes.js:38
+#: src/nodes.js:54
+msgid "checking…"
+msgstr "检查中…"
+
+#: src/nodes.js:49
+msgid "never"
+msgstr "从未"
+
+#: src/index.js:189
+msgid "no targets"
+msgstr "无目标"
+
+#: src/code-repositories.js:111
+msgid "{assigned} assigned against {reporting} reporting - some nodes have not run since the change"
+msgstr "{assigned} 个已分配，{reporting} 个上报中 — 部分 Nodes 自变更后尚未运行"
+
+#: src/code-repositories.js:95
+msgid "{assigned} node(s) are classified into its environments, but none has reported from one yet"
+msgstr "{assigned} 个 Node 已被分类到其 Environments，但尚无一个从中上报"
+
+#: src/code-repositories.js:118
+msgid "{assigned} node(s) assigned and reporting"
+msgstr "{assigned} 个 Node 已分配并上报"
+
+#: src/code-repositories.js:103
+msgid "{reporting} node(s) report from its environments, but no group assigns any node there"
+msgstr "{reporting} 个 Node 从其 Environments 上报，但没有组向其分配 Node"
+
+#: templates/pages/group.tmpl:20
+msgid "Puppet environment matching nodes compile against. Blank means this group doesn't set one."
+msgstr "匹配的 Nodes 编译时所针对的 Puppet Environment。留空表示本组不设置。"
+
+#: src/app.js:471
+#: src/app.js:483
+msgid ", +{count} more"
+msgid_plural ", +{count} more"
+msgstr[0] "，+{count} 个"
+
+#: templates/pages/group.tmpl:33
+msgid "Puppet classes applied to every node in this group, each with optional parameters. A list of {\"name\", \"parameters\"} objects."
+msgstr "应用于本组每个 Node 的 Puppet 类，每个可附带可选参数。一个由 {\"name\", \"parameters\"} 对象组成的列表。"
+
+#: src/vulnerabilities.js:87
+msgid "Available"
+msgstr "可用"
+
+#: src/vulnerability-providers.js:27
+msgid "Disabled"
+msgstr "已禁用"
+
+#: src/vulnerability-providers.js:29
+msgid "Failing"
+msgstr "失败"
+
+#: src/vulnerability-providers.js:30
+msgid "Healthy"
+msgstr "正常"
+
+#: src/vulnerability-providers.js:34
+msgid "Last error: {error}"
+msgstr "上次错误：{error}"
+
+#: src/vulnerability-providers.js:33
+msgid "Last success: {when}"
+msgstr "上次成功：{when}"
+
+#: src/vulnerabilities.js:87
+msgid "None released"
+msgstr "尚未发布"
+
+#: src/vulnerability-providers.js:31
+msgid "Not synced yet"
+msgstr "尚未同步"
+
+#: src/vulnerability-providers.js:28
+msgid "Syncing"
+msgstr "同步中"
+
+#: src/index.js:151
+msgid "User"
+msgstr "用户"
+
+#: src/vulnerability-providers.js:60
+msgid "{minutes} min"
+msgstr "{minutes} 分钟"

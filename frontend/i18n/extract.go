@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"html"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -22,6 +23,7 @@ import (
 //   JS:        t('Add node')
 //   Element:   <h1 data-i18n>Nodes</h1>
 //   Attribute: <vox-input data-i18n-attr="label" label="Node name">
+//   Prose:     <p data-i18n-html><strong>Assigned</strong> counts ...</p>
 //
 // A msgid appearing in several places gets one entry with several
 // source references, so a translator sees everywhere it is used.
@@ -49,6 +51,11 @@ var (
 	// cannot be part of this pattern - it is found by scanning forward
 	// from the match instead (see scanTemplate).
 	elementOpen = regexp.MustCompile(`<([a-zA-Z][\w-]*)\b([^>]*\bdata-i18n\b(?:=["'][^"']*["'])?[^>]*)>`)
+
+	// The opening tag of an element marked data-i18n-html, whose msgid
+	// is its inner HTML rather than its text. Same forward-scan for the
+	// close tag as elementOpen, for the same RE2 reason.
+	elementOpenHTML = regexp.MustCompile(`<([a-zA-Z][\w-]*)\b[^>]*\bdata-i18n-html\b[^>]*>`)
 
 	// tn('one', 'many', count) - a string with a plural form.
 	tnCalls = []*regexp.Regexp{
@@ -184,6 +191,30 @@ func scanTemplate(path string, add func(id, ref string)) error {
 		add(collapse(inner), fmt.Sprintf("%s:%d", path, lineOf(body, m[0])))
 	}
 
+	// Prose marked data-i18n-html, whose msgid is the inner HTML rather
+	// than the text. The loop above skips anything containing markup;
+	// these elements are exactly that case, marked deliberately so the
+	// emphasis travels with the words instead of the sentence being
+	// split into untranslatable fragments around each <strong>.
+	for _, m := range elementOpenHTML.FindAllStringSubmatchIndex(text, -1) {
+		tagName := text[m[2]:m[3]]
+		contentStart := m[1]
+		closing := "</" + tagName + ">"
+		rel := strings.Index(text[contentStart:], closing)
+		if rel < 0 {
+			continue
+		}
+		inner := text[contentStart : contentStart+rel]
+
+		// A Go template action would make the msgid depend on code, and
+		// a nested block element is beyond what the runtime's
+		// sanitiser keeps.
+		if strings.Contains(inner, "{{") {
+			continue
+		}
+		add(collapse(inner), fmt.Sprintf("%s:%d", path, lineOf(body, m[0])))
+	}
+
 	// Attribute values named by data-i18n-attr.
 	for _, m := range attrList.FindAllStringSubmatchIndex(text, -1) {
 		tagStart := strings.LastIndex(text[:m[0]], "<")
@@ -197,9 +228,27 @@ func scanTemplate(path string, add func(id, ref string)) error {
 			if name == "" {
 				continue
 			}
-			re := regexp.MustCompile(`\b` + regexp.QuoteMeta(name) + `=["']([^"']*)["']`)
-			if v := re.FindStringSubmatch(tag); len(v) == 2 {
-				add(v[1], fmt.Sprintf("%s:%d", path, lineOf(body, tagStart)))
+			// One pattern per quote style, not a single `["']([^"']*)["']`:
+			// that stops the value at the first quote of either kind, so
+			// note="...this group doesn't set one." was extracted as
+			// "...this group doesn" and the rest of the sentence was
+			// silently unreachable. RE2 has no backreference to say "the
+			// same quote that opened this", hence two patterns.
+			quoted := []*regexp.Regexp{
+				regexp.MustCompile(`\b` + regexp.QuoteMeta(name) + `="([^"]*)"`),
+				regexp.MustCompile(`\b` + regexp.QuoteMeta(name) + `='([^']*)'`),
+			}
+			for _, re := range quoted {
+				if v := re.FindStringSubmatch(tag); len(v) == 2 {
+					// Entities are decoded, because the runtime looks
+					// the string up by what getAttribute() returns -
+					// already-decoded text. Leaving &quot; in the msgid
+					// made a note mentioning "name" and "parameters"
+					// unmatchable: the catalogue held one spelling and
+					// the page asked for the other.
+					add(html.UnescapeString(v[1]), fmt.Sprintf("%s:%d", path, lineOf(body, tagStart)))
+					break
+				}
 			}
 		}
 	}

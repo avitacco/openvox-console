@@ -1,4 +1,4 @@
-import { fetchJSON, escapeHtml, hasPermission, statusVariant, targetSummaryText, paginationHTML, bindPagination, withLoading, t, formatDateTime } from './app.js';
+import { fetchJSON, escapeHtml, hasPermission, statusVariant, statusLabel, targetSummaryText, paginationHTML, bindPagination, withLoading, t, N_, formatTime, formatDateTime } from './app.js';
 
 const results = document.getElementById('results');
 const nameFilter = document.getElementById('name-filter');
@@ -15,11 +15,14 @@ let currentPage = 1;
 // always returns (see internal/inventory's classifyForSummary) - unlike
 // the old dynamic per-status list, this endpoint's shape is now fixed,
 // so there's nothing left to order dynamically.
+// N_() marks these for extraction without translating at module load,
+// when the catalogue is in place but the label is not yet being shown;
+// each is passed through t() where it is rendered.
 const STATUS_CARDS = [
-  { key: 'failed', label: 'Failed' },
-  { key: 'corrected', label: 'Corrected' },
-  { key: 'intentional', label: 'Intentional changes' },
-  { key: 'unchanged', label: 'Unchanged' },
+  { key: 'failed', label: N_('Failed') },
+  { key: 'corrected', label: N_('Corrected') },
+  { key: 'intentional', label: N_('Intentional changes') },
+  { key: 'unchanged', label: N_('Unchanged') },
 ];
 
 // loadStatusSummary (report status, from openvoxdb) and
@@ -86,7 +89,7 @@ async function loadStatusSummary() {
     }
 
     const stats = STATUS_CARDS.map(
-      ({ key, label }) => `<vox-stat class="vox-m-x-lg" value="${summary.byStatus[key] ?? 0}" label="${escapeHtml(label)}"></vox-stat>`
+      ({ key, label }) => `<vox-stat class="vox-m-x-lg" value="${summary.byStatus[key] ?? 0}" label="${escapeHtml(t(label))}"></vox-stat>`
     ).join('');
     reportSummaryState = { mode: 'cards', html: stats };
   } catch (err) {
@@ -138,20 +141,20 @@ async function loadRecentActivity() {
     const items = page.items
       .map((e) => {
         const occurred = new Date(e.occurredAt);
-        const time = occurred.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
-        const fullDate = occurred.toLocaleString([], { dateStyle: 'full', timeStyle: 'medium' });
+        const time = formatTime(occurred);
+        const fullDate = formatDateTime(occurred);
         // Who did it, matching the Recent runs list's use of vox-datum
         // above. Omitted rather than shown blank for an event with no
         // actor - a scheduled sync has no user behind it, and "User:"
         // with nothing after it reads as missing data.
         const actor = e.actor
-          ? `<vox-datum name="User">${escapeHtml(e.actor)}</vox-datum>`
+          ? `<vox-datum name="${t('User')}">${escapeHtml(e.actor)}</vox-datum>`
           : '';
         return `
       <vox-record-list-item size="sm" heading="${escapeHtml(time)}" title="${escapeHtml(fullDate)}">
-        <vox-badge variant="neutral" title="${escapeHtml(e.category)}">${escapeHtml(e.category)}</vox-badge>
+        <vox-badge class="truncate" variant="neutral" title="${escapeHtml(e.category)}">${escapeHtml(e.category)}</vox-badge>
         ${actor}
-        <span slot="end" title="${escapeHtml(e.summary)}">${escapeHtml(e.summary)}</span>
+        <span class="truncate" slot="end" title="${escapeHtml(e.summary)}">${escapeHtml(e.summary)}</span>
       </vox-record-list-item>`;
       })
       .join('');
@@ -178,15 +181,21 @@ async function loadRecentJobs() {
     const items = page.items
       .map((j) => {
         const started = new Date(j.startedAt);
-        const time = started.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
-        const fullDate = started.toLocaleString([], { dateStyle: 'full', timeStyle: 'medium' });
-        const node = targetSummaryText(j) || 'no targets';
+        // Formatted through i18n, not toLocale*([]) - an empty locale
+        // list follows the browser, which is not necessarily the
+        // language the console is being shown in.
+        const time = formatTime(started);
+        const fullDate = formatDateTime(started);
+        const node = targetSummaryText(j) || t('no targets');
         return `
       <vox-record-list-item size="sm" heading="${escapeHtml(time)}" href="/job.html?id=${j.id}" title="${escapeHtml(fullDate)}">
-        <vox-datum name="Run">#${j.id}</vox-datum>
-        <vox-datum name="Node">${escapeHtml(node)}</vox-datum>
+        <vox-datum name="${t('Job')}">#${j.id}</vox-datum>
+        <!-- title: this is the cell that overflows (a full hostname, or
+             a several-node summary), so it is the one that gets
+             ellipsised - the full text stays reachable on hover. -->
+        <vox-datum class="truncate" name="${t('Node')}" title="${escapeHtml(node)}">${escapeHtml(node)}</vox-datum>
         <span slot="end">
-          <vox-badge variant="${statusVariant(j.status)}">${escapeHtml(j.status)}</vox-badge>
+          <vox-badge variant="${statusVariant(j.status)}">${escapeHtml(statusLabel(j.status))}</vox-badge>
         </span>
       </vox-record-list-item>`;
       })
