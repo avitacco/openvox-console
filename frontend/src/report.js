@@ -1,4 +1,4 @@
-import { fetchJSON, escapeHtml, statusVariant, formatValue, qs, withLoading } from './app.js';
+import { fetchJSON, escapeHtml, statusVariant, formatValue, qs, withLoading, t } from './app.js';
 
 const reportId = qs('id');
 const node = qs('node');
@@ -23,7 +23,7 @@ async function loadEvents() {
 
     if (events.length === 0) {
       eventsEl.innerHTML = `
-        <vox-empty-state heading="No events for this report">
+        <vox-empty-state heading="${t('No events for this report')}">
           <vox-icon slot="icon" name="check-circle" size="lg"></vox-icon>
           This run made no changes (or none match the current filter).
         </vox-empty-state>`;
@@ -45,7 +45,7 @@ async function loadEvents() {
       <div class="vox-table-wrap">
         <table class="vox-table vox-table--striped">
           <thead>
-            <tr><th scope="col">Resource</th><th scope="col">Property</th><th scope="col">Status</th><th scope="col">Old</th><th scope="col">New</th><th scope="col">Message</th></tr>
+            <tr><th scope="col">${t('Resource')}</th><th scope="col">${t('Property')}</th><th scope="col">${t('Status')}</th><th scope="col">${t('Old')}</th><th scope="col">${t('New')}</th><th scope="col">${t('Message')}</th></tr>
           </thead>
           <tbody>${rows}</tbody>
         </table>

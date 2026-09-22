@@ -1,4 +1,4 @@
-import { fetchJSON, sendJSON, escapeHtml, requirePermission, applyAvatar, withLoading } from './app.js';
+import { fetchJSON, sendJSON, escapeHtml, requirePermission, applyAvatar, withLoading, t } from './app.js';
 
 if (requirePermission('rbac:admin')) {
   const results = document.getElementById('results');
@@ -30,7 +30,7 @@ if (requirePermission('rbac:admin')) {
   function renderUsers(users) {
     if (users.length === 0) {
       results.innerHTML = `
-        <vox-empty-state heading="No users yet">
+        <vox-empty-state heading="${t('No users yet')}">
           <vox-icon slot="icon" name="person" size="lg"></vox-icon>
           Create the first user above.
         </vox-empty-state>`;
@@ -48,7 +48,7 @@ if (requirePermission('rbac:admin')) {
         <td>${escapeHtml(fullName(u))}</td>
         <td>${escapeHtml(u.email || '')}</td>
         <td><div class="vox-display-flex vox-flex-wrap vox-gap-sm">${roleCheckboxes(u)}</div></td>
-        <td><vox-button data-delete-id="${u.id}" variant="danger" size="sm">Delete</vox-button></td>
+        <td><vox-button data-delete-id="${u.id}" variant="danger" size="sm">${t('Delete')}</vox-button></td>
       </tr>`
       )
       .join('');
@@ -57,7 +57,7 @@ if (requirePermission('rbac:admin')) {
       <div class="vox-table-wrap">
         <table class="vox-table vox-table--striped">
           <thead>
-            <tr><th scope="col"></th><th scope="col">Username</th><th scope="col">Name</th><th scope="col">Email</th><th scope="col">Roles</th><th scope="col"></th></tr>
+            <tr><th scope="col"></th><th scope="col">${t('Username')}</th><th scope="col">${t('Name')}</th><th scope="col">${t('Email')}</th><th scope="col">${t('Roles')}</th><th scope="col"></th></tr>
           </thead>
           <tbody>${rows}</tbody>
         </table>

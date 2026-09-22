@@ -1,4 +1,4 @@
-import { fetchJSON, escapeHtml, hasPermission, paginationHTML, bindPagination, withLoading } from './app.js';
+import { fetchJSON, escapeHtml, hasPermission, paginationHTML, bindPagination, withLoading, tn, t, formatNumber } from './app.js';
 
 const nameFilter = document.getElementById('name-filter');
 const versionFilter = document.getElementById('version-filter');
@@ -30,8 +30,11 @@ function fillProviders(providers) {
 
 function renderCoverage(cov, shown, total) {
   const missing = Math.max(0, cov.nodesTotal - cov.nodesReporting);
-  const range = total === 0 ? 'No packages' : `Showing ${shown} of ${total.toLocaleString()} packages`;
-  const from = `from ${cov.nodesReporting} of ${cov.nodesTotal} node${cov.nodesTotal === 1 ? '' : 's'}`;
+  const range =
+    total === 0
+      ? t('No packages')
+      : t('Showing {shown} of {total} packages', { shown, total: formatNumber(total) });
+  const from = tn('from {reporting} of {count} node', 'from {reporting} of {count} nodes', cov.nodesTotal, { reporting: cov.nodesReporting });
   const nudge = missing > 0
     ? ` &mdash; ${missing} node${missing === 1 ? " isn't" : "s aren't"} reporting package inventory, so nothing they have is listed.`
     : '';
@@ -44,7 +47,7 @@ function renderCatalog(page) {
 
   if (page.items.length === 0) {
     results.innerHTML = `
-      <vox-empty-state heading="No packages match">
+      <vox-empty-state heading="${t('No packages match')}">
         <vox-icon slot="icon" name="search" size="lg"></vox-icon>
         ${page.coverage.nodesReporting === 0
           ? 'No node is reporting package inventory yet. Enable it from a node\'s Packages tab.'
@@ -73,7 +76,7 @@ function renderCatalog(page) {
   results.innerHTML = `
     <div class="vox-table-wrap">
       <table class="vox-table vox-table--striped">
-        <thead><tr><th scope="col">Package</th><th scope="col">Providers</th><th scope="col">Versions</th><th scope="col">Nodes</th></tr></thead>
+        <thead><tr><th scope="col">${t('Package')}</th><th scope="col">${t('Providers')}</th><th scope="col">${t('Versions')}</th><th scope="col">${t('Nodes')}</th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
     </div>
@@ -123,7 +126,7 @@ async function showPackageNodes(name) {
 
     if (matches.length === 0) {
       results.innerHTML = `${back}
-        <vox-empty-state heading="No matching nodes">
+        <vox-empty-state heading="${t('No matching nodes')}">
           <vox-icon slot="icon" name="search" size="lg"></vox-icon>
           No node reports having ${escapeHtml(name)} installed.
         </vox-empty-state>`;
@@ -140,7 +143,7 @@ async function showPackageNodes(name) {
         <h2 class="vox-m-bottom-md">${escapeHtml(name)}</h2>
         <div class="vox-table-wrap">
           <table class="vox-table vox-table--striped">
-            <thead><tr><th scope="col">Node</th><th scope="col">Version</th><th scope="col">Provider</th></tr></thead>
+            <thead><tr><th scope="col">${t('Node')}</th><th scope="col">${t('Version')}</th><th scope="col">${t('Provider')}</th></tr></thead>
             <tbody>${rows}</tbody>
           </table>
         </div>`;

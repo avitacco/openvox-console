@@ -49,6 +49,21 @@ your development console's jobs, deploys and users stay out of the
 published images. See `marketing/README.md` for the details, including an
 honest note on which parts of the demo data are fabricated.
 
+**Languages:** the console's interface is translated with gettext
+catalogues in `frontend/locales/`. English is the source language; 14
+others are scaffolded, of which German is complete and the rest fall back
+to English until translated. A user picks a language in Preferences;
+without a choice the console follows the browser's.
+
+```sh
+cd frontend
+go run ./i18n status            # completeness per language
+go run ./i18n add <code>        # scaffold a new language
+go run ./i18n extract && go run ./i18n merge   # after changing UI text
+```
+
+See `frontend/locales/README.md` for the translator-facing guide.
+
 ## Local development
 
 The console binary is built and run directly on the host - only its

@@ -1,4 +1,4 @@
-import { fetchJSON, escapeHtml, requirePermission, hasPermission, paginationHTML, bindPagination, severityBadge, withLoading } from './app.js';
+import { fetchJSON, escapeHtml, requirePermission, hasPermission, paginationHTML, bindPagination, severityBadge, withLoading, t } from './app.js';
 
 if (requirePermission('vulnerabilities:read')) {
   const results = document.getElementById('results');
@@ -44,9 +44,9 @@ if (requirePermission('vulnerabilities:read')) {
     }
     coverageEl.innerHTML = `
       <vox-grid min="10rem">
-        <vox-stat value="${c.assessedNodes}" label="Nodes assessed"></vox-stat>
-        <vox-stat value="${c.notAssessedNodes}" label="Nodes not assessed"></vox-stat>
-        <vox-stat value="${c.providersEnabled}" label="Providers enabled"></vox-stat>
+        <vox-stat value="${c.assessedNodes}" label="${t('Nodes assessed')}"></vox-stat>
+        <vox-stat value="${c.notAssessedNodes}" label="${t('Nodes not assessed')}"></vox-stat>
+        <vox-stat value="${c.providersEnabled}" label="${t('Providers enabled')}"></vox-stat>
       </vox-grid>`;
   }
 
@@ -92,7 +92,7 @@ if (requirePermission('vulnerabilities:read')) {
     results.innerHTML = `
       <div class="vox-table-wrap">
         <table class="vox-table vox-table--striped">
-          <thead><tr><th scope="col">Vulnerability</th><th scope="col">Severity</th><th scope="col">Affected nodes</th><th scope="col">Fix</th><th scope="col">Packages</th><th scope="col">Providers</th></tr></thead>
+          <thead><tr><th scope="col">${t('Vulnerability')}</th><th scope="col">${t('Severity')}</th><th scope="col">${t('Affected nodes')}</th><th scope="col">${t('Fix')}</th><th scope="col">${t('Packages')}</th><th scope="col">${t('Providers')}</th></tr></thead>
           <tbody>${rows}</tbody>
         </table>
       </div>

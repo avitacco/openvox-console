@@ -1,4 +1,4 @@
-import { fetchJSON, sendJSON, escapeHtml, hasPermission, qs, withLoading } from './app.js';
+import { fetchJSON, sendJSON, escapeHtml, hasPermission, qs, withLoading, t } from './app.js';
 
 const id = qs('id');
 const isEdit = Boolean(id);
@@ -78,15 +78,15 @@ function renderRuleRows() {
       (_, i) => `
       <div class="rule-condition vox-border-all vox-radius-md vox-bg-soft vox-p-all-md vox-m-bottom-md" data-index="${i}">
         <div class="vox-m-bottom-md">
-          <vox-input class="rule-fact-path" label="Fact path" placeholder="os.family"></vox-input>
+          <vox-input class="rule-fact-path" label="${t('Fact path')}" placeholder="${t('os.family')}"></vox-input>
         </div>
         <div class="vox-display-flex vox-gap-sm">
-          <vox-select class="rule-operator" label="Operator">
+          <vox-select class="rule-operator" label="${t('Operator')}">
             ${RULE_OPERATORS.map((op) => `<option value="${escapeHtml(op.value)}">${escapeHtml(op.label)}</option>`).join('')}
           </vox-select>
-          <vox-input class="rule-value" label="Value"></vox-input>
+          <vox-input class="rule-value" label="${t('Value')}"></vox-input>
           <div class="rule-remove-wrap">
-            <vox-button class="rule-remove" variant="danger" size="sm" data-index="${i}">Remove</vox-button>
+            <vox-button class="rule-remove" variant="danger" size="sm" data-index="${i}">${t('Remove')}</vox-button>
           </div>
         </div>
         <p class="rule-help vox-ts-sm vox-m-top-sm vox-m-bottom-none" data-index="${i}"></p>
@@ -252,7 +252,7 @@ async function loadMatchingNodes() {
     matchingCertnames = resp.certnames || [];
 
     if (matchingCertnames.length === 0) {
-      matchingNodesEl.innerHTML = `<vox-empty-state heading="No nodes currently match this group"></vox-empty-state>`;
+      matchingNodesEl.innerHTML = `<vox-empty-state heading="${t('No nodes currently match this group')}"></vox-empty-state>`;
     } else {
       const items = matchingCertnames
         .map((certname) => `<li><a href="/node.html?name=${encodeURIComponent(certname)}">${escapeHtml(certname)}</a></li>`)

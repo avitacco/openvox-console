@@ -1,4 +1,4 @@
-import { fetchJSON, sendJSON, escapeHtml, hasPermission } from './app.js';
+import { fetchJSON, sendJSON, escapeHtml, hasPermission, tn, t, formatDateTime } from './app.js';
 
 // Compact rather than toLocaleString(): "9/20/2026, 6:15:37 PM" needs
 // roughly 165px, which forces the whole data grid wider than the page
@@ -116,14 +116,14 @@ function usageState(repo, countsAvailable) {
 
 function deployButton(repo) {
   if (!hasPermission('code:deploy')) return '';
-  return `<vox-button size="sm" data-deploy="${escapeHtml(repo.name)}">Deploy</vox-button>`;
+  return `<vox-button size="sm" data-deploy="${escapeHtml(repo.name)}">${t('Deploy')}</vox-button>`;
 }
 
 function renderRepositories(results, data) {
   const repos = data.repositories ?? [];
   if (repos.length === 0) {
     results.innerHTML = `
-      <vox-empty-state heading="No code repositories configured">
+      <vox-empty-state heading="${t('No code repositories configured')}">
         <vox-icon slot="icon" name="deploy" size="lg"></vox-icon>
         Set CONSOLE_CONTROL_REPO_URL for a single control repo, or
         CONSOLE_CODE_SOURCES_PATH for several. See the README.
@@ -156,7 +156,7 @@ function renderRepositories(results, data) {
           formatWhen(repo.lastDeployedAt),
           'deployed',
           repo.lastDeployedAt
-            ? `Last successful deploy: ${new Date(repo.lastDeployedAt).toLocaleString()}`
+            ? `Last successful deploy: ${formatDateTime(repo.lastDeployedAt)}`
             : ''
         ),
         counts ? datum('Nodes assigned', 'classifier', `${repo.assignedNodes ?? 0} assigned`, 'assigned', 'Nodes classification sends to this repository') : '',
@@ -225,7 +225,7 @@ function renderUnattributed(unattributed, data) {
   const parts = [];
   const strays = Math.max(data.unattributedAssigned ?? 0, data.unattributedReporting ?? 0);
   if (strays > 0) {
-    parts.push(`${strays} node${strays === 1 ? '' : 's'} using an environment no repository here has deployed.`);
+    parts.push(tn('{count} node using an environment no repository here has deployed.', '{count} nodes using an environment no repository here has deployed.', strays));
   }
   if (data.nodesWithoutEnvironment) {
     parts.push(`${data.nodesWithoutEnvironment} with no environment recorded.`);

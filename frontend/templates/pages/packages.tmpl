@@ -1,17 +1,17 @@
 {{define "content" -}}
     <main class="vox-container vox-p-y-xl">
-      <h1 class="vox-ts-xl vox-m-bottom-lg">Packages</h1>
+      <h1 class="vox-ts-xl vox-m-bottom-lg" data-i18n>Packages</h1>
 
       <div id="search-error"></div>
 
       <div class="filters vox-display-flex vox-items-end vox-gap-md vox-flex-wrap vox-m-bottom-md">
-        <vox-input id="name-filter" label="Package name" placeholder="Filter by name"></vox-input>
-        <vox-input id="version-filter" label="Version" placeholder="Filter by version"></vox-input>
-        <vox-select id="provider-filter" label="Provider">
-          <option value="">All</option>
+        <vox-input id="name-filter" label="Package name" placeholder="Filter by name" data-i18n-attr="label,placeholder"></vox-input>
+        <vox-input id="version-filter" label="Version" placeholder="Filter by version" data-i18n-attr="label,placeholder"></vox-input>
+        <vox-select id="provider-filter" label="Provider" data-i18n-attr="label">
+          <option value="" data-i18n>All</option>
         </vox-select>
-        <vox-combobox id="group-filter" label="Group" style="display: none" placeholder="All">
-          <option value="">All</option>
+        <vox-combobox id="group-filter" label="Group" style="display: none" placeholder="All" data-i18n-attr="label,placeholder">
+          <option value="" data-i18n>All</option>
         </vox-combobox>
       </div>
 

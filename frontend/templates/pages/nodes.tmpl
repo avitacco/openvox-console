@@ -1,27 +1,27 @@
 {{define "content" -}}
     <main class="vox-container vox-p-y-xl">
       <div class="vox-display-flex vox-justify-between vox-items-center vox-gap-md vox-m-bottom-lg">
-        <h1 class="vox-ts-xl vox-m-y-none">Nodes</h1>
-        <vox-button id="add-node" variant="brand">Add node</vox-button>
+        <h1 class="vox-ts-xl vox-m-y-none" data-i18n>Nodes</h1>
+        <vox-button id="add-node" variant="brand" data-i18n>Add node</vox-button>
       </div>
 
       <div id="action-error"></div>
 
       <div class="filters vox-display-flex vox-items-end vox-gap-md vox-flex-wrap vox-m-bottom-lg">
-        <vox-input id="name-filter" label="Node name" placeholder="Filter by name…"></vox-input>
-        <vox-select id="connection-filter" label="Connection">
-          <option value="">All</option>
-          <option value="connected">Connected</option>
-          <option value="not-connected">Not connected</option>
+        <vox-input id="name-filter" label="Node name" placeholder="Filter by name…" data-i18n-attr="label,placeholder"></vox-input>
+        <vox-select id="connection-filter" label="Connection" data-i18n-attr="label">
+          <option value="" data-i18n>All</option>
+          <option value="connected" data-i18n>Connected</option>
+          <option value="not-connected" data-i18n>Not connected</option>
         </vox-select>
-        <vox-select id="cert-status-filter" label="Cert status">
-          <option value="">All</option>
-          <option value="signed">Signed</option>
-          <option value="requested">Requested</option>
-          <option value="revoked">Revoked</option>
-          <option value="unknown">Unknown</option>
+        <vox-select id="cert-status-filter" label="Cert status" data-i18n-attr="label">
+          <option value="" data-i18n>All</option>
+          <option value="signed" data-i18n>Signed</option>
+          <option value="requested" data-i18n>Requested</option>
+          <option value="revoked" data-i18n>Revoked</option>
+          <option value="unknown" data-i18n>Unknown</option>
         </vox-select>
-        <vox-switch id="show-infrastructure">Show infrastructure certs</vox-switch>
+        <vox-switch id="show-infrastructure" data-i18n>Show infrastructure certs</vox-switch>
       </div>
 
       <!-- vox-hide, not style="display:none": vox-display-flex is
@@ -30,8 +30,8 @@
            wins. -->
       <div id="selection-bar" class="vox-display-flex vox-items-center vox-gap-md vox-m-bottom-md vox-hide">
         <span id="selection-count" class="vox-ts-sm"></span>
-        <vox-button id="run-selected" variant="brand" size="sm">Run Puppet</vox-button>
-        <vox-button id="clear-selection" variant="alt" size="sm">Clear</vox-button>
+        <vox-button id="run-selected" variant="brand" size="sm" data-i18n>Run Puppet</vox-button>
+        <vox-button id="clear-selection" variant="alt" size="sm" data-i18n>Clear</vox-button>
       </div>
 
       <div id="results"></div>

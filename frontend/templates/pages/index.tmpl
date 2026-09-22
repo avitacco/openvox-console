@@ -1,27 +1,27 @@
 {{define "content" -}}
     <main class="vox-container vox-p-y-xl">
-      <h1 class="vox-ts-xl vox-m-bottom-lg">Dashboard</h1>
+      <h1 class="vox-ts-xl vox-m-bottom-lg" data-i18n>Dashboard</h1>
 
       <section class="vox-m-bottom-xl">
-        <h2 class="vox-ts-lg vox-m-bottom-md">Fleet status</h2>
+        <h2 class="vox-ts-lg vox-m-bottom-md" data-i18n>Fleet status</h2>
         <div id="status-summary"></div>
       </section>
 
       <vox-grid min="320px" gap="lg" class="vox-m-bottom-xl">
-        <vox-card heading="Recent runs" id="recent-jobs-card" style="display: none">
+        <vox-card heading="Recent runs" id="recent-jobs-card" style="display: none" data-i18n-attr="heading">
           <div id="recent-jobs"></div>
         </vox-card>
-        <vox-card heading="Recent activity">
+        <vox-card heading="Recent activity" data-i18n-attr="heading">
           <div id="recent-activity"></div>
         </vox-card>
       </vox-grid>
 
-      <h2 class="vox-ts-lg vox-m-bottom-md">Node inventory</h2>
+      <h2 class="vox-ts-lg vox-m-bottom-md" data-i18n>Node inventory</h2>
 
       <div class="filters vox-display-flex vox-items-end vox-gap-md vox-flex-wrap vox-m-bottom-lg">
-        <vox-input id="name-filter" label="Node name" placeholder="Filter by name"></vox-input>
-        <vox-input id="fact-name-filter" label="Fact name" placeholder="e.g. kernel"></vox-input>
-        <vox-input id="fact-value-filter" label="Fact value" placeholder="e.g. Linux"></vox-input>
+        <vox-input id="name-filter" label="Node name" placeholder="Filter by name" data-i18n-attr="label,placeholder"></vox-input>
+        <vox-input id="fact-name-filter" label="Fact name" placeholder="e.g. kernel" data-i18n-attr="label,placeholder"></vox-input>
+        <vox-input id="fact-value-filter" label="Fact value" placeholder="e.g. Linux" data-i18n-attr="label,placeholder"></vox-input>
       </div>
 
       <div id="results"></div>

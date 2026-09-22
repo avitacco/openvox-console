@@ -1,4 +1,16 @@
-import { fetchJSON, sendJSON, escapeHtml, applyAvatar } from './app.js';
+import { LANGUAGE_NAMES } from './locales.js';
+import {
+  fetchJSON,
+  sendJSON,
+  escapeHtml,
+  applyAvatar,
+  t,
+  languages,
+  setLanguage,
+  storedLanguage,
+  browserLanguage,
+  AUTO,
+} from './app.js';
 
 const avatarEl = document.getElementById('preferences-avatar');
 const usernameEl = document.getElementById('preferences-username');
@@ -58,5 +70,55 @@ document.getElementById('save-password').addEventListener('click', async () => {
     passwordError.innerHTML = `<vox-alert variant="danger">${escapeHtml(err.message)}</vox-alert>`;
   }
 });
+
+// --- language ------------------------------------------------------
+//
+// The choice is per browser rather than per account: it is a rendering
+// preference like the theme, it must apply on the login page before any
+// account is known, and storing it server-side would mean a round trip
+// before the first paint.
+
+const languageEl = document.getElementById('language');
+const saveLanguageEl = document.getElementById('save-language');
+
+if (languageEl && saveLanguageEl) {
+  // storedLanguage(), not preferredLanguage(): the control has to
+  // distinguish "the user chose German" from "the browser happens to
+  // ask for German". Only the first should select a named language;
+  // the second is what Automatic means.
+  const stored = storedLanguage();
+
+  // Naming what Automatic currently resolves to saves the user from
+  // guessing which language they are about to get.
+  const autoName = LANGUAGE_NAMES[browserLanguage()] || browserLanguage();
+  const options = [
+    { value: AUTO, name: `${t('Automatic')} (${autoName})`, selected: stored === null },
+    ...languages().map((code) => ({
+      value: code,
+      name: LANGUAGE_NAMES[code] || code,
+      selected: code === stored,
+    })),
+  ];
+
+  // The selected option is marked in the markup rather than by setting
+  // .value afterwards: vox-select clones its options into a shadow
+  // <select> and, on syncing, writes that select's value back over the
+  // host's - so an assignment made before the sync is silently lost and
+  // the control shows the first option instead of the active one.
+  languageEl.innerHTML = options
+    .map(
+      (o) =>
+        `<option value="${escapeHtml(o.value)}"${o.selected ? ' selected' : ''}>${escapeHtml(o.name)}</option>`,
+    )
+    .join('');
+
+  saveLanguageEl.addEventListener('click', () => {
+    setLanguage(languageEl.value);
+    // A reload rather than re-translating in place: the catalogue is
+    // applied before first paint, and every already-rendered table was
+    // built with the old one.
+    window.location.reload();
+  });
+}
 
 load();

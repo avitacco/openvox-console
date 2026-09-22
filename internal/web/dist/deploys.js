@@ -1,4 +1,4 @@
-import { fetchJSON, sendJSON, escapeHtml, hasPermission, statusVariant, paginationHTML, bindPagination, loadFilterOptions, withLoading } from './app.js';
+import { fetchJSON, sendJSON, escapeHtml, hasPermission, statusVariant, paginationHTML, bindPagination, loadFilterOptions, withLoading, t, formatDateTime, statusLabel } from './app.js';
 
 // initDeploys wires the deploy history view. Exported rather than run
 // on import so the Code page can defer it until its tab is first shown,
@@ -27,7 +27,7 @@ export function initDeploys() {
   function renderDeploys(page) {
     if (page.items.length === 0) {
       results.innerHTML = `
-        <vox-empty-state heading="No deploys yet">
+        <vox-empty-state heading="${t('No deploys yet')}">
           <vox-icon slot="icon" name="deploy" size="lg"></vox-icon>
           Trigger one above, or push to the control repo.
         </vox-empty-state>`;
@@ -41,10 +41,10 @@ export function initDeploys() {
         <td>${escapeHtml(d.source)}</td>
         <td>${d.environment ? escapeHtml(d.environment) : ''}</td>
         <td>${escapeHtml(d.ref)}</td>
-        <td><vox-badge variant="${statusVariant(d.status)}">${escapeHtml(d.status)}</vox-badge></td>
+        <td><vox-badge variant="${statusVariant(d.status)}">${escapeHtml(statusLabel(d.status))}</vox-badge></td>
         <td>${escapeHtml(d.triggeredBy)}</td>
-        <td>${escapeHtml(new Date(d.startedAt).toLocaleString())}</td>
-        <td>${d.finishedAt ? escapeHtml(new Date(d.finishedAt).toLocaleString()) : ''}</td>
+        <td>${escapeHtml(formatDateTime(d.startedAt))}</td>
+        <td>${d.finishedAt ? escapeHtml(formatDateTime(d.finishedAt)) : ''}</td>
         <td>${d.errorDetail ? escapeHtml(d.errorDetail) : ''}</td>
       </tr>`
       )
@@ -54,7 +54,7 @@ export function initDeploys() {
       <div class="vox-table-wrap">
         <table class="vox-table vox-table--striped">
           <thead>
-            <tr><th scope="col">Source</th><th scope="col">Environment</th><th scope="col">Ref</th><th scope="col">Status</th><th scope="col">Triggered by</th><th scope="col">Started</th><th scope="col">Finished</th><th scope="col">Error</th></tr>
+            <tr><th scope="col">${t('Source')}</th><th scope="col">${t('Environment')}</th><th scope="col">${t('Ref')}</th><th scope="col">${t('Status')}</th><th scope="col">${t('Triggered by')}</th><th scope="col">${t('Started')}</th><th scope="col">${t('Finished')}</th><th scope="col">${t('Error')}</th></tr>
           </thead>
           <tbody>${rows}</tbody>
         </table>

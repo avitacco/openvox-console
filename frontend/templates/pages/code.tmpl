@@ -1,10 +1,10 @@
 {{define "content" -}}
     <main class="vox-container vox-p-y-xl">
-      <h1 class="vox-ts-xl vox-m-y-none vox-m-bottom-lg">Code</h1>
+      <h1 class="vox-ts-xl vox-m-y-none vox-m-bottom-lg" data-i18n>Code</h1>
 
       <vox-tabs id="code-tabs">
-        <vox-tab slot="tab" panel="repositories">Repositories</vox-tab>
-        <vox-tab slot="tab" panel="deploys">Deploy history</vox-tab>
+        <vox-tab slot="tab" panel="repositories" data-i18n>Repositories</vox-tab>
+        <vox-tab slot="tab" panel="deploys" data-i18n>Deploy history</vox-tab>
 
         <vox-tab-panel name="repositories">
           <p class="vox-ts-sm vox-m-bottom-md vox-color-text-3">
@@ -33,30 +33,30 @@
                    component's own example uses aria-label for this
                    reason; the selected source names itself, and "Deploy
                    now" sits right beside it. -->
-              <vox-select id="trigger-source" aria-label="Source to deploy" class="vox-hide"></vox-select>
-              <vox-button id="trigger-deploy" variant="brand" style="display: none">Deploy now</vox-button>
+              <vox-select id="trigger-source" aria-label="Source to deploy" class="vox-hide" data-i18n-attr="label,aria-label"></vox-select>
+              <vox-button id="trigger-deploy" variant="brand" style="display: none" data-i18n>Deploy now</vox-button>
             </vox-input-group>
           </div>
 
           <div id="trigger-error"></div>
 
           <div class="filters vox-display-flex vox-items-end vox-gap-md vox-flex-wrap vox-m-bottom-lg">
-            <vox-combobox id="source-filter" label="Source" placeholder="All">
-              <option value="">All</option>
+            <vox-combobox id="source-filter" label="Source" placeholder="All" data-i18n-attr="label,placeholder">
+              <option value="" data-i18n>All</option>
             </vox-combobox>
-            <vox-combobox id="ref-filter" label="Ref" placeholder="All">
-              <option value="">All</option>
+            <vox-combobox id="ref-filter" label="Ref" placeholder="All" data-i18n-attr="label,placeholder">
+              <option value="" data-i18n>All</option>
             </vox-combobox>
-            <vox-input id="triggered-by-filter" label="Triggered by" placeholder="Filter by actor"></vox-input>
-            <vox-select id="status-filter" label="Status">
-              <option value="">All</option>
-              <option value="running">Running</option>
-              <option value="succeeded">Succeeded</option>
-              <option value="failed">Failed</option>
+            <vox-input id="triggered-by-filter" label="Triggered by" placeholder="Filter by actor" data-i18n-attr="label,placeholder"></vox-input>
+            <vox-select id="status-filter" label="Status" data-i18n-attr="label">
+              <option value="" data-i18n>All</option>
+              <option value="running" data-i18n>Running</option>
+              <option value="succeeded" data-i18n>Succeeded</option>
+              <option value="failed" data-i18n>Failed</option>
             </vox-select>
-            <vox-select id="sort-order" label="Order">
-              <option value="desc">Newest first</option>
-              <option value="asc">Oldest first</option>
+            <vox-select id="sort-order" label="Order" data-i18n-attr="label">
+              <option value="desc" data-i18n>Newest first</option>
+              <option value="asc" data-i18n>Oldest first</option>
             </vox-select>
           </div>
           <div id="deploy-active-filters"></div>

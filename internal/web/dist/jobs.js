@@ -1,4 +1,4 @@
-import { fetchJSON, escapeHtml, requirePermission, statusVariant, targetSummaryHTML, paginationHTML, bindPagination, qs, withLoading } from './app.js';
+import { fetchJSON, escapeHtml, requirePermission, statusVariant, targetSummaryHTML, paginationHTML, bindPagination, qs, withLoading, t, formatDateTime, statusLabel, kindLabel } from './app.js';
 
 if (requirePermission('orchestrator:read')) {
   const results = document.getElementById('results');
@@ -24,7 +24,7 @@ if (requirePermission('orchestrator:read')) {
   function renderJobs(page) {
     if (page.items.length === 0) {
       results.innerHTML = `
-        <vox-empty-state heading="No jobs yet">
+        <vox-empty-state heading="${t('No jobs yet')}">
           <vox-icon slot="icon" name="orchestrate" size="lg"></vox-icon>
           Trigger a run from a node's page to see it here.
         </vox-empty-state>`;
@@ -36,13 +36,13 @@ if (requirePermission('orchestrator:read')) {
         (j) => `
       <tr>
         <td><a href="/job.html?id=${j.id}">${j.id}</a></td>
-        <td>${escapeHtml(j.kind)}</td>
+        <td>${escapeHtml(kindLabel(j.kind))}</td>
         <td>${escapeHtml(jobName(j))}</td>
         <td>${targetSummaryHTML(j)}</td>
-        <td><vox-badge variant="${statusVariant(j.status)}">${escapeHtml(j.status)}</vox-badge></td>
+        <td><vox-badge variant="${statusVariant(j.status)}">${escapeHtml(statusLabel(j.status))}</vox-badge></td>
         <td>${escapeHtml(j.triggeredBy)}</td>
-        <td>${escapeHtml(new Date(j.startedAt).toLocaleString())}</td>
-        <td>${j.finishedAt ? escapeHtml(new Date(j.finishedAt).toLocaleString()) : ''}</td>
+        <td>${escapeHtml(formatDateTime(j.startedAt))}</td>
+        <td>${j.finishedAt ? escapeHtml(formatDateTime(j.finishedAt)) : ''}</td>
       </tr>`
       )
       .join('');
@@ -51,7 +51,7 @@ if (requirePermission('orchestrator:read')) {
       <div class="vox-table-wrap">
         <table class="vox-table vox-table--striped">
           <thead>
-            <tr><th scope="col">ID</th><th scope="col">Kind</th><th scope="col">Name</th><th scope="col">Targets</th><th scope="col">Status</th><th scope="col">Triggered by</th><th scope="col">Started</th><th scope="col">Finished</th></tr>
+            <tr><th scope="col">${t('ID')}</th><th scope="col">${t('Kind')}</th><th scope="col">${t('Name')}</th><th scope="col">${t('Targets')}</th><th scope="col">${t('Status')}</th><th scope="col">${t('Triggered by')}</th><th scope="col">${t('Started')}</th><th scope="col">${t('Finished')}</th></tr>
           </thead>
           <tbody>${rows}</tbody>
         </table>

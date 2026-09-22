@@ -1,4 +1,4 @@
-import { fetchJSON, escapeHtml, requirePermission, paginationHTML, bindPagination, loadFilterOptions, withLoading } from './app.js';
+import { fetchJSON, escapeHtml, requirePermission, paginationHTML, bindPagination, loadFilterOptions, withLoading, t, formatDateTime } from './app.js';
 
 if (requirePermission('activity:read')) {
   const results = document.getElementById('results');
@@ -12,7 +12,7 @@ if (requirePermission('activity:read')) {
   function renderEvents(page) {
     if (page.items.length === 0) {
       results.innerHTML = `
-        <vox-empty-state heading="No activity recorded yet">
+        <vox-empty-state heading="${t('No activity recorded yet')}">
           <vox-icon slot="icon" name="activity-log" size="lg"></vox-icon>
           Actions taken through the console will show up here.
         </vox-empty-state>`;
@@ -23,7 +23,7 @@ if (requirePermission('activity:read')) {
       .map(
         (e) => `
       <tr>
-        <td>${escapeHtml(new Date(e.occurredAt).toLocaleString())}</td>
+        <td>${escapeHtml(formatDateTime(e.occurredAt))}</td>
         <td><vox-badge variant="neutral">${escapeHtml(e.category)}</vox-badge></td>
         <td>${escapeHtml(e.action)}</td>
         <td>${escapeHtml(e.actor)}</td>
@@ -36,7 +36,7 @@ if (requirePermission('activity:read')) {
       <div class="vox-table-wrap">
         <table class="vox-table vox-table--striped">
           <thead>
-            <tr><th scope="col">When</th><th scope="col">Category</th><th scope="col">Action</th><th scope="col">Actor</th><th scope="col">Summary</th></tr>
+            <tr><th scope="col">${t('When')}</th><th scope="col">${t('Category')}</th><th scope="col">${t('Action')}</th><th scope="col">${t('Actor')}</th><th scope="col">${t('Summary')}</th></tr>
           </thead>
           <tbody>${rows}</tbody>
         </table>

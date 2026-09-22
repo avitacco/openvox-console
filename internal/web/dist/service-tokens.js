@@ -1,4 +1,4 @@
-import { fetchJSON, sendJSON, escapeHtml, requirePermission, ALL_PERMISSIONS, withLoading } from './app.js';
+import { fetchJSON, sendJSON, escapeHtml, requirePermission, ALL_PERMISSIONS, withLoading, t, formatDateTime } from './app.js';
 
 if (requirePermission('rbac:admin')) {
   const results = document.getElementById('results');
@@ -14,7 +14,7 @@ if (requirePermission('rbac:admin')) {
   function renderTokens(tokens) {
     if (tokens.length === 0) {
       results.innerHTML = `
-        <vox-empty-state heading="No service tokens yet">
+        <vox-empty-state heading="${t('No service tokens yet')}">
           <vox-icon slot="icon" name="key" size="lg"></vox-icon>
           Create one above for a machine client like enc-bridge.
         </vox-empty-state>`;
@@ -27,8 +27,8 @@ if (requirePermission('rbac:admin')) {
       <tr>
         <td>${escapeHtml(t.name)}</td>
         <td>${t.permissions.map((p) => `<vox-badge variant="neutral">${escapeHtml(p)}</vox-badge>`).join(' ')}</td>
-        <td>${escapeHtml(t.createdAt ? new Date(t.createdAt).toLocaleString() : '')}</td>
-        <td><vox-button data-delete-id="${t.id}" variant="danger" size="sm">Delete</vox-button></td>
+        <td>${escapeHtml(t.createdAt ? formatDateTime(t.createdAt) : '')}</td>
+        <td><vox-button data-delete-id="${t.id}" variant="danger" size="sm">${t('Delete')}</vox-button></td>
       </tr>`
       )
       .join('');
@@ -37,7 +37,7 @@ if (requirePermission('rbac:admin')) {
       <div class="vox-table-wrap">
         <table class="vox-table vox-table--striped">
           <thead>
-            <tr><th scope="col">Name</th><th scope="col">Permissions</th><th scope="col">Created</th><th scope="col"></th></tr>
+            <tr><th scope="col">${t('Name')}</th><th scope="col">${t('Permissions')}</th><th scope="col">${t('Created')}</th><th scope="col"></th></tr>
           </thead>
           <tbody>${rows}</tbody>
         </table>
@@ -84,7 +84,7 @@ if (requirePermission('rbac:admin')) {
     try {
       const created = await sendJSON('/api/v1/service-tokens', 'POST', { name, permissions });
       newTokenPanel.innerHTML = `
-        <vox-alert variant="success" heading="Service token created - copy it now, it won't be shown again" dismissible>
+        <vox-alert variant="success" heading="${t('Service token created - copy it now, it won\'t be shown again')}" dismissible>
           <pre class="value">${escapeHtml(created.token)}</pre>
         </vox-alert>`;
       newTokenPanel.querySelector('vox-alert').addEventListener('vox-dismiss', () => {

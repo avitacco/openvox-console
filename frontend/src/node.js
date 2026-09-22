@@ -1,4 +1,4 @@
-import { fetchJSON, sendJSON, escapeHtml, hasPermission, statusVariant, qs, severityBadge, coverageReasonText, closeReasonText, paginationHTML, bindPagination, withLoading } from './app.js';
+import { fetchJSON, sendJSON, escapeHtml, hasPermission, statusVariant, qs, severityBadge, coverageReasonText, closeReasonText, paginationHTML, bindPagination, withLoading, t, formatDateTime } from './app.js';
 
 const certname = qs('name');
 const factsEl = document.getElementById('facts');
@@ -336,7 +336,7 @@ function renderFacts() {
   const f = factsState.all;
   if (!f) return;
   if (Object.keys(f).length === 0) {
-    factsEl.innerHTML = `<vox-empty-state heading="No facts reported"></vox-empty-state>`;
+    factsEl.innerHTML = `<vox-empty-state heading="${t('No facts reported')}"></vox-empty-state>`;
     return;
   }
 
@@ -363,7 +363,7 @@ function renderFacts() {
   // Facter has less to say about. Saying so beats a blank panel.
   factsEl.innerHTML = body.trim()
     ? body
-    : `<vox-empty-state heading="Nothing to summarise">This node reported no hardware facts. Switch to Raw JSON for everything it did report.</vox-empty-state>`;
+    : `<vox-empty-state heading="${t('Nothing to summarise')}">This node reported no hardware facts. Switch to Raw JSON for everything it did report.</vox-empty-state>`;
 
   // Rebound on every render - innerHTML above replaces the links.
   factsEl.querySelector('[data-mounts-toggle]')?.addEventListener('click', (ev) => {
@@ -395,7 +395,7 @@ async function loadPackages() {
     const packages = await withLoading(packagesEl, () => fetchJSON(`/api/v1/nodes/${encodeURIComponent(certname)}/packages`));
 
     if (packages.length === 0) {
-      packagesEl.innerHTML = `<vox-empty-state heading="No package data reported"></vox-empty-state>`;
+      packagesEl.innerHTML = `<vox-empty-state heading="${t('No package data reported')}"></vox-empty-state>`;
       return;
     }
 
@@ -415,7 +415,7 @@ async function loadPackages() {
     packagesEl.innerHTML = `
       <div class="vox-table-wrap">
         <table class="vox-table vox-table--striped">
-          <thead><tr><th scope="col">Package</th><th scope="col">Version</th><th scope="col">Provider</th></tr></thead>
+          <thead><tr><th scope="col">${t('Package')}</th><th scope="col">${t('Version')}</th><th scope="col">${t('Provider')}</th></tr></thead>
           <tbody>${rows}</tbody>
         </table>
       </div>`;
@@ -445,7 +445,7 @@ function renderReports() {
   const all = reportState.all;
   if (all.length === 0) {
     reportsEl.innerHTML = `
-      <vox-empty-state heading="No reports yet">
+      <vox-empty-state heading="${t('No reports yet')}">
         <vox-icon slot="icon" name="report" size="lg"></vox-icon>
         Reports appear here after this node's next Puppet run.
       </vox-empty-state>`;
@@ -457,16 +457,16 @@ function renderReports() {
   const rows = visible
     .map((r) => `
       <tr>
-        <td><a href="/report.html?id=${encodeURIComponent(r.hash)}&node=${encodeURIComponent(certname)}">${new Date(r.startTime).toLocaleString()}</a></td>
+        <td><a href="/report.html?id=${encodeURIComponent(r.hash)}&node=${encodeURIComponent(certname)}">${formatDateTime(r.startTime)}</a></td>
         <td><vox-badge variant="${statusVariant(r.status)}">${escapeHtml(r.status)}</vox-badge></td>
-        <td>${new Date(r.endTime).toLocaleString()}</td>
+        <td>${formatDateTime(r.endTime)}</td>
       </tr>`)
     .join('');
   reportsEl.innerHTML = `
     ${listHeader(reportState.expanded, all.length, visible.length, 'runs')}
     <div class="vox-table-wrap">
       <table class="vox-table vox-table--striped">
-        <thead><tr><th scope="col">Started</th><th scope="col">Status</th><th scope="col">Ended</th></tr></thead>
+        <thead><tr><th scope="col">${t('Started')}</th><th scope="col">${t('Status')}</th><th scope="col">${t('Ended')}</th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
     </div>
@@ -578,7 +578,7 @@ function renderVulnerabilities() {
   const all = vulnState.all;
   if (all.length === 0) {
     vulnerabilitiesEl.innerHTML = vulnState.assessed
-      ? `<vox-empty-state heading="No open vulnerabilities"><vox-icon slot="icon" name="shield" size="lg"></vox-icon>No enabled provider reports an open finding on this node.</vox-empty-state>`
+      ? `<vox-empty-state heading="${t('No open vulnerabilities')}"><vox-icon slot="icon" name="shield" size="lg"></vox-icon>No enabled provider reports an open finding on this node.</vox-empty-state>`
       : '';
     return;
   }
@@ -593,7 +593,7 @@ function renderVulnerabilities() {
         <td>${f.status === 'open' ? 'Open' : `Closed (${escapeHtml(closeReasonText(f.closeReason))})`}</td>
         <td>${f.status !== 'open' ? '—' : f.fixAvailable ? 'Available' : 'None released'}</td>
         <td>${escapeHtml(f.packages.join(', ')) || '—'}</td>
-        <td>${escapeHtml(new Date(f.firstSeen).toLocaleString())}</td>
+        <td>${escapeHtml(formatDateTime(f.firstSeen))}</td>
         <td>${escapeHtml(f.providers.map((p) => p.name).join(', ')) || '—'}</td>
       </tr>`)
     .join('');
@@ -601,7 +601,7 @@ function renderVulnerabilities() {
     ${listHeader(vulnState.expanded, all.length, visible.length, 'findings')}
     <div class="vox-table-wrap">
       <table class="vox-table vox-table--striped">
-        <thead><tr><th scope="col">Vulnerability</th><th scope="col">Severity</th><th scope="col">Status</th><th scope="col">Fix</th><th scope="col">Packages</th><th scope="col">First seen</th><th scope="col">Providers</th></tr></thead>
+        <thead><tr><th scope="col">${t('Vulnerability')}</th><th scope="col">${t('Severity')}</th><th scope="col">${t('Status')}</th><th scope="col">${t('Fix')}</th><th scope="col">${t('Packages')}</th><th scope="col">${t('First seen')}</th><th scope="col">${t('Providers')}</th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
     </div>

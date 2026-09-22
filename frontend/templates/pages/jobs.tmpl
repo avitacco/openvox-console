@@ -1,25 +1,25 @@
 {{define "content" -}}
     <main class="vox-container vox-p-y-xl">
-      <h1 class="vox-ts-xl vox-m-bottom-md">Jobs</h1>
+      <h1 class="vox-ts-xl vox-m-bottom-md" data-i18n>Jobs</h1>
 
       <div class="filters vox-display-flex vox-items-end vox-gap-md vox-flex-wrap vox-m-bottom-lg">
-        <vox-input id="target-filter" label="Target" placeholder="Filter by node"></vox-input>
-        <vox-select id="kind-filter" label="Kind">
-          <option value="">All</option>
-          <option value="run">Run</option>
-          <option value="task">Task</option>
-          <option value="plan">Plan</option>
+        <vox-input id="target-filter" label="Target" placeholder="Filter by node" data-i18n-attr="label,placeholder"></vox-input>
+        <vox-select id="kind-filter" label="Kind" data-i18n-attr="label">
+          <option value="" data-i18n>All</option>
+          <option value="run" data-i18n>Run</option>
+          <option value="task" data-i18n>Task</option>
+          <option value="plan" data-i18n>Plan</option>
         </vox-select>
-        <vox-select id="status-filter" label="Status">
-          <option value="">All</option>
-          <option value="running">Running</option>
-          <option value="succeeded">Succeeded</option>
-          <option value="failed">Failed</option>
+        <vox-select id="status-filter" label="Status" data-i18n-attr="label">
+          <option value="" data-i18n>All</option>
+          <option value="running" data-i18n>Running</option>
+          <option value="succeeded" data-i18n>Succeeded</option>
+          <option value="failed" data-i18n>Failed</option>
         </vox-select>
-        <vox-input id="triggered-by-filter" label="Triggered by" placeholder="Filter by actor"></vox-input>
-        <vox-select id="sort-order" label="Order">
-          <option value="desc">Newest first</option>
-          <option value="asc">Oldest first</option>
+        <vox-input id="triggered-by-filter" label="Triggered by" placeholder="Filter by actor" data-i18n-attr="label,placeholder"></vox-input>
+        <vox-select id="sort-order" label="Order" data-i18n-attr="label">
+          <option value="desc" data-i18n>Newest first</option>
+          <option value="asc" data-i18n>Oldest first</option>
         </vox-select>
       </div>
 

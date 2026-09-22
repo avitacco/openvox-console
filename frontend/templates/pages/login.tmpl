@@ -1,21 +1,21 @@
 {{define "content" -}}
     <main class="vox-container vox-p-y-xl login-container">
-      <h1 class="vox-ts-xl vox-m-bottom-md">OpenVox Console</h1>
+      <h1 class="vox-ts-xl vox-m-bottom-md" data-i18n>OpenVox Console</h1>
 
       <div id="form-error"></div>
 
       <div class="vox-m-bottom-md">
-        <vox-input id="username" label="Username" required></vox-input>
+        <vox-input id="username" label="Username" required data-i18n-attr="label"></vox-input>
       </div>
       <div class="vox-m-bottom-md">
-        <vox-input id="password" label="Password" type="password" required></vox-input>
+        <vox-input id="password" label="Password" type="password" required data-i18n-attr="label"></vox-input>
       </div>
 
-      <vox-button id="login-button" variant="brand">Log in</vox-button>
+      <vox-button id="login-button" variant="brand" data-i18n>Log in</vox-button>
 
       <div id="oidc-login" style="display: none">
-        <p>or</p>
-        <vox-button id="oidc-login-button" variant="ghost" href="/api/v1/auth/oidc/login">Log in with SSO</vox-button>
+        <p data-i18n>or</p>
+        <vox-button id="oidc-login-button" variant="ghost" href="/api/v1/auth/oidc/login" data-i18n>Log in with SSO</vox-button>
       </div>
     </main>
 {{- end}}

@@ -1,4 +1,4 @@
-import { fetchJSON, sendJSON, escapeHtml, requirePermission, ALL_PERMISSIONS, withLoading } from './app.js';
+import { fetchJSON, sendJSON, escapeHtml, requirePermission, ALL_PERMISSIONS, withLoading, t } from './app.js';
 
 if (requirePermission('rbac:admin')) {
   const results = document.getElementById('results');
@@ -20,7 +20,7 @@ if (requirePermission('rbac:admin')) {
   function renderRoles(roles) {
     if (roles.length === 0) {
       results.innerHTML = `
-        <vox-empty-state heading="No roles yet">
+        <vox-empty-state heading="${t('No roles yet')}">
           <vox-icon slot="icon" name="shield" size="lg"></vox-icon>
           Create a role above to start assigning permissions.
         </vox-empty-state>`;
@@ -33,7 +33,7 @@ if (requirePermission('rbac:admin')) {
       <tr>
         <td>${escapeHtml(r.name)}</td>
         <td><div class="vox-display-flex vox-flex-wrap vox-gap-sm">${permissionCheckboxes(r)}</div></td>
-        <td><vox-button data-delete-id="${r.id}" variant="danger" size="sm">Delete</vox-button></td>
+        <td><vox-button data-delete-id="${r.id}" variant="danger" size="sm">${t('Delete')}</vox-button></td>
       </tr>`
       )
       .join('');
@@ -42,7 +42,7 @@ if (requirePermission('rbac:admin')) {
       <div class="vox-table-wrap">
         <table class="vox-table vox-table--striped">
           <thead>
-            <tr><th scope="col">Name</th><th scope="col">Permissions</th><th scope="col"></th></tr>
+            <tr><th scope="col">${t('Name')}</th><th scope="col">${t('Permissions')}</th><th scope="col"></th></tr>
           </thead>
           <tbody>${rows}</tbody>
         </table>

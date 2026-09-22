@@ -1,4 +1,4 @@
-import { fetchJSON, escapeHtml, requirePermission, statusVariant, qs, withLoading } from './app.js';
+import { fetchJSON, escapeHtml, requirePermission, statusVariant, qs, withLoading, t, formatDateTime } from './app.js';
 
 if (requirePermission('orchestrator:read')) {
   const jobId = qs('id');
@@ -19,14 +19,14 @@ if (requirePermission('orchestrator:read')) {
         <div><strong>Kind:</strong> ${escapeHtml(job.kind)}${escapeHtml(jobName(job))}</div>
         <div><strong>Status:</strong> <vox-badge variant="${statusVariant(job.status)}">${escapeHtml(job.status)}</vox-badge></div>
         <div><strong>Triggered by:</strong> ${escapeHtml(job.triggeredBy)}</div>
-        <div><strong>Started:</strong> ${escapeHtml(new Date(job.startedAt).toLocaleString())}</div>
-        <div><strong>Finished:</strong> ${job.finishedAt ? escapeHtml(new Date(job.finishedAt).toLocaleString()) : '—'}</div>
+        <div><strong>Started:</strong> ${escapeHtml(formatDateTime(job.startedAt))}</div>
+        <div><strong>Finished:</strong> ${job.finishedAt ? escapeHtml(formatDateTime(job.finishedAt)) : '—'}</div>
       </div>`;
   }
 
   function renderTargets(targets) {
     if (!targets || targets.length === 0) {
-      targetsEl.innerHTML = `<vox-empty-state heading="No targets"></vox-empty-state>`;
+      targetsEl.innerHTML = `<vox-empty-state heading="${t('No targets')}"></vox-empty-state>`;
       return;
     }
 
@@ -50,7 +50,7 @@ if (requirePermission('orchestrator:read')) {
       <div class="vox-table-wrap">
         <table class="vox-table vox-table--striped">
           <thead>
-            <tr><th scope="col">Node</th><th scope="col">Status</th><th scope="col">Exit code</th><th scope="col">Report</th><th scope="col">Error</th></tr>
+            <tr><th scope="col">${t('Node')}</th><th scope="col">${t('Status')}</th><th scope="col">${t('Exit code')}</th><th scope="col">${t('Report')}</th><th scope="col">${t('Error')}</th></tr>
           </thead>
           <tbody>${rows}</tbody>
         </table>

@@ -1,6 +1,6 @@
 {{define "content" -}}
     <main class="vox-container vox-p-y-xl">
-      <h1 class="vox-ts-xl vox-m-bottom-md">Preferences</h1>
+      <h1 class="vox-ts-xl vox-m-bottom-md" data-i18n>Preferences</h1>
 
       <section>
         <div class="vox-display-flex vox-items-center vox-gap-md vox-m-bottom-lg">
@@ -8,32 +8,43 @@
           <span id="preferences-username" class="vox-ts-lg"></span>
         </div>
 
-        <h2>Profile</h2>
+        <h2 data-i18n>Profile</h2>
         <div id="profile-error"></div>
         <div class="vox-display-flex vox-gap-md vox-flex-wrap vox-m-bottom-md">
-          <vox-input id="first-name" label="First name"></vox-input>
-          <vox-input id="last-name" label="Last name"></vox-input>
+          <vox-input id="first-name" label="First name" data-i18n-attr="label"></vox-input>
+          <vox-input id="last-name" label="Last name" data-i18n-attr="label"></vox-input>
         </div>
         <div class="vox-m-bottom-md">
-          <vox-input id="email" label="Email" type="email"></vox-input>
+          <vox-input id="email" label="Email" type="email" data-i18n-attr="label"></vox-input>
         </div>
         <div class="vox-display-flex vox-gap-sm vox-m-top-lg">
-          <vox-button id="save-profile" variant="brand">Save profile</vox-button>
+          <vox-button id="save-profile" variant="brand" data-i18n>Save profile</vox-button>
         </div>
       </section>
 
       <section>
-        <h2>Change password</h2>
+        <h2 data-i18n>Language</h2>
+        <p class="vox-ts-sm vox-color-text-2" data-i18n>
+          Applies to this browser only. Without a choice here, the console follows your browser's language.
+        </p>
+        <div class="vox-display-flex vox-items-end vox-gap-md vox-m-top-md">
+          <vox-select id="language" label="Language" data-i18n-attr="label"></vox-select>
+          <vox-button id="save-language" variant="brand" data-i18n>Save language</vox-button>
+        </div>
+      </section>
+
+      <section>
+        <h2 data-i18n>Change password</h2>
         <div id="password-error"></div>
         <div id="password-success"></div>
         <div class="vox-m-bottom-md">
-          <vox-input id="current-password" label="Current password" type="password" required></vox-input>
+          <vox-input id="current-password" label="Current password" type="password" required data-i18n-attr="label"></vox-input>
         </div>
         <div class="vox-m-bottom-md">
-          <vox-input id="new-password" label="New password" type="password" required></vox-input>
+          <vox-input id="new-password" label="New password" type="password" required data-i18n-attr="label"></vox-input>
         </div>
         <div class="vox-display-flex vox-gap-sm vox-m-top-lg">
-          <vox-button id="save-password" variant="brand">Change password</vox-button>
+          <vox-button id="save-password" variant="brand" data-i18n>Change password</vox-button>
         </div>
       </section>
     </main>

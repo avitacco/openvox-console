@@ -1,4 +1,4 @@
-import { fetchJSON, sendJSON, escapeHtml, hasPermission, confirmDialog, withLoading } from './app.js';
+import { fetchJSON, sendJSON, escapeHtml, hasPermission, confirmDialog, withLoading, tn, t, formatDateTime } from './app.js';
 
 const results = document.getElementById('results');
 const actionError = document.getElementById('action-error');
@@ -46,7 +46,7 @@ function connectivityBadge(certname) {
 function lastConnectedCell(certname) {
   if (connectivityByCertname === null) return '…';
   const entry = connectivityByCertname.get(certname);
-  return entry?.lastConnected ? escapeHtml(new Date(entry.lastConnected).toLocaleString()) : 'never';
+  return entry?.lastConnected ? escapeHtml(formatDateTime(entry.lastConnected)) : 'never';
 }
 
 function certStatusBadge(certname) {
@@ -75,17 +75,17 @@ function certActionsCell(certname) {
   if (connectivityByCertname !== null && hasPermission('nodes:certs:manage')) {
     const status = connectivityByCertname.get(certname)?.certStatus ?? 'unknown';
     if (status === 'requested') {
-      buttons.push(`<vox-button data-sign-certname="${escapeHtml(certname)}" variant="brand" size="sm">Sign</vox-button>`);
+      buttons.push(`<vox-button data-sign-certname="${escapeHtml(certname)}" variant="brand" size="sm">${t('Sign')}</vox-button>`);
     }
     if (status === 'signed') {
-      buttons.push(`<vox-button data-revoke-certname="${escapeHtml(certname)}" variant="danger" size="sm">Revoke</vox-button>`);
+      buttons.push(`<vox-button data-revoke-certname="${escapeHtml(certname)}" variant="danger" size="sm">${t('Revoke')}</vox-button>`);
     }
     if (status === 'signed' || status === 'requested' || status === 'revoked') {
-      buttons.push(`<vox-button data-clean-certname="${escapeHtml(certname)}" variant="danger" size="sm">Clean</vox-button>`);
+      buttons.push(`<vox-button data-clean-certname="${escapeHtml(certname)}" variant="danger" size="sm">${t('Clean')}</vox-button>`);
     }
   }
   if (hasPermission('nodes:manage')) {
-    buttons.push(`<vox-button data-delete-certname="${escapeHtml(certname)}" variant="danger" size="sm">Delete</vox-button>`);
+    buttons.push(`<vox-button data-delete-certname="${escapeHtml(certname)}" variant="danger" size="sm">${t('Delete')}</vox-button>`);
   }
   if (buttons.length === 0) return '';
   return `<div class="vox-display-flex vox-gap-sm">${buttons.join('')}</div>`;
@@ -217,12 +217,12 @@ function render() {
     const hasAnyNodes = allCertnames().length > 0;
     results.innerHTML = hasAnyNodes
       ? `
-      <vox-empty-state heading="No matching nodes">
+      <vox-empty-state heading="${t('No matching nodes')}">
         <vox-icon slot="icon" name="search" size="lg"></vox-icon>
         No nodes match the current filters.
       </vox-empty-state>`
       : `
-      <vox-empty-state heading="No nodes found">
+      <vox-empty-state heading="${t('No nodes found')}">
         <vox-icon slot="icon" name="node" size="lg"></vox-icon>
         No nodes known yet. Choose <strong>Add node</strong> above for the
         command to run on the machine you want to manage.
@@ -289,7 +289,7 @@ function renderSelectionBar() {
   if (!canRun) return;
   const count = selected.size;
   selectionBar.classList.toggle('vox-hide', count === 0);
-  selectionCount.textContent = `${count} node${count === 1 ? '' : 's'} selected`;
+  selectionCount.textContent = tn('{count} node selected', '{count} nodes selected', count);
 }
 
 function bindSelection(visible) {
@@ -338,7 +338,7 @@ async function runSelected() {
   const more = targets.length > 5 ? `, and ${targets.length - 5} more` : '';
   const confirmed = await confirmDialog({
     heading: 'Run Puppet',
-    body: `<p>Run Puppet on ${targets.length} node${targets.length === 1 ? '' : 's'}?</p><p class="vox-ts-sm">${preview}${more}</p>`,
+    body: `<p>${escapeHtml(tn('Run Puppet on {count} node?', 'Run Puppet on {count} nodes?', targets.length))}</p><p class="vox-ts-sm">${preview}${more}</p>`,
     confirmLabel: 'Run',
   });
   if (!confirmed) return;
@@ -424,7 +424,7 @@ function showAddNodeDialog() {
     <p>Run the install script below for the new node's platform, as that node's root/administrator user.</p>
     ${rows}
     <div slot="footer">
-      <vox-button variant="brand" data-action="close">Close</vox-button>
+      <vox-button variant="brand" data-action="close">${t('Close')}</vox-button>
     </div>`;
   dialog.addEventListener('vox-close', () => dialog.remove());
   dialog.querySelector('[data-action="close"]').addEventListener('click', () => dialog.close());

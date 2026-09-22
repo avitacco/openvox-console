@@ -1,4 +1,4 @@
-import { fetchJSON, escapeHtml, paginationHTML, bindPagination, withLoading } from './app.js';
+import { fetchJSON, escapeHtml, paginationHTML, bindPagination, withLoading, t } from './app.js';
 
 const results = document.getElementById('results');
 
@@ -7,7 +7,7 @@ let currentPage = 1;
 function renderGroups(page, nodeCounts) {
   if (page.items.length === 0) {
     results.innerHTML = `
-      <vox-empty-state heading="No node groups yet">
+      <vox-empty-state heading="${t('No node groups yet')}">
         <vox-icon slot="icon" name="node-group" size="lg"></vox-icon>
         Create a group to start classifying nodes.
       </vox-empty-state>`;
@@ -30,7 +30,7 @@ function renderGroups(page, nodeCounts) {
     <div class="vox-table-wrap">
       <table class="vox-table vox-table--striped">
         <thead>
-          <tr><th scope="col">Name</th><th scope="col">Priority</th><th scope="col">Environment</th><th scope="col">Classes</th><th scope="col">Matching nodes</th><th scope="col">Pinned nodes</th></tr>
+          <tr><th scope="col">${t('Name')}</th><th scope="col">${t('Priority')}</th><th scope="col">${t('Environment')}</th><th scope="col">${t('Classes')}</th><th scope="col">${t('Matching nodes')}</th><th scope="col">${t('Pinned nodes')}</th></tr>
         </thead>
         <tbody>${rows}</tbody>
       </table>

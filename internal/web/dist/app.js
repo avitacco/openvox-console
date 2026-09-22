@@ -1,13 +1,50 @@
 // Shared helpers for the console frontend. Plain ES modules, no bundler -
 // see design.md (phase-1-inventory-and-reporting) for why.
 
+import { load as i18nLoad, preferredLanguage, translateDocument, t } from './i18n.js';
+
+// Re-exported so a page module imports one thing: `import { t } from
+// './app.js'` alongside the helpers it already takes from here. `t` is
+// also imported above, because a re-export does not bind the name in
+// this module's own scope and the shared helpers below call it.
+export {
+  t,
+  tn,
+  language,
+  languages,
+  setLanguage,
+  preferredLanguage,
+  storedLanguage,
+  browserLanguage,
+  AUTO,
+  formatDateTime,
+  formatDate,
+  formatTime,
+  statusLabel,
+  kindLabel,
+  formatNumber,
+} from './i18n.js';
+
 // Pairs with the head-blocking script in every page's <head>: that script
 // hides <body> until this fires (or a timeout elapses), so the correct
 // dark/light background is in place before first paint instead of
 // flashing the wrong one. Every page module imports this file, so this
 // runs exactly once per page load.
-document.addEventListener('DOMContentLoaded', () => {
-  document.documentElement.setAttribute('data-vox-ready', '');
+//
+// Translations are applied in the same window, for the same reason: a
+// translated console should not render English and then repaint. The
+// catalogue is one small JSON file, and this resolves either way - a
+// failed load falls back to English rather than leaving the body hidden
+// (see i18n.js).
+document.addEventListener('DOMContentLoaded', async () => {
+  try {
+    await i18nLoad(preferredLanguage());
+    translateDocument();
+  } catch (e) {
+    console.warn('Translation failed; showing English.', e);
+  } finally {
+    document.documentElement.setAttribute('data-vox-ready', '');
+  }
 });
 
 const ACCESS_TOKEN_KEY = 'console.accessToken';
@@ -285,7 +322,7 @@ export function confirmDialog({ heading, body, confirmLabel = 'Confirm', danger 
     dialog.innerHTML = `
       ${body}
       <div slot="footer">
-        <vox-button variant="alt" data-action="cancel">Cancel</vox-button>
+        <vox-button variant="alt" data-action="cancel">${t('Cancel')}</vox-button>
         <vox-button variant="${danger ? 'danger' : 'brand'}" data-action="confirm">${escapeHtml(confirmLabel)}</vox-button>
       </div>`;
     dialog.addEventListener('vox-close', () => {
@@ -456,7 +493,7 @@ export function paginationHTML(page, pageSize, total) {
   }
   if (page < totalPages) items += link(page + 1, '→', false);
 
-  return `<vox-pagination class="vox-m-top-lg" label="Pagination">${items}</vox-pagination>`;
+  return `<vox-pagination class="vox-m-top-lg" label="${t('Pagination')}">${items}</vox-pagination>`;
 }
 
 // Intercepts clicks on the links paginationHTML() rendered inside

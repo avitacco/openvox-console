@@ -1,4 +1,4 @@
-import { fetchJSON, escapeHtml, hasPermission, statusVariant, targetSummaryText, paginationHTML, bindPagination, withLoading } from './app.js';
+import { fetchJSON, escapeHtml, hasPermission, statusVariant, targetSummaryText, paginationHTML, bindPagination, withLoading, t, formatDateTime } from './app.js';
 
 const results = document.getElementById('results');
 const nameFilter = document.getElementById('name-filter');
@@ -74,7 +74,7 @@ async function loadStatusSummary() {
       reportSummaryState = {
         mode: 'empty',
         html: `
-        <vox-empty-state heading="No nodes yet">
+        <vox-empty-state heading="${t('No nodes yet')}">
           <vox-icon slot="icon" name="node" size="lg"></vox-icon>
           Go to the <a href="/nodes.html">Nodes</a> page and choose
           <strong>Add node</strong> for the command to run on the machine
@@ -108,7 +108,7 @@ async function loadConnectivitySummary() {
     const managed = data.nodes.filter((n) => !n.isInfrastructure);
     const connected = managed.filter((n) => n.connected).length;
     const disconnected = managed.length - connected;
-    connectivityCardsHTML = `<vox-stat class="vox-m-x-lg" value="${connected}" label="Connected"></vox-stat><vox-stat class="vox-m-x-lg" value="${disconnected}" label="Disconnected"></vox-stat>`;
+    connectivityCardsHTML = `<vox-stat class="vox-m-x-lg" value="${connected}" label="${t('Connected')}"></vox-stat><vox-stat class="vox-m-x-lg" value="${disconnected}" label="${t('Disconnected')}"></vox-stat>`;
   } catch (err) {
     // A connectivity fetch failure shouldn't blank out the report
     // status cards - just drop the connectivity cards for this cycle.
@@ -129,7 +129,7 @@ async function loadRecentActivity() {
     const page = await fetchJSON('/api/v1/audit-log?page=1&pageSize=5');
     if (page.items.length === 0) {
       recentActivityEl.innerHTML = `
-        <vox-empty-state heading="No activity yet">
+        <vox-empty-state heading="${t('No activity yet')}">
           <vox-icon slot="icon" name="activity-log" size="lg"></vox-icon>
           No activity recorded yet.
         </vox-empty-state>`;
@@ -169,7 +169,7 @@ async function loadRecentJobs() {
     const page = await fetchJSON('/api/v1/orchestrator/jobs?page=1&pageSize=5');
     if (page.items.length === 0) {
       recentJobsEl.innerHTML = `
-        <vox-empty-state heading="No runs yet">
+        <vox-empty-state heading="${t('No runs yet')}">
           <vox-icon slot="icon" name="orchestrate" size="lg"></vox-icon>
           No runs triggered yet.
         </vox-empty-state>`;
@@ -211,7 +211,7 @@ function buildQuery() {
 function renderNodes(page) {
   if (page.items.length === 0) {
     results.innerHTML = `
-      <vox-empty-state heading="No nodes found">
+      <vox-empty-state heading="${t('No nodes found')}">
         <vox-icon slot="icon" name="search" size="lg"></vox-icon>
         No nodes matched. Try a different search term or filter.
       </vox-empty-state>`;
@@ -223,7 +223,7 @@ function renderNodes(page) {
       const status = n.status
         ? `<vox-badge variant="${statusVariant(n.status)}">${escapeHtml(n.status)}</vox-badge>`
         : '';
-      const checkIn = n.reportTimestamp ? new Date(n.reportTimestamp).toLocaleString() : 'never';
+      const checkIn = n.reportTimestamp ? formatDateTime(n.reportTimestamp) : 'never';
       return `
         <tr>
           <td><a href="/node.html?name=${encodeURIComponent(n.certname)}">${escapeHtml(n.certname)}</a></td>
@@ -237,7 +237,7 @@ function renderNodes(page) {
     <div class="vox-table-wrap">
       <table class="vox-table vox-table--striped">
         <thead>
-          <tr><th scope="col">Node</th><th scope="col">Status</th><th scope="col">Last check-in</th></tr>
+          <tr><th scope="col">${t('Node')}</th><th scope="col">${t('Status')}</th><th scope="col">${t('Last check-in')}</th></tr>
         </thead>
         <tbody>${rows}</tbody>
       </table>
