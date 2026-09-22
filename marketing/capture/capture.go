@@ -75,7 +75,7 @@ func captureTheme(allocCtx context.Context, opts options, theme shots.Theme, tok
 	// loaded in it - which is what puts the theme, the frozen clock and
 	// the session in place before any of the console's own scripts run.
 	if err := chromedp.Run(ctx, chromedp.ActionFunc(func(ctx context.Context) error {
-		_, err := page.AddScriptToEvaluateOnNewDocument(initScript(theme, tokens)).Do(ctx)
+		_, err := page.AddScriptToEvaluateOnNewDocument(initScript(theme, tokens, opts.locale)).Do(ctx)
 		return err
 	})); err != nil {
 		return nil, fmt.Errorf("%s: installing the page init script: %w", theme, err)
@@ -234,7 +234,7 @@ func captureShot(ctx context.Context, opts options, theme shots.Theme, shot shot
 			shot.Name, theme, len(buf), shots.MaxBytes)
 	}
 
-	path := filepath.Join(opts.outDir, shot.FileName(theme))
+	path := filepath.Join(opts.outDir, shot.FileName(theme, opts.locale))
 	if err := os.WriteFile(path, buf, 0o644); err != nil {
 		return "", fmt.Errorf("writing %s: %w", path, err)
 	}

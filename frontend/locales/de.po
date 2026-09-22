@@ -223,7 +223,7 @@ msgstr "Service-Token erstellen"
 msgid "Create user"
 msgstr "Benutzer erstellen"
 
-#: src/app.js:602
+#: src/app.js:614
 #: templates/pages/vulnerabilities.tmpl:13
 msgid "Critical"
 msgstr "Kritisch"
@@ -343,7 +343,7 @@ msgstr "Flottenstatus"
 msgid "Group"
 msgstr "Gruppe"
 
-#: src/app.js:603
+#: src/app.js:615
 #: templates/pages/vulnerabilities.tmpl:14
 msgid "High"
 msgstr "Hoch"
@@ -369,7 +369,7 @@ msgstr "Anmelden"
 msgid "Log in with SSO"
 msgstr "Mit SSO anmelden"
 
-#: src/app.js:605
+#: src/app.js:617
 #: templates/pages/vulnerabilities.tmpl:16
 msgid "Low"
 msgstr "Niedrig"
@@ -387,7 +387,7 @@ msgstr "Übereinstimmung"
 msgid "Matching nodes"
 msgstr "Übereinstimmende Nodes"
 
-#: src/app.js:604
+#: src/app.js:616
 #: templates/pages/vulnerabilities.tmpl:15
 msgid "Medium"
 msgstr "Mittel"
@@ -639,8 +639,8 @@ msgid "Signed"
 msgstr "Signiert"
 
 #: templates/pages/oidc-callback.tmpl:3
-msgid "Signing in&hellip;"
-msgstr "Anmeldung läuft&hellip;"
+#~ msgid "Signing in&hellip;"
+#~ msgstr "Anmeldung läuft&hellip;"
 
 #: src/i18n.js:170
 #: templates/pages/report.tmpl:16
@@ -661,7 +661,7 @@ msgid "Source to deploy"
 msgstr "Zu deployende Quelle"
 
 #: src/deploys.js:57
-#: src/index.js:246
+#: src/index.js:249
 #: src/job.js:53
 #: src/jobs.js:54
 #: src/node.js:469
@@ -716,7 +716,7 @@ msgstr "Ausgelöst von"
 msgid "Unchanged"
 msgstr "Unverändert"
 
-#: src/app.js:606
+#: src/app.js:618
 #: src/i18n.js:177
 #: templates/pages/nodes.tmpl:22
 #: templates/pages/vulnerabilities.tmpl:17
@@ -787,7 +787,7 @@ msgstr "Sprache speichern"
 msgid "Actions"
 msgstr "Aktionen"
 
-#: src/app.js:355
+#: src/app.js:367
 #: src/vulnerability-providers.js:157
 msgid "Cancel"
 msgstr "Abbrechen"
@@ -874,7 +874,7 @@ msgstr "Installiert"
 msgid "Interval"
 msgstr "Intervall"
 
-#: src/index.js:246
+#: src/index.js:249
 msgid "Last check-in"
 msgstr "Letzte Meldung"
 
@@ -935,7 +935,7 @@ msgstr "Noch keine Node-Gruppen"
 msgid "No nodes currently match this group"
 msgstr "Derzeit stimmen keine Nodes mit dieser Gruppe überein"
 
-#: src/index.js:220
+#: src/index.js:223
 #: src/nodes.js:225
 msgid "No nodes found"
 msgstr "Keine Nodes gefunden"
@@ -984,8 +984,8 @@ msgstr "Noch keine Benutzer"
 msgid "No vulnerability providers"
 msgstr "Keine Anbieter für Sicherheitslücken"
 
-#: src/index.js:193
-#: src/index.js:246
+#: src/index.js:196
+#: src/index.js:249
 #: src/job.js:53
 #: src/nodes.js:249
 #: src/packages.js:146
@@ -1013,7 +1013,7 @@ msgstr "Alt"
 msgid "Operator"
 msgstr "Operator"
 
-#: src/app.js:526
+#: src/app.js:538
 msgid "Pagination"
 msgstr "Seitennavigation"
 
@@ -1300,8 +1300,8 @@ msgstr "{reporting} Node(s) melden aus seinen Environments, aber keine Gruppe we
 msgid "Puppet environment matching nodes compile against. Blank means this group doesn't set one."
 msgstr "Puppet-Environment, gegen das passende Nodes kompilieren. Leer bedeutet, dass diese Gruppe keines setzt."
 
-#: src/app.js:471
 #: src/app.js:483
+#: src/app.js:495
 msgid ", +{count} more"
 msgid_plural ", +{count} more"
 msgstr[0] ", +{count} weiterer"
@@ -1354,3 +1354,7 @@ msgstr "Benutzer"
 #: src/vulnerability-providers.js:60
 msgid "{minutes} min"
 msgstr "{minutes} Min."
+
+#: templates/pages/oidc-callback.tmpl:3
+msgid "Signing in…"
+msgstr "Anmeldung läuft&hellip;"

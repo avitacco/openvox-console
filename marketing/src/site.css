@@ -189,3 +189,38 @@ a:focus-visible {
   outline-offset: 2px;
   border-radius: var(--vox-radius-sm);
 }
+
+/* Language switcher in the header. Inline links rather than a dropdown,
+   so every locale is a real URL - see the comment in layout.html.tmpl.
+   Logical properties throughout: this whole site mirrors under
+   dir="rtl" for Arabic. */
+.lang-switcher {
+  display: flex;
+  align-items: center;
+  gap: var(--vox-space-2);
+  font-size: 13px;
+}
+
+.lang-switcher a {
+  color: var(--vox-color-text-2);
+  text-decoration: none;
+}
+
+.lang-switcher a:hover,
+.lang-switcher a:focus-visible {
+  color: var(--vox-color-brand-1);
+  text-decoration: underline;
+}
+
+.lang-current {
+  color: var(--vox-color-text-1);
+  font-weight: 600;
+}
+
+/* Below the header's own breakpoint the switcher would push the logo
+   off the row; the locales are still reachable from the footer. */
+@media (max-width: 640px) {
+  .lang-switcher {
+    display: none;
+  }
+}

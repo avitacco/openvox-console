@@ -24,39 +24,56 @@ import (
 	"strings"
 )
 
-// localesDir holds the catalogues, relative to frontend/.
-const localesDir = "locales"
+// The console's own layout, and the defaults every flag below falls
+// back to, so `go run ./i18n extract` from frontend/ keeps working
+// exactly as before.
+const (
+	defaultLocalesDir  = "locales"
+	defaultPOTName     = "console.pot"
+	defaultSourceRoots = "src,templates"
+)
 
-// potName is the extracted template every translation is merged from.
-const potName = "console.pot"
+// Where this invocation reads and writes. They are variables rather than
+// constants because the marketing site reuses this same tool against its
+// own templates and catalogues - one extractor, one PO implementation,
+// one set of conventions, rather than a second half-copy that drifts.
+var (
+	localesDir  = defaultLocalesDir
+	potName     = defaultPOTName
+	sourceRoots = strings.Split(defaultSourceRoots, ",")
 
-// sourceRoots are scanned for translatable strings.
-var sourceRoots = []string{"src", "templates"}
+	// writeModule controls whether compile also regenerates
+	// src/locales.js. That file is the console frontend's runtime list
+	// of available languages; the marketing site is static and has no
+	// use for it, so it is opt-out.
+	writeModule = true
+)
 
 func main() {
-	if len(os.Args) < 2 {
+	args := parseGlobalFlags(os.Args[1:])
+	if len(args) < 1 {
 		usage()
 		os.Exit(2)
 	}
 
 	var err error
-	switch os.Args[1] {
+	switch args[0] {
 	case "extract":
 		err = cmdExtract()
 	case "merge":
 		err = cmdMerge()
 	case "compile":
-		if len(os.Args) != 3 {
+		if len(args) != 2 {
 			err = fmt.Errorf("usage: i18n compile <output-dir>")
 			break
 		}
-		err = cmdCompile(os.Args[2])
+		err = cmdCompile(args[1])
 	case "add":
-		if len(os.Args) != 3 {
+		if len(args) != 2 {
 			err = fmt.Errorf("usage: i18n add <language-code>")
 			break
 		}
-		err = cmdAdd(os.Args[2])
+		err = cmdAdd(args[1])
 	case "status":
 		err = cmdStatus()
 	default:
@@ -70,14 +87,57 @@ func main() {
 	}
 }
 
-func usage() {
-	fmt.Fprint(os.Stderr, `usage: i18n <command>
+// parseGlobalFlags reads the options that may precede the subcommand and
+// returns whatever is left.
+//
+// Hand-rolled rather than using the flag package because the subcommand
+// comes first in every existing invocation and flag.Parse stops at the
+// first non-flag argument; accepting them in either position keeps
+// `i18n extract` working while allowing `i18n -source ... extract`.
+func parseGlobalFlags(argv []string) []string {
+	var rest []string
+	for i := 0; i < len(argv); i++ {
+		arg := argv[i]
+		value := func() string {
+			if i+1 < len(argv) {
+				i++
+				return argv[i]
+			}
+			fmt.Fprintf(os.Stderr, "i18n: %s needs a value\n", arg)
+			os.Exit(2)
+			return ""
+		}
+		switch arg {
+		case "-source", "--source":
+			sourceRoots = strings.Split(value(), ",")
+		case "-locales", "--locales":
+			localesDir = value()
+		case "-pot", "--pot":
+			potName = value()
+		case "-no-module", "--no-module":
+			writeModule = false
+		default:
+			rest = append(rest, arg)
+		}
+	}
+	return rest
+}
 
-  extract          rescan src/ and templates/, update locales/console.pot
+func usage() {
+	fmt.Fprint(os.Stderr, `usage: i18n [options] <command>
+
+  extract          rescan the source roots, update the .pot
   add <code>       create a catalogue for a language (see languages.go)
   merge            fold new strings from the .pot into every .po
   compile <dir>    write each locale's JSON catalogue into <dir>
   status           report translation completeness
+
+options (defaults are the console's own layout):
+  -source <dirs>   comma-separated roots to scan      (default src,templates)
+  -locales <dir>   where the .po/.pot files live      (default locales)
+  -pot <name>      name of the extracted template     (default console.pot)
+  -no-module       do not regenerate src/locales.js   (for the static
+                   marketing site, which has no runtime language list)
 `)
 }
 
@@ -193,8 +253,14 @@ func cmdCompile(outDir string) error {
 	// catalogues that actually exist, rather than hand-maintained in
 	// two places - a .po added without its entry in i18n.js would
 	// otherwise be invisible to users, with nothing to catch it.
-	if err := writeLocalesModule(locales); err != nil {
-		return err
+	//
+	// Skipped for the marketing site, which is static: it has no
+	// runtime language list, and writing one would put a console file
+	// under frontend/src from a marketing build.
+	if writeModule {
+		if err := writeLocalesModule(locales); err != nil {
+			return err
+		}
 	}
 
 	var names []string
@@ -237,7 +303,10 @@ func writeLocalesModule(locales []string) error {
 export const AVAILABLE = [
 `)
 
-	type named struct{ code, name string }
+	type named struct {
+		code, name string
+		rtl        bool
+	}
 	var found []named
 	for _, path := range locales {
 		code := strings.TrimSuffix(filepath.Base(path), ".po")
@@ -245,7 +314,7 @@ export const AVAILABLE = [
 		if err != nil {
 			return fmt.Errorf("catalogue %s has no entry in languages.go: %w", path, err)
 		}
-		found = append(found, named{lang.Code, lang.Name})
+		found = append(found, named{lang.Code, lang.Name, lang.RTL})
 	}
 
 	for _, f := range found {
@@ -264,7 +333,32 @@ export const LANGUAGE_NAMES = {
 	for _, f := range found {
 		fmt.Fprintf(&b, "  %s: %q,\n", f.code, f.name)
 	}
-	b.WriteString("};\n")
+	b.WriteString(`};
+
+/**
+ * Language codes written right to left.
+ *
+ * voxblocks mirrors its whole layout from a single dir on <html> - there
+ * is no per-component attribute - so this is what the console consults
+ * before setting it. Generated from languages.go rather than written by
+ * hand here, for the same reason AVAILABLE is: a catalogue added without
+ * its direction would render Arabic in a left-to-right layout, which
+ * looks like a styling bug rather than a missing table entry.
+ */
+export const RTL = new Set([
+`)
+	for _, f := range found {
+		if f.rtl {
+			fmt.Fprintf(&b, "  %q,\n", f.code)
+		}
+	}
+	b.WriteString(`]);
+
+/** "rtl" or "ltr" for a language code, for the dir attribute. */
+export function direction(code) {
+  return RTL.has(code) ? 'rtl' : 'ltr';
+}
+`)
 
 	path := filepath.Join("src", "locales.js")
 	return os.WriteFile(path, []byte(b.String()), 0o644)

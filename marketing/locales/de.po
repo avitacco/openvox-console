@@ -1,0 +1,518 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: de\n"
+"Language-Team: Deutsch\n"
+"MIME-Version: 1.0\n"
+"POT-Creation-Date: 2026-09-22 17:09+0000\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Project-Id-Version: openvox-console\n"
+
+#: ../marketing/templates/pages/index.tmpl:81
+msgid "<code>docker compose up</code> brings up openvoxserver, openvoxdb, Postgres and the console together, so you can point a test agent at it and see your own nodes appear before committing to anything."
+msgstr "<code>docker compose up</code> startet openvoxserver, openvoxdb, Postgres und die Konsole gemeinsam, sodass Sie einen Testagenten darauf richten und Ihre eigenen Nodes erscheinen sehen können, bevor Sie sich festlegen."
+
+#: ../marketing/gen/main.go:58
+msgid "A Puppet Enterprise console equivalent for OpenVox: node inventory, classification, code deployment, orchestration, package and vulnerability tracking, and role-based access control - in a single Go binary."
+msgstr "Ein Puppet-Enterprise-Konsolenäquivalent für OpenVox: Node-Inventar, Klassifizierung, Code-Deployment, Orchestrierung, Paket- und Schwachstellenverfolgung sowie rollenbasierte Zugriffskontrolle – in einer einzigen Go-Binary."
+
+#: ../marketing/templates/pages/features/classification.tmpl:43
+msgid "A node that has never checked in has no facts yet, so no fact-based rule can match it. Pin it to a group directly if it needs classification before its first run."
+msgstr "Ein Node, der sich nie gemeldet hat, hat noch keine Facts, also kann keine Fact-basierte Regel auf ihn zutreffen. Heften Sie ihn direkt an eine Gruppe, wenn er vor seinem ersten Lauf klassifiziert werden muss."
+
+#: ../marketing/templates/pages/features/security.tmpl:45
+msgid "A node with no package inventory cannot be assessed, and the console says so rather than counting it as clean. \"Nothing known against it\" and \"never looked\" are different answers and appear differently."
+msgstr "Ein Node ohne Paketinventar kann nicht bewertet werden, und die Konsole sagt das, statt ihn als sauber zu zählen. „Nichts bekannt“ und „nie nachgesehen“ sind verschiedene Antworten und erscheinen auch verschieden."
+
+#: ../marketing/templates/pages/features/nodes.tmpl:46
+#~ msgid "A node's own page gathers its facts, its recent runs, the classes classification gave it, what it has installed and which vulnerabilities touch it &mdash; everything you want when one machine, rather than the fleet, is the question."
+#~ msgstr "Die Seite eines Nodes versammelt seine Facts, seine letzten Läufe, die Klassen, die ihm die Klassifizierung gegeben hat, was installiert ist und welche Schwachstellen ihn betreffen – alles, was Sie brauchen, wenn eine einzelne Maschine und nicht die Flotte die Frage ist."
+
+#: ../marketing/templates/pages/features/access-control.tmpl:12
+#~ msgid "A role is a named list of permissions &mdash; read nodes, deploy code, run orchestration, manage vulnerability providers. Give a person one role or several. They see the parts of the console their roles cover, and nothing else: no buttons that fail when clicked."
+#~ msgstr "Eine Rolle ist eine benannte Liste von Berechtigungen – Nodes lesen, Code deployen, Orchestrierung ausführen, Schwachstellenanbieter verwalten. Geben Sie einer Person eine Rolle oder mehrere. Sie sehen die Teile der Konsole, die ihre Rollen abdecken, und sonst nichts: keine Schaltflächen, die beim Klicken fehlschlagen."
+
+#: ../marketing/gen/main.go:98
+msgid "Access control"
+msgstr "Zugriffskontrolle"
+
+#: ../marketing/templates/pages/features/access-control.tmpl:2
+#: ../marketing/templates/pages/index.tmpl:56
+msgid "Access control and audit"
+msgstr "Zugriffskontrolle und Audit"
+
+#: ../marketing/gen/main.go:97
+msgid "Access control and audit - OpenVox Console"
+msgstr "Zugriffskontrolle und Audit – OpenVox Console"
+
+#: ../marketing/templates/pages/features/access-control.tmpl:42
+msgid "An audit trail that names names"
+msgstr "Ein Audit-Protokoll, das Namen nennt"
+
+#: ../marketing/templates/pages/features/security.tmpl:11
+msgid "Answer \"who still has the old one\""
+msgstr "Beantworten Sie „wer hat noch die alte Version“"
+
+#: ../marketing/templates/pages/features/classification.tmpl:12
+#~ msgid "Build a rule from facts &mdash; <code>os.family = Debian</code>, <code>role = web</code> &mdash; and the console tells you how many nodes it matches right now. A rule that catches nothing is obvious immediately, instead of at the next Puppet run."
+#~ msgstr "Bauen Sie eine Regel aus Facts – <code>os.family = Debian</code>, <code>role = web</code> – und die Konsole sagt Ihnen, wie viele Nodes sie gerade jetzt erfasst. Eine Regel, die nichts trifft, fällt sofort auf, statt erst beim nächsten Puppet-Lauf."
+
+#: ../marketing/templates/pages/features/orchestration.tmpl:35
+msgid "Built to keep up"
+msgstr "Gebaut, um mitzuhalten"
+
+#: ../marketing/templates/pages/features/access-control.tmpl:55
+msgid "Built to survive a lost laptop"
+msgstr "Gebaut, um einen verlorenen Laptop zu überstehen"
+
+#: ../marketing/templates/layout.html.tmpl:101
+#: ../marketing/templates/layout.html.tmpl:66
+msgid "Capabilities"
+msgstr "Funktionen"
+
+#: ../marketing/templates/pages/features/nodes.tmpl:33
+msgid "Certificate state sits alongside, and with CA access configured you can sign and revoke from the same page instead of finding a shell on the server."
+msgstr "Der Zertifikatsstatus steht daneben, und mit konfiguriertem CA-Zugriff können Sie von derselben Seite aus signieren und widerrufen, statt sich eine Shell auf dem Server zu suchen."
+
+#: ../marketing/gen/main.go:70
+#: ../marketing/templates/pages/features/classification.tmpl:2
+#: ../marketing/templates/pages/index.tmpl:36
+msgid "Classification"
+msgstr "Klassifizierung"
+
+#: ../marketing/gen/main.go:69
+msgid "Classification - OpenVox Console"
+msgstr "Klassifizierung – OpenVox Console"
+
+#: ../marketing/gen/main.go:77
+msgid "Code"
+msgstr "Code"
+
+#: ../marketing/templates/pages/features/code.tmpl:2
+#: ../marketing/templates/pages/index.tmpl:41
+msgid "Code deployment"
+msgstr "Code-Deployment"
+
+#: ../marketing/gen/main.go:76
+msgid "Code deployment - OpenVox Console"
+msgstr "Code-Deployment – OpenVox Console"
+
+#: ../marketing/templates/layout.html.tmpl:91
+msgid "Container images"
+msgstr "Container-Images"
+
+#: ../marketing/templates/pages/features/security.tmpl:44
+msgid "Coverage is reported, not assumed"
+msgstr "Abdeckung wird gemeldet, nicht angenommen"
+
+#: ../marketing/gen/main.go:71
+msgid "Decide what configuration applies to which nodes with rule-based node groups, served to OpenVox over the standard ENC contract."
+msgstr "Entscheiden Sie mit regelbasierten Node-Gruppen, welche Konfiguration für welche Nodes gilt – an OpenVox ausgeliefert über den Standard-ENC-Vertrag."
+
+#: ../marketing/templates/pages/features/classification.tmpl:2
+msgid "Decide what runs where"
+msgstr "Entscheiden Sie, was wo läuft"
+
+#: ../marketing/gen/main.go:78
+msgid "Deploy Puppet code from one or many control repositories, with a record of every deploy."
+msgstr "Deployen Sie Puppet-Code aus einem oder vielen Control-Repositorys, mit einem Protokoll jedes Deploys."
+
+#: ../marketing/templates/pages/features/code.tmpl:3
+msgid "Deploy environments from a control repository with g10k, built in. On demand or straight from a push, with a record of every deploy."
+msgstr "Deployen Sie Environments aus einem Control-Repository mit eingebautem g10k. Auf Abruf oder direkt aus einem Push, mit einem Protokoll jedes Deploys."
+
+#: ../marketing/templates/pages/features/orchestration.tmpl:30
+msgid "Dispatched"
+msgstr "Versendet"
+
+#: ../marketing/templates/pages/features/security.tmpl:34
+msgid "Each finding carries the installed version, the fixed version where there is one, and whether a fix exists at all. That last one is the difference between work you can schedule and work you cannot."
+msgstr "Jeder Befund führt die installierte Version mit, die behobene Version – sofern es eine gibt – und ob überhaupt eine Behebung existiert. Letzteres ist der Unterschied zwischen Arbeit, die Sie planen können, und Arbeit, die Sie nicht planen können."
+
+#: ../marketing/templates/pages/features/code.tmpl:43
+msgid "Each repository gets its own webhook and its own secret, so a secret that leaks from one cannot be used to deploy another."
+msgstr "Jedes Repository erhält seinen eigenen Webhook und sein eigenes Secret, sodass ein Secret, das aus einem entweicht, nicht zum Deployen eines anderen verwendet werden kann."
+
+#: ../marketing/templates/pages/features/code.tmpl:30
+msgid "Every deploy leaves a trail"
+msgstr "Jedes Deploy hinterlässt eine Spur"
+
+#: ../marketing/templates/pages/features/access-control.tmpl:44
+msgid "Every entry records who did it and when, so \"who changed this group\" is a question with an answer. Work done by a scheduled task or by the console itself is shown as exactly that, rather than being pinned on a placeholder account."
+msgstr "Jeder Eintrag hält fest, wer es getan hat und wann, sodass „wer hat diese Gruppe geändert“ eine Frage mit einer Antwort ist. Arbeit einer geplanten Aufgabe oder der Konsole selbst wird genau als solche ausgewiesen, statt einem Platzhalterkonto angelastet zu werden."
+
+#: ../marketing/templates/pages/features/nodes.tmpl:2
+msgid "Every node, and what it actually did"
+msgstr "Jeder Node, und was er tatsächlich getan hat"
+
+#: ../marketing/templates/pages/index.tmpl:33
+msgid "Every node, what it last reported, whether it is reachable, and the state of its certificate."
+msgstr "Jeder Node, was er zuletzt gemeldet hat, ob er erreichbar ist und der Zustand seines Zertifikats."
+
+#: ../marketing/templates/pages/features/security.tmpl:3
+#~ msgid "Every package across the fleet, and the published advisories that affect it &mdash; checked against what your nodes actually report, not what they were meant to have."
+#~ msgstr "Jedes Paket in der gesamten Flotte und die veröffentlichten Advisories, die es betreffen – geprüft gegen das, was Ihre Nodes tatsächlich melden, nicht gegen das, was sie haben sollten."
+
+#: ../marketing/templates/pages/index.tmpl:23
+msgid "Every page below shows the console itself, captured from a running instance."
+msgstr "Jede Seite unten zeigt die Konsole selbst, aufgenommen von einer laufenden Instanz."
+
+#: ../marketing/templates/pages/features/nodes.tmpl:58
+msgid "Every resource event a run produced is here, with the old and new value for each change and the manifest and line that caused it. It is what the agent sent, not a summary of it."
+msgstr "Jedes Resource-Event, das ein Lauf erzeugt hat, steht hier, mit altem und neuem Wert für jede Änderung sowie dem Manifest und der Zeile, die sie verursacht hat. Es ist, was der Agent gesendet hat, nicht eine Zusammenfassung davon."
+
+#: ../marketing/templates/pages/features/orchestration.tmpl:12
+msgid "Every target is recorded on its own: status, exit code and output. A job that worked on nine nodes and failed on one says exactly that, instead of collapsing to a single verdict you then have to go and investigate."
+msgstr "Jedes Ziel wird einzeln festgehalten: Status, Exit-Code und Ausgabe. Ein Job, der auf neun Nodes funktioniert hat und auf einem fehlgeschlagen ist, sagt genau das, statt auf ein einziges Urteil zusammenzufallen, dem Sie dann nachgehen müssen."
+
+#: ../marketing/templates/pages/features/access-control.tmpl:34
+msgid "Everything else"
+msgstr "Alles Übrige"
+
+#: ../marketing/templates/pages/features/nodes.tmpl:28
+#~ msgid "Filter by name, or by anything your agents report &mdash; operating system, kernel, architecture, a custom fact of your own. Answers come from openvoxdb as it stands right now, not from a cache."
+#~ msgstr "Filtern Sie nach Namen oder nach allem, was Ihre Agenten melden – Betriebssystem, Kernel, Architektur, ein eigener Fact. Die Antworten kommen aus openvoxdb, so wie es jetzt gerade ist, nicht aus einem Cache."
+
+#: ../marketing/templates/pages/features/security.tmpl:25
+msgid "Findings, merged across sources"
+msgstr "Befunde, quellenübergreifend zusammengeführt"
+
+#: ../marketing/templates/pages/index.tmpl:9
+msgid "Get it on GitHub"
+msgstr "Auf GitHub holen"
+
+#: ../marketing/templates/pages/features/access-control.tmpl:3
+msgid "Give people exactly the access they need, give your automation its own credentials, and keep a record of every change."
+msgstr "Geben Sie Personen genau den Zugriff, den sie brauchen, geben Sie Ihrer Automatisierung eigene Zugangsdaten, und halten Sie jede Änderung fest."
+
+#: ../marketing/templates/pages/features/classification.tmpl:10
+msgid "Groups that match real nodes"
+msgstr "Gruppen, die echte Nodes treffen"
+
+#: ../marketing/templates/pages/index.tmpl:70
+#~ msgid "It sits on top of the stack you already have. openvox-server still compiles catalogs and runs the CA; openvoxdb still stores facts and reports. Your agents carry on talking to exactly what they talk to now &mdash; the console serves the standard ENC contract, so there is nothing to change on the node side."
+#~ msgstr "Sie setzt auf dem Stack auf, den Sie bereits haben. openvox-server kompiliert weiterhin Kataloge und betreibt die CA; openvoxdb speichert weiterhin Facts und Reports. Ihre Agenten sprechen weiter genau mit dem, womit sie jetzt sprechen – die Konsole bedient den Standard-ENC-Vertrag, es gibt also auf Node-Seite nichts zu ändern."
+
+#: ../marketing/templates/pages/features/orchestration.tmpl:32
+msgid "Job completed"
+msgstr "Job abgeschlossen"
+
+#: ../marketing/templates/pages/features/orchestration.tmpl:29
+msgid "Job created"
+msgstr "Job erstellt"
+
+#: ../marketing/gen/main.go:92
+msgid "Know what is installed across the fleet and which known vulnerabilities affect it."
+msgstr "Wissen Sie, was in der Flotte installiert ist und welche bekannten Schwachstellen es betreffen."
+
+#: ../marketing/templates/pages/features/security.tmpl:2
+msgid "Know what you are running"
+msgstr "Wissen, was Sie betreiben"
+
+#: ../marketing/templates/layout.html.tmpl:109
+#: ../marketing/templates/layout.html.tmpl:56
+msgid "Language"
+msgstr "Sprache"
+
+#: ../marketing/templates/layout.html.tmpl:119
+msgid "Licensed GPL-3.0"
+msgstr "Lizenziert unter GPL-3.0"
+
+#: ../marketing/templates/pages/features/access-control.tmpl:29
+msgid "Machines"
+msgstr "Maschinen"
+
+#: ../marketing/templates/pages/features/classification.tmpl:3
+msgid "Node groups match on the facts your nodes already report and hand openvox-server the answer over the ENC contract it expects."
+msgstr "Node-Gruppen treffen anhand der Facts, die Ihre Nodes ohnehin melden, und übergeben openvox-server die Antwort über den erwarteten ENC-Vertrag."
+
+#: ../marketing/gen/main.go:63
+msgid "Nodes"
+msgstr "Nodes"
+
+#: ../marketing/templates/pages/features/nodes.tmpl:2
+#: ../marketing/templates/pages/index.tmpl:31
+msgid "Nodes and inventory"
+msgstr "Nodes und Inventar"
+
+#: ../marketing/gen/main.go:62
+msgid "Nodes and inventory - OpenVox Console"
+msgstr "Nodes und Inventar – OpenVox Console"
+
+#: ../marketing/templates/pages/index.tmpl:63
+msgid "One binary to run"
+msgstr "Eine Binary zum Betreiben"
+
+#: ../marketing/templates/pages/features/code.tmpl:10
+msgid "One control repository, or one per team"
+msgstr "Ein Control-Repository oder eines pro Team"
+
+#: ../marketing/templates/pages/features/nodes.tmpl:44
+msgid "One node in full"
+msgstr "Ein Node im Detail"
+
+#: ../marketing/gen/main.go:57
+#: ../marketing/templates/pages/index.tmpl:2
+msgid "OpenVox Console"
+msgstr "OpenVox Console"
+
+#: ../marketing/templates/layout.html.tmpl:83
+msgid "OpenVox Console ships as two container images, built for amd64 and arm64 on every push. <code>SETUP.md</code> walks through a real deployment - openvoxserver, openvoxdb, Postgres and the console - with both container and package instructions."
+msgstr "OpenVox Console wird als zwei Container-Images ausgeliefert, bei jedem Push für amd64 und arm64 gebaut. <code>SETUP.md</code> führt durch ein echtes Deployment – openvoxserver, openvoxdb, Postgres und die Konsole – mit Anleitungen für Container und Pakete."
+
+#: ../marketing/gen/main.go:84
+#: ../marketing/templates/pages/features/orchestration.tmpl:2
+#: ../marketing/templates/pages/index.tmpl:46
+msgid "Orchestration"
+msgstr "Orchestrierung"
+
+#: ../marketing/gen/main.go:83
+msgid "Orchestration - OpenVox Console"
+msgstr "Orchestrierung – OpenVox Console"
+
+#: ../marketing/templates/pages/features/orchestration.tmpl:36
+msgid "Orchestration runs over NATS, so reaching a large fleet is a matter of adding capacity rather than reworking how messages are routed."
+msgstr "Die Orchestrierung läuft über NATS, sodass das Erreichen einer großen Flotte eine Frage zusätzlicher Kapazität ist und nicht des Umbaus der Nachrichtenwege."
+
+#: ../marketing/templates/layout.html.tmpl:97
+msgid "Overview"
+msgstr "Überblick"
+
+#: ../marketing/templates/pages/features/security.tmpl:2
+#: ../marketing/templates/pages/index.tmpl:51
+msgid "Packages and vulnerabilities"
+msgstr "Pakete und Schwachstellen"
+
+#: ../marketing/gen/main.go:90
+msgid "Packages and vulnerabilities - OpenVox Console"
+msgstr "Pakete und Schwachstellen – OpenVox Console"
+
+#: ../marketing/templates/pages/features/access-control.tmpl:24
+msgid "People"
+msgstr "Personen"
+
+#: ../marketing/templates/pages/features/security.tmpl:27
+#~ msgid "Point the console at the advisory sources you trust. Findings merge per vulnerability, the highest severity wins, and the page names every source reporting it &mdash; so two sources disagreeing is something you can see rather than something resolved behind your back."
+#~ msgstr "Richten Sie die Konsole auf die Advisory-Quellen, denen Sie vertrauen. Befunde werden je Schwachstelle zusammengeführt, die höchste Schwere gewinnt, und die Seite nennt jede meldende Quelle – zwei Quellen, die sich widersprechen, sehen Sie also, statt dass es hinter Ihrem Rücken aufgelöst wird."
+
+#: ../marketing/templates/pages/features/classification.tmpl:24
+msgid "Precedence you can read off the page"
+msgstr "Vorrang, den Sie von der Seite ablesen können"
+
+#: ../marketing/templates/pages/features/nodes.tmpl:57
+msgid "Reports keep their detail"
+msgstr "Reports behalten ihre Details"
+
+#: ../marketing/templates/pages/features/orchestration.tmpl:31
+msgid "Results arrive"
+msgstr "Ergebnisse treffen ein"
+
+#: ../marketing/templates/pages/features/orchestration.tmpl:10
+msgid "Results per node, not per job"
+msgstr "Ergebnisse je Node, nicht je Job"
+
+#: ../marketing/gen/main.go:99
+msgid "Role-based access control, service tokens, and an audit trail of who changed what."
+msgstr "Rollenbasierte Zugriffskontrolle, Service-Token und ein Audit-Protokoll darüber, wer was geändert hat."
+
+#: ../marketing/templates/pages/features/access-control.tmpl:10
+msgid "Roles are permission sets"
+msgstr "Rollen sind Berechtigungssätze"
+
+#: ../marketing/templates/pages/index.tmpl:58
+msgid "Roles, service tokens, and a record of who changed what."
+msgstr "Rollen, Service-Token und ein Protokoll darüber, wer was geändert hat."
+
+#: ../marketing/templates/pages/index.tmpl:38
+msgid "Rule-based node groups that decide what configuration applies where."
+msgstr "Regelbasierte Node-Gruppen, die entscheiden, welche Konfiguration wo gilt."
+
+#: ../marketing/templates/pages/features/classification.tmpl:42
+msgid "Rules match on reported facts"
+msgstr "Regeln treffen anhand gemeldeter Facts"
+
+#: ../marketing/templates/pages/index.tmpl:48
+msgid "Run Puppet, tasks and plans across the fleet, and see what each node did."
+msgstr "Führen Sie Puppet, Tasks und Plans in der gesamten Flotte aus und sehen Sie, was jeder Node getan hat."
+
+#: ../marketing/gen/main.go:85
+msgid "Run Puppet, tasks and plans on demand across the fleet, and see what each node did."
+msgstr "Führen Sie Puppet, Tasks und Plans auf Abruf in der gesamten Flotte aus und sehen Sie, was jeder Node getan hat."
+
+#: ../marketing/templates/pages/features/orchestration.tmpl:2
+msgid "Run it now, everywhere"
+msgstr "Jetzt ausführen, überall"
+
+#: ../marketing/templates/layout.html.tmpl:82
+msgid "Run it yourself"
+msgstr "Selbst ausführen"
+
+#: ../marketing/templates/pages/features/nodes.tmpl:13
+msgid "Runs are grouped the way you would triage them: what failed, what changed on purpose, what corrected drift, and what was already as you asked. Reachability is tracked separately, because a node that has gone quiet and a node that reported a failure are different problems with different fixes."
+msgstr "Läufe sind so gruppiert, wie Sie sie triagieren würden: was fehlgeschlagen ist, was sich absichtlich geändert hat, was Drift korrigiert hat und was bereits so war, wie Sie es wollten. Erreichbarkeit wird getrennt verfolgt, denn ein Node, der verstummt ist, und ein Node, der einen Fehler gemeldet hat, sind verschiedene Probleme mit verschiedenen Lösungen."
+
+#: ../marketing/templates/layout.html.tmpl:120
+msgid "Screenshots are of the console running against a synthetic demo fleet."
+msgstr "Die Screenshots zeigen die Konsole im Betrieb gegen eine synthetische Demo-Flotte."
+
+#: ../marketing/templates/pages/features/security.tmpl:13
+msgid "Search by package, version or provider and see which nodes carry what, without logging into any of them. Collection is opt-in per node and the console can switch it on remotely, so you are not forced to collect everywhere to have it somewhere."
+msgstr "Suchen Sie nach Paket, Version oder Anbieter und sehen Sie, welche Nodes was tragen, ohne sich auf einem davon anzumelden. Die Erfassung ist je Node zuschaltbar und die Konsole kann sie aus der Ferne einschalten – Sie müssen also nicht überall erfassen, um es irgendwo zu haben."
+
+#: ../marketing/templates/pages/features/nodes.tmpl:26
+msgid "Search the fleet by any fact"
+msgstr "Die Flotte nach jedem Fact durchsuchen"
+
+#: ../marketing/gen/main.go:91
+msgid "Security"
+msgstr "Sicherheit"
+
+#: ../marketing/gen/main.go:64
+msgid "See every managed node, what it reported, whether it is reachable and the state of its certificate."
+msgstr "Sehen Sie jeden verwalteten Node, was er gemeldet hat, ob er erreichbar ist und den Zustand seines Zertifikats."
+
+#: ../marketing/templates/pages/index.tmpl:3
+#~ msgid "See every node, decide what runs where, deploy your code, and act on what comes back. A Puppet Enterprise console for OpenVox &mdash; one Go binary, on top of the openvox-server and openvoxdb you already run."
+#~ msgstr "Sehen Sie jeden Node, entscheiden Sie, was wo läuft, deployen Sie Ihren Code und handeln Sie nach dem, was zurückkommt. Eine Puppet-Enterprise-Konsole für OpenVox – eine Go-Binary, aufgesetzt auf openvox-server und openvoxdb, die Sie bereits betreiben."
+
+#: ../marketing/templates/pages/index.tmpl:8
+msgid "See what it does"
+msgstr "Sehen, was sie kann"
+
+#: ../marketing/templates/pages/features/access-control.tmpl:56
+msgid "Sessions are short-lived and refresh in the background, so a token that leaks stops working on its own. When you need someone out immediately, revoking their session takes effect across every console instance at once rather than waiting for it to expire."
+msgstr "Sitzungen sind kurzlebig und erneuern sich im Hintergrund, sodass ein entwichenes Token von selbst aufhört zu funktionieren. Wenn jemand sofort hinaus muss, wirkt das Widerrufen seiner Sitzung auf allen Konsoleninstanzen zugleich, statt auf den Ablauf zu warten."
+
+#: ../marketing/templates/layout.html.tmpl:89
+#: ../marketing/templates/layout.html.tmpl:99
+msgid "Setup guide"
+msgstr "Einrichtungsanleitung"
+
+#: ../marketing/templates/pages/index.tmpl:43
+msgid "Ship Puppet code from one control repository or many, on demand or by webhook."
+msgstr "Liefern Sie Puppet-Code aus einem oder vielen Control-Repositorys aus, auf Abruf oder per Webhook."
+
+#: ../marketing/templates/pages/features/code.tmpl:2
+msgid "Ship your Puppet code"
+msgstr "Liefern Sie Ihren Puppet-Code aus"
+
+#: ../marketing/templates/layout.html.tmpl:39
+msgid "Skip to content"
+msgstr "Zum Inhalt springen"
+
+#: ../marketing/templates/layout.html.tmpl:98
+msgid "Source"
+msgstr "Quellcode"
+
+#: ../marketing/templates/layout.html.tmpl:90
+msgid "Source on GitHub"
+msgstr "Quellcode auf GitHub"
+
+#: ../marketing/templates/pages/features/nodes.tmpl:11
+msgid "Start with what needs attention"
+msgstr "Beginnen Sie mit dem, was Aufmerksamkeit braucht"
+
+#: ../marketing/templates/pages/features/code.tmpl:12
+msgid "Teams that keep their own control repository no longer have to share one. Add each as a source, and give the ones that need it a prefix so two repositories with a <code>production</code> branch land in separate environments instead of overwriting each other."
+msgstr "Teams, die ihr eigenes Control-Repository pflegen, müssen sich keines mehr teilen. Fügen Sie jedes als Quelle hinzu und geben Sie denen, die es brauchen, ein Präfix, damit zwei Repositorys mit einem <code>production</code>-Branch in getrennten Environments landen, statt einander zu überschreiben."
+
+#: ../marketing/templates/pages/features/nodes.tmpl:3
+#~ msgid "The console reads openvoxdb directly, so what you see is what your agents reported &mdash; nothing to sync, and nothing to change on the node side."
+#~ msgstr "Die Konsole liest openvoxdb direkt, das Gezeigte ist also das, was Ihre Agenten gemeldet haben – nichts zu synchronisieren und nichts auf Node-Seite zu ändern."
+
+#: ../marketing/templates/pages/index.tmpl:65
+msgid "The console, access control, classification, orchestration and code deployment are one process. There is nothing to wire together, no internal services to keep in step, and one thing to upgrade."
+msgstr "Konsole, Zugriffskontrolle, Klassifizierung, Orchestrierung und Code-Deployment sind ein Prozess. Es gibt nichts zusammenzustecken, keine internen Dienste, die im Gleichschritt bleiben müssen, und eine Sache zum Aktualisieren."
+
+#: ../marketing/templates/pages/features/orchestration.tmpl:3
+msgid "Trigger Puppet runs, tasks and plans against the nodes you pick, and watch the results come back one node at a time."
+msgstr "Stoßen Sie Puppet-Läufe, Tasks und Plans auf den Nodes an, die Sie auswählen, und sehen Sie zu, wie die Ergebnisse Node für Node zurückkommen."
+
+#: ../marketing/templates/pages/index.tmpl:80
+msgid "Try it on a throwaway stack first"
+msgstr "Probieren Sie es zuerst auf einem Wegwerf-Stack"
+
+#: ../marketing/templates/pages/features/code.tmpl:42
+msgid "Webhooks are per source"
+msgstr "Webhooks sind je Quelle"
+
+#: ../marketing/templates/pages/index.tmpl:53
+msgid "What is installed everywhere, and which advisories affect it."
+msgstr "Was überall installiert ist und welche Advisories es betreffen."
+
+#: ../marketing/templates/pages/index.tmpl:21
+msgid "What it does"
+msgstr "Was sie kann"
+
+#: ../marketing/templates/pages/features/classification.tmpl:26
+msgid "When several groups apply to a node, one number decides which wins. Groups are flat and each carries an explicit priority, so working out why a node got a class means reading a list, not tracing an inheritance tree."
+msgstr "Wenn mehrere Gruppen auf einen Node zutreffen, entscheidet eine Zahl, welche gewinnt. Gruppen sind flach und jede trägt eine ausdrückliche Priorität – herauszufinden, warum ein Node eine Klasse bekam, heißt also eine Liste zu lesen, nicht einen Vererbungsbaum zu verfolgen."
+
+#: ../marketing/templates/pages/features/orchestration.tmpl:18
+#~ msgid "Where a job caused a Puppet run, its result links straight to the report that run produced &mdash; so \"what did this actually change\" is one click away."
+#~ msgstr "Wo ein Job einen Puppet-Lauf ausgelöst hat, verweist sein Ergebnis direkt auf den Report, den dieser Lauf erzeugt hat – „was hat das tatsächlich geändert“ ist also einen Klick entfernt."
+
+#: ../marketing/templates/pages/features/access-control.tmpl:2
+msgid "Who can do what, and who did what"
+msgstr "Wer was darf, und wer was getan hat"
+
+#: ../marketing/templates/pages/features/code.tmpl:32
+msgid "Who triggered it, which source and ref, which environment it wrote, and whether it worked. A deploy that failed keeps its error instead of quietly vanishing from the list."
+msgstr "Wer es ausgelöst hat, welche Quelle und welcher Ref, welches Environment geschrieben wurde und ob es funktioniert hat. Ein fehlgeschlagenes Deploy behält seinen Fehler, statt still aus der Liste zu verschwinden."
+
+#: ../marketing/templates/pages/index.tmpl:2
+msgid "Your whole fleet, in one place"
+msgstr "Ihre gesamte Flotte, an einem Ort"
+
+#: ../marketing/templates/pages/index.tmpl:16
+msgid "architectures, built on every push"
+msgstr "Architekturen, bei jedem Push gebaut"
+
+#: ../marketing/templates/pages/index.tmpl:15
+msgid "binary to deploy"
+msgstr "Binary zum Ausliefern"
+
+#: ../marketing/templates/pages/index.tmpl:17
+msgid "free and open source"
+msgstr "frei und quelloffen"
+
+#: ../marketing/templates/pages/features/nodes.tmpl:46
+msgid "A node's own page gathers its facts, its recent runs, the classes classification gave it, what it has installed and which vulnerabilities touch it — everything you want when one machine, rather than the fleet, is the question."
+msgstr "Die Seite eines Nodes versammelt seine Facts, seine letzten Läufe, die Klassen, die ihm die Klassifizierung gegeben hat, was installiert ist und welche Schwachstellen ihn betreffen – alles, was Sie brauchen, wenn eine einzelne Maschine und nicht die Flotte die Frage ist."
+
+#: ../marketing/templates/pages/features/access-control.tmpl:12
+msgid "A role is a named list of permissions — read nodes, deploy code, run orchestration, manage vulnerability providers. Give a person one role or several. They see the parts of the console their roles cover, and nothing else: no buttons that fail when clicked."
+msgstr "Eine Rolle ist eine benannte Liste von Berechtigungen – Nodes lesen, Code deployen, Orchestrierung ausführen, Schwachstellenanbieter verwalten. Geben Sie einer Person eine Rolle oder mehrere. Sie sehen die Teile der Konsole, die ihre Rollen abdecken, und sonst nichts: keine Schaltflächen, die beim Klicken fehlschlagen."
+
+#: ../marketing/templates/pages/features/classification.tmpl:12
+msgid "Build a rule from facts — <code>os.family = Debian</code>, <code>role = web</code> — and the console tells you how many nodes it matches right now. A rule that catches nothing is obvious immediately, instead of at the next Puppet run."
+msgstr "Bauen Sie eine Regel aus Facts – <code>os.family = Debian</code>, <code>role = web</code> – und die Konsole sagt Ihnen, wie viele Nodes sie gerade jetzt erfasst. Eine Regel, die nichts trifft, fällt sofort auf, statt erst beim nächsten Puppet-Lauf."
+
+#: ../marketing/templates/pages/features/security.tmpl:3
+msgid "Every package across the fleet, and the published advisories that affect it — checked against what your nodes actually report, not what they were meant to have."
+msgstr "Jedes Paket in der gesamten Flotte und die veröffentlichten Advisories, die es betreffen – geprüft gegen das, was Ihre Nodes tatsächlich melden, nicht gegen das, was sie haben sollten."
+
+#: ../marketing/templates/pages/features/nodes.tmpl:28
+msgid "Filter by name, or by anything your agents report — operating system, kernel, architecture, a custom fact of your own. Answers come from openvoxdb as it stands right now, not from a cache."
+msgstr "Filtern Sie nach Namen oder nach allem, was Ihre Agenten melden – Betriebssystem, Kernel, Architektur, ein eigener Fact. Die Antworten kommen aus openvoxdb, so wie es jetzt gerade ist, nicht aus einem Cache."
+
+#: ../marketing/templates/pages/index.tmpl:70
+msgid "It sits on top of the stack you already have. openvox-server still compiles catalogs and runs the CA; openvoxdb still stores facts and reports. Your agents carry on talking to exactly what they talk to now — the console serves the standard ENC contract, so there is nothing to change on the node side."
+msgstr "Sie setzt auf dem Stack auf, den Sie bereits haben. openvox-server kompiliert weiterhin Kataloge und betreibt die CA; openvoxdb speichert weiterhin Facts und Reports. Ihre Agenten sprechen weiter genau mit dem, womit sie jetzt sprechen – die Konsole bedient den Standard-ENC-Vertrag, es gibt also auf Node-Seite nichts zu ändern."
+
+#: ../marketing/templates/pages/features/security.tmpl:27
+msgid "Point the console at the advisory sources you trust. Findings merge per vulnerability, the highest severity wins, and the page names every source reporting it — so two sources disagreeing is something you can see rather than something resolved behind your back."
+msgstr "Richten Sie die Konsole auf die Advisory-Quellen, denen Sie vertrauen. Befunde werden je Schwachstelle zusammengeführt, die höchste Schwere gewinnt, und die Seite nennt jede meldende Quelle – zwei Quellen, die sich widersprechen, sehen Sie also, statt dass es hinter Ihrem Rücken aufgelöst wird."
+
+#: ../marketing/templates/pages/index.tmpl:3
+msgid "See every node, decide what runs where, deploy your code, and act on what comes back. A Puppet Enterprise console for OpenVox — one Go binary, on top of the openvox-server and openvoxdb you already run."
+msgstr "Sehen Sie jeden Node, entscheiden Sie, was wo läuft, deployen Sie Ihren Code und handeln Sie nach dem, was zurückkommt. Eine Puppet-Enterprise-Konsole für OpenVox – eine Go-Binary, aufgesetzt auf openvox-server und openvoxdb, die Sie bereits betreiben."
+
+#: ../marketing/templates/pages/features/nodes.tmpl:3
+msgid "The console reads openvoxdb directly, so what you see is what your agents reported — nothing to sync, and nothing to change on the node side."
+msgstr "Die Konsole liest openvoxdb direkt, das Gezeigte ist also das, was Ihre Agenten gemeldet haben – nichts zu synchronisieren und nichts auf Node-Seite zu ändern."
+
+#: ../marketing/templates/pages/features/orchestration.tmpl:18
+msgid "Where a job caused a Puppet run, its result links straight to the report that run produced — so \"what did this actually change\" is one click away."
+msgstr "Wo ein Job einen Puppet-Lauf ausgelöst hat, verweist sein Ergebnis direkt auf den Report, den dieser Lauf erzeugt hat – „was hat das tatsächlich geändert“ ist also einen Klick entfernt."

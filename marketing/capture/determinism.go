@@ -19,7 +19,7 @@ import (
 //     other theme briefly and a screenshot can catch it.
 //   - Date must be replaced before any script reads it, since the
 //     console formats timestamps as the page renders.
-func initScript(theme shots.Theme, tokens tokenPair) string {
+func initScript(theme shots.Theme, tokens tokenPair, locale string) string {
 	return fmt.Sprintf(`
 (() => {
   // --- session -------------------------------------------------
@@ -29,6 +29,24 @@ func initScript(theme shots.Theme, tokens tokenPair) string {
   try {
     localStorage.setItem('console.accessToken', %q);
     localStorage.setItem('console.refreshToken', %q);
+  } catch (e) {}
+
+  // --- language ------------------------------------------------
+  // The same key the console's preferences page writes. Set before the
+  // page's own scripts run, because app.js reads it at module scope and
+  // awaits the catalogue before anything renders - a language chosen
+  // after that point would need a reload to take effect.
+  //
+  // Removed rather than set to "en" for English: the absence of the key
+  // is what makes the console follow the browser, and an explicit "en"
+  // would capture a subtly different code path from the one a visitor
+  // with no stored preference takes.
+  try {
+    if (%q === "en") {
+      localStorage.removeItem('console.language');
+    } else {
+      localStorage.setItem('console.language', %q);
+    }
   } catch (e) {}
 
   // --- theme ---------------------------------------------------
@@ -59,7 +77,7 @@ func initScript(theme shots.Theme, tokens tokenPair) string {
   Object.defineProperty(FrozenDate, 'name', { value: 'Date' });
   window.Date = FrozenDate;
 })()
-`, tokens.AccessToken, tokens.RefreshToken, theme, theme, demodata.InstantMillis())
+`, tokens.AccessToken, tokens.RefreshToken, locale, locale, theme, theme, demodata.InstantMillis())
 }
 
 // stillnessCSS removes every source of motion and of per-frame

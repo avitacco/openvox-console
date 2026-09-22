@@ -98,7 +98,7 @@ msgstr "모든 사용자"
 msgid "Applies to this browser only. Without a choice here, the console follows your browser's language."
 msgstr "이 브라우저에만 적용됩니다. 여기서 선택하지 않으면 콘솔은 브라우저 언어를 따릅니다."
 
-#: src/app.js:355
+#: src/app.js:367
 #: src/vulnerability-providers.js:157
 msgid "Cancel"
 msgstr "취소"
@@ -185,7 +185,7 @@ msgstr "사용자 생성"
 msgid "Created"
 msgstr "생성일"
 
-#: src/app.js:602
+#: src/app.js:614
 #: templates/pages/vulnerabilities.tmpl:13
 msgid "Critical"
 msgstr "심각"
@@ -368,7 +368,7 @@ msgstr "그룹"
 msgid "Groups"
 msgstr "그룹"
 
-#: src/app.js:603
+#: src/app.js:615
 #: templates/pages/vulnerabilities.tmpl:14
 msgid "High"
 msgstr "높음"
@@ -401,7 +401,7 @@ msgstr "종류"
 msgid "Language"
 msgstr "언어"
 
-#: src/index.js:246
+#: src/index.js:249
 msgid "Last check-in"
 msgstr "마지막 체크인"
 
@@ -433,7 +433,7 @@ msgstr "SSO로 로그인"
 msgid "Log out"
 msgstr "로그아웃"
 
-#: src/app.js:605
+#: src/app.js:617
 #: templates/pages/vulnerabilities.tmpl:16
 msgid "Low"
 msgstr "낮음"
@@ -455,7 +455,7 @@ msgstr "일치"
 msgid "Matching nodes"
 msgstr "일치하는 Nodes"
 
-#: src/app.js:604
+#: src/app.js:616
 #: templates/pages/vulnerabilities.tmpl:15
 msgid "Medium"
 msgstr "보통"
@@ -566,7 +566,7 @@ msgstr "아직 Node 그룹이 없습니다"
 msgid "No nodes currently match this group"
 msgstr "현재 이 그룹과 일치하는 Node가 없습니다"
 
-#: src/index.js:220
+#: src/index.js:223
 #: src/nodes.js:225
 msgid "No nodes found"
 msgstr "Node를 찾을 수 없습니다"
@@ -619,8 +619,8 @@ msgstr "아직 사용자가 없습니다"
 msgid "No vulnerability providers"
 msgstr "취약점 공급자가 없습니다"
 
-#: src/index.js:193
-#: src/index.js:246
+#: src/index.js:196
+#: src/index.js:249
 #: src/job.js:53
 #: src/nodes.js:249
 #: src/packages.js:146
@@ -723,7 +723,7 @@ msgstr "패키지 이름"
 msgid "Packages"
 msgstr "패키지"
 
-#: src/app.js:526
+#: src/app.js:538
 msgid "Pagination"
 msgstr "페이지 나누기"
 
@@ -941,8 +941,8 @@ msgid "Signed"
 msgstr "서명됨"
 
 #: templates/pages/oidc-callback.tmpl:3
-msgid "Signing in&hellip;"
-msgstr "로그인 중&hellip;"
+#~ msgid "Signing in&hellip;"
+#~ msgstr "로그인 중&hellip;"
 
 #: src/i18n.js:170
 #: templates/pages/report.tmpl:16
@@ -969,7 +969,7 @@ msgid "Started"
 msgstr "시작"
 
 #: src/deploys.js:57
-#: src/index.js:246
+#: src/index.js:249
 #: src/job.js:53
 #: src/jobs.js:54
 #: src/node.js:469
@@ -1042,7 +1042,7 @@ msgstr "유형"
 msgid "Unchanged"
 msgstr "변경 없음"
 
-#: src/app.js:606
+#: src/app.js:618
 #: src/i18n.js:177
 #: templates/pages/nodes.tmpl:22
 #: templates/pages/vulnerabilities.tmpl:17
@@ -1296,8 +1296,8 @@ msgstr "{reporting}개 Node가 해당 Environments에서 보고하지만 그곳�
 msgid "Puppet environment matching nodes compile against. Blank means this group doesn't set one."
 msgstr "일치하는 Nodes가 컴파일할 대상 Puppet Environment입니다. 비워 두면 이 그룹은 설정하지 않습니다."
 
-#: src/app.js:471
 #: src/app.js:483
+#: src/app.js:495
 msgid ", +{count} more"
 msgid_plural ", +{count} more"
 msgstr[0] ", +{count}개 더"
@@ -1349,3 +1349,7 @@ msgstr "사용자"
 #: src/vulnerability-providers.js:60
 msgid "{minutes} min"
 msgstr "{minutes}분"
+
+#: templates/pages/oidc-callback.tmpl:3
+msgid "Signing in…"
+msgstr "로그인 중&hellip;"

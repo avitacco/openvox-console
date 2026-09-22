@@ -1,6 +1,6 @@
 {{define "content"}}
-<vox-hero eyebrow="Packages and vulnerabilities" heading="Know what you are running">
-  <p>
+<vox-hero eyebrow="Packages and vulnerabilities" heading="Know what you are running" data-i18n-attr="heading,eyebrow">
+  <p data-i18n>
     Every package across the fleet, and the published advisories that
     affect it &mdash; checked against what your nodes actually report, not
     what they were meant to have.
@@ -8,9 +8,9 @@
 </vox-hero>
 
 <section class="site-section">
-  <h2 class="vox-ts-xxl">Answer "who still has the old one"</h2>
+  <h2 class="vox-ts-xxl" data-i18n>Answer "who still has the old one"</h2>
   <div class="vox-prose">
-    <p>
+    <p data-i18n>
       Search by package, version or provider and see which nodes carry
       what, without logging into any of them. Collection is opt-in per
       node and the console can switch it on remotely, so you are not
@@ -22,16 +22,16 @@
 {{screenshot "packages"}}
 
 <section class="site-section">
-  <h2 class="vox-ts-xxl">Findings, merged across sources</h2>
+  <h2 class="vox-ts-xxl" data-i18n>Findings, merged across sources</h2>
   <div class="vox-prose">
-    <p>
+    <p data-i18n>
       Point the console at the advisory sources you trust. Findings merge
       per vulnerability, the highest severity wins, and the page names
       every source reporting it &mdash; so two sources disagreeing is
       something you can see rather than something resolved behind your
       back.
     </p>
-    <p>
+    <p data-i18n>
       Each finding carries the installed version, the fixed version where
       there is one, and whether a fix exists at all. That last one is the
       difference between work you can schedule and work you cannot.
@@ -41,8 +41,8 @@
 
 {{screenshot "vulnerabilities"}}
 
-<vox-callout variant="warning" heading="Coverage is reported, not assumed">
-  <p>
+<vox-callout variant="warning" heading="Coverage is reported, not assumed" data-i18n-attr="heading">
+  <p data-i18n>
     A node with no package inventory cannot be assessed, and the console
     says so rather than counting it as clean. "Nothing known against it"
     and "never looked" are different answers and appear differently.

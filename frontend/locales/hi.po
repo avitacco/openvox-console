@@ -98,7 +98,7 @@ msgstr "सभी उपयोगकर्ता"
 msgid "Applies to this browser only. Without a choice here, the console follows your browser's language."
 msgstr "केवल इस ब्राउज़र पर लागू होता है। यहाँ चयन न होने पर कंसोल आपके ब्राउज़र की भाषा का अनुसरण करता है।"
 
-#: src/app.js:355
+#: src/app.js:367
 #: src/vulnerability-providers.js:157
 msgid "Cancel"
 msgstr "रद्द करें"
@@ -185,7 +185,7 @@ msgstr "उपयोगकर्ता बनाएँ"
 msgid "Created"
 msgstr "बनाया गया"
 
-#: src/app.js:602
+#: src/app.js:614
 #: templates/pages/vulnerabilities.tmpl:13
 msgid "Critical"
 msgstr "गंभीर"
@@ -368,7 +368,7 @@ msgstr "समूह"
 msgid "Groups"
 msgstr "समूह"
 
-#: src/app.js:603
+#: src/app.js:615
 #: templates/pages/vulnerabilities.tmpl:14
 msgid "High"
 msgstr "उच्च"
@@ -401,7 +401,7 @@ msgstr "प्रकार"
 msgid "Language"
 msgstr "भाषा"
 
-#: src/index.js:246
+#: src/index.js:249
 msgid "Last check-in"
 msgstr "अंतिम संपर्क"
 
@@ -433,7 +433,7 @@ msgstr "SSO से लॉग इन करें"
 msgid "Log out"
 msgstr "लॉग आउट करें"
 
-#: src/app.js:605
+#: src/app.js:617
 #: templates/pages/vulnerabilities.tmpl:16
 msgid "Low"
 msgstr "निम्न"
@@ -455,7 +455,7 @@ msgstr "मिलान"
 msgid "Matching nodes"
 msgstr "मिलते Nodes"
 
-#: src/app.js:604
+#: src/app.js:616
 #: templates/pages/vulnerabilities.tmpl:15
 msgid "Medium"
 msgstr "मध्यम"
@@ -566,7 +566,7 @@ msgstr "अभी तक कोई Node समूह नहीं"
 msgid "No nodes currently match this group"
 msgstr "वर्तमान में कोई Node इस समूह से मेल नहीं खाता"
 
-#: src/index.js:220
+#: src/index.js:223
 #: src/nodes.js:225
 msgid "No nodes found"
 msgstr "कोई Node नहीं मिला"
@@ -619,8 +619,8 @@ msgstr "अभी तक कोई उपयोगकर्ता नहीं"
 msgid "No vulnerability providers"
 msgstr "कोई भेद्यता प्रदाता नहीं"
 
-#: src/index.js:193
-#: src/index.js:246
+#: src/index.js:196
+#: src/index.js:249
 #: src/job.js:53
 #: src/nodes.js:249
 #: src/packages.js:146
@@ -723,7 +723,7 @@ msgstr "पैकेज नाम"
 msgid "Packages"
 msgstr "पैकेज"
 
-#: src/app.js:526
+#: src/app.js:538
 msgid "Pagination"
 msgstr "पृष्ठ क्रमांकन"
 
@@ -942,8 +942,8 @@ msgid "Signed"
 msgstr "हस्ताक्षरित"
 
 #: templates/pages/oidc-callback.tmpl:3
-msgid "Signing in&hellip;"
-msgstr "साइन इन हो रहा है&hellip;"
+#~ msgid "Signing in&hellip;"
+#~ msgstr "साइन इन हो रहा है&hellip;"
 
 #: src/i18n.js:170
 #: templates/pages/report.tmpl:16
@@ -970,7 +970,7 @@ msgid "Started"
 msgstr "प्रारंभ"
 
 #: src/deploys.js:57
-#: src/index.js:246
+#: src/index.js:249
 #: src/job.js:53
 #: src/jobs.js:54
 #: src/node.js:469
@@ -1043,7 +1043,7 @@ msgstr "प्रकार"
 msgid "Unchanged"
 msgstr "अपरिवर्तित"
 
-#: src/app.js:606
+#: src/app.js:618
 #: src/i18n.js:177
 #: templates/pages/nodes.tmpl:22
 #: templates/pages/vulnerabilities.tmpl:17
@@ -1301,8 +1301,8 @@ msgstr "{reporting} Node(s) इसके Environments से रिपोर्�
 msgid "Puppet environment matching nodes compile against. Blank means this group doesn't set one."
 msgstr "Puppet Environment जिसके सापेक्ष मेल खाने वाले Nodes कंपाइल करते हैं। रिक्त का अर्थ है कि यह समूह कोई सेट नहीं करता।"
 
-#: src/app.js:471
 #: src/app.js:483
+#: src/app.js:495
 msgid ", +{count} more"
 msgid_plural ", +{count} more"
 msgstr[0] ", +{count} और"
@@ -1355,3 +1355,7 @@ msgstr "उपयोगकर्ता"
 #: src/vulnerability-providers.js:60
 msgid "{minutes} min"
 msgstr "{minutes} मिनट"
+
+#: templates/pages/oidc-callback.tmpl:3
+msgid "Signing in…"
+msgstr "साइन इन हो रहा है&hellip;"

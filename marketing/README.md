@@ -141,6 +141,76 @@ Each PNG must stay under `shots.MaxBytes` (1.5 MB) and capture fails on
 one that does not. They are committed and replaced on every refresh, so
 an oversized image grows the repository's history permanently.
 
+## Translations
+
+The site is published in English plus the locales listed in
+`siteLocales` (marketing/gen/main.go) and `LOCALES` (build.sh). English
+is the site root; each other locale is a directory under it
+(`docs/de/index.html`). Assets - CSS, scripts, screenshots - stay at the
+root and are shared, so a locale costs its pages and its captures and
+nothing else.
+
+The list leads with the world's most spoken languages - English,
+Mandarin, Hindi, Spanish, French - which is the coverage this site is
+meant to have. German, Japanese and Arabic follow them: they were
+translated first, and between them they are what proves the pipeline
+handles left-to-right, CJK and right-to-left.
+
+Still fewer than the console's fifteen, and worth keeping in mind before
+extending it: the console's strings are labels, these are argument, and
+a machine-translated argument reads worse than an untranslated one.
+Every locale here wants review by somebody who reads it.
+
+### How a string becomes translatable
+
+The same three markings the console uses, so there is one convention to
+learn and one extractor to run:
+
+```html
+<h2 data-i18n>What it does</h2>
+<vox-cta-band heading="Run it yourself" data-i18n-attr="heading">
+<p data-i18n-html>Run <code>docker compose up</code> first.</p>
+```
+
+Page titles and meta descriptions are a Go table rather than markup, so
+they are marked with `N_("...")` in gen/main.go and extracted from the
+Go source. Without the marker they stay English on every translated
+page, which is the one failure this convention exists to prevent.
+
+Unlike the console, substitution happens at **build time**: gen renders
+the page, then rewrites the marked nodes (translate.go) and writes
+static HTML. A visitor downloads no catalogue and runs no translation
+code.
+
+### Workflow
+
+```sh
+# after editing any marked text
+cd frontend && go run ./i18n \
+  -source ../marketing/templates,../marketing/gen \
+  -locales ../marketing/locales -pot site.pot extract
+
+# fold the new strings into every .po, keeping existing translations
+... merge          # same flags
+... status         # what is still untranslated
+... add <code>     # start a new locale (see frontend/i18n/languages.go)
+```
+
+`marketing/build.sh` compiles the catalogues itself, so a normal
+`make marketing` needs none of the above.
+
+### Screenshots are per locale
+
+`make marketing-screenshots` captures every shot in every locale in
+`CAPTURE_LOCALES` against one seeded console - the language is a browser
+preference, so nothing about the data changes between passes. English
+keeps its unsuffixed filenames (`nodes-light.png`); the rest are
+suffixed (`nodes-light-de.png`).
+
+gen refuses to build a locale whose captures are missing, for the same
+reason it refuses an undeclared shot: a broken image should fail the
+build, not the published page.
+
 ## Accessibility
 
 The target is **WCAG 2.2 level AA**.

@@ -1,15 +1,15 @@
 {{define "content"}}
-<vox-hero eyebrow="Code deployment" heading="Ship your Puppet code">
-  <p>
+<vox-hero eyebrow="Code deployment" heading="Ship your Puppet code" data-i18n-attr="heading,eyebrow">
+  <p data-i18n>
     Deploy environments from a control repository with g10k, built in. On
     demand or straight from a push, with a record of every deploy.
   </p>
 </vox-hero>
 
 <section class="site-section">
-  <h2 class="vox-ts-xxl">One control repository, or one per team</h2>
+  <h2 class="vox-ts-xxl" data-i18n>One control repository, or one per team</h2>
   <div class="vox-prose">
-    <p>
+    <p data-i18n-html>
       Teams that keep their own control repository no longer have to share
       one. Add each as a source, and give the ones that need it a prefix
       so two repositories with a <code>production</code> branch land in
@@ -27,9 +27,9 @@
     prefix: true</vox-code-block>
 
 <section class="site-section">
-  <h2 class="vox-ts-xxl">Every deploy leaves a trail</h2>
+  <h2 class="vox-ts-xxl" data-i18n>Every deploy leaves a trail</h2>
   <div class="vox-prose">
-    <p>
+    <p data-i18n>
       Who triggered it, which source and ref, which environment it wrote,
       and whether it worked. A deploy that failed keeps its error instead
       of quietly vanishing from the list.
@@ -39,8 +39,8 @@
 
 {{screenshot "code-deploys"}}
 
-<vox-callout variant="tip" heading="Webhooks are per source">
-  <p>
+<vox-callout variant="tip" heading="Webhooks are per source" data-i18n-attr="heading">
+  <p data-i18n>
     Each repository gets its own webhook and its own secret, so a secret
     that leaks from one cannot be used to deploy another.
   </p>

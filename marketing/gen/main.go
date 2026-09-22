@@ -14,6 +14,8 @@
 package main
 
 import (
+	"bytes"
+	"flag"
 	"fmt"
 	"html/template"
 	"os"
@@ -22,6 +24,16 @@ import (
 
 	"github.com/voxpupuli/enterprise-console/marketing/shots"
 )
+
+// N_ marks a string for extraction without translating it here.
+//
+// The page table below is evaluated at package load, long before a
+// catalogue is chosen, so the lookup happens later - translateHTML
+// resolves these once they have been rendered into the page. Without
+// the marker they would be invisible to the extractor and would stay
+// English on every translated page, which is exactly the failure this
+// whole convention exists to prevent.
+func N_(s string) string { return s }
 
 // page is one rendered output file.
 type page struct {
@@ -42,49 +54,49 @@ type page struct {
 var pages = []page{
 	{
 		Name:    "index.html",
-		Title:   "OpenVox Console",
-		Summary: "A Puppet Enterprise console equivalent for OpenVox: node inventory, classification, code deployment, orchestration, package and vulnerability tracking, and role-based access control - in a single Go binary.",
+		Title:   N_("OpenVox Console"),
+		Summary: N_("A Puppet Enterprise console equivalent for OpenVox: node inventory, classification, code deployment, orchestration, package and vulnerability tracking, and role-based access control - in a single Go binary."),
 	},
 	{
 		Name:       "features/nodes.html",
-		Title:      "Nodes and inventory - OpenVox Console",
-		NavLabel:   "Nodes",
-		Summary:    "See every managed node, what it reported, whether it is reachable and the state of its certificate.",
+		Title:      N_("Nodes and inventory - OpenVox Console"),
+		NavLabel:   N_("Nodes"),
+		Summary:    N_("See every managed node, what it reported, whether it is reachable and the state of its certificate."),
 		Capability: "nodes",
 	},
 	{
 		Name:       "features/classification.html",
-		Title:      "Classification - OpenVox Console",
-		NavLabel:   "Classification",
-		Summary:    "Decide what configuration applies to which nodes with rule-based node groups, served to OpenVox over the standard ENC contract.",
+		Title:      N_("Classification - OpenVox Console"),
+		NavLabel:   N_("Classification"),
+		Summary:    N_("Decide what configuration applies to which nodes with rule-based node groups, served to OpenVox over the standard ENC contract."),
 		Capability: "classification",
 	},
 	{
 		Name:       "features/code.html",
-		Title:      "Code deployment - OpenVox Console",
-		NavLabel:   "Code",
-		Summary:    "Deploy Puppet code from one or many control repositories, with a record of every deploy.",
+		Title:      N_("Code deployment - OpenVox Console"),
+		NavLabel:   N_("Code"),
+		Summary:    N_("Deploy Puppet code from one or many control repositories, with a record of every deploy."),
 		Capability: "code",
 	},
 	{
 		Name:       "features/orchestration.html",
-		Title:      "Orchestration - OpenVox Console",
-		NavLabel:   "Orchestration",
-		Summary:    "Run Puppet, tasks and plans on demand across the fleet, and see what each node did.",
+		Title:      N_("Orchestration - OpenVox Console"),
+		NavLabel:   N_("Orchestration"),
+		Summary:    N_("Run Puppet, tasks and plans on demand across the fleet, and see what each node did."),
 		Capability: "orchestration",
 	},
 	{
 		Name:       "features/security.html",
-		Title:      "Packages and vulnerabilities - OpenVox Console",
-		NavLabel:   "Security",
-		Summary:    "Know what is installed across the fleet and which known vulnerabilities affect it.",
+		Title:      N_("Packages and vulnerabilities - OpenVox Console"),
+		NavLabel:   N_("Security"),
+		Summary:    N_("Know what is installed across the fleet and which known vulnerabilities affect it."),
 		Capability: "security",
 	},
 	{
 		Name:       "features/access-control.html",
-		Title:      "Access control and audit - OpenVox Console",
-		NavLabel:   "Access control",
-		Summary:    "Role-based access control, service tokens, and an audit trail of who changed what.",
+		Title:      N_("Access control and audit - OpenVox Console"),
+		NavLabel:   N_("Access control"),
+		Summary:    N_("Role-based access control, service tokens, and an audit trail of who changed what."),
 		Capability: "access-control",
 	},
 }
@@ -97,28 +109,54 @@ func main() {
 }
 
 func run() error {
-	if len(os.Args) != 2 {
-		return fmt.Errorf("usage: gen <output-dir>")
-	}
-	outDir := os.Args[1]
+	locale := flag.String("locale", "en", "locale to render (en renders at the site root)")
+	catPath := flag.String("catalogue", "", "compiled JSON catalogue for -locale; omit for English")
+	dir := flag.String("dir", "ltr", "text direction for -locale: ltr or rtl")
+	flag.Parse()
 
-	// The screenshots live inside the output directory rather than being
-	// copied into it, so this is both where they are checked and where
-	// the published pages will reference them from.
-	assetDir := filepath.Join(outDir, shots.AssetDir)
-	if err := verifyScreenshots(assetDir); err != nil {
+	if flag.NArg() != 1 {
+		return fmt.Errorf("usage: gen [-locale xx] [-catalogue path] [-dir ltr|rtl] <site-root>")
+	}
+	siteRoot := flag.Arg(0)
+
+	cat := englishCatalogue()
+	if *locale != "en" {
+		if *catPath == "" {
+			return fmt.Errorf("-locale %s needs -catalogue", *locale)
+		}
+		loaded, err := loadCatalogue(*catPath, *locale, *dir)
+		if err != nil {
+			return err
+		}
+		cat = loaded
+	}
+
+	// The screenshots live inside the site root rather than being copied
+	// into it, so this is both where they are checked and where the
+	// published pages will reference them from. Checked against the
+	// locale being built: a German page points at German captures.
+	assetDir := filepath.Join(siteRoot, shots.AssetDir)
+	if err := verifyScreenshots(assetDir, *locale); err != nil {
 		return err
+	}
+
+	// English at the root, every other locale one directory down. Assets
+	// (CSS, scripts, screenshots) stay at the root and are shared, so a
+	// locale costs its pages and nothing else.
+	outDir := siteRoot
+	if *locale != "en" {
+		outDir = filepath.Join(siteRoot, *locale)
 	}
 
 	layoutPath := filepath.Join("templates", "layout.html.tmpl")
 
 	for _, p := range pages {
-		if err := renderPage(p, layoutPath, outDir); err != nil {
+		if err := renderPage(p, layoutPath, outDir, *locale, cat); err != nil {
 			return err
 		}
 	}
 
-	fmt.Printf("Generated %d pages into %s\n", len(pages), outDir)
+	fmt.Printf("Generated %d pages into %s (%s)\n", len(pages), outDir, *locale)
 	return nil
 }
 
@@ -128,13 +166,13 @@ func run() error {
 // Failing here, before writing anything, is the point: a missing image
 // is a broken picture on a published page, and the person who notices is
 // a visitor.
-func verifyScreenshots(assetDir string) error {
+func verifyScreenshots(assetDir, locale string) error {
 	var missing []string
 	for _, shot := range shots.All {
 		for _, theme := range shots.Themes {
-			path := filepath.Join(assetDir, shot.FileName(theme))
+			path := filepath.Join(assetDir, shot.FileName(theme, locale))
 			if _, err := os.Stat(path); err != nil {
-				missing = append(missing, shot.FileName(theme))
+				missing = append(missing, shot.FileName(theme, locale))
 			}
 		}
 	}
@@ -150,14 +188,14 @@ func verifyScreenshots(assetDir string) error {
 }
 
 // renderPage renders one page.
-func renderPage(p page, layoutPath, outDir string) error {
+func renderPage(p page, layoutPath, outDir, locale string, cat *catalogue) error {
 	pageTmpl := strings.TrimSuffix(filepath.Base(p.Name), ".html") + ".tmpl"
 	pagePath := filepath.Join("templates", "pages", filepath.Dir(p.Name), pageTmpl)
 	if filepath.Dir(p.Name) == "." {
 		pagePath = filepath.Join("templates", "pages", pageTmpl)
 	}
 
-	tmpl := template.New("layout.html.tmpl").Funcs(funcsFor(p))
+	tmpl := template.New("layout.html.tmpl").Funcs(funcsFor(p, locale))
 	tmpl, err := tmpl.ParseFiles(layoutPath, pagePath)
 	if err != nil {
 		return fmt.Errorf("parsing templates for %s: %w", p.Name, err)
@@ -168,15 +206,30 @@ func renderPage(p page, layoutPath, outDir string) error {
 		return fmt.Errorf("creating %s: %w", filepath.Dir(outPath), err)
 	}
 
-	f, err := os.Create(outPath)
-	if err != nil {
-		return fmt.Errorf("creating %s: %w", outPath, err)
+	// Rendered into memory, translated, then written in one go: a
+	// failure part-way through leaves no half-written page behind, and
+	// the translator needs the whole document anyway.
+	var rendered bytes.Buffer
+	data := pageData{
+		page:      p,
+		Root:      rootFor(p.Name, locale),
+		SiteRoot:  rootFor(p.Name, locale),
+		Pages:     pages,
+		Locale:    locale,
+		Locales:   localeLinks(p.Name, locale),
+		Direction: cat.dir,
 	}
-	defer f.Close()
-
-	data := pageData{page: p, Root: rootFor(p.Name), Pages: pages}
-	if err := tmpl.ExecuteTemplate(f, "layout.html.tmpl", data); err != nil {
+	if err := tmpl.ExecuteTemplate(&rendered, "layout.html.tmpl", data); err != nil {
 		return fmt.Errorf("rendering %s: %w", p.Name, err)
+	}
+
+	translated, err := translateHTML(rendered.Bytes(), cat)
+	if err != nil {
+		return fmt.Errorf("translating %s into %s: %w", p.Name, cat.lang, err)
+	}
+
+	if err := os.WriteFile(outPath, translated, 0o644); err != nil {
+		return fmt.Errorf("writing %s: %w", outPath, err)
 	}
 	return nil
 }
@@ -193,11 +246,86 @@ type pageData struct {
 	Root string
 	// Pages is the whole site, for rendering navigation.
 	Pages []page
+	// SiteRoot is Root - kept as a second name because "root" in a
+	// template reads as "the site", and for a translated page the two
+	// happen to coincide only because assets are not duplicated.
+	SiteRoot string
+	// Locale is the code being rendered ("en" at the site root).
+	Locale string
+	// Locales is every locale this page exists in, for the switcher.
+	Locales []localeLink
+	// Direction is "ltr" or "rtl", mirrored onto <html dir>.
+	Direction string
 }
 
-// rootFor returns the relative path from a page back to the site root.
-func rootFor(name string) string {
+// localeLink is one entry in the language switcher.
+type localeLink struct {
+	// Code is the locale, e.g. "de".
+	Code string
+	// Name is the language in itself - somebody looking for German is
+	// looking for "Deutsch".
+	Name string
+	// Href points at this same page in that locale.
+	Href string
+	// Current marks the locale being rendered.
+	Current bool
+}
+
+// siteLocales is every locale the marketing site is built in, in the
+// order the switcher lists them.
+//
+// The first five are the world's most spoken languages, which is the
+// coverage this site is meant to have. German, Japanese and Arabic
+// follow them because they were already translated and reviewed, and
+// because between them they are what proves the pipeline handles
+// left-to-right, CJK and right-to-left.
+//
+// Still shorter than the console's fifteen, and for a reason worth
+// keeping in mind before extending it: the console's strings are
+// labels, these are argument, and a machine-translated argument reads
+// worse than an untranslated one. Every locale here should be reviewed
+// by somebody who reads it.
+var siteLocales = []struct {
+	Code, Name, Dir string
+}{
+	{"en", "English", "ltr"},
+	{"zh", "\u4e2d\u6587", "ltr"},
+	{"hi", "\u0939\u093f\u0928\u094d\u0926\u0940", "ltr"},
+	{"es", "Espa\u00f1ol", "ltr"},
+	{"fr", "Fran\u00e7ais", "ltr"},
+	{"de", "Deutsch", "ltr"},
+	{"ja", "\u65e5\u672c\u8a9e", "ltr"},
+	{"ar", "\u0627\u0644\u0639\u0631\u0628\u064a\u0629", "rtl"},
+}
+
+// localeLinks builds the switcher for one page.
+func localeLinks(name, current string) []localeLink {
+	root := rootFor(name, current)
+	out := make([]localeLink, 0, len(siteLocales))
+	for _, l := range siteLocales {
+		href := root + "/" + filepath.ToSlash(name)
+		if l.Code != "en" {
+			href = root + "/" + l.Code + "/" + filepath.ToSlash(name)
+		}
+		out = append(out, localeLink{
+			Code: l.Code, Name: l.Name, Href: href, Current: l.Code == current,
+		})
+	}
+	return out
+}
+
+// rootFor returns the relative path from a page back to the SITE root -
+// not the locale's directory.
+//
+// Assets are shared across locales and live at the site root, so a
+// translated page has to climb one extra level: de/features/nodes.html
+// reaches site.css via ../../site.css, where the English
+// features/nodes.html needs only ../.
+func rootFor(name, locale string) string {
 	depth := strings.Count(filepath.ToSlash(name), "/")
+	if locale != "" && locale != "en" {
+		depth++
+	}
 	if depth == 0 {
 		return "."
 	}
@@ -206,8 +334,8 @@ func rootFor(name string) string {
 
 // funcsFor builds the template functions available to one page. They are
 // per-page because screenshot paths are relative to the page's depth.
-func funcsFor(p page) template.FuncMap {
-	root := rootFor(p.Name)
+func funcsFor(p page, locale string) template.FuncMap {
+	root := rootFor(p.Name, locale)
 
 	return template.FuncMap{
 		// screenshot renders one declared shot as a theme-aware
@@ -224,8 +352,8 @@ func funcsFor(p page) template.FuncMap {
 					p.Name, name, strings.Join(declared, ", "))
 			}
 
-			dark := root + "/" + shots.AssetDir + "/" + shot.FileName(shots.Dark)
-			light := root + "/" + shots.AssetDir + "/" + shot.FileName(shots.Light)
+			dark := root + "/" + shots.AssetDir + "/" + shot.FileName(shots.Dark, locale)
+			light := root + "/" + shots.AssetDir + "/" + shot.FileName(shots.Light, locale)
 
 			// <picture> with a prefers-color-scheme source, rather than
 			// a script that swaps src: this works with JavaScript

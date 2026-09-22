@@ -141,12 +141,24 @@ CONSOLE_POSTGRES_DSN="postgres://${POSTGRES_USER}:console@localhost:5432/${DEMO_
     --i-know-this-is-a-demo-console
 
 # --- 4. capture ------------------------------------------------------
-log "Capturing screenshots"
-CONSOLE_BOOTSTRAP_ADMIN_USERNAME="${DEMO_ADMIN_USER}" \
-CONSOLE_BOOTSTRAP_ADMIN_PASSWORD="${DEMO_ADMIN_PASSWORD}" \
-  go run ./marketing/capture \
-    --console-url "http://localhost:${DEMO_HTTP_PORT}" \
-    --browser-console-url "${BROWSER_CONSOLE_URL}"
+# One pass per locale, against the same seeded console. The language is
+# a browser-side preference the capture tool writes into localStorage,
+# so nothing about the console or its data changes between passes -
+# only what the page renders.
+#
+# English first and unsuffixed, keeping the filenames the committed
+# screenshots already have.
+CAPTURE_LOCALES="${CAPTURE_LOCALES:-en zh hi es fr de ja ar}"
+
+for locale in $CAPTURE_LOCALES; do
+  log "Capturing screenshots (${locale})"
+  CONSOLE_BOOTSTRAP_ADMIN_USERNAME="${DEMO_ADMIN_USER}" \
+  CONSOLE_BOOTSTRAP_ADMIN_PASSWORD="${DEMO_ADMIN_PASSWORD}" \
+    go run ./marketing/capture \
+      --console-url "http://localhost:${DEMO_HTTP_PORT}" \
+      --browser-console-url "${BROWSER_CONSOLE_URL}" \
+      --locale "${locale}"
+done
 
 log "Done"
 echo "The demo console has been stopped; ${DEMO_DB} is left in place for inspection"

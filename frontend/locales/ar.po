@@ -1,0 +1,1377 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ar\n"
+"Language-Team: العربية\n"
+"MIME-Version: 1.0\n"
+"POT-Creation-Date: 2026-09-22 14:13+0000\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5);\n"
+"Project-Id-Version: openvox-console\n"
+
+#: src/app.js:483
+#: src/app.js:495
+msgid ", +{count} more"
+msgid_plural ", +{count} more"
+msgstr[0] "، +{count} أخرى"
+msgstr[1] "، +{count} آخر"
+msgstr[2] "، +{count} آخران"
+msgstr[3] "، +{count} أخرى"
+msgstr[4] "، +{count} أخرى"
+msgstr[5] "، +{count} أخرى"
+
+#: src/nodes.js:338
+msgid ", and {count} more"
+msgid_plural ", and {count} more"
+msgstr[0] "، و{count} أخرى"
+msgstr[1] "، و{count} آخر"
+msgstr[2] "، و{count} آخران"
+msgstr[3] "، و{count} أخرى"
+msgstr[4] "، و{count} أخرى"
+msgstr[5] "، و{count} أخرى"
+
+#: templates/pages/code.tmpl:10
+msgid "<strong>Assigned</strong> counts nodes classification sends to a repo's environments; <strong>reporting</strong> counts nodes that last ran from one. They are shown separately because the gap between them is the useful signal."
+msgstr "<strong>المُسنَدة</strong> تُحصي الـ Nodes التي يوجّهها التصنيف إلى Environments المستودع؛ و<strong>المُبلِّغة</strong> تُحصي الـ Nodes التي نُفِّذت آخر مرة من أحدها. تُعرضان منفصلتين لأن الفارق بينهما هو المؤشر المفيد."
+
+#: templates/pages/group.tmpl:23
+msgid "A node can match several groups at once. Their classes and parameters are combined; when two groups set the <em>same</em> class parameter, top-scope parameter, or environment, the one with the higher priority wins. Priorities must be unique."
+msgstr "يمكن أن يطابق Node عدة مجموعات في آن واحد. تُدمج فئاتها ومعاملاتها؛ وعندما تضبط مجموعتان <em>نفس</em> معامل الفئة أو معامل النطاق الأعلى أو الـ Environment، تفوز صاحبة الأولوية الأعلى. يجب أن تكون الأولويات فريدة."
+
+#: templates/pages/group.tmpl:50
+msgid "A node joins this group when its facts satisfy <em>every</em> condition below. Fact path is a dotted path into the node's facts, like <code>os.family</code> or <code>networking.fqdn</code> — open a node's page to see the facts it reports. With no conditions and no pinned nodes, the group matches nothing."
+msgstr "ينضم الـ Node إلى هذه المجموعة عندما تستوفي Facts الخاصة به <em>كل</em> شرط أدناه. مسار الـ Fact هو مسار منقوط داخل Facts الـ Node، مثل <code>os.family</code> أو <code>networking.fqdn</code> — افتح صفحة أي Node لرؤية الـ Facts التي يُبلّغ عنها. بدون شروط وبدون Nodes مثبّتة، لا تطابق المجموعة أي شيء."
+
+#: templates/layout.html.tmpl:48
+msgid "Account menu"
+msgstr "قائمة الحساب"
+
+#: src/activity.js:39
+#: templates/pages/activity.tmpl:9
+msgid "Action"
+msgstr "إجراء"
+
+#: src/vulnerability-providers.js:75
+msgid "Actions"
+msgstr "إجراءات"
+
+#: src/activity.js:17
+msgid "Actions taken through the console will show up here."
+msgstr "ستظهر هنا الإجراءات المنفَّذة عبر وحدة التحكم."
+
+#: templates/layout.html.tmpl:89
+#: templates/pages/activity.tmpl:3
+msgid "Activity"
+msgstr "النشاط"
+
+#: src/activity.js:39
+#: templates/pages/activity.tmpl:12
+msgid "Actor"
+msgstr "المنفِّذ"
+
+#: templates/pages/group.tmpl:57
+msgid "Add condition"
+msgstr "إضافة شرط"
+
+#: templates/pages/nodes.tmpl:5
+msgid "Add node"
+msgstr "إضافة Node"
+
+#: templates/pages/vulnerability-providers.tmpl:9
+msgid "Add provider"
+msgstr "إضافة مزوّد"
+
+#: templates/layout.html.tmpl:93
+#: templates/pages/roles.tmpl:3
+#: templates/pages/service-tokens.tmpl:3
+#: templates/pages/users.tmpl:3
+msgid "Admin"
+msgstr "الإدارة"
+
+#: src/vulnerabilities.js:95
+#: templates/pages/vulnerability.tmpl:12
+msgid "Affected nodes"
+msgstr "الـ Nodes المتأثرة"
+
+#: src/packages.js:169
+#: src/packages.js:26
+#: templates/pages/activity.tmpl:10
+#: templates/pages/activity.tmpl:6
+#: templates/pages/activity.tmpl:7
+#: templates/pages/activity.tmpl:9
+#: templates/pages/code.tmpl:44
+#: templates/pages/code.tmpl:45
+#: templates/pages/code.tmpl:47
+#: templates/pages/code.tmpl:48
+#: templates/pages/code.tmpl:52
+#: templates/pages/jobs.tmpl:14
+#: templates/pages/jobs.tmpl:8
+#: templates/pages/node.tmpl:48
+#: templates/pages/nodes.tmpl:13
+#: templates/pages/nodes.tmpl:18
+#: templates/pages/packages.tmpl:11
+#: templates/pages/packages.tmpl:13
+#: templates/pages/packages.tmpl:14
+#: templates/pages/report.tmpl:12
+#: templates/pages/vulnerabilities.tmpl:12
+#: templates/pages/vulnerabilities.tmpl:20
+#: templates/pages/vulnerabilities.tmpl:25
+msgid "All"
+msgstr "الكل"
+
+#: templates/pages/roles.tmpl:26
+msgid "All roles"
+msgstr "كل الأدوار"
+
+#: templates/pages/service-tokens.tmpl:28
+msgid "All service tokens"
+msgstr "كل رموز الخدمة"
+
+#: templates/pages/users.tmpl:31
+msgid "All users"
+msgstr "كل المستخدمين"
+
+#: templates/pages/preferences.tmpl:27
+msgid "Applies to this browser only. Without a choice here, the console follows your browser's language."
+msgstr "ينطبق على هذا المتصفح فقط. بدون اختيار هنا، تتبع وحدة التحكم لغة متصفحك."
+
+#: src/code-repositories.js:94
+msgid "Assigned, none reporting"
+msgstr "مُسنَدة، ولا شيء يُبلّغ"
+
+#: src/preferences.js:95
+msgid "Automatic"
+msgstr "تلقائي"
+
+#: src/vulnerabilities.js:87
+msgid "Available"
+msgstr "متاح"
+
+#: src/app.js:367
+#: src/vulnerability-providers.js:157
+msgid "Cancel"
+msgstr "إلغاء"
+
+#: src/activity.js:39
+#: templates/pages/activity.tmpl:6
+msgid "Category"
+msgstr "الفئة"
+
+#: src/nodes.js:252
+#: templates/pages/nodes.tmpl:17
+msgid "Cert status"
+msgstr "حالة الشهادة"
+
+#: templates/pages/group.tmpl:63
+msgid "Certnames listed here are always in this group, whether or not the match rule matches them."
+msgstr "أسماء الشهادات المدرجة هنا تنتمي دائمًا إلى هذه المجموعة، سواء طابقتها قاعدة المطابقة أم لا."
+
+#: templates/pages/preferences.tmpl:37
+#: templates/pages/preferences.tmpl:47
+msgid "Change password"
+msgstr "تغيير كلمة المرور"
+
+#: src/i18n.js:167
+#: templates/pages/node.tmpl:49
+msgid "Changed"
+msgstr "مُتغيّر"
+
+#: src/groups.js:33
+msgid "Classes"
+msgstr "الفئات"
+
+#: templates/pages/group.tmpl:32
+msgid "Classes (JSON)"
+msgstr "الفئات (JSON)"
+
+#: templates/pages/group.tmpl:31
+msgid "Classification"
+msgstr "التصنيف"
+
+#: src/nodes.js:84
+msgid "Clean"
+msgstr "تنظيف"
+
+#: templates/pages/nodes.tmpl:34
+msgid "Clear"
+msgstr "مسح التحديد"
+
+#: src/nodes.js:427
+msgid "Close"
+msgstr "إغلاق"
+
+#: templates/layout.html.tmpl:85
+#: templates/pages/code.tmpl:3
+msgid "Code"
+msgstr "Code"
+
+#: src/i18n.js:172
+#: src/index.js:114
+#: src/nodes.js:42
+#: templates/pages/nodes.tmpl:14
+msgid "Connected"
+msgstr "متصل"
+
+#: src/nodes.js:250
+#: templates/pages/nodes.tmpl:12
+msgid "Connection"
+msgstr "الاتصال"
+
+#: src/code-repositories.js:109
+msgid "Converging"
+msgstr "قيد التقارب"
+
+#: src/i18n.js:171
+#: src/index.js:23
+msgid "Corrected"
+msgstr "مُصحَّح"
+
+#: templates/pages/roles.tmpl:21
+msgid "Create role"
+msgstr "إنشاء دور"
+
+#: templates/pages/service-tokens.tmpl:23
+msgid "Create service token"
+msgstr "إنشاء رمز خدمة"
+
+#: templates/pages/users.tmpl:26
+msgid "Create user"
+msgstr "إنشاء مستخدم"
+
+#: src/service-tokens.js:43
+msgid "Created"
+msgstr "تاريخ الإنشاء"
+
+#: src/app.js:614
+#: templates/pages/vulnerabilities.tmpl:13
+msgid "Critical"
+msgstr "حرج"
+
+#: templates/pages/preferences.tmpl:41
+msgid "Current password"
+msgstr "كلمة المرور الحالية"
+
+#: templates/layout.html.tmpl:61
+#: templates/pages/index.tmpl:3
+msgid "Dashboard"
+msgstr "Dashboard"
+
+#: src/nodes.js:88
+#: src/roles.js:36
+#: src/service-tokens.js:34
+#: src/users.js:51
+#: src/vulnerability-providers.js:67
+#: templates/pages/group.tmpl:71
+msgid "Delete"
+msgstr "حذف"
+
+#: src/code-repositories.js:124
+msgid "Deploy"
+msgstr "Deploy"
+
+#: templates/pages/code.tmpl:7
+msgid "Deploy history"
+msgstr "سجل Deploy"
+
+#: templates/pages/code.tmpl:37
+msgid "Deploy now"
+msgstr "نفّذ deploy الآن"
+
+#: src/code-repositories.js:87
+msgid "Deployed, but no node is classified into or reporting from its environments"
+msgstr "تم الـ deploy، لكن لا يوجد Node مُصنَّف في Environments الخاصة به ولا يُبلّغ منها"
+
+#: templates/pages/group.tmpl:13
+msgid "Details"
+msgstr "التفاصيل"
+
+#: src/vulnerability-providers.js:27
+msgid "Disabled"
+msgstr "معطَّل"
+
+#: src/index.js:114
+msgid "Disconnected"
+msgstr "غير متصل"
+
+#: src/vulnerability-providers.js:66
+msgid "Edit"
+msgstr "تحرير"
+
+#: templates/pages/group.tmpl:48
+msgid "Edit as JSON"
+msgstr "تحرير كـ JSON"
+
+#: src/users.js:60
+#: templates/pages/preferences.tmpl:18
+msgid "Email"
+msgstr "البريد الإلكتروني"
+
+#: templates/pages/users.tmpl:23
+msgid "Email (optional)"
+msgstr "البريد الإلكتروني (اختياري)"
+
+#: src/vulnerability-providers.js:153
+#: src/vulnerability-providers.js:59
+#: src/vulnerability-providers.js:75
+msgid "Enabled"
+msgstr "مُفعَّل"
+
+#: src/node.js:469
+msgid "Ended"
+msgstr "انتهى"
+
+#: src/deploys.js:57
+#: src/groups.js:33
+msgid "Environment"
+msgstr "Environment"
+
+#: templates/pages/group.tmpl:20
+msgid "Environment (optional)"
+msgstr "Environment (اختياري)"
+
+#: src/deploys.js:57
+#: src/job.js:53
+msgid "Error"
+msgstr "خطأ"
+
+#: src/job.js:53
+msgid "Exit code"
+msgstr "رمز الخروج"
+
+#: templates/pages/index.tmpl:23
+msgid "Fact name"
+msgstr "اسم الـ Fact"
+
+#: src/group.js:81
+msgid "Fact path"
+msgstr "مسار الـ Fact"
+
+#: templates/pages/index.tmpl:24
+msgid "Fact value"
+msgstr "قيمة الـ Fact"
+
+#: templates/pages/node.tmpl:15
+msgid "Facts"
+msgstr "Facts"
+
+#: src/i18n.js:164
+#: src/index.js:22
+#: templates/pages/code.tmpl:55
+#: templates/pages/jobs.tmpl:17
+#: templates/pages/node.tmpl:51
+msgid "Failed"
+msgstr "فشل"
+
+#: src/vulnerability-providers.js:29
+msgid "Failing"
+msgstr "يتعثّر"
+
+#: templates/pages/report.tmpl:14
+msgid "Failure"
+msgstr "إخفاق"
+
+#: templates/pages/activity.tmpl:12
+#: templates/pages/code.tmpl:50
+#: templates/pages/jobs.tmpl:19
+msgid "Filter by actor"
+msgstr "تصفية حسب المنفِّذ"
+
+#: templates/pages/index.tmpl:22
+#: templates/pages/packages.tmpl:8
+msgid "Filter by name"
+msgstr "تصفية حسب الاسم"
+
+#: templates/pages/nodes.tmpl:11
+msgid "Filter by name…"
+msgstr "تصفية حسب الاسم…"
+
+#: templates/pages/jobs.tmpl:6
+msgid "Filter by node"
+msgstr "تصفية حسب الـ Node"
+
+#: templates/pages/packages.tmpl:9
+msgid "Filter by version"
+msgstr "تصفية حسب الإصدار"
+
+#: src/deploys.js:57
+#: src/jobs.js:54
+msgid "Finished"
+msgstr "اكتمل"
+
+#: templates/pages/preferences.tmpl:14
+msgid "First name"
+msgstr "الاسم الأول"
+
+#: templates/pages/users.tmpl:21
+msgid "First name (optional)"
+msgstr "الاسم الأول (اختياري)"
+
+#: src/node.js:604
+#: src/vulnerability.js:54
+msgid "First seen"
+msgstr "أول ظهور"
+
+#: src/node.js:604
+#: src/vulnerabilities.js:95
+#: templates/pages/vulnerabilities.tmpl:19
+msgid "Fix"
+msgstr "الإصلاح"
+
+#: templates/pages/vulnerabilities.tmpl:21
+msgid "Fix available"
+msgstr "يتوفر إصلاح"
+
+#: src/vulnerability.js:54
+msgid "Fixed in"
+msgstr "أُصلح في"
+
+#: templates/pages/index.tmpl:6
+msgid "Fleet status"
+msgstr "حالة الأسطول"
+
+#: templates/pages/packages.tmpl:13
+msgid "Group"
+msgstr "المجموعة"
+
+#: templates/layout.html.tmpl:77
+msgid "Groups"
+msgstr "المجموعات"
+
+#: src/vulnerability-providers.js:30
+msgid "Healthy"
+msgstr "سليم"
+
+#: src/app.js:615
+#: templates/pages/vulnerabilities.tmpl:14
+msgid "High"
+msgstr "عالٍ"
+
+#: templates/pages/group.tmpl:18
+msgid "Higher wins a conflict."
+msgstr "الأولوية الأعلى تفوز عند التعارض."
+
+#: src/jobs.js:54
+msgid "ID"
+msgstr "ID"
+
+#: src/code-repositories.js:116
+msgid "In use"
+msgstr "قيد الاستخدام"
+
+#: src/nodes.js:101
+msgid "Infrastructure"
+msgstr "بنية تحتية"
+
+#: src/vulnerability.js:54
+msgid "Installed"
+msgstr "مثبَّت"
+
+#: src/index.js:24
+msgid "Intentional changes"
+msgstr "تغييرات مقصودة"
+
+#: src/vulnerability-providers.js:75
+msgid "Interval"
+msgstr "الفاصل الزمني"
+
+#: src/login.js:22
+msgid "Invalid username or password."
+msgstr "اسم المستخدم أو كلمة المرور غير صحيحة."
+
+#: src/index.js:192
+#: templates/pages/job.tmpl:5
+msgid "Job"
+msgstr "Job"
+
+#: templates/layout.html.tmpl:81
+#: templates/pages/job.tmpl:4
+#: templates/pages/jobs.tmpl:3
+msgid "Jobs"
+msgstr "Jobs"
+
+#: src/jobs.js:54
+#: templates/pages/jobs.tmpl:7
+msgid "Kind"
+msgstr "النوع"
+
+#: templates/pages/preferences.tmpl:26
+#: templates/pages/preferences.tmpl:31
+msgid "Language"
+msgstr "اللغة"
+
+#: src/index.js:249
+msgid "Last check-in"
+msgstr "آخر تسجيل وصول"
+
+#: src/nodes.js:251
+msgid "Last connected"
+msgstr "آخر اتصال"
+
+#: src/vulnerability-providers.js:34
+msgid "Last error: {error}"
+msgstr "آخر خطأ: {error}"
+
+#: templates/pages/preferences.tmpl:15
+msgid "Last name"
+msgstr "اسم العائلة"
+
+#: templates/pages/users.tmpl:22
+msgid "Last name (optional)"
+msgstr "اسم العائلة (اختياري)"
+
+#: src/vulnerability-providers.js:33
+msgid "Last success: {when}"
+msgstr "آخر نجاح: {when}"
+
+#: src/vulnerability-providers.js:75
+msgid "Last sync"
+msgstr "آخر مزامنة"
+
+#: templates/layout.html.tmpl:108
+msgid "License (GPL-3.0)"
+msgstr "الترخيص (GPL-3.0)"
+
+#: templates/pages/login.tmpl:14
+msgid "Log in"
+msgstr "تسجيل الدخول"
+
+#: templates/pages/login.tmpl:18
+msgid "Log in with SSO"
+msgstr "تسجيل الدخول عبر SSO"
+
+#: templates/layout.html.tmpl:52
+msgid "Log out"
+msgstr "تسجيل الخروج"
+
+#: src/app.js:617
+#: templates/pages/vulnerabilities.tmpl:16
+msgid "Low"
+msgstr "منخفض"
+
+#: templates/layout.html.tmpl:58
+msgid "Main"
+msgstr "التنقل الرئيسي"
+
+#: templates/pages/vulnerabilities.tmpl:5
+msgid "Manage providers"
+msgstr "إدارة المزوّدين"
+
+#: templates/pages/group.tmpl:47
+msgid "Match rule"
+msgstr "قاعدة المطابقة"
+
+#: templates/pages/group.tmpl:45
+msgid "Matching"
+msgstr "المطابقة"
+
+#: src/groups.js:33
+#: templates/pages/group.tmpl:77
+msgid "Matching nodes"
+msgstr "الـ Nodes المطابقة"
+
+#: src/app.js:616
+#: templates/pages/vulnerabilities.tmpl:15
+msgid "Medium"
+msgstr "متوسط"
+
+#: src/report.js:48
+msgid "Message"
+msgstr "الرسالة"
+
+#: templates/pages/vulnerabilities.tmpl:30
+msgid "Most affected nodes first"
+msgstr "الأكثر تأثرًا بالـ Nodes أولًا"
+
+#: templates/pages/vulnerabilities.tmpl:29
+msgid "Most severe first"
+msgstr "الأشد خطورة أولًا"
+
+#: src/groups.js:33
+#: src/jobs.js:54
+#: src/roles.js:45
+#: src/service-tokens.js:43
+#: src/users.js:60
+#: src/vulnerability-providers.js:150
+#: src/vulnerability-providers.js:75
+#: templates/pages/group.tmpl:15
+#: templates/pages/roles.tmpl:15
+#: templates/pages/service-tokens.tmpl:17
+msgid "Name"
+msgstr "الاسم"
+
+#: src/report.js:48
+msgid "New"
+msgstr "جديد"
+
+#: templates/pages/group.tmpl:5
+#: templates/pages/group.tmpl:7
+#: templates/pages/groups.tmpl:5
+msgid "New group"
+msgstr "مجموعة جديدة"
+
+#: templates/pages/preferences.tmpl:44
+msgid "New password"
+msgstr "كلمة المرور الجديدة"
+
+#: templates/pages/roles.tmpl:12
+msgid "New role"
+msgstr "دور جديد"
+
+#: templates/pages/service-tokens.tmpl:14
+msgid "New service token"
+msgstr "رمز خدمة جديد"
+
+#: templates/pages/users.tmpl:12
+msgid "New user"
+msgstr "مستخدم جديد"
+
+#: templates/pages/activity.tmpl:14
+#: templates/pages/code.tmpl:58
+#: templates/pages/jobs.tmpl:21
+msgid "Newest first"
+msgstr "الأحدث أولًا"
+
+#: src/activity.js:15
+msgid "No activity recorded yet"
+msgstr "لم يُسجَّل أي نشاط بعد"
+
+#: src/index.js:135
+msgid "No activity yet"
+msgstr "لا يوجد نشاط بعد"
+
+#: src/vulnerability.js:19
+msgid "No affected nodes"
+msgstr "لا توجد Nodes متأثرة"
+
+#: src/code-repositories.js:131
+msgid "No code repositories configured"
+msgstr "لم تُهيَّأ أي مستودعات Code"
+
+#: src/deploys.js:30
+msgid "No deploys yet"
+msgstr "لا توجد عمليات deploy بعد"
+
+#: src/report.js:26
+msgid "No events for this report"
+msgstr "لا توجد أحداث لهذا الـ Report"
+
+#: src/node.js:339
+msgid "No facts reported"
+msgstr "لم يُبلَّغ عن أي Facts"
+
+#: templates/pages/vulnerabilities.tmpl:22
+msgid "No fix released"
+msgstr "لم يصدر إصلاح"
+
+#: src/job.js:71
+msgid "No job specified."
+msgstr "لم يُحدَّد أي Job."
+
+#: src/jobs.js:27
+msgid "No jobs yet"
+msgstr "لا توجد Jobs بعد"
+
+#: src/nodes.js:220
+#: src/packages.js:129
+msgid "No matching nodes"
+msgstr "لا توجد Nodes مطابقة"
+
+#: src/groups.js:10
+msgid "No node groups yet"
+msgstr "لا توجد مجموعات Nodes بعد"
+
+#: src/node.js:622
+msgid "No node specified."
+msgstr "لم يُحدَّد أي Node."
+
+#: src/code-repositories.js:86
+msgid "No nodes assigned or reporting"
+msgstr "لا توجد Nodes مُسنَدة أو مُبلِّغة"
+
+#: src/group.js:255
+msgid "No nodes currently match this group"
+msgstr "لا توجد حاليًا Nodes تطابق هذه المجموعة"
+
+#: src/index.js:223
+#: src/nodes.js:225
+msgid "No nodes found"
+msgstr "لم يُعثر على أي Nodes"
+
+#: src/index.js:80
+msgid "No nodes yet"
+msgstr "لا توجد Nodes بعد"
+
+#: src/node.js:581
+msgid "No open vulnerabilities"
+msgstr "لا توجد ثغرات مفتوحة"
+
+#: src/node.js:398
+msgid "No package data reported"
+msgstr "لم يُبلَّغ عن بيانات حزم"
+
+#: src/packages.js:35
+msgid "No packages"
+msgstr "لا توجد حزم"
+
+#: src/packages.js:50
+msgid "No packages match"
+msgstr "لا توجد حزم مطابقة"
+
+#: src/report.js:61
+msgid "No report specified."
+msgstr "لم يُحدَّد أي Report."
+
+#: src/node.js:448
+msgid "No reports yet"
+msgstr "لا توجد Reports بعد"
+
+#: src/roles.js:23
+msgid "No roles yet"
+msgstr "لا توجد أدوار بعد"
+
+#: src/index.js:175
+msgid "No runs yet"
+msgstr "لا توجد عمليات تنفيذ بعد"
+
+#: src/service-tokens.js:17
+msgid "No service tokens yet"
+msgstr "لا توجد رموز خدمة بعد"
+
+#: src/job.js:29
+msgid "No targets"
+msgstr "لا توجد أهداف"
+
+#: src/users.js:33
+msgid "No users yet"
+msgstr "لا يوجد مستخدمون بعد"
+
+#: src/vulnerability-providers.js:48
+msgid "No vulnerability providers"
+msgstr "لا يوجد مزوّدو ثغرات"
+
+#: src/vulnerability.js:64
+msgid "No vulnerability specified."
+msgstr "لم تُحدَّد أي ثغرة."
+
+#: src/index.js:196
+#: src/index.js:249
+#: src/job.js:53
+#: src/nodes.js:249
+#: src/packages.js:146
+#: src/vulnerability.js:54
+msgid "Node"
+msgstr "Node"
+
+#: templates/pages/group.tmpl:4
+#: templates/pages/groups.tmpl:4
+msgid "Node groups"
+msgstr "مجموعات Nodes"
+
+#: templates/pages/index.tmpl:19
+msgid "Node inventory"
+msgstr "جرد الـ Nodes"
+
+#: templates/pages/index.tmpl:22
+#: templates/pages/nodes.tmpl:11
+msgid "Node name"
+msgstr "اسم الـ Node"
+
+#: src/packages.js:79
+#: templates/layout.html.tmpl:65
+#: templates/pages/node.tmpl:4
+#: templates/pages/nodes.tmpl:4
+#: templates/pages/report.tmpl:4
+msgid "Nodes"
+msgstr "Nodes"
+
+#: src/vulnerabilities.js:47
+msgid "Nodes assessed"
+msgstr "الـ Nodes المُقيَّمة"
+
+#: src/vulnerabilities.js:48
+msgid "Nodes not assessed"
+msgstr "الـ Nodes غير المُقيَّمة"
+
+#: src/vulnerabilities.js:87
+msgid "None released"
+msgstr "لم يصدر أي إصلاح"
+
+#: src/i18n.js:169
+#: templates/pages/node.tmpl:52
+#: templates/pages/report.tmpl:15
+msgid "Noop"
+msgstr "Noop"
+
+#: src/code-repositories.js:110
+msgid "Not all nodes have run"
+msgstr "لم تُنفَّذ كل الـ Nodes"
+
+#: src/i18n.js:173
+#: src/nodes.js:43
+#: templates/pages/nodes.tmpl:15
+msgid "Not connected"
+msgstr "غير متصل"
+
+#: src/code-repositories.js:93
+msgid "Not running yet"
+msgstr "لم يُنفَّذ بعد"
+
+#: src/vulnerability-providers.js:31
+msgid "Not synced yet"
+msgstr "لم تتم المزامنة بعد"
+
+#: src/node.js:366
+msgid "Nothing to summarise"
+msgstr "لا يوجد ما يُلخَّص"
+
+#: src/report.js:48
+msgid "Old"
+msgstr "السابقة"
+
+#: templates/pages/activity.tmpl:15
+#: templates/pages/code.tmpl:59
+#: templates/pages/jobs.tmpl:22
+msgid "Oldest first"
+msgstr "الأقدم أولًا"
+
+#: templates/layout.html.tmpl:103
+#: templates/layout.html.tmpl:38
+#: templates/pages/login.tmpl:3
+msgid "OpenVox Console"
+msgstr "OpenVox Console"
+
+#: templates/layout.html.tmpl:104
+msgid "OpenVox project"
+msgstr "مشروع OpenVox"
+
+#: src/group.js:84
+msgid "Operator"
+msgstr "المُعامل"
+
+#: templates/pages/activity.tmpl:13
+#: templates/pages/code.tmpl:57
+#: templates/pages/jobs.tmpl:20
+msgid "Order"
+msgstr "الترتيب"
+
+#: src/node.js:418
+#: src/packages.js:79
+#: src/vulnerability.js:54
+#: templates/pages/vulnerabilities.tmpl:27
+msgid "Package"
+msgstr "الحزمة"
+
+#: templates/pages/packages.tmpl:8
+msgid "Package name"
+msgstr "اسم الحزمة"
+
+#: src/node.js:604
+#: src/vulnerabilities.js:95
+#: templates/layout.html.tmpl:69
+#: templates/pages/node.tmpl:16
+#: templates/pages/packages.tmpl:3
+msgid "Packages"
+msgstr "الحزم"
+
+#: src/app.js:538
+msgid "Pagination"
+msgstr "ترقيم الصفحات"
+
+#: templates/pages/login.tmpl:11
+#: templates/pages/users.tmpl:18
+msgid "Password"
+msgstr "كلمة المرور"
+
+#: src/i18n.js:166
+msgid "Pending"
+msgstr "قيد الانتظار"
+
+#: src/roles.js:45
+#: src/service-tokens.js:43
+msgid "Permissions"
+msgstr "الأذونات"
+
+#: templates/pages/group.tmpl:62
+msgid "Pinned node certnames (JSON array)"
+msgstr "أسماء شهادات الـ Nodes المثبّتة (مصفوفة JSON)"
+
+#: src/groups.js:33
+msgid "Pinned nodes"
+msgstr "الـ Nodes المثبّتة"
+
+#: src/i18n.js:200
+#: templates/pages/jobs.tmpl:11
+msgid "Plan"
+msgstr "Plan"
+
+#: templates/layout.html.tmpl:50
+#: templates/pages/preferences.tmpl:3
+msgid "Preferences"
+msgstr "التفضيلات"
+
+#: src/groups.js:33
+#: templates/pages/group.tmpl:18
+msgid "Priority"
+msgstr "الأولوية"
+
+#: templates/pages/preferences.tmpl:11
+msgid "Profile"
+msgstr "الملف الشخصي"
+
+#: src/report.js:48
+msgid "Property"
+msgstr "الخاصية"
+
+#: src/node.js:418
+#: src/packages.js:146
+#: src/vulnerability.js:54
+#: templates/pages/packages.tmpl:10
+#: templates/pages/vulnerabilities.tmpl:24
+msgid "Provider"
+msgstr "المزوّد"
+
+#: src/node.js:604
+#: src/packages.js:79
+#: src/vulnerabilities.js:95
+#: templates/pages/vulnerability-providers.tmpl:5
+msgid "Providers"
+msgstr "المزوّدون"
+
+#: src/vulnerabilities.js:49
+msgid "Providers enabled"
+msgstr "المزوّدون المُفعَّلون"
+
+#: templates/pages/group.tmpl:33
+msgid "Puppet classes applied to every node in this group, each with optional parameters. A list of {\"name\", \"parameters\"} objects."
+msgstr "فئات Puppet المطبَّقة على كل Node في هذه المجموعة، لكل منها معاملات اختيارية. قائمة من كائنات {\"name\", \"parameters\"}."
+
+#: templates/pages/group.tmpl:20
+msgid "Puppet environment matching nodes compile against. Blank means this group doesn't set one."
+msgstr "الـ Environment الخاص بـ Puppet الذي تُجمِّع مقابله الـ Nodes المطابقة. الفراغ يعني أن هذه المجموعة لا تضبط واحدًا."
+
+#: src/i18n.js:198
+msgid "Puppet run"
+msgstr "Puppet run"
+
+#: templates/pages/node.tmpl:22
+msgid "Raw JSON"
+msgstr "JSON الخام"
+
+#: templates/pages/index.tmpl:14
+msgid "Recent activity"
+msgstr "النشاط الأخير"
+
+#: templates/pages/index.tmpl:11
+msgid "Recent runs"
+msgstr "عمليات التنفيذ الأخيرة"
+
+#: src/deploys.js:57
+#: templates/pages/code.tmpl:47
+msgid "Ref"
+msgstr "Ref"
+
+#: src/group.js:89
+msgid "Remove"
+msgstr "إزالة"
+
+#: src/job.js:53
+#: templates/pages/report.tmpl:6
+msgid "Report"
+msgstr "Report"
+
+#: templates/pages/node.tmpl:30
+msgid "Report installed packages"
+msgstr "الإبلاغ عن الحزم المثبَّتة"
+
+#: src/code-repositories.js:102
+msgid "Reporting, none assigned"
+msgstr "مُبلِّغة، ولا شيء مُسنَد"
+
+#: templates/pages/code.tmpl:6
+msgid "Repositories"
+msgstr "المستودعات"
+
+#: src/i18n.js:175
+#: templates/pages/nodes.tmpl:20
+msgid "Requested"
+msgstr "مطلوبة"
+
+#: src/report.js:48
+msgid "Resource"
+msgstr "المورد"
+
+#: templates/pages/report.tmpl:8
+msgid "Resource events"
+msgstr "أحداث الموارد"
+
+#: src/nodes.js:81
+msgid "Revoke"
+msgstr "إبطال"
+
+#: src/i18n.js:176
+#: templates/pages/nodes.tmpl:21
+msgid "Revoked"
+msgstr "مُبطَلة"
+
+#: src/users.js:60
+#: templates/pages/roles.tmpl:5
+#: templates/pages/roles.tmpl:9
+#: templates/pages/service-tokens.tmpl:5
+#: templates/pages/users.tmpl:5
+msgid "Roles"
+msgstr "الأدوار"
+
+#: templates/pages/jobs.tmpl:9
+msgid "Run"
+msgstr "تنفيذ"
+
+#: src/nodes.js:340
+#: templates/pages/nodes.tmpl:33
+msgid "Run Puppet"
+msgstr "تنفيذ Puppet"
+
+#: src/nodes.js:341
+msgid "Run Puppet on {count} node?"
+msgid_plural "Run Puppet on {count} nodes?"
+msgstr[0] "تنفيذ Puppet على أي Node؟"
+msgstr[1] "تنفيذ Puppet على Node واحد؟"
+msgstr[2] "تنفيذ Puppet على Nodes اثنين؟"
+msgstr[3] "تنفيذ Puppet على {count} Nodes؟"
+msgstr[4] "تنفيذ Puppet على {count} Node؟"
+msgstr[5] "تنفيذ Puppet على {count} Node؟"
+
+#: templates/pages/group.tmpl:78
+#: templates/pages/node.tmpl:9
+msgid "Run now"
+msgstr "نفّذ الآن"
+
+#: src/i18n.js:165
+#: templates/pages/code.tmpl:53
+#: templates/pages/jobs.tmpl:15
+msgid "Running"
+msgstr "قيد التنفيذ"
+
+#: templates/pages/node.tmpl:18
+msgid "Runs"
+msgstr "عمليات التنفيذ"
+
+#: src/vulnerability-providers.js:156
+#: templates/pages/group.tmpl:70
+msgid "Save"
+msgstr "حفظ"
+
+#: templates/pages/preferences.tmpl:32
+msgid "Save language"
+msgstr "حفظ اللغة"
+
+#: templates/pages/preferences.tmpl:21
+msgid "Save profile"
+msgstr "حفظ الملف الشخصي"
+
+#: src/service-tokens.js:90
+msgid "Service token created - copy it now, it won't be shown again"
+msgstr "تم إنشاء رمز الخدمة — انسخه الآن، فلن يُعرض مرة أخرى"
+
+#: templates/pages/roles.tmpl:6
+#: templates/pages/service-tokens.tmpl:6
+#: templates/pages/service-tokens.tmpl:9
+#: templates/pages/users.tmpl:6
+msgid "Service tokens"
+msgstr "رموز الخدمة"
+
+#: src/code-repositories.js:133
+msgid "Set CONSOLE_CONTROL_REPO_URL for a single control repo, or CONSOLE_CODE_SOURCES_PATH for several. See the README."
+msgstr "اضبط CONSOLE_CONTROL_REPO_URL لمستودع تحكم واحد، أو CONSOLE_CODE_SOURCES_PATH لعدة مستودعات. راجع ملف README."
+
+#: src/node.js:604
+#: src/vulnerabilities.js:95
+#: src/vulnerability.js:54
+#: templates/pages/vulnerabilities.tmpl:11
+msgid "Severity"
+msgstr "الخطورة"
+
+#: templates/pages/node.tmpl:39
+msgid "Show closed"
+msgstr "إظهار المُغلقة"
+
+#: templates/pages/nodes.tmpl:24
+msgid "Show infrastructure certs"
+msgstr "إظهار شهادات البنية التحتية"
+
+#: src/packages.js:36
+msgid "Showing {shown} of {total} packages"
+msgstr "عرض {shown} من أصل {total} حزمة"
+
+#: src/nodes.js:78
+msgid "Sign"
+msgstr "توقيع"
+
+#: src/i18n.js:174
+#: templates/pages/nodes.tmpl:19
+msgid "Signed"
+msgstr "موقَّعة"
+
+#: templates/pages/oidc-callback.tmpl:3
+#~ msgid "Signing in&hellip;"
+#~ msgstr "جارٍ تسجيل الدخول&hellip;"
+
+#: src/i18n.js:170
+#: templates/pages/report.tmpl:16
+msgid "Skipped"
+msgstr "تم التخطي"
+
+#: templates/pages/vulnerabilities.tmpl:28
+msgid "Sort"
+msgstr "الفرز"
+
+#: src/deploys.js:57
+#: templates/pages/code.tmpl:44
+msgid "Source"
+msgstr "المصدر"
+
+#: templates/pages/code.tmpl:36
+msgid "Source to deploy"
+msgstr "المصدر المراد عمل deploy له"
+
+#: src/deploys.js:57
+#: src/jobs.js:54
+#: src/node.js:469
+msgid "Started"
+msgstr "بدأ"
+
+#: src/deploys.js:57
+#: src/index.js:249
+#: src/job.js:53
+#: src/jobs.js:54
+#: src/node.js:469
+#: src/node.js:604
+#: src/report.js:48
+#: src/vulnerability-providers.js:75
+#: templates/pages/code.tmpl:51
+#: templates/pages/jobs.tmpl:13
+#: templates/pages/node.tmpl:47
+#: templates/pages/report.tmpl:11
+msgid "Status"
+msgstr "الحالة"
+
+#: src/i18n.js:163
+#: templates/pages/code.tmpl:54
+#: templates/pages/jobs.tmpl:16
+msgid "Succeeded"
+msgstr "نجح"
+
+#: templates/pages/report.tmpl:13
+msgid "Success"
+msgstr "نجاح"
+
+#: src/activity.js:39
+msgid "Summary"
+msgstr "الملخص"
+
+#: src/vulnerability-providers.js:151
+msgid "Sync interval in minutes (at least 15)"
+msgstr "فاصل المزامنة بالدقائق (15 على الأقل)"
+
+#: src/vulnerability-providers.js:65
+msgid "Sync now"
+msgstr "زامن الآن"
+
+#: src/vulnerability-providers.js:28
+msgid "Syncing"
+msgstr "جارٍ المزامنة"
+
+#: templates/pages/jobs.tmpl:6
+msgid "Target"
+msgstr "الهدف"
+
+#: src/jobs.js:54
+#: templates/pages/job.tmpl:12
+msgid "Targets"
+msgstr "الأهداف"
+
+#: src/i18n.js:199
+#: templates/pages/jobs.tmpl:10
+msgid "Task"
+msgstr "Task"
+
+#: templates/pages/group.tmpl:37
+msgid "Top-scope parameters (JSON)"
+msgstr "معاملات النطاق الأعلى (JSON)"
+
+#: src/deploys.js:57
+#: src/jobs.js:54
+#: templates/pages/code.tmpl:50
+#: templates/pages/jobs.tmpl:19
+msgid "Triggered by"
+msgstr "بدأه"
+
+#: src/vulnerability-providers.js:148
+#: src/vulnerability-providers.js:149
+#: src/vulnerability-providers.js:75
+msgid "Type"
+msgstr "النوع"
+
+#: src/i18n.js:168
+#: src/index.js:25
+#: templates/pages/node.tmpl:50
+msgid "Unchanged"
+msgstr "دون تغيير"
+
+#: src/code-repositories.js:101
+msgid "Unclassified"
+msgstr "غير مُصنَّف"
+
+#: src/app.js:618
+#: src/i18n.js:177
+#: templates/pages/nodes.tmpl:22
+#: templates/pages/vulnerabilities.tmpl:17
+msgid "Unknown"
+msgstr "غير معروف"
+
+#: src/code-repositories.js:85
+msgid "Unused"
+msgstr "غير مستخدم"
+
+#: src/index.js:151
+msgid "User"
+msgstr "المستخدم"
+
+#: src/users.js:60
+#: templates/pages/login.tmpl:8
+#: templates/pages/users.tmpl:15
+msgid "Username"
+msgstr "اسم المستخدم"
+
+#: templates/pages/roles.tmpl:4
+#: templates/pages/service-tokens.tmpl:4
+#: templates/pages/users.tmpl:4
+#: templates/pages/users.tmpl:9
+msgid "Users"
+msgstr "المستخدمون"
+
+#: src/group.js:87
+msgid "Value"
+msgstr "القيمة"
+
+#: templates/pages/group.tmpl:38
+msgid "Variables set for every manifest compiled for these nodes, available as $variable. An object of name/value pairs."
+msgstr "متغيرات تُضبط لكل manifest يُجمَّع لهذه الـ Nodes، ومتاحة بصيغة \u200e$variable. كائن من أزواج الاسم/القيمة."
+
+#: src/node.js:418
+#: src/packages.js:146
+#: templates/layout.html.tmpl:109
+#: templates/pages/packages.tmpl:9
+msgid "Version"
+msgstr "الإصدار"
+
+#: src/packages.js:79
+msgid "Versions"
+msgstr "الإصدارات"
+
+#: src/job.js:36
+msgid "View report"
+msgstr "عرض الـ Report"
+
+#: templates/layout.html.tmpl:73
+#: templates/pages/node.tmpl:17
+#: templates/pages/vulnerabilities.tmpl:4
+#: templates/pages/vulnerability-providers.tmpl:4
+#: templates/pages/vulnerability.tmpl:4
+msgid "Vulnerabilities"
+msgstr "الثغرات"
+
+#: src/node.js:604
+#: src/vulnerabilities.js:95
+msgid "Vulnerability"
+msgstr "الثغرة"
+
+#: templates/pages/vulnerability-providers.tmpl:8
+msgid "Vulnerability providers"
+msgstr "مزوّدو الثغرات"
+
+#: src/activity.js:39
+msgid "When"
+msgstr "الوقت"
+
+#: src/nodes.js:38
+#: src/nodes.js:54
+msgid "checking…"
+msgstr "جارٍ التحقق…"
+
+#: templates/pages/index.tmpl:24
+msgid "e.g. Linux"
+msgstr "مثال: Linux"
+
+#: templates/pages/index.tmpl:23
+msgid "e.g. kernel"
+msgstr "مثال: kernel"
+
+#: templates/pages/vulnerabilities.tmpl:27
+msgid "e.g. openssl"
+msgstr "مثال: openssl"
+
+#: src/packages.js:37
+msgid "from {reporting} of {count} node"
+msgid_plural "from {reporting} of {count} nodes"
+msgstr[0] "من {reporting} من أصل {count} Node"
+msgstr[1] "من {reporting} من أصل Node واحد"
+msgstr[2] "من {reporting} من أصل Nodes اثنين"
+msgstr[3] "من {reporting} من أصل {count} Nodes"
+msgstr[4] "من {reporting} من أصل {count} Node"
+msgstr[5] "من {reporting} من أصل {count} Node"
+
+#: src/nodes.js:49
+msgid "never"
+msgstr "أبدًا"
+
+#: src/index.js:189
+msgid "no targets"
+msgstr "لا توجد أهداف"
+
+#: templates/pages/login.tmpl:17
+msgid "or"
+msgstr "أو"
+
+#: src/code-repositories.js:111
+msgid "{assigned} assigned against {reporting} reporting - some nodes have not run since the change"
+msgstr "{assigned} مُسنَدة مقابل {reporting} مُبلِّغة — بعض الـ Nodes لم تُنفَّذ منذ التغيير"
+
+#: src/code-repositories.js:95
+msgid "{assigned} node(s) are classified into its environments, but none has reported from one yet"
+msgstr "{assigned} من الـ Nodes مُصنَّفة في Environments الخاصة به، لكن لم يُبلّغ أي منها بعد"
+
+#: src/code-repositories.js:118
+msgid "{assigned} node(s) assigned and reporting"
+msgstr "{assigned} من الـ Nodes مُسنَدة ومُبلِّغة"
+
+#: src/nodes.js:292
+msgid "{count} node selected"
+msgid_plural "{count} nodes selected"
+msgstr[0] "لم يتم تحديد أي Node"
+msgstr[1] "تم تحديد Node واحد"
+msgstr[2] "تم تحديد Nodes اثنين"
+msgstr[3] "تم تحديد {count} Nodes"
+msgstr[4] "تم تحديد {count} Node"
+msgstr[5] "تم تحديد {count} Node"
+
+#: src/code-repositories.js:232
+msgid "{count} node using an environment no repository here has deployed."
+msgid_plural "{count} nodes using an environment no repository here has deployed."
+msgstr[0] "لا يوجد Node يستخدم Environment لم يعمل أي مستودع هنا على deploy له."
+msgstr[1] "{count} Node يستخدم Environment لم يعمل أي مستودع هنا على deploy له."
+msgstr[2] "{count} Nodes يستخدمان Environment لم يعمل أي مستودع هنا على deploy له."
+msgstr[3] "{count} Nodes تستخدم Environment لم يعمل أي مستودع هنا على deploy له."
+msgstr[4] "{count} Node تستخدم Environment لم يعمل أي مستودع هنا على deploy له."
+msgstr[5] "{count} Node تستخدم Environment لم يعمل أي مستودع هنا على deploy له."
+
+#: src/vulnerability-providers.js:60
+msgid "{minutes} min"
+msgstr "{minutes} دقيقة"
+
+#: src/code-repositories.js:103
+msgid "{reporting} node(s) report from its environments, but no group assigns any node there"
+msgstr "{reporting} من الـ Nodes تُبلّغ من Environments الخاصة به، لكن لا توجد مجموعة تُسنِد أي Node هناك"
+
+#: templates/pages/oidc-callback.tmpl:3
+msgid "Signing in…"
+msgstr "جارٍ تسجيل الدخول&hellip;"

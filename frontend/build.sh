@@ -18,6 +18,18 @@ npm install --no-audit --no-fund
 # Plural rules are the one part of translation that fails silently: a
 # wrong rule renders fine and is merely ungrammatical, in a language the
 # person who added it probably does not read.
+# src/locales.js is generated from the catalogues that exist (see
+# frontend/i18n). It has to be regenerated BEFORE the tests run, not
+# with the rest of the compile step further down: i18n.js imports it,
+# so a stale copy fails the whole suite at import time with a
+# "does not provide an export named ..." that looks like a code error
+# rather than a build-order one. Adding a language to languages.go and
+# watching the tests fail is exactly how that was found.
+echo "Regenerating the locale list"
+locales_tmp="$(mktemp -d)"
+trap 'rm -rf "$locales_tmp"' EXIT
+go run ./i18n compile "$locales_tmp" >/dev/null
+
 echo "Running JavaScript tests"
 node --test src/ >/dev/null || {
   echo "JavaScript tests failed; not building" >&2

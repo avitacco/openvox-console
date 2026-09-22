@@ -98,7 +98,7 @@ msgstr "Wszyscy użytkownicy"
 msgid "Applies to this browser only. Without a choice here, the console follows your browser's language."
 msgstr "Dotyczy tylko tej przeglądarki. Bez wyboru w tym miejscu konsola używa języka przeglądarki."
 
-#: src/app.js:355
+#: src/app.js:367
 #: src/vulnerability-providers.js:157
 msgid "Cancel"
 msgstr "Anuluj"
@@ -185,7 +185,7 @@ msgstr "Utwórz użytkownika"
 msgid "Created"
 msgstr "Utworzono"
 
-#: src/app.js:602
+#: src/app.js:614
 #: templates/pages/vulnerabilities.tmpl:13
 msgid "Critical"
 msgstr "Krytyczna"
@@ -368,7 +368,7 @@ msgstr "Grupa"
 msgid "Groups"
 msgstr "Grupy"
 
-#: src/app.js:603
+#: src/app.js:615
 #: templates/pages/vulnerabilities.tmpl:14
 msgid "High"
 msgstr "Wysoka"
@@ -401,7 +401,7 @@ msgstr "Rodzaj"
 msgid "Language"
 msgstr "Język"
 
-#: src/index.js:246
+#: src/index.js:249
 msgid "Last check-in"
 msgstr "Ostatni kontakt"
 
@@ -433,7 +433,7 @@ msgstr "Zaloguj się przez SSO"
 msgid "Log out"
 msgstr "Wyloguj się"
 
-#: src/app.js:605
+#: src/app.js:617
 #: templates/pages/vulnerabilities.tmpl:16
 msgid "Low"
 msgstr "Niska"
@@ -455,7 +455,7 @@ msgstr "Dopasowanie"
 msgid "Matching nodes"
 msgstr "Pasujące Nodes"
 
-#: src/app.js:604
+#: src/app.js:616
 #: templates/pages/vulnerabilities.tmpl:15
 msgid "Medium"
 msgstr "Średnia"
@@ -566,7 +566,7 @@ msgstr "Brak grup Nodes"
 msgid "No nodes currently match this group"
 msgstr "Obecnie żaden Node nie pasuje do tej grupy"
 
-#: src/index.js:220
+#: src/index.js:223
 #: src/nodes.js:225
 msgid "No nodes found"
 msgstr "Nie znaleziono Nodes"
@@ -619,8 +619,8 @@ msgstr "Brak użytkowników"
 msgid "No vulnerability providers"
 msgstr "Brak dostawców podatności"
 
-#: src/index.js:193
-#: src/index.js:246
+#: src/index.js:196
+#: src/index.js:249
 #: src/job.js:53
 #: src/nodes.js:249
 #: src/packages.js:146
@@ -723,7 +723,7 @@ msgstr "Nazwa pakietu"
 msgid "Packages"
 msgstr "Pakiety"
 
-#: src/app.js:526
+#: src/app.js:538
 msgid "Pagination"
 msgstr "Paginacja"
 
@@ -943,8 +943,8 @@ msgid "Signed"
 msgstr "Podpisano"
 
 #: templates/pages/oidc-callback.tmpl:3
-msgid "Signing in&hellip;"
-msgstr "Logowanie&hellip;"
+#~ msgid "Signing in&hellip;"
+#~ msgstr "Logowanie&hellip;"
 
 #: src/i18n.js:170
 #: templates/pages/report.tmpl:16
@@ -971,7 +971,7 @@ msgid "Started"
 msgstr "Rozpoczęto"
 
 #: src/deploys.js:57
-#: src/index.js:246
+#: src/index.js:249
 #: src/job.js:53
 #: src/jobs.js:54
 #: src/node.js:469
@@ -1044,7 +1044,7 @@ msgstr "Typ"
 msgid "Unchanged"
 msgstr "Bez zmian"
 
-#: src/app.js:606
+#: src/app.js:618
 #: src/i18n.js:177
 #: templates/pages/nodes.tmpl:22
 #: templates/pages/vulnerabilities.tmpl:17
@@ -1306,8 +1306,8 @@ msgstr "{reporting} Node(s) raportuje z jego Environments, ale żadna grupa nie 
 msgid "Puppet environment matching nodes compile against. Blank means this group doesn't set one."
 msgstr "Environment Puppet, względem którego kompilują pasujące Nodes. Puste oznacza, że ta grupa go nie ustawia."
 
-#: src/app.js:471
 #: src/app.js:483
+#: src/app.js:495
 msgid ", +{count} more"
 msgid_plural ", +{count} more"
 msgstr[0] ", +{count} więcej"
@@ -1361,3 +1361,7 @@ msgstr "Użytkownik"
 #: src/vulnerability-providers.js:60
 msgid "{minutes} min"
 msgstr "{minutes} min"
+
+#: templates/pages/oidc-callback.tmpl:3
+msgid "Signing in…"
+msgstr "Logowanie&hellip;"

@@ -12,10 +12,17 @@ import "fmt"
 // Name is the language's name in itself - somebody looking for German is
 // looking for "Deutsch", not for "German" spelled in a language they may
 // not read.
+//
+// RTL marks a right-to-left script. It is recorded per language rather
+// than guessed at runtime because the whole page's direction hangs on
+// it: voxblocks mirrors its entire layout from a single dir on <html>
+// (see its internationalization guide), and the console has to know
+// which way to set that before the first paint.
 type language struct {
 	Code        string
 	Name        string
 	PluralForms string
+	RTL         bool
 }
 
 // Two forms, one for n==1: English, German, Spanish, Italian and most of
@@ -37,6 +44,13 @@ const pluralSlavic = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : " +
 const pluralPolish = "nplurals=3; plural=(n==1 ? 0 : " +
 	"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 
+// Six forms, Arabic: zero, one, two, a few (3-10), many (11-99), and
+// everything else. The widest rule gettext's standard set contains, and
+// the reason plural.js evaluates the expression rather than hardcoding a
+// pair.
+const pluralArabic = "nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : " +
+	"n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5);"
+
 // languages are the locales the console can be built with. English is
 // the source language: it has no catalogue, because an untranslated
 // string already renders as its own English msgid.
@@ -44,20 +58,23 @@ const pluralPolish = "nplurals=3; plural=(n==1 ? 0 : " +
 // Adding one here and running `i18n add <code>` creates its catalogue;
 // the runtime's own list lives in frontend/src/i18n.js.
 var languages = []language{
-	{"de", "Deutsch", pluralTwoNotOne},
-	{"es", "Español", pluralTwoNotOne},
-	{"fr", "Français", pluralTwoGreaterOne},
-	{"pt", "Português", pluralTwoGreaterOne},
-	{"it", "Italiano", pluralTwoNotOne},
-	{"pl", "Polski", pluralPolish},
-	{"ru", "Русский", pluralSlavic},
-	{"uk", "Українська", pluralSlavic},
-	{"tr", "Türkçe", pluralOne},
-	{"hi", "हिन्दी", pluralTwoNotOne},
-	{"id", "Bahasa Indonesia", pluralOne},
-	{"zh", "中文", pluralOne},
-	{"ja", "日本語", pluralOne},
-	{"ko", "한국어", pluralOne},
+	{"de", "Deutsch", pluralTwoNotOne, false},
+	{"es", "Español", pluralTwoNotOne, false},
+	{"fr", "Français", pluralTwoGreaterOne, false},
+	{"pt", "Português", pluralTwoGreaterOne, false},
+	{"it", "Italiano", pluralTwoNotOne, false},
+	{"pl", "Polski", pluralPolish, false},
+	{"ru", "Русский", pluralSlavic, false},
+	{"uk", "Українська", pluralSlavic, false},
+	{"tr", "Türkçe", pluralOne, false},
+	{"hi", "हिन्दी", pluralTwoNotOne, false},
+	{"id", "Bahasa Indonesia", pluralOne, false},
+	{"zh", "中文", pluralOne, false},
+	{"ja", "日本語", pluralOne, false},
+	{"ko", "한국어", pluralOne, false},
+	// Right-to-left. Everything above is left-to-right, so this is the
+	// first entry that makes the RTL field mean anything.
+	{"ar", "العربية", pluralArabic, true},
 }
 
 // findLanguage looks up a language by code.

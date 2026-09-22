@@ -10,7 +10,7 @@
 // dist/locales/<lang>.json at build time (see frontend/i18n).
 
 import { parsePluralForms, DEFAULT_RULE } from './plural.js';
-import { AVAILABLE } from './locales.js';
+import { AVAILABLE, direction } from './locales.js';
 
 const STORAGE_KEY = 'console.language';
 
@@ -289,6 +289,12 @@ export function setLanguage(lang) {
 export async function load(lang) {
   active = lang || 'en';
   document.documentElement.setAttribute('lang', active);
+  // dir on <html> is the whole of voxblocks' RTL contract: it mirrors
+  // spacing, borders, alignment and its directional glyphs from this one
+  // attribute, with nothing to thread through per component. Set here
+  // rather than after the catalogue arrives, so the layout is already
+  // the right way round whether or not the fetch below succeeds.
+  document.documentElement.setAttribute('dir', direction(active));
 
   if (active === 'en') {
     catalog = {};
@@ -311,6 +317,11 @@ export async function load(lang) {
     plural = parsePluralForms(DEFAULT_RULE);
     active = 'en';
     document.documentElement.setAttribute('lang', 'en');
+    // Direction goes back with the language. Falling back to English
+    // while leaving dir="rtl" would mirror the entire layout around
+    // left-to-right text - a worse result than either language on its
+    // own, and one that reads as a broken stylesheet.
+    document.documentElement.setAttribute('dir', 'ltr');
   }
 }
 

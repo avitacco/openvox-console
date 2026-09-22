@@ -1,0 +1,478 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh\n"
+"Language-Team: 中文\n"
+"MIME-Version: 1.0\n"
+"POT-Creation-Date: 2026-09-22 21:04+0000\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Project-Id-Version: openvox-console\n"
+
+#: ../marketing/templates/pages/index.tmpl:81
+msgid "<code>docker compose up</code> brings up openvoxserver, openvoxdb, Postgres and the console together, so you can point a test agent at it and see your own nodes appear before committing to anything."
+msgstr "<code>docker compose up</code> 会一并启动 openvoxserver、openvoxdb、Postgres 和控制台，你可以把一个测试代理指向它，在做出任何承诺之前先看到自己的 Nodes 出现。"
+
+#: ../marketing/gen/main.go:58
+msgid "A Puppet Enterprise console equivalent for OpenVox: node inventory, classification, code deployment, orchestration, package and vulnerability tracking, and role-based access control - in a single Go binary."
+msgstr "面向 OpenVox 的 Puppet Enterprise 控制台等价物：Node 清单、分类、代码 deploy、编排、软件包与漏洞跟踪，以及基于角色的访问控制——全部包含在单个 Go 二进制文件中。"
+
+#: ../marketing/templates/pages/features/classification.tmpl:43
+msgid "A node that has never checked in has no facts yet, so no fact-based rule can match it. Pin it to a group directly if it needs classification before its first run."
+msgstr "从未签入过的 Node 还没有 Facts，因此任何基于 Facts 的规则都无法匹配它。如果它需要在首次运行前完成分类，请直接将其固定到某个分组。"
+
+#: ../marketing/templates/pages/features/security.tmpl:45
+msgid "A node with no package inventory cannot be assessed, and the console says so rather than counting it as clean. \"Nothing known against it\" and \"never looked\" are different answers and appear differently."
+msgstr "没有软件包清单的 Node 无法评估，控制台会如实说明，而不是把它算作没有问题。「未发现已知问题」和「从未检查过」是两个不同的答案，显示方式也不同。"
+
+#: ../marketing/templates/pages/features/nodes.tmpl:46
+msgid "A node's own page gathers its facts, its recent runs, the classes classification gave it, what it has installed and which vulnerabilities touch it — everything you want when one machine, rather than the fleet, is the question."
+msgstr "Node 自己的页面汇集了它的 Facts、最近的运行、分类赋予它的类、已安装的内容，以及影响它的漏洞——当问题是一台机器而不是整个机群时，你需要的一切都在这里。"
+
+#: ../marketing/templates/pages/features/access-control.tmpl:12
+msgid "A role is a named list of permissions — read nodes, deploy code, run orchestration, manage vulnerability providers. Give a person one role or several. They see the parts of the console their roles cover, and nothing else: no buttons that fail when clicked."
+msgstr "角色是一组有名称的权限——读取 Nodes、deploy 代码、运行编排、管理漏洞提供方。给一个人分配一个或多个角色。他们只看到角色覆盖的那部分控制台，除此之外什么都看不到：不会有点击后失败的按钮。"
+
+#: ../marketing/gen/main.go:98
+msgid "Access control"
+msgstr "访问控制"
+
+#: ../marketing/templates/pages/features/access-control.tmpl:2
+#: ../marketing/templates/pages/index.tmpl:56
+msgid "Access control and audit"
+msgstr "访问控制与审计"
+
+#: ../marketing/gen/main.go:97
+msgid "Access control and audit - OpenVox Console"
+msgstr "访问控制与审计 - OpenVox Console"
+
+#: ../marketing/templates/pages/features/access-control.tmpl:42
+msgid "An audit trail that names names"
+msgstr "点名到人的审计记录"
+
+#: ../marketing/templates/pages/features/security.tmpl:11
+msgid "Answer \"who still has the old one\""
+msgstr "回答「谁还在用旧版本」"
+
+#: ../marketing/templates/pages/features/classification.tmpl:12
+msgid "Build a rule from facts — <code>os.family = Debian</code>, <code>role = web</code> — and the console tells you how many nodes it matches right now. A rule that catches nothing is obvious immediately, instead of at the next Puppet run."
+msgstr "用 Facts 构建规则——<code>os.family = Debian</code>、<code>role = web</code>——控制台会立刻告诉你它当前匹配多少个 Nodes。匹配不到任何对象的规则会当场显现，而不必等到下一次 Puppet 运行。"
+
+#: ../marketing/templates/pages/features/orchestration.tmpl:35
+msgid "Built to keep up"
+msgstr "为跟上规模而设计"
+
+#: ../marketing/templates/pages/features/access-control.tmpl:55
+msgid "Built to survive a lost laptop"
+msgstr "为笔记本电脑丢失而设计"
+
+#: ../marketing/templates/layout.html.tmpl:101
+#: ../marketing/templates/layout.html.tmpl:66
+msgid "Capabilities"
+msgstr "功能"
+
+#: ../marketing/templates/pages/features/nodes.tmpl:33
+msgid "Certificate state sits alongside, and with CA access configured you can sign and revoke from the same page instead of finding a shell on the server."
+msgstr "证书状态就在旁边；配置了 CA 访问后，你可以在同一页面完成签发和吊销，而不必去服务器上找一个 shell。"
+
+#: ../marketing/gen/main.go:70
+#: ../marketing/templates/pages/features/classification.tmpl:2
+#: ../marketing/templates/pages/index.tmpl:36
+msgid "Classification"
+msgstr "分类"
+
+#: ../marketing/gen/main.go:69
+msgid "Classification - OpenVox Console"
+msgstr "分类 - OpenVox Console"
+
+#: ../marketing/gen/main.go:77
+msgid "Code"
+msgstr "Code"
+
+#: ../marketing/templates/pages/features/code.tmpl:2
+#: ../marketing/templates/pages/index.tmpl:41
+msgid "Code deployment"
+msgstr "代码 deploy"
+
+#: ../marketing/gen/main.go:76
+msgid "Code deployment - OpenVox Console"
+msgstr "代码 deploy - OpenVox Console"
+
+#: ../marketing/templates/layout.html.tmpl:91
+msgid "Container images"
+msgstr "容器镜像"
+
+#: ../marketing/templates/pages/features/security.tmpl:44
+msgid "Coverage is reported, not assumed"
+msgstr "覆盖率是上报出来的，不是假定的"
+
+#: ../marketing/gen/main.go:71
+msgid "Decide what configuration applies to which nodes with rule-based node groups, served to OpenVox over the standard ENC contract."
+msgstr "用基于规则的 Node 分组决定哪些配置适用于哪些 Nodes，并通过标准 ENC 约定提供给 OpenVox。"
+
+#: ../marketing/templates/pages/features/classification.tmpl:2
+msgid "Decide what runs where"
+msgstr "决定什么在哪里运行"
+
+#: ../marketing/gen/main.go:78
+msgid "Deploy Puppet code from one or many control repositories, with a record of every deploy."
+msgstr "从一个或多个 control 仓库 deploy Puppet 代码，并记录每一次 deploy。"
+
+#: ../marketing/templates/pages/features/code.tmpl:3
+msgid "Deploy environments from a control repository with g10k, built in. On demand or straight from a push, with a record of every deploy."
+msgstr "使用内置的 g10k 从 control 仓库 deploy Environments。可按需触发，也可直接由 push 触发，并记录每一次 deploy。"
+
+#: ../marketing/templates/pages/features/orchestration.tmpl:30
+msgid "Dispatched"
+msgstr "已派发"
+
+#: ../marketing/templates/pages/features/security.tmpl:34
+msgid "Each finding carries the installed version, the fixed version where there is one, and whether a fix exists at all. That last one is the difference between work you can schedule and work you cannot."
+msgstr "每条发现都带有已安装版本、存在修复时的修复版本，以及是否存在修复本身。最后这一点，正是可以排期的工作与无法排期的工作之间的分界。"
+
+#: ../marketing/templates/pages/features/code.tmpl:43
+msgid "Each repository gets its own webhook and its own secret, so a secret that leaks from one cannot be used to deploy another."
+msgstr "每个仓库都有自己的 webhook 和自己的密钥，因此从一个仓库泄露的密钥无法用来 deploy 另一个仓库。"
+
+#: ../marketing/templates/pages/features/code.tmpl:30
+msgid "Every deploy leaves a trail"
+msgstr "每次 deploy 都留下痕迹"
+
+#: ../marketing/templates/pages/features/access-control.tmpl:44
+msgid "Every entry records who did it and when, so \"who changed this group\" is a question with an answer. Work done by a scheduled task or by the console itself is shown as exactly that, rather than being pinned on a placeholder account."
+msgstr "每条记录都写明了何人何时所为，于是「谁改了这个分组」成了一个有答案的问题。由计划任务或控制台自身完成的工作会如实标注，而不会被记在某个占位账号头上。"
+
+#: ../marketing/templates/pages/features/nodes.tmpl:2
+msgid "Every node, and what it actually did"
+msgstr "每个 Node，以及它实际做了什么"
+
+#: ../marketing/templates/pages/index.tmpl:33
+msgid "Every node, what it last reported, whether it is reachable, and the state of its certificate."
+msgstr "每个 Node 最后上报的内容、是否可达，以及其证书状态。"
+
+#: ../marketing/templates/pages/features/security.tmpl:3
+msgid "Every package across the fleet, and the published advisories that affect it — checked against what your nodes actually report, not what they were meant to have."
+msgstr "机群中的每一个软件包，以及影响它的已发布公告——依据 Nodes 实际上报的内容核对，而不是依据它们本应具备的内容。"
+
+#: ../marketing/templates/pages/index.tmpl:23
+msgid "Every page below shows the console itself, captured from a running instance."
+msgstr "下面每个页面展示的都是控制台本身，截取自一个运行中的实例。"
+
+#: ../marketing/templates/pages/features/nodes.tmpl:58
+msgid "Every resource event a run produced is here, with the old and new value for each change and the manifest and line that caused it. It is what the agent sent, not a summary of it."
+msgstr "一次运行产生的每个资源事件都在这里，附带每项变更的新旧值，以及导致它的 manifest 和行号。这是代理发送的原始内容，而不是它的摘要。"
+
+#: ../marketing/templates/pages/features/orchestration.tmpl:12
+msgid "Every target is recorded on its own: status, exit code and output. A job that worked on nine nodes and failed on one says exactly that, instead of collapsing to a single verdict you then have to go and investigate."
+msgstr "每个目标都被单独记录：状态、退出码和输出。一个在九个 Nodes 上成功、在一个上失败的 Job 会如实呈现，而不会收敛成一个你之后还得去追查的单一结论。"
+
+#: ../marketing/templates/pages/features/access-control.tmpl:34
+msgid "Everything else"
+msgstr "其余的一切"
+
+#: ../marketing/templates/pages/features/nodes.tmpl:28
+msgid "Filter by name, or by anything your agents report — operating system, kernel, architecture, a custom fact of your own. Answers come from openvoxdb as it stands right now, not from a cache."
+msgstr "按名称筛选，或按代理上报的任何内容筛选——操作系统、内核、架构，或你自定义的 Fact。答案来自此刻的 openvoxdb，而不是缓存。"
+
+#: ../marketing/templates/pages/features/security.tmpl:25
+msgid "Findings, merged across sources"
+msgstr "跨来源合并的发现"
+
+#: ../marketing/templates/pages/index.tmpl:9
+msgid "Get it on GitHub"
+msgstr "在 GitHub 上获取"
+
+#: ../marketing/templates/pages/features/access-control.tmpl:3
+msgid "Give people exactly the access they need, give your automation its own credentials, and keep a record of every change."
+msgstr "给每个人恰好所需的访问权限，给你的自动化专属的凭据，并记录每一次变更。"
+
+#: ../marketing/templates/pages/features/classification.tmpl:10
+msgid "Groups that match real nodes"
+msgstr "匹配真实 Nodes 的分组"
+
+#: ../marketing/templates/pages/index.tmpl:70
+msgid "It sits on top of the stack you already have. openvox-server still compiles catalogs and runs the CA; openvoxdb still stores facts and reports. Your agents carry on talking to exactly what they talk to now — the console serves the standard ENC contract, so there is nothing to change on the node side."
+msgstr "它构建在你已有的技术栈之上。openvox-server 仍然编译目录并运行 CA；openvoxdb 仍然存储 Facts 和 Reports。你的代理继续与现在完全相同的对象通信——控制台提供标准 ENC 约定，因此 Node 端无需做任何改动。"
+
+#: ../marketing/templates/pages/features/orchestration.tmpl:32
+msgid "Job completed"
+msgstr "Job 已完成"
+
+#: ../marketing/templates/pages/features/orchestration.tmpl:29
+msgid "Job created"
+msgstr "Job 已创建"
+
+#: ../marketing/gen/main.go:92
+msgid "Know what is installed across the fleet and which known vulnerabilities affect it."
+msgstr "了解机群中安装了什么，以及哪些已知漏洞会影响它。"
+
+#: ../marketing/templates/pages/features/security.tmpl:2
+msgid "Know what you are running"
+msgstr "了解你正在运行什么"
+
+#: ../marketing/templates/layout.html.tmpl:109
+#: ../marketing/templates/layout.html.tmpl:56
+msgid "Language"
+msgstr "语言"
+
+#: ../marketing/templates/layout.html.tmpl:119
+msgid "Licensed GPL-3.0"
+msgstr "依据 GPL-3.0 授权"
+
+#: ../marketing/templates/pages/features/access-control.tmpl:29
+msgid "Machines"
+msgstr "机器"
+
+#: ../marketing/templates/pages/features/classification.tmpl:3
+msgid "Node groups match on the facts your nodes already report and hand openvox-server the answer over the ENC contract it expects."
+msgstr "Node 分组依据 Nodes 已经上报的 Facts 进行匹配，并通过 openvox-server 所期望的 ENC 约定把答案交给它。"
+
+#: ../marketing/gen/main.go:63
+msgid "Nodes"
+msgstr "Nodes"
+
+#: ../marketing/templates/pages/features/nodes.tmpl:2
+#: ../marketing/templates/pages/index.tmpl:31
+msgid "Nodes and inventory"
+msgstr "Nodes 与清单"
+
+#: ../marketing/gen/main.go:62
+msgid "Nodes and inventory - OpenVox Console"
+msgstr "Nodes 与清单 - OpenVox Console"
+
+#: ../marketing/templates/pages/index.tmpl:63
+msgid "One binary to run"
+msgstr "只需运行一个二进制文件"
+
+#: ../marketing/templates/pages/features/code.tmpl:10
+msgid "One control repository, or one per team"
+msgstr "一个 control 仓库，或每个团队一个"
+
+#: ../marketing/templates/pages/features/nodes.tmpl:44
+msgid "One node in full"
+msgstr "完整呈现一个 Node"
+
+#: ../marketing/gen/main.go:57
+#: ../marketing/templates/pages/index.tmpl:2
+msgid "OpenVox Console"
+msgstr "OpenVox Console"
+
+#: ../marketing/templates/layout.html.tmpl:83
+msgid "OpenVox Console ships as two container images, built for amd64 and arm64 on every push. <code>SETUP.md</code> walks through a real deployment - openvoxserver, openvoxdb, Postgres and the console - with both container and package instructions."
+msgstr "OpenVox Console 以两个容器镜像的形式发布，每次 push 都会为 amd64 和 arm64 构建。<code>SETUP.md</code> 会带你完成一次真实部署——openvoxserver、openvoxdb、Postgres 和控制台——同时给出容器和软件包两种说明。"
+
+#: ../marketing/gen/main.go:84
+#: ../marketing/templates/pages/features/orchestration.tmpl:2
+#: ../marketing/templates/pages/index.tmpl:46
+msgid "Orchestration"
+msgstr "编排"
+
+#: ../marketing/gen/main.go:83
+msgid "Orchestration - OpenVox Console"
+msgstr "编排 - OpenVox Console"
+
+#: ../marketing/templates/pages/features/orchestration.tmpl:36
+msgid "Orchestration runs over NATS, so reaching a large fleet is a matter of adding capacity rather than reworking how messages are routed."
+msgstr "编排基于 NATS 运行，因此覆盖大型机群只是增加容量的问题，而不必重做消息路由方式。"
+
+#: ../marketing/templates/layout.html.tmpl:97
+msgid "Overview"
+msgstr "概览"
+
+#: ../marketing/templates/pages/features/security.tmpl:2
+#: ../marketing/templates/pages/index.tmpl:51
+msgid "Packages and vulnerabilities"
+msgstr "软件包与漏洞"
+
+#: ../marketing/gen/main.go:90
+msgid "Packages and vulnerabilities - OpenVox Console"
+msgstr "软件包与漏洞 - OpenVox Console"
+
+#: ../marketing/templates/pages/features/access-control.tmpl:24
+msgid "People"
+msgstr "人员"
+
+#: ../marketing/templates/pages/features/security.tmpl:27
+msgid "Point the console at the advisory sources you trust. Findings merge per vulnerability, the highest severity wins, and the page names every source reporting it — so two sources disagreeing is something you can see rather than something resolved behind your back."
+msgstr "把控制台指向你信任的公告来源。发现会按漏洞合并，取最高严重级别，页面会列出每一个上报它的来源——两个来源相互矛盾时你能看见，而不是在你背后被悄悄处理掉。"
+
+#: ../marketing/templates/pages/features/classification.tmpl:24
+msgid "Precedence you can read off the page"
+msgstr "可以从页面上读出的优先级"
+
+#: ../marketing/templates/pages/features/nodes.tmpl:57
+msgid "Reports keep their detail"
+msgstr "Reports 保留其细节"
+
+#: ../marketing/templates/pages/features/orchestration.tmpl:31
+msgid "Results arrive"
+msgstr "结果陆续返回"
+
+#: ../marketing/templates/pages/features/orchestration.tmpl:10
+msgid "Results per node, not per job"
+msgstr "按 Node 而非按 Job 给出结果"
+
+#: ../marketing/gen/main.go:99
+msgid "Role-based access control, service tokens, and an audit trail of who changed what."
+msgstr "基于角色的访问控制、服务令牌，以及谁改了什么的审计记录。"
+
+#: ../marketing/templates/pages/features/access-control.tmpl:10
+msgid "Roles are permission sets"
+msgstr "角色即权限集合"
+
+#: ../marketing/templates/pages/index.tmpl:58
+msgid "Roles, service tokens, and a record of who changed what."
+msgstr "角色、服务令牌，以及谁改了什么的记录。"
+
+#: ../marketing/templates/pages/index.tmpl:38
+msgid "Rule-based node groups that decide what configuration applies where."
+msgstr "基于规则的 Node 分组，决定哪些配置适用于何处。"
+
+#: ../marketing/templates/pages/features/classification.tmpl:42
+msgid "Rules match on reported facts"
+msgstr "规则依据上报的 Facts 匹配"
+
+#: ../marketing/templates/pages/index.tmpl:48
+msgid "Run Puppet, tasks and plans across the fleet, and see what each node did."
+msgstr "在整个机群上运行 Puppet、Tasks 和 Plans，并查看每个 Node 做了什么。"
+
+#: ../marketing/gen/main.go:85
+msgid "Run Puppet, tasks and plans on demand across the fleet, and see what each node did."
+msgstr "在整个机群上按需运行 Puppet、Tasks 和 Plans，并查看每个 Node 做了什么。"
+
+#: ../marketing/templates/pages/features/orchestration.tmpl:2
+msgid "Run it now, everywhere"
+msgstr "立即运行，遍及各处"
+
+#: ../marketing/templates/layout.html.tmpl:82
+msgid "Run it yourself"
+msgstr "自己动手运行"
+
+#: ../marketing/templates/pages/features/nodes.tmpl:13
+msgid "Runs are grouped the way you would triage them: what failed, what changed on purpose, what corrected drift, and what was already as you asked. Reachability is tracked separately, because a node that has gone quiet and a node that reported a failure are different problems with different fixes."
+msgstr "运行结果按你分诊的方式分组：哪些失败了、哪些是有意变更、哪些纠正了漂移，以及哪些本来就符合要求。可达性单独跟踪，因为一个陷入沉默的 Node 和一个上报了失败的 Node 是两个不同的问题，解法也不同。"
+
+#: ../marketing/templates/layout.html.tmpl:120
+msgid "Screenshots are of the console running against a synthetic demo fleet."
+msgstr "截图取自控制台针对一个合成演示机群的运行画面。"
+
+#: ../marketing/templates/pages/features/security.tmpl:13
+msgid "Search by package, version or provider and see which nodes carry what, without logging into any of them. Collection is opt-in per node and the console can switch it on remotely, so you are not forced to collect everywhere to have it somewhere."
+msgstr "按软件包、版本或提供方搜索，无需登录任何一台机器即可查看哪些 Nodes 装了什么。采集按 Node 选择启用，控制台可以远程开启，因此你不必为了在某处获得它而在所有地方采集。"
+
+#: ../marketing/templates/pages/features/nodes.tmpl:26
+msgid "Search the fleet by any fact"
+msgstr "用任意 Fact 搜索机群"
+
+#: ../marketing/gen/main.go:91
+msgid "Security"
+msgstr "安全"
+
+#: ../marketing/gen/main.go:64
+msgid "See every managed node, what it reported, whether it is reachable and the state of its certificate."
+msgstr "查看每个受管 Node 上报的内容、是否可达，以及其证书状态。"
+
+#: ../marketing/templates/pages/index.tmpl:3
+msgid "See every node, decide what runs where, deploy your code, and act on what comes back. A Puppet Enterprise console for OpenVox — one Go binary, on top of the openvox-server and openvoxdb you already run."
+msgstr "查看每个 Node，决定什么在哪里运行，deploy 你的代码，并对返回的结果采取行动。面向 OpenVox 的 Puppet Enterprise 控制台——一个 Go 二进制文件，运行在你已有的 openvox-server 和 openvoxdb 之上。"
+
+#: ../marketing/templates/pages/index.tmpl:8
+msgid "See what it does"
+msgstr "看看它能做什么"
+
+#: ../marketing/templates/pages/features/access-control.tmpl:56
+msgid "Sessions are short-lived and refresh in the background, so a token that leaks stops working on its own. When you need someone out immediately, revoking their session takes effect across every console instance at once rather than waiting for it to expire."
+msgstr "会话生命周期很短并在后台续期，因此泄露的令牌会自行失效。当你需要立刻把某人请出去时，吊销其会话会同时在每一个控制台实例上生效，而不必等待它过期。"
+
+#: ../marketing/templates/layout.html.tmpl:89
+#: ../marketing/templates/layout.html.tmpl:99
+msgid "Setup guide"
+msgstr "安装指南"
+
+#: ../marketing/templates/pages/index.tmpl:43
+msgid "Ship Puppet code from one control repository or many, on demand or by webhook."
+msgstr "按需或通过 webhook，从一个或多个 control 仓库分发 Puppet 代码。"
+
+#: ../marketing/templates/pages/features/code.tmpl:2
+msgid "Ship your Puppet code"
+msgstr "分发你的 Puppet 代码"
+
+#: ../marketing/templates/layout.html.tmpl:39
+msgid "Skip to content"
+msgstr "跳到内容"
+
+#: ../marketing/templates/layout.html.tmpl:98
+msgid "Source"
+msgstr "源码"
+
+#: ../marketing/templates/layout.html.tmpl:90
+msgid "Source on GitHub"
+msgstr "GitHub 上的源码"
+
+#: ../marketing/templates/pages/features/nodes.tmpl:11
+msgid "Start with what needs attention"
+msgstr "从需要关注的地方开始"
+
+#: ../marketing/templates/pages/features/code.tmpl:12
+msgid "Teams that keep their own control repository no longer have to share one. Add each as a source, and give the ones that need it a prefix so two repositories with a <code>production</code> branch land in separate environments instead of overwriting each other."
+msgstr "维护自有 control 仓库的团队不必再共用一个。把每个仓库添加为来源，并为需要的仓库指定前缀，这样两个都有 <code>production</code> 分支的仓库会落在各自独立的 Environments 中，而不会相互覆盖。"
+
+#: ../marketing/templates/pages/features/nodes.tmpl:3
+msgid "The console reads openvoxdb directly, so what you see is what your agents reported — nothing to sync, and nothing to change on the node side."
+msgstr "控制台直接读取 openvoxdb，因此你看到的就是代理上报的内容——没有需要同步的东西，Node 端也无需改动。"
+
+#: ../marketing/templates/pages/index.tmpl:65
+msgid "The console, access control, classification, orchestration and code deployment are one process. There is nothing to wire together, no internal services to keep in step, and one thing to upgrade."
+msgstr "控制台、访问控制、分类、编排和代码 deploy 同属一个进程。没有需要拼接的东西，没有需要保持同步的内部服务，只有一样东西需要升级。"
+
+#: ../marketing/templates/pages/features/orchestration.tmpl:3
+msgid "Trigger Puppet runs, tasks and plans against the nodes you pick, and watch the results come back one node at a time."
+msgstr "针对你挑选的 Nodes 触发 Puppet 运行、Tasks 和 Plans，并看着结果一个 Node 接一个 Node 地返回。"
+
+#: ../marketing/templates/pages/index.tmpl:80
+msgid "Try it on a throwaway stack first"
+msgstr "先在一套用完即弃的环境上试试"
+
+#: ../marketing/templates/pages/features/code.tmpl:42
+msgid "Webhooks are per source"
+msgstr "webhook 按来源区分"
+
+#: ../marketing/templates/pages/index.tmpl:53
+msgid "What is installed everywhere, and which advisories affect it."
+msgstr "各处安装了什么，以及哪些公告会影响它。"
+
+#: ../marketing/templates/pages/index.tmpl:21
+msgid "What it does"
+msgstr "它能做什么"
+
+#: ../marketing/templates/pages/features/classification.tmpl:26
+msgid "When several groups apply to a node, one number decides which wins. Groups are flat and each carries an explicit priority, so working out why a node got a class means reading a list, not tracing an inheritance tree."
+msgstr "当多个分组同时适用于一个 Node 时，由一个数字决定谁优先。分组是扁平的，各自带有显式优先级，因此弄清一个 Node 为何获得某个类，只需读一份列表，而不必追溯继承树。"
+
+#: ../marketing/templates/pages/features/orchestration.tmpl:18
+msgid "Where a job caused a Puppet run, its result links straight to the report that run produced — so \"what did this actually change\" is one click away."
+msgstr "当某个 Job 触发了 Puppet 运行时，其结果会直接链接到该次运行产生的 Report——于是「这究竟改变了什么」只需一次点击。"
+
+#: ../marketing/templates/pages/features/access-control.tmpl:2
+msgid "Who can do what, and who did what"
+msgstr "谁可以做什么，以及谁做了什么"
+
+#: ../marketing/templates/pages/features/code.tmpl:32
+msgid "Who triggered it, which source and ref, which environment it wrote, and whether it worked. A deploy that failed keeps its error instead of quietly vanishing from the list."
+msgstr "谁触发的、来自哪个来源和哪个 ref、写入了哪个 Environment，以及是否成功。失败的 deploy 会保留其错误，而不会从列表中悄然消失。"
+
+#: ../marketing/templates/pages/index.tmpl:2
+msgid "Your whole fleet, in one place"
+msgstr "你的整个机群，尽在一处"
+
+#: ../marketing/templates/pages/index.tmpl:16
+msgid "architectures, built on every push"
+msgstr "种架构，每次 push 都会构建"
+
+#: ../marketing/templates/pages/index.tmpl:15
+msgid "binary to deploy"
+msgstr "个待部署的二进制文件"
+
+#: ../marketing/templates/pages/index.tmpl:17
+msgid "free and open source"
+msgstr "自由且开源"

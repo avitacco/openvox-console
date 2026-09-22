@@ -21,6 +21,7 @@ import (
 // rendering "nodes.title" because somebody mistyped a key.
 //
 //   JS:        t('Add node')
+//   Go:        N_("Nodes and inventory")
 //   Element:   <h1 data-i18n>Nodes</h1>
 //   Attribute: <vox-input data-i18n-attr="label" label="Node name">
 //   Prose:     <p data-i18n-html><strong>Assigned</strong> counts ...</p>
@@ -95,6 +96,14 @@ func extract(roots []string) ([]message, error) {
 			}
 			switch filepath.Ext(path) {
 			case ".js":
+				return scanJS(path, add, addN)
+			case ".go":
+				// Go sources carry strings the templates cannot: the
+				// marketing site's page titles and meta descriptions
+				// are a Go table, and without this they would be the
+				// only text on a translated page still in English.
+				// The same N_("...") marker as JavaScript, matched by
+				// the same double-quoted pattern.
 				return scanJS(path, add, addN)
 			case ".tmpl":
 				return scanTemplate(path, add)
@@ -188,7 +197,13 @@ func scanTemplate(path string, add func(id, ref string)) error {
 		if strings.ContainsAny(inner, "<>") || strings.Contains(inner, "{{") {
 			continue
 		}
-		add(collapse(inner), fmt.Sprintf("%s:%d", path, lineOf(body, m[0])))
+		// Entities are decoded, because the runtime looks the string up
+		// by what the parsed document holds - "-" rather than the
+		// "&mdash;" the template was written with. Leaving the entity
+		// in the msgid made every sentence containing one unmatchable:
+		// the catalogue held one spelling and the page asked for the
+		// other, so the string stayed English with nothing to show why.
+		add(html.UnescapeString(collapse(inner)), fmt.Sprintf("%s:%d", path, lineOf(body, m[0])))
 	}
 
 	// Prose marked data-i18n-html, whose msgid is the inner HTML rather
@@ -212,7 +227,7 @@ func scanTemplate(path string, add func(id, ref string)) error {
 		if strings.Contains(inner, "{{") {
 			continue
 		}
-		add(collapse(inner), fmt.Sprintf("%s:%d", path, lineOf(body, m[0])))
+		add(html.UnescapeString(collapse(inner)), fmt.Sprintf("%s:%d", path, lineOf(body, m[0])))
 	}
 
 	// Attribute values named by data-i18n-attr.

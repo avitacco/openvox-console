@@ -50,6 +50,15 @@ type options struct {
 	username string
 	password string
 
+	// locale is the console language to capture in. Empty or "en"
+	// captures English, whose files keep their unsuffixed names.
+	//
+	// The console stores the choice in localStorage and reads it before
+	// first paint, so this is set on the page rather than passed as a
+	// URL parameter - there is no query string that changes the
+	// console's language.
+	locale string
+
 	// only captures a single shot by name, for iterating on one view.
 	only string
 
@@ -73,6 +82,7 @@ func run() error {
 	flag.StringVar(&opts.username, "username", envOr("CONSOLE_BOOTSTRAP_ADMIN_USERNAME", "admin"), "console user to log in as")
 	flag.StringVar(&opts.password, "password", os.Getenv("CONSOLE_BOOTSTRAP_ADMIN_PASSWORD"), "that user's password (or set CONSOLE_BOOTSTRAP_ADMIN_PASSWORD)")
 	flag.StringVar(&opts.only, "only", "", "capture just this one shot, by name")
+	flag.StringVar(&opts.locale, "locale", "en", "console language to capture in (en, de, es, ja, ar, ...)")
 	flag.DurationVar(&opts.timeout, "timeout", 3*time.Minute, "overall deadline for the whole run")
 	flag.Parse()
 

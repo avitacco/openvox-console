@@ -66,16 +66,28 @@ function applyTranslations() {
   }
 }
 
-// Not an unconditional addEventListener: the top-level await above
-// defers this module's evaluation, and by the time it resumes
-// DOMContentLoaded has usually already fired - a listener added then
-// never runs, and the whole page stays in English with only the lang
-// attribute changed. readyState is what distinguishes the two cases.
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', applyTranslations);
-} else {
-  applyTranslations();
+/**
+ * Runs `fn` once the document is parsed, whether or not that has already
+ * happened.
+ *
+ * Every use of DOMContentLoaded in this module has to go through here.
+ * The top-level await above defers this module's evaluation past the
+ * event whenever the catalogue is actually fetched - which is every
+ * language except English, since English returns without a fetch. A bare
+ * addEventListener therefore works in English and silently never fires
+ * in the other fourteen: that is how the sidenav's permission-gated
+ * items (Jobs, Code, Activity, Admin, Vulnerabilities) came to be
+ * missing from every translated page while English looked perfect.
+ */
+export function onDocumentReady(fn) {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', fn);
+  } else {
+    fn();
+  }
 }
+
+onDocumentReady(applyTranslations);
 
 const ACCESS_TOKEN_KEY = 'console.accessToken';
 const REFRESH_TOKEN_KEY = 'console.refreshToken';
@@ -542,7 +554,7 @@ export function bindPagination(container, onNavigate) {
 // free: schedule a proactive refresh if a session already exists, and
 // wire up a logout button if the page has one (id="logout-button").
 scheduleRefresh();
-document.addEventListener('DOMContentLoaded', () => {
+onDocumentReady(() => {
   document.getElementById('logout-button')?.addEventListener('click', logout);
   if (hasPermission('rbac:admin')) {
     const adminLink = document.getElementById('nav-admin-link');

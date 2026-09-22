@@ -61,6 +61,36 @@ test('nothing shadows the translation functions', () => {
   );
 });
 
+test('nothing registers a bare DOMContentLoaded listener', () => {
+  // app.js awaits the catalogue at module scope, which defers evaluation
+  // of itself and every module importing it past DOMContentLoaded -
+  // except in English, where the load resolves without a fetch. So a
+  // bare addEventListener('DOMContentLoaded') fires in English and never
+  // fires in the other fourteen languages, which is about the worst
+  // shape a bug can have: it works in the language the developer reads.
+  // onDocumentReady() in app.js handles both cases; use it instead.
+  const findings = [];
+  for (const file of sourceFiles()) {
+    const source = withoutComments(readFileSync(join(here, file), 'utf8'));
+    source.split('\n').forEach((line, i) => {
+      if (/addEventListener\(\s*['"]DOMContentLoaded['"]/.test(line)) {
+        // app.js is where onDocumentReady itself is defined.
+        if (file === 'app.js' && /function onDocumentReady/.test(source)) {
+          const helper = source.slice(source.indexOf('function onDocumentReady'));
+          if (helper.split('\n').slice(0, 6).some((l) => l.includes(line.trim()))) return;
+        }
+        findings.push(`${file}:${i + 1}: ${line.trim()}`);
+      }
+    });
+  }
+
+  assert.deepEqual(
+    findings,
+    [],
+    `use onDocumentReady() from app.js instead - a bare listener never fires in a translated page:\n  ${findings.join('\n  ')}`,
+  );
+});
+
 test('every name imported from app.js is actually exported by it', () => {
   // A module importing a name app.js does not export is a link-time
   // error, not a parse error: `node --check` passes, the build passes,

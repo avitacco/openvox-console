@@ -50,7 +50,7 @@ body {
    can be pushed to its own column's right edge below - the .cell box
    vox-record-list-item renders around each slot stretches to fill its
    column by default (grid items' default justify-self), so a
-   block-level child with margin-left: auto lands flush against it.
+   block-level child with margin-inline-start: auto lands flush against it.
    Which column flexes matters as much as the count. The meta column
    holds the one value that can run long (a node name, or a list of
    them), so it is the one given minmax(0, 1fr) - it absorbs the slack
@@ -67,7 +67,11 @@ body {
 
 #recent-jobs [slot='end'] {
   display: block;
-  margin-left: auto;
+  /* Logical, not margin-left: this pushes the badge to the end of the
+     row, which is the right-hand edge in English and the left-hand one
+     in Arabic. margin-left would pin it to the same physical side in
+     both and leave it stranded mid-row under dir="rtl". */
+  margin-inline-start: auto;
   width: fit-content;
 }
 
@@ -187,7 +191,9 @@ pre.value {
 
 .usage-pct {
   min-width: 3.75rem;
-  text-align: right;
+  /* end, not right - the percentage hugs the bar it belongs to whichever
+     way the text runs. */
+  text-align: end;
   font-variant-numeric: tabular-nums;
 }
 

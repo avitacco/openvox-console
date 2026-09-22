@@ -193,10 +193,19 @@ func withDefaults(in []Shot) []Shot {
 	return in
 }
 
-// FileName is the image file a shot produces for one theme, relative to
-// the screenshot asset directory.
-func (s Shot) FileName(theme Theme) string {
-	return s.Name + "-" + string(theme) + ".png"
+// FileName is the image file a shot produces for one theme and locale,
+// relative to the screenshot asset directory.
+//
+// English keeps the unsuffixed name it has always had. That is not
+// cosmetic: those twenty files are committed, and giving them a "-en"
+// suffix would rewrite every one of them in the history for no change
+// in content, and break any link to them from outside this repository.
+func (s Shot) FileName(theme Theme, locale string) string {
+	name := s.Name + "-" + string(theme)
+	if locale != "" && locale != "en" {
+		name += "-" + locale
+	}
+	return name + ".png"
 }
 
 // Find returns the shot with the given name.

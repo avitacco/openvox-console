@@ -98,7 +98,7 @@ msgstr "所有用户"
 msgid "Applies to this browser only. Without a choice here, the console follows your browser's language."
 msgstr "仅适用于此浏览器。未在此处选择时，控制台将跟随浏览器语言。"
 
-#: src/app.js:355
+#: src/app.js:367
 #: src/vulnerability-providers.js:157
 msgid "Cancel"
 msgstr "取消"
@@ -185,7 +185,7 @@ msgstr "创建用户"
 msgid "Created"
 msgstr "创建时间"
 
-#: src/app.js:602
+#: src/app.js:614
 #: templates/pages/vulnerabilities.tmpl:13
 msgid "Critical"
 msgstr "严重"
@@ -368,7 +368,7 @@ msgstr "组"
 msgid "Groups"
 msgstr "组"
 
-#: src/app.js:603
+#: src/app.js:615
 #: templates/pages/vulnerabilities.tmpl:14
 msgid "High"
 msgstr "高"
@@ -401,7 +401,7 @@ msgstr "种类"
 msgid "Language"
 msgstr "语言"
 
-#: src/index.js:246
+#: src/index.js:249
 msgid "Last check-in"
 msgstr "最后签入"
 
@@ -433,7 +433,7 @@ msgstr "使用 SSO 登录"
 msgid "Log out"
 msgstr "退出登录"
 
-#: src/app.js:605
+#: src/app.js:617
 #: templates/pages/vulnerabilities.tmpl:16
 msgid "Low"
 msgstr "低"
@@ -455,7 +455,7 @@ msgstr "匹配"
 msgid "Matching nodes"
 msgstr "匹配的 Nodes"
 
-#: src/app.js:604
+#: src/app.js:616
 #: templates/pages/vulnerabilities.tmpl:15
 msgid "Medium"
 msgstr "中"
@@ -566,7 +566,7 @@ msgstr "暂无 Node 组"
 msgid "No nodes currently match this group"
 msgstr "当前没有 Node 匹配此组"
 
-#: src/index.js:220
+#: src/index.js:223
 #: src/nodes.js:225
 msgid "No nodes found"
 msgstr "未找到 Node"
@@ -619,8 +619,8 @@ msgstr "暂无用户"
 msgid "No vulnerability providers"
 msgstr "无漏洞提供方"
 
-#: src/index.js:193
-#: src/index.js:246
+#: src/index.js:196
+#: src/index.js:249
 #: src/job.js:53
 #: src/nodes.js:249
 #: src/packages.js:146
@@ -723,7 +723,7 @@ msgstr "软件包名称"
 msgid "Packages"
 msgstr "软件包"
 
-#: src/app.js:526
+#: src/app.js:538
 msgid "Pagination"
 msgstr "分页"
 
@@ -941,8 +941,8 @@ msgid "Signed"
 msgstr "已签名"
 
 #: templates/pages/oidc-callback.tmpl:3
-msgid "Signing in&hellip;"
-msgstr "正在登录&hellip;"
+#~ msgid "Signing in&hellip;"
+#~ msgstr "正在登录&hellip;"
 
 #: src/i18n.js:170
 #: templates/pages/report.tmpl:16
@@ -969,7 +969,7 @@ msgid "Started"
 msgstr "开始"
 
 #: src/deploys.js:57
-#: src/index.js:246
+#: src/index.js:249
 #: src/job.js:53
 #: src/jobs.js:54
 #: src/node.js:469
@@ -1042,7 +1042,7 @@ msgstr "类型"
 msgid "Unchanged"
 msgstr "未更改"
 
-#: src/app.js:606
+#: src/app.js:618
 #: src/i18n.js:177
 #: templates/pages/nodes.tmpl:22
 #: templates/pages/vulnerabilities.tmpl:17
@@ -1296,8 +1296,8 @@ msgstr "{reporting} 个 Node 从其 Environments 上报，但没有组向其分�
 msgid "Puppet environment matching nodes compile against. Blank means this group doesn't set one."
 msgstr "匹配的 Nodes 编译时所针对的 Puppet Environment。留空表示本组不设置。"
 
-#: src/app.js:471
 #: src/app.js:483
+#: src/app.js:495
 msgid ", +{count} more"
 msgid_plural ", +{count} more"
 msgstr[0] "，+{count} 个"
@@ -1349,3 +1349,7 @@ msgstr "用户"
 #: src/vulnerability-providers.js:60
 msgid "{minutes} min"
 msgstr "{minutes} 分钟"
+
+#: templates/pages/oidc-callback.tmpl:3
+msgid "Signing in…"
+msgstr "正在登录&hellip;"

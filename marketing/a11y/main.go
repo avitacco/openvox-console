@@ -36,9 +36,9 @@ import (
 	"github.com/chromedp/chromedp"
 )
 
-// pages mirrors the site's page list. Kept here rather than imported from
-// gen so this tool audits URLs as a visitor requests them.
-var pages = []string{
+// basePages mirrors the site's page list. Kept here rather than imported
+// from gen so this tool audits URLs as a visitor requests them.
+var basePages = []string{
 	"index.html",
 	"features/nodes.html",
 	"features/classification.html",
@@ -46,6 +46,34 @@ var pages = []string{
 	"features/orchestration.html",
 	"features/security.html",
 	"features/access-control.html",
+}
+
+// pages is every URL this run audits: basePages once per locale, and
+// auditedLocales is what produced it - both package-level because the
+// summary is printed from outside run().
+var (
+	pages          []string
+	auditedLocales string
+)
+
+// localisedPages prefixes the page list with each locale's directory.
+// English is the site root and takes no prefix.
+func localisedPages(locales []string) []string {
+	var out []string
+	for _, locale := range locales {
+		locale = strings.TrimSpace(locale)
+		if locale == "" {
+			continue
+		}
+		for _, page := range basePages {
+			if locale == "en" {
+				out = append(out, page)
+				continue
+			}
+			out = append(out, locale+"/"+page)
+		}
+	}
+	return out
 }
 
 // viewports are audited separately. A contrast or reflow problem can
@@ -120,8 +148,18 @@ func run() error {
 		browserURL  = flag.String("browser-url", "http://localhost:9222", "DevTools endpoint of the headless browser")
 		axePath     = flag.String("axe", "", "path to axe.min.js (default: marketing/node_modules/axe-core/axe.min.js)")
 		bestPrimary = flag.Bool("best-practice", false, "also report axe's best-practice rules, which are advisory rather than WCAG failures")
+		locales     = flag.String("locales", "en,ar", "comma-separated locales to audit; en is the site root")
 	)
 	flag.Parse()
+
+	// Every locale renders the same markup with different text, so the
+	// rules that can differ between them are the ones sensitive to
+	// direction and to string length. Arabic covers direction; the
+	// default pairs it with English rather than auditing all five, which
+	// would multiply the run without testing anything new. Widen it with
+	// -locales when the copy changes.
+	auditedLocales = *locales
+	pages = localisedPages(strings.Split(*locales, ","))
 
 	axeJS, err := loadAxe(*axePath)
 	if err != nil {
@@ -292,8 +330,8 @@ func auditPage(alloc context.Context, axeJS, base, page, theme string, w, h int6
 
 // report prints findings grouped by rule, worst impact first.
 func report(findings map[string]*finding, checked int) error {
-	fmt.Printf("Audited %d page renders (%d pages x %d themes x %d viewports)\n",
-		checked, len(pages), len(themes), len(viewports))
+	fmt.Printf("Audited %d page renders (%d pages x %d themes x %d viewports, locales: %s)\n",
+		checked, len(pages), len(themes), len(viewports), auditedLocales)
 
 	if len(findings) == 0 {
 		fmt.Printf("\nNo WCAG violations found by axe-core.\n")

@@ -1,16 +1,16 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="{{.Summary}}" />
+    <meta name="description" content="{{.Summary}}" data-i18n-attr="content" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&family=Inter:wght@400;600&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
-    <title>{{.Title}}</title>
+    <title data-i18n>{{.Title}}</title>
 
     {{/* The same pre-paint theme script the console's own layout uses.
          Without it the page renders light, then repaints dark for a
@@ -36,7 +36,7 @@
     {{/* First thing in the tab order. Without it a keyboard user tabs
          through the header and six subnav links before reaching the
          content, on every page. Visually hidden until focused. */}}
-    <a class="skip-link" href="#main">Skip to content</a>
+    <a class="skip-link" href="#main" data-i18n>Skip to content</a>
 
     <vox-header site-title="OpenVox Console" href="{{.Root}}/index.html">
       {{/* The official OpenVox hexagon mark (voxpupuli/logos), the same
@@ -47,14 +47,26 @@
         <path d="M1946.22 272.18L1874.51 643.161C1840.69 625.335 1769.51 597.048 1744.63 592.202L1946.22 272.18ZM1647.05 893.509C1735.54 894.748 1789.05 935.815 1845.35 1010.52C1716.57 1047.71 1641.84 987.053 1586.85 899.704C1600.03 898.445 1634.39 893.339 1647.05 893.509ZM1421.62 600.655C1288.19 638.415 1170.91 730.251 1126.1 808.997C1126.1 808.997 1186.31 336.289 1244.88 158.652C1315.83 282.552 1421.62 600.655 1421.62 600.655ZM2477.39 1158.21C2342.39 1125.61 2074.76 1042.77 2053.7 881.139C2043.59 803.362 1980.86 717.271 1947.86 694.589L2004.72 106.064L1517.51 580.681C1517.51 580.681 1358.55 170.153 1243.89 0C1100.67 241.805 932.123 707.949 896.253 809.107L1227.33 1744.42C1243.68 1615.28 1328.09 1472.06 1428.27 1381.86C1350.61 1280.89 1210.56 1250.76 1151.7 1289.73C1228.31 1186.22 1376.21 1050.44 1651.27 1124.86C1773.51 1157.92 1898.72 1222.92 1978.75 1240.54C2184.12 1285.76 2337.81 1231.2 2337.81 1231.2C2336.23 1279.58 2360.5 1315.47 2410.61 1338.87C2196.05 1539.04 1914.11 1376.52 1715.51 1407.29C1514.8 1438.43 1238.87 2011.65 1201.73 2093.07L593.825 394.322L584.775 369.242C535.086 234.271 451.316 124.12 296.898 124.12H0V473.618H92.0793C145.649 473.618 170.849 489.355 189.769 542.882L903.123 2478H1248.99L1312.45 2324.93L1556.24 1812.6C1660.38 1581.57 1765.81 1518.18 2072.12 1531.73C2162.6 1535.73 2349.93 1537.27 2457.29 1405.96C2611.96 1216.8 2569.29 1180.38 2477.43 1158.16" fill="currentColor" />
       </svg>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
+      {{/* A plain list of links, not a <select>: the site is static, so
+           every locale is a real URL that can be linked, bookmarked and
+           crawled. A script-driven picker would hide all of that behind
+           JavaScript for no gain. Each link carries hreflang so a search
+           engine understands the relationship, and the current locale is
+           marked rather than dropped so the set always reads complete. */}}
+      <nav slot="actions" class="lang-switcher" aria-label="Language" data-i18n-attr="aria-label">
+        {{range .Locales -}}
+        {{if .Current}}<span class="lang-current" aria-current="true" lang="{{.Code}}">{{.Name}}</span>
+        {{else}}<a href="{{.Href}}" hreflang="{{.Code}}" lang="{{.Code}}">{{.Name}}</a>
+        {{end}}{{end -}}
+      </nav>
       <a slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank" rel="noopener">GitHub</a>
     </vox-header>
 
     <div class="site-subnav">
-      <vox-subnav label="Capabilities" class="vox-container">
+      <vox-subnav label="Capabilities" class="vox-container" data-i18n-attr="label">
       {{$root := .Root}}{{$current := .Capability -}}
       {{range .Pages}}{{if .Capability -}}
-      <a href="{{$root}}/{{.Name}}"{{if eq .Capability $current}} aria-current="page"{{end}}>{{.NavLabel}}</a>
+      <a href="{{$root}}/{{.Name}}"{{if eq .Capability $current}} aria-current="page"{{end}} data-i18n>{{.NavLabel}}</a>
       {{end}}{{end -}}
       </vox-subnav>
     </div>
@@ -67,28 +79,36 @@
            this is where the page's primary actions are. The div above
            carries the container width so this band can still run the
            full width of the page. */}}
-      <vox-cta-band heading="Run it yourself">
-      <p>
+      <vox-cta-band heading="Run it yourself" data-i18n-attr="heading">
+      <p data-i18n-html>
         OpenVox Console ships as two container images, built for amd64 and
         arm64 on every push. <code>SETUP.md</code> walks through a real
         deployment - openvoxserver, openvoxdb, Postgres and the console -
         with both container and package instructions.
       </p>
-      <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/blob/main/SETUP.md" target="_blank">Setup guide</vox-cta>
-      <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">Source on GitHub</vox-cta>
-        <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">Container images</vox-cta>
+      <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/blob/main/SETUP.md" target="_blank" data-i18n>Setup guide</vox-cta>
+      <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank" data-i18n>Source on GitHub</vox-cta>
+        <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank" data-i18n>Container images</vox-cta>
       </vox-cta-band>
     </main>
 
     <vox-footer>
       <vox-footer-column heading="OpenVox Console">
-        <a href="{{.Root}}/index.html">Overview</a>
-        <a href="https://github.com/avitacco/openvox-console" target="_blank" rel="noopener">Source</a>
-        <a href="https://github.com/avitacco/openvox-console/blob/main/SETUP.md" target="_blank" rel="noopener">Setup guide</a>
+        <a href="{{.Root}}/index.html" data-i18n>Overview</a>
+        <a href="https://github.com/avitacco/openvox-console" target="_blank" rel="noopener" data-i18n>Source</a>
+        <a href="https://github.com/avitacco/openvox-console/blob/main/SETUP.md" target="_blank" rel="noopener" data-i18n>Setup guide</a>
       </vox-footer-column>
-      <vox-footer-column heading="Capabilities">
+      <vox-footer-column heading="Capabilities" data-i18n-attr="heading">
         {{range .Pages}}{{if .Capability -}}
-        <a href="{{$root}}/{{.Name}}">{{.NavLabel}}</a>
+        <a href="{{$root}}/{{.Name}}" data-i18n>{{.NavLabel}}</a>
+        {{end}}{{end -}}
+      </vox-footer-column>
+      {{/* The header switcher is hidden on narrow screens, where it
+           would push the logo off its row - so the locales live here
+           too, where there is always room for them. */}}
+      <vox-footer-column heading="Language" data-i18n-attr="heading">
+        {{range .Locales -}}
+        {{if not .Current}}<a href="{{.Href}}" hreflang="{{.Code}}" lang="{{.Code}}">{{.Name}}</a>
         {{end}}{{end -}}
       </vox-footer-column>
       <vox-footer-column heading="OpenVox">
@@ -96,8 +116,8 @@
         <a href="https://github.com/voxpupuli" target="_blank" rel="noopener">Vox Pupuli</a>
       </vox-footer-column>
       <div slot="bottom" class="footer-note">
-        <span>Licensed GPL-3.0</span>
-        <span>Screenshots are of the console running against a synthetic demo fleet.</span>
+        <span data-i18n>Licensed GPL-3.0</span>
+        <span data-i18n>Screenshots are of the console running against a synthetic demo fleet.</span>
       </div>
     </vox-footer>
   </body>

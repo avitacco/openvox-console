@@ -8,6 +8,7 @@
 
 /** Language codes with a catalogue, in the order they are offered. */
 export const AVAILABLE = [
+  "ar",
   "de",
   "es",
   "fr",
@@ -31,6 +32,7 @@ export const AVAILABLE = [
  */
 export const LANGUAGE_NAMES = {
   en: 'English',
+  ar: "العربية",
   de: "Deutsch",
   es: "Español",
   fr: "Français",
@@ -46,3 +48,22 @@ export const LANGUAGE_NAMES = {
   uk: "Українська",
   zh: "中文",
 };
+
+/**
+ * Language codes written right to left.
+ *
+ * voxblocks mirrors its whole layout from a single dir on <html> - there
+ * is no per-component attribute - so this is what the console consults
+ * before setting it. Generated from languages.go rather than written by
+ * hand here, for the same reason AVAILABLE is: a catalogue added without
+ * its direction would render Arabic in a left-to-right layout, which
+ * looks like a styling bug rather than a missing table entry.
+ */
+export const RTL = new Set([
+  "ar",
+]);
+
+/** "rtl" or "ltr" for a language code, for the dir attribute. */
+export function direction(code) {
+  return RTL.has(code) ? 'rtl' : 'ltr';
+}

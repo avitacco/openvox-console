@@ -1,26 +1,26 @@
 {{define "content"}}
-<vox-hero eyebrow="OpenVox Console" heading="Your whole fleet, in one place">
-  <p>
+<vox-hero eyebrow="OpenVox Console" heading="Your whole fleet, in one place" data-i18n-attr="heading,eyebrow">
+  <p data-i18n>
     See every node, decide what runs where, deploy your code, and act on
     what comes back. A Puppet Enterprise console for OpenVox &mdash; one
     Go binary, on top of the openvox-server and openvoxdb you already run.
   </p>
-  <vox-cta slot="actions" href="#capabilities">See what it does</vox-cta>
-  <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">Get it on GitHub</vox-cta>
+  <vox-cta slot="actions" href="#capabilities" data-i18n>See what it does</vox-cta>
+  <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank" data-i18n>Get it on GitHub</vox-cta>
 </vox-hero>
 
 {{screenshot "dashboard"}}
 
 <vox-grid min="200px" gap="lg">
-  <vox-stat value="1" label="binary to deploy"></vox-stat>
-  <vox-stat value="2" label="architectures, built on every push"></vox-stat>
-  <vox-stat value="GPL-3.0" label="free and open source"></vox-stat>
+  <vox-stat value="1" label="binary to deploy" data-i18n-attr="label"></vox-stat>
+  <vox-stat value="2" label="architectures, built on every push" data-i18n-attr="label"></vox-stat>
+  <vox-stat value="GPL-3.0" label="free and open source" data-i18n-attr="label"></vox-stat>
 </vox-grid>
 
 <section class="site-section" id="capabilities">
-  <h2 class="vox-ts-xxl">What it does</h2>
+  <h2 class="vox-ts-xxl" data-i18n>What it does</h2>
   <div class="vox-prose">
-    <p>
+    <p data-i18n>
       Every page below shows the console itself, captured from a running
       instance.
     </p>
@@ -28,49 +28,46 @@
 </section>
 
 <vox-link-hub>
-  <vox-link-hub-item href="features/nodes.html" heading="Nodes and inventory">
+  <vox-link-hub-item href="features/nodes.html" heading="Nodes and inventory" data-i18n-attr="heading">
     <vox-icon slot="icon" name="plug"></vox-icon>
-    Every node, what it last reported, whether it is reachable, and the
-    state of its certificate.
+    <span data-i18n>Every node, what it last reported, whether it is reachable, and the state of its certificate.</span>
   </vox-link-hub-item>
 
-  <vox-link-hub-item href="features/classification.html" heading="Classification">
+  <vox-link-hub-item href="features/classification.html" heading="Classification" data-i18n-attr="heading">
     <vox-icon slot="icon" name="node-group"></vox-icon>
-    Rule-based node groups that decide what configuration applies where.
+    <span data-i18n>Rule-based node groups that decide what configuration applies where.</span>
   </vox-link-hub-item>
 
-  <vox-link-hub-item href="features/code.html" heading="Code deployment">
+  <vox-link-hub-item href="features/code.html" heading="Code deployment" data-i18n-attr="heading">
     <vox-icon slot="icon" name="deploy"></vox-icon>
-    Ship Puppet code from one control repository or many, on demand or by
-    webhook.
+    <span data-i18n>Ship Puppet code from one control repository or many, on demand or by webhook.</span>
   </vox-link-hub-item>
 
-  <vox-link-hub-item href="features/orchestration.html" heading="Orchestration">
+  <vox-link-hub-item href="features/orchestration.html" heading="Orchestration" data-i18n-attr="heading">
     <vox-icon slot="icon" name="orchestrate"></vox-icon>
-    Run Puppet, tasks and plans across the fleet, and see what each node
-    did.
+    <span data-i18n>Run Puppet, tasks and plans across the fleet, and see what each node did.</span>
   </vox-link-hub-item>
 
-  <vox-link-hub-item href="features/security.html" heading="Packages and vulnerabilities">
+  <vox-link-hub-item href="features/security.html" heading="Packages and vulnerabilities" data-i18n-attr="heading">
     <vox-icon slot="icon" name="vulnerability"></vox-icon>
-    What is installed everywhere, and which advisories affect it.
+    <span data-i18n>What is installed everywhere, and which advisories affect it.</span>
   </vox-link-hub-item>
 
-  <vox-link-hub-item href="features/access-control.html" heading="Access control and audit">
+  <vox-link-hub-item href="features/access-control.html" heading="Access control and audit" data-i18n-attr="heading">
     <vox-icon slot="icon" name="people"></vox-icon>
-    Roles, service tokens, and a record of who changed what.
+    <span data-i18n>Roles, service tokens, and a record of who changed what.</span>
   </vox-link-hub-item>
 </vox-link-hub>
 
 <section class="site-section">
-  <h2 class="vox-ts-xxl">One binary to run</h2>
+  <h2 class="vox-ts-xxl" data-i18n>One binary to run</h2>
   <div class="vox-prose">
-    <p>
+    <p data-i18n>
       The console, access control, classification, orchestration and code
       deployment are one process. There is nothing to wire together, no
       internal services to keep in step, and one thing to upgrade.
     </p>
-    <p>
+    <p data-i18n>
       It sits on top of the stack you already have. openvox-server still
       compiles catalogs and runs the CA; openvoxdb still stores facts and
       reports. Your agents carry on talking to exactly what they talk to
@@ -80,8 +77,8 @@
   </div>
 </section>
 
-<vox-callout variant="tip" heading="Try it on a throwaway stack first">
-  <p>
+<vox-callout variant="tip" heading="Try it on a throwaway stack first" data-i18n-attr="heading">
+  <p data-i18n-html>
     <code>docker compose up</code> brings up openvoxserver, openvoxdb,
     Postgres and the console together, so you can point a test agent at it
     and see your own nodes appear before committing to anything.
