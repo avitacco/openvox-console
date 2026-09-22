@@ -211,13 +211,14 @@ func renderPage(p page, layoutPath, outDir, locale string, cat *catalogue) error
 	// the translator needs the whole document anyway.
 	var rendered bytes.Buffer
 	data := pageData{
-		page:      p,
-		Root:      rootFor(p.Name, locale),
-		SiteRoot:  rootFor(p.Name, locale),
-		Pages:     pages,
-		Locale:    locale,
-		Locales:   localeLinks(p.Name, locale),
-		Direction: cat.dir,
+		page:       p,
+		Root:       rootFor(p.Name, locale),
+		SiteRoot:   rootFor(p.Name, locale),
+		Pages:      pages,
+		Locale:     locale,
+		Locales:    localeLinks(p.Name, locale),
+		LocaleName: localeName(locale),
+		Direction:  cat.dir,
 	}
 	if err := tmpl.ExecuteTemplate(&rendered, "layout.html.tmpl", data); err != nil {
 		return fmt.Errorf("rendering %s: %w", p.Name, err)
@@ -254,6 +255,9 @@ type pageData struct {
 	Locale string
 	// Locales is every locale this page exists in, for the switcher.
 	Locales []localeLink
+	// LocaleName is the language being rendered, written in itself -
+	// the switcher's trigger label. "Deutsch", not "German".
+	LocaleName string
 	// Direction is "ltr" or "rtl", mirrored onto <html dir>.
 	Direction string
 }
@@ -312,6 +316,18 @@ func localeLinks(name, current string) []localeLink {
 		})
 	}
 	return out
+}
+
+// localeName returns a locale's name in itself, for the switcher's
+// trigger. An unknown code falls back to the code so a mislabelled
+// build is visibly wrong rather than silently blank.
+func localeName(code string) string {
+	for _, l := range siteLocales {
+		if l.Code == code {
+			return l.Name
+		}
+	}
+	return code
 }
 
 // rootFor returns the relative path from a page back to the SITE root -

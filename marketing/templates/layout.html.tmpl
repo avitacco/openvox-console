@@ -27,6 +27,76 @@
       html[data-vox-theme='dark'] { background-color: #0d1417; }
     </style>
 
+    {{/* Language selection, in the same pre-paint position as the theme
+         script above and for the same reason: a visitor who is about to
+         be sent to another locale should not watch the English page
+         render first.
+
+         Two jobs. It records an explicit choice - a click on any
+         switcher link - so that choosing English from a translated page
+         is not quietly undone on the next visit. And on the English
+         pages only, it sends a visitor whose browser asks for a locale
+         we publish to that locale's copy of this same page.
+
+         Only the English pages redirect. A /de/ URL is somebody's
+         deliberate destination - a shared link, a search result - and
+         re-routing it by browser preference would break that. It is
+         also what makes a redirect loop impossible: the target of a
+         redirect never redirects. */}}
+    <script>
+      (function () {
+        var LOCALES = [{{range .Locales}}{{.Code}}, {{end}}];
+        var KEY = 'vox-lang';
+
+        function stored() {
+          // Private windows and blocked site data both throw here.
+          // Falling back to detection is correct, not an error.
+          try { return localStorage.getItem(KEY); } catch (e) { return null; }
+        }
+
+        // Delegated from document rather than bound to the links: this
+        // runs in <head>, before they exist, and they live inside a
+        // custom element that upgrades later still. composedPath is
+        // what finds the <a> when the click is retargeted through a
+        // shadow boundary.
+        document.addEventListener('click', function (event) {
+          var path = event.composedPath ? event.composedPath() : [event.target];
+          for (var i = 0; i < path.length; i++) {
+            var code = path[i].getAttribute && path[i].getAttribute('data-lang');
+            if (code) {
+              try { localStorage.setItem(KEY, code); } catch (e) {}
+              return;
+            }
+          }
+        });
+        {{if eq .Locale "en"}}
+        // The best match for the browser's ordered preference list.
+        // Only the primary subtag is compared: somebody asking for
+        // de-AT or zh-Hans-CN wants the German or Chinese page, and
+        // pt-BR matches nothing here and correctly stays English.
+        function detect() {
+          var wanted = navigator.languages || [navigator.language];
+          for (var i = 0; i < wanted.length; i++) {
+            var tag = String(wanted[i] || '').toLowerCase().split('-')[0];
+            if (LOCALES.indexOf(tag) !== -1) return tag;
+          }
+          return null;
+        }
+
+        // A stored choice outranks the browser: it is the more recent
+        // and more specific statement of what this person wants. The
+        // LOCALES check covers a choice stored before a locale was
+        // dropped, which would otherwise redirect to a 404.
+        var want = stored() || detect();
+        if (want && want !== 'en' && LOCALES.indexOf(want) !== -1) {
+          // replace(), not assign(): an English page the visitor never
+          // saw should not sit in their history as a back-button trap.
+          location.replace({{.Root}} + '/' + want + '/' + {{.Name}} + location.search + location.hash);
+        }
+        {{end}}
+      })();
+    </script>
+
     <link rel="stylesheet" href="{{asset "vendor/voxblocks.css"}}" />
     <link rel="stylesheet" href="{{asset "site.css"}}" />
     <script type="module" src="{{asset "vendor/voxblocks.js"}}"></script>
@@ -46,19 +116,38 @@
       <svg slot="logo" viewBox="0 0 2560 2478" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <path d="M1946.22 272.18L1874.51 643.161C1840.69 625.335 1769.51 597.048 1744.63 592.202L1946.22 272.18ZM1647.05 893.509C1735.54 894.748 1789.05 935.815 1845.35 1010.52C1716.57 1047.71 1641.84 987.053 1586.85 899.704C1600.03 898.445 1634.39 893.339 1647.05 893.509ZM1421.62 600.655C1288.19 638.415 1170.91 730.251 1126.1 808.997C1126.1 808.997 1186.31 336.289 1244.88 158.652C1315.83 282.552 1421.62 600.655 1421.62 600.655ZM2477.39 1158.21C2342.39 1125.61 2074.76 1042.77 2053.7 881.139C2043.59 803.362 1980.86 717.271 1947.86 694.589L2004.72 106.064L1517.51 580.681C1517.51 580.681 1358.55 170.153 1243.89 0C1100.67 241.805 932.123 707.949 896.253 809.107L1227.33 1744.42C1243.68 1615.28 1328.09 1472.06 1428.27 1381.86C1350.61 1280.89 1210.56 1250.76 1151.7 1289.73C1228.31 1186.22 1376.21 1050.44 1651.27 1124.86C1773.51 1157.92 1898.72 1222.92 1978.75 1240.54C2184.12 1285.76 2337.81 1231.2 2337.81 1231.2C2336.23 1279.58 2360.5 1315.47 2410.61 1338.87C2196.05 1539.04 1914.11 1376.52 1715.51 1407.29C1514.8 1438.43 1238.87 2011.65 1201.73 2093.07L593.825 394.322L584.775 369.242C535.086 234.271 451.316 124.12 296.898 124.12H0V473.618H92.0793C145.649 473.618 170.849 489.355 189.769 542.882L903.123 2478H1248.99L1312.45 2324.93L1556.24 1812.6C1660.38 1581.57 1765.81 1518.18 2072.12 1531.73C2162.6 1535.73 2349.93 1537.27 2457.29 1405.96C2611.96 1216.8 2569.29 1180.38 2477.43 1158.16" fill="currentColor" />
       </svg>
-      <vox-theme-toggle slot="actions"></vox-theme-toggle>
-      {{/* A plain list of links, not a <select>: the site is static, so
-           every locale is a real URL that can be linked, bookmarked and
-           crawled. A script-driven picker would hide all of that behind
-           JavaScript for no gain. Each link carries hreflang so a search
-           engine understands the relationship, and the current locale is
-           marked rather than dropped so the set always reads complete. */}}
+      {{/* A dropdown built from the same real links it has always been:
+           the site is static, so every locale is a URL that can be
+           linked, bookmarked and crawled, and vox-dropdown takes its
+           entries as light-DOM children rather than replacing them with
+           a script-driven picker. With JavaScript off the element never
+           upgrades and the children render as the plain row of links
+           they are in the markup - which is also the fallback when the
+           redirect script above has not run.
+
+           Each link carries hreflang so a search engine understands the
+           relationship, and the current locale is listed rather than
+           dropped so the set always reads complete. data-lang is what
+           the head script watches to record the choice.
+
+           The trigger is labelled with the current language in its own
+           name - somebody looking for German is looking for "Deutsch" -
+           and the nav landmark carries the translated "Language" for
+           anyone who meets it without seeing the trigger.
+
+           First in the actions rather than beside the theme toggle: the
+           host reserves the open menu's width so the menu cannot run off
+           the page (see site.css), and at the head of the row that
+           reserved space falls against the header's empty middle instead
+           of opening a gap between two controls. */}}
       <nav slot="actions" class="lang-switcher" aria-label="Language" data-i18n-attr="aria-label">
-        {{range .Locales -}}
-        {{if .Current}}<span class="lang-current" aria-current="true" lang="{{.Code}}">{{.Name}}</span>
-        {{else}}<a href="{{.Href}}" hreflang="{{.Code}}" lang="{{.Code}}">{{.Name}}</a>
-        {{end}}{{end -}}
+        <vox-dropdown label="{{.LocaleName}}">
+          {{range .Locales -}}
+          <a href="{{.Href}}" hreflang="{{.Code}}" lang="{{.Code}}" data-lang="{{.Code}}"{{if .Current}} aria-current="page"{{end}}>{{.Name}}</a>
+          {{end -}}
+        </vox-dropdown>
       </nav>
+      <vox-theme-toggle slot="actions"></vox-theme-toggle>
       <a slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank" rel="noopener">GitHub</a>
     </vox-header>
 
@@ -103,9 +192,10 @@
         <a href="{{$root}}/{{.Name}}" data-i18n>{{.NavLabel}}</a>
         {{end}}{{end -}}
       </vox-footer-column>
-      {{/* The header switcher is hidden on narrow screens, where it
-           would push the logo off its row - so the locales live here
-           too, where there is always room for them. */}}
+      {{/* The locales live here too. Not a fallback for the header
+           switcher any more - the dropdown fits at every width - but
+           plain links in the page body, which is what a crawler follows
+           and what still works with the dropdown's script absent. */}}
       <vox-footer-column heading="Language" data-i18n-attr="heading">
         {{range .Locales -}}
         {{if not .Current}}<a href="{{.Href}}" hreflang="{{.Code}}" lang="{{.Code}}">{{.Name}}</a>

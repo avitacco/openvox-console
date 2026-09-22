@@ -15,7 +15,8 @@
 # capture tool run.
 #
 # It does two things: it turns off openvoxdb's data retention, and it adds
-# the pinned headless browser that capture drives.
+# the pinned headless browser that capture drives - built locally, to add
+# the fonts the stock image has no CJK or Devanagari coverage from.
 #
 # --- why retention has to go ---
 #
@@ -61,15 +62,25 @@ services:
       - source: openvoxdb_screenshot_retention
         target: /etc/puppetlabs/puppetdb/conf.d/zz-screenshot-retention.conf
 
-  # The browser capture drives. Pinned by digest-bearing tag rather than
-  # :latest because an updated Chrome rerenders text differently, and a
-  # screenshot set that changes because the browser moved is exactly the
-  # noise the determinism requirement exists to prevent.
+  # The browser capture drives. Built from Dockerfile.headless-chrome,
+  # which is the pinned chromedp/headless-shell image plus the CJK and
+  # Devanagari fonts it otherwise lacks - without them the Chinese,
+  # Japanese and Hindi captures are rows of .notdef boxes. The base tag
+  # is pinned there rather than :latest because an updated Chrome
+  # rerenders text differently, and a screenshot set that changes because
+  # the browser moved is exactly the noise the determinism requirement
+  # exists to prevent. The font versions are pinned for the same reason.
   #
   # It sits on the compose network, so it reaches the console at
   # http://console:8080 with no host-gateway plumbing.
   headless-chrome:
-    image: chromedp/headless-shell:131.0.6778.86
+    build:
+      context: .
+      dockerfile: Dockerfile.headless-chrome
+    # Named so the built image is reused rather than rebuilt from scratch
+    # on every `up`, and so it is obvious in `docker image ls` what it is
+    # and which upstream it came from.
+    image: enterprise-console/headless-chrome:131.0.6778.86-fonts
     hostname: headless-chrome
     # Chrome needs more than the default 64MB of shared memory or it
     # crashes part-way through rendering a large page.

@@ -161,6 +161,38 @@ extending it: the console's strings are labels, these are argument, and
 a machine-translated argument reads worse than an untranslated one.
 Every locale here wants review by somebody who reads it.
 
+### How a visitor reaches their language
+
+Every locale is a real URL, and the switcher in the header is a
+`vox-dropdown` whose entries are ordinary links - so a locale can still
+be linked, bookmarked and crawled, and with JavaScript off the element
+never upgrades and its children render as the plain row of links they
+are in the markup. The footer lists them too.
+
+On top of that, a small script in the `<head>` (layout.html.tmpl, beside
+the theme script and pre-paint for the same reason) picks a language
+automatically:
+
+- It runs on **the English pages only**. A `/de/` URL is somebody's
+  deliberate destination - a shared link, a search result - so it is
+  never re-routed. That is also what makes a redirect loop impossible:
+  the target of a redirect never redirects.
+- It matches `navigator.languages` against the published locales on the
+  **primary subtag**, so `de-AT` and `zh-Hans-CN` match, and `pt-BR`
+  matches nothing and correctly stays English.
+- It redirects to the same page in that locale, not to its front page,
+  keeping the query and fragment.
+- A **click on any switcher link is stored** (`vox-lang` in
+  localStorage) and outranks the browser. Without that, choosing English
+  from a translated page would be undone on the next visit. A stored
+  locale the site no longer publishes is ignored rather than followed
+  into a 404.
+- It uses `location.replace()`, so an English page the visitor never saw
+  does not sit in their history as a back-button trap.
+
+Search engines are unaffected: the redirect is client-side and every
+locale remains a static page at its own URL.
+
 ### How a string becomes translatable
 
 The same three markings the console uses, so there is one convention to

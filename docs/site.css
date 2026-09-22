@@ -197,30 +197,59 @@ a:focus-visible {
 .lang-switcher {
   display: flex;
   align-items: center;
-  gap: var(--vox-space-2);
   font-size: 13px;
 }
 
-.lang-switcher a {
+/* Once vox-dropdown upgrades it owns its own entries entirely - styling
+   the links from here would override the component's menu rules through
+   the slot, since a document rule always beats ::slotted(). So every
+   rule below is scoped to the element that has NOT upgraded: the moment
+   before the script runs, and permanently with JavaScript off. Then the
+   links are what the markup says they are, laid out as the row the
+   switcher used to be rather than a bare stack. */
+.lang-switcher vox-dropdown:not(:defined) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--vox-space-2);
+}
+
+.lang-switcher vox-dropdown:not(:defined) a {
   color: var(--vox-color-text-2);
   text-decoration: none;
 }
 
-.lang-switcher a:hover,
-.lang-switcher a:focus-visible {
+.lang-switcher vox-dropdown:not(:defined) a:hover,
+.lang-switcher vox-dropdown:not(:defined) a:focus-visible {
   color: var(--vox-color-brand-1);
   text-decoration: underline;
 }
 
-.lang-current {
+.lang-switcher vox-dropdown:not(:defined) a[aria-current] {
   color: var(--vox-color-text-1);
   font-weight: 600;
 }
 
-/* Below the header's own breakpoint the switcher would push the logo
-   off the row; the locales are still reachable from the footer. */
-@media (max-width: 640px) {
-  .lang-switcher {
-    display: none;
+/* The menu hangs off the edge of the page without this. It is positioned
+   from the trigger's inline-start edge and is at least 180px wide, and
+   the header's actions sit against the end of the container - so it
+   overflowed by 10px in English and 22px in Arabic, each enough for a
+   horizontal scrollbar on a page whose content fits perfectly well.
+
+   vox-dropdown exposes no part or alignment option, so the fix is the
+   host's own box: widen it to the menu's own minimum and push the
+   trigger to the host's end, and the two then share an outer edge, so
+   the menu opens inwards from it. Both properties are direction-
+   relative, so RTL mirrors without a second rule, and a trigger wider
+   than 180px still matches because the menu's min-width is max(100%,
+   180px) - the host's width either way.
+
+   Only above the header's own breakpoint: below it the actions stack
+   into the mobile panel, where the host sits at the start of a
+   full-width column and the menu already has the room. */
+@media (min-width: 769px) {
+  .lang-switcher vox-dropdown:defined {
+    min-width: 180px;
+    text-align: end;
   }
 }

@@ -1,0 +1,49 @@
+# syntax=docker/dockerfile:1
+
+# The browser marketing/capture drives, plus the fonts it needs to render
+# the console in every locale the site is published in.
+#
+# The stock headless-shell image ships DejaVu and nothing else. DejaVu
+# covers Latin, Greek, Cyrillic and - by luck rather than design - Arabic,
+# which is why the Arabic screenshots have always looked right. It has no
+# CJK and no Devanagari at all, so Chinese, Japanese and Hindi rendered as
+# rows of .notdef boxes: every capture in those three locales published a
+# console that appeared to be broken.
+#
+# Nothing is wrong with the console itself. A visitor reading it in
+# Japanese has Japanese fonts, and the page renders correctly for them.
+# The tofu was only ever a property of the machine taking the picture,
+# which is why the fix belongs here rather than in the frontend.
+#
+# Built by docker-compose.screenshots.yml. It is not part of any deployed
+# stack and nothing in production depends on it.
+
+# Pinned for the same reason the tag was pinned before this file existed:
+# a different Chrome lays text out differently, and a screenshot set that
+# moved because the browser moved is exactly the noise the determinism
+# requirement exists to prevent.
+FROM chromedp/headless-shell:131.0.6778.86
+
+# The font versions are pinned for that same reason - a font revision
+# changes glyph shapes and metrics, and every capture with it. Bumping
+# either is a deliberate act followed by `make marketing-screenshots`
+# and a look at the diff, exactly like bumping Chrome above.
+#
+# If a pin stops resolving because Debian has dropped that version from
+# the mirror, bump it on purpose rather than loosening the constraint.
+#
+#   fonts-noto-cjk   - Chinese and Japanese (zh, ja)
+#   fonts-noto-core  - Devanagari for Hindi (hi), among many others
+#   fontconfig       - fc-cache; the library is already here for Chrome,
+#                      but the cache-building binary is not
+ARG NOTO_CJK_VERSION=1:20220127+repack1-1
+ARG NOTO_CORE_VERSION=20201225-1
+ARG FONTCONFIG_VERSION=2.14.1-4
+
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends \
+       "fonts-noto-cjk=${NOTO_CJK_VERSION}" \
+       "fonts-noto-core=${NOTO_CORE_VERSION}" \
+       "fontconfig=${FONTCONFIG_VERSION}" \
+  && fc-cache -f \
+  && rm -rf /var/lib/apt/lists/*
