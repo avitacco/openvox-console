@@ -62,6 +62,13 @@ type eventSubscriber interface {
 
 // SubscribeDeployed registers handler to be called for every published
 // DeployedEvent - for tests and future compiler-distribution consumers.
+//
+// Deliberately a fan-out subscription, not a queue group: the intended
+// consumer is each compiler running its own g10k deploy against the same
+// control-repo state, so every subscriber must receive every event. This
+// is the opposite of internal/activity.Recorder, which persists to one
+// shared table and therefore must be a queue group - see
+// internal/messaging's package documentation for the rule.
 func SubscribeDeployed(bus eventSubscriber, handler func(DeployedEvent)) (*nats.Subscription, error) {
 	return bus.Subscribe(DeployedSubject, func(msg *nats.Msg) {
 		var e DeployedEvent

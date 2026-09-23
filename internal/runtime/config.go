@@ -14,6 +14,14 @@ import (
 
 // Config holds the console binary's startup configuration.
 type Config struct {
+	// Mode is the role this instance runs as (see mode.go). Unset means
+	// ModeAll, which is exactly the behavior the binary had before run
+	// modes existed.
+	//
+	// Mode decides which of the settings below are actually required:
+	// see the mode-scoped required-value handling in LoadConfig.
+	Mode Mode
+
 	HTTPAddr    string
 	PostgresDSN string
 
@@ -138,6 +146,37 @@ type Config struct {
 	// fields, not a separate stream).
 	AuditLogPath string
 
+	// Optional: node transport clustering. Separate from the internal
+	// bus's cluster above because the two NATS servers are separate
+	// (see architecture-summary.md sections 4 and 7), and separate from
+	// the node-facing mTLS material below because a node certificate
+	// must never be usable to join the transport as a peer.
+	//
+	// NodeTransportClusterAddr is this instance's transport peer
+	// listener; NodeTransportClusterPeers the peers to route to;
+	// NodeTransportClusterSecret authenticates those routes.
+	NodeTransportClusterAddr   string
+	NodeTransportClusterPeers  string
+	NodeTransportClusterSecret string
+
+	// Optional: clustering. Unset means a single, unclustered instance -
+	// the embedded bus opens no listener at all, exactly as before run
+	// modes existed.
+	//
+	// ClusterAddr is this instance's own peer listener ("host:port").
+	// ClusterPeers is the comma-separated list of peers to connect to.
+	// ClusterMode selects how this instance joins: "route" makes it a
+	// full cluster peer (the core modes), "leaf" attaches it as an edge
+	// subscriber that receives events without every peer needing a
+	// network path back to it (enc instances, typically).
+	// ClusterSecret authenticates peer connections, and is required
+	// whenever a peer listener is configured - an open listener would
+	// put anything that can reach it on the internal event bus.
+	ClusterAddr   string
+	ClusterPeers  string
+	ClusterMode   ClusterMode
+	ClusterSecret string
+
 	// Optional: the key sealing secrets stored in Postgres - vulnerability
 	// provider credentials, today (see internal/sealer). sealer.KeySize
 	// bytes, supplied base64-encoded via CONSOLE_SECRETS_KEY or, better,
@@ -182,7 +221,17 @@ func LoadConfig(getenv func(string) string) (Config, error) {
 		return strings.TrimSpace(string(contents))
 	}
 
+	// Parsed before anything else is validated: an unrecognized mode has
+	// to be reported as itself rather than as whichever setting that
+	// mode would or would not have required.
+	mode, err := ParseMode(getenv("CONSOLE_RUN_MODE"))
+	if err != nil {
+		return Config{}, fmt.Errorf("CONSOLE_RUN_MODE: %w", err)
+	}
+
 	cfg := Config{
+		Mode: mode,
+
 		HTTPAddr:    getenv("CONSOLE_HTTP_ADDR"),
 		PostgresDSN: getenv("CONSOLE_POSTGRES_DSN"),
 
@@ -229,7 +278,21 @@ func LoadConfig(getenv func(string) string) (Config, error) {
 		ConsoleBaseURL: getenv("CONSOLE_BASE_URL"),
 
 		AuditLogPath: getenv("CONSOLE_AUDIT_LOG_PATH"),
+
+		NodeTransportClusterAddr:   getenv("CONSOLE_NODE_TRANSPORT_CLUSTER_ADDR"),
+		NodeTransportClusterPeers:  getenv("CONSOLE_NODE_TRANSPORT_CLUSTER_PEERS"),
+		NodeTransportClusterSecret: getenv("CONSOLE_NODE_TRANSPORT_CLUSTER_SECRET"),
+
+		ClusterAddr:   getenv("CONSOLE_CLUSTER_ADDR"),
+		ClusterPeers:  getenv("CONSOLE_CLUSTER_PEERS"),
+		ClusterSecret: getenv("CONSOLE_CLUSTER_SECRET"),
 	}
+
+	clusterMode, err := ParseClusterMode(getenv("CONSOLE_CLUSTER_MODE"))
+	if err != nil {
+		return Config{}, fmt.Errorf("CONSOLE_CLUSTER_MODE: %w", err)
+	}
+	cfg.ClusterMode = clusterMode
 
 	auditLevels := []struct {
 		env  string
@@ -272,7 +335,7 @@ func LoadConfig(getenv func(string) string) (Config, error) {
 		cfg.CodeDirPath = "openvox-code"
 	}
 	if cfg.RBACSigningKeyID == "" {
-		cfg.RBACSigningKeyID = "default"
+		cfg.RBACSigningKeyID = DefaultSigningKeyID
 	}
 	if cfg.ConsoleBaseURL == "" {
 		cfg.ConsoleBaseURL = "http://localhost" + cfg.HTTPAddr
@@ -303,6 +366,33 @@ func LoadConfig(getenv func(string) string) (Config, error) {
 		cfg.SecretsKey = key
 	}
 
+	// A peer listener with no credentials would let anything that can
+	// reach the port join the internal event bus - and through it read
+	// every activity and revocation event, and publish forged ones.
+	// Refused at configuration time rather than defaulting to open.
+	if cfg.ClusterAddr != "" && cfg.ClusterSecret == "" {
+		return Config{}, fmt.Errorf(
+			"CONSOLE_CLUSTER_SECRET is required when CONSOLE_CLUSTER_ADDR is set: " +
+				"a peer listener without credentials would accept any connection that can reach it")
+	}
+	// Peers with nothing to dial from, or a listener with nobody to talk
+	// to, is almost always half-finished configuration rather than an
+	// intent - but only the first is actually unworkable.
+	if cfg.ClusterPeers != "" && cfg.ClusterSecret == "" {
+		return Config{}, fmt.Errorf(
+			"CONSOLE_CLUSTER_SECRET is required when CONSOLE_CLUSTER_PEERS is set: " +
+				"a peer connection must authenticate")
+	}
+
+	// Same reasoning as the internal bus's secret: an unauthenticated
+	// transport peer listener would let anything that can reach it
+	// route dispatches to every managed node.
+	if (cfg.NodeTransportClusterAddr != "" || cfg.NodeTransportClusterPeers != "") && cfg.NodeTransportClusterSecret == "" {
+		return Config{}, fmt.Errorf(
+			"CONSOLE_NODE_TRANSPORT_CLUSTER_SECRET is required when the node transport is clustered: " +
+				"an unauthenticated peer could route dispatches to every managed node")
+	}
+
 	// Refused rather than merged: were both honoured, the same repo
 	// could be declared twice with different prefixes, and reading the
 	// sources file alone would not tell you what actually deploys.
@@ -312,24 +402,53 @@ func LoadConfig(getenv func(string) string) (Config, error) {
 				"declare the single control repo in the sources file and unset CONSOLE_CONTROL_REPO_URL, or unset CONSOLE_CODE_SOURCES_PATH")
 	}
 
+	// Required configuration is mode-scoped: a mode must be given what
+	// it uses, and must not be made to supply what it never touches.
+	//
+	// The RBAC signing key is the case that matters. Only a mode that
+	// issues tokens needs it, and an enc instance is the one most likely
+	// to sit somewhere less trusted - next to a compiler, outside the
+	// console's own network. Requiring the signing key there would put
+	// the ability to mint tokens on every such host for no reason;
+	// verification needs only public keys. See the run-modes
+	// capability's "Mode-scoped configuration requirements".
 	required := map[string]string{
-		"CONSOLE_POSTGRES_DSN":          cfg.PostgresDSN,
-		"CONSOLE_OPENVOXDB_URL":         cfg.OpenvoxdbURL,
-		"CONSOLE_OPENVOXDB_CERT_FILE":   cfg.OpenvoxdbCertFile,
-		"CONSOLE_OPENVOXDB_KEY_FILE":    cfg.OpenvoxdbKeyFile,
-		"CONSOLE_OPENVOXDB_CA_FILE":     cfg.OpenvoxdbCAFile,
-		"CONSOLE_RBAC_SIGNING_KEY_FILE": cfg.RBACSigningKeyFile,
+		"CONSOLE_POSTGRES_DSN":        cfg.PostgresDSN,
+		"CONSOLE_OPENVOXDB_URL":       cfg.OpenvoxdbURL,
+		"CONSOLE_OPENVOXDB_CERT_FILE": cfg.OpenvoxdbCertFile,
+		"CONSOLE_OPENVOXDB_KEY_FILE":  cfg.OpenvoxdbKeyFile,
+		"CONSOLE_OPENVOXDB_CA_FILE":   cfg.OpenvoxdbCAFile,
 	}
-	for _, name := range []string{
+	names := []string{
 		"CONSOLE_POSTGRES_DSN",
 		"CONSOLE_OPENVOXDB_URL",
 		"CONSOLE_OPENVOXDB_CERT_FILE",
 		"CONSOLE_OPENVOXDB_KEY_FILE",
 		"CONSOLE_OPENVOXDB_CA_FILE",
-		"CONSOLE_RBAC_SIGNING_KEY_FILE",
-	} {
+	}
+	if cfg.Mode.IssuesTokens() {
+		required["CONSOLE_RBAC_SIGNING_KEY_FILE"] = cfg.RBACSigningKeyFile
+		names = append(names, "CONSOLE_RBAC_SIGNING_KEY_FILE")
+	} else {
+		// A non-issuing mode holds no signing key, so its verification
+		// set comes entirely from this directory. Without it the
+		// instance would start and then reject every token presented to
+		// it - serving 401s that look like an authentication problem
+		// rather than the misconfiguration they are.
+		required["CONSOLE_RBAC_VERIFICATION_KEYS_DIR"] = cfg.RBACVerificationKeysDir
+		names = append(names, "CONSOLE_RBAC_VERIFICATION_KEYS_DIR")
+	}
+	// The orchestrator's whole purpose is terminating node connections.
+	// Starting one with no listener configured would leave every
+	// dispatch failing "not connected" while looking healthy - the
+	// silent-misconfiguration case run modes exist to remove.
+	if cfg.Mode == ModeOrchestrator {
+		required["CONSOLE_NODE_TRANSPORT_ADDR"] = cfg.NodeTransportAddr
+		names = append(names, "CONSOLE_NODE_TRANSPORT_ADDR")
+	}
+	for _, name := range names {
 		if required[name] == "" {
-			return Config{}, fmt.Errorf("missing required configuration: %s", name)
+			return Config{}, fmt.Errorf("missing required configuration: %s (run mode %q)", name, cfg.Mode)
 		}
 	}
 

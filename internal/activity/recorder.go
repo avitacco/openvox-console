@@ -11,8 +11,18 @@ import (
 // subscriber is the subset of *messaging.Bus Recorder needs, so it can be
 // tested without a live NATS server.
 type subscriber interface {
-	Subscribe(subject string, handler nats.MsgHandler) (*nats.Subscription, error)
+	QueueSubscribe(subject, queue string, handler nats.MsgHandler) (*nats.Subscription, error)
 }
+
+// recorderQueue is the queue group every instance's Recorder joins.
+//
+// This is what makes the recorder correct in a cluster. It persists each
+// event to one table, so a plain fan-out subscription would write one
+// identical row per running instance - a bug invisible on a single
+// instance and immediate on two. A queue group delivers each event to
+// exactly one member, wherever it happens to be running. See
+// internal/messaging's package documentation for the general rule.
+const recorderQueue = "activity-recorder"
 
 // recorderStore is the subset of *Store Recorder needs.
 type recorderStore interface {
@@ -37,8 +47,11 @@ func NewRecorder(store recorderStore, logger *slog.Logger) *Recorder {
 // once at startup, before the HTTP server begins accepting requests - the
 // same ordering rbac.Revoker.Start already relies on - so no event
 // published by a live request can be missed.
+//
+// The subscription joins recorderQueue, so across a cluster exactly one
+// instance persists each event.
 func (r *Recorder) Start(bus subscriber) error {
-	_, err := bus.Subscribe(Subject, func(msg *nats.Msg) {
+	_, err := bus.QueueSubscribe(Subject, recorderQueue, func(msg *nats.Msg) {
 		var e Event
 		if err := json.Unmarshal(msg.Data, &e); err != nil {
 			r.logger.Warn("dropping malformed activity event", "error", err)

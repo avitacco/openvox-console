@@ -13,16 +13,26 @@ type Checker interface {
 }
 
 type healthResponse struct {
-	Status string            `json:"status"`
+	Status string `json:"status"`
+	// Mode is the run mode this instance is serving, so an operator or
+	// load balancer checking an instance learns what it is without
+	// having to know how it was configured.
+	Mode   string            `json:"mode"`
 	Checks map[string]string `json:"checks"`
 }
 
 // HealthHandler returns an http.HandlerFunc that reports success only when
 // every checker succeeds, and otherwise reports which dependency failed.
-func HealthHandler(checkers ...Checker) http.HandlerFunc {
+//
+// The checkers passed are the active mode's own dependencies, not a
+// fixed list: an instance must not be reported unhealthy for something
+// its mode never contacts. An enc instance has no node transport, so a
+// health response naming one would either lie or fail, and a load
+// balancer would drain a healthy instance over it.
+func HealthHandler(mode Mode, checkers ...Checker) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context()
-		resp := healthResponse{Status: "ok", Checks: map[string]string{}}
+		resp := healthResponse{Status: "ok", Mode: mode.String(), Checks: map[string]string{}}
 
 		for _, c := range checkers {
 			if err := c.Check(ctx); err != nil {

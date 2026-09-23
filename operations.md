@@ -17,9 +17,9 @@ are the exceptions worth knowing about:
 
 | State | Where | Survives routing to a different instance? |
 | --- | --- | --- |
-| RBAC token revocation cache | `internal/rbac.Revoker` | **Yes.** In-memory only for zero-latency checks, but Postgres is the durable source of truth and a revocation is published over NATS (`rbac.revoked` subject) to every other running instance's in-memory cache immediately, with no restart. A request rejected for a revoked token on instance A is rejected identically on instance B. |
-| Node transport connections | `internal/nodetransport.Registry` | **No.** A node's NATS connection is a real, single TCP connection terminated at exactly one instance's embedded NATS server. If a node is connected to instance A, only instance A can dispatch to it - instance B has no way to reach it. This is a known, deliberate v1 limitation (see architecture-summary.md's "8. High availability and failover" and the "Deferred / explicitly out of scope for v1" list) - the fix is multi-instance federation (NATS clustering, already possible in principle since the transport is NATS - see architecture-summary.md's "4. Internal messaging: embedded NATS"), explicitly deferred until a deployment needs it. |
-| Orchestrator in-flight dispatch tracking | `internal/orchestrator.Dispatcher.pending` | **No, for the same reason.** A dispatch's response only ever arrives on the NATS connection the dispatching instance itself holds open to that node. A job whose target node is connected to instance A can only be correlated to completion by instance A - if traffic is routed to instance B mid-job, that job's *dispatch* is unaffected (it's not tied to any particular HTTP request), but a *new* run against that same node, if routed to instance B, would find "not connected" even though the node has a live connection to instance A. This has the same root cause and the same fix (federation) as the row above. |
+| RBAC token revocation cache | `internal/rbac.Revoker` | **Yes, when clustered.** In-memory only for zero-latency checks, but Postgres is the durable source of truth and a revocation is published over NATS (`rbac.revoked` subject) to every other running instance's in-memory cache immediately, with no restart. A request rejected for a revoked token on instance A is rejected identically on instance B. This requires the instances to be peered (`CONSOLE_CLUSTER_*`): the internal bus opens no listener at all when unclustered, so a second instance that is not peered would keep accepting a token revoked on the first until that token expired. Instances sharing a database but not a cluster are not a supported configuration for this reason. |
+| Node transport connections | `internal/nodetransport.Registry` | **Yes, when the transport is clustered.** A node's connection is still a single TCP connection terminated at one instance, but with the transports peered (`CONSOLE_NODE_TRANSPORT_CLUSTER_*`) a dispatch published by any instance is routed to whichever one holds that connection, and the connection registry reflects connects and disconnects cluster-wide. Unclustered, this remains instance-local: only the instance a node connected to can reach it. |
+| Orchestrator in-flight dispatch tracking | `internal/orchestrator.Dispatcher.pending` | **Instance-local, but no longer load-bearing.** A dispatch's response still returns to the instance that published it, so that instance tracks it to completion. What changed is that *any* instance can publish the dispatch, so triggering a run no longer depends on reaching a particular one. If the dispatching instance stops before a job reaches a terminal state, the stale-job reaper (`worker`/`all` mode, leased) records that job as failed rather than leaving it "running" forever. |
 
 Everything else - job/deploy/report history, users/roles/permissions,
 node classification, activity log, audit log emission - reads and writes
@@ -27,12 +27,148 @@ Postgres (and, where multiple instances need to agree on something live,
 NATS) directly, with no other in-memory state a request depends on. A
 request for any of that can be safely routed to any healthy instance.
 
-**Practical implication for a load-balanced deployment today:** general
-API/UI traffic, login, and reading job/deploy/report history are all
-safe to load-balance freely. On-demand orchestration (triggering a run/
-task/plan, or a node's own transport connection) is only reliable if that
-traffic - and that node's own NATS connection - consistently reaches the
-same instance, until federation (Phase 7) removes this constraint.
+**Practical implication for a load-balanced deployment:** with the
+instances clustered (see "Run modes" below), all of this is safe to
+load-balance freely, on-demand orchestration included - a dispatch
+published by any instance reaches a node whose connection is terminated
+at another. Without clustering, only one instance is supported: an
+unclustered second instance neither learns about token revocations nor
+can reach the first's connected nodes.
+
+## Run modes
+
+One image, one binary. `CONSOLE_RUN_MODE` selects which parts of the
+console an instance runs, so components with very different load
+profiles can be scaled and placed independently. Unset means `all`,
+which is exactly the behavior the console had before run modes existed -
+an existing single-instance deployment needs no configuration change.
+
+| Mode | Serves | Listens | Runs |
+| --- | --- | --- | --- |
+| `all` (default) | everything | HTTP, node transport | every background worker |
+| `web` | console UI, REST API, code-deploy webhooks, ENC | HTTP | none |
+| `enc` | ENC endpoint only, plus health/metrics | HTTP | none |
+| `orchestrator` | health/metrics only | HTTP, node transport | dispatcher, initial-run trigger |
+| `worker` | health/metrics only | HTTP | activity recorder, vulnerability scheduler, job reaper |
+
+Health and metrics are served in every mode, so any instance can be
+health-checked without the checker knowing its mode. `GET /health`
+reports the active mode.
+
+Two choices in that table are deliberate and worth stating:
+
+- **`web` serves ENC as well.** `enc` mode exists so ENC *can* be scaled
+  and placed on its own - next to a compiler, typically - not so that it
+  is unavailable everywhere else. A `web`/`orchestrator`/`worker` split
+  that silently stopped answering classification would be a far worse
+  failure than `web` carrying some ENC load.
+- **`orchestrator` serves no REST API.** It holds node connections and
+  runs the dispatcher; the job-triggering endpoints live in `web`, which
+  reaches those connections over the cluster.
+
+### Required configuration per mode
+
+Each mode requires only what it uses:
+
+- Every mode: `CONSOLE_POSTGRES_DSN`, the `CONSOLE_OPENVOXDB_*` settings.
+- `all` and `web`: `CONSOLE_RBAC_SIGNING_KEY_FILE`. These are the only
+  modes that issue tokens.
+- `enc`, `orchestrator`, `worker`: `CONSOLE_RBAC_VERIFICATION_KEYS_DIR`
+  instead. They verify tokens but never mint them, so the private
+  signing key is never read - and never needs to be present on, say, an
+  ENC instance sitting next to a compiler outside the console's own
+  network.
+- `orchestrator`: `CONSOLE_NODE_TRANSPORT_ADDR`. Starting this mode
+  without a listener would leave every dispatch failing "not connected"
+  on an instance that otherwise looked healthy, so it is refused.
+
+## Multi-instance topology
+
+Instances coordinate over two separate NATS clusters, mirroring the two
+separate embedded NATS servers (see architecture-summary.md sections 4
+and 7): the internal event bus, and the node transport.
+
+### Internal event bus
+
+Carries token revocations, activity events, and code-deployment
+notifications.
+
+- `CONSOLE_CLUSTER_ADDR` - this instance's peer listener, e.g. `:6222`.
+- `CONSOLE_CLUSTER_PEERS` - comma-separated `host:port` peers.
+- `CONSOLE_CLUSTER_SECRET` - required whenever either of the above is
+  set. Startup is refused without it: an unauthenticated peer listener
+  would put anything that can reach the port onto the internal bus.
+- `CONSOLE_CLUSTER_MODE` - `route` (default) or `leaf`.
+
+Core modes (`all`, `web`, `orchestrator`, `worker`) mesh as routed
+peers. `enc` instances attach as **leaf** nodes: the connection is
+outbound-only, so the console core needs no network path back to them.
+That is what makes the compiler-colocated deployment practical, where
+ENC instances live wherever the compilers live.
+
+```
+  web-1 ──┐
+  web-2 ──┼── routed peers (:6222)
+  orch-1 ─┤
+  worker ─┘
+      ▲
+      │ leaf connections, outbound only (:6223)
+      │
+  enc-1, enc-2  (alongside the compilers)
+```
+
+A leaf attaches to its peer's leafnode listener, which sits one port
+above the route listener - so an operator configures one address per
+instance, not two.
+
+### Node transport
+
+Carries orchestration dispatches to managed nodes. Clustering it is what
+removes the sticky-routing constraint: a dispatch published by any
+instance reaches a node connected to any other.
+
+- `CONSOLE_NODE_TRANSPORT_CLUSTER_ADDR`
+- `CONSOLE_NODE_TRANSPORT_CLUSTER_PEERS`
+- `CONSOLE_NODE_TRANSPORT_CLUSTER_SECRET`
+
+This secret is deliberately **not** the node-facing mTLS material.
+Routes authenticate with their own credential, so a node certificate can
+never be used to join the cluster as a peer and observe or inject every
+node's traffic. Startup is refused if the transport is clustered without
+it.
+
+### Which modes may be run as multiple instances
+
+Every mode may. Nothing a request depends on is instance-local once the
+instances are clustered:
+
+- Durable state is in Postgres.
+- Revocations fan out to every instance, so each one's in-memory cache
+  converges.
+- Work that must happen once - the vulnerability sync, a code deploy of
+  a given environment, the stale-job reaper - is serialized by a
+  Postgres lease (`singleton_leases`), so running several `worker` or
+  `all` instances does not duplicate it.
+- Subscribers that write use a NATS queue group, so an activity event
+  published once is persisted once however many instances subscribe.
+
+### Migration path
+
+The change is inert until configured, so adoption is incremental:
+
+1. Upgrade every instance to the new image while still single-instance.
+   Nothing changes: `all` with no cluster configuration is exactly the
+   previous behavior.
+2. Set `CONSOLE_CLUSTER_*` on the existing instance and start a second
+   `all` instance peered with it. This exercises clustering, lease
+   coordination and queue subscriptions before any role split.
+3. Split roles as load demands: move background work to `worker`, node
+   connections to `orchestrator`, then add `enc` instances alongside the
+   compilers.
+
+Rollback at any step is setting `CONSOLE_RUN_MODE=all` and removing the
+cluster configuration. No schema change gates it; the `singleton_leases`
+table is additive and unused by an unclustered instance.
 
 ## Postgres failover runbook
 

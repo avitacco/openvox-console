@@ -895,3 +895,63 @@ func TestListRepositories_CountsAndUnattributed(t *testing.T) {
 		t.Errorf("NodesWithoutEnvironment = %v, want 1", response.NodesWithoutEnvironment)
 	}
 }
+
+// A deploy of an environment already being deployed elsewhere is refused
+// with 409, not run concurrently against the same directory tree. web
+// mode carries the code manager, so two web instances can each receive a
+// webhook for the same branch at the same time.
+func TestTriggerDeploy_RefusesWhenTheEnvironmentIsAlreadyDeploying(t *testing.T) {
+	codeDir := t.TempDir()
+	h, _, _, _ := realHandlers(t, codeDir)
+
+	// Stands in for the lease being held by another instance: Hold
+	// reports "not acquired" and never runs the work.
+	h.SetDeployLeases(heldElsewhere{})
+
+	req := httptest.NewRequest(http.MethodPost, "/api/v1/code-deploys", nil)
+	req.Header.Set("Content-Type", "application/json")
+	rec := httptest.NewRecorder()
+	h.triggerDeploy(rec, req)
+
+	if rec.Code != http.StatusConflict {
+		t.Errorf("status = %d, want %d when another instance is deploying", rec.Code, http.StatusConflict)
+	}
+}
+
+// With the lease free, the deploy runs exactly as it does unleased -
+// the lease must not change the normal path.
+func TestTriggerDeploy_RunsWhenTheLeaseIsFree(t *testing.T) {
+	codeDir := t.TempDir()
+	h, _, _, _ := realHandlers(t, codeDir)
+
+	h.SetDeployLeases(alwaysFree{})
+
+	req := httptest.NewRequest(http.MethodPost, "/api/v1/code-deploys", nil)
+	req.Header.Set("Content-Type", "application/json")
+	rec := httptest.NewRecorder()
+	h.triggerDeploy(rec, req)
+
+	if rec.Code == http.StatusConflict {
+		t.Error("a deploy was refused as already-running while the lease was free")
+	}
+}
+
+// Deploys are leased per environment, so two different environments are
+// never serialized against each other.
+func TestDeployLeaseNameIsPerEnvironment(t *testing.T) {
+	if DeployLeaseName("production") == DeployLeaseName("staging") {
+		t.Error("two environments share one deploy lease name; deploying one would block the other")
+	}
+}
+
+type heldElsewhere struct{}
+
+func (heldElsewhere) Hold(context.Context, string, func(context.Context) error) (bool, error) {
+	return false, nil
+}
+
+type alwaysFree struct{}
+
+func (alwaysFree) Hold(ctx context.Context, _ string, fn func(context.Context) error) (bool, error) {
+	return true, fn(ctx)
+}

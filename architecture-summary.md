@@ -181,11 +181,12 @@ What NATS gives instead:
 - `node-agent-client` is this project's own binary (cross-compiled at
   console build time and served via the agent-distribution install
   script), not a reused upstream component.
-- v1: single instance, no federation. Dispatch goes through a small
-  interface (`given a node identity, deliver this request and wait for its
-  response`), so federation can be added later as a new implementation of
-  that interface rather than a rewrite of core routing - see the
-  federation note under "Deferred" below.
+- Dispatch goes through a small interface (`given a node identity,
+  deliver this request and wait for its response`). Federation turned out
+  not to need a new implementation of it at all: clustering the transport's
+  NATS servers routes a dispatch to whichever instance holds the target
+  node's connection, because the subject namespace is already per-node.
+  See "9. Run modes and clustering" below.
 - Job orchestration: translate console/API job requests into dispatch
   requests over a node's own NATS subject (a run/task's module+action+
   params payload), track status via NATS request-reply, correlate
@@ -197,18 +198,54 @@ Puppet Enterprise's primary/replica model requires manual promotion and
 demotion, largely because its JVM services carry meaningful local state.
 Designing the Go services to be largely stateless, reading from Postgres (which
 already has mature native replication, and is already a dependency via
-openvoxdb), should make failover closer to "point a load balancer at a healthy
+openvoxdb), makes failover closer to "point a load balancer at a healthy
 instance" than a scripted promotion procedure. This is a design principle to
 hold throughout, not a separate component.
 
+### 9. Run modes and clustering
+
+The console started as one process that ran every subsystem. At fleet
+sizes where the ENC endpoint alone answers tens of requests per second
+while the background schedulers run a few syncs a day, welding those
+together forces vertical scaling of the whole thing.
+
+**Decision:** one image and one binary, with `CONSOLE_RUN_MODE`
+selecting which subsystems an instance activates - `all` (the default,
+and identical to the previous behavior), `web`, `enc`, `orchestrator`,
+`worker`. What each mode activates is a single table in `internal/app`
+rather than conditionals spread through startup, so the mapping is one
+readable value and can be asserted on directly.
+
+Instances coordinate over two NATS clusters, mirroring the two separate
+embedded servers above:
+
+- **Internal bus.** Core modes mesh as routed peers; `enc` instances
+  attach as leaf nodes, outbound-only, so the core needs no network path
+  to an instance sitting next to a compiler. This is what finally makes
+  token revocation take effect fleet-wide, which the RBAC design assumed
+  but an unclustered bus could not deliver.
+- **Node transport.** Clustering it removes the sticky-routing
+  constraint on orchestration: a dispatch published by any instance
+  reaches a node connected to any other. Peer routes authenticate with
+  their own credential, never the node-facing mTLS material, so a node
+  certificate cannot be used to join a cluster.
+
+Two consequences of clustering had to be handled rather than assumed
+away:
+
+- A subscriber that *writes* becomes a duplicate-write bug once several
+  instances subscribe. Such subscribers use a NATS queue group (exactly
+  one member handles each message); subscribers that only update
+  instance-local memory stay fan-out. The rule is documented in
+  `internal/messaging`.
+- Scheduled work that must not overlap takes a Postgres lease
+  (`internal/leases`), judged by the database clock so skewed instance
+  clocks still agree.
+
 ## Deferred / explicitly out of scope for v1
 
-- Multi-instance orchestration federation (NATS clustering support exists in
-  the design; not activated until a deployment needs it). This also means the
-  orchestrator's own in-flight dispatch tracking is pinned to whichever
-  instance dispatched a given job, for the same reason a node's own transport
-  connection is - see operations.md's statelessness boundary table for the
-  operator-facing detail.
+- ~~Multi-instance orchestration federation~~ - **implemented**; see "9. Run
+  modes and clustering" below.
 - LDAP/SAML sync for RBAC.
 - Encrypted (JWE) tokens.
 - Full Ruby-semantics Puppetfile compatibility (conditionals, loops, arbitrary

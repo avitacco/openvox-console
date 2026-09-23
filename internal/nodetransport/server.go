@@ -16,6 +16,7 @@ import (
 	"crypto/x509"
 	"fmt"
 	"net"
+	"net/url"
 	"os"
 	"strconv"
 	"time"
@@ -30,6 +31,18 @@ type Config struct {
 	CertFile   string // this console's own server certificate
 	KeyFile    string
 	CAFile     string // CA used to verify a node's client certificate
+
+	// ClusterAddr, ClusterPeers and ClusterSecret peer this transport
+	// with other console instances, so a dispatch published here reaches
+	// a node whose connection is terminated at a different instance.
+	//
+	// ClusterSecret is deliberately not the node-facing mTLS material:
+	// routes authenticate with their own credential, so a node
+	// certificate can never be used to join the cluster as a peer and
+	// observe or inject every node's traffic.
+	ClusterAddr   string
+	ClusterPeers  []string
+	ClusterSecret string
 
 	// OnNodeConnect, when set, is called with a node's certname each
 	// time that node connects. Optional; nil disables notification.
@@ -73,7 +86,7 @@ func New(cfg Config) (*Server, error) {
 	// (see auth.go) is only ever invoked for an actual connection, which
 	// can't happen before Start, so this has no initialization race.
 	auth := &authenticator{}
-	ns, err := server.NewServer(&server.Options{
+	opts := &server.Options{
 		Host:      host,
 		Port:      port,
 		TLSConfig: tlsConfig,
@@ -87,7 +100,13 @@ func New(cfg Config) (*Server, error) {
 		// well before either side's ping cycle would notice.
 		PingInterval: PingInterval,
 		MaxPingsOut:  MaxPingsOut,
-	})
+	}
+
+	if err := configureCluster(opts, cfg); err != nil {
+		return nil, err
+	}
+
+	ns, err := server.NewServer(opts)
 	if err != nil {
 		return nil, fmt.Errorf("create node transport NATS server: %w", err)
 	}
@@ -164,6 +183,14 @@ func splitHostPort(addr string) (string, int, error) {
 	if err != nil {
 		return "", 0, fmt.Errorf("invalid port %q: %w", portStr, err)
 	}
+	// Port 0 conventionally means "any free port", and that is what a
+	// caller writing ":0" means by it. nats-server reads 0 as "unset"
+	// and substitutes its own default (4222) instead, so ":0" would
+	// quietly bind a fixed, probably-occupied port. RANDOM_PORT (-1) is
+	// its spelling of ephemeral.
+	if port == 0 {
+		port = server.RANDOM_PORT
+	}
 	return host, port, nil
 }
 
@@ -204,4 +231,69 @@ func (s *Server) Close() {
 		s.ns.Shutdown()
 		s.ns.WaitForShutdown()
 	}
+}
+
+// clusterName is shared by every peer: nats-server refuses to route
+// between servers whose cluster names disagree, turning a copy-paste
+// configuration error into a clear failure rather than a silently
+// partitioned transport.
+const clusterName = "openvox-node-transport"
+
+// peerUser is the identity transport routes authenticate as.
+const peerUser = "transport-peer"
+
+// configureCluster peers this transport with other console instances.
+//
+// Routes authenticate through ClusterOpts' own credentials, which is a
+// different path from Options.CustomClientAuthentication (see auth.go) -
+// nats-server handles route authentication separately from client
+// authentication. A route therefore never reaches auth.go's nil-TLS
+// branch, and a node's client certificate is not a credential that can
+// join the cluster.
+func configureCluster(opts *server.Options, cfg Config) error {
+	if cfg.ClusterAddr == "" && len(cfg.ClusterPeers) == 0 {
+		return nil
+	}
+	if cfg.ClusterSecret == "" {
+		return fmt.Errorf("node transport cluster secret is required when peering is configured")
+	}
+
+	opts.Cluster = server.ClusterOpts{
+		Name:     clusterName,
+		Username: peerUser,
+		Password: cfg.ClusterSecret,
+	}
+	if cfg.ClusterAddr != "" {
+		host, port, err := splitHostPort(cfg.ClusterAddr)
+		if err != nil {
+			return fmt.Errorf("parse node transport cluster address %q: %w", cfg.ClusterAddr, err)
+		}
+		opts.Cluster.Host = host
+		opts.Cluster.Port = port
+	}
+
+	routes := make([]*url.URL, 0, len(cfg.ClusterPeers))
+	for _, p := range cfg.ClusterPeers {
+		host, port, err := net.SplitHostPort(p)
+		if err != nil {
+			return fmt.Errorf("parse node transport cluster peer %q: %w", p, err)
+		}
+		routes = append(routes, &url.URL{
+			Scheme: "nats-route",
+			User:   url.UserPassword(peerUser, cfg.ClusterSecret),
+			Host:   net.JoinHostPort(host, port),
+		})
+	}
+	opts.Routes = routes
+	return nil
+}
+
+// ClusterAddr returns the address this transport accepts peer
+// connections on, or "" when it does not peer.
+func (s *Server) ClusterAddr() string {
+	addr := s.ns.ClusterAddr()
+	if addr == nil {
+		return ""
+	}
+	return addr.String()
 }

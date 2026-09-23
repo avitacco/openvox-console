@@ -72,6 +72,12 @@ func (r *Revoker) Start(ctx context.Context) error {
 	}
 	r.mu.Unlock()
 
+	// Deliberately a fan-out subscription, not a queue group: every
+	// instance keeps its own in-memory revocation cache, so every
+	// instance must receive every revocation. A queue group here would
+	// deliver each revocation to exactly one instance and leave the
+	// others still accepting the token - see internal/messaging's
+	// package documentation for the rule this follows.
 	_, err = r.store.Subscribe(RevocationSubject, func(msg *nats.Msg) {
 		var e revocationEvent
 		if err := json.Unmarshal(msg.Data, &e); err != nil {

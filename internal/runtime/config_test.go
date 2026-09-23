@@ -28,6 +28,20 @@ func validEnv(overrides map[string]string) map[string]string {
 	return env
 }
 
+// modeEnv returns the overrides a given mode needs on top of validEnv:
+// verification keys for a mode that issues no tokens, and a transport
+// listener for orchestrator.
+func modeEnv(mode Mode) map[string]string {
+	env := map[string]string{"CONSOLE_RUN_MODE": string(mode)}
+	if !mode.IssuesTokens() {
+		env["CONSOLE_RBAC_VERIFICATION_KEYS_DIR"] = "certs/rbac-keys"
+	}
+	if mode == ModeOrchestrator {
+		env["CONSOLE_NODE_TRANSPORT_ADDR"] = ":7422"
+	}
+	return env
+}
+
 func TestLoadConfig_Valid(t *testing.T) {
 	cfg, err := LoadConfig(envMap(validEnv(nil)))
 	if err != nil {
@@ -499,5 +513,271 @@ func TestLoadConfig_EitherCodeSourceFormAloneIsAccepted(t *testing.T) {
 	}
 	if multi.CodeSourcesPath != "/etc/openvox-console/code-sources.yaml" || multi.ControlRepoURL != "" {
 		t.Errorf("ControlRepoURL = %q, CodeSourcesPath = %q", multi.ControlRepoURL, multi.CodeSourcesPath)
+	}
+}
+
+func TestLoadConfig_RunModeDefaultsToAll(t *testing.T) {
+	cfg, err := LoadConfig(envMap(validEnv(nil)))
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if cfg.Mode != ModeAll {
+		t.Errorf("Mode = %q, want %q for an unset CONSOLE_RUN_MODE", cfg.Mode, ModeAll)
+	}
+}
+
+func TestLoadConfig_RunModeConfigured(t *testing.T) {
+	for _, want := range Modes() {
+		// Each mode is given what that mode requires - the point of
+		// mode-scoped requirements is that this set differs per mode.
+		cfg, err := LoadConfig(envMap(validEnv(modeEnv(want))))
+		if err != nil {
+			t.Errorf("CONSOLE_RUN_MODE=%q: unexpected error: %v", want, err)
+			continue
+		}
+		if cfg.Mode != want {
+			t.Errorf("CONSOLE_RUN_MODE=%q: Mode = %q", want, cfg.Mode)
+		}
+	}
+}
+
+// An unrecognized mode must be refused, and the message has to carry
+// enough for an operator to fix it without reading the source: the
+// offending value and the full valid set.
+func TestLoadConfig_RunModeInvalidValueIsRejected(t *testing.T) {
+	_, err := LoadConfig(envMap(validEnv(map[string]string{
+		"CONSOLE_RUN_MODE": "wrker",
+	})))
+	if err == nil {
+		t.Fatal("expected an error for an invalid CONSOLE_RUN_MODE, got none")
+	}
+
+	msg := err.Error()
+	if !strings.Contains(msg, "CONSOLE_RUN_MODE") {
+		t.Errorf("error %q does not name the setting", msg)
+	}
+	if !strings.Contains(msg, "wrker") {
+		t.Errorf("error %q does not name the invalid value", msg)
+	}
+	for _, m := range Modes() {
+		if !strings.Contains(msg, string(m)) {
+			t.Errorf("error %q does not name valid mode %q", msg, m)
+		}
+	}
+}
+
+// The mode is parsed before any other validation, so a deployment that
+// gets both wrong is told about the mode rather than about a setting
+// whose necessity depends on the mode it mistyped.
+func TestLoadConfig_RunModeReportedBeforeMissingRequiredValues(t *testing.T) {
+	_, err := LoadConfig(envMap(map[string]string{
+		"CONSOLE_RUN_MODE": "wrker",
+	}))
+	if err == nil {
+		t.Fatal("expected an error, got none")
+	}
+	if !strings.Contains(err.Error(), "CONSOLE_RUN_MODE") {
+		t.Errorf("error %q reports something other than the invalid run mode", err)
+	}
+}
+
+// A mode that does not issue tokens must start without a signing key -
+// an enc instance typically runs next to a compiler, outside the
+// console's trust boundary, and requiring the private key there would
+// put token minting on every such host for no reason.
+func TestLoadConfig_NonIssuingModeNeedsNoSigningKey(t *testing.T) {
+	for _, mode := range []Mode{ModeENC, ModeWorker} {
+		env := validEnv(map[string]string{
+			"CONSOLE_RUN_MODE":                   string(mode),
+			"CONSOLE_RBAC_VERIFICATION_KEYS_DIR": "certs/rbac-keys",
+		})
+		delete(env, "CONSOLE_RBAC_SIGNING_KEY_FILE")
+
+		cfg, err := LoadConfig(envMap(env))
+		if err != nil {
+			t.Errorf("mode %q: unexpected error: %v", mode, err)
+			continue
+		}
+		if cfg.RBACSigningKeyFile != "" {
+			t.Errorf("mode %q: RBACSigningKeyFile = %q, want empty", mode, cfg.RBACSigningKeyFile)
+		}
+	}
+}
+
+// ...but it must be given verification keys, or it would start and then
+// reject every token presented to it.
+func TestLoadConfig_NonIssuingModeRequiresVerificationKeys(t *testing.T) {
+	env := validEnv(map[string]string{"CONSOLE_RUN_MODE": string(ModeENC)})
+	delete(env, "CONSOLE_RBAC_SIGNING_KEY_FILE")
+
+	_, err := LoadConfig(envMap(env))
+	if err == nil {
+		t.Fatal("expected an error for enc mode with no verification keys directory, got none")
+	}
+	if !strings.Contains(err.Error(), "CONSOLE_RBAC_VERIFICATION_KEYS_DIR") {
+		t.Errorf("error %q does not name the missing verification keys directory", err)
+	}
+}
+
+// An issuing mode still requires the signing key.
+func TestLoadConfig_IssuingModeRequiresSigningKey(t *testing.T) {
+	for _, mode := range []Mode{ModeAll, ModeWeb} {
+		env := validEnv(map[string]string{"CONSOLE_RUN_MODE": string(mode)})
+		delete(env, "CONSOLE_RBAC_SIGNING_KEY_FILE")
+
+		_, err := LoadConfig(envMap(env))
+		if err == nil {
+			t.Errorf("mode %q: expected an error with no signing key, got none", mode)
+			continue
+		}
+		if !strings.Contains(err.Error(), "CONSOLE_RBAC_SIGNING_KEY_FILE") {
+			t.Errorf("mode %q: error %q does not name the missing signing key", mode, err)
+		}
+	}
+}
+
+// orchestrator mode without a listener would accept no node connection at
+// all, leaving every dispatch failing "not connected" on an instance that
+// otherwise looks healthy.
+func TestLoadConfig_OrchestratorRequiresTransportAddr(t *testing.T) {
+	env := modeEnv(ModeOrchestrator)
+	delete(env, "CONSOLE_NODE_TRANSPORT_ADDR")
+
+	_, err := LoadConfig(envMap(validEnv(env)))
+	if err == nil {
+		t.Fatal("expected an error for orchestrator mode with no transport address, got none")
+	}
+	if !strings.Contains(err.Error(), "CONSOLE_NODE_TRANSPORT_ADDR") {
+		t.Errorf("error %q does not name the missing transport address", err)
+	}
+	if !strings.Contains(err.Error(), string(ModeOrchestrator)) {
+		t.Errorf("error %q does not say which mode required it", err)
+	}
+}
+
+// Other modes leave the transport optional, exactly as before run modes.
+func TestLoadConfig_NonOrchestratorModesDoNotRequireTransportAddr(t *testing.T) {
+	for _, mode := range []Mode{ModeAll, ModeWeb} {
+		if _, err := LoadConfig(envMap(validEnv(modeEnv(mode)))); err != nil {
+			t.Errorf("mode %q: unexpected error: %v", mode, err)
+		}
+	}
+}
+
+func TestModeIssuesTokens(t *testing.T) {
+	issuing := map[Mode]bool{ModeAll: true, ModeWeb: true, ModeENC: false, ModeOrchestrator: false, ModeWorker: false}
+	for mode, want := range issuing {
+		if got := mode.IssuesTokens(); got != want {
+			t.Errorf("%q.IssuesTokens() = %v, want %v", mode, got, want)
+		}
+	}
+}
+
+// The default is a single, unclustered instance: no listener, no peers.
+func TestLoadConfig_ClusterUnsetByDefault(t *testing.T) {
+	cfg, err := LoadConfig(envMap(validEnv(nil)))
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if cfg.Clustered() {
+		t.Error("an instance with no cluster configuration reports itself clustered")
+	}
+	if got := cfg.EffectiveClusterMode(); got != ClusterModeNone {
+		t.Errorf("EffectiveClusterMode() = %q, want none", got)
+	}
+	if len(cfg.PeerList()) != 0 {
+		t.Errorf("PeerList() = %v, want empty", cfg.PeerList())
+	}
+}
+
+func TestLoadConfig_ClusterRoutedPeers(t *testing.T) {
+	cfg, err := LoadConfig(envMap(validEnv(map[string]string{
+		"CONSOLE_CLUSTER_ADDR":   "127.0.0.1:6222",
+		"CONSOLE_CLUSTER_PEERS":  "10.0.0.2:6222, 10.0.0.3:6222,",
+		"CONSOLE_CLUSTER_SECRET": "s3cret",
+	})))
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if !cfg.Clustered() {
+		t.Error("a configured instance does not report itself clustered")
+	}
+	// Unset CONSOLE_CLUSTER_MODE defaults to routing, which is what the
+	// core modes need.
+	if got := cfg.EffectiveClusterMode(); got != ClusterModeRoute {
+		t.Errorf("EffectiveClusterMode() = %q, want %q", got, ClusterModeRoute)
+	}
+	want := []string{"10.0.0.2:6222", "10.0.0.3:6222"}
+	got := cfg.PeerList()
+	if len(got) != len(want) {
+		t.Fatalf("PeerList() = %v, want %v", got, want)
+	}
+	for i := range want {
+		if got[i] != want[i] {
+			t.Errorf("PeerList()[%d] = %q, want %q", i, got[i], want[i])
+		}
+	}
+}
+
+func TestLoadConfig_ClusterLeafAttachment(t *testing.T) {
+	env := modeEnv(ModeENC)
+	env["CONSOLE_CLUSTER_PEERS"] = "10.0.0.2:6222"
+	env["CONSOLE_CLUSTER_MODE"] = "leaf"
+	env["CONSOLE_CLUSTER_SECRET"] = "s3cret"
+
+	cfg, err := LoadConfig(envMap(validEnv(env)))
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if got := cfg.EffectiveClusterMode(); got != ClusterModeLeaf {
+		t.Errorf("EffectiveClusterMode() = %q, want %q", got, ClusterModeLeaf)
+	}
+	// A leaf dials out and needs no listener of its own.
+	if cfg.ClusterAddr != "" {
+		t.Errorf("ClusterAddr = %q, want empty for a leaf", cfg.ClusterAddr)
+	}
+}
+
+// A peer listener with no credentials would put anything that can reach
+// the port onto the internal event bus.
+func TestLoadConfig_ClusterListenerRequiresSecret(t *testing.T) {
+	_, err := LoadConfig(envMap(validEnv(map[string]string{
+		"CONSOLE_CLUSTER_ADDR": "127.0.0.1:6222",
+	})))
+	if err == nil {
+		t.Fatal("expected an error for a peer listener with no secret, got none")
+	}
+	if !strings.Contains(err.Error(), "CONSOLE_CLUSTER_SECRET") {
+		t.Errorf("error %q does not name the missing secret", err)
+	}
+}
+
+func TestLoadConfig_ClusterPeersRequireSecret(t *testing.T) {
+	_, err := LoadConfig(envMap(validEnv(map[string]string{
+		"CONSOLE_CLUSTER_PEERS": "10.0.0.2:6222",
+	})))
+	if err == nil {
+		t.Fatal("expected an error for peers with no secret, got none")
+	}
+	if !strings.Contains(err.Error(), "CONSOLE_CLUSTER_SECRET") {
+		t.Errorf("error %q does not name the missing secret", err)
+	}
+}
+
+func TestLoadConfig_ClusterModeInvalidValueIsRejected(t *testing.T) {
+	_, err := LoadConfig(envMap(validEnv(map[string]string{
+		"CONSOLE_CLUSTER_MODE": "mesh",
+	})))
+	if err == nil {
+		t.Fatal("expected an error for an invalid cluster mode, got none")
+	}
+	msg := err.Error()
+	if !strings.Contains(msg, "mesh") {
+		t.Errorf("error %q does not name the invalid value", msg)
+	}
+	for _, m := range ClusterModes() {
+		if !strings.Contains(msg, string(m)) {
+			t.Errorf("error %q does not name valid cluster mode %q", msg, m)
+		}
 	}
 }

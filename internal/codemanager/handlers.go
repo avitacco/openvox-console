@@ -19,9 +19,10 @@ const defaultEnvironment = "production"
 // Handlers serves the code-manager HTTP API: manual/webhook deploy
 // triggers and deploy history.
 type Handlers struct {
-	deployer *Deployer
-	store    *Store
-	bus      eventPublisher
+	deployer     *Deployer
+	deployLeases deployLeaser
+	store        *Store
+	bus          eventPublisher
 	// webhookSecret is CONSOLE_CODE_WEBHOOK_SECRET: the secret for the
 	// unsuffixed webhook route. A source declaring its own
 	// webhook_secret uses that instead - see secretFor.
@@ -132,6 +133,10 @@ func (h *Handlers) triggerDeploy(w http.ResponseWriter, r *http.Request) {
 
 	deploy, err := h.runDeploy(r.Context(), source, branch, branch, h.actor(r), r)
 	if err != nil {
+		if errors.Is(err, ErrDeployInProgress) {
+			writeError(w, http.StatusConflict, err)
+			return
+		}
 		writeError(w, http.StatusBadGateway, err)
 		return
 	}
@@ -184,6 +189,10 @@ func (h *Handlers) webhookDeploy(w http.ResponseWriter, r *http.Request) {
 
 	deploy, err := h.runDeploy(r.Context(), source, branch, ref, "webhook", r)
 	if err != nil {
+		if errors.Is(err, ErrDeployInProgress) {
+			writeError(w, http.StatusConflict, err)
+			return
+		}
 		writeError(w, http.StatusBadGateway, err)
 		return
 	}
@@ -293,6 +302,57 @@ func (h *Handlers) runDeploy(ctx context.Context, source Source, branch, ref, tr
 		return Deploy{}, errors.New("code deployment is not configured")
 	}
 
+	// Serialized across the cluster, per environment. A deploy writes
+	// one environment's directory tree, so two running at once against
+	// the same environment would interleave g10k's work and the
+	// symlink swap. Two *different* environments are independent, hence
+	// a lease per environment rather than one global deploy lease.
+	//
+	// Nil when no leases were wired in (a test constructing Handlers
+	// directly): deploys then behave exactly as they did before, which
+	// is correct for a single instance.
+	if h.deployLeases == nil {
+		return h.runDeployLocked(ctx, source, branch, ref, triggeredBy, r)
+	}
+
+	var deploy Deploy
+	acquired, err := h.deployLeases.Hold(ctx, DeployLeaseName(source.EnvironmentFor(branch)),
+		func(ctx context.Context) error {
+			var err error
+			deploy, err = h.runDeployLocked(ctx, source, branch, ref, triggeredBy, r)
+			return err
+		})
+	if err != nil {
+		return Deploy{}, err
+	}
+	if !acquired {
+		return Deploy{}, ErrDeployInProgress
+	}
+	return deploy, nil
+}
+
+// ErrDeployInProgress reports that another console instance is already
+// deploying this environment. Distinguished from a deploy *failure*:
+// nothing went wrong, and the caller can retry once the running deploy
+// finishes.
+var ErrDeployInProgress = errors.New("a deploy of this environment is already running")
+
+// deployLeaser is the subset of *leases.Leases this package needs, so it
+// does not depend on that package's construction.
+type deployLeaser interface {
+	Hold(ctx context.Context, name string, fn func(context.Context) error) (bool, error)
+}
+
+// DeployLeaseName is the lease an environment's deploy is coordinated
+// under, namespaced so it cannot collide with another singleton's.
+func DeployLeaseName(environment string) string { return "code-deploy/" + environment }
+
+// SetDeployLeases wires cluster-wide deploy serialization, the same
+// optional-dependency shape as SetUsageResolver. Without it, deploys are
+// not serialized - correct only for a single instance.
+func (h *Handlers) SetDeployLeases(l deployLeaser) { h.deployLeases = l }
+
+func (h *Handlers) runDeployLocked(ctx context.Context, source Source, branch, ref, triggeredBy string, r *http.Request) (Deploy, error) {
 	environment := source.EnvironmentFor(branch)
 
 	id, err := h.store.CreateDeploy(ctx, source.Name, ref, triggeredBy)

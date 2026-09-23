@@ -18,7 +18,7 @@ func (f fakeChecker) Name() string                  { return f.name }
 func (f fakeChecker) Check(_ context.Context) error { return f.err }
 
 func TestHealthHandler_AllHealthy(t *testing.T) {
-	handler := HealthHandler(
+	handler := HealthHandler(ModeAll,
 		fakeChecker{name: "postgres"},
 		fakeChecker{name: "nats"},
 	)
@@ -43,7 +43,7 @@ func TestHealthHandler_AllHealthy(t *testing.T) {
 }
 
 func TestHealthHandler_DependencyUnhealthy(t *testing.T) {
-	handler := HealthHandler(
+	handler := HealthHandler(ModeAll,
 		fakeChecker{name: "postgres", err: errors.New("connection refused")},
 		fakeChecker{name: "nats"},
 	)
