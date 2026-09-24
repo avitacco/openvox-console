@@ -44,7 +44,7 @@ msgstr "Node 추가"
 msgid "Add provider"
 msgstr "공급자 추가"
 
-#: templates/layout.html.tmpl:93
+#: templates/layout.html.tmpl:102
 #: templates/pages/roles.tmpl:3
 #: templates/pages/service-tokens.tmpl:3
 #: templates/pages/users.tmpl:3
@@ -98,7 +98,7 @@ msgstr "모든 사용자"
 msgid "Applies to this browser only. Without a choice here, the console follows your browser's language."
 msgstr "이 브라우저에만 적용됩니다. 여기서 선택하지 않으면 콘솔은 브라우저 언어를 따릅니다."
 
-#: src/app.js:367
+#: src/app.js:377
 #: src/vulnerability-providers.js:157
 msgid "Cancel"
 msgstr "취소"
@@ -185,7 +185,7 @@ msgstr "사용자 생성"
 msgid "Created"
 msgstr "생성일"
 
-#: src/app.js:614
+#: src/app.js:632
 #: templates/pages/vulnerabilities.tmpl:13
 msgid "Critical"
 msgstr "심각"
@@ -368,7 +368,7 @@ msgstr "그룹"
 msgid "Groups"
 msgstr "그룹"
 
-#: src/app.js:615
+#: src/app.js:633
 #: templates/pages/vulnerabilities.tmpl:14
 msgid "High"
 msgstr "높음"
@@ -417,7 +417,7 @@ msgstr "성(선택)"
 msgid "Last sync"
 msgstr "마지막 동기화"
 
-#: templates/layout.html.tmpl:108
+#: templates/layout.html.tmpl:117
 msgid "License (GPL-3.0)"
 msgstr "라이선스 (GPL-3.0)"
 
@@ -433,7 +433,7 @@ msgstr "SSO로 로그인"
 msgid "Log out"
 msgstr "로그아웃"
 
-#: src/app.js:617
+#: src/app.js:635
 #: templates/pages/vulnerabilities.tmpl:16
 msgid "Low"
 msgstr "낮음"
@@ -455,7 +455,7 @@ msgstr "일치"
 msgid "Matching nodes"
 msgstr "일치하는 Nodes"
 
-#: src/app.js:616
+#: src/app.js:634
 #: templates/pages/vulnerabilities.tmpl:15
 msgid "Medium"
 msgstr "보통"
@@ -684,13 +684,13 @@ msgstr "이전"
 msgid "Oldest first"
 msgstr "오래된순"
 
-#: templates/layout.html.tmpl:103
+#: templates/layout.html.tmpl:112
 #: templates/layout.html.tmpl:38
 #: templates/pages/login.tmpl:3
 msgid "OpenVox Console"
 msgstr "OpenVox Console"
 
-#: templates/layout.html.tmpl:104
+#: templates/layout.html.tmpl:113
 msgid "OpenVox project"
 msgstr "OpenVox 프로젝트"
 
@@ -723,7 +723,7 @@ msgstr "패키지 이름"
 msgid "Packages"
 msgstr "패키지"
 
-#: src/app.js:538
+#: src/app.js:548
 msgid "Pagination"
 msgstr "페이지 나누기"
 
@@ -1005,6 +1005,7 @@ msgstr "동기화 간격(분, 최소 15)"
 msgid "Sync now"
 msgstr "지금 동기화"
 
+#: src/status.js:183
 #: templates/pages/jobs.tmpl:6
 msgid "Target"
 msgstr "대상"
@@ -1042,7 +1043,7 @@ msgstr "유형"
 msgid "Unchanged"
 msgstr "변경 없음"
 
-#: src/app.js:618
+#: src/app.js:636
 #: src/i18n.js:177
 #: templates/pages/nodes.tmpl:22
 #: templates/pages/vulnerabilities.tmpl:17
@@ -1068,7 +1069,8 @@ msgstr "값"
 
 #: src/node.js:418
 #: src/packages.js:146
-#: templates/layout.html.tmpl:109
+#: src/status.js:136
+#: templates/layout.html.tmpl:118
 #: templates/pages/packages.tmpl:9
 msgid "Version"
 msgstr "버전"
@@ -1296,8 +1298,8 @@ msgstr "{reporting}개 Node가 해당 Environments에서 보고하지만 그곳�
 msgid "Puppet environment matching nodes compile against. Blank means this group doesn't set one."
 msgstr "일치하는 Nodes가 컴파일할 대상 Puppet Environment입니다. 비워 두면 이 그룹은 설정하지 않습니다."
 
-#: src/app.js:483
-#: src/app.js:495
+#: src/app.js:493
+#: src/app.js:505
 msgid ", +{count} more"
 msgid_plural ", +{count} more"
 msgstr[0] ", +{count}개 더"
@@ -1318,6 +1320,7 @@ msgstr "비활성"
 msgid "Failing"
 msgstr "실패"
 
+#: src/status.js:27
 #: src/vulnerability-providers.js:30
 msgid "Healthy"
 msgstr "정상"
@@ -1353,3 +1356,94 @@ msgstr "{minutes}분"
 #: templates/pages/oidc-callback.tmpl:3
 msgid "Signing in…"
 msgstr "로그인 중&hellip;"
+
+#: src/status.js:133
+msgid "Address"
+msgstr "주소"
+
+#: templates/pages/status.tmpl:20
+msgid "Dependencies"
+msgstr "의존성"
+
+#: src/status.js:185
+msgid "Detail"
+msgstr "세부 정보"
+
+#: src/status.js:134
+#: src/status.js:184
+msgid "Health"
+msgstr "상태"
+
+#: src/status.js:132
+msgid "Host"
+msgstr "호스트"
+
+#: src/status.js:101
+msgid "No console instance answered the status request."
+msgstr "상태 요청에 응답한 콘솔 인스턴스가 없습니다."
+
+#: src/status.js:152
+msgid "No dependencies reported"
+msgstr "보고된 의존성이 없습니다"
+
+#: src/status.js:99
+msgid "No instances reported"
+msgstr "보고된 인스턴스가 없습니다"
+
+#: src/status.js:182
+msgid "Service"
+msgstr "서비스"
+
+#: src/status.js:87
+msgid "Some instances did not reply."
+msgstr "일부 인스턴스가 응답하지 않았습니다."
+
+#: templates/pages/status.tmpl:4
+#: templates/pages/status.tmpl:7
+msgid "Stack status"
+msgstr "스택 상태"
+
+#: templates/pages/status.tmpl:8
+msgid "The console instances currently running, and the services they depend on."
+msgstr "현재 실행 중인 콘솔 인스턴스와 해당 인스턴스가 의존하는 서비스입니다."
+
+#: src/status.js:91
+msgid "This picture may be incomplete."
+msgstr "이 정보는 불완전할 수 있습니다."
+
+#: src/status.js:135
+msgid "Uptime"
+msgstr "가동 시간"
+
+#: src/status.js:137
+msgid "Workers"
+msgstr "워커"
+
+#: src/status.js:58
+msgid "clock skew"
+msgstr "시계 오차"
+
+#: src/status.js:165
+msgid "differs by instance"
+msgstr "인스턴스마다 다름"
+
+#: templates/layout.html.tmpl:98
+#: templates/pages/status.tmpl:3
+msgid "System"
+msgstr "시스템"
+
+#: src/status.js:73
+msgid "none"
+msgstr "없음"
+
+#: src/status.js:29
+msgid "Degraded"
+msgstr "저하됨"
+
+#: src/status.js:33
+msgid "Not configured"
+msgstr "구성되지 않음"
+
+#: src/status.js:31
+msgid "Unreachable"
+msgstr "연결할 수 없음"

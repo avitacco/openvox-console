@@ -16,3 +16,12 @@ func TestAllPermissions_IncludesVulnerabilityPermissions(t *testing.T) {
 		}
 	}
 }
+
+// status:read gates the stack status page. Without it in this set, a
+// freshly bootstrapped administrator could not see the topology of the
+// deployment they just stood up.
+func TestAllPermissions_IncludesStatusRead(t *testing.T) {
+	if !slices.Contains(allPermissions, "status:read") {
+		t.Error("allPermissions is missing \"status:read\"")
+	}
+}

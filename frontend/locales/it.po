@@ -44,7 +44,7 @@ msgstr "Aggiungi Node"
 msgid "Add provider"
 msgstr "Aggiungi provider"
 
-#: templates/layout.html.tmpl:93
+#: templates/layout.html.tmpl:102
 #: templates/pages/roles.tmpl:3
 #: templates/pages/service-tokens.tmpl:3
 #: templates/pages/users.tmpl:3
@@ -98,7 +98,7 @@ msgstr "Tutti gli utenti"
 msgid "Applies to this browser only. Without a choice here, the console follows your browser's language."
 msgstr "Si applica solo a questo browser. Senza una scelta qui, la console segue la lingua del browser."
 
-#: src/app.js:367
+#: src/app.js:377
 #: src/vulnerability-providers.js:157
 msgid "Cancel"
 msgstr "Annulla"
@@ -185,7 +185,7 @@ msgstr "Crea utente"
 msgid "Created"
 msgstr "Creato"
 
-#: src/app.js:614
+#: src/app.js:632
 #: templates/pages/vulnerabilities.tmpl:13
 msgid "Critical"
 msgstr "Critica"
@@ -368,7 +368,7 @@ msgstr "Gruppo"
 msgid "Groups"
 msgstr "Gruppi"
 
-#: src/app.js:615
+#: src/app.js:633
 #: templates/pages/vulnerabilities.tmpl:14
 msgid "High"
 msgstr "Alta"
@@ -417,7 +417,7 @@ msgstr "Cognome (facoltativo)"
 msgid "Last sync"
 msgstr "Ultima sincronizzazione"
 
-#: templates/layout.html.tmpl:108
+#: templates/layout.html.tmpl:117
 msgid "License (GPL-3.0)"
 msgstr "Licenza (GPL-3.0)"
 
@@ -433,7 +433,7 @@ msgstr "Accedi con SSO"
 msgid "Log out"
 msgstr "Esci"
 
-#: src/app.js:617
+#: src/app.js:635
 #: templates/pages/vulnerabilities.tmpl:16
 msgid "Low"
 msgstr "Bassa"
@@ -455,7 +455,7 @@ msgstr "Corrispondenza"
 msgid "Matching nodes"
 msgstr "Nodes corrispondenti"
 
-#: src/app.js:616
+#: src/app.js:634
 #: templates/pages/vulnerabilities.tmpl:15
 msgid "Medium"
 msgstr "Media"
@@ -684,13 +684,13 @@ msgstr "Vecchio"
 msgid "Oldest first"
 msgstr "Più vecchi prima"
 
-#: templates/layout.html.tmpl:103
+#: templates/layout.html.tmpl:112
 #: templates/layout.html.tmpl:38
 #: templates/pages/login.tmpl:3
 msgid "OpenVox Console"
 msgstr "OpenVox Console"
 
-#: templates/layout.html.tmpl:104
+#: templates/layout.html.tmpl:113
 msgid "OpenVox project"
 msgstr "Progetto OpenVox"
 
@@ -723,7 +723,7 @@ msgstr "Nome del pacchetto"
 msgid "Packages"
 msgstr "Pacchetti"
 
-#: src/app.js:538
+#: src/app.js:548
 msgid "Pagination"
 msgstr "Impaginazione"
 
@@ -1006,6 +1006,7 @@ msgstr "Intervallo di sincronizzazione in minuti (almeno 15)"
 msgid "Sync now"
 msgstr "Sincronizza ora"
 
+#: src/status.js:183
 #: templates/pages/jobs.tmpl:6
 msgid "Target"
 msgstr "Target"
@@ -1043,7 +1044,7 @@ msgstr "Tipo"
 msgid "Unchanged"
 msgstr "Invariato"
 
-#: src/app.js:618
+#: src/app.js:636
 #: src/i18n.js:177
 #: templates/pages/nodes.tmpl:22
 #: templates/pages/vulnerabilities.tmpl:17
@@ -1069,7 +1070,8 @@ msgstr "Valore"
 
 #: src/node.js:418
 #: src/packages.js:146
-#: templates/layout.html.tmpl:109
+#: src/status.js:136
+#: templates/layout.html.tmpl:118
 #: templates/pages/packages.tmpl:9
 msgid "Version"
 msgstr "Versione"
@@ -1301,8 +1303,8 @@ msgstr "{reporting} Node(s) riportano dai suoi Environments, ma nessun gruppo vi
 msgid "Puppet environment matching nodes compile against. Blank means this group doesn't set one."
 msgstr "Environment Puppet rispetto al quale compilano i Nodes corrispondenti. Vuoto significa che questo gruppo non ne imposta uno."
 
-#: src/app.js:483
-#: src/app.js:495
+#: src/app.js:493
+#: src/app.js:505
 msgid ", +{count} more"
 msgid_plural ", +{count} more"
 msgstr[0] ", +{count} altro"
@@ -1324,6 +1326,7 @@ msgstr "Disattivato"
 msgid "Failing"
 msgstr "In errore"
 
+#: src/status.js:27
 #: src/vulnerability-providers.js:30
 msgid "Healthy"
 msgstr "Integro"
@@ -1359,3 +1362,94 @@ msgstr "{minutes} min"
 #: templates/pages/oidc-callback.tmpl:3
 msgid "Signing in…"
 msgstr "Accesso in corso&hellip;"
+
+#: src/status.js:133
+msgid "Address"
+msgstr "Indirizzo"
+
+#: templates/pages/status.tmpl:20
+msgid "Dependencies"
+msgstr "Dipendenze"
+
+#: src/status.js:185
+msgid "Detail"
+msgstr "Dettaglio"
+
+#: src/status.js:134
+#: src/status.js:184
+msgid "Health"
+msgstr "Stato"
+
+#: src/status.js:132
+msgid "Host"
+msgstr "Host"
+
+#: src/status.js:101
+msgid "No console instance answered the status request."
+msgstr "Nessuna istanza della console ha risposto alla richiesta di stato."
+
+#: src/status.js:152
+msgid "No dependencies reported"
+msgstr "Nessuna dipendenza segnalata"
+
+#: src/status.js:99
+msgid "No instances reported"
+msgstr "Nessuna istanza segnalata"
+
+#: src/status.js:182
+msgid "Service"
+msgstr "Servizio"
+
+#: src/status.js:87
+msgid "Some instances did not reply."
+msgstr "Alcune istanze non hanno risposto."
+
+#: templates/pages/status.tmpl:4
+#: templates/pages/status.tmpl:7
+msgid "Stack status"
+msgstr "Stato dello stack"
+
+#: templates/pages/status.tmpl:8
+msgid "The console instances currently running, and the services they depend on."
+msgstr "Le istanze della console attualmente in esecuzione e i servizi da cui dipendono."
+
+#: src/status.js:91
+msgid "This picture may be incomplete."
+msgstr "Questa panoramica potrebbe essere incompleta."
+
+#: src/status.js:135
+msgid "Uptime"
+msgstr "Tempo di attività"
+
+#: src/status.js:137
+msgid "Workers"
+msgstr "Worker"
+
+#: src/status.js:58
+msgid "clock skew"
+msgstr "scarto dell'orologio"
+
+#: src/status.js:165
+msgid "differs by instance"
+msgstr "varia per istanza"
+
+#: templates/layout.html.tmpl:98
+#: templates/pages/status.tmpl:3
+msgid "System"
+msgstr "Sistema"
+
+#: src/status.js:73
+msgid "none"
+msgstr "nessuno"
+
+#: src/status.js:29
+msgid "Degraded"
+msgstr "Degradato"
+
+#: src/status.js:33
+msgid "Not configured"
+msgstr "Non configurato"
+
+#: src/status.js:31
+msgid "Unreachable"
+msgstr "Irraggiungibile"

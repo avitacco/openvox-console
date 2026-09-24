@@ -50,9 +50,21 @@ func startRealAgent(t *testing.T, certname string, runner nodeagent.CommandRunne
 	}
 }
 
+// setupWait bounds the test helpers that wait for something asynchronous
+// to finish establishing - a node agent's mTLS connection reaching the
+// transport's registry, or a dispatched job reaching a terminal status.
+//
+// Generous on purpose. These bound how long a *contended* setup may take
+// before the test gives up, not how fast the system is: unloaded they
+// complete in well under a second, but the suite runs packages in
+// parallel and a full mTLS connect plus $SYS event propagation is not
+// something to hold to a tight deadline on a busy machine. Failing them
+// for it makes the suite flaky rather than making it correct.
+const setupWait = 30 * time.Second
+
 func waitForConnected(t *testing.T, transport *nodetransport.Server, certname string) {
 	t.Helper()
-	deadline := time.Now().Add(3 * time.Second)
+	deadline := time.Now().Add(setupWait)
 	for time.Now().Before(deadline) {
 		if transport.Registry().Lookup(certname) {
 			return
@@ -64,7 +76,7 @@ func waitForConnected(t *testing.T, transport *nodetransport.Server, certname st
 
 func waitForJobStatus(t *testing.T, store *Store, jobID int64, want string) Job {
 	t.Helper()
-	deadline := time.Now().Add(3 * time.Second)
+	deadline := time.Now().Add(setupWait)
 	var last Job
 	for time.Now().Before(deadline) {
 		job, err := store.GetJob(context.Background(), jobID)

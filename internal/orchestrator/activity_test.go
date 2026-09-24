@@ -4,6 +4,7 @@ import (
 	"context"
 	"sync"
 	"testing"
+	"time"
 
 	"github.com/voxpupuli/enterprise-console/internal/auditlog"
 )
@@ -51,6 +52,7 @@ func TestDispatcher_RecordsActivityForTriggerAndCompletion(t *testing.T) {
 	dispatcher.DispatchRun(ctx, job)
 
 	waitForJobStatus(t, store, job.ID, StatusSucceeded)
+	waitForActivityCount(t, &recorded, &mu, 2)
 
 	mu.Lock()
 	defer mu.Unlock()
@@ -103,6 +105,7 @@ func TestDispatcher_DoesNotRecordActivityForPlanSteps(t *testing.T) {
 	dispatcher.DispatchPlan(ctx, plan)
 
 	waitForJobStatus(t, store, plan.ID, StatusSucceeded)
+	waitForActivityCount(t, &recorded, &mu, 2)
 
 	mu.Lock()
 	defer mu.Unlock()
@@ -118,4 +121,32 @@ func TestDispatcher_DoesNotRecordActivityForPlanSteps(t *testing.T) {
 	if len(recordedAudit) != 2 || recordedAudit[0].Action != "plan.triggered" || recordedAudit[1].Action != "plan.succeeded" {
 		t.Errorf("recorded audit events = %+v, want exactly [plan.triggered, plan.succeeded]", recordedAudit)
 	}
+}
+
+// waitForActivityCount waits until at least n activity events have been
+// recorded.
+//
+// Waiting on the job's database status is not enough, and the difference
+// is a real race rather than a slow machine: the dispatcher writes the
+// job's terminal status (CompleteJob) and *then* calls the activity
+// recorder, so a test that polls the database can observe "succeeded"
+// while the final activity entry has not been appended yet. Asserting on
+// the recorder means waiting for the recorder.
+func waitForActivityCount(t *testing.T, recorded *[]recordedActivity, mu *sync.Mutex, n int) {
+	t.Helper()
+
+	deadline := time.Now().Add(10 * time.Second)
+	for time.Now().Before(deadline) {
+		mu.Lock()
+		got := len(*recorded)
+		mu.Unlock()
+		if got >= n {
+			return
+		}
+		time.Sleep(10 * time.Millisecond)
+	}
+
+	mu.Lock()
+	defer mu.Unlock()
+	t.Fatalf("recorded %d activity events after timeout, want at least %d; got %+v", len(*recorded), n, *recorded)
 }

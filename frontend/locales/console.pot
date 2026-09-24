@@ -3,11 +3,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "MIME-Version: 1.0\n"
-"POT-Creation-Date: 2026-09-22 17:17+0000\n"
+"POT-Creation-Date: 2026-09-24 01:00+0000\n"
 "Project-Id-Version: openvox-console\n"
 
-#: src/app.js:483
-#: src/app.js:495
+#: src/app.js:493
+#: src/app.js:505
 msgid ", +{count} more"
 msgid_plural ", +{count} more"
 msgstr[0] ""
@@ -70,7 +70,11 @@ msgstr ""
 msgid "Add provider"
 msgstr ""
 
-#: templates/layout.html.tmpl:93
+#: src/status.js:133
+msgid "Address"
+msgstr ""
+
+#: templates/layout.html.tmpl:102
 #: templates/pages/roles.tmpl:3
 #: templates/pages/service-tokens.tmpl:3
 #: templates/pages/users.tmpl:3
@@ -136,7 +140,7 @@ msgstr ""
 msgid "Available"
 msgstr ""
 
-#: src/app.js:367
+#: src/app.js:377
 #: src/vulnerability-providers.js:157
 msgid "Cancel"
 msgstr ""
@@ -231,7 +235,7 @@ msgstr ""
 msgid "Created"
 msgstr ""
 
-#: src/app.js:614
+#: src/app.js:632
 #: templates/pages/vulnerabilities.tmpl:13
 msgid "Critical"
 msgstr ""
@@ -245,6 +249,10 @@ msgstr ""
 msgid "Dashboard"
 msgstr ""
 
+#: src/status.js:29
+msgid "Degraded"
+msgstr ""
+
 #: src/nodes.js:88
 #: src/roles.js:36
 #: src/service-tokens.js:34
@@ -252,6 +260,10 @@ msgstr ""
 #: src/vulnerability-providers.js:67
 #: templates/pages/group.tmpl:71
 msgid "Delete"
+msgstr ""
+
+#: templates/pages/status.tmpl:20
+msgid "Dependencies"
 msgstr ""
 
 #: src/code-repositories.js:124
@@ -268,6 +280,10 @@ msgstr ""
 
 #: src/code-repositories.js:87
 msgid "Deployed, but no node is classified into or reporting from its environments"
+msgstr ""
+
+#: src/status.js:185
+msgid "Detail"
 msgstr ""
 
 #: templates/pages/group.tmpl:13
@@ -426,17 +442,27 @@ msgstr ""
 msgid "Groups"
 msgstr ""
 
+#: src/status.js:134
+#: src/status.js:184
+msgid "Health"
+msgstr ""
+
+#: src/status.js:27
 #: src/vulnerability-providers.js:30
 msgid "Healthy"
 msgstr ""
 
-#: src/app.js:615
+#: src/app.js:633
 #: templates/pages/vulnerabilities.tmpl:14
 msgid "High"
 msgstr ""
 
 #: templates/pages/group.tmpl:18
 msgid "Higher wins a conflict."
+msgstr ""
+
+#: src/status.js:132
+msgid "Host"
 msgstr ""
 
 #: src/jobs.js:54
@@ -516,7 +542,7 @@ msgstr ""
 msgid "Last sync"
 msgstr ""
 
-#: templates/layout.html.tmpl:108
+#: templates/layout.html.tmpl:117
 msgid "License (GPL-3.0)"
 msgstr ""
 
@@ -532,7 +558,7 @@ msgstr ""
 msgid "Log out"
 msgstr ""
 
-#: src/app.js:617
+#: src/app.js:635
 #: templates/pages/vulnerabilities.tmpl:16
 msgid "Low"
 msgstr ""
@@ -558,7 +584,7 @@ msgstr ""
 msgid "Matching nodes"
 msgstr ""
 
-#: src/app.js:616
+#: src/app.js:634
 #: templates/pages/vulnerabilities.tmpl:15
 msgid "Medium"
 msgstr ""
@@ -636,6 +662,14 @@ msgstr ""
 msgid "No code repositories configured"
 msgstr ""
 
+#: src/status.js:101
+msgid "No console instance answered the status request."
+msgstr ""
+
+#: src/status.js:152
+msgid "No dependencies reported"
+msgstr ""
+
 #: src/deploys.js:30
 msgid "No deploys yet"
 msgstr ""
@@ -650,6 +684,10 @@ msgstr ""
 
 #: templates/pages/vulnerabilities.tmpl:22
 msgid "No fix released"
+msgstr ""
+
+#: src/status.js:99
+msgid "No instances reported"
 msgstr ""
 
 #: src/job.js:71
@@ -795,6 +833,10 @@ msgstr ""
 msgid "Not all nodes have run"
 msgstr ""
 
+#: src/status.js:33
+msgid "Not configured"
+msgstr ""
+
 #: src/i18n.js:173
 #: src/nodes.js:43
 #: templates/pages/nodes.tmpl:15
@@ -823,13 +865,13 @@ msgstr ""
 msgid "Oldest first"
 msgstr ""
 
-#: templates/layout.html.tmpl:103
+#: templates/layout.html.tmpl:112
 #: templates/layout.html.tmpl:38
 #: templates/pages/login.tmpl:3
 msgid "OpenVox Console"
 msgstr ""
 
-#: templates/layout.html.tmpl:104
+#: templates/layout.html.tmpl:113
 msgid "OpenVox project"
 msgstr ""
 
@@ -862,7 +904,7 @@ msgstr ""
 msgid "Packages"
 msgstr ""
 
-#: src/app.js:538
+#: src/app.js:548
 msgid "Pagination"
 msgstr ""
 
@@ -1053,6 +1095,10 @@ msgstr ""
 msgid "Save profile"
 msgstr ""
 
+#: src/status.js:182
+msgid "Service"
+msgstr ""
+
 #: src/service-tokens.js:90
 msgid "Service token created - copy it now, it won't be shown again"
 msgstr ""
@@ -1105,6 +1151,10 @@ msgstr ""
 msgid "Skipped"
 msgstr ""
 
+#: src/status.js:87
+msgid "Some instances did not reply."
+msgstr ""
+
 #: templates/pages/vulnerabilities.tmpl:28
 msgid "Sort"
 msgstr ""
@@ -1116,6 +1166,11 @@ msgstr ""
 
 #: templates/pages/code.tmpl:36
 msgid "Source to deploy"
+msgstr ""
+
+#: templates/pages/status.tmpl:4
+#: templates/pages/status.tmpl:7
+msgid "Stack status"
 msgstr ""
 
 #: src/deploys.js:57
@@ -1165,6 +1220,12 @@ msgstr ""
 msgid "Syncing"
 msgstr ""
 
+#: templates/layout.html.tmpl:98
+#: templates/pages/status.tmpl:3
+msgid "System"
+msgstr ""
+
+#: src/status.js:183
 #: templates/pages/jobs.tmpl:6
 msgid "Target"
 msgstr ""
@@ -1177,6 +1238,14 @@ msgstr ""
 #: src/i18n.js:199
 #: templates/pages/jobs.tmpl:10
 msgid "Task"
+msgstr ""
+
+#: templates/pages/status.tmpl:8
+msgid "The console instances currently running, and the services they depend on."
+msgstr ""
+
+#: src/status.js:91
+msgid "This picture may be incomplete."
 msgstr ""
 
 #: templates/pages/group.tmpl:37
@@ -1206,15 +1275,23 @@ msgstr ""
 msgid "Unclassified"
 msgstr ""
 
-#: src/app.js:618
+#: src/app.js:636
 #: src/i18n.js:177
 #: templates/pages/nodes.tmpl:22
 #: templates/pages/vulnerabilities.tmpl:17
 msgid "Unknown"
 msgstr ""
 
+#: src/status.js:31
+msgid "Unreachable"
+msgstr ""
+
 #: src/code-repositories.js:85
 msgid "Unused"
+msgstr ""
+
+#: src/status.js:135
+msgid "Uptime"
 msgstr ""
 
 #: src/index.js:151
@@ -1244,7 +1321,8 @@ msgstr ""
 
 #: src/node.js:418
 #: src/packages.js:146
-#: templates/layout.html.tmpl:109
+#: src/status.js:136
+#: templates/layout.html.tmpl:118
 #: templates/pages/packages.tmpl:9
 msgid "Version"
 msgstr ""
@@ -1278,9 +1356,21 @@ msgstr ""
 msgid "When"
 msgstr ""
 
+#: src/status.js:137
+msgid "Workers"
+msgstr ""
+
 #: src/nodes.js:38
 #: src/nodes.js:54
 msgid "checking…"
+msgstr ""
+
+#: src/status.js:58
+msgid "clock skew"
+msgstr ""
+
+#: src/status.js:165
+msgid "differs by instance"
 msgstr ""
 
 #: templates/pages/index.tmpl:24
@@ -1307,6 +1397,10 @@ msgstr ""
 
 #: src/index.js:189
 msgid "no targets"
+msgstr ""
+
+#: src/status.js:73
+msgid "none"
 msgstr ""
 
 #: templates/pages/login.tmpl:17

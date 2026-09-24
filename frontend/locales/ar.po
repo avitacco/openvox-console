@@ -9,8 +9,8 @@ msgstr ""
 "Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5);\n"
 "Project-Id-Version: openvox-console\n"
 
-#: src/app.js:483
-#: src/app.js:495
+#: src/app.js:493
+#: src/app.js:505
 msgid ", +{count} more"
 msgid_plural ", +{count} more"
 msgstr[0] "، +{count} أخرى"
@@ -81,7 +81,7 @@ msgstr "إضافة Node"
 msgid "Add provider"
 msgstr "إضافة مزوّد"
 
-#: templates/layout.html.tmpl:93
+#: templates/layout.html.tmpl:102
 #: templates/pages/roles.tmpl:3
 #: templates/pages/service-tokens.tmpl:3
 #: templates/pages/users.tmpl:3
@@ -147,7 +147,7 @@ msgstr "تلقائي"
 msgid "Available"
 msgstr "متاح"
 
-#: src/app.js:367
+#: src/app.js:377
 #: src/vulnerability-providers.js:157
 msgid "Cancel"
 msgstr "إلغاء"
@@ -242,7 +242,7 @@ msgstr "إنشاء مستخدم"
 msgid "Created"
 msgstr "تاريخ الإنشاء"
 
-#: src/app.js:614
+#: src/app.js:632
 #: templates/pages/vulnerabilities.tmpl:13
 msgid "Critical"
 msgstr "حرج"
@@ -437,11 +437,12 @@ msgstr "المجموعة"
 msgid "Groups"
 msgstr "المجموعات"
 
+#: src/status.js:27
 #: src/vulnerability-providers.js:30
 msgid "Healthy"
 msgstr "سليم"
 
-#: src/app.js:615
+#: src/app.js:633
 #: templates/pages/vulnerabilities.tmpl:14
 msgid "High"
 msgstr "عالٍ"
@@ -527,7 +528,7 @@ msgstr "آخر نجاح: {when}"
 msgid "Last sync"
 msgstr "آخر مزامنة"
 
-#: templates/layout.html.tmpl:108
+#: templates/layout.html.tmpl:117
 msgid "License (GPL-3.0)"
 msgstr "الترخيص (GPL-3.0)"
 
@@ -543,7 +544,7 @@ msgstr "تسجيل الدخول عبر SSO"
 msgid "Log out"
 msgstr "تسجيل الخروج"
 
-#: src/app.js:617
+#: src/app.js:635
 #: templates/pages/vulnerabilities.tmpl:16
 msgid "Low"
 msgstr "منخفض"
@@ -569,7 +570,7 @@ msgstr "المطابقة"
 msgid "Matching nodes"
 msgstr "الـ Nodes المطابقة"
 
-#: src/app.js:616
+#: src/app.js:634
 #: templates/pages/vulnerabilities.tmpl:15
 msgid "Medium"
 msgstr "متوسط"
@@ -834,13 +835,13 @@ msgstr "السابقة"
 msgid "Oldest first"
 msgstr "الأقدم أولًا"
 
-#: templates/layout.html.tmpl:103
+#: templates/layout.html.tmpl:112
 #: templates/layout.html.tmpl:38
 #: templates/pages/login.tmpl:3
 msgid "OpenVox Console"
 msgstr "OpenVox Console"
 
-#: templates/layout.html.tmpl:104
+#: templates/layout.html.tmpl:113
 msgid "OpenVox project"
 msgstr "مشروع OpenVox"
 
@@ -873,7 +874,7 @@ msgstr "اسم الحزمة"
 msgid "Packages"
 msgstr "الحزم"
 
-#: src/app.js:538
+#: src/app.js:548
 msgid "Pagination"
 msgstr "ترقيم الصفحات"
 
@@ -1180,6 +1181,7 @@ msgstr "زامن الآن"
 msgid "Syncing"
 msgstr "جارٍ المزامنة"
 
+#: src/status.js:183
 #: templates/pages/jobs.tmpl:6
 msgid "Target"
 msgstr "الهدف"
@@ -1221,7 +1223,7 @@ msgstr "دون تغيير"
 msgid "Unclassified"
 msgstr "غير مُصنَّف"
 
-#: src/app.js:618
+#: src/app.js:636
 #: src/i18n.js:177
 #: templates/pages/nodes.tmpl:22
 #: templates/pages/vulnerabilities.tmpl:17
@@ -1259,7 +1261,8 @@ msgstr "متغيرات تُضبط لكل manifest يُجمَّع لهذه الـ
 
 #: src/node.js:418
 #: src/packages.js:146
-#: templates/layout.html.tmpl:109
+#: src/status.js:136
+#: templates/layout.html.tmpl:118
 #: templates/pages/packages.tmpl:9
 msgid "Version"
 msgstr "الإصدار"
@@ -1375,3 +1378,94 @@ msgstr "{reporting} من الـ Nodes تُبلّغ من Environments الخاص�
 #: templates/pages/oidc-callback.tmpl:3
 msgid "Signing in…"
 msgstr "جارٍ تسجيل الدخول&hellip;"
+
+#: src/status.js:133
+msgid "Address"
+msgstr "العنوان"
+
+#: templates/pages/status.tmpl:20
+msgid "Dependencies"
+msgstr "التبعيات"
+
+#: src/status.js:185
+msgid "Detail"
+msgstr "التفاصيل"
+
+#: src/status.js:134
+#: src/status.js:184
+msgid "Health"
+msgstr "الحالة"
+
+#: src/status.js:132
+msgid "Host"
+msgstr "المضيف"
+
+#: src/status.js:101
+msgid "No console instance answered the status request."
+msgstr "لم يستجب أي مثيل من وحدة التحكم لطلب الحالة."
+
+#: src/status.js:152
+msgid "No dependencies reported"
+msgstr "لم يتم الإبلاغ عن أي تبعيات"
+
+#: src/status.js:99
+msgid "No instances reported"
+msgstr "لم يتم الإبلاغ عن أي مثيلات"
+
+#: src/status.js:182
+msgid "Service"
+msgstr "الخدمة"
+
+#: src/status.js:87
+msgid "Some instances did not reply."
+msgstr "لم تستجب بعض المثيلات."
+
+#: templates/pages/status.tmpl:4
+#: templates/pages/status.tmpl:7
+msgid "Stack status"
+msgstr "حالة المنظومة"
+
+#: templates/pages/status.tmpl:8
+msgid "The console instances currently running, and the services they depend on."
+msgstr "مثيلات وحدة التحكم قيد التشغيل حاليًا والخدمات التي تعتمد عليها."
+
+#: src/status.js:91
+msgid "This picture may be incomplete."
+msgstr "قد تكون هذه الصورة غير مكتملة."
+
+#: src/status.js:135
+msgid "Uptime"
+msgstr "مدة التشغيل"
+
+#: src/status.js:137
+msgid "Workers"
+msgstr "العمليات العاملة"
+
+#: src/status.js:58
+msgid "clock skew"
+msgstr "انحراف الساعة"
+
+#: src/status.js:165
+msgid "differs by instance"
+msgstr "يختلف حسب المثيل"
+
+#: templates/layout.html.tmpl:98
+#: templates/pages/status.tmpl:3
+msgid "System"
+msgstr "النظام"
+
+#: src/status.js:73
+msgid "none"
+msgstr "لا شيء"
+
+#: src/status.js:29
+msgid "Degraded"
+msgstr "متدهورة"
+
+#: src/status.js:33
+msgid "Not configured"
+msgstr "غير مُهيأ"
+
+#: src/status.js:31
+msgid "Unreachable"
+msgstr "غير قابل للوصول"

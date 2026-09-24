@@ -88,6 +88,15 @@
             <vox-icon slot="icon" name="activity-log"></vox-icon>
             <span data-i18n>Activity</span>
           </vox-sidenav-item>
+          <!-- One entry per section, as Admin is: the section's own page
+               carries a subnav for its tabs. Operational pages are
+               episodic - you open them during an incident or after a
+               deploy - so they group under one heading rather than each
+               taking a slot beside the daily ones. -->
+          <vox-sidenav-item href="/status.html" id="nav-system-link"{{if eq .ActiveNav "system"}} current{{else}} style="display: none"{{end}}>
+            <vox-icon slot="icon" name="pulse"></vox-icon>
+            <span data-i18n>System</span>
+          </vox-sidenav-item>
           <vox-sidenav-item href="/users.html" id="nav-admin-link"{{if eq .ActiveNav "admin"}} current{{else}} style="display: none"{{end}}>
             <vox-icon slot="icon" name="people"></vox-icon>
             <span data-i18n>Admin</span>

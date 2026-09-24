@@ -44,6 +44,7 @@ import (
 	"github.com/voxpupuli/enterprise-console/internal/reporting"
 	"github.com/voxpupuli/enterprise-console/internal/runtime"
 	"github.com/voxpupuli/enterprise-console/internal/sealer"
+	"github.com/voxpupuli/enterprise-console/internal/stackstatus"
 	"github.com/voxpupuli/enterprise-console/internal/vulnerability"
 	"github.com/voxpupuli/enterprise-console/internal/vulnerability/osv"
 	"github.com/voxpupuli/enterprise-console/internal/vulnerability/tenable"
@@ -52,7 +53,7 @@ import (
 
 // allPermissions is granted to the bootstrap admin role - see
 // bootstrapAdmin. Every other role is configured by an admin afterward.
-var allPermissions = []string{"nodes:read", "nodes:certs:manage", "nodes:manage", "classifier:read", "classifier:write", "enc:read", "rbac:admin", "activity:read", "code:deploy", "code:read", "orchestrator:read", "orchestrator:run", "vulnerabilities:read", "vulnerabilities:manage"}
+var allPermissions = []string{"nodes:read", "nodes:certs:manage", "nodes:manage", "classifier:read", "classifier:write", "enc:read", "rbac:admin", "activity:read", "status:read", "code:deploy", "code:read", "orchestrator:read", "orchestrator:run", "vulnerabilities:read", "vulnerabilities:manage"}
 
 // Run builds and starts the subsystems the configured run mode calls
 // for, and blocks until ctx is cancelled or a subsystem fails.
@@ -590,6 +591,42 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 		},
 	))
 
+	// The status reporter describes this instance to the rest of the
+	// cluster. Built in every mode: an instance that cannot describe
+	// itself is absent from the stack status page while still running,
+	// which is the most misleading answer available.
+	statusReporter := stackstatus.NewReporter(stackstatus.Config{
+		Mode:    cfg.Mode.String(),
+		Address: cfg.HTTPAddr,
+		Version: runtime.Version,
+		Workers: surface.Workers,
+		Dependencies: []stackstatus.Checker{
+			db, bus,
+			stackstatus.OpenvoxdbChecker{Client: openvoxdbClient},
+			stackstatus.CAClientChecker{Client: caClient},
+		},
+		// An absent target is what marks a dependency not-configured, so
+		// an optional dependency that was never configured reads as a
+		// deployment choice rather than a fault.
+		// Redacted: a target is shown so an operator can tell a
+		// misconfiguration from an outage, which needs the host and
+		// database name - not the password the Postgres DSN carries.
+		Targets: map[string]string{
+			stackstatus.DepPostgres:  stackstatus.RedactTarget(cfg.PostgresDSN),
+			stackstatus.DepNATS:      "embedded",
+			stackstatus.DepOpenvoxdb: stackstatus.RedactTarget(cfg.OpenvoxdbURL),
+			stackstatus.DepCAClient:  stackstatus.RedactTarget(cfg.CAClientURL),
+		},
+		View: func() stackstatus.ClusterView {
+			local := bus.LocalView()
+			return stackstatus.ClusterView{
+				Attachment:      attachmentFor(cfg),
+				RoutedPeers:     local.RoutedPeers,
+				LeafConnections: local.LeafConnections,
+			}
+		},
+	})
+
 	routeBuilders := map[string]func(mux *http.ServeMux){
 		routeOperational: func(mux *http.ServeMux) {
 			mux.Handle("/health", runtime.HealthHandler(cfg.Mode, db, bus))
@@ -644,6 +681,9 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 		},
 		routeAgentDist: func(mux *http.ServeMux) {
 			agentDistHandlers.Register(mux)
+		},
+		routeStatus: func(mux *http.ServeMux) {
+			stackstatus.NewHandlers(bus, statusReporter).Register(mux, verifier.Authorize)
 		},
 		routeWebUI: func(mux *http.ServeMux) {
 			mux.Handle("/", webHandler)
@@ -715,6 +755,14 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 				}
 			}
 		}()
+	}
+
+	if surface.HasWorker(workerStatusResponder) {
+		sub, err := stackstatus.Respond(bus, statusReporter)
+		if err != nil {
+			return fmt.Errorf("failed to start status responder: %w", err)
+		}
+		defer sub.Unsubscribe()
 	}
 
 	logger.Info("workers started", "mode", cfg.Mode, "workers", surface.Workers)

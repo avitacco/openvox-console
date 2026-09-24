@@ -44,7 +44,7 @@ msgstr "添加 Node"
 msgid "Add provider"
 msgstr "添加提供方"
 
-#: templates/layout.html.tmpl:93
+#: templates/layout.html.tmpl:102
 #: templates/pages/roles.tmpl:3
 #: templates/pages/service-tokens.tmpl:3
 #: templates/pages/users.tmpl:3
@@ -98,7 +98,7 @@ msgstr "所有用户"
 msgid "Applies to this browser only. Without a choice here, the console follows your browser's language."
 msgstr "仅适用于此浏览器。未在此处选择时，控制台将跟随浏览器语言。"
 
-#: src/app.js:367
+#: src/app.js:377
 #: src/vulnerability-providers.js:157
 msgid "Cancel"
 msgstr "取消"
@@ -185,7 +185,7 @@ msgstr "创建用户"
 msgid "Created"
 msgstr "创建时间"
 
-#: src/app.js:614
+#: src/app.js:632
 #: templates/pages/vulnerabilities.tmpl:13
 msgid "Critical"
 msgstr "严重"
@@ -368,7 +368,7 @@ msgstr "组"
 msgid "Groups"
 msgstr "组"
 
-#: src/app.js:615
+#: src/app.js:633
 #: templates/pages/vulnerabilities.tmpl:14
 msgid "High"
 msgstr "高"
@@ -417,7 +417,7 @@ msgstr "姓（可选）"
 msgid "Last sync"
 msgstr "上次同步"
 
-#: templates/layout.html.tmpl:108
+#: templates/layout.html.tmpl:117
 msgid "License (GPL-3.0)"
 msgstr "许可证 (GPL-3.0)"
 
@@ -433,7 +433,7 @@ msgstr "使用 SSO 登录"
 msgid "Log out"
 msgstr "退出登录"
 
-#: src/app.js:617
+#: src/app.js:635
 #: templates/pages/vulnerabilities.tmpl:16
 msgid "Low"
 msgstr "低"
@@ -455,7 +455,7 @@ msgstr "匹配"
 msgid "Matching nodes"
 msgstr "匹配的 Nodes"
 
-#: src/app.js:616
+#: src/app.js:634
 #: templates/pages/vulnerabilities.tmpl:15
 msgid "Medium"
 msgstr "中"
@@ -684,13 +684,13 @@ msgstr "旧"
 msgid "Oldest first"
 msgstr "最早优先"
 
-#: templates/layout.html.tmpl:103
+#: templates/layout.html.tmpl:112
 #: templates/layout.html.tmpl:38
 #: templates/pages/login.tmpl:3
 msgid "OpenVox Console"
 msgstr "OpenVox Console"
 
-#: templates/layout.html.tmpl:104
+#: templates/layout.html.tmpl:113
 msgid "OpenVox project"
 msgstr "OpenVox 项目"
 
@@ -723,7 +723,7 @@ msgstr "软件包名称"
 msgid "Packages"
 msgstr "软件包"
 
-#: src/app.js:538
+#: src/app.js:548
 msgid "Pagination"
 msgstr "分页"
 
@@ -1005,6 +1005,7 @@ msgstr "同步间隔（分钟，至少 15）"
 msgid "Sync now"
 msgstr "立即同步"
 
+#: src/status.js:183
 #: templates/pages/jobs.tmpl:6
 msgid "Target"
 msgstr "目标"
@@ -1042,7 +1043,7 @@ msgstr "类型"
 msgid "Unchanged"
 msgstr "未更改"
 
-#: src/app.js:618
+#: src/app.js:636
 #: src/i18n.js:177
 #: templates/pages/nodes.tmpl:22
 #: templates/pages/vulnerabilities.tmpl:17
@@ -1068,7 +1069,8 @@ msgstr "值"
 
 #: src/node.js:418
 #: src/packages.js:146
-#: templates/layout.html.tmpl:109
+#: src/status.js:136
+#: templates/layout.html.tmpl:118
 #: templates/pages/packages.tmpl:9
 msgid "Version"
 msgstr "版本"
@@ -1296,8 +1298,8 @@ msgstr "{reporting} 个 Node 从其 Environments 上报，但没有组向其分�
 msgid "Puppet environment matching nodes compile against. Blank means this group doesn't set one."
 msgstr "匹配的 Nodes 编译时所针对的 Puppet Environment。留空表示本组不设置。"
 
-#: src/app.js:483
-#: src/app.js:495
+#: src/app.js:493
+#: src/app.js:505
 msgid ", +{count} more"
 msgid_plural ", +{count} more"
 msgstr[0] "，+{count} 个"
@@ -1318,6 +1320,7 @@ msgstr "已禁用"
 msgid "Failing"
 msgstr "失败"
 
+#: src/status.js:27
 #: src/vulnerability-providers.js:30
 msgid "Healthy"
 msgstr "正常"
@@ -1353,3 +1356,94 @@ msgstr "{minutes} 分钟"
 #: templates/pages/oidc-callback.tmpl:3
 msgid "Signing in…"
 msgstr "正在登录&hellip;"
+
+#: src/status.js:133
+msgid "Address"
+msgstr "地址"
+
+#: templates/pages/status.tmpl:20
+msgid "Dependencies"
+msgstr "依赖项"
+
+#: src/status.js:185
+msgid "Detail"
+msgstr "详情"
+
+#: src/status.js:134
+#: src/status.js:184
+msgid "Health"
+msgstr "健康状况"
+
+#: src/status.js:132
+msgid "Host"
+msgstr "主机"
+
+#: src/status.js:101
+msgid "No console instance answered the status request."
+msgstr "没有控制台实例响应状态请求。"
+
+#: src/status.js:152
+msgid "No dependencies reported"
+msgstr "未报告任何依赖项"
+
+#: src/status.js:99
+msgid "No instances reported"
+msgstr "未报告任何实例"
+
+#: src/status.js:182
+msgid "Service"
+msgstr "服务"
+
+#: src/status.js:87
+msgid "Some instances did not reply."
+msgstr "部分实例未响应。"
+
+#: templates/pages/status.tmpl:4
+#: templates/pages/status.tmpl:7
+msgid "Stack status"
+msgstr "堆栈状态"
+
+#: templates/pages/status.tmpl:8
+msgid "The console instances currently running, and the services they depend on."
+msgstr "当前正在运行的控制台实例及其依赖的服务。"
+
+#: src/status.js:91
+msgid "This picture may be incomplete."
+msgstr "此情况可能不完整。"
+
+#: src/status.js:135
+msgid "Uptime"
+msgstr "运行时间"
+
+#: src/status.js:137
+msgid "Workers"
+msgstr "工作进程"
+
+#: src/status.js:58
+msgid "clock skew"
+msgstr "时钟偏差"
+
+#: src/status.js:165
+msgid "differs by instance"
+msgstr "因实例而异"
+
+#: templates/layout.html.tmpl:98
+#: templates/pages/status.tmpl:3
+msgid "System"
+msgstr "系统"
+
+#: src/status.js:73
+msgid "none"
+msgstr "无"
+
+#: src/status.js:29
+msgid "Degraded"
+msgstr "已降级"
+
+#: src/status.js:33
+msgid "Not configured"
+msgstr "未配置"
+
+#: src/status.js:31
+msgid "Unreachable"
+msgstr "无法访问"

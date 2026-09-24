@@ -19,7 +19,7 @@ type page struct {
 	Title      string
 	Script     string // page JS entry, without the .js extension
 	ShowHeader bool
-	ActiveNav  string // "nodes" | "node-connectivity" | "packages" | "vulnerabilities" | "groups" | "admin" | "activity" | "code" | "jobs" | "" (preferences.html deliberately has none - it's reached from the header's user menu, not the sidenav)
+	ActiveNav  string // "nodes" | "node-connectivity" | "packages" | "vulnerabilities" | "groups" | "admin" | "activity" | "system" | "code" | "jobs" | "" (preferences.html deliberately has none - it's reached from the header's user menu, not the sidenav)
 }
 
 var pages = []page{
@@ -37,6 +37,7 @@ var pages = []page{
 	{Name: "roles.html", Title: "Roles - OpenVox Console", Script: "roles", ShowHeader: true, ActiveNav: "admin"},
 	{Name: "service-tokens.html", Title: "Service Tokens - OpenVox Console", Script: "service-tokens", ShowHeader: true, ActiveNav: "admin"},
 	{Name: "activity.html", Title: "Activity - OpenVox Console", Script: "activity", ShowHeader: true, ActiveNav: "activity"},
+	{Name: "status.html", Title: "Stack Status - OpenVox Console", Script: "status", ShowHeader: true, ActiveNav: "system"},
 	{Name: "code.html", Title: "Code - OpenVox Console", Script: "code", ShowHeader: true, ActiveNav: "code"},
 	// Redirects into code.html's Deploy history tab. Kept rather than
 	// removed so existing bookmarks and the setup runbooks' links still

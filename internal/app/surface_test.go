@@ -46,6 +46,8 @@ var preSplitBaseline = Surface{
 		"orchestrator",
 		// agentDistHandlers.Register(mux)
 		"agent-distribution",
+		// Added by this change: the stack status API.
+		"status",
 		// mux.Handle("/", webHandler)
 		"web-ui",
 	},
@@ -69,6 +71,9 @@ var preSplitBaseline = Surface{
 		// Added by this change: nothing reaped jobs before, because a
 		// single instance never left one untracked.
 		"orchestrator-job-reaper",
+		// Added by this change: every instance must be able to describe
+		// itself, in every mode.
+		"status-responder",
 	},
 }
 
@@ -153,9 +158,10 @@ func TestModeSurfacesMatchSpec(t *testing.T) {
 			// terminate node transport connections or run background
 			// workers."
 			mode:           runtime.ModeWeb,
-			mustHaveRoutes: []string{routeWebUI, routeRBAC, routeCodeManager, routeOrchestrator},
+			mustHaveRoutes: []string{routeWebUI, routeRBAC, routeCodeManager, routeOrchestrator, routeStatus},
 			mustHaveListen: []string{listenerHTTP},
 			mustNotListen:  []string{listenerNodeTransport},
+			mustHaveWorker: []string{workerStatusResponder},
 			mustNotWorker:  []string{workerActivityRecorder, workerDispatcher, workerInitialRun, workerVulnScheduler},
 		},
 		{
@@ -169,9 +175,11 @@ func TestModeSurfacesMatchSpec(t *testing.T) {
 				routeWebUI, routeRBAC, routeInventory, routeNodeConnect, routePackages,
 				routeReporting, routeClassifier, routeGroupNodes, routeVulnerability,
 				routeActivity, routeCodeManager, routeOrchestrator, routeAgentDist,
+				routeStatus,
 			},
 			mustHaveListen: []string{listenerHTTP},
 			mustNotListen:  []string{listenerNodeTransport},
+			mustHaveWorker: []string{workerStatusResponder},
 			mustNotWorker:  []string{workerActivityRecorder, workerDispatcher, workerInitialRun, workerVulnScheduler},
 		},
 		{
@@ -180,9 +188,9 @@ func TestModeSurfacesMatchSpec(t *testing.T) {
 			// UI or the REST API."
 			mode:           runtime.ModeOrchestrator,
 			mustHaveRoutes: []string{routeOperational},
-			mustNotRoutes:  []string{routeWebUI, routeRBAC, routeENC, routeCodeManager, routeOrchestrator},
+			mustNotRoutes:  []string{routeWebUI, routeRBAC, routeENC, routeCodeManager, routeOrchestrator, routeStatus},
 			mustHaveListen: []string{listenerHTTP, listenerNodeTransport},
-			mustHaveWorker: []string{workerDispatcher, workerInitialRun},
+			mustHaveWorker: []string{workerDispatcher, workerInitialRun, workerStatusResponder},
 			mustNotWorker:  []string{workerVulnScheduler},
 		},
 		{
@@ -191,10 +199,10 @@ func TestModeSurfacesMatchSpec(t *testing.T) {
 			// connections."
 			mode:           runtime.ModeWorker,
 			mustHaveRoutes: []string{routeOperational},
-			mustNotRoutes:  []string{routeWebUI, routeRBAC, routeENC, routeCodeManager, routeOrchestrator},
+			mustNotRoutes:  []string{routeWebUI, routeRBAC, routeENC, routeCodeManager, routeOrchestrator, routeStatus},
 			mustHaveListen: []string{listenerHTTP},
 			mustNotListen:  []string{listenerNodeTransport},
-			mustHaveWorker: []string{workerActivityRecorder, workerVulnScheduler},
+			mustHaveWorker: []string{workerActivityRecorder, workerVulnScheduler, workerStatusResponder},
 			mustNotWorker:  []string{workerDispatcher, workerInitialRun},
 		},
 	}
@@ -270,6 +278,22 @@ func TestModesWithoutWebUIHaveNoCatchAll(t *testing.T) {
 		}
 		if s.HasRoute(routeWebUI) {
 			t.Errorf("mode %q registers the catch-all web UI route, so unmatched paths would not 404", mode)
+		}
+	}
+}
+
+// Every mode runs the status responder. An instance that cannot describe
+// itself is absent from the stack status page while still running -
+// worse than being reported unhealthy, because nothing shows it is
+// missing.
+func TestEveryModeRunsTheStatusResponder(t *testing.T) {
+	for _, mode := range runtime.Modes() {
+		s, err := surfaceFor(mode)
+		if err != nil {
+			t.Fatalf("surfaceFor(%q) error: %v", mode, err)
+		}
+		if !s.HasWorker(workerStatusResponder) {
+			t.Errorf("mode %q does not run the status responder, so it would be invisible on the status page", mode)
 		}
 	}
 }

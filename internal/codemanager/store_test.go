@@ -45,12 +45,25 @@ func TestCreateDeploy_AndListDeploys(t *testing.T) {
 		t.Errorf("FinishedAt = %v, want nil for a running deploy", found.FinishedAt)
 	}
 
-	deploys, total, err := s.ListDeploys(ctx, 1, 1000, DeployFilter{})
+	// Page one, default order (newest first), so the deploy just created
+	// is on it regardless of how many others the shared test database
+	// has accumulated.
+	//
+	// This deliberately does not assert that one page holds every
+	// deploy. It used to, via total == len(deploys) with a page size of
+	// 1000, and that quietly became a time bomb: every run of the suite
+	// leaves deploys behind, so the assertion held until the shared
+	// database crossed a thousand of them and then failed for everyone,
+	// pointing at pagination rather than at accumulated test data.
+	deploys, total, err := s.ListDeploys(ctx, 1, 50, DeployFilter{})
 	if err != nil {
 		t.Fatalf("ListDeploys() error: %v", err)
 	}
-	if total != len(deploys) {
-		t.Errorf("total = %d, want %d (page large enough to hold everything)", total, len(deploys))
+	if total < 1 {
+		t.Errorf("total = %d, want at least the deploy just created", total)
+	}
+	if len(deploys) == 0 {
+		t.Fatal("ListDeploys() returned no deploys")
 	}
 	var listed bool
 	for _, d := range deploys {
@@ -59,7 +72,7 @@ func TestCreateDeploy_AndListDeploys(t *testing.T) {
 		}
 	}
 	if !listed {
-		t.Error("created deploy not found in ListDeploys()")
+		t.Error("created deploy not found on the first page of ListDeploys(), newest first")
 	}
 }
 

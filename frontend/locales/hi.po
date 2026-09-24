@@ -44,7 +44,7 @@ msgstr "Node जोड़ें"
 msgid "Add provider"
 msgstr "प्रदाता जोड़ें"
 
-#: templates/layout.html.tmpl:93
+#: templates/layout.html.tmpl:102
 #: templates/pages/roles.tmpl:3
 #: templates/pages/service-tokens.tmpl:3
 #: templates/pages/users.tmpl:3
@@ -98,7 +98,7 @@ msgstr "सभी उपयोगकर्ता"
 msgid "Applies to this browser only. Without a choice here, the console follows your browser's language."
 msgstr "केवल इस ब्राउज़र पर लागू होता है। यहाँ चयन न होने पर कंसोल आपके ब्राउज़र की भाषा का अनुसरण करता है।"
 
-#: src/app.js:367
+#: src/app.js:377
 #: src/vulnerability-providers.js:157
 msgid "Cancel"
 msgstr "रद्द करें"
@@ -185,7 +185,7 @@ msgstr "उपयोगकर्ता बनाएँ"
 msgid "Created"
 msgstr "बनाया गया"
 
-#: src/app.js:614
+#: src/app.js:632
 #: templates/pages/vulnerabilities.tmpl:13
 msgid "Critical"
 msgstr "गंभीर"
@@ -368,7 +368,7 @@ msgstr "समूह"
 msgid "Groups"
 msgstr "समूह"
 
-#: src/app.js:615
+#: src/app.js:633
 #: templates/pages/vulnerabilities.tmpl:14
 msgid "High"
 msgstr "उच्च"
@@ -417,7 +417,7 @@ msgstr "अंतिम नाम (वैकल्पिक)"
 msgid "Last sync"
 msgstr "अंतिम सिंक"
 
-#: templates/layout.html.tmpl:108
+#: templates/layout.html.tmpl:117
 msgid "License (GPL-3.0)"
 msgstr "लाइसेंस (GPL-3.0)"
 
@@ -433,7 +433,7 @@ msgstr "SSO से लॉग इन करें"
 msgid "Log out"
 msgstr "लॉग आउट करें"
 
-#: src/app.js:617
+#: src/app.js:635
 #: templates/pages/vulnerabilities.tmpl:16
 msgid "Low"
 msgstr "निम्न"
@@ -455,7 +455,7 @@ msgstr "मिलान"
 msgid "Matching nodes"
 msgstr "मिलते Nodes"
 
-#: src/app.js:616
+#: src/app.js:634
 #: templates/pages/vulnerabilities.tmpl:15
 msgid "Medium"
 msgstr "मध्यम"
@@ -684,13 +684,13 @@ msgstr "पुराना"
 msgid "Oldest first"
 msgstr "सबसे पुराना पहले"
 
-#: templates/layout.html.tmpl:103
+#: templates/layout.html.tmpl:112
 #: templates/layout.html.tmpl:38
 #: templates/pages/login.tmpl:3
 msgid "OpenVox Console"
 msgstr "OpenVox Console"
 
-#: templates/layout.html.tmpl:104
+#: templates/layout.html.tmpl:113
 msgid "OpenVox project"
 msgstr "OpenVox परियोजना"
 
@@ -723,7 +723,7 @@ msgstr "पैकेज नाम"
 msgid "Packages"
 msgstr "पैकेज"
 
-#: src/app.js:538
+#: src/app.js:548
 msgid "Pagination"
 msgstr "पृष्ठ क्रमांकन"
 
@@ -1006,6 +1006,7 @@ msgstr "मिनटों में सिंक अंतराल (कम स
 msgid "Sync now"
 msgstr "अभी सिंक करें"
 
+#: src/status.js:183
 #: templates/pages/jobs.tmpl:6
 msgid "Target"
 msgstr "लक्ष्य"
@@ -1043,7 +1044,7 @@ msgstr "प्रकार"
 msgid "Unchanged"
 msgstr "अपरिवर्तित"
 
-#: src/app.js:618
+#: src/app.js:636
 #: src/i18n.js:177
 #: templates/pages/nodes.tmpl:22
 #: templates/pages/vulnerabilities.tmpl:17
@@ -1069,7 +1070,8 @@ msgstr "मान"
 
 #: src/node.js:418
 #: src/packages.js:146
-#: templates/layout.html.tmpl:109
+#: src/status.js:136
+#: templates/layout.html.tmpl:118
 #: templates/pages/packages.tmpl:9
 msgid "Version"
 msgstr "संस्करण"
@@ -1301,8 +1303,8 @@ msgstr "{reporting} Node(s) इसके Environments से रिपोर्�
 msgid "Puppet environment matching nodes compile against. Blank means this group doesn't set one."
 msgstr "Puppet Environment जिसके सापेक्ष मेल खाने वाले Nodes कंपाइल करते हैं। रिक्त का अर्थ है कि यह समूह कोई सेट नहीं करता।"
 
-#: src/app.js:483
-#: src/app.js:495
+#: src/app.js:493
+#: src/app.js:505
 msgid ", +{count} more"
 msgid_plural ", +{count} more"
 msgstr[0] ", +{count} और"
@@ -1324,6 +1326,7 @@ msgstr "निष्क्रिय"
 msgid "Failing"
 msgstr "विफल"
 
+#: src/status.js:27
 #: src/vulnerability-providers.js:30
 msgid "Healthy"
 msgstr "स्वस्थ"
@@ -1359,3 +1362,94 @@ msgstr "{minutes} मिनट"
 #: templates/pages/oidc-callback.tmpl:3
 msgid "Signing in…"
 msgstr "साइन इन हो रहा है&hellip;"
+
+#: src/status.js:133
+msgid "Address"
+msgstr "पता"
+
+#: templates/pages/status.tmpl:20
+msgid "Dependencies"
+msgstr "निर्भरताएँ"
+
+#: src/status.js:185
+msgid "Detail"
+msgstr "विवरण"
+
+#: src/status.js:134
+#: src/status.js:184
+msgid "Health"
+msgstr "स्थिति"
+
+#: src/status.js:132
+msgid "Host"
+msgstr "होस्ट"
+
+#: src/status.js:101
+msgid "No console instance answered the status request."
+msgstr "किसी भी कंसोल इंस्टेंस ने स्थिति अनुरोध का उत्तर नहीं दिया।"
+
+#: src/status.js:152
+msgid "No dependencies reported"
+msgstr "कोई निर्भरता रिपोर्ट नहीं की गई"
+
+#: src/status.js:99
+msgid "No instances reported"
+msgstr "कोई इंस्टेंस रिपोर्ट नहीं किया गया"
+
+#: src/status.js:182
+msgid "Service"
+msgstr "सेवा"
+
+#: src/status.js:87
+msgid "Some instances did not reply."
+msgstr "कुछ इंस्टेंस ने उत्तर नहीं दिया।"
+
+#: templates/pages/status.tmpl:4
+#: templates/pages/status.tmpl:7
+msgid "Stack status"
+msgstr "स्टैक स्थिति"
+
+#: templates/pages/status.tmpl:8
+msgid "The console instances currently running, and the services they depend on."
+msgstr "वर्तमान में चल रहे कंसोल इंस्टेंस और वे सेवाएँ जिन पर वे निर्भर हैं।"
+
+#: src/status.js:91
+msgid "This picture may be incomplete."
+msgstr "यह जानकारी अधूरी हो सकती है।"
+
+#: src/status.js:135
+msgid "Uptime"
+msgstr "अपटाइम"
+
+#: src/status.js:137
+msgid "Workers"
+msgstr "वर्कर"
+
+#: src/status.js:58
+msgid "clock skew"
+msgstr "घड़ी का अंतर"
+
+#: src/status.js:165
+msgid "differs by instance"
+msgstr "इंस्टेंस के अनुसार भिन्न"
+
+#: templates/layout.html.tmpl:98
+#: templates/pages/status.tmpl:3
+msgid "System"
+msgstr "सिस्टम"
+
+#: src/status.js:73
+msgid "none"
+msgstr "कोई नहीं"
+
+#: src/status.js:29
+msgid "Degraded"
+msgstr "अवनत"
+
+#: src/status.js:33
+msgid "Not configured"
+msgstr "कॉन्फ़िगर नहीं किया गया"
+
+#: src/status.js:31
+msgid "Unreachable"
+msgstr "अगम्य"

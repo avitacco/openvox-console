@@ -82,6 +82,63 @@ Each mode requires only what it uses:
   without a listener would leave every dispatch failing "not connected"
   on an instance that otherwise looked healthy, so it is refused.
 
+## Stack status page
+
+`/status.html` shows every running console instance - its run mode,
+address, health, uptime, version and background workers - grouped by
+mode with a count per mode, alongside the external services the console
+depends on (Postgres, the embedded NATS bus, openvoxdb, and the
+openvoxserver CA). `GET /api/v1/status` returns the same thing as JSON.
+
+Both are gated on the **`status:read`** permission.
+
+**After upgrading an existing deployment, nobody has it yet.** A freshly
+bootstrapped administrator gets it automatically, but an existing role
+does not: permissions are never added to existing roles silently,
+because that would widen access to deployment topology without anyone
+deciding to. Grant it on the Roles page to whichever roles should see
+the page; until then the page and its navigation link are simply not
+shown.
+
+### What the page can and cannot tell you
+
+The picture is gathered live: the instance serving the request asks
+every other instance over the internal bus and collects replies for one
+second. Nothing is stored, so what you see is what answered just now.
+
+That has one consequence worth understanding before you rely on it. **An
+instance that is running but cannot reach the bus cannot be discovered**
+- there is nothing to ask it through. The page does not pretend
+otherwise: it works out how many instances *should* have answered by
+combining the cluster view each replying instance reports, and if fewer
+replied than expected it says so, in a banner above the instance list:
+
+> This picture may be incomplete. 1 of 4 instances did not reply within 1s.
+
+Treat that banner as significant. A missing instance is usually a wedged
+one, which is exactly when the count matters.
+
+Combining views rather than trusting the serving instance's own is what
+makes this work for `enc` instances. They attach as leaves, and a leaf is
+visible only to the peer it attached to - so a status request served by a
+different peer would otherwise have no idea it exists, and would report a
+complete picture with that instance missing.
+
+Dependencies are reported **as the serving instance sees them**, because
+"openvoxdb is unreachable from `web-2`" is a more useful statement than
+"openvoxdb is unreachable". When instances disagree about a dependency,
+that dependency is flagged `differs by instance` - usually the most
+informative thing on the page, since it means partial connectivity
+rather than an outage.
+
+A dependency that was never configured reads `Not configured`, distinct
+from `Unreachable`: the first is a deployment choice, the second is a
+fault.
+
+The page does not auto-refresh. One page load asks every instance, so an
+auto-refreshing page would turn a browser tab left open into steady
+fleet-wide traffic. Reload it when you want a fresh answer.
+
 ## Multi-instance topology
 
 Instances coordinate over two separate NATS clusters, mirroring the two

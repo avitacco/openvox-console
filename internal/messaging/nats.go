@@ -26,6 +26,19 @@
 // does anything other than update this instance's own memory, it must use
 // a queue group.** Getting this wrong is invisible on a single instance
 // and only shows up as duplicated work once a second one starts.
+//
+// There is a third pattern, for asking rather than telling:
+//
+//   - Ask-all (AskAll): publish a question with a reply path and collect
+//     the answers within a bounded window. Correct when a caller needs an
+//     answer *from* the fleet rather than an effect *on* it - the stack
+//     status page asking every instance to describe itself.
+//
+// AskAll deliberately does not report whether it heard from everyone. It
+// cannot: that is a question about how many instances exist, which the
+// transport does not know. LocalView exposes what one server can see, and
+// a caller that needs a completeness judgement must combine the views of
+// the instances that answered - see internal/stackstatus.
 package messaging
 
 import (
@@ -324,6 +337,95 @@ func (b *Bus) Subscribe(subject string, handler nats.MsgHandler) (*nats.Subscrip
 // side effect happens once per message rather than once per instance.
 func (b *Bus) QueueSubscribe(subject, queue string, handler nats.MsgHandler) (*nats.Subscription, error) {
 	return b.conn.QueueSubscribe(subject, queue, handler)
+}
+
+// AskAll publishes data on subject and returns every reply that arrives
+// before the window elapses.
+//
+// This is the bus's third delivery pattern, and it exists because the
+// other two cannot express it: Subscribe fans a message out to every
+// instance but carries no reply path, and QueueSubscribe deliberately
+// reaches only one. Aggregating an answer from the whole fleet needs the
+// fan-out and the replies together.
+//
+// The window always elapses - there is no early exit, because AskAll
+// cannot know how many instances will answer. Callers should therefore
+// keep it short: it is a floor on how long the call takes, not a
+// ceiling.
+//
+// AskAll deliberately does not judge whether the set of replies is
+// complete. It has no basis to: "everyone answered" is a statement about
+// how many instances exist, which is the caller's question, not the
+// transport's. See LocalView for the raw material a caller needs to
+// decide that for itself.
+//
+// Responders answer with msg.Respond; see Subscribe.
+func (b *Bus) AskAll(ctx context.Context, subject string, data []byte, window time.Duration) ([][]byte, error) {
+	inbox := nats.NewInbox()
+
+	sub, err := b.conn.SubscribeSync(inbox)
+	if err != nil {
+		return nil, fmt.Errorf("subscribe to reply inbox: %w", err)
+	}
+	defer sub.Unsubscribe()
+
+	// Interest in the inbox must reach every peer before the request
+	// does, or an instance could reply into a subject this server does
+	// not yet route back here.
+	if err := b.conn.Flush(); err != nil {
+		return nil, fmt.Errorf("flush reply subscription: %w", err)
+	}
+
+	if err := b.conn.PublishRequest(subject, inbox, data); err != nil {
+		return nil, fmt.Errorf("publish request: %w", err)
+	}
+
+	deadline := time.Now().Add(window)
+	var replies [][]byte
+	for {
+		remaining := time.Until(deadline)
+		if remaining <= 0 {
+			return replies, nil
+		}
+		msg, err := sub.NextMsg(remaining)
+		if err != nil {
+			// Timeout is the ordinary terminator: the window elapsed.
+			// Any other error ends collection with what was gathered.
+			return replies, nil
+		}
+		replies = append(replies, msg.Data)
+
+		if ctx.Err() != nil {
+			return replies, ctx.Err()
+		}
+	}
+}
+
+// LocalView is what one server can see of the cluster from where it
+// sits.
+type LocalView struct {
+	// RoutedPeers is the number of distinct peer servers this one is
+	// routed to - distinct servers, not connections, so route pooling
+	// does not inflate it.
+	RoutedPeers int
+
+	// LeafConnections is the number of leaf instances attached to this
+	// server specifically.
+	LeafConnections int
+}
+
+// LocalView reports this server's own view of the cluster.
+//
+// It is a local view and nothing more: a leaf attached to a *different*
+// peer does not appear here, because leaf connections are only visible
+// to the server they are attached to. A caller working out how many
+// instances should have answered must therefore combine the views of
+// every instance that did, rather than trusting any one of them.
+func (b *Bus) LocalView() LocalView {
+	return LocalView{
+		RoutedPeers:     b.server.NumRemotes(),
+		LeafConnections: b.server.NumLeafNodes(),
+	}
 }
 
 // Flush blocks until every message published so far has reached the

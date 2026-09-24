@@ -260,18 +260,28 @@ export function sendJSON(url, method, body) {
   });
 }
 
-// The fixed permission set the backend defines (see cmd/console/main.go's
+// The fixed permission set the backend defines (internal/app's
 // allPermissions) - shared by the roles and service-tokens admin pages'
 // permission pickers. There is no endpoint to discover this dynamically;
 // it's a fixed, small set, not user-extensible.
+//
+// This list MUST match the backend's exactly, and
+// TestAllPermissionsMatchesTheFrontendList in internal/app enforces it.
+// The two had already drifted once, and the consequence was not a
+// missing checkbox: the roles page PUTs the checkboxes it rendered as a
+// role's complete permission set, so a permission missing from here is
+// silently stripped from any role that holds it the next time somebody
+// edits that role. `nodes:manage` was missing and two roles held it.
 export const ALL_PERMISSIONS = [
   'nodes:read',
   'nodes:certs:manage',
+  'nodes:manage',
   'classifier:read',
   'classifier:write',
   'enc:read',
   'rbac:admin',
   'activity:read',
+  'status:read',
   'code:deploy',
   'code:read',
   'orchestrator:read',
@@ -575,6 +585,14 @@ onDocumentReady(() => {
   if (hasPermission('vulnerabilities:read')) {
     const vulnerabilitiesLink = document.getElementById('nav-vulnerabilities-link');
     if (vulnerabilitiesLink) vulnerabilitiesLink.style.display = '';
+  }
+  // The System section currently holds only the stack status tab, so
+  // status:read is what reveals it. When a second operational page
+  // arrives this becomes "any System permission" - the nav entry should
+  // appear when at least one of its tabs is reachable.
+  if (hasPermission('status:read')) {
+    const systemLink = document.getElementById('nav-system-link');
+    if (systemLink) systemLink.style.display = '';
   }
 
   const avatarEl = document.getElementById('user-avatar');

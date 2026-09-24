@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/voxpupuli/enterprise-console/internal/runtime"
+	"github.com/voxpupuli/enterprise-console/internal/stackstatus"
 )
 
 // Route group, listener, and worker names. These are the vocabulary the
@@ -35,6 +36,7 @@ const (
 	routeOrchestrator  = "orchestrator"
 	routeAgentDist     = "agent-distribution"
 	routeWebUI         = "web-ui"
+	routeStatus        = "status"
 
 	listenerHTTP          = "http"
 	listenerNodeTransport = "node-transport"
@@ -45,6 +47,7 @@ const (
 	workerInitialRun       = "initial-run-trigger"
 	workerVulnScheduler    = "vulnerability-scheduler"
 	workerJobReaper        = "orchestrator-job-reaper"
+	workerStatusResponder  = "status-responder"
 )
 
 // Surface is what one run mode activates.
@@ -85,6 +88,7 @@ var allRoutes = []string{
 	routeCodeManager,
 	routeOrchestrator,
 	routeAgentDist,
+	routeStatus,
 	// Registered last because it is the catch-all "/" pattern.
 	routeWebUI,
 }
@@ -115,6 +119,7 @@ var modeSurfaces = map[runtime.Mode]Surface{
 			workerInitialRun,
 			workerVulnScheduler,
 			workerJobReaper,
+			workerStatusResponder,
 		},
 	},
 
@@ -134,16 +139,17 @@ var modeSurfaces = map[runtime.Mode]Surface{
 			routeCodeManager,
 			routeOrchestrator,
 			routeAgentDist,
+			routeStatus,
 			routeWebUI,
 		},
 		Listeners: []string{listenerHTTP},
-		Workers:   []string{workerDependencyHealth},
+		Workers:   []string{workerDependencyHealth, workerStatusResponder},
 	},
 
 	runtime.ModeENC: {
 		Routes:    []string{routeOperational, routeENC},
 		Listeners: []string{listenerHTTP},
-		Workers:   []string{workerDependencyHealth},
+		Workers:   []string{workerDependencyHealth, workerStatusResponder},
 	},
 
 	runtime.ModeOrchestrator: {
@@ -153,6 +159,7 @@ var modeSurfaces = map[runtime.Mode]Surface{
 			workerDependencyHealth,
 			workerDispatcher,
 			workerInitialRun,
+			workerStatusResponder,
 		},
 	},
 
@@ -164,6 +171,7 @@ var modeSurfaces = map[runtime.Mode]Surface{
 			workerActivityRecorder,
 			workerVulnScheduler,
 			workerJobReaper,
+			workerStatusResponder,
 		},
 	},
 }
@@ -190,3 +198,20 @@ const (
 	jobReaperInterval = 5 * time.Minute
 	jobReaperLease    = "orchestrator-job-reaper"
 )
+
+// attachmentFor maps this instance's cluster configuration to how it
+// presents itself in the stack status.
+//
+// Reported by the instance itself rather than inferred by whoever reads
+// the status: only this instance knows how it was configured to attach,
+// and a leaf is invisible to every peer but the one it attached to.
+func attachmentFor(cfg runtime.Config) stackstatus.Attachment {
+	switch cfg.EffectiveClusterMode() {
+	case runtime.ClusterModeLeaf:
+		return stackstatus.AttachmentLeaf
+	case runtime.ClusterModeRoute:
+		return stackstatus.AttachmentRouted
+	default:
+		return stackstatus.AttachmentStandalone
+	}
+}

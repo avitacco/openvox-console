@@ -1,0 +1,23 @@
+{{define "content" -}}
+    <main class="vox-container vox-p-y-xl">
+      <vox-subnav label="System" class="vox-m-bottom-lg" data-i18n-attr="label">
+        <a href="/status.html" aria-current="page" data-i18n>Stack status</a>
+      </vox-subnav>
+
+      <h1 class="vox-ts-xl vox-m-bottom-sm" data-i18n>Stack status</h1>
+      <p class="vox-ts-sm vox-m-bottom-lg" data-i18n>
+        The console instances currently running, and the services they depend on.
+      </p>
+
+      <!-- Filled in by status.js when the reported picture may be missing
+           an instance. Kept at the top of the page, above the counts it
+           qualifies: a reader who stops at the instance list must not
+           miss that the list may be short. -->
+      <div id="incomplete-notice" class="vox-m-bottom-lg" hidden></div>
+
+      <div id="instances" class="vox-m-bottom-xl"></div>
+
+      <h2 class="vox-ts-lg vox-m-bottom-md" data-i18n>Dependencies</h2>
+      <div id="dependencies"></div>
+    </main>
+{{- end}}

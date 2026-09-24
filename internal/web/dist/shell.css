@@ -479,3 +479,12 @@ vox-record-list vox-datum:not(.truncate),
 vox-record-list vox-badge:not(.truncate) {
   flex: none;
 }
+
+/* Stack status: the workers column lists up to seven names per instance.
+   As running text they run together into one unscannable line, so each
+   is a badge and the set wraps within the cell. */
+.worker-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
