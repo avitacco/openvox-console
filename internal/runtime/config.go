@@ -165,6 +165,9 @@ type Config struct {
 	//
 	// ClusterAddr is this instance's own peer listener ("host:port").
 	// ClusterPeers is the comma-separated list of peers to connect to.
+	// ClusterLeafAddr, when set, opens a listener for edge instances
+	// attaching as leaves. Only needed on the instances an enc
+	// deployment is pointed at; left unset, no leaf listener is opened.
 	// ClusterMode selects how this instance joins: "route" makes it a
 	// full cluster peer (the core modes), "leaf" attaches it as an edge
 	// subscriber that receives events without every peer needing a
@@ -172,10 +175,11 @@ type Config struct {
 	// ClusterSecret authenticates peer connections, and is required
 	// whenever a peer listener is configured - an open listener would
 	// put anything that can reach it on the internal event bus.
-	ClusterAddr   string
-	ClusterPeers  string
-	ClusterMode   ClusterMode
-	ClusterSecret string
+	ClusterAddr     string
+	ClusterLeafAddr string
+	ClusterPeers    string
+	ClusterMode     ClusterMode
+	ClusterSecret   string
 
 	// Optional: the key sealing secrets stored in Postgres - vulnerability
 	// provider credentials, today (see internal/sealer). sealer.KeySize
@@ -283,9 +287,10 @@ func LoadConfig(getenv func(string) string) (Config, error) {
 		NodeTransportClusterPeers:  getenv("CONSOLE_NODE_TRANSPORT_CLUSTER_PEERS"),
 		NodeTransportClusterSecret: getenv("CONSOLE_NODE_TRANSPORT_CLUSTER_SECRET"),
 
-		ClusterAddr:   getenv("CONSOLE_CLUSTER_ADDR"),
-		ClusterPeers:  getenv("CONSOLE_CLUSTER_PEERS"),
-		ClusterSecret: getenv("CONSOLE_CLUSTER_SECRET"),
+		ClusterAddr:     getenv("CONSOLE_CLUSTER_ADDR"),
+		ClusterLeafAddr: getenv("CONSOLE_CLUSTER_LEAF_ADDR"),
+		ClusterPeers:    getenv("CONSOLE_CLUSTER_PEERS"),
+		ClusterSecret:   getenv("CONSOLE_CLUSTER_SECRET"),
 	}
 
 	clusterMode, err := ParseClusterMode(getenv("CONSOLE_CLUSTER_MODE"))
@@ -370,6 +375,11 @@ func LoadConfig(getenv func(string) string) (Config, error) {
 	// reach the port join the internal event bus - and through it read
 	// every activity and revocation event, and publish forged ones.
 	// Refused at configuration time rather than defaulting to open.
+	if cfg.ClusterLeafAddr != "" && cfg.ClusterSecret == "" {
+		return Config{}, fmt.Errorf(
+			"CONSOLE_CLUSTER_SECRET is required when CONSOLE_CLUSTER_LEAF_ADDR is set: " +
+				"a leaf listener without credentials would accept any connection that can reach it")
+	}
 	if cfg.ClusterAddr != "" && cfg.ClusterSecret == "" {
 		return Config{}, fmt.Errorf(
 			"CONSOLE_CLUSTER_SECRET is required when CONSOLE_CLUSTER_ADDR is set: " +

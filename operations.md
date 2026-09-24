@@ -99,6 +99,10 @@ notifications.
   set. Startup is refused without it: an unauthenticated peer listener
   would put anything that can reach the port onto the internal bus.
 - `CONSOLE_CLUSTER_MODE` - `route` (default) or `leaf`.
+- `CONSOLE_CLUSTER_LEAF_ADDR` - opens a listener for leaf instances,
+  e.g. `:6223`. Only needed on the instances your `enc` instances are
+  pointed at; unset, no leaf listener is opened. A leaf's
+  `CONSOLE_CLUSTER_PEERS` names this address, not the route listener.
 
 Core modes (`all`, `web`, `orchestrator`, `worker`) mesh as routed
 peers. `enc` instances attach as **leaf** nodes: the connection is
@@ -112,14 +116,17 @@ ENC instances live wherever the compilers live.
   orch-1 ─┤
   worker ─┘
       ▲
-      │ leaf connections, outbound only (:6223)
+      │ leaf connections, outbound only
+      │ (to CONSOLE_CLUSTER_LEAF_ADDR, e.g. :6223)
       │
   enc-1, enc-2  (alongside the compilers)
 ```
 
-A leaf attaches to its peer's leafnode listener, which sits one port
-above the route listener - so an operator configures one address per
-instance, not two.
+A leaf attaches to the address a peer publishes as
+`CONSOLE_CLUSTER_LEAF_ADDR`. That address is configured explicitly
+rather than derived from the route port: deriving it would mean binding
+a port the operator never chose, and anything already holding it would
+leave the console hanging at startup with no useful error.
 
 ### Node transport
 

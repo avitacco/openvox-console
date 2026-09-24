@@ -91,7 +91,7 @@ func (c Config) PeerList() []string {
 // Clustered reports whether this instance participates in a cluster at
 // all - either by listening for peers, or by dialling them.
 func (c Config) Clustered() bool {
-	return c.ClusterAddr != "" || len(c.PeerList()) > 0
+	return c.ClusterAddr != "" || c.ClusterLeafAddr != "" || len(c.PeerList()) > 0
 }
 
 // EffectiveClusterMode resolves how this instance joins, defaulting an

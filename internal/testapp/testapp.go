@@ -33,11 +33,17 @@ import (
 	"log/slog"
 	"net"
 	"net/http"
+	"net/url"
 	"os"
 	"path/filepath"
+	"regexp"
+	"strings"
 	"sync"
 	"testing"
 	"time"
+
+	"github.com/google/uuid"
+	"github.com/jackc/pgx/v5/pgxpool"
 
 	"github.com/voxpupuli/enterprise-console/internal/app"
 	"github.com/voxpupuli/enterprise-console/internal/persistence"
@@ -45,17 +51,19 @@ import (
 	"github.com/voxpupuli/enterprise-console/internal/testca"
 )
 
-// migrateOnce mirrors internal/testdb: migrations are applied once per
-// test binary, not once per instance, so starting several instances in
-// one test does not race several migrators against each other.
+// startTimeout bounds how long an instance may take to come up, and
+// stopTimeout how long to shut down.
 //
-// Note this is deliberately *not* the same lock the production path
-// relies on - golang-migrate takes a Postgres advisory lock, which is
-// what makes concurrent real instances safe. This just keeps the test
-// binary's own startup quick and quiet.
-var (
-	migrateOnce sync.Once
-	migrateErr  error
+// Generous on purpose, for the same reason internal/messaging's
+// readiness bound is: a test starting a whole topology runs eight full
+// consoles - each with an embedded NATS server, a connection pool and an
+// HTTP stack - while the rest of the suite tests in parallel. The
+// instances do start under that load; they just take longer than a
+// comfortable-looking bound would allow, and failing them for it makes
+// the suite flaky rather than making it correct.
+const (
+	startTimeout = 90 * time.Second
+	stopTimeout  = 60 * time.Second
 )
 
 // Instance is one running console.
@@ -96,6 +104,17 @@ type Cluster struct {
 	// in one cluster trust each other's material.
 	ca *testca.CA
 
+	// instanceDSN is dsn with a small connection pool, handed to the
+	// instances themselves.
+	//
+	// pgxpool defaults to max(4, NumCPU) connections - 12 on a typical
+	// developer machine. A test starting eight instances would reach for
+	// ~96 connections against a Postgres whose default max_connections
+	// is 100, and starve every other test package running in parallel.
+	// Production wants the large pool; a test process running a whole
+	// topology at once does not.
+	instanceDSN string
+
 	// keyFile is one RBAC signing key shared by every instance in the
 	// cluster. A key per instance would mean a token issued by one
 	// instance failed to verify on any other - which is not how a
@@ -121,12 +140,26 @@ func NewCluster(t *testing.T) *Cluster {
 		t.Skip("CONSOLE_TEST_POSTGRES_DSN not set; skipping multi-instance test")
 	}
 
-	migrateOnce.Do(func() { migrateErr = persistence.Migrate(dsn) })
-	if migrateErr != nil {
-		t.Fatalf("apply migrations to test database: %v", migrateErr)
+	// Each cluster gets its own database.
+	//
+	// These instances run the real background workers, and those workers
+	// act on whatever rows they find: the vulnerability scheduler syncs
+	// every enabled provider in the database it is pointed at. Sharing
+	// one database with the rest of the suite meant a console started
+	// here would pick up another package's test fixtures and race that
+	// package's own scheduler for the lease. Isolation is cheaper to
+	// reason about than coordinating every package against live workers.
+	dsn = createDatabase(t, dsn)
+
+	if err := persistence.Migrate(dsn); err != nil {
+		t.Fatalf("apply migrations to test database: %v", err)
 	}
 
-	return &Cluster{t: t, dsn: dsn, ca: testca.NewCA(t), keyFile: signingKeyFile(t, runtime.DefaultSigningKeyID)}
+	return &Cluster{
+		t: t, dsn: dsn, ca: testca.NewCA(t),
+		keyFile:     signingKeyFile(t, runtime.DefaultSigningKeyID),
+		instanceDSN: limitPoolSize(dsn),
+	}
 }
 
 // DSN returns the shared Postgres connection string, for a test that also
@@ -227,7 +260,7 @@ func (c *Cluster) TryStart(cfg Config) error {
 	// Either Run fails quickly, or the instance comes up. Polling for
 	// "serving" distinguishes the two without a fixed sleep.
 	client := &http.Client{Timeout: time.Second}
-	deadline := time.Now().Add(30 * time.Second)
+	deadline := time.Now().Add(startTimeout)
 	for time.Now().Before(deadline) {
 		select {
 		case err := <-done:
@@ -247,7 +280,7 @@ func (c *Cluster) TryStart(cfg Config) error {
 		}
 		time.Sleep(20 * time.Millisecond)
 	}
-	return errors.New("instance neither started serving nor failed within 30s")
+	return errors.New("instance neither started serving nor failed within the start timeout")
 }
 
 // baseEnv is the minimum configuration an instance needs to start:
@@ -265,7 +298,7 @@ func (c *Cluster) baseEnv(mode runtime.Mode, httpAddr string) map[string]string 
 	env := map[string]string{
 		"CONSOLE_RUN_MODE":     string(mode),
 		"CONSOLE_HTTP_ADDR":    httpAddr,
-		"CONSOLE_POSTGRES_DSN": c.dsn,
+		"CONSOLE_POSTGRES_DSN": c.instanceDSN,
 
 		// openvoxdb is not reachable in these tests. The client is
 		// constructed from real certificate material so startup
@@ -318,8 +351,8 @@ func (i *Instance) Stop(t *testing.T) {
 			if err != nil && !errors.Is(err, context.Canceled) {
 				t.Errorf("%s instance exited with an error: %v", i.Mode, err)
 			}
-		case <-time.After(30 * time.Second):
-			t.Errorf("%s instance did not shut down within 30s", i.Mode)
+		case <-time.After(stopTimeout):
+			t.Errorf("%s instance did not shut down within %s", i.Mode, stopTimeout)
 		}
 	})
 }
@@ -359,7 +392,7 @@ func (i *Instance) StatusOf(t *testing.T, path string) int {
 func (i *Instance) waitUntilServing(t *testing.T) {
 	t.Helper()
 
-	deadline := time.Now().Add(30 * time.Second)
+	deadline := time.Now().Add(startTimeout)
 	client := &http.Client{Timeout: time.Second}
 	for time.Now().Before(deadline) {
 		select {
@@ -375,7 +408,7 @@ func (i *Instance) waitUntilServing(t *testing.T) {
 		}
 		time.Sleep(20 * time.Millisecond)
 	}
-	t.Fatalf("%s instance did not start serving on %s within 30s", i.Mode, i.BaseURL)
+	t.Fatalf("%s instance did not start serving on %s within %s", i.Mode, i.BaseURL, startTimeout)
 }
 
 // freeAddr reserves a loopback port by binding and immediately releasing
@@ -518,3 +551,68 @@ const (
 	BootstrapAdminUser     = "harness-admin"
 	BootstrapAdminPassword = "harness-admin-password"
 )
+
+// limitPoolSize adds a small pool cap to dsn. pgx reads pool_max_conns
+// from the connection string itself, so this needs no production
+// configuration knob.
+func limitPoolSize(dsn string) string {
+	sep := "?"
+	if strings.Contains(dsn, "?") {
+		sep = "&"
+	}
+	return dsn + sep + "pool_max_conns=4"
+}
+
+// createDatabase makes a fresh, empty database for one cluster and
+// returns a DSN pointing at it. It is dropped when the test finishes.
+//
+// Named after the test plus a random suffix so a leftover database from
+// a killed run is identifiable rather than mysterious.
+func createDatabase(t *testing.T, adminDSN string) string {
+	t.Helper()
+
+	name := "testapp_" + strings.ToLower(nonAlphanum.ReplaceAllString(t.Name(), "_")) +
+		"_" + strings.ReplaceAll(uuid.NewString()[:8], "-", "")
+	if len(name) > 60 {
+		name = name[:60]
+	}
+
+	admin, err := pgxpool.New(context.Background(), adminDSN)
+	if err != nil {
+		t.Fatalf("connect to create test database: %v", err)
+	}
+	defer admin.Close()
+
+	// Identifiers cannot be parameterised, hence the interpolation; name
+	// is built from the test name and a uuid, never from input.
+	if _, err := admin.Exec(context.Background(), `CREATE DATABASE "`+name+`"`); err != nil {
+		t.Fatalf("create test database %q: %v", name, err)
+	}
+
+	t.Cleanup(func() {
+		cleanup, err := pgxpool.New(context.Background(), adminDSN)
+		if err != nil {
+			return
+		}
+		defer cleanup.Close()
+		// FORCE because an instance's pool may not have finished closing
+		// when the test ends; without it the drop fails and the database
+		// is left behind.
+		_, _ = cleanup.Exec(context.Background(), `DROP DATABASE IF EXISTS "`+name+`" WITH (FORCE)`)
+	})
+
+	return replaceDatabase(adminDSN, name)
+}
+
+// nonAlphanum matches anything not usable in a database identifier.
+var nonAlphanum = regexp.MustCompile(`[^A-Za-z0-9]+`)
+
+// replaceDatabase swaps the database name in a postgres URL.
+func replaceDatabase(dsn, name string) string {
+	u, err := url.Parse(dsn)
+	if err != nil {
+		return dsn
+	}
+	u.Path = "/" + name
+	return u.String()
+}

@@ -76,10 +76,11 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 	// of a cluster, which is what carries revocation and activity events
 	// between instances.
 	bus, err := messaging.StartWith(messaging.Config{
-		ListenAddr: cfg.ClusterAddr,
-		Peers:      cfg.PeerList(),
-		Leaf:       cfg.EffectiveClusterMode() == runtime.ClusterModeLeaf,
-		Secret:     cfg.ClusterSecret,
+		ListenAddr:     cfg.ClusterAddr,
+		LeafListenAddr: cfg.ClusterLeafAddr,
+		Peers:          cfg.PeerList(),
+		Leaf:           cfg.EffectiveClusterMode() == runtime.ClusterModeLeaf,
+		Secret:         cfg.ClusterSecret,
 	})
 	if err != nil {
 		return fmt.Errorf("failed to start embedded NATS server: %w", err)
@@ -87,7 +88,8 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 	defer bus.Close()
 	if cfg.Clustered() {
 		logger.Info("internal bus clustered",
-			"mode", cfg.EffectiveClusterMode(), "listen", bus.ClusterAddr(), "peers", cfg.PeerList())
+			"mode", cfg.EffectiveClusterMode(), "listen", bus.ClusterAddr(),
+			"leaf", bus.LeafAddr(), "peers", cfg.PeerList())
 	}
 
 	db, err := persistence.Connect(context.Background(), cfg.PostgresDSN)

@@ -50,6 +50,10 @@ const clusterName = "openvox-console"
 // password is the operator-supplied cluster secret.
 const peerUser = "console-peer"
 
+// readyTimeout bounds how long StartWith waits for the embedded server
+// to become ready.
+const readyTimeout = 90 * time.Second
+
 // Config describes how this instance joins other instances' buses.
 // The zero value is a single, unclustered, listener-less instance.
 type Config struct {
@@ -58,8 +62,15 @@ type Config struct {
 	// leaf, which only dials out.
 	ListenAddr string
 
-	// Peers are the "host:port" addresses of other instances to connect
-	// to.
+	// LeafListenAddr, when set, opens a listener for edge instances
+	// attaching as leaves. Left empty, no leafnode listener is opened at
+	// all - most deployments have no leaves, and a listener nothing uses
+	// is surface for no benefit.
+	LeafListenAddr string
+
+	// Peers are the addresses of other instances to connect to: peer
+	// route listeners for a routed instance, peer *leaf* listeners for a
+	// leaf.
 	Peers []string
 
 	// Leaf attaches this instance as an edge subscriber rather than a
@@ -78,8 +89,9 @@ func (c Config) clustered() bool { return c.ListenAddr != "" || len(c.Peers) > 0
 // for internal publish/subscribe. When peers are configured, that bus
 // spans every instance in the cluster.
 type Bus struct {
-	server *server.Server
-	conn   *nats.Conn
+	server   *server.Server
+	conn     *nats.Conn
+	leafAddr string
 }
 
 // Start boots an unclustered, listener-less embedded NATS server - the
@@ -103,7 +115,13 @@ func StartWith(cfg Config) (*Bus, error) {
 	}
 
 	ns.Start()
-	if !ns.ReadyForConnections(10 * time.Second) {
+	// Generous, for the same reason internal/nodetransport's is: this
+	// only bounds how long a slow or contended start-up may take before
+	// giving up, not any steady-state behavior. A clustered server has
+	// listeners to bind and routes to establish where an unclustered one
+	// had neither, so the old 10s - chosen when this server never
+	// listened at all - is no longer the right bound.
+	if !ns.ReadyForConnections(readyTimeout) {
 		return nil, fmt.Errorf("embedded NATS server did not become ready in time")
 	}
 
@@ -122,7 +140,7 @@ func StartWith(cfg Config) (*Bus, error) {
 		return nil, fmt.Errorf("connect to embedded NATS server: %w", err)
 	}
 
-	return &Bus{server: ns, conn: conn}, nil
+	return &Bus{server: ns, conn: conn, leafAddr: cfg.LeafListenAddr}, nil
 }
 
 // options builds the nats-server options for cfg.
@@ -191,11 +209,19 @@ func options(cfg Config) (*server.Options, error) {
 	}
 	opts.Routes = routes
 
-	// A leaf needs somewhere to attach. Only opened when this instance
-	// listens for peers at all.
-	if cfg.ListenAddr != "" {
-		opts.LeafNode.Host = opts.Cluster.Host
-		opts.LeafNode.Port = leafPort(opts.Cluster.Port)
+	// A leaf needs somewhere to attach, but only if there are leaves.
+	// Opened at an explicitly configured address rather than derived
+	// from the route port: deriving it (route port + 1) meant binding an
+	// address the operator never chose, and if anything already held it
+	// the listener silently failed to come up and the server never
+	// became ready - a startup hang with no useful error.
+	if cfg.LeafListenAddr != "" {
+		host, port, err := splitHostPort(cfg.LeafListenAddr)
+		if err != nil {
+			return nil, fmt.Errorf("parse cluster leaf listen address %q: %w", cfg.LeafListenAddr, err)
+		}
+		opts.LeafNode.Host = host
+		opts.LeafNode.Port = port
 		opts.LeafNode.Username = peerUser
 		opts.LeafNode.Password = cfg.Secret
 	}
@@ -213,21 +239,9 @@ func peerURLs(peers []string, secret string, leaf bool) ([]*url.URL, error) {
 
 	urls := make([]*url.URL, 0, len(peers))
 	for _, p := range peers {
-		port := ""
-		host, rawPort, err := net.SplitHostPort(p)
+		host, port, err := net.SplitHostPort(p)
 		if err != nil {
 			return nil, fmt.Errorf("parse cluster peer %q: %w", p, err)
-		}
-		port = rawPort
-		if leaf {
-			// A leaf attaches to the peer's leafnode listener, which
-			// sits at a fixed offset from its route listener so an
-			// operator configures one address per instance, not two.
-			n, err := strconv.Atoi(rawPort)
-			if err != nil {
-				return nil, fmt.Errorf("parse cluster peer port in %q: %w", p, err)
-			}
-			port = strconv.Itoa(leafPort(n))
 		}
 
 		u := &url.URL{
@@ -239,11 +253,6 @@ func peerURLs(peers []string, secret string, leaf bool) ([]*url.URL, error) {
 	}
 	return urls, nil
 }
-
-// leafPort is the leafnode listener's port for a given route port. One
-// configured address per instance is far easier to operate than two, and
-// a fixed offset keeps the derivation obvious in a netstat listing.
-func leafPort(routePort int) int { return routePort + 1 }
 
 func splitHostPort(addr string) (string, int, error) {
 	host, portStr, err := net.SplitHostPort(addr)
@@ -271,6 +280,14 @@ func (b *Bus) Check(_ context.Context) error {
 	}
 	return nil
 }
+
+// LeafAddr returns the address this instance accepts leaf connections
+// on, or "" when it has no leaf listener.
+//
+// The configured value rather than the bound one: nats-server exposes no
+// accessor for the leafnode listener's address, and this is only ever
+// used for logging and for a test to know where to attach.
+func (b *Bus) LeafAddr() string { return b.leafAddr }
 
 // ClusterAddr returns the address this instance accepts peer connections
 // on, or "" when it has no peer listener.

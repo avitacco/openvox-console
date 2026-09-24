@@ -6,10 +6,14 @@ binary startup, with no separate process or external broker required.
 
 When no cluster peers are configured, the embedded server SHALL run
 unclustered and SHALL NOT open a network listener, preserving the
-single-instance deployment's existing behavior. When cluster peers are
-configured, the embedded server SHALL open a listener for peer connections
-only, and SHALL NOT expose internal subjects to any client that is not an
-authenticated peer.
+single-instance deployment's existing behavior.
+
+When cluster peers are configured, the embedded server SHALL open the
+listeners peering requires, and SHALL NOT deliver internal events to,
+or accept them from, any connection that has not authenticated with the
+configured cluster credentials. Any listener it opens beyond the peer
+listener itself SHALL be bound to loopback and SHALL require those same
+credentials.
 
 #### Scenario: Binary starts with embedded messaging
 - **WHEN** the console binary starts
@@ -23,10 +27,11 @@ authenticated peer.
   calls
 - **AND** it does not listen on any network address for messaging
 
-#### Scenario: A clustered instance listens only for peers
+#### Scenario: A clustered instance refuses unauthenticated connections
 - **WHEN** the console binary starts with cluster peers configured
 - **THEN** the embedded NATS server listens for peer connections
-- **AND** a client that cannot authenticate as a peer is refused
+- **AND** a connection that cannot present the configured cluster
+  credentials is refused, on every listener it opened
 
 ## ADDED Requirements
 
