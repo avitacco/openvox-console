@@ -1,12 +1,18 @@
 # Operations
 
-Operator-facing runbooks for running this console in production: what
-survives a failover, how to fail over Postgres, and how to rotate the
-JWT signing key. See architecture-summary.md for the design principles
-behind these (in particular "8. High availability and failover") and
-phased-build-plan.md's Phase 8 for why this document exists.
+Engineering notes on running this console: what was verified and how,
+known limitations and why they exist, and the reasoning behind
+operational behavior. See architecture-summary.md for the design
+principles behind them.
+
+**How to install, scale, use and operate the console is in the guides**
+on the project site, and in this repository under
+[`marketing/guides/`](marketing/guides/). Each section below whose
+procedure moved there says so, and links to its guide.
 
 ## Statelessness boundary: what survives routing a request to a different instance
+
+For running several instances, see the **Run more instances** guide ([`scale/cluster.md`](marketing/guides/scale/cluster.md)). This section records which in-memory state exists, and why each piece survives load balancing.
 
 The console is designed to be stateless wherever possible - every piece
 of durable state lives in Postgres, and cross-instance coordination (where
@@ -17,12 +23,13 @@ are the exceptions worth knowing about:
 
 | State | Where | Survives routing to a different instance? |
 | --- | --- | --- |
-| RBAC token revocation cache | `internal/rbac.Revoker` | **Yes, when clustered.** In-memory only for zero-latency checks, but Postgres is the durable source of truth and a revocation is published over NATS (`rbac.revoked` subject) to every other running instance's in-memory cache immediately, with no restart. A request rejected for a revoked token on instance A is rejected identically on instance B. This requires the instances to be peered (`CONSOLE_CLUSTER_*`): the internal bus opens no listener at all when unclustered, so a second instance that is not peered would keep accepting a token revoked on the first until that token expired. Instances sharing a database but not a cluster are not a supported configuration for this reason. |
-| Node transport connections | `internal/nodetransport.Registry` | **Yes, when the transport is clustered.** A node's connection is still a single TCP connection terminated at one instance, but with the transports peered (`CONSOLE_NODE_TRANSPORT_CLUSTER_*`) a dispatch published by any instance is routed to whichever one holds that connection, and the connection registry reflects connects and disconnects cluster-wide. Unclustered, this remains instance-local: only the instance a node connected to can reach it. |
+| RBAC token revocation cache | `internal/rbac.Revoker` | **Yes, when clustered.** In-memory only for zero-latency checks, but Postgres is the durable source of truth and a revocation is published over NATS (`rbac.revoked` subject) to every other running instance's in-memory cache immediately, with no restart. A request rejected for a revoked token on instance A is rejected identically on instance B. Each instance also re-reads revocations from Postgres every 30 seconds, so one missed on the bus - a route down at the wrong moment - is picked up within that window rather than lost. Instances should still be peered (`CONSOLE_CLUSTER_*`): unpeered, the 30-second re-read is the *only* propagation. |
+| Node transport connections | `internal/nodetransport.Registry` | **Yes, when clustered.** A node's connection is still a single TCP connection terminated at one instance, but with the instances peered (`CONSOLE_CLUSTER_*`) a dispatch published by any routed instance - including one that terminates no node connections, like `web` - is routed to whichever one holds that connection, and the connection registry reflects connects and disconnects cluster-wide. Unclustered, this remains instance-local: only the instance a node connected to can reach it. |
 | Orchestrator in-flight dispatch tracking | `internal/orchestrator.Dispatcher.pending` | **Instance-local, but no longer load-bearing.** A dispatch's response still returns to the instance that published it, so that instance tracks it to completion. What changed is that *any* instance can publish the dispatch, so triggering a run no longer depends on reaching a particular one. If the dispatching instance stops before a job reaches a terminal state, the stale-job reaper (`worker`/`all` mode, leased) records that job as failed rather than leaving it "running" forever. |
 
 Everything else - job/deploy/report history, users/roles/permissions,
-node classification, activity log, audit log emission - reads and writes
+node classification, activity log (written directly by the instance
+where the action happened), audit log emission - reads and writes
 Postgres (and, where multiple instances need to agree on something live,
 NATS) directly, with no other in-memory state a request depends on. A
 request for any of that can be safely routed to any healthy instance.
@@ -37,210 +44,21 @@ can reach the first's connected nodes.
 
 ## Run modes
 
-One image, one binary. `CONSOLE_RUN_MODE` selects which parts of the
-console an instance runs, so components with very different load
-profiles can be scaled and placed independently. Unset means `all`,
-which is exactly the behavior the console had before run modes existed -
-an existing single-instance deployment needs no configuration change.
-
-| Mode | Serves | Listens | Runs |
-| --- | --- | --- | --- |
-| `all` (default) | everything | HTTP, node transport | every background worker |
-| `web` | console UI, REST API, code-deploy webhooks, ENC | HTTP | none |
-| `enc` | ENC endpoint only, plus health/metrics | HTTP | none |
-| `orchestrator` | health/metrics only | HTTP, node transport | dispatcher, initial-run trigger |
-| `worker` | health/metrics only | HTTP | activity recorder, vulnerability scheduler, job reaper |
-
-Health and metrics are served in every mode, so any instance can be
-health-checked without the checker knowing its mode. `GET /health`
-reports the active mode.
-
-Two choices in that table are deliberate and worth stating:
-
-- **`web` serves ENC as well.** `enc` mode exists so ENC *can* be scaled
-  and placed on its own - next to a compiler, typically - not so that it
-  is unavailable everywhere else. A `web`/`orchestrator`/`worker` split
-  that silently stopped answering classification would be a far worse
-  failure than `web` carrying some ENC load.
-- **`orchestrator` serves no REST API.** It holds node connections and
-  runs the dispatcher; the job-triggering endpoints live in `web`, which
-  reaches those connections over the cluster.
-
-### Required configuration per mode
-
-Each mode requires only what it uses:
-
-- Every mode: `CONSOLE_POSTGRES_DSN`, the `CONSOLE_OPENVOXDB_*` settings.
-- `all` and `web`: `CONSOLE_RBAC_SIGNING_KEY_FILE`. These are the only
-  modes that issue tokens.
-- `enc`, `orchestrator`, `worker`: `CONSOLE_RBAC_VERIFICATION_KEYS_DIR`
-  instead. They verify tokens but never mint them, so the private
-  signing key is never read - and never needs to be present on, say, an
-  ENC instance sitting next to a compiler outside the console's own
-  network.
-- `orchestrator`: `CONSOLE_NODE_TRANSPORT_ADDR`. Starting this mode
-  without a listener would leave every dispatch failing "not connected"
-  on an instance that otherwise looked healthy, so it is refused.
+Moved to the **Run modes** guide ([`scale/run-modes.md`](marketing/guides/scale/run-modes.md)), published on the project site. It covers what each mode serves and runs, and what each mode requires.
 
 ## Stack status page
 
-`/status.html` shows every running console instance - its run mode,
-address, health, uptime, version and background workers - grouped by
-mode with a count per mode, alongside the external services the console
-depends on (Postgres, the embedded NATS bus, openvoxdb, and the
-openvoxserver CA). `GET /api/v1/status` returns the same thing as JSON.
-
-Both are gated on the **`status:read`** permission.
-
-**After upgrading an existing deployment, nobody has it yet.** A freshly
-bootstrapped administrator gets it automatically, but an existing role
-does not: permissions are never added to existing roles silently,
-because that would widen access to deployment topology without anyone
-deciding to. Grant it on the Roles page to whichever roles should see
-the page; until then the page and its navigation link are simply not
-shown.
-
-### What the page can and cannot tell you
-
-The picture is gathered live: the instance serving the request asks
-every other instance over the internal bus and collects replies for one
-second. Nothing is stored, so what you see is what answered just now.
-
-That has one consequence worth understanding before you rely on it. **An
-instance that is running but cannot reach the bus cannot be discovered**
-- there is nothing to ask it through. The page does not pretend
-otherwise: it works out how many instances *should* have answered by
-combining the cluster view each replying instance reports, and if fewer
-replied than expected it says so, in a banner above the instance list:
-
-> This picture may be incomplete. 1 of 4 instances did not reply within 1s.
-
-Treat that banner as significant. A missing instance is usually a wedged
-one, which is exactly when the count matters.
-
-Combining views rather than trusting the serving instance's own is what
-makes this work for `enc` instances. They attach as leaves, and a leaf is
-visible only to the peer it attached to - so a status request served by a
-different peer would otherwise have no idea it exists, and would report a
-complete picture with that instance missing.
-
-Dependencies are reported **as the serving instance sees them**, because
-"openvoxdb is unreachable from `web-2`" is a more useful statement than
-"openvoxdb is unreachable". When instances disagree about a dependency,
-that dependency is flagged `differs by instance` - usually the most
-informative thing on the page, since it means partial connectivity
-rather than an outage.
-
-A dependency that was never configured reads `Not configured`, distinct
-from `Unreachable`: the first is a deployment choice, the second is a
-fault.
-
-The page does not auto-refresh. One page load asks every instance, so an
-auto-refreshing page would turn a browser tab left open into steady
-fleet-wide traffic. Reload it when you want a fresh answer.
+Moved to the **Run more instances** guide ([`scale/cluster.md`](marketing/guides/scale/cluster.md)), published on the project site. See its "Check the whole fleet" section for the System page's Fleet Status tab: what it shows, the incomplete-picture banner, and dependencies that differ by instance.
 
 ## Multi-instance topology
 
-Instances coordinate over two separate NATS clusters, mirroring the two
-separate embedded NATS servers (see architecture-summary.md sections 4
-and 7): the internal event bus, and the node transport.
-
-### Internal event bus
-
-Carries token revocations, activity events, and code-deployment
-notifications.
-
-- `CONSOLE_CLUSTER_ADDR` - this instance's peer listener, e.g. `:6222`.
-- `CONSOLE_CLUSTER_PEERS` - comma-separated `host:port` peers.
-- `CONSOLE_CLUSTER_SECRET` - required whenever either of the above is
-  set. Startup is refused without it: an unauthenticated peer listener
-  would put anything that can reach the port onto the internal bus.
-- `CONSOLE_CLUSTER_MODE` - `route` (default) or `leaf`.
-- `CONSOLE_CLUSTER_LEAF_ADDR` - opens a listener for leaf instances,
-  e.g. `:6223`. Only needed on the instances your `enc` instances are
-  pointed at; unset, no leaf listener is opened. A leaf's
-  `CONSOLE_CLUSTER_PEERS` names this address, not the route listener.
-
-Core modes (`all`, `web`, `orchestrator`, `worker`) mesh as routed
-peers. `enc` instances attach as **leaf** nodes: the connection is
-outbound-only, so the console core needs no network path back to them.
-That is what makes the compiler-colocated deployment practical, where
-ENC instances live wherever the compilers live.
-
-```
-  web-1 ──┐
-  web-2 ──┼── routed peers (:6222)
-  orch-1 ─┤
-  worker ─┘
-      ▲
-      │ leaf connections, outbound only
-      │ (to CONSOLE_CLUSTER_LEAF_ADDR, e.g. :6223)
-      │
-  enc-1, enc-2  (alongside the compilers)
-```
-
-A leaf attaches to the address a peer publishes as
-`CONSOLE_CLUSTER_LEAF_ADDR`. That address is configured explicitly
-rather than derived from the route port: deriving it would mean binding
-a port the operator never chose, and anything already holding it would
-leave the console hanging at startup with no useful error.
-
-### Node transport
-
-Carries orchestration dispatches to managed nodes. Clustering it is what
-removes the sticky-routing constraint: a dispatch published by any
-instance reaches a node connected to any other.
-
-- `CONSOLE_NODE_TRANSPORT_CLUSTER_ADDR`
-- `CONSOLE_NODE_TRANSPORT_CLUSTER_PEERS`
-- `CONSOLE_NODE_TRANSPORT_CLUSTER_SECRET`
-
-This secret is deliberately **not** the node-facing mTLS material.
-Routes authenticate with their own credential, so a node certificate can
-never be used to join the cluster as a peer and observe or inject every
-node's traffic. Startup is refused if the transport is clustered without
-it.
-
-### Which modes may be run as multiple instances
-
-Every mode may. Nothing a request depends on is instance-local once the
-instances are clustered:
-
-- Durable state is in Postgres.
-- Revocations fan out to every instance, so each one's in-memory cache
-  converges.
-- Work that must happen once - the vulnerability sync, a code deploy of
-  a given environment, the stale-job reaper - is serialized by a
-  Postgres lease (`singleton_leases`), so running several `worker` or
-  `all` instances does not duplicate it.
-- Subscribers that write use a NATS queue group, so an activity event
-  published once is persisted once however many instances subscribe.
-
-### Migration path
-
-The change is inert until configured, so adoption is incremental:
-
-1. Upgrade every instance to the new image while still single-instance.
-   Nothing changes: `all` with no cluster configuration is exactly the
-   previous behavior.
-2. Set `CONSOLE_CLUSTER_*` on the existing instance and start a second
-   `all` instance peered with it. This exercises clustering, lease
-   coordination and queue subscriptions before any role split.
-3. Split roles as load demands: move background work to `worker`, node
-   connections to `orchestrator`, then add `enc` instances alongside the
-   compilers.
-
-Rollback at any step is setting `CONSOLE_RUN_MODE=all` and removing the
-cluster configuration. No schema change gates it; the `singleton_leases`
-table is additive and unused by an unclustered instance.
+Moved to the **Run more instances** guide ([`scale/cluster.md`](marketing/guides/scale/cluster.md)), published on the project site. It covers clustering, peer TLS and the two secrets, splitting into modes, `enc` instances as leaves, monitoring the bus and the migration path. Node certificate revocation is in **Manage node certificates** ([`nodes/certificates.md`](marketing/guides/nodes/certificates.md)).
 
 ## Postgres failover runbook
 
-The console's only durable state is Postgres, so a primary failure is
-recovered by promoting a streaming-replication standby and repointing
-the console at it. This isn't new retry machinery in the application -
-it's a documented operational procedure, exercised against a real
-primary+standby pair.
+The runbook moved to the **Fail over to a standby database** guide ([`operate/postgres-failover.md`](marketing/guides/operate/postgres-failover.md)).
+
+**Engineering notes** kept here:
 
 A local fixture for testing this procedure lives in `docker-compose.yml`,
 started by default (`make up`) alongside everything else - `make
@@ -254,40 +72,6 @@ otherwise empty on first start, so this only runs once - see
 exercising failover, not everyday dev work - `console-postgres` (the
 default `make up` target) is unaffected and unrelated.
 
-**To fail over (promote the standby and cut over):**
-
-1. Confirm the standby is actually replicating before you need it:
-   ```
-   docker exec <standby-container> psql -U console -d console -c "SELECT pg_is_in_recovery();"
-   ```
-   should report `t`. Writes against the standby should be rejected
-   (`cannot execute INSERT in a read-only transaction`) until promoted -
-   that rejection is expected and confirms it's still a replica, not a
-   sign of misconfiguration.
-
-2. Promote the standby:
-   ```
-   docker exec <standby-container> psql -U console -d console -c "SELECT pg_promote();"
-   ```
-   `pg_is_in_recovery()` flips to `f` once promotion completes (a few
-   seconds). The promoted instance is now an independent, writable
-   Postgres - it does not automatically resume replication from the old
-   primary if that primary comes back, so treat the old primary as
-   retired once this step is taken (rebuild it as a new standby of the
-   promoted instance if you want redundancy restored, following the same
-   `pg_basebackup -R` procedure the fixture's standby used).
-
-3. Repoint the console at the promoted instance: update
-   `CONSOLE_POSTGRES_DSN` to the promoted instance's host/port and
-   restart the console process(es). The console does not hot-swap its
-   connection pool's target mid-process (see `internal/persistence` -
-   it opens one pool for the DSN it was started with), so this step
-   requires a restart, not just a config reload.
-
-4. Confirm recovery: `/health` reports Postgres reachable again, and a
-   real write-path request (e.g. logging in, which writes a session/
-   token record) succeeds against the promoted instance.
-
 This procedure was verified live against the `postgres-replication`
 fixture: a row written on the primary appeared on the standby via
 streaming replication, the standby rejected a write attempt while still
@@ -297,61 +81,9 @@ restarting either Postgres container.
 
 ## JWT signing key rotation
 
-The console signs its own JWTs (`internal/rbac.Issuer`) and verifies them
-itself (`internal/rbac.Verifier`) with an ES256 key pair - see
-architecture-summary.md. Every issued token's JWT header carries a `kid`
-(key ID) identifying which key signed it; `Verifier` holds a small set of
-keys (`kid -> public key`) rather than just one, so a token signed by a
-since-retired key keeps verifying through its natural expiry while a new
-key takes over signing - no forced logout, no downtime.
+The rotation procedure moved to the **Rotate the token signing key** guide ([`operate/rotate-signing-key.md`](marketing/guides/operate/rotate-signing-key.md)), which also covers the order to follow across several instances. For local development, `make rbac-rotate-key KID=<kid>` generates the new key into `certs/rbac-verification-keys/`.
 
-**Configuration:**
-
-- `CONSOLE_RBAC_SIGNING_KEY_FILE` - the active signer's private key (as
-  today).
-- `CONSOLE_RBAC_SIGNING_KEY_ID` - the `kid` tagged onto tokens this
-  instance issues. Optional; defaults to a fixed value (`"default"`) if
-  unset, so an existing single-key deployment's already-issued tokens
-  (which predate this feature and carry no `kid` at all) keep verifying
-  unchanged - a missing `kid` falls back to whatever `CONSOLE_RBAC_
-  SIGNING_KEY_ID` is currently configured as.
-- `CONSOLE_RBAC_VERIFICATION_KEYS_DIR` - optional directory of additional
-  `<kid>.pem` files (same private-key PEM format `CONSOLE_RBAC_
-  SIGNING_KEY_FILE` uses; only the public half is used for verification)
-  - these are retired/rotating-out keys kept around only so their
-    already-issued tokens keep verifying, not active signers. The active
-    signer's own key is always implicitly in the verification set under
-    its own `kid`, whether or not it's also present in this directory.
-
-**To rotate:**
-
-1. Generate a new key without touching the active one:
-   ```
-   make rbac-rotate-key KID=<new-kid>
-   ```
-   (`KID` defaults to today's date if omitted.) This writes
-   `certs/rbac-verification-keys/<new-kid>.pem` and leaves
-   `certs/rbac-signing-key.pem` untouched.
-
-2. Preserve the *current* active key under its own `kid` in the
-   verification directory too (e.g. `cp certs/rbac-signing-key.pem
-   certs/rbac-verification-keys/<current-kid>.pem`), so it stays
-   verifiable once it's no longer the signer. If the currently active
-   deployment has never set `CONSOLE_RBAC_SIGNING_KEY_ID`, its `kid` is
-   the default `"default"`.
-
-3. Promote the new key: point `CONSOLE_RBAC_SIGNING_KEY_FILE` at the new
-   key file, set `CONSOLE_RBAC_SIGNING_KEY_ID` to `<new-kid>`, and set
-   `CONSOLE_RBAC_VERIFICATION_KEYS_DIR` to `certs/rbac-verification-keys`
-   (if not already set). Restart the console. From this point, newly
-   issued tokens carry `<new-kid>`; tokens issued under the old key keep
-   verifying because step 2 kept it in the verification set.
-
-4. Once the old key's longest-lived outstanding token would have expired
-   (refresh tokens live `RefreshTokenTTL` = 24h - see
-   `internal/rbac/tokens.go` - so 24h after step 3 is a safe floor),
-   delete its file from the verification directory and restart. Tokens
-   signed by the retired key are rejected from this point on.
+**Engineering notes** kept here:
 
 This procedure was verified live end to end: logged in under the
 original (`"default"`) key, promoted a newly-generated key as the active
@@ -364,122 +96,9 @@ console instance, not a unit test.
 
 ## Certificate status reporting (CA-client credential)
 
-The Nodes page's "Cert status" column (`signed`/`requested`/`revoked`/
-`unknown`) is populated by `internal/certstatus`, which polls openvoxserver's
-CA API directly:
+How to issue, wire up, use and retire the CA-client credential, and what signing, revoking and cleaning do, moved to the **Manage node certificates** guide ([`nodes/certificates.md`](marketing/guides/nodes/certificates.md)); issuing it is in both install guides.
 
-```
-GET /puppet-ca/v1/certificate_statuses/<anything>
-```
-
-(the trailing path segment is ignored by Puppet Server; the endpoint always
-returns the full bulk list). This is disabled by default - if
-`CONSOLE_CA_CLIENT_URL` is unset, every node's cert status reports
-`"unknown"` and the rest of the console (connectivity, dispatch, everything
-else) is unaffected. Turning it on requires minting a dedicated client
-certificate first.
-
-**The privilege this credential grants is broader than "read cert status".**
-Puppet Server's CA API gates this endpoint (and every other CA endpoint -
-sign, revoke, clean) behind a single authorization extension,
-`pp_cli_auth`, on the client certificate. There is no scoped, read-only
-variant of this credential in Puppet Server: any certificate minted with
-`--ca-client` can sign, revoke, or clean *any* node's certificate through
-the same API, not just read statuses. Treat this credential as full CA
-admin, and scope who/what can read its key file accordingly - it should
-live only where the console process itself can read it, never checked into
-version control or shared beyond that.
-
-**Generating the credential** requires running `puppetserver ca generate`
-directly against the CA's on-disk state, which the running `puppetserver`
-process also writes to - so it must not race an active server. Stop
-openvoxserver first, run the generate command against the same image and
-volumes without starting the full server process, then restart:
-
-```bash
-docker compose stop openvoxserver
-
-docker compose run --rm --no-deps --entrypoint "" openvoxserver \
-  puppetserver ca generate --ca-client --certname console-ca-client
-
-docker compose start openvoxserver
-# health-poll (e.g. curl the console's own health endpoint, or
-# `docker compose ps` until openvoxserver reports healthy) before
-# resuming normal traffic
-```
-
-This writes the new cert/key under the CA's `ca-client` output location
-inside the `openvoxserver` container/volume (check the `puppetserver ca
-generate --help` output for the exact path, which is
-version-dependent) - copy the cert, key, and the CA bundle it was signed
-against out to wherever the console process can read them.
-
-**Config wiring** - all four are required together to enable the feature;
-any one left unset disables it (reports `"unknown"` for every node) rather
-than erroring:
-
-| Variable | Purpose |
-|---|---|
-| `CONSOLE_CA_CLIENT_URL` | Base URL of openvoxserver's CA API (e.g. `https://openvoxserver:8140`) |
-| `CONSOLE_CA_CLIENT_CERT_FILE` | Path to the CA-client certificate minted above |
-| `CONSOLE_CA_CLIENT_KEY_FILE` | Path to that certificate's private key |
-| `CONSOLE_CA_CLIENT_CA_FILE` | Path to the CA bundle to verify openvoxserver's TLS certificate against |
-
-**Retiring the credential** - because this grants full CA admin, revoke it
-as soon as it's no longer needed (a decommissioned console instance, a
-rotation, or just a scratch credential used for testing):
-
-```bash
-docker compose run --rm --no-deps --entrypoint "" openvoxserver \
-  puppetserver ca clean --certname console-ca-client
-```
-
-then unset the four `CONSOLE_CA_CLIENT_*` variables (or remove the cert/key
-files) on any console instance still configured to use it - a revoked
-certificate will simply fail TLS handshakes against the CA API going
-forward, degrading gracefully back to `"unknown"` cert statuses rather than
-taking down connectivity reporting.
-
-### Acting on a certificate: sign/revoke/clean and the `nodes:certs:manage` permission
-
-Once the CA-client credential above is configured, the console can also
-*act* on a node's certificate, not just read its status - `internal/
-certstatus.Client`'s `Sign`, `Revoke`, and `Clean` methods, exposed as:
-
-```
-POST   /api/v1/nodes/{certname}/cert/sign
-POST   /api/v1/nodes/{certname}/cert/revoke
-DELETE /api/v1/nodes/{certname}/cert
-```
-
-and as Sign/Revoke/Clean buttons on the Nodes page itself. Each of these
-calls exercises the same CA-client credential's `PUT`/`DELETE
-/puppet-ca/v1/certificate_status/:certname` API - **granting a user or
-role the ability to call these endpoints is equivalent to giving them
-shell-level CA admin access on openvoxserver.** There is no way to grant
-"sign but not revoke", or "act on this node but not that one" - the
-underlying credential doesn't distinguish, so the console's own
-`nodes:certs:manage` permission is the only control point. Grant it as
-narrowly as you would grant shell access to the CA itself: to specific
-trusted operators, not broadly to every user who merely needs to view
-node status (that's the separate, much lower-privilege `nodes:read`
-permission, which the Nodes page's Cert status column already requires
-and which does **not** imply `nodes:certs:manage`).
-
-A rejected action (wrong certificate state for the requested transition,
-an unknown certname, or the CA-client credential not configured at all)
-returns a clear error and is never audit-logged as a success - only a
-completed sign/revoke/clean emits an audit entry
-(`node.certificate.signed`/`.revoked`/`.cleaned`, under the `nodes`
-audit category). Revoking or cleaning a certificate has the same
-real-world effect as running `puppetserver ca revoke`/`clean` directly:
-revoking immediately invalidates that node's ability to authenticate on
-its next connection attempt (an already-open connection isn't forcibly
-torn down, but nothing further will succeed once it reconnects), and
-cleaning removes the CA's record entirely, so the certname must submit a
-brand new certificate request - matching the same signed/revoked/clean
-distinctions Puppet's own CA has always had, just reachable from the
-console UI now instead of only a shell on the openvoxserver host.
+**Engineering notes** kept here:
 
 This procedure was verified live end to end, twice: first with a scratch
 credential against a scratch console instance (revoked after verification),
@@ -499,24 +118,9 @@ confirming the permission gate).
 
 ## Infrastructure certs on the Nodes page
 
-Because the Nodes page lists every certname the OpenVox CA knows about
-(not just openvoxdb-managed nodes - see the certificate-status section
-above for why), it also picks up certs that were never going to become
-managed nodes: this console's own service-to-service TLS identities,
-and the servers it connects to. In this dev environment that's `console`
-(the console's own openvoxdb client cert), `console-ca-client` (the
-CA-client credential above), `openvoxdb` and `openvoxserver` (their own
-server certs), and `node-transport` (the node transport's server cert).
+What these are and how the Nodes page shows them moved to **Manage node certificates** ([`nodes/certificates.md`](marketing/guides/nodes/certificates.md)).
 
-The console identifies these automatically, with **no configuration** -
-`internal/infracert` derives the set at startup from cert files/URLs
-already configured (`CONSOLE_OPENVOXDB_CERT_FILE`,
-`CONSOLE_CA_CLIENT_CERT_FILE`, `CONSOLE_NODE_TRANSPORT_CERT_FILE`, and
-the peer certificate presented by whatever's at `CONSOLE_OPENVOXDB_URL`/
-`CONSOLE_CA_CLIENT_URL`). The Nodes page hides these by default behind
-a "Show infrastructure certs" checkbox, and when shown, badges them and
-gives Revoke/Clean a reason-specific confirmation naming the real
-consequence, instead of the generic node-focused wording.
+**Engineering notes** kept here:
 
 **Stated limitation, not a bug**: this can only flag a certname the
 console has an actual channel to observe. `openvoxserver`'s own
@@ -914,27 +518,15 @@ reads as a deliberate, researched decision, not an oversight.
 
 ## Node deletion: deactivate + clean cert, not a data purge
 
+What deleting a node does, and what it keeps, moved to the **Remove a node** guide ([`nodes/remove.md`](marketing/guides/nodes/remove.md)).
+
+**Engineering notes** kept here:
+
 `add-node-deletion` added a "Delete" action on the Nodes page. What it
 actually does, and why, based on real findings against this project's
 own running openvoxdb and CA - not assumed from PuppetDB's general
 reputation:
 
-- **It deactivates the node in openvoxdb** (`POST /pdb/cmd/v1`,
-  `deactivate node` version 3) and **cleans its CA certificate record**
-  (the same operation the existing "Clean certificate" action already
-  performs) - both, in one action, gated by a new `nodes:manage`
-  permission (distinct from `nodes:certs:manage`, which stays scoped to
-  operator-invoked cert lifecycle actions in their own right).
-- **Both halves matter for the node to actually disappear from the
-  page.** This was a real gap caught live, not anticipated in the
-  original design: the Nodes page's list is a union of openvoxdb's
-  inventory (`GET /api/v1/nodes`) and the separate connectivity/CA
-  registry (`GET /api/v1/node-connectivity`) - deactivating a node in
-  openvoxdb alone left it still rendering on the page via its lingering
-  certificate entry. A node deleted with no CA client configured
-  (`CONSOLE_CA_CLIENT_URL` unset) only gets the openvoxdb half done, and
-  may keep appearing - consistent with every other cert-related feature
-  on this page already degrading the same way when unconfigured.
 - **No immediate data purge, deliberately.** Deletion does not force
   removal of the node's historical facts/catalogs/reports - openvoxdb's
   own background garbage collection (`node-purge-ttl`-driven) is
@@ -962,16 +554,9 @@ reputation:
 
 ## Package-inventory reporting is now a per-node toggle, not a package default
 
-`add-package-inventory-toggle` moved package-inventory reporting from
-static content baked into every node-agent-client `.deb`/`.rpm`
-(`add-native-agent-packaging`) to something an operator turns on or off
-per node, from the node detail page's Packages section - flipping the
-switch dispatches a request to that node over the existing NATS-based
-node transport (the same mechanism orchestrator runs already use),
-which writes or removes `/opt/puppetlabs/facter/facts.d/package_inventory.sh`
-and immediately runs `puppet agent -t`, so the effect (or its removal)
-shows up in openvoxdb right away rather than waiting for that node's
-next scheduled run.
+Turning package reporting on and off for a node moved to the **Add nodes** guide ([`nodes/add.md`](marketing/guides/nodes/add.md)).
+
+**Engineering notes** kept here:
 
 **A real, deliberate side effect of this change: reporting resets to
 off for every node that upgrades from the old package-bundled fact.**
@@ -987,17 +572,6 @@ this is a one-time, expected transition, not a bug, but worth knowing
 before wondering why a previously-reporting fleet suddenly went quiet
 after an upgrade.
 
-**The toggle requires the node to be currently connected** - it's a
-live dispatch, not a queued/deferred setting, so the control disables
-itself (and both API endpoints return 409) whenever the node is
-offline. Toggling to the state a node is already in is a deliberate
-no-op: no filesystem write, no Puppet run, and the response omits the
-`output` field entirely (a `ran: true`/`false` flag internally
-distinguishes "no run happened" from "a run happened and legitimately
-produced empty output with exit code 0" - Output's zero value alone
-can't tell those apart, confirmed by writing a test for it after
-noticing the ambiguity while implementing).
-
 **A real architectural finding surfaced while testing the existing
 single-in-flight busy guard against these new actions**: `nats.go`
 delivers messages to a single subscription strictly serially - a
@@ -1010,6 +584,10 @@ Not a risk with this client's current single-subscription design, but
 worth knowing if that ever changes.
 
 ## Node group match-rule editor: structured fields, with a JSON escape hatch
+
+Using the match-rule editor moved to the **Classify nodes** guide ([`use/classify.md`](marketing/guides/use/classify.md)).
+
+**Engineering notes** kept here:
 
 The group page's match-rule field (`factPath`/`operator`/`value`
 conditions) is a structured per-condition builder, not a raw JSON
@@ -1038,29 +616,9 @@ no way for the two to silently drift out of sync - see design.md in
 
 ## Node enrollment: the install script gets a node its own certificate
 
-The install script enrolls a node that has no signed Puppet certificate
-rather than stopping and telling the operator to run `puppet agent -t`
-themselves and start over. A brand-new node goes from nothing to
-enrolled, installed, and connected in one run of one script.
+Enrolling a node with the install script, and what each outcome means, moved to the **Add nodes** guide ([`nodes/add.md`](marketing/guides/nodes/add.md)).
 
-**`CONSOLE_PUPPET_SERVER_PUBLIC_ADDR` is the address a node enrolls
-against**, and it is node-facing - the same distinction
-`CONSOLE_NODE_TRANSPORT_PUBLIC_ADDR` already draws between what the
-console binds and what a remote node dials. It is deliberately *not*
-derived from `CONSOLE_CA_CLIENT_URL`: that value is this console's own
-client view of the CA API and is routinely `localhost` or a container
-name, which would be actively wrong written into a remote node's
-`puppet.conf`. Whatever name is used has to be in openvoxserver's cert
-SANs or the node's TLS verification fails - in this dev setup that is
-`localhost,puppet` (docker-compose.yml's `DNS_ALT_NAMES`), so `puppet`
-is the usable one, with a node outside the compose network needing
-`puppet` pointed at this host's LAN IP in its own `/etc/hosts`.
-
-**Leaving it unset means the script does not touch the node's Puppet
-server configuration at all.** That keeps this change additive: a node
-already pointed at a server by other means (a golden image, config
-management, DNS) still enrolls against it, and an unconfigured console
-never silently redirects nodes somewhere they cannot reach.
+**Engineering notes** kept here:
 
 **What the script actually does when a node has no certificate:** it
 points the node at the configured server, runs `puppet ssl bootstrap`
@@ -1080,12 +638,6 @@ not by exit code - `puppet ssl bootstrap` exits 1 both for a CA it
 cannot reach and for a request still waiting, so the code carries no
 information:
 
-| Outcome | What the operator sees |
-| --- | --- |
-| Signed while waiting | The run continues and finishes the install - no second invocation |
-| Still unsigned when the wait expires | Exit 1, naming this console's Nodes page to sign it, and saying the script can simply be re-run afterwards |
-| CA unreachable/unresolvable/refusing | Exit 1, reported as a connectivity or TLS problem, explicitly *not* as a pending signature, with the underlying error above it |
-
 Note that an unreachable CA is reported only after the wait expires, not
 immediately - the agent keeps retrying for the whole window, which is
 the right behavior for a transient network or DNS blip but does mean a
@@ -1096,10 +648,6 @@ genuinely wrong address takes the full 5 minutes to report.
 `make openvox-test` and an unattended install script run work without a
 human. To exercise the *not*-autosigned path, recreate the service with
 it off:
-
-```
-OPENVOXSERVER_AUTOSIGN=false docker compose up -d openvoxserver
-```
 
 Puppet Server reads that setting once at startup, so editing
 `puppet.conf` inside the running container does nothing - the container
@@ -1115,171 +663,18 @@ as the rest of the multi-platform agent work.
 
 ## Postgres 18 data layout, and upgrading a pre-18 deployment
 
-Both databases default to `postgres:18-alpine`, and both volumes are
-mounted at `/var/lib/postgresql` - **not** `/var/lib/postgresql/data`.
-Postgres 18+ images put the cluster in a major-version subdirectory
-(`/var/lib/postgresql/18/docker`) so `pg_upgrade --link` can run across
-versions without crossing a mount boundary.
+The upgrade, the error it avoids, `pg_trgm`, and staying on 17 moved to the **Upgrade the container databases to Postgres 18** guide ([`operate/upgrade-postgres.md`](marketing/guides/operate/upgrade-postgres.md)).
 
-An 18+ image started against a `.../data` mount that already holds
-pre-18 data refuses to start, with:
-
-```
-Error: in 18+, these Docker images are configured to store database data in a
-       format which is compatible with "pg_ctlcluster" ...
-       Counter to that, there appears to be PostgreSQL data in:
-         /var/lib/postgresql/data (unused mount/volume)
-```
-
-This is a refusal, not corruption - the old data is untouched.
+**Engineering notes** kept here:
 
 openvoxdb 8.15.0 is verified against PostgreSQL 18.6: all 62 schema
 migrations apply and the service reaches `status=running`.
 
-### Upgrading an existing 17 deployment
-
-Dump and restore. `pg_upgrade` would need both major versions present in
-one image, which these images do not provide.
-
-```sh
-# 1. Stop the writers, leaving the databases up.
-docker compose -f docker-compose.yml stop console openvoxdb
-
-# 2. Dump each database from the still-running 17 containers.
-docker compose -f docker-compose.yml exec -T openvoxdb-postgres \
-  pg_dumpall -U openvoxdb > openvoxdb-17.sql
-docker compose -f docker-compose.yml exec -T console-postgres \
-  pg_dumpall -U console > console-17.sql
-
-# 3. Check both dumps are non-empty BEFORE destroying anything.
-ls -l openvoxdb-17.sql console-17.sql
-
-# 4. Remove the old volumes. This deletes the 17 data - the dumps above
-#    are now the only copy, so do not skip step 3.
-docker compose -f docker-compose.yml down
-docker volume rm <project>_openvoxdb-postgres-data <project>_console-postgres-data
-
-# 5. Start just the databases on 18 - they initialise empty, and
-#    openvoxdb-postgres gets pg_trgm from the compose file's config.
-docker compose -f docker-compose.yml up -d openvoxdb-postgres console-postgres
-
-# 6. Restore.
-docker compose -f docker-compose.yml exec -T openvoxdb-postgres \
-  psql -U openvoxdb < openvoxdb-17.sql
-docker compose -f docker-compose.yml exec -T console-postgres \
-  psql -U console < console-17.sql
-
-# 7. Bring the stack back up.
-docker compose -f docker-compose.yml up -d
-```
-
-Staying on 17 is also supported, but takes two changes rather than one -
-set `OPENVOXDB_POSTGRES_VERSION=17-alpine` **and** move that service's
-volume mount back to `/var/lib/postgresql/data`. Changing only the
-version reproduces the error above.
-
-### pg_trgm
-
-openvoxdb exits at startup with `PuppetDB requires the PostgreSQL
-`pg_trgm` extension` if it is missing. `docker-compose.yml` supplies it
-as an inline config mounted into `/docker-entrypoint-initdb.d`, which
-Postgres runs **only while initialising an empty data directory**. A
-database that already exists needs it created by hand:
-
-```sh
-docker compose -f docker-compose.yml exec openvoxdb-postgres \
-  psql -U openvoxdb -c 'CREATE EXTENSION IF NOT EXISTS pg_trgm;'
-```
-
 ## Vulnerability tracking: providers, credentials, mirrors, and limits
 
-`add-vulnerability-tracking` reports which nodes are affected by which
-vulnerabilities, merged across one or more *providers*. A provider type is
-compiled into the console (today `osv` and `tenable`); administrators create
-instances of them on the Vulnerabilities → Providers page, and any number can
-be enabled at once. Each vulnerability on a node is one finding, listing every
-enabled provider that reports it with that provider's own severity, package,
-and fixed version.
+Setting up providers, the secrets key, mirrors, coverage and OSV's limits moved to the **Track vulnerabilities** guide ([`use/vulnerabilities.md`](marketing/guides/use/vulnerabilities.md)).
 
-**Existing deployments must grant the new permissions.** `vulnerabilities:read`
-(the Vulnerabilities pages, the node page's Vulnerabilities section, their API)
-and `vulnerabilities:manage` (the Providers page and its API) are only given to
-the bootstrap admin role of a *fresh* install - on an upgraded deployment no role
-has them until an administrator adds them on Admin → Roles, the same as
-`nodes:certs:manage` before them. `nodes:read` alone is deliberately not enough:
-findings are more sensitive than inventory. The new `CONSOLE_AUDIT_VULNERABILITIES`
-category (default `writes`) audits provider changes and manual syncs; audit
-events name changed fields and which credentials are set, never credential
-values. At `full` it also audits views.
-
-**`CONSOLE_SECRETS_KEY_FILE` holds the key that seals provider credentials** in
-Postgres (AES-256-GCM, bound to the provider's id). Generate one with
-`openssl rand -base64 32 > secrets.key` (mode 0600) and point the variable at it -
-or set `CONSOLE_SECRETS_KEY` directly, though a file keeps it out of the process
-environment. It is optional: without it, OSV works normally and any provider
-with credentials (Tenable) is refused at configuration time with an error naming
-the setting. **Back the key up with the database backups but store it
-separately.** Losing it doesn't lose findings, but every stored credential
-becomes unreadable: those providers' syncs fail with a decryption error until an
-administrator re-enters their credentials under a new key. The API never returns
-credential values, only whether each is set; leaving a credential field empty
-when editing keeps the stored value.
-
-**Outbound network access**, per provider - nothing leaves the console until an
-administrator enables one:
-- `osv`: HTTPS to its data location, by default
-  `storage.googleapis.com/osv-vulnerabilities` - `all.zip` per distribution
-  directory on the first sync (Debian ~70 MB, Rocky Linux ~5 MB, AlmaLinux ~6 MB,
-  Red Hat ~26 MB, Ubuntu ~700 MB, streamed to a temporary file and filtered to
-  the releases the fleet runs), then `modified_id.csv` and changed records.
-  Only directories for distributions present in the fleet are downloaded.
-- `tenable`: HTTPS to `cloud.tenable.com` (or the configured API location).
-
-**Air-gapped sites point an OSV instance at an internal mirror** (its "Data
-location"). The mirror must reproduce OSV's bucket layout for each distribution
-the fleet runs: `<Directory>/all.zip`, `<Directory>/modified_id.csv`
-(`<modified>,<id>` lines, newest first), and `<Directory>/<id>.json` for records
-listed there as changed - a record that 404s is treated as withdrawn and removed.
-`gsutil -m rsync -r gs://osv-vulnerabilities/Debian ./Debian` (per directory)
-produces exactly that. Directory names contain spaces (`Rocky Linux`, `Red Hat`).
-A plain static web server is enough. Two OSV instances with different data
-locations keep separate mirrors and work side by side.
-
-**Coverage is explicit.** A node no enabled provider assessed is shown as *not
-assessed*, with each provider's reason - never as clean:
-- `unsupported_os`: OSV covers Debian, Ubuntu, AlmaLinux, Rocky Linux, and RHEL
-  7-10; Windows, macOS, SUSE, and others aren't assessed.
-- `no_package_data`: the node reports no package inventory (enable it on the
-  node page).
-- `agent_upgrade_required`: the node's package data comes from a package-inventory
-  fact older than `fix-package-inventory-fact-fidelity` (no epochs, no apt source
-  packages), which would give wrong answers; upgrading node-agent-client fixes it
-  on the node's next Puppet run.
-- `not_seen_by_tenable`: no Tenable asset correlated to the node.
-- `not_yet_synced`: the provider hasn't completed a sync.
-
-**OSV limits to know:**
-- RHEL matching uses the mainline repositories only (RHEL 7 server/workstation/
-  client/computenode; 8 and 9 BaseOS/AppStream/CRB; 10.x every minor release up
-  to the node's). Nodes on EUS/AUS/E4S or add-on repositories are matched against
-  mainline data and can be over-reported. Ubuntu Pro, FIPS, and Realtime streams
-  aren't used either.
-- Severity is the highest CVSS v3 base score in the advisory, falling back to the
-  distribution's own rating (Ubuntu priority, Debian urgency). This makes Debian
-  and Ubuntu nodes look noisy: many CVEs the distribution rates "unimportant" or
-  has decided not to fix still carry a high CVSS score and appear as open findings
-  with "No fix released" - on an Ubuntu 24.04 node, thousands of them, mostly
-  CVEs Canonical has marked ignored, deferred, or needs-triage (a status OSV's
-  feed does not carry, so the console cannot tell them apart). The fleet list
-  therefore defaults its Fix filter to "Fix available", showing what patching
-  would actually change; set Fix to "All" to see everything, including findings
-  with no fix released. Severity prefers the distribution's own rating
-  (Ubuntu priority, Debian urgency) over CVSS on Debian and Ubuntu, since a CVE
-  the distribution calls negligible should not read as critical; the Red Hat
-  family keeps CVSS first, as that is the distribution's own assessment there.
-  AlmaLinux publishes no severity, so its findings show "Unknown".
-- Findings refresh when each provider syncs (default hourly for OSV), not on every
-  Puppet run.
+**Engineering notes** kept here:
 
 **Findings against packages that were never installed.** Until this was fixed,
 the apt fact reported packages in dpkg's `config-files` state (removed, but their
@@ -1300,17 +695,6 @@ know when looking at a console that has not converged yet:
   `apt autoremove` does not touch them and reports nothing to remove, because the
   packages are already removed - only their configuration files remain, which is
   exactly why they stay invisible to an operator while still being reported.
-
-**Tenable correlation.** A full sync (the first, then daily) exports every host
-asset and every open or reopened finding; syncs in between export changes since the
-last one, including fixed findings, which close. Info-severity plugins aren't
-imported - they are detections, not vulnerabilities. Each asset is matched to a
-node by comparing, case-insensitively, its FQDNs and then its hostnames against
-every node's certname and reported FQDN. An asset whose names match no node, or
-more than one, is not guessed at: its findings are skipped and it is counted in
-the provider's "unmatched assets" statistic - a growing count usually means
-certnames that differ from what Tenable sees (short hostnames, a different
-domain). A scanned node with no findings still counts as assessed.
 
 **What was verified, and how** (evidence in the `add-vulnerability-tracking`
 change's `evidence/` directory under `openspec/changes/`, or its dated copy under
@@ -1333,3 +717,4 @@ change's `evidence/` directory under `openspec/changes/`, or its dated copy unde
   real tenant (export timings, rate limiting, data quirks) is untested.
 - Not live: the Ubuntu import (~700 MB download) was only exercised with small
   fixture archives, not against the real directory.
+

@@ -101,15 +101,24 @@ preserving the single-binary goal). Use NATS for:
   available if and when multi-instance deployments are needed, without
   redesigning the delivery model - see the federation note under "Deferred"
   below.
-- **Internal audit/activity event bus.** Every meaningful action (classification
-  change, RBAC grant, code deploy, job run) publishes an event; the activity
-  log is a single subscriber persisting to one table, rather than each service
-  independently writing its own audit entries.
+- **Cross-instance notification.** Token revocations, code-deploy-ready
+  events, and the stack status page's fleet-wide question.
 - **Code deployment notification.** See Code Manager section below.
 
-A dispatch request-reply's own bounded wait already defines its expiration
-(see "7. Node transport and orchestrator" below), so NATS's persistence layer
-(JetStream) is not required; core fire-and-forget pub/sub is sufficient.
+The two uses live in separate NATS **accounts** on the one server -
+`CONSOLE` for the internal bus, `NODES` for the node transport - so node
+traffic and internal events share no subject namespace, with no
+per-subject access control needed between them.
+
+Core NATS is at-most-once, and the design leans on that deliberately
+rather than adopting JetStream: nothing durable depends on the bus alone.
+A dispatch request-reply's own bounded wait defines its expiration (see
+"7. Node transport and orchestrator" below); a revocation is persisted in
+Postgres first and each instance periodically re-reads it, so an event the
+bus loses delays enforcement by seconds rather than dropping it. The
+activity log was once a NATS subscriber too, and lost events whenever no
+recorder was running or keeping up; it now writes directly to Postgres
+from the instance where the action happened.
 
 ### 5. Code Manager: g10k in-process, not r10k
 
@@ -172,21 +181,27 @@ What NATS gives instead:
   failure modes.
 
 - Managed nodes connect to the console's embedded NATS server (mutual TLS,
-  the same OpenVox CA agents already hold) - see "4. Internal messaging:
-  embedded NATS" above. A custom `nats-server` authentication/authorization
-  hook maps each connection's verified certificate to a NATS identity
-  scoped only to that node's own subjects, so one node can never observe or
-  spoof another's job traffic - per-node isolation NATS has no concept
-  of on its own, so the hook supplies it.
+  the same OpenVox CA agents already hold, checked against the CA's CRL) -
+  see "4. Internal messaging: embedded NATS" above. A custom `nats-server`
+  authentication hook maps each connection's verified certificate to a NATS
+  identity in the `NODES` account, scoped to subscribing on that node's own
+  subjects and to publishing nothing but replies to requests it received
+  (NATS response permissions) - so one node can never observe or spoof
+  another's job traffic. Per-node isolation is not something NATS has on
+  its own, so the hook supplies it. A certificate revoked through the
+  console is announced cluster-wide, and every instance drops that node's
+  connections at once.
 - `node-agent-client` is this project's own binary (cross-compiled at
   console build time and served via the agent-distribution install
   script), not a reused upstream component.
 - Dispatch goes through a small interface (`given a node identity,
-  deliver this request and wait for its response`). Federation turned out
-  not to need a new implementation of it at all: clustering the transport's
-  NATS servers routes a dispatch to whichever instance holds the target
-  node's connection, because the subject namespace is already per-node.
-  See "9. Run modes and clustering" below.
+  deliver this request and wait for its response`), implemented as plain
+  NATS request-reply. Federation turned out not to need a new
+  implementation of it at all: clustering routes a dispatch to whichever
+  instance holds the target node's connection, because the subject
+  namespace is already per-node - and any routed instance can dispatch,
+  whether or not it terminates node connections itself. See "9. Run modes
+  and clustering" below.
 - Job orchestration: translate console/API job requests into dispatch
   requests over a node's own NATS subject (a run/task's module+action+
   params payload), track status via NATS request-reply, correlate
@@ -216,28 +231,35 @@ and identical to the previous behavior), `web`, `enc`, `orchestrator`,
 rather than conditionals spread through startup, so the mapping is one
 readable value and can be asserted on directly.
 
-Instances coordinate over two NATS clusters, mirroring the two separate
-embedded servers above:
+Instances form one NATS cluster, carrying both accounts:
 
-- **Internal bus.** Core modes mesh as routed peers; `enc` instances
-  attach as leaf nodes, outbound-only, so the core needs no network path
-  to an instance sitting next to a compiler. This is what finally makes
-  token revocation take effect fleet-wide, which the RBAC design assumed
-  but an unclustered bus could not deliver.
-- **Node transport.** Clustering it removes the sticky-routing
-  constraint on orchestration: a dispatch published by any instance
-  reaches a node connected to any other. Peer routes authenticate with
-  their own credential, never the node-facing mTLS material, so a node
-  certificate cannot be used to join a cluster.
+- **Core modes mesh as routed peers**, over mutual TLS with a shared
+  cluster secret. Routes carry the internal bus - which is what makes
+  token revocation take effect fleet-wide, as the RBAC design assumed -
+  and the node transport, which removes the sticky-routing constraint on
+  orchestration: a dispatch published by any instance reaches a node
+  connected to any other. A node's CA-issued certificate is not enough to
+  join: the secret is required too, and a dialled peer must present a
+  certificate valid for the name it was dialled by.
+- **`enc` instances attach as leaf nodes**, outbound-only, so the core
+  needs no network path to an instance sitting next to a compiler. A
+  leaf is bound to the `CONSOLE` account alone and authenticates with
+  its own secret, so an edge host can neither reach a node nor join as a
+  full peer.
+
+This was two separate servers and clusters until the node transport was
+folded in as an account - one listener set, one cluster, one place TLS
+and authentication are configured, and NATS's own isolation boundary in
+place of process separation.
 
 Two consequences of clustering had to be handled rather than assumed
 away:
 
-- A subscriber that *writes* becomes a duplicate-write bug once several
-  instances subscribe. Such subscribers use a NATS queue group (exactly
-  one member handles each message); subscribers that only update
-  instance-local memory stay fan-out. The rule is documented in
-  `internal/messaging`.
+- A subscriber with an effect outside its own instance becomes a
+  duplicate-effect bug once several instances subscribe. Such
+  subscribers must use a NATS queue group (exactly one member handles
+  each message); subscribers whose effect is confined to their own
+  instance stay fan-out. The rule is documented in `internal/messaging`.
 - Scheduled work that must not overlap takes a Postgres lease
   (`internal/leases`), judged by the database clock so skewed instance
   clocks still agree.

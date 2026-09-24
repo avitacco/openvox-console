@@ -1,0 +1,707 @@
+<!DOCTYPE html><html lang="zh" dir="ltr"><head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="Install openvoxserver, openvoxdb and Postgres from packages, build the console, and run it as a systemd service."/>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+    <title>Install from packages and binaries - OpenVox Console</title>
+
+    
+    <script>
+      (function () {
+        
+        
+        var stored = null;
+        try { stored = localStorage.getItem('vox-theme'); } catch (e) {}
+        var theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-vox-theme', theme);
+      })();
+    </script>
+    <style>
+      html { background-color: #f5faf9; }
+      html[data-vox-theme='dark'] { background-color: #0d1417; }
+    </style>
+
+    
+    <script>
+      (function () {
+        var LOCALES = ["en", "zh", "hi", "es", "fr", "de", "ja", "ar", ];
+        var KEY = 'vox-lang';
+
+        function stored() {
+          
+          
+          try { return localStorage.getItem(KEY); } catch (e) { return null; }
+        }
+
+        
+        
+        
+        
+        
+        document.addEventListener('click', function (event) {
+          var path = event.composedPath ? event.composedPath() : [event.target];
+          for (var i = 0; i < path.length; i++) {
+            var code = path[i].getAttribute && path[i].getAttribute('data-lang');
+            if (code) {
+              try { localStorage.setItem(KEY, code); } catch (e) {}
+              return;
+            }
+          }
+        });
+        
+      })();
+    </script>
+
+    <link rel="stylesheet" href="../../vendor/voxblocks.css"/>
+    <link rel="stylesheet" href="../../site.css"/>
+    <script type="module" src="../../vendor/voxblocks.js"></script>
+    <script type="module" src="../../theme.js"></script>
+    <script type="module" src="../../guides.js"></script>
+  </head>
+  <body>
+    
+    <a class="skip-link" href="#main">跳到内容</a>
+
+    <vox-header site-title="OpenVox Console" href="../index.html">
+      
+      <svg slot="logo" viewBox="0 0 2560 2478" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M1946.22 272.18L1874.51 643.161C1840.69 625.335 1769.51 597.048 1744.63 592.202L1946.22 272.18ZM1647.05 893.509C1735.54 894.748 1789.05 935.815 1845.35 1010.52C1716.57 1047.71 1641.84 987.053 1586.85 899.704C1600.03 898.445 1634.39 893.339 1647.05 893.509ZM1421.62 600.655C1288.19 638.415 1170.91 730.251 1126.1 808.997C1126.1 808.997 1186.31 336.289 1244.88 158.652C1315.83 282.552 1421.62 600.655 1421.62 600.655ZM2477.39 1158.21C2342.39 1125.61 2074.76 1042.77 2053.7 881.139C2043.59 803.362 1980.86 717.271 1947.86 694.589L2004.72 106.064L1517.51 580.681C1517.51 580.681 1358.55 170.153 1243.89 0C1100.67 241.805 932.123 707.949 896.253 809.107L1227.33 1744.42C1243.68 1615.28 1328.09 1472.06 1428.27 1381.86C1350.61 1280.89 1210.56 1250.76 1151.7 1289.73C1228.31 1186.22 1376.21 1050.44 1651.27 1124.86C1773.51 1157.92 1898.72 1222.92 1978.75 1240.54C2184.12 1285.76 2337.81 1231.2 2337.81 1231.2C2336.23 1279.58 2360.5 1315.47 2410.61 1338.87C2196.05 1539.04 1914.11 1376.52 1715.51 1407.29C1514.8 1438.43 1238.87 2011.65 1201.73 2093.07L593.825 394.322L584.775 369.242C535.086 234.271 451.316 124.12 296.898 124.12H0V473.618H92.0793C145.649 473.618 170.849 489.355 189.769 542.882L903.123 2478H1248.99L1312.45 2324.93L1556.24 1812.6C1660.38 1581.57 1765.81 1518.18 2072.12 1531.73C2162.6 1535.73 2349.93 1537.27 2457.29 1405.96C2611.96 1216.8 2569.29 1180.38 2477.43 1158.16" fill="currentColor"></path>
+      </svg>
+      
+      <nav slot="actions" class="lang-switcher" aria-label="语言">
+        <vox-dropdown label="中文">
+          <a data-lang="en" href="../../guides/packages.html" hreflang="en" lang="en">English</a>
+          <a aria-current="page" data-lang="zh" href="../../zh/guides/packages.html" hreflang="zh" lang="zh">中文</a>
+          <a data-lang="hi" href="../../hi/guides/packages.html" hreflang="hi" lang="hi">हिन्दी</a>
+          <a data-lang="es" href="../../es/guides/packages.html" hreflang="es" lang="es">Español</a>
+          <a data-lang="fr" href="../../fr/guides/packages.html" hreflang="fr" lang="fr">Français</a>
+          <a data-lang="de" href="../../de/guides/packages.html" hreflang="de" lang="de">Deutsch</a>
+          <a data-lang="ja" href="../../ja/guides/packages.html" hreflang="ja" lang="ja">日本語</a>
+          <a data-lang="ar" href="../../ar/guides/packages.html" hreflang="ar" lang="ar">العربية</a>
+          </vox-dropdown>
+      </nav>
+      <vox-theme-toggle slot="actions"></vox-theme-toggle>
+      
+      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
+    </vox-header>
+
+    <div class="site-subnav">
+      <vox-subnav label="功能" class="vox-container">
+      
+      <a href="../features/nodes.html">Nodes</a>
+      <a href="../features/classification.html">分类</a>
+      <a href="../features/code.html">Code</a>
+      <a href="../features/orchestration.html">编排</a>
+      <a href="../features/security.html">安全</a>
+      <a href="../features/access-control.html">访问控制</a>
+      </vox-subnav>
+    </div>
+
+    <main id="main">
+      <div class="site-main vox-container">
+<div class="guide-layout">
+  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
+    <vox-sidenav-group heading="Install" open="">
+      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html" current="" aria-current="page"><span>Install from packages and binaries</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    <vox-sidenav-group heading="Nodes">
+      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    <vox-sidenav-group heading="Scale">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    <vox-sidenav-group heading="Use">
+      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    <vox-sidenav-group heading="Operate">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    </vox-sidenav>
+
+  <article class="guide">
+    <p class="guide-eyebrow">Install</p>
+    <h1 class="guide-title vox-ts-xxl">Install from packages and binaries</h1>
+    <p class="guide-summary">Install openvoxserver, openvoxdb and Postgres from packages, build the console, and run it as a systemd service.</p>
+
+    
+    <vox-callout variant="info" heading="Not fully translated yet">
+      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
+    </vox-callout>
+
+    <vox-toc class="guide-toc" heading="On this page">
+      <vox-toc-item href="#install-openvoxserver"><span>Install openvoxserver</span>
+        <vox-toc-item slot="children" href="#check-its-certificate-s-names"><span>Check its certificate&#39;s names</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#check-it-is-running"><span>Check it is running</span></vox-toc-item>
+      </vox-toc-item>
+      <vox-toc-item href="#install-openvoxdb-and-its-database"><span>Install openvoxdb and its database</span>
+        <vox-toc-item slot="children" href="#enrol-openvoxdb-s-host"><span>Enrol openvoxdb&#39;s host</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#create-its-database"><span>Create its database</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#install-and-start-openvoxdb"><span>Install and start openvoxdb</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#send-catalogs-and-reports-to-it"><span>Send catalogs and reports to it</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#check-it-is-running-2"><span>Check it is running</span></vox-toc-item>
+      </vox-toc-item>
+      <vox-toc-item href="#create-the-console-s-database"><span>Create the console&#39;s database</span>
+      </vox-toc-item>
+      <vox-toc-item href="#issue-the-console-s-certificates"><span>Issue the console&#39;s certificates</span>
+        <vox-toc-item slot="children" href="#the-openvoxdb-client-certificate"><span>The openvoxdb client certificate</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#the-node-transport-certificate"><span>The node transport certificate</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#the-token-signing-key"><span>The token signing key</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#the-certificate-admin-credential-optional"><span>The certificate-admin credential (optional)</span></vox-toc-item>
+      </vox-toc-item>
+      <vox-toc-item href="#build-the-console"><span>Build the console</span>
+      </vox-toc-item>
+      <vox-toc-item href="#configure-the-console"><span>Configure the console</span>
+        <vox-toc-item slot="children" href="#keep-secrets-in-files"><span>Keep secrets in files</span></vox-toc-item>
+      </vox-toc-item>
+      <vox-toc-item href="#run-it-under-systemd"><span>Run it under systemd</span>
+      </vox-toc-item>
+      <vox-toc-item href="#log-in-for-the-first-time"><span>Log in for the first time</span>
+      </vox-toc-item>
+      <vox-toc-item href="#connect-classification"><span>Connect classification</span>
+        <vox-toc-item slot="children" href="#issue-enc-bridge-a-token"><span>Issue enc-bridge a token</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#install-enc-bridge-on-openvoxserver-s-host"><span>Install enc-bridge on openvoxserver&#39;s host</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#check-classification"><span>Check classification</span></vox-toc-item>
+      </vox-toc-item>
+      <vox-toc-item href="#upgrade-later"><span>Upgrade later</span>
+      </vox-toc-item>
+      <vox-toc-item href="#check-the-whole-deployment"><span>Check the whole deployment</span>
+      </vox-toc-item>
+      </vox-toc>
+    <div class="guide-body vox-prose">
+<p>This guide installs openvoxserver, openvoxdb and Postgres from the
+OpenVox and distribution packages, and runs the console as a single
+binary under systemd. Settle the names in <a href="plan.html">Plan a deployment</a>
+before you start.</p>
+<p>The commands are for Debian and Ubuntu, with the RHEL, Rocky Linux and
+AlmaLinux equivalent alongside where it differs. The parts can live on
+one host or several; where a step belongs on a particular host, it says
+so.</p>
+<h2 id="install-openvoxserver">Install openvoxserver</h2>
+<p>openvoxserver is the certificate authority every other part&#39;s
+certificate comes from, so it comes first. Add the OpenVox 8 repository
+and install it:</p>
+<vox-tabs class="guide-tabs"><vox-tab slot="tab" panel="tab1-debian-and-ubuntu" data-tab-key="debian-and-ubuntu" selected="">Debian and Ubuntu</vox-tab><vox-tab-panel name="tab1-debian-and-ubuntu"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>. /etc/os-release
+curl -fsSL -o /tmp/openvox8-release.deb \
+  &#34;https://apt.voxpupuli.org/openvox8-release-${ID}${VERSION_ID}.deb&#34;
+sudo apt-get install -y /tmp/openvox8-release.deb
+sudo apt-get update &amp;&amp; sudo apt-get install -y openvox-server
+</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab1-rhel-rocky-and-almalinux" data-tab-key="rhel-rocky-and-almalinux">RHEL, Rocky and AlmaLinux</vox-tab><vox-tab-panel name="tab1-rhel-rocky-and-almalinux"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo dnf install -y https://yum.voxpupuli.org/openvox8-release-el-9.noarch.rpm
+sudo dnf install -y openvox-server
+</code></vox-code-block></vox-tab-panel></vox-tabs><p>Installing the package <strong>already creates the CA and this server&#39;s own
+certificate</strong>, issued for the host&#39;s certname, normally its fully
+qualified name. In the common case there is nothing more to do than start
+it:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo systemctl enable --now puppetserver
+</code></vox-code-block>
+<vox-callout variant="danger" heading="Caution"><p>Do not run <code>puppetserver ca setup</code> on a host that already has a CA. It
+only creates a CA that does not exist yet, and on an existing one it
+stops with &#34;Existing file at .../ca_crt.pem&#34;. Deleting those files as
+the message suggests destroys your CA and every certificate it has ever
+issued, including every enrolled node&#39;s.</p>
+</vox-callout>
+<h3 id="check-its-certificate-s-names">Check its certificate&#39;s names</h3>
+<p>A certificate is always valid for its own certname. If nodes and the
+console both reach this server by its certname, there is nothing to
+change. Otherwise, check which names the certificate already covers:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo openssl x509 -in /etc/puppetlabs/puppet/ssl/certs/$(hostname -f).pem \
+  -noout -subject -ext subjectAltName
+</code></vox-code-block>
+<p>If a name from your plan is missing, reissue <strong>only this server&#39;s own
+certificate</strong>, never the CA. Setting <code>dns_alt_names</code> afterwards does not
+change a certificate that already exists, so clean and regenerate it
+while the server is running:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo /opt/puppetlabs/bin/puppetserver ca clean --certname $(hostname -f)
+sudo /opt/puppetlabs/bin/puppetserver ca generate --certname $(hostname -f) \
+  --subject-alt-names puppet.example.com,openvoxserver
+sudo systemctl restart puppetserver
+</code></vox-code-block>
+<vox-callout variant="tip" heading="Tip"><p>On a fresh host, you can set the names before the first start instead,
+and let that start create the certificate with them:
+<code>sudo /opt/puppetlabs/bin/puppet config set --section server dns_alt_names puppet.example.com,openvoxserver</code></p>
+</vox-callout>
+<h3 id="check-it-is-running">Check it is running</h3>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -ksS https://puppet.example.com:8140/status/v1/simple
+</code></vox-code-block>
+<p>The reply is <code>running</code>.</p>
+<h2 id="install-openvoxdb-and-its-database">Install openvoxdb and its database</h2>
+<h3 id="enrol-openvoxdb-s-host">Enrol openvoxdb&#39;s host</h3>
+<p>openvoxdb does not request a certificate itself: its setup copies the one
+its host already has. If openvoxdb has a host of its own, enrol that host
+with the CA first, then sign its request on the CA if the CA does not sign
+automatically:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo /opt/puppetlabs/bin/puppet ssl bootstrap --server puppet.example.com
+
+# on the CA host:
+sudo /opt/puppetlabs/bin/puppetserver ca sign --certname &lt;openvoxdb host&gt;
+</code></vox-code-block>
+<p>Skip this when openvoxdb shares a host with openvoxserver, which already
+has a certificate.</p>
+<h3 id="create-its-database">Create its database</h3>
+<p>openvoxdb needs a Postgres database of its own, which the package does not
+create:</p>
+<vox-tabs class="guide-tabs"><vox-tab slot="tab" panel="tab2-debian-and-ubuntu" data-tab-key="debian-and-ubuntu" selected="">Debian and Ubuntu</vox-tab><vox-tab-panel name="tab2-debian-and-ubuntu"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo apt-get install -y postgresql
+sudo systemctl enable --now postgresql
+</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab2-rhel-rocky-and-almalinux" data-tab-key="rhel-rocky-and-almalinux">RHEL, Rocky and AlmaLinux</vox-tab><vox-tab-panel name="tab2-rhel-rocky-and-almalinux"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo dnf install -y postgresql-server
+sudo postgresql-setup --initdb
+sudo systemctl enable --now postgresql
+</code></vox-code-block></vox-tab-panel></vox-tabs><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo -u postgres createuser --pwprompt puppetdb
+sudo -u postgres createdb --owner=puppetdb puppetdb
+# openvoxdb refuses to start without this extension, and creating it
+# needs superuser rights - so it is run as postgres, not as puppetdb.
+sudo -u postgres psql -d puppetdb -c &#39;CREATE EXTENSION IF NOT EXISTS pg_trgm;&#39;
+</code></vox-code-block>
+<p>Check Postgres is accepting connections:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>pg_isready
+</code></vox-code-block>
+<p>The reply ends in <code>accepting connections</code>.</p>
+<vox-callout variant="info" heading="Note"><p>On Debian and Ubuntu, <code>systemctl status postgresql</code> reads
+<code>active (exited)</code>, and that is normal: that unit only starts the real
+per-cluster one. <code>pg_lsclusters</code> shows the cluster itself as <code>online</code>.</p>
+</vox-callout>
+<h3 id="install-and-start-openvoxdb">Install and start openvoxdb</h3>
+<vox-tabs class="guide-tabs"><vox-tab slot="tab" panel="tab3-debian-and-ubuntu" data-tab-key="debian-and-ubuntu" selected="">Debian and Ubuntu</vox-tab><vox-tab-panel name="tab3-debian-and-ubuntu"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo apt-get install -y openvoxdb
+</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab3-rhel-rocky-and-almalinux" data-tab-key="rhel-rocky-and-almalinux">RHEL, Rocky and AlmaLinux</vox-tab><vox-tab-panel name="tab3-rhel-rocky-and-almalinux"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo dnf install -y openvoxdb
+</code></vox-code-block></vox-tab-panel></vox-tabs><p>Tell it where its database is. Without this file it will not start, and
+exits with <code>No subname set in the &#34;database&#34; config.</code>:</p>
+<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>[database]
+subname = //localhost:5432/puppetdb
+username = puppetdb
+password = &lt;the password you set above&gt;
+</code></vox-code-block>
+<p>Save that as <code>/etc/puppetlabs/puppetdb/conf.d/database.ini</code>, using the
+database host&#39;s name instead of <code>localhost</code> if it is elsewhere, and
+restrict it:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo chown puppetdb:puppetdb /etc/puppetlabs/puppetdb/conf.d/database.ini
+sudo chmod 640 /etc/puppetlabs/puppetdb/conf.d/database.ini
+</code></vox-code-block>
+<p>Then copy the host&#39;s certificates into place and start it:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo /opt/puppetlabs/bin/puppetdb ssl-setup
+sudo systemctl enable --now puppetdb
+</code></vox-code-block>
+<p>If it fails to start, <code>/var/log/puppetlabs/puppetdb/puppetdb.log</code> holds
+the real reason; systemd&#39;s own error is usually just the consequence.</p>
+<h3 id="send-catalogs-and-reports-to-it">Send catalogs and reports to it</h3>
+<p>On the openvoxserver host, install the terminus that sends catalogs and
+reports to openvoxdb:</p>
+<vox-tabs class="guide-tabs"><vox-tab slot="tab" panel="tab4-debian-and-ubuntu" data-tab-key="debian-and-ubuntu" selected="">Debian and Ubuntu</vox-tab><vox-tab-panel name="tab4-debian-and-ubuntu"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo apt-get install -y openvoxdb-termini
+</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab4-rhel-rocky-and-almalinux" data-tab-key="rhel-rocky-and-almalinux">RHEL, Rocky and AlmaLinux</vox-tab><vox-tab-panel name="tab4-rhel-rocky-and-almalinux"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo dnf install -y openvoxdb-termini
+</code></vox-code-block></vox-tab-panel></vox-tabs><h3 id="check-it-is-running-2">Check it is running</h3>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -ksS https://&lt;openvoxdb host&gt;:8081/status/v1/simple
+</code></vox-code-block>
+<p>The reply is <code>running</code>.</p>
+<h2 id="create-the-console-s-database">Create the console&#39;s database</h2>
+<p>The console keeps its own data in a database separate from openvoxdb&#39;s.
+It creates its schema itself on first start; all it needs is an empty
+database and a role that owns it. On the Postgres host:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo -u postgres createuser --pwprompt console
+sudo -u postgres createdb --owner=console console
+</code></vox-code-block>
+<p>If the console will run on a different host, Postgres also has to listen
+on the network. Debian and Ubuntu listen on <code>localhost</code> only, so a remote
+connection is refused even though <code>pg_isready</code> passes locally:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo -u postgres psql -c &#34;ALTER SYSTEM SET listen_addresses = &#39;*&#39;;&#34;
+# allow the console&#39;s host or subnet - adjust the address range:
+echo &#39;host console console 10.0.0.0/24 scram-sha-256&#39; \
+  | sudo tee -a /etc/postgresql/*/main/pg_hba.conf
+sudo systemctl restart postgresql@*-main.service
+</code></vox-code-block>
+<p>Check the console&#39;s role can connect, from the console&#39;s host:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>PGPASSWORD=&#39;&lt;password&gt;&#39; psql -h &lt;postgres host&gt; -U console -d console -c &#39;select 1;&#39;
+</code></vox-code-block>
+<vox-callout variant="tip" heading="Tip"><p>Keep the single quotes. A password containing <code>$</code> is otherwise expanded
+by the shell before psql sees it.</p>
+</vox-callout>
+<h2 id="issue-the-console-s-certificates">Issue the console&#39;s certificates</h2>
+<p>The console needs two certificates from the CA, and optionally a third.
+Generate them on the openvoxserver host, then copy them to the console&#39;s
+host, into <code>/etc/openvox-console/</code>.</p>
+<h3 id="the-openvoxdb-client-certificate">The openvoxdb client certificate</h3>
+<p>This is how the console authenticates to openvoxdb:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo /opt/puppetlabs/bin/puppetserver ca generate --certname console
+</code></vox-code-block>
+<p>It writes three files the console needs. Copy them across under these
+names:</p>
+<div class="guide-table" tabindex="0"><table class="vox-table">
+<thead>
+<tr>
+<th>On the openvoxserver host</th>
+<th>On the console host</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/etc/puppetlabs/puppet/ssl/certs/console.pem</code></td>
+<td><code>/etc/openvox-console/console-cert.pem</code></td>
+</tr>
+<tr>
+<td><code>/etc/puppetlabs/puppet/ssl/private_keys/console.pem</code></td>
+<td><code>/etc/openvox-console/console-key.pem</code></td>
+</tr>
+<tr>
+<td><code>/etc/puppetlabs/puppet/ssl/certs/ca.pem</code></td>
+<td><code>/etc/openvox-console/ca.pem</code></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="the-node-transport-certificate">The node transport certificate</h3>
+<p>Nodes check this certificate when they connect to the console, so it must
+carry the exact name they dial: the host part of
+<code>CONSOLE_NODE_TRANSPORT_PUBLIC_ADDR</code>.</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo /opt/puppetlabs/bin/puppetserver ca generate --certname node-transport \
+  --subject-alt-names console.example.com,node-transport
+</code></vox-code-block>
+<p>Copy <code>certs/node-transport.pem</code> and <code>private_keys/node-transport.pem</code>
+across the same way, as <code>node-transport-cert.pem</code> and
+<code>node-transport-key.pem</code>. Nodes authenticate back with their own
+certificates from the same CA, so the console needs nothing else for
+them.</p>
+<h3 id="the-token-signing-key">The token signing key</h3>
+<p>The console signs its own login tokens with an ES256 key. This one does
+not come from the CA. Generate it on any machine with OpenSSL:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>openssl ecparam -genkey -name prime256v1 -noout -out rbac-signing-key.pem
+</code></vox-code-block>
+<vox-callout variant="danger" heading="Caution"><p>Back this file up. Losing it invalidates every issued token, which logs
+everyone out; leaking it lets anyone mint tokens. See
+<a href="rotate-signing-key.html">Rotate the token signing key</a> to replace it
+safely.</p>
+</vox-callout>
+<p>Generate it on the console&#39;s host, into <code>/etc/openvox-console/</code>.</p>
+<h3 id="the-certificate-admin-credential-optional">The certificate-admin credential (optional)</h3>
+<p>This credential is what lets the <strong>Nodes</strong> page show certificate status,
+and sign, revoke and clean certificates. Without it the console lists
+only nodes that have already connected or reported. A node waiting for
+its certificate to be signed does not appear at all, because the CA is
+the only part that knows it exists.</p>
+<vox-callout variant="warning" heading="Warning"><p>This credential is full CA admin. openvoxserver gates every CA
+endpoint behind one authorization extension, so a certificate that can
+read statuses can also sign, revoke and clean <em>any</em> node&#39;s certificate.
+There is no read-only variant. Keep it only where the console runs, and
+read <a href="certificates.html">Manage node certificates</a> before issuing it.</p>
+</vox-callout>
+<p>Issuing it writes to CA state that the running server also writes, so
+stop openvoxserver while it is issued:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo systemctl stop puppetserver
+sudo /opt/puppetlabs/bin/puppetserver ca generate --ca-client --certname console-ca-client
+sudo systemctl start puppetserver
+</code></vox-code-block>
+<p>Copy <code>certs/console-ca-client.pem</code> and <code>private_keys/console-ca-client.pem</code>
+across as <code>ca-client-cert.pem</code> and <code>ca-client-key.pem</code>. Then confirm the
+CA accepts it, from the console&#39;s host:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -sS -o /dev/null -w &#39;HTTP %{http_code}\n&#39; \
+  --cert /etc/openvox-console/ca-client-cert.pem \
+  --key /etc/openvox-console/ca-client-key.pem \
+  --cacert /etc/openvox-console/ca.pem \
+  https://puppet.example.com:8140/puppet-ca/v1/certificate_statuses/all
+</code></vox-code-block>
+<p><code>HTTP 200</code> means it works.</p>
+<h2 id="build-the-console">Build the console</h2>
+<p>The console is one binary with its web interface built in. There is no
+package of it; build it from the source repository. You need Go at the
+version named in <code>go.mod</code>, and git.</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>git clone https://github.com/avitacco/openvox-console.git
+cd openvox-console
+</code></vox-code-block>
+<p>The console also serves the node agent that nodes install, from its own
+package repository, and those agents are built into the console binary.
+Build them first, or every node install fails with a 404:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>make agent-binaries
+make agent-packages
+make build
+</code></vox-code-block>
+<p>That leaves <code>bin/console</code> and <code>bin/enc-bridge</code>. Install the console on its
+host:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo install -m 0755 bin/console /usr/local/bin/console
+</code></vox-code-block>
+<h2 id="configure-the-console">Configure the console</h2>
+<p>The console is configured with environment variables only. Create a user
+for it, and a configuration file only that user can read:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo useradd --system --home-dir /nonexistent --shell /usr/sbin/nologin openvox-console
+sudo install -d -m 0750 -o root -g openvox-console /etc/openvox-console
+</code></vox-code-block>
+<p>Six settings are required, and the console refuses to start without them,
+naming the one that is missing. Put them in
+<code>/etc/openvox-console/console.env</code>:</p>
+<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CONSOLE_POSTGRES_DSN=postgres://console:&lt;password&gt;@&lt;postgres host&gt;:5432/console?sslmode=require
+CONSOLE_OPENVOXDB_URL=https://&lt;openvoxdb host&gt;:8081
+CONSOLE_OPENVOXDB_CERT_FILE=/etc/openvox-console/console-cert.pem
+CONSOLE_OPENVOXDB_KEY_FILE=/etc/openvox-console/console-key.pem
+CONSOLE_OPENVOXDB_CA_FILE=/etc/openvox-console/ca.pem
+CONSOLE_RBAC_SIGNING_KEY_FILE=/etc/openvox-console/rbac-signing-key.pem
+</code></vox-code-block>
+<vox-callout variant="info" heading="Note"><p><code>sslmode=require</code> assumes your Postgres serves TLS, which it should
+once the connection leaves the host. If the console and Postgres share
+a host and Postgres has no certificate, use <code>sslmode=disable</code>.</p>
+</vox-callout>
+<p>The rest is optional, and each optional feature switches itself off
+rather than blocking startup. For a real deployment, add:</p>
+<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code># Where the console listens, and how the outside world reaches it.
+CONSOLE_HTTP_ADDR=:8080
+CONSOLE_BASE_URL=https://console.example.com
+
+# The first admin user, created only while there are no users.
+CONSOLE_BOOTSTRAP_ADMIN_USERNAME=admin
+CONSOLE_BOOTSTRAP_ADMIN_PASSWORD=&lt;a strong password&gt;
+
+# The node transport. ADDR is what the console binds; PUBLIC_ADDR is what
+# a node dials, and its host must be in the node transport certificate.
+CONSOLE_NODE_TRANSPORT_ADDR=:8142
+CONSOLE_NODE_TRANSPORT_PUBLIC_ADDR=console.example.com:8142
+CONSOLE_NODE_TRANSPORT_CERT_FILE=/etc/openvox-console/node-transport-cert.pem
+CONSOLE_NODE_TRANSPORT_KEY_FILE=/etc/openvox-console/node-transport-key.pem
+CONSOLE_NODE_TRANSPORT_CA_FILE=/etc/openvox-console/ca.pem
+
+# The Puppet server a node should enrol against, written into the node
+# install script.
+CONSOLE_PUPPET_SERVER_PUBLIC_ADDR=puppet.example.com
+
+# Certificate management from the Nodes page (the optional credential).
+CONSOLE_CA_CLIENT_URL=https://puppet.example.com:8140
+CONSOLE_CA_CLIENT_CERT_FILE=/etc/openvox-console/ca-client-cert.pem
+CONSOLE_CA_CLIENT_KEY_FILE=/etc/openvox-console/ca-client-key.pem
+CONSOLE_CA_CLIENT_CA_FILE=/etc/openvox-console/ca.pem
+</code></vox-code-block>
+<h3 id="keep-secrets-in-files">Keep secrets in files</h3>
+<p>Any setting can be read from a file instead: name the file in the
+setting&#39;s name followed by <code>_FILE</code>. That keeps passwords out of the
+process environment:</p>
+<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CONSOLE_POSTGRES_DSN_FILE=/etc/openvox-console/postgres-dsn
+CONSOLE_BOOTSTRAP_ADMIN_PASSWORD_FILE=/etc/openvox-console/bootstrap-admin-password
+</code></vox-code-block>
+<p>A trailing newline in the file is ignored. A file that is named but
+cannot be read stops the console from starting, rather than letting it
+start with the value silently empty.</p>
+<p>Finally, make every file readable by the console&#39;s user and nobody else:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo chown root:openvox-console /etc/openvox-console/*
+sudo chmod 0640 /etc/openvox-console/*
+</code></vox-code-block>
+<h2 id="run-it-under-systemd">Run it under systemd</h2>
+<p>Create <code>/etc/systemd/system/openvox-console.service</code>:</p>
+<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>[Unit]
+Description=OpenVox Console
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+EnvironmentFile=/etc/openvox-console/console.env
+ExecStart=/usr/local/bin/console
+Restart=on-failure
+User=openvox-console
+Group=openvox-console
+
+[Install]
+WantedBy=multi-user.target
+</code></vox-code-block>
+<p>Then start it:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo systemctl daemon-reload
+sudo systemctl enable --now openvox-console
+journalctl -u openvox-console -f
+</code></vox-code-block>
+<h2 id="log-in-for-the-first-time">Log in for the first time</h2>
+<p>On its first start the console creates its database schema, then creates
+the bootstrap admin while the users table is still empty. Its log shows
+three lines once it is up:</p>
+<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>database migrations up to date
+node transport ready   addr=[::]:8142
+console ready          addr=:8080
+</code></vox-code-block>
+<p>Check that it reports itself healthy:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -fsS https://console.example.com/health
+</code></vox-code-block>
+<p>The reply lists each dependency as <code>ok</code>. Then open the console&#39;s base URL,
+log in as the bootstrap admin, and change its password straight away.</p>
+<vox-callout variant="info" heading="Note"><p>Once you have logged in and changed the password, remove the bootstrap
+admin settings from the console&#39;s configuration. They are only read
+while the users table is empty, but there is no reason to keep a
+password lying around.</p>
+</vox-callout>
+<h2 id="connect-classification">Connect classification</h2>
+<p>openvoxserver asks the console which classes each node gets, through
+Puppet&#39;s standard <code>exec</code> node terminus. A small program, <code>enc-bridge</code>,
+makes that request on openvoxserver&#39;s behalf, and it needs a token to do
+so.</p>
+<h3 id="issue-enc-bridge-a-token">Issue enc-bridge a token</h3>
+<p>A service token carries a fixed set of permissions chosen when it is
+created, with no role involved. Create one allowed only to read
+classification:</p>
+<ol>
+<li>In the console, open <strong>Admin</strong>, then <strong>Service tokens</strong>.</li>
+<li>Under <strong>New service token</strong>, name it <code>enc-bridge</code> and give it only the
+<code>enc:read</code> permission.</li>
+<li>Choose <strong>Create service token</strong>.</li>
+</ol>
+<p>The token is shown <strong>once</strong>. Copy it now.</p>
+<vox-callout variant="tip" heading="Tip"><p>The same through the API, with an access token from an admin login:
+<code>curl -X POST https://console.example.com/api/v1/service-tokens -H &#34;Authorization: Bearer &lt;admin access token&gt;&#34; -H &#39;Content-Type: application/json&#39; -d &#39;{&#34;name&#34;:&#34;enc-bridge&#34;,&#34;permissions&#34;:[&#34;enc:read&#34;]}&#39;</code></p>
+</vox-callout>
+<h3 id="install-enc-bridge-on-openvoxserver-s-host">Install enc-bridge on openvoxserver&#39;s host</h3>
+<p>Copy <code>bin/enc-bridge</code> from your build to the openvoxserver host and
+install it:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo install -m 0755 enc-bridge /usr/local/bin/enc-bridge
+</code></vox-code-block>
+<p>Save the token where only openvoxserver&#39;s user can read it:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>printf &#39;%s&#39; &#39;&lt;the enc:read service token&gt;&#39; | sudo tee /etc/puppetlabs/enc-bridge-token &gt;/dev/null
+sudo chown root:puppet /etc/puppetlabs/enc-bridge-token
+sudo chmod 0640 /etc/puppetlabs/enc-bridge-token
+</code></vox-code-block>
+<p>enc-bridge reads where the console is, and its token, from its
+environment, which it inherits from openvoxserver. Give openvoxserver
+both, with <code>sudo systemctl edit puppetserver</code>:</p>
+<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>[Service]
+Environment=ENC_BRIDGE_URL=https://console.example.com
+Environment=ENC_BRIDGE_TOKEN_FILE=/etc/puppetlabs/enc-bridge-token
+</code></vox-code-block>
+<p>Then point Puppet at it, in the <code>[server]</code> section of
+<code>/etc/puppetlabs/puppet/puppet.conf</code>, and restart openvoxserver:</p>
+<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>[server]
+node_terminus = exec
+external_nodes = /usr/local/bin/enc-bridge
+</code></vox-code-block>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo systemctl restart puppetserver
+</code></vox-code-block>
+<h3 id="check-classification">Check classification</h3>
+<p>Run enc-bridge the way openvoxserver does: as its user, with the same
+settings. This checks the program, the token, the file permissions and
+the console&#39;s answer in one command:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo -u puppet env ENC_BRIDGE_URL=https://console.example.com \
+  ENC_BRIDGE_TOKEN_FILE=/etc/puppetlabs/enc-bridge-token \
+  /usr/local/bin/enc-bridge &lt;a certname&gt;
+</code></vox-code-block>
+<p><code>{}</code> means classification works and that node matches no group yet.
+Create a node group on the console&#39;s <strong>Groups</strong> page that pins that
+certname, run the same command again, and its classes come back:</p>
+<vox-code-block language="yaml" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>classes:
+    ntp:
+        servers:
+            - time.example.com
+parameters:
+    role: prodtest
+environment: production
+</code></vox-code-block>
+<p>An error here is the failure to catch. <code>permission denied</code> means the
+token is not readable by the user openvoxserver runs as, and a 401 means
+the token is wrong or lacks <code>enc:read</code>.</p>
+<vox-callout variant="tip" heading="Tip"><p>If a node&#39;s next Puppet run fails with <code>Could not find class &lt;name&gt;</code>,
+classification is working: the console told openvoxserver to include a
+class your Puppet code does not define yet.</p>
+</vox-callout>
+<h2 id="upgrade-later">Upgrade later</h2>
+<p>To move to a newer console, pull the source, rebuild in the same order,
+install the new binary and restart:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>git pull
+make agent-binaries
+make agent-packages
+make build
+sudo install -m 0755 bin/console /usr/local/bin/console
+sudo systemctl restart openvox-console
+</code></vox-code-block>
+<h2 id="check-the-whole-deployment">Check the whole deployment</h2>
+<div class="guide-table" tabindex="0"><table class="vox-table">
+<thead>
+<tr>
+<th>Check</th>
+<th>Expect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>curl -ksS https://&lt;openvoxserver&gt;:8140/status/v1/simple</code></td>
+<td><code>running</code></td>
+</tr>
+<tr>
+<td><code>curl -ksS https://&lt;openvoxdb&gt;:8081/status/v1/simple</code></td>
+<td><code>running</code></td>
+</tr>
+<tr>
+<td><code>curl -fsS https://console.example.com/health</code></td>
+<td>every dependency <code>ok</code></td>
+</tr>
+<tr>
+<td>The console&#39;s log on start</td>
+<td>migrations, node transport, console ready</td>
+</tr>
+<tr>
+<td>Logging in as the bootstrap admin</td>
+<td>succeeds, and the password has been changed</td>
+</tr>
+<tr>
+<td>The <strong>Groups</strong> page</td>
+<td>a group matches the nodes you expect</td>
+</tr>
+</tbody>
+</table></div>
+<p>Your console is ready for nodes. Continue with
+<a href="add.html">Add nodes</a> to enrol the first one.</p>
+
+    </div>
+
+    <vox-series-nav label="Install" previous-text="Previous" next-text="Next" previous-href="../guides/containers.html" previous-label="Install with containers"></vox-series-nav>
+  </article>
+</div>
+
+      </div>
+
+      
+      <vox-cta-band heading="自己动手运行">
+      <p>
+        OpenVox Console ships as container images, built for amd64 and
+        arm64 on every push, and as a single binary. The install guides
+        take you from an empty host to a working deployment -
+        openvoxserver, openvoxdb, Postgres and the console - with
+        containers or with packages.
+      </p>
+      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">GitHub 上的源码</vox-cta>
+      <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">容器镜像</vox-cta>
+      </vox-cta-band>
+    </main>
+
+    <vox-footer>
+      <vox-footer-column heading="OpenVox Console">
+        <a href="../index.html">概览</a>
+        <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">源码</a>
+        <a href="../guides/index.html#install">Install guides</a>
+      </vox-footer-column>
+      <vox-footer-column heading="功能">
+        <a href="../features/nodes.html">Nodes</a>
+        <a href="../features/classification.html">分类</a>
+        <a href="../features/code.html">Code</a>
+        <a href="../features/orchestration.html">编排</a>
+        <a href="../features/security.html">安全</a>
+        <a href="../features/access-control.html">访问控制</a>
+        </vox-footer-column>
+      
+      <vox-footer-column heading="语言">
+        <a href="../../guides/packages.html" hreflang="en" lang="en">English</a>
+        <a href="../../hi/guides/packages.html" hreflang="hi" lang="hi">हिन्दी</a>
+        <a href="../../es/guides/packages.html" hreflang="es" lang="es">Español</a>
+        <a href="../../fr/guides/packages.html" hreflang="fr" lang="fr">Français</a>
+        <a href="../../de/guides/packages.html" hreflang="de" lang="de">Deutsch</a>
+        <a href="../../ja/guides/packages.html" hreflang="ja" lang="ja">日本語</a>
+        <a href="../../ar/guides/packages.html" hreflang="ar" lang="ar">العربية</a>
+        </vox-footer-column>
+      <vox-footer-column heading="OpenVox">
+        <a href="https://openvoxproject.github.io/" rel="noopener" target="_blank">OpenVox project</a>
+        <a href="https://github.com/voxpupuli" rel="noopener" target="_blank">Vox Pupuli</a>
+      </vox-footer-column>
+      <div slot="bottom" class="footer-note">
+        <span>依据 GPL-3.0 授权</span>
+        <span>截图取自控制台针对一个合成演示机群的运行画面。</span>
+      </div>
+    </vox-footer>
+  
+
+</body></html>

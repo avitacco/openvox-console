@@ -43,6 +43,7 @@ type options struct {
 
 	confirmed bool
 	reset     bool
+	remove    bool
 }
 
 func main() {
@@ -64,6 +65,7 @@ func run() error {
 	flag.StringVar(&opts.adminPass, "admin-password", os.Getenv("CONSOLE_BOOTSTRAP_ADMIN_PASSWORD"), "console admin password (or set CONSOLE_BOOTSTRAP_ADMIN_PASSWORD)")
 	flag.StringVar(&opts.postgresDSN, "postgres-dsn", os.Getenv("CONSOLE_POSTGRES_DSN"), "console Postgres DSN, for the records that have no HTTP write contract")
 	flag.BoolVar(&opts.confirmed, "i-know-this-is-a-demo-console", false, "confirm the targets are throwaway local stacks that may be filled with fabricated data")
+	flag.BoolVar(&opts.remove, "remove", false, "only delete the demo fleet from openvoxdb, then exit - for cleaning up after a screenshot run (leaves nodes this tool did not create alone)")
 	flag.BoolVar(&opts.reset, "reset", false, "delete the demo fleet from openvoxdb before seeding, so previously stored reports are rewritten rather than deduplicated away (leaves nodes this tool did not create alone)")
 
 	flag.Parse()
@@ -80,6 +82,9 @@ func run() error {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 
+	if opts.remove {
+		return resetFleet(ctx, opts)
+	}
 	return seed(ctx, opts)
 }
 

@@ -1,8 +1,11 @@
 package main
 
 import (
+	"html/template"
 	"strings"
 	"testing"
+
+	"github.com/voxpupuli/enterprise-console/marketing/shots"
 )
 
 // The marketing site is translated at build time, so a mistake here does
@@ -17,7 +20,7 @@ func testCatalogue(messages map[string]string) *catalogue {
 
 func TestTranslateElementText(t *testing.T) {
 	in := []byte(`<html><body><h2 data-i18n>What it does</h2></body></html>`)
-	out, err := translateHTML(in, testCatalogue(map[string]string{
+	out, _, err := translateHTML(in, testCatalogue(map[string]string{
 		"What it does": "Was es kann",
 	}))
 	if err != nil {
@@ -34,7 +37,7 @@ func TestTranslateElementText(t *testing.T) {
 
 func TestTranslateAttributes(t *testing.T) {
 	in := []byte(`<html><body><vox-cta-band heading="Run it yourself" data-i18n-attr="heading"></vox-cta-band></body></html>`)
-	out, err := translateHTML(in, testCatalogue(map[string]string{
+	out, _, err := translateHTML(in, testCatalogue(map[string]string{
 		"Run it yourself": "Selbst ausführen",
 	}))
 	if err != nil {
@@ -53,7 +56,7 @@ func TestTranslateProseKeepsInlineMarkup(t *testing.T) {
 	// The msgid is the inner HTML, so the translator moves the <code>
 	// with the words it belongs to rather than being handed fragments.
 	in := []byte(`<html><body><p data-i18n-html>Run <code>docker compose up</code> first.</p></body></html>`)
-	out, err := translateHTML(in, testCatalogue(map[string]string{
+	out, _, err := translateHTML(in, testCatalogue(map[string]string{
 		"Run <code>docker compose up</code> first.": "Zuerst <code>docker compose up</code> ausführen.",
 	}))
 	if err != nil {
@@ -72,7 +75,7 @@ func TestUntranslatedFallsBackToEnglish(t *testing.T) {
 	// A missing string must render as English, not as a blank element
 	// and not as a build failure that blocks the other locales.
 	in := []byte(`<html><body><h2 data-i18n>Only in English</h2></body></html>`)
-	out, err := translateHTML(in, testCatalogue(map[string]string{}))
+	out, _, err := translateHTML(in, testCatalogue(map[string]string{}))
 	if err != nil {
 		t.Fatalf("translateHTML: %v", err)
 	}
@@ -86,7 +89,7 @@ func TestIndentedProseMatchesItsMsgid(t *testing.T) {
 	// whitespace when building the msgid, so the lookup has to collapse
 	// it the same way or nothing long ever matches.
 	in := []byte("<html><body><p data-i18n>\n      See every node,\n      then act.\n    </p></body></html>")
-	out, err := translateHTML(in, testCatalogue(map[string]string{
+	out, _, err := translateHTML(in, testCatalogue(map[string]string{
 		"See every node, then act.": "Jeden Node sehen, dann handeln.",
 	}))
 	if err != nil {
@@ -100,7 +103,7 @@ func TestIndentedProseMatchesItsMsgid(t *testing.T) {
 func TestDirectionAndLangAreStamped(t *testing.T) {
 	// One dir on <html> is the whole of voxblocks' RTL contract.
 	in := []byte(`<html lang="en" dir="ltr"><body></body></html>`)
-	out, err := translateHTML(in, &catalogue{lang: "ar", dir: "rtl", messages: map[string]string{}})
+	out, _, err := translateHTML(in, &catalogue{lang: "ar", dir: "rtl", messages: map[string]string{}})
 	if err != nil {
 		t.Fatalf("translateHTML: %v", err)
 	}
@@ -117,5 +120,26 @@ func TestEnglishCatalogueIsIdentity(t *testing.T) {
 	}
 	if cat.dir != "ltr" || cat.lang != "en" {
 		t.Errorf("unexpected English catalogue: %+v", cat)
+	}
+}
+
+// A screenshot's alt text is prose like any other, and a screen reader
+// user on a translated page should hear it in their language.
+func TestScreenshotAltIsTranslated(t *testing.T) {
+	shot := shots.All[0]
+	render := funcsFor(pages[0], "de")["screenshot"].(func(string) (template.HTML, error))
+	figure, err := render(shot.Name)
+	if err != nil {
+		t.Fatalf("screenshot: %v", err)
+	}
+	in := []byte("<html><body>" + string(figure) + "</body></html>")
+	out, _, err := translateHTML(in, testCatalogue(map[string]string{
+		shot.Caption: "Übersetzte Beschreibung",
+	}))
+	if err != nil {
+		t.Fatalf("translateHTML: %v", err)
+	}
+	if !strings.Contains(string(out), `alt="Übersetzte Beschreibung"`) {
+		t.Errorf("screenshot alt text was not translated:\n%s", out)
 	}
 }

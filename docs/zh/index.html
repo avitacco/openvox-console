@@ -10,7 +10,10 @@
     
     <script>
       (function () {
-        var stored = localStorage.getItem('vox-theme');
+        
+        
+        var stored = null;
+        try { stored = localStorage.getItem('vox-theme'); } catch (e) {}
         var theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         document.documentElement.setAttribute('data-vox-theme', theme);
       })();
@@ -55,12 +58,13 @@
     <link rel="stylesheet" href="../site.css"/>
     <script type="module" src="../vendor/voxblocks.js"></script>
     <script type="module" src="../theme.js"></script>
+    
   </head>
   <body>
     
     <a class="skip-link" href="#main">跳到内容</a>
 
-    <vox-header site-title="OpenVox Console" href="../index.html">
+    <vox-header site-title="OpenVox Console" href="./index.html">
       
       <svg slot="logo" viewBox="0 0 2560 2478" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <path d="M1946.22 272.18L1874.51 643.161C1840.69 625.335 1769.51 597.048 1744.63 592.202L1946.22 272.18ZM1647.05 893.509C1735.54 894.748 1789.05 935.815 1845.35 1010.52C1716.57 1047.71 1641.84 987.053 1586.85 899.704C1600.03 898.445 1634.39 893.339 1647.05 893.509ZM1421.62 600.655C1288.19 638.415 1170.91 730.251 1126.1 808.997C1126.1 808.997 1186.31 336.289 1244.88 158.652C1315.83 282.552 1421.62 600.655 1421.62 600.655ZM2477.39 1158.21C2342.39 1125.61 2074.76 1042.77 2053.7 881.139C2043.59 803.362 1980.86 717.271 1947.86 694.589L2004.72 106.064L1517.51 580.681C1517.51 580.681 1358.55 170.153 1243.89 0C1100.67 241.805 932.123 707.949 896.253 809.107L1227.33 1744.42C1243.68 1615.28 1328.09 1472.06 1428.27 1381.86C1350.61 1280.89 1210.56 1250.76 1151.7 1289.73C1228.31 1186.22 1376.21 1050.44 1651.27 1124.86C1773.51 1157.92 1898.72 1222.92 1978.75 1240.54C2184.12 1285.76 2337.81 1231.2 2337.81 1231.2C2336.23 1279.58 2360.5 1315.47 2410.61 1338.87C2196.05 1539.04 1914.11 1376.52 1715.51 1407.29C1514.8 1438.43 1238.87 2011.65 1201.73 2093.07L593.825 394.322L584.775 369.242C535.086 234.271 451.316 124.12 296.898 124.12H0V473.618H92.0793C145.649 473.618 170.849 489.355 189.769 542.882L903.123 2478H1248.99L1312.45 2324.93L1556.24 1812.6C1660.38 1581.57 1765.81 1518.18 2072.12 1531.73C2162.6 1535.73 2349.93 1537.27 2457.29 1405.96C2611.96 1216.8 2569.29 1180.38 2477.43 1158.16" fill="currentColor"></path>
@@ -79,17 +83,20 @@
           </vox-dropdown>
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
+      
+      <a href="./guides/index.html" slot="actions">Guides</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
     <div class="site-subnav">
       <vox-subnav label="功能" class="vox-container">
-      <a href="../features/nodes.html">Nodes</a>
-      <a href="../features/classification.html">分类</a>
-      <a href="../features/code.html">Code</a>
-      <a href="../features/orchestration.html">编排</a>
-      <a href="../features/security.html">安全</a>
-      <a href="../features/access-control.html">访问控制</a>
+      
+      <a href="./features/nodes.html">Nodes</a>
+      <a href="./features/classification.html">分类</a>
+      <a href="./features/code.html">Code</a>
+      <a href="./features/orchestration.html">编排</a>
+      <a href="./features/security.html">安全</a>
+      <a href="./features/access-control.html">访问控制</a>
       </vox-subnav>
     </div>
 
@@ -164,30 +171,37 @@
 <vox-callout variant="tip" heading="先在一套用完即弃的环境上试试">
   <p><code>docker compose up</code> 会一并启动 openvoxserver、openvoxdb、Postgres 和控制台，你可以把一个测试代理指向它，在做出任何承诺之前先看到自己的 Nodes 出现。</p>
 </vox-callout>
-</div>
+
+      </div>
 
       
       <vox-cta-band heading="自己动手运行">
-      <p>OpenVox Console 以两个容器镜像的形式发布，每次 push 都会为 amd64 和 arm64 构建。<code>SETUP.md</code> 会带你完成一次真实部署——openvoxserver、openvoxdb、Postgres 和控制台——同时给出容器和软件包两种说明。</p>
-      <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/blob/main/SETUP.md" target="_blank">安装指南</vox-cta>
+      <p>
+        OpenVox Console ships as container images, built for amd64 and
+        arm64 on every push, and as a single binary. The install guides
+        take you from an empty host to a working deployment -
+        openvoxserver, openvoxdb, Postgres and the console - with
+        containers or with packages.
+      </p>
+      <vox-cta slot="actions" href="./guides/index.html#install">Install guides</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">GitHub 上的源码</vox-cta>
-        <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">容器镜像</vox-cta>
+      <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">容器镜像</vox-cta>
       </vox-cta-band>
     </main>
 
     <vox-footer>
       <vox-footer-column heading="OpenVox Console">
-        <a href="../index.html">概览</a>
+        <a href="./index.html">概览</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">源码</a>
-        <a href="https://github.com/avitacco/openvox-console/blob/main/SETUP.md" rel="noopener" target="_blank">安装指南</a>
+        <a href="./guides/index.html#install">Install guides</a>
       </vox-footer-column>
       <vox-footer-column heading="功能">
-        <a href="../features/nodes.html">Nodes</a>
-        <a href="../features/classification.html">分类</a>
-        <a href="../features/code.html">Code</a>
-        <a href="../features/orchestration.html">编排</a>
-        <a href="../features/security.html">安全</a>
-        <a href="../features/access-control.html">访问控制</a>
+        <a href="./features/nodes.html">Nodes</a>
+        <a href="./features/classification.html">分类</a>
+        <a href="./features/code.html">Code</a>
+        <a href="./features/orchestration.html">编排</a>
+        <a href="./features/security.html">安全</a>
+        <a href="./features/access-control.html">访问控制</a>
         </vox-footer-column>
       
       <vox-footer-column heading="语言">

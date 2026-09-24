@@ -9,6 +9,8 @@ import (
 	"slices"
 	"sort"
 	"strings"
+
+	"github.com/voxpupuli/enterprise-console/marketing/guides"
 )
 
 // Extraction scans the frontend's source for translatable text and
@@ -91,8 +93,16 @@ func extract(roots []string) ([]message, error) {
 
 	for _, root := range roots {
 		err := filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
-			if err != nil || info.IsDir() {
+			if err != nil {
 				return err
+			}
+			if info.IsDir() {
+				// Test fixtures are not site content: the guide
+				// renderer's live beside the real guides.
+				if info.Name() == "testdata" && path != root {
+					return filepath.SkipDir
+				}
+				return nil
 			}
 			switch filepath.Ext(path) {
 			case ".js":
@@ -107,6 +117,8 @@ func extract(roots []string) ([]message, error) {
 				return scanJS(path, add, addN)
 			case ".tmpl":
 				return scanTemplate(path, add)
+			case ".md":
+				return scanGuide(path, found)
 			}
 			return nil
 		})
@@ -165,6 +177,44 @@ func addPlural(found map[string]*message, id, plural, ref string) {
 	if !contains(m.References, ref) {
 		m.References = append(m.References, ref)
 	}
+}
+
+// scanGuide adds a site guide's messages (see marketing/guides).
+//
+// The guide renderer produces them - the same code that renders the
+// page, so each message ID is exactly the key the site later looks up.
+// That is also why worthTranslating is not applied: the renderer has
+// already decided what is prose, and dropping one of its units here
+// would leave it untranslatable on every page that shows it.
+//
+// Partials are skipped as files of their own: they are extracted
+// through the guides that include them, with references pointing back
+// at the partial's own lines, so a shared paragraph is one message.
+func scanGuide(path string, found map[string]*message) error {
+	sectionDir := filepath.Dir(path)
+	if filepath.Base(sectionDir) == guides.PartialsDir {
+		return nil
+	}
+	msgs, err := guides.Messages(filepath.Dir(sectionDir), path)
+	if err != nil {
+		return err
+	}
+	for _, m := range msgs {
+		id := strings.TrimSpace(m.ID)
+		if id == "" {
+			continue
+		}
+		ref := fmt.Sprintf("%s:%d", m.File, m.Line)
+		entry, ok := found[id]
+		if !ok {
+			entry = &message{ID: id}
+			found[id] = entry
+		}
+		if !contains(entry.References, ref) {
+			entry.References = append(entry.References, ref)
+		}
+	}
+	return nil
 }
 
 func scanTemplate(path string, add func(id, ref string)) error {

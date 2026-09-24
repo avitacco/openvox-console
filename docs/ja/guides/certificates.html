@@ -1,0 +1,354 @@
+<!DOCTYPE html><html lang="ja" dir="ltr"><head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="Sign, revoke and clean node certificates from the console, and what each does to a connected node."/>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+    <title>Manage node certificates - OpenVox Console</title>
+
+    
+    <script>
+      (function () {
+        
+        
+        var stored = null;
+        try { stored = localStorage.getItem('vox-theme'); } catch (e) {}
+        var theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-vox-theme', theme);
+      })();
+    </script>
+    <style>
+      html { background-color: #f5faf9; }
+      html[data-vox-theme='dark'] { background-color: #0d1417; }
+    </style>
+
+    
+    <script>
+      (function () {
+        var LOCALES = ["en", "zh", "hi", "es", "fr", "de", "ja", "ar", ];
+        var KEY = 'vox-lang';
+
+        function stored() {
+          
+          
+          try { return localStorage.getItem(KEY); } catch (e) { return null; }
+        }
+
+        
+        
+        
+        
+        
+        document.addEventListener('click', function (event) {
+          var path = event.composedPath ? event.composedPath() : [event.target];
+          for (var i = 0; i < path.length; i++) {
+            var code = path[i].getAttribute && path[i].getAttribute('data-lang');
+            if (code) {
+              try { localStorage.setItem(KEY, code); } catch (e) {}
+              return;
+            }
+          }
+        });
+        
+      })();
+    </script>
+
+    <link rel="stylesheet" href="../../vendor/voxblocks.css"/>
+    <link rel="stylesheet" href="../../site.css"/>
+    <script type="module" src="../../vendor/voxblocks.js"></script>
+    <script type="module" src="../../theme.js"></script>
+    <script type="module" src="../../guides.js"></script>
+  </head>
+  <body>
+    
+    <a class="skip-link" href="#main">本文へスキップ</a>
+
+    <vox-header site-title="OpenVox Console" href="../index.html">
+      
+      <svg slot="logo" viewBox="0 0 2560 2478" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M1946.22 272.18L1874.51 643.161C1840.69 625.335 1769.51 597.048 1744.63 592.202L1946.22 272.18ZM1647.05 893.509C1735.54 894.748 1789.05 935.815 1845.35 1010.52C1716.57 1047.71 1641.84 987.053 1586.85 899.704C1600.03 898.445 1634.39 893.339 1647.05 893.509ZM1421.62 600.655C1288.19 638.415 1170.91 730.251 1126.1 808.997C1126.1 808.997 1186.31 336.289 1244.88 158.652C1315.83 282.552 1421.62 600.655 1421.62 600.655ZM2477.39 1158.21C2342.39 1125.61 2074.76 1042.77 2053.7 881.139C2043.59 803.362 1980.86 717.271 1947.86 694.589L2004.72 106.064L1517.51 580.681C1517.51 580.681 1358.55 170.153 1243.89 0C1100.67 241.805 932.123 707.949 896.253 809.107L1227.33 1744.42C1243.68 1615.28 1328.09 1472.06 1428.27 1381.86C1350.61 1280.89 1210.56 1250.76 1151.7 1289.73C1228.31 1186.22 1376.21 1050.44 1651.27 1124.86C1773.51 1157.92 1898.72 1222.92 1978.75 1240.54C2184.12 1285.76 2337.81 1231.2 2337.81 1231.2C2336.23 1279.58 2360.5 1315.47 2410.61 1338.87C2196.05 1539.04 1914.11 1376.52 1715.51 1407.29C1514.8 1438.43 1238.87 2011.65 1201.73 2093.07L593.825 394.322L584.775 369.242C535.086 234.271 451.316 124.12 296.898 124.12H0V473.618H92.0793C145.649 473.618 170.849 489.355 189.769 542.882L903.123 2478H1248.99L1312.45 2324.93L1556.24 1812.6C1660.38 1581.57 1765.81 1518.18 2072.12 1531.73C2162.6 1535.73 2349.93 1537.27 2457.29 1405.96C2611.96 1216.8 2569.29 1180.38 2477.43 1158.16" fill="currentColor"></path>
+      </svg>
+      
+      <nav slot="actions" class="lang-switcher" aria-label="言語">
+        <vox-dropdown label="日本語">
+          <a data-lang="en" href="../../guides/certificates.html" hreflang="en" lang="en">English</a>
+          <a data-lang="zh" href="../../zh/guides/certificates.html" hreflang="zh" lang="zh">中文</a>
+          <a data-lang="hi" href="../../hi/guides/certificates.html" hreflang="hi" lang="hi">हिन्दी</a>
+          <a data-lang="es" href="../../es/guides/certificates.html" hreflang="es" lang="es">Español</a>
+          <a data-lang="fr" href="../../fr/guides/certificates.html" hreflang="fr" lang="fr">Français</a>
+          <a data-lang="de" href="../../de/guides/certificates.html" hreflang="de" lang="de">Deutsch</a>
+          <a aria-current="page" data-lang="ja" href="../../ja/guides/certificates.html" hreflang="ja" lang="ja">日本語</a>
+          <a data-lang="ar" href="../../ar/guides/certificates.html" hreflang="ar" lang="ar">العربية</a>
+          </vox-dropdown>
+      </nav>
+      <vox-theme-toggle slot="actions"></vox-theme-toggle>
+      
+      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
+    </vox-header>
+
+    <div class="site-subnav">
+      <vox-subnav label="機能" class="vox-container">
+      
+      <a href="../features/nodes.html">Nodes</a>
+      <a href="../features/classification.html">分類</a>
+      <a href="../features/code.html">Code</a>
+      <a href="../features/orchestration.html">オーケストレーション</a>
+      <a href="../features/security.html">セキュリティ</a>
+      <a href="../features/access-control.html">アクセス制御</a>
+      </vox-subnav>
+    </div>
+
+    <main id="main">
+      <div class="site-main vox-container">
+<div class="guide-layout">
+  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
+    <vox-sidenav-group heading="Install">
+      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    <vox-sidenav-group heading="Nodes" open="">
+      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html" current="" aria-current="page"><span>Manage node certificates</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    <vox-sidenav-group heading="Scale">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    <vox-sidenav-group heading="Use">
+      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    <vox-sidenav-group heading="Operate">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    </vox-sidenav>
+
+  <article class="guide">
+    <p class="guide-eyebrow">Nodes</p>
+    <h1 class="guide-title vox-ts-xxl">Manage node certificates</h1>
+    <p class="guide-summary">Sign, revoke and clean node certificates from the console, and what each does to a connected node.</p>
+
+    
+    <vox-callout variant="info" heading="Not fully translated yet">
+      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
+    </vox-callout>
+
+    <vox-toc class="guide-toc" heading="On this page">
+      <vox-toc-item href="#turn-certificate-management-on"><span>Turn certificate management on</span>
+      </vox-toc-item>
+      <vox-toc-item href="#decide-who-may-act-on-certificates"><span>Decide who may act on certificates</span>
+      </vox-toc-item>
+      <vox-toc-item href="#sign-revoke-or-clean"><span>Sign, revoke or clean</span>
+      </vox-toc-item>
+      <vox-toc-item href="#what-revocation-does-to-a-connected-node"><span>What revocation does to a connected node</span>
+      </vox-toc-item>
+      <vox-toc-item href="#infrastructure-certificates"><span>Infrastructure certificates</span>
+      </vox-toc-item>
+      <vox-toc-item href="#retire-the-certificate-admin-credential"><span>Retire the certificate-admin credential</span>
+      </vox-toc-item>
+      </vox-toc>
+    <div class="guide-body vox-prose">
+<p>Every node&#39;s identity is a certificate from openvoxserver&#39;s CA. With the
+certificate-admin credential configured, the console&#39;s <strong>Nodes</strong> page
+shows each certificate&#39;s state and lets you act on it.</p>
+<h2 id="turn-certificate-management-on">Turn certificate management on</h2>
+<p>Certificate management needs the certificate-admin credential, issued
+during installation. Both install guides cover issuing it. The console
+uses it when all four settings are present:</p>
+<div class="guide-table" tabindex="0"><table class="vox-table">
+<thead>
+<tr>
+<th>Setting</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CONSOLE_CA_CLIENT_URL</code></td>
+<td>openvoxserver&#39;s address, as the console reaches it</td>
+</tr>
+<tr>
+<td><code>CONSOLE_CA_CLIENT_CERT_FILE</code></td>
+<td>the credential&#39;s certificate</td>
+</tr>
+<tr>
+<td><code>CONSOLE_CA_CLIENT_KEY_FILE</code></td>
+<td>its private key</td>
+</tr>
+<tr>
+<td><code>CONSOLE_CA_CLIENT_CA_FILE</code></td>
+<td>the CA bundle, to verify openvoxserver</td>
+</tr>
+</tbody>
+</table></div>
+<p>With any one unset, every node&#39;s certificate state reads <code>unknown</code> and
+the rest of the console works as usual.</p>
+<vox-callout variant="warning" heading="Warning"><p>The credential is full CA admin: anything that can use it can sign,
+revoke and clean <em>any</em> node&#39;s certificate. openvoxserver has no
+narrower variant. Keep its key readable only by the console.</p>
+</vox-callout>
+<h2 id="decide-who-may-act-on-certificates">Decide who may act on certificates</h2>
+<p>Two permissions are involved, and they are deliberately far apart:</p>
+<div class="guide-table" tabindex="0"><table class="vox-table">
+<thead>
+<tr>
+<th>Permission</th>
+<th>Allows</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>nodes:read</code></td>
+<td>seeing each node and its certificate state</td>
+</tr>
+<tr>
+<td><code>nodes:certs:manage</code></td>
+<td>signing, revoking and cleaning certificates</td>
+</tr>
+</tbody>
+</table></div>
+<p>Granting <code>nodes:certs:manage</code> is equivalent to giving shell access to the
+CA: there is no way to allow signing but not revoking, or one node but
+not another. Give it to specific trusted operators, not to everyone who
+needs to see node status.</p>
+<h2 id="sign-revoke-or-clean">Sign, revoke or clean</h2>
+<p>On the <strong>Nodes</strong> page, each node&#39;s certificate state is one of
+<code>requested</code>, <code>signed</code>, <code>revoked</code> or <code>unknown</code>, and the actions offered
+follow from it:</p>
+<div class="guide-table" tabindex="0"><table class="vox-table">
+<thead>
+<tr>
+<th>Action</th>
+<th>Available when</th>
+<th>何ができるか</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Sign</strong></td>
+<td><code>requested</code></td>
+<td>Issues the node&#39;s certificate, so it can authenticate</td>
+</tr>
+<tr>
+<td><strong>Revoke</strong></td>
+<td><code>signed</code></td>
+<td>Stops the certificate being accepted anywhere, for good</td>
+</tr>
+<tr>
+<td><strong>Clean</strong></td>
+<td>any known state</td>
+<td>Revokes the certificate if needed, then removes the CA&#39;s record of the certname entirely</td>
+</tr>
+</tbody>
+</table></div>
+<p>Clean is what to use before a node enrols again under the same name: once
+the record is gone, the certname can submit a fresh request.</p>
+<p>An action the CA refuses, such as signing a certificate that is not
+waiting to be signed, fails with the reason and changes nothing. Each
+completed action is written to the audit log as
+<code>node.certificate.signed</code>, <code>node.certificate.revoked</code> or
+<code>node.certificate.cleaned</code>.</p>
+<h2 id="what-revocation-does-to-a-connected-node">What revocation does to a connected node</h2>
+<p>A node revoked or cleaned through the console is cut off at once. Every
+console instance is told, and whichever one holds the node&#39;s connection
+closes it. Each instance also fetches the CA&#39;s current revocation list
+first, so the node cannot simply reconnect.</p>
+<p>Certificates revoked outside the console, with
+<code>puppetserver ca revoke</code> on the CA host, are caught too: each instance
+re-reads the revocation list every minute, and drops any live connection
+it now revokes.</p>
+<p>The revocation list comes from one of two places:</p>
+<ul>
+<li>the file named by <code>CONSOLE_NODE_TRANSPORT_CRL_FILE</code>, typically the
+console host&#39;s own Puppet agent&#39;s <code>crl.pem</code>, which the agent keeps
+current. The console refuses to start if this is set but unreadable;</li>
+<li>otherwise, the CA itself, through the certificate-admin credential.</li>
+</ul>
+<p>With neither, the console logs a warning at startup: a revoked node
+certificate can then still connect.</p>
+<h2 id="infrastructure-certificates">Infrastructure certificates</h2>
+<p>The Nodes page lists every certname the CA knows, which includes the
+console&#39;s own certificates and those of the servers it talks to:
+<code>console</code>, <code>node-transport</code>, <code>console-ca-client</code>, <code>openvoxdb</code> and
+<code>openvoxserver</code> in a default install. These are recognised automatically
+and hidden by default. <strong>Show infrastructure certs</strong> reveals them,
+marked, and revoking or cleaning one asks for confirmation naming what
+would break.</p>
+<h2 id="retire-the-certificate-admin-credential">Retire the certificate-admin credential</h2>
+<p>Because it is full CA admin, clean the credential as soon as it is no
+longer needed, for example when a console instance is decommissioned. On
+the CA host:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo /opt/puppetlabs/bin/puppetserver ca clean --certname console-ca-client
+</code></vox-code-block>
+<p>Then remove the four <code>CONSOLE_CA_CLIENT_*</code> settings from every console
+still configured with it. A console still holding the cleaned credential
+simply reports every certificate as <code>unknown</code>; nothing else stops working.</p>
+
+    </div>
+
+    <vox-series-nav label="Nodes" previous-text="Previous" next-text="Next" previous-href="../guides/add.html" previous-label="Add nodes" next-href="../guides/remove.html" next-label="Remove a node"></vox-series-nav>
+  </article>
+</div>
+
+      </div>
+
+      
+      <vox-cta-band heading="自分で動かしてみる">
+      <p>
+        OpenVox Console ships as container images, built for amd64 and
+        arm64 on every push, and as a single binary. The install guides
+        take you from an empty host to a working deployment -
+        openvoxserver, openvoxdb, Postgres and the console - with
+        containers or with packages.
+      </p>
+      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">GitHub のソース</vox-cta>
+      <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">コンテナイメージ</vox-cta>
+      </vox-cta-band>
+    </main>
+
+    <vox-footer>
+      <vox-footer-column heading="OpenVox Console">
+        <a href="../index.html">概要</a>
+        <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">ソース</a>
+        <a href="../guides/index.html#install">Install guides</a>
+      </vox-footer-column>
+      <vox-footer-column heading="機能">
+        <a href="../features/nodes.html">Nodes</a>
+        <a href="../features/classification.html">分類</a>
+        <a href="../features/code.html">Code</a>
+        <a href="../features/orchestration.html">オーケストレーション</a>
+        <a href="../features/security.html">セキュリティ</a>
+        <a href="../features/access-control.html">アクセス制御</a>
+        </vox-footer-column>
+      
+      <vox-footer-column heading="言語">
+        <a href="../../guides/certificates.html" hreflang="en" lang="en">English</a>
+        <a href="../../zh/guides/certificates.html" hreflang="zh" lang="zh">中文</a>
+        <a href="../../hi/guides/certificates.html" hreflang="hi" lang="hi">हिन्दी</a>
+        <a href="../../es/guides/certificates.html" hreflang="es" lang="es">Español</a>
+        <a href="../../fr/guides/certificates.html" hreflang="fr" lang="fr">Français</a>
+        <a href="../../de/guides/certificates.html" hreflang="de" lang="de">Deutsch</a>
+        <a href="../../ar/guides/certificates.html" hreflang="ar" lang="ar">العربية</a>
+        </vox-footer-column>
+      <vox-footer-column heading="OpenVox">
+        <a href="https://openvoxproject.github.io/" rel="noopener" target="_blank">OpenVox project</a>
+        <a href="https://github.com/voxpupuli" rel="noopener" target="_blank">Vox Pupuli</a>
+      </vox-footer-column>
+      <div slot="bottom" class="footer-note">
+        <span>ライセンス GPL-3.0</span>
+        <span>スクリーンショットは、合成されたデモ用フリートに対して稼働するコンソールのものです。</span>
+      </div>
+    </vox-footer>
+  
+
+</body></html>

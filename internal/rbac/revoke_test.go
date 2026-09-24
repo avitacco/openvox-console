@@ -147,3 +147,55 @@ func TestRevoker_LoadsUnexpiredRevocationsAtStartup(t *testing.T) {
 		t.Error("expected already-expired revocation NOT loaded into memory at startup")
 	}
 }
+
+// A revocation this instance never heard about on the bus - persisted by
+// another instance while a route was down - is picked up from Postgres.
+func TestRevoker_ResyncPicksUpRevocationMissedOnBus(t *testing.T) {
+	bus, err := messaging.Start()
+	if err != nil {
+		t.Fatalf("messaging.Start() error: %v", err)
+	}
+	defer bus.Close()
+
+	db := newFakeRevokedTokenStore()
+	r := NewRevoker(bus, db)
+	if err := r.Start(context.Background()); err != nil {
+		t.Fatalf("Start() error: %v", err)
+	}
+
+	// Written straight to the store: no event is published.
+	db.revocations["missed"] = time.Now().Add(time.Hour)
+	if r.IsRevoked("missed") {
+		t.Fatal("test setup: the revocation should not be known before a resync")
+	}
+
+	if err := r.resync(context.Background()); err != nil {
+		t.Fatalf("resync() error: %v", err)
+	}
+	if !r.IsRevoked("missed") {
+		t.Error("a revocation persisted without a bus event was not picked up by resync")
+	}
+}
+
+func TestRevoker_ResyncPrunesExpiredEntries(t *testing.T) {
+	bus, err := messaging.Start()
+	if err != nil {
+		t.Fatalf("messaging.Start() error: %v", err)
+	}
+	defer bus.Close()
+
+	r := NewRevoker(bus, newFakeRevokedTokenStore())
+	if err := r.Start(context.Background()); err != nil {
+		t.Fatalf("Start() error: %v", err)
+	}
+	r.mu.Lock()
+	r.revoked["expired"] = time.Now().Add(-time.Minute)
+	r.mu.Unlock()
+
+	if err := r.resync(context.Background()); err != nil {
+		t.Fatalf("resync() error: %v", err)
+	}
+	if r.Len() != 0 {
+		t.Errorf("Len() = %d after resync, want the expired entry pruned", r.Len())
+	}
+}

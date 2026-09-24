@@ -41,7 +41,7 @@ type ActivityRecorder func(action, actor, summary string)
 // applies here too.
 type AuditRecorder func(auditlog.Event)
 
-// Transport is the subset of *nodetransport.Server the dispatcher
+// Transport is the subset of *nodetransport.Dispatcher the dispatcher
 // depends on, kept as an interface (mirroring the old
 // connectivity lookup) so dispatcher tests don't need a real
 // embedded NATS server.

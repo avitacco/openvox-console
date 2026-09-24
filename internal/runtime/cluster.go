@@ -108,22 +108,3 @@ func (c Config) EffectiveClusterMode() ClusterMode {
 	}
 	return c.ClusterMode
 }
-
-// NodeTransportPeerList splits NodeTransportClusterPeers into individual
-// "host:port" entries.
-func (c Config) NodeTransportPeerList() []string {
-	var peers []string
-	for _, p := range strings.Split(c.NodeTransportClusterPeers, ",") {
-		if p = strings.TrimSpace(p); p != "" {
-			peers = append(peers, p)
-		}
-	}
-	return peers
-}
-
-// NodeTransportClustered reports whether the node transport peers with
-// other instances - the condition under which a dispatch can reach a
-// node whose connection is terminated elsewhere.
-func (c Config) NodeTransportClustered() bool {
-	return c.NodeTransportClusterAddr != "" || len(c.NodeTransportPeerList()) > 0
-}

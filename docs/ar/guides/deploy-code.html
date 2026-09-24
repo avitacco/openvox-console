@@ -1,0 +1,354 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="Deploy Puppet code from one or more control repositories into the environments openvoxserver compiles from."/>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+    <title>Deploy code - OpenVox Console</title>
+
+    
+    <script>
+      (function () {
+        
+        
+        var stored = null;
+        try { stored = localStorage.getItem('vox-theme'); } catch (e) {}
+        var theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-vox-theme', theme);
+      })();
+    </script>
+    <style>
+      html { background-color: #f5faf9; }
+      html[data-vox-theme='dark'] { background-color: #0d1417; }
+    </style>
+
+    
+    <script>
+      (function () {
+        var LOCALES = ["en", "zh", "hi", "es", "fr", "de", "ja", "ar", ];
+        var KEY = 'vox-lang';
+
+        function stored() {
+          
+          
+          try { return localStorage.getItem(KEY); } catch (e) { return null; }
+        }
+
+        
+        
+        
+        
+        
+        document.addEventListener('click', function (event) {
+          var path = event.composedPath ? event.composedPath() : [event.target];
+          for (var i = 0; i < path.length; i++) {
+            var code = path[i].getAttribute && path[i].getAttribute('data-lang');
+            if (code) {
+              try { localStorage.setItem(KEY, code); } catch (e) {}
+              return;
+            }
+          }
+        });
+        
+      })();
+    </script>
+
+    <link rel="stylesheet" href="../../vendor/voxblocks.css"/>
+    <link rel="stylesheet" href="../../site.css"/>
+    <script type="module" src="../../vendor/voxblocks.js"></script>
+    <script type="module" src="../../theme.js"></script>
+    <script type="module" src="../../guides.js"></script>
+  </head>
+  <body>
+    
+    <a class="skip-link" href="#main">تخطَّ إلى المحتوى</a>
+
+    <vox-header site-title="OpenVox Console" href="../index.html">
+      
+      <svg slot="logo" viewBox="0 0 2560 2478" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M1946.22 272.18L1874.51 643.161C1840.69 625.335 1769.51 597.048 1744.63 592.202L1946.22 272.18ZM1647.05 893.509C1735.54 894.748 1789.05 935.815 1845.35 1010.52C1716.57 1047.71 1641.84 987.053 1586.85 899.704C1600.03 898.445 1634.39 893.339 1647.05 893.509ZM1421.62 600.655C1288.19 638.415 1170.91 730.251 1126.1 808.997C1126.1 808.997 1186.31 336.289 1244.88 158.652C1315.83 282.552 1421.62 600.655 1421.62 600.655ZM2477.39 1158.21C2342.39 1125.61 2074.76 1042.77 2053.7 881.139C2043.59 803.362 1980.86 717.271 1947.86 694.589L2004.72 106.064L1517.51 580.681C1517.51 580.681 1358.55 170.153 1243.89 0C1100.67 241.805 932.123 707.949 896.253 809.107L1227.33 1744.42C1243.68 1615.28 1328.09 1472.06 1428.27 1381.86C1350.61 1280.89 1210.56 1250.76 1151.7 1289.73C1228.31 1186.22 1376.21 1050.44 1651.27 1124.86C1773.51 1157.92 1898.72 1222.92 1978.75 1240.54C2184.12 1285.76 2337.81 1231.2 2337.81 1231.2C2336.23 1279.58 2360.5 1315.47 2410.61 1338.87C2196.05 1539.04 1914.11 1376.52 1715.51 1407.29C1514.8 1438.43 1238.87 2011.65 1201.73 2093.07L593.825 394.322L584.775 369.242C535.086 234.271 451.316 124.12 296.898 124.12H0V473.618H92.0793C145.649 473.618 170.849 489.355 189.769 542.882L903.123 2478H1248.99L1312.45 2324.93L1556.24 1812.6C1660.38 1581.57 1765.81 1518.18 2072.12 1531.73C2162.6 1535.73 2349.93 1537.27 2457.29 1405.96C2611.96 1216.8 2569.29 1180.38 2477.43 1158.16" fill="currentColor"></path>
+      </svg>
+      
+      <nav slot="actions" class="lang-switcher" aria-label="اللغة">
+        <vox-dropdown label="العربية">
+          <a data-lang="en" href="../../guides/deploy-code.html" hreflang="en" lang="en">English</a>
+          <a data-lang="zh" href="../../zh/guides/deploy-code.html" hreflang="zh" lang="zh">中文</a>
+          <a data-lang="hi" href="../../hi/guides/deploy-code.html" hreflang="hi" lang="hi">हिन्दी</a>
+          <a data-lang="es" href="../../es/guides/deploy-code.html" hreflang="es" lang="es">Español</a>
+          <a data-lang="fr" href="../../fr/guides/deploy-code.html" hreflang="fr" lang="fr">Français</a>
+          <a data-lang="de" href="../../de/guides/deploy-code.html" hreflang="de" lang="de">Deutsch</a>
+          <a data-lang="ja" href="../../ja/guides/deploy-code.html" hreflang="ja" lang="ja">日本語</a>
+          <a aria-current="page" data-lang="ar" href="../../ar/guides/deploy-code.html" hreflang="ar" lang="ar">العربية</a>
+          </vox-dropdown>
+      </nav>
+      <vox-theme-toggle slot="actions"></vox-theme-toggle>
+      
+      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
+    </vox-header>
+
+    <div class="site-subnav">
+      <vox-subnav label="الإمكانات" class="vox-container">
+      
+      <a href="../features/nodes.html">Nodes</a>
+      <a href="../features/classification.html">التصنيف</a>
+      <a href="../features/code.html">Code</a>
+      <a href="../features/orchestration.html">التنسيق</a>
+      <a href="../features/security.html">الأمان</a>
+      <a href="../features/access-control.html">التحكم في الوصول</a>
+      </vox-subnav>
+    </div>
+
+    <main id="main">
+      <div class="site-main vox-container">
+<div class="guide-layout">
+  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
+    <vox-sidenav-group heading="Install">
+      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    <vox-sidenav-group heading="Nodes">
+      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    <vox-sidenav-group heading="Scale">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    <vox-sidenav-group heading="Use" open="">
+      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html" current="" aria-current="page"><span>Deploy code</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    <vox-sidenav-group heading="Operate">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    </vox-sidenav>
+
+  <article class="guide">
+    <p class="guide-eyebrow">Use</p>
+    <h1 class="guide-title vox-ts-xxl">Deploy code</h1>
+    <p class="guide-summary">Deploy Puppet code from one or more control repositories into the environments openvoxserver compiles from.</p>
+
+    
+    <vox-callout variant="info" heading="Not fully translated yet">
+      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
+    </vox-callout>
+
+    <vox-toc class="guide-toc" heading="On this page">
+      <vox-toc-item href="#turn-code-deployment-on"><span>Turn code deployment on</span>
+        <vox-toc-item slot="children" href="#with-the-container-stack"><span>With the container stack</span></vox-toc-item>
+      </vox-toc-item>
+      <vox-toc-item href="#deploy-from-several-control-repositories"><span>Deploy from several control repositories</span>
+      </vox-toc-item>
+      <vox-toc-item href="#deploy"><span>Deploy</span>
+      </vox-toc-item>
+      <vox-toc-item href="#deploy-on-every-push"><span>Deploy on every push</span>
+      </vox-toc-item>
+      <vox-toc-item href="#read-the-repositories-tab"><span>Read the Repositories tab</span>
+      </vox-toc-item>
+      </vox-toc>
+    <div class="guide-body vox-prose">
+<p>The console deploys Puppet code from control repositories - a Puppetfile
+and manifests in git - into the environments directory openvoxserver
+reads, using g10k. Each branch of a control repository becomes one
+environment.</p>
+<p>Viewing deploys needs <code>code:read</code>; starting one needs <code>code:deploy</code>.</p>
+<h2 id="turn-code-deployment-on">Turn code deployment on</h2>
+<p>Code deployment stays off until the console knows where g10k is, what to
+deploy, and where to put it:</p>
+<div class="guide-table" tabindex="0"><table class="vox-table">
+<thead>
+<tr>
+<th>Setting</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CONSOLE_G10K_BIN_PATH</code></td>
+<td>the g10k program. The console&#39;s container image includes it and sets this already</td>
+</tr>
+<tr>
+<td><code>CONSOLE_CONTROL_REPO_URL</code></td>
+<td>a single control repository to deploy from</td>
+</tr>
+<tr>
+<td><code>CONSOLE_CODE_SOURCES_PATH</code></td>
+<td>or, instead, a file declaring several (see below)</td>
+</tr>
+<tr>
+<td><code>CONSOLE_CODE_DIR_PATH</code></td>
+<td>the directory openvoxserver reads its code from; the console deploys into its <code>environments</code> directory</td>
+</tr>
+<tr>
+<td><code>CONSOLE_CODE_WEBHOOK_SECRET</code></td>
+<td>the secret git host webhooks are signed with</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>CONSOLE_CONTROL_REPO_URL</code> and <code>CONSOLE_CODE_SOURCES_PATH</code> cannot both
+be set: the console refuses to start rather than combine them.</p>
+<p>The console and openvoxserver must share that directory. With packages
+on one host, point <code>CONSOLE_CODE_DIR_PATH</code> at <code>/etc/puppetlabs/code</code> and
+let the console&#39;s user write to its <code>environments</code> directory.</p>
+<h3 id="with-the-container-stack">With the container stack</h3>
+<p>The production compose file passes none of these settings through to the
+console, and does not give it openvoxserver&#39;s code volume. Add both in a
+<code>compose.code.yml</code> beside it:</p>
+<vox-code-block language="yaml" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>services:
+  console:
+    environment:
+      CONSOLE_CONTROL_REPO_URL: ${CONSOLE_CONTROL_REPO_URL:?set the control repository}
+      CONSOLE_CODE_DIR_PATH: /etc/puppetlabs/code
+      CONSOLE_CODE_WEBHOOK_SECRET_FILE: /run/secrets/code_webhook_secret
+    volumes:
+      - openvoxserver-code:/etc/puppetlabs/code
+    secrets:
+      - code_webhook_secret
+
+secrets:
+  code_webhook_secret:
+    file: ./secrets/code_webhook_secret
+</code></vox-code-block>
+<p>Then pass it after the main file in every command:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml -f compose.code.yml up -d console
+</code></vox-code-block>
+<vox-callout variant="info" heading="Note"><p>This combination has not yet been walked through end to end the way
+the install guides have. If a deploy succeeds but openvoxserver does
+not see the code, check that both containers show the same files
+under <code>/etc/puppetlabs/code/environments</code>.</p>
+</vox-callout>
+<h2 id="deploy-from-several-control-repositories">Deploy from several control repositories</h2>
+<p>To deploy from more than one repository, declare them in a YAML file and
+point <code>CONSOLE_CODE_SOURCES_PATH</code> at it:</p>
+<vox-code-block language="yaml" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sources:
+  control:
+    remote: git@github.com:org/control-repo.git
+    prefix: false        # branch production -&gt; environment production
+  team_a:
+    remote: git@github.com:org/team-a-control.git
+    prefix: true         # branch production -&gt; environment team_a_production
+    private_key: /etc/openvox-console/keys/team_a
+    webhook_secret_file: /etc/openvox-console/team_a_webhook
+</code></vox-code-block>
+<ul>
+<li>A source&#39;s name may contain only lower-case letters, digits and <code>_</code>,
+because it becomes part of environment names.</li>
+<li><code>prefix</code> decides the environment names a source&#39;s branches produce:
+<code>true</code> prefixes them with the source&#39;s name, <code>false</code> or unset leaves
+them bare, and a string is used as the prefix. Two sources may not end
+up with the same prefix, so at most one can be unprefixed; the console
+refuses to start otherwise.</li>
+<li>Each source can have its own deploy key and its own webhook secret.</li>
+</ul>
+<vox-callout variant="tip" heading="Tip"><p>A new prefixed source deploys successfully and changes nothing, until
+nodes are classified into its new environment names. Nothing moves
+nodes there for you.</p>
+</vox-callout>
+<h2 id="deploy">Deploy</h2>
+<p>Open <strong>Code</strong>. The <strong>Repositories</strong> tab lists each repository with its
+environments and last deploy; <strong>Deploy</strong> on a repository deploys its
+<code>production</code> branch. <strong>Deploy now</strong> on the <strong>Deploy history</strong> tab does
+the same for the default repository.</p>
+<p>Deploys of the same environment never overlap, however many console
+instances run. Each appears in the deploy history, with who started it,
+and on the <strong>Activity</strong> page.</p>
+<h2 id="deploy-on-every-push">Deploy on every push</h2>
+<p>To deploy whenever a branch is pushed, add a webhook to the repository
+on your git host:</p>
+<ul>
+<li><strong>URL:</strong> <code>https://console.example.com/api/v1/code-deploys/webhook</code>,
+or, for one source among several,
+<code>https://console.example.com/api/v1/code-deploys/webhook/&lt;source name&gt;</code></li>
+<li><strong>Content type:</strong> JSON</li>
+<li><strong>Secret:</strong> the webhook secret for that source</li>
+<li><strong>Events:</strong> pushes</li>
+</ul>
+<p>The console checks each delivery&#39;s signature (the <code>X-Hub-Signature-256</code>
+header) against the secret, and deploys the branch that was pushed.</p>
+<h2 id="read-the-repositories-tab">Read the Repositories tab</h2>
+<p>Each repository shows two node counts, and the gap between them is the
+useful part:</p>
+<ul>
+<li><strong>Assigned</strong>: nodes classification sends to one of the repository&#39;s
+environments.</li>
+<li><strong>Reporting</strong>: nodes whose latest Puppet run used one of them.</li>
+</ul>
+<p>Assigned with nothing reporting means code that has deployed but no node
+has run yet. Reporting with nothing assigned means nodes running code no
+group sends them to - usually an environment left behind by a removed
+source, or a node with an <code>environment</code> set in its own <code>puppet.conf</code>.</p>
+<p><strong>Size</strong> is the size of the deployed files, not disk use: g10k shares
+modules between environments, so repositories&#39; sizes overlap.</p>
+<vox-callout variant="warning" heading="Warning"><p>Removing a source from the configuration stops its deploys, but leaves
+its environments on disk, where openvoxserver keeps compiling from
+them. Delete them yourself if that is what you meant.</p>
+</vox-callout>
+
+    </div>
+
+    <vox-series-nav label="Use" previous-text="Previous" next-text="Next" previous-href="../guides/classify.html" previous-label="Classify nodes" next-href="../guides/run-jobs.html" next-label="Run jobs"></vox-series-nav>
+  </article>
+</div>
+
+      </div>
+
+      
+      <vox-cta-band heading="شغّله بنفسك">
+      <p>
+        OpenVox Console ships as container images, built for amd64 and
+        arm64 on every push, and as a single binary. The install guides
+        take you from an empty host to a working deployment -
+        openvoxserver, openvoxdb, Postgres and the console - with
+        containers or with packages.
+      </p>
+      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">الشيفرة المصدرية على GitHub</vox-cta>
+      <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">صور الحاويات</vox-cta>
+      </vox-cta-band>
+    </main>
+
+    <vox-footer>
+      <vox-footer-column heading="OpenVox Console">
+        <a href="../index.html">نظرة عامة</a>
+        <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">الشيفرة المصدرية</a>
+        <a href="../guides/index.html#install">Install guides</a>
+      </vox-footer-column>
+      <vox-footer-column heading="الإمكانات">
+        <a href="../features/nodes.html">Nodes</a>
+        <a href="../features/classification.html">التصنيف</a>
+        <a href="../features/code.html">Code</a>
+        <a href="../features/orchestration.html">التنسيق</a>
+        <a href="../features/security.html">الأمان</a>
+        <a href="../features/access-control.html">التحكم في الوصول</a>
+        </vox-footer-column>
+      
+      <vox-footer-column heading="اللغة">
+        <a href="../../guides/deploy-code.html" hreflang="en" lang="en">English</a>
+        <a href="../../zh/guides/deploy-code.html" hreflang="zh" lang="zh">中文</a>
+        <a href="../../hi/guides/deploy-code.html" hreflang="hi" lang="hi">हिन्दी</a>
+        <a href="../../es/guides/deploy-code.html" hreflang="es" lang="es">Español</a>
+        <a href="../../fr/guides/deploy-code.html" hreflang="fr" lang="fr">Français</a>
+        <a href="../../de/guides/deploy-code.html" hreflang="de" lang="de">Deutsch</a>
+        <a href="../../ja/guides/deploy-code.html" hreflang="ja" lang="ja">日本語</a>
+        </vox-footer-column>
+      <vox-footer-column heading="OpenVox">
+        <a href="https://openvoxproject.github.io/" rel="noopener" target="_blank">OpenVox project</a>
+        <a href="https://github.com/voxpupuli" rel="noopener" target="_blank">Vox Pupuli</a>
+      </vox-footer-column>
+      <div slot="bottom" class="footer-note">
+        <span>مرخَّص بموجب GPL-3.0</span>
+        <span>لقطات الشاشة لوحدة التحكم وهي تعمل مقابل أسطول تجريبي اصطناعي.</span>
+      </div>
+    </vox-footer>
+  
+
+</body></html>

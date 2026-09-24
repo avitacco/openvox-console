@@ -15,9 +15,9 @@ import (
 // arbitrary runs - see internal/orchestrator/dispatcher.go).
 const dispatchTimeout = 2 * time.Minute
 
-// transport is the subset of *nodetransport.Server this package needs -
+// transport is the subset of *nodetransport.Dispatcher this package needs -
 // structurally identical to internal/orchestrator.Transport (the same
-// *nodetransport.Server value satisfies both), so handlers can be
+// *nodetransport.Dispatcher value satisfies both), so handlers can be
 // tested against a fake without a live NATS transport.
 type transport interface {
 	Dispatch(ctx context.Context, certname string, payload []byte, timeout time.Duration) ([]byte, error)

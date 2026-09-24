@@ -35,16 +35,23 @@ type revokedTokenStore interface {
 	UnexpiredRevocations(ctx context.Context) ([]revocationEvent, error)
 }
 
+// revocationResyncInterval is how often a Revoker re-reads revocations
+// from Postgres. It bounds how long an instance that missed a NATS
+// revocation event - a route down at the wrong moment; core NATS does
+// not redeliver - keeps accepting the revoked token.
+const revocationResyncInterval = 30 * time.Second
+
 // Revoker tracks revoked token jtis in memory for zero-latency,
 // zero-database-call checks on the request hot path. Postgres is the
 // source of truth (durable, survives restarts); NATS propagates a
-// revocation to every other already-running instance immediately.
+// revocation to every other already-running instance immediately, and a
+// periodic re-read from Postgres (Run) catches any event NATS lost.
 type Revoker struct {
 	store publisher
 	db    revokedTokenStore
 
 	mu      sync.RWMutex
-	revoked map[string]time.Time // jti -> expiry, for eventual cleanup
+	revoked map[string]time.Time // jti -> expiry, pruned once expired
 }
 
 // NewRevoker builds a Revoker backed by bus (for propagation) and db (for
@@ -89,6 +96,47 @@ func (r *Revoker) Start(ctx context.Context) error {
 	})
 	if err != nil {
 		return fmt.Errorf("subscribe to revocation events: %w", err)
+	}
+	return nil
+}
+
+// Run re-reads revocations from Postgres every revocationResyncInterval
+// until ctx ends. A failed re-read is returned to onError (which may be
+// nil) and retried at the next interval; what is already in memory stays
+// in force.
+func (r *Revoker) Run(ctx context.Context, onError func(error)) {
+	ticker := time.NewTicker(revocationResyncInterval)
+	defer ticker.Stop()
+	for {
+		select {
+		case <-ctx.Done():
+			return
+		case <-ticker.C:
+			if err := r.resync(ctx); err != nil && onError != nil {
+				onError(err)
+			}
+		}
+	}
+}
+
+// resync merges every unexpired revocation in Postgres into memory and
+// drops entries whose tokens have expired - an expired token is refused
+// on its expiry alone, so remembering its revocation serves no purpose.
+func (r *Revoker) resync(ctx context.Context) error {
+	events, err := r.db.UnexpiredRevocations(ctx)
+	if err != nil {
+		return fmt.Errorf("reload revoked tokens: %w", err)
+	}
+	now := time.Now()
+	r.mu.Lock()
+	defer r.mu.Unlock()
+	for _, e := range events {
+		r.revoked[e.JTI] = e.ExpiresAt
+	}
+	for jti, expiresAt := range r.revoked {
+		if !expiresAt.After(now) {
+			delete(r.revoked, jti)
+		}
 	}
 	return nil
 }

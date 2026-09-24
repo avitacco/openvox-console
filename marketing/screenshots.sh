@@ -100,9 +100,16 @@ DEMO_PID=$!
 # or interrupt - a stray console holding a port is a confusing thing to
 # leave behind.
 cleanup() {
+  local status=$?
   if kill -0 "$DEMO_PID" 2>/dev/null; then
     kill "$DEMO_PID" 2>/dev/null || true
     wait "$DEMO_PID" 2>/dev/null || true
+  fi
+  # The log is only worth keeping when something went wrong.
+  if [ "$status" -eq 0 ]; then
+    rm -f "$DEMO_LOG"
+  else
+    echo "The demo console's log is at $DEMO_LOG"
   fi
 }
 trap cleanup EXIT INT TERM
@@ -160,6 +167,6 @@ for locale in $CAPTURE_LOCALES; do
       --locale "${locale}"
 done
 
-log "Done"
-echo "The demo console has been stopped; ${DEMO_DB} is left in place for inspection"
-echo "and dropped at the start of the next run."
+log "Screenshots captured"
+echo "The demo console has been stopped. \`make marketing\` removes ${DEMO_DB} and the demo"
+echo "fleet next; run on its own, this leaves them for inspection until the next run."

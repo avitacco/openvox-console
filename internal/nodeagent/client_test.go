@@ -9,6 +9,7 @@ import (
 
 	"github.com/nats-io/nats.go"
 
+	"github.com/voxpupuli/enterprise-console/internal/messaging"
 	"github.com/voxpupuli/enterprise-console/internal/nodetransport"
 	"github.com/voxpupuli/enterprise-console/internal/testca"
 )
@@ -26,7 +27,7 @@ func startTestTransport(t *testing.T) (*nodetransport.Server, *testca.CA) {
 		CertFile:   serverCert,
 		KeyFile:    serverKey,
 		CAFile:     ca.PEMFile(t),
-	})
+	}, messaging.Config{})
 	if err != nil {
 		t.Fatalf("nodetransport.New() error: %v", err)
 	}

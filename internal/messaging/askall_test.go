@@ -43,13 +43,13 @@ func TestAskAllCollectsRepliesFromPeers(t *testing.T) {
 	const secret = "test-cluster-secret"
 	addrA := freeAddr(t)
 
-	a, err := messaging.StartWith(messaging.Config{ListenAddr: addrA, Secret: secret})
+	a, err := startPeer(t, messaging.Config{ListenAddr: addrA, Secret: secret})
 	if err != nil {
 		t.Fatalf("start instance A: %v", err)
 	}
 	defer a.Close()
 
-	b, err := messaging.StartWith(messaging.Config{
+	b, err := startPeer(t, messaging.Config{
 		ListenAddr: freeAddr(t),
 		Peers:      []string{addrA},
 		Secret:     secret,
@@ -148,13 +148,13 @@ func TestLocalViewCountsDistinctPeersNotConnections(t *testing.T) {
 	const secret = "test-cluster-secret"
 	addrA := freeAddr(t)
 
-	a, err := messaging.StartWith(messaging.Config{ListenAddr: addrA, Secret: secret})
+	a, err := startPeer(t, messaging.Config{ListenAddr: addrA, Secret: secret})
 	if err != nil {
 		t.Fatalf("start instance A: %v", err)
 	}
 	defer a.Close()
 
-	b, err := messaging.StartWith(messaging.Config{
+	b, err := startPeer(t, messaging.Config{
 		ListenAddr: freeAddr(t),
 		Peers:      []string{addrA},
 		Secret:     secret,

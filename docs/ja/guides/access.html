@@ -1,0 +1,415 @@
+<!DOCTYPE html><html lang="ja" dir="ltr"><head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="Give people access through roles and permissions, sign in with your identity provider, and issue tokens for programs."/>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+    <title>Users, roles and tokens - OpenVox Console</title>
+
+    
+    <script>
+      (function () {
+        
+        
+        var stored = null;
+        try { stored = localStorage.getItem('vox-theme'); } catch (e) {}
+        var theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-vox-theme', theme);
+      })();
+    </script>
+    <style>
+      html { background-color: #f5faf9; }
+      html[data-vox-theme='dark'] { background-color: #0d1417; }
+    </style>
+
+    
+    <script>
+      (function () {
+        var LOCALES = ["en", "zh", "hi", "es", "fr", "de", "ja", "ar", ];
+        var KEY = 'vox-lang';
+
+        function stored() {
+          
+          
+          try { return localStorage.getItem(KEY); } catch (e) { return null; }
+        }
+
+        
+        
+        
+        
+        
+        document.addEventListener('click', function (event) {
+          var path = event.composedPath ? event.composedPath() : [event.target];
+          for (var i = 0; i < path.length; i++) {
+            var code = path[i].getAttribute && path[i].getAttribute('data-lang');
+            if (code) {
+              try { localStorage.setItem(KEY, code); } catch (e) {}
+              return;
+            }
+          }
+        });
+        
+      })();
+    </script>
+
+    <link rel="stylesheet" href="../../vendor/voxblocks.css"/>
+    <link rel="stylesheet" href="../../site.css"/>
+    <script type="module" src="../../vendor/voxblocks.js"></script>
+    <script type="module" src="../../theme.js"></script>
+    <script type="module" src="../../guides.js"></script>
+  </head>
+  <body>
+    
+    <a class="skip-link" href="#main">本文へスキップ</a>
+
+    <vox-header site-title="OpenVox Console" href="../index.html">
+      
+      <svg slot="logo" viewBox="0 0 2560 2478" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M1946.22 272.18L1874.51 643.161C1840.69 625.335 1769.51 597.048 1744.63 592.202L1946.22 272.18ZM1647.05 893.509C1735.54 894.748 1789.05 935.815 1845.35 1010.52C1716.57 1047.71 1641.84 987.053 1586.85 899.704C1600.03 898.445 1634.39 893.339 1647.05 893.509ZM1421.62 600.655C1288.19 638.415 1170.91 730.251 1126.1 808.997C1126.1 808.997 1186.31 336.289 1244.88 158.652C1315.83 282.552 1421.62 600.655 1421.62 600.655ZM2477.39 1158.21C2342.39 1125.61 2074.76 1042.77 2053.7 881.139C2043.59 803.362 1980.86 717.271 1947.86 694.589L2004.72 106.064L1517.51 580.681C1517.51 580.681 1358.55 170.153 1243.89 0C1100.67 241.805 932.123 707.949 896.253 809.107L1227.33 1744.42C1243.68 1615.28 1328.09 1472.06 1428.27 1381.86C1350.61 1280.89 1210.56 1250.76 1151.7 1289.73C1228.31 1186.22 1376.21 1050.44 1651.27 1124.86C1773.51 1157.92 1898.72 1222.92 1978.75 1240.54C2184.12 1285.76 2337.81 1231.2 2337.81 1231.2C2336.23 1279.58 2360.5 1315.47 2410.61 1338.87C2196.05 1539.04 1914.11 1376.52 1715.51 1407.29C1514.8 1438.43 1238.87 2011.65 1201.73 2093.07L593.825 394.322L584.775 369.242C535.086 234.271 451.316 124.12 296.898 124.12H0V473.618H92.0793C145.649 473.618 170.849 489.355 189.769 542.882L903.123 2478H1248.99L1312.45 2324.93L1556.24 1812.6C1660.38 1581.57 1765.81 1518.18 2072.12 1531.73C2162.6 1535.73 2349.93 1537.27 2457.29 1405.96C2611.96 1216.8 2569.29 1180.38 2477.43 1158.16" fill="currentColor"></path>
+      </svg>
+      
+      <nav slot="actions" class="lang-switcher" aria-label="言語">
+        <vox-dropdown label="日本語">
+          <a data-lang="en" href="../../guides/access.html" hreflang="en" lang="en">English</a>
+          <a data-lang="zh" href="../../zh/guides/access.html" hreflang="zh" lang="zh">中文</a>
+          <a data-lang="hi" href="../../hi/guides/access.html" hreflang="hi" lang="hi">हिन्दी</a>
+          <a data-lang="es" href="../../es/guides/access.html" hreflang="es" lang="es">Español</a>
+          <a data-lang="fr" href="../../fr/guides/access.html" hreflang="fr" lang="fr">Français</a>
+          <a data-lang="de" href="../../de/guides/access.html" hreflang="de" lang="de">Deutsch</a>
+          <a aria-current="page" data-lang="ja" href="../../ja/guides/access.html" hreflang="ja" lang="ja">日本語</a>
+          <a data-lang="ar" href="../../ar/guides/access.html" hreflang="ar" lang="ar">العربية</a>
+          </vox-dropdown>
+      </nav>
+      <vox-theme-toggle slot="actions"></vox-theme-toggle>
+      
+      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
+    </vox-header>
+
+    <div class="site-subnav">
+      <vox-subnav label="機能" class="vox-container">
+      
+      <a href="../features/nodes.html">Nodes</a>
+      <a href="../features/classification.html">分類</a>
+      <a href="../features/code.html">Code</a>
+      <a href="../features/orchestration.html">オーケストレーション</a>
+      <a href="../features/security.html">セキュリティ</a>
+      <a href="../features/access-control.html">アクセス制御</a>
+      </vox-subnav>
+    </div>
+
+    <main id="main">
+      <div class="site-main vox-container">
+<div class="guide-layout">
+  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
+    <vox-sidenav-group heading="Install">
+      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    <vox-sidenav-group heading="Nodes">
+      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    <vox-sidenav-group heading="Scale">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    <vox-sidenav-group heading="Use" open="">
+      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html" current="" aria-current="page"><span>Users, roles and tokens</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    <vox-sidenav-group heading="Operate">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    </vox-sidenav>
+
+  <article class="guide">
+    <p class="guide-eyebrow">Use</p>
+    <h1 class="guide-title vox-ts-xxl">Users, roles and tokens</h1>
+    <p class="guide-summary">Give people access through roles and permissions, sign in with your identity provider, and issue tokens for programs.</p>
+
+    
+    <vox-callout variant="info" heading="Not fully translated yet">
+      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
+    </vox-callout>
+
+    <vox-toc class="guide-toc" heading="On this page">
+      <vox-toc-item href="#the-permissions"><span>The permissions</span>
+      </vox-toc-item>
+      <vox-toc-item href="#give-someone-access"><span>Give someone access</span>
+      </vox-toc-item>
+      <vox-toc-item href="#sign-in-with-your-identity-provider"><span>Sign in with your identity provider</span>
+      </vox-toc-item>
+      <vox-toc-item href="#issue-a-token-for-a-program"><span>Issue a token for a program</span>
+      </vox-toc-item>
+      <vox-toc-item href="#keep-an-audit-trail"><span>Keep an audit trail</span>
+      </vox-toc-item>
+      </vox-toc>
+    <div class="guide-body vox-prose">
+<p>Everything in the console is behind a permission, and every permission
+reaches a person through a <strong>role</strong>. Programs, such as enc-bridge, use
+<strong>service tokens</strong> instead.</p>
+<p>Managing users, roles and tokens needs <code>rbac:admin</code>.</p>
+<h2 id="the-permissions">The permissions</h2>
+<div class="guide-table" tabindex="0"><table class="vox-table">
+<thead>
+<tr>
+<th>Permission</th>
+<th>Allows</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>nodes:read</code></td>
+<td>seeing nodes, their facts, reports, packages and certificate states</td>
+</tr>
+<tr>
+<td><code>nodes:manage</code></td>
+<td>deleting nodes</td>
+</tr>
+<tr>
+<td><code>nodes:certs:manage</code></td>
+<td>signing, revoking and cleaning certificates - equivalent to CA admin</td>
+</tr>
+<tr>
+<td><code>classifier:read</code></td>
+<td>seeing node groups</td>
+</tr>
+<tr>
+<td><code>classifier:write</code></td>
+<td>creating, changing and deleting node groups</td>
+</tr>
+<tr>
+<td><code>enc:read</code></td>
+<td>reading classification, as openvoxserver does</td>
+</tr>
+<tr>
+<td><code>code:read</code></td>
+<td>seeing repositories and deploys</td>
+</tr>
+<tr>
+<td><code>code:deploy</code></td>
+<td>starting deploys</td>
+</tr>
+<tr>
+<td><code>orchestrator:read</code></td>
+<td>seeing jobs</td>
+</tr>
+<tr>
+<td><code>orchestrator:run</code></td>
+<td>starting jobs, and switching a node&#39;s package reporting</td>
+</tr>
+<tr>
+<td><code>vulnerabilities:read</code></td>
+<td>seeing vulnerability findings</td>
+</tr>
+<tr>
+<td><code>vulnerabilities:manage</code></td>
+<td>configuring vulnerability providers</td>
+</tr>
+<tr>
+<td><code>activity:read</code></td>
+<td>seeing the activity log</td>
+</tr>
+<tr>
+<td><code>status:read</code></td>
+<td>seeing the System page</td>
+</tr>
+<tr>
+<td><code>rbac:admin</code></td>
+<td>managing users, roles and service tokens</td>
+</tr>
+</tbody>
+</table></div>
+<vox-callout variant="info" heading="Note"><p>The bootstrap admin gets every permission. A permission added in a
+newer console version is never added to existing roles for you, so
+after an upgrade, grant new ones on the <strong>Roles</strong> page to the roles
+that should have them.</p>
+</vox-callout>
+<h2 id="give-someone-access">Give someone access</h2>
+<ol>
+<li>Open <strong>Admin</strong>, then <strong>Roles</strong>, and create a role with the
+permissions the job needs - for example, <code>nodes:read</code>,
+<code>classifier:read</code> and <code>orchestrator:read</code> for someone who watches but
+does not change.</li>
+<li>Open <strong>Users</strong>, create the user, and assign the role.</li>
+</ol>
+<p>A user&#39;s permissions are the combination of all their roles.</p>
+<h2 id="sign-in-with-your-identity-provider">Sign in with your identity provider</h2>
+<p>The console can also sign people in through OpenID Connect. Local
+sign-in and service tokens keep working alongside it. Register the
+console with your provider, with a redirect URL of
+<code>https://console.example.com/api/v1/auth/oidc/callback</code>, and set:</p>
+<div class="guide-table" tabindex="0"><table class="vox-table">
+<thead>
+<tr>
+<th>Setting</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CONSOLE_OIDC_ISSUER</code></td>
+<td>your provider&#39;s issuer URL</td>
+</tr>
+<tr>
+<td><code>CONSOLE_OIDC_CLIENT_ID</code>, <code>CONSOLE_OIDC_CLIENT_SECRET</code></td>
+<td>the console&#39;s registration</td>
+</tr>
+<tr>
+<td><code>CONSOLE_OIDC_REDIRECT_URL</code></td>
+<td>the redirect URL above</td>
+</tr>
+<tr>
+<td><code>CONSOLE_OIDC_SCOPES</code></td>
+<td>defaults to <code>openid profile email groups</code></td>
+</tr>
+<tr>
+<td><code>CONSOLE_OIDC_USERNAME_CLAIM</code></td>
+<td>the claim a new user&#39;s name comes from; defaults to <code>email</code></td>
+</tr>
+<tr>
+<td><code>CONSOLE_OIDC_ROLE_CLAIM</code></td>
+<td>the claim listing a person&#39;s groups; defaults to <code>groups</code></td>
+</tr>
+<tr>
+<td><code>CONSOLE_OIDC_ROLE_MAPPING</code></td>
+<td>a JSON object from claim values to role names, such as <code>{&#34;platform-admins&#34;:&#34;admin&#34;}</code>; each role must already exist, and unmapped values are ignored</td>
+</tr>
+</tbody>
+</table></div>
+<p>The sign-in page then offers <strong>Log in with SSO</strong>. At every sign-in, the
+console gives the person the mapped roles their claims currently name,
+and removes mapped roles they no longer name. A role an administrator
+assigned by hand is never touched.</p>
+<vox-callout variant="warning" heading="Warning"><p>Your provider must put the username and group claims in the ID token
+itself, not only behind its user-info endpoint. Some providers leave
+them out of the ID token by default when they also issue an access
+token, and need a setting to include them.</p>
+</vox-callout>
+<h2 id="issue-a-token-for-a-program">Issue a token for a program</h2>
+<p>A service token has a fixed set of permissions chosen when it is
+created, and never expires on its own. Give each program its own, with
+only what it needs:</p>
+<ol>
+<li>Open <strong>Admin</strong>, then <strong>Service tokens</strong>.</li>
+<li>Under <strong>New service token</strong>, name it and choose its permissions.</li>
+<li>Choose <strong>Create service token</strong>, and copy the token: it is shown
+once.</li>
+</ol>
+<p>Deleting a service token revokes it on every console instance at once.
+Signing out revokes the tokens of that session the same way.</p>
+<h2 id="keep-an-audit-trail">Keep an audit trail</h2>
+<p>Every change made through the console is on the <strong>Activity</strong> page, which
+needs <code>activity:read</code>. Separately, the console can write an audit log for
+a log collector, with one level per category:</p>
+<div class="guide-table" tabindex="0"><table class="vox-table">
+<thead>
+<tr>
+<th>Setting</th>
+<th>Category</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CONSOLE_AUDIT_NODES</code></td>
+<td>nodes and certificates</td>
+</tr>
+<tr>
+<td><code>CONSOLE_AUDIT_CLASSIFIER</code></td>
+<td>node groups</td>
+</tr>
+<tr>
+<td><code>CONSOLE_AUDIT_RBAC</code></td>
+<td>users, roles and tokens</td>
+</tr>
+<tr>
+<td><code>CONSOLE_AUDIT_AUTH</code></td>
+<td>sign-ins and sign-outs</td>
+</tr>
+<tr>
+<td><code>CONSOLE_AUDIT_CODE</code></td>
+<td>code deploys</td>
+</tr>
+<tr>
+<td><code>CONSOLE_AUDIT_ORCHESTRATOR</code></td>
+<td>jobs</td>
+</tr>
+<tr>
+<td><code>CONSOLE_AUDIT_VULNERABILITIES</code></td>
+<td>vulnerability providers</td>
+</tr>
+</tbody>
+</table></div>
+<p>Each is <code>off</code>, <code>writes</code> (the default: changes and sign-ins) or <code>full</code>
+(also every view). Audit events go to the console&#39;s own log output unless
+<code>CONSOLE_AUDIT_LOG_PATH</code> names a file.</p>
+
+    </div>
+
+    <vox-series-nav label="Use" previous-text="Previous" next-text="Next" previous-href="../guides/run-jobs.html" previous-label="Run jobs" next-href="../guides/vulnerabilities.html" next-label="Track vulnerabilities"></vox-series-nav>
+  </article>
+</div>
+
+      </div>
+
+      
+      <vox-cta-band heading="自分で動かしてみる">
+      <p>
+        OpenVox Console ships as container images, built for amd64 and
+        arm64 on every push, and as a single binary. The install guides
+        take you from an empty host to a working deployment -
+        openvoxserver, openvoxdb, Postgres and the console - with
+        containers or with packages.
+      </p>
+      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">GitHub のソース</vox-cta>
+      <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">コンテナイメージ</vox-cta>
+      </vox-cta-band>
+    </main>
+
+    <vox-footer>
+      <vox-footer-column heading="OpenVox Console">
+        <a href="../index.html">概要</a>
+        <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">ソース</a>
+        <a href="../guides/index.html#install">Install guides</a>
+      </vox-footer-column>
+      <vox-footer-column heading="機能">
+        <a href="../features/nodes.html">Nodes</a>
+        <a href="../features/classification.html">分類</a>
+        <a href="../features/code.html">Code</a>
+        <a href="../features/orchestration.html">オーケストレーション</a>
+        <a href="../features/security.html">セキュリティ</a>
+        <a href="../features/access-control.html">アクセス制御</a>
+        </vox-footer-column>
+      
+      <vox-footer-column heading="言語">
+        <a href="../../guides/access.html" hreflang="en" lang="en">English</a>
+        <a href="../../zh/guides/access.html" hreflang="zh" lang="zh">中文</a>
+        <a href="../../hi/guides/access.html" hreflang="hi" lang="hi">हिन्दी</a>
+        <a href="../../es/guides/access.html" hreflang="es" lang="es">Español</a>
+        <a href="../../fr/guides/access.html" hreflang="fr" lang="fr">Français</a>
+        <a href="../../de/guides/access.html" hreflang="de" lang="de">Deutsch</a>
+        <a href="../../ar/guides/access.html" hreflang="ar" lang="ar">العربية</a>
+        </vox-footer-column>
+      <vox-footer-column heading="OpenVox">
+        <a href="https://openvoxproject.github.io/" rel="noopener" target="_blank">OpenVox project</a>
+        <a href="https://github.com/voxpupuli" rel="noopener" target="_blank">Vox Pupuli</a>
+      </vox-footer-column>
+      <div slot="bottom" class="footer-note">
+        <span>ライセンス GPL-3.0</span>
+        <span>スクリーンショットは、合成されたデモ用フリートに対して稼働するコンソールのものです。</span>
+      </div>
+    </vox-footer>
+  
+
+</body></html>

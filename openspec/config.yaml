@@ -38,6 +38,16 @@ context: |
   Change proposals should generally track a phase (or a slice of a phase)
   from phased-build-plan.md unless the user directs otherwise.
 
+  User-facing documentation lives in the site's guides
+  (marketing/guides/, published by marketing/), not in the repository's
+  markdown files. A change that alters a user-facing flow - installation,
+  configuration, a console page, the node install script, scaling or an
+  operational procedure - must name the guide(s) it updates in its
+  proposal's Impact section, and carry the guide edits in its tasks.
+  The site build fails on a guide naming a setting the console no longer
+  reads, or a link that no longer resolves, but cannot catch a step that
+  has quietly changed.
+
 # Add your tech stack, conventions, style guides, domain knowledge, etc.
 # Example:
 #   context: |

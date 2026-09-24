@@ -1,19 +1,17 @@
 package app_test
 
 import (
-	"context"
 	"net/http"
 	"testing"
 	"time"
 
-	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/nats-io/nats.go"
 
-	"github.com/voxpupuli/enterprise-console/internal/activity"
 	"github.com/voxpupuli/enterprise-console/internal/messaging"
 	"github.com/voxpupuli/enterprise-console/internal/rbac"
 	"github.com/voxpupuli/enterprise-console/internal/runtime"
 	"github.com/voxpupuli/enterprise-console/internal/testapp"
+	"github.com/voxpupuli/enterprise-console/internal/testca"
 )
 
 // clusterOf starts n instances of the given mode, peered together. The
@@ -45,83 +43,15 @@ func clusterOf(t *testing.T, c *testapp.Cluster, mode runtime.Mode, n int) []*te
 	return instances
 }
 
-// An activity event published once must be persisted once, however many
-// instances are running. Before the recorder joined a queue group this
-// wrote one identical row per instance - the duplicate-write bug
-// clustering introduces and queue groups remove.
-func TestActivityEventPersistedOnceAcrossInstances(t *testing.T) {
-	c := testapp.NewCluster(t)
-	instances := clusterOf(t, c, runtime.ModeAll, 2)
-
-	pool, err := pgxpool.New(context.Background(), c.DSN())
-	if err != nil {
-		t.Fatalf("connect to test database: %v", err)
-	}
-	defer pool.Close()
-
-	// A marker unique to this run, so the assertion is unaffected by
-	// anything else in the shared table.
-	summary := "cluster-dedup-probe-" + time.Now().Format("20060102150405.000000000")
-
-	// Published through a bus peered with the running instances, exactly
-	// as a live request on a third instance would.
-	pub, err := messaging.StartWith(messaging.Config{
-		ListenAddr: testapp.FreeAddr(t),
-		Peers:      []string{instances[0].ClusterAddr},
-		Secret:     "test-cluster-secret",
-	})
-	if err != nil {
-		t.Fatalf("start publishing bus: %v", err)
-	}
-	defer pub.Close()
-
-	publisher := activity.NewPublisher(pub, testapp.Logger(), "classifier")
-
-	// Retried until a row appears: the route and the queue-group
-	// interest both propagate asynchronously, and core NATS drops a
-	// publish that arrives before any subscriber is known.
-	deadline := time.Now().Add(20 * time.Second)
-	var count int
-	for time.Now().Before(deadline) {
-		publisher.Publish("cluster-dedup-test", "tester", summary)
-		time.Sleep(300 * time.Millisecond)
-
-		if err := pool.QueryRow(context.Background(),
-			`SELECT count(*) FROM activity_log WHERE summary = $1`, summary).Scan(&count); err != nil {
-			t.Fatalf("count activity events: %v", err)
-		}
-		if count > 0 {
-			break
-		}
-	}
-	if count == 0 {
-		t.Fatal("the activity event was never persisted by any instance")
-	}
-
-	// Let any duplicate land before asserting. A second row would mean
-	// each instance persisted its own copy.
-	time.Sleep(time.Second)
-	if err := pool.QueryRow(context.Background(),
-		`SELECT count(*) FROM activity_log WHERE summary = $1`, summary).Scan(&count); err != nil {
-		t.Fatalf("count activity events: %v", err)
-	}
-
-	// One publish per loop iteration, so the count must equal the number
-	// of publishes that happened, not exceed it. The loop breaks on the
-	// first success, so exactly one publish produced a row.
-	if count != 1 {
-		t.Errorf("one published activity event produced %d rows; each instance persisted its own copy", count)
-	}
-}
-
-// Revocation is the opposite case: every instance must learn about it,
-// so the subscription stays fan-out. Asserted at the bus level, since
+// Revocation must reach every instance, so its subscription is fan-out
+// rather than a queue group. Asserted at the bus level, since
 // what matters is that every subscriber receives a copy.
 func TestRevocationReachesEveryInstance(t *testing.T) {
 	const secret = "test-cluster-secret"
 	seedAddr := testapp.FreeAddr(t)
 
-	a, err := messaging.StartWith(messaging.Config{ListenAddr: seedAddr, Secret: secret})
+	peerTLS := testPeerTLS(t)
+	a, err := messaging.StartWith(messaging.Config{ListenAddr: seedAddr, Secret: secret, TLS: peerTLS})
 	if err != nil {
 		t.Fatalf("start bus A: %v", err)
 	}
@@ -133,6 +63,7 @@ func TestRevocationReachesEveryInstance(t *testing.T) {
 			ListenAddr: testapp.FreeAddr(t),
 			Peers:      []string{seedAddr},
 			Secret:     secret,
+			TLS:        peerTLS,
 		})
 		if err != nil {
 			t.Fatalf("start bus %d: %v", i, err)
@@ -229,7 +160,10 @@ func TestRevokedTokenIsRejectedOnEveryInstance(t *testing.T) {
 func TestSplitTopologyStartsAndServesEachSurface(t *testing.T) {
 	c := testapp.NewCluster(t)
 
-	const secret = "test-cluster-secret"
+	const (
+		secret     = "test-cluster-secret"
+		leafSecret = "test-leaf-secret"
+	)
 	seedAddr := testapp.FreeAddr(t)
 
 	// web seeds the cluster; the others peer with it.
@@ -237,9 +171,10 @@ func TestSplitTopologyStartsAndServesEachSurface(t *testing.T) {
 	web := c.Start(testapp.Config{
 		Mode: runtime.ModeWeb,
 		Env: map[string]string{
-			"CONSOLE_CLUSTER_ADDR":      seedAddr,
-			"CONSOLE_CLUSTER_LEAF_ADDR": seedLeafAddr,
-			"CONSOLE_CLUSTER_SECRET":    secret,
+			"CONSOLE_CLUSTER_ADDR":        seedAddr,
+			"CONSOLE_CLUSTER_LEAF_ADDR":   seedLeafAddr,
+			"CONSOLE_CLUSTER_SECRET":      secret,
+			"CONSOLE_CLUSTER_LEAF_SECRET": leafSecret,
 		},
 	})
 	peer := func(mode runtime.Mode) *testapp.Instance {
@@ -261,10 +196,10 @@ func TestSplitTopologyStartsAndServesEachSurface(t *testing.T) {
 	enc := c.Start(testapp.Config{
 		Mode: runtime.ModeENC,
 		Env: map[string]string{
-			"CONSOLE_CLUSTER_PEERS":  seedLeafAddr,
-			"CONSOLE_CLUSTER_MODE":   "leaf",
-			"CONSOLE_CLUSTER_SECRET": secret,
-			"CONSOLE_CLUSTER_ADDR":   "",
+			"CONSOLE_CLUSTER_PEERS":       seedLeafAddr,
+			"CONSOLE_CLUSTER_MODE":        "leaf",
+			"CONSOLE_CLUSTER_LEAF_SECRET": leafSecret,
+			"CONSOLE_CLUSTER_ADDR":        "",
 		},
 	})
 
@@ -321,16 +256,20 @@ func TestSplitTopologyStartsAndServesEachSurface(t *testing.T) {
 func TestMultipleInstancesOfEachMode(t *testing.T) {
 	c := testapp.NewCluster(t)
 
-	const secret = "test-cluster-secret"
+	const (
+		secret     = "test-cluster-secret"
+		leafSecret = "test-leaf-secret"
+	)
 	seedAddr := testapp.FreeAddr(t)
 	seedLeafAddr := testapp.FreeAddr(t)
 
 	seed := c.Start(testapp.Config{
 		Mode: runtime.ModeWeb,
 		Env: map[string]string{
-			"CONSOLE_CLUSTER_ADDR":      seedAddr,
-			"CONSOLE_CLUSTER_LEAF_ADDR": seedLeafAddr,
-			"CONSOLE_CLUSTER_SECRET":    secret,
+			"CONSOLE_CLUSTER_ADDR":        seedAddr,
+			"CONSOLE_CLUSTER_LEAF_ADDR":   seedLeafAddr,
+			"CONSOLE_CLUSTER_SECRET":      secret,
+			"CONSOLE_CLUSTER_LEAF_SECRET": leafSecret,
 		},
 	})
 	routed := func(mode runtime.Mode) *testapp.Instance {
@@ -349,10 +288,10 @@ func TestMultipleInstancesOfEachMode(t *testing.T) {
 		return c.Start(testapp.Config{
 			Mode: mode,
 			Env: map[string]string{
-				"CONSOLE_CLUSTER_PEERS":  seedLeafAddr,
-				"CONSOLE_CLUSTER_MODE":   "leaf",
-				"CONSOLE_CLUSTER_SECRET": secret,
-				"CONSOLE_CLUSTER_ADDR":   "",
+				"CONSOLE_CLUSTER_PEERS":       seedLeafAddr,
+				"CONSOLE_CLUSTER_MODE":        "leaf",
+				"CONSOLE_CLUSTER_LEAF_SECRET": leafSecret,
+				"CONSOLE_CLUSTER_ADDR":        "",
 			},
 		})
 	}
@@ -379,49 +318,6 @@ func TestMultipleInstancesOfEachMode(t *testing.T) {
 		}
 	}
 
-	// Two workers, one activity row. This is the assertion that would
-	// break first if background work were not coordinated: both run the
-	// activity recorder.
-	pool, err := pgxpool.New(context.Background(), c.DSN())
-	if err != nil {
-		t.Fatalf("connect to test database: %v", err)
-	}
-	defer pool.Close()
-
-	summary := "multi-instance-probe-" + time.Now().Format("20060102150405.000000000")
-	pub, err := messaging.StartWith(messaging.Config{
-		ListenAddr: testapp.FreeAddr(t),
-		Peers:      []string{seedAddr},
-		Secret:     secret,
-	})
-	if err != nil {
-		t.Fatalf("start publishing bus: %v", err)
-	}
-	defer pub.Close()
-	publisher := activity.NewPublisher(pub, testapp.Logger(), "classifier")
-
-	var count int
-	deadline := time.Now().Add(20 * time.Second)
-	for time.Now().Before(deadline) {
-		publisher.Publish("multi-instance-test", "tester", summary)
-		time.Sleep(300 * time.Millisecond)
-		if err := pool.QueryRow(context.Background(),
-			`SELECT count(*) FROM activity_log WHERE summary = $1`, summary).Scan(&count); err != nil {
-			t.Fatalf("count activity events: %v", err)
-		}
-		if count > 0 {
-			break
-		}
-	}
-	time.Sleep(time.Second)
-	if err := pool.QueryRow(context.Background(),
-		`SELECT count(*) FROM activity_log WHERE summary = $1`, summary).Scan(&count); err != nil {
-		t.Fatalf("count activity events: %v", err)
-	}
-	if count != 1 {
-		t.Errorf("one activity event produced %d rows with two workers running; want 1", count)
-	}
-
 	// Revocation must reach every instance of every mode, routed peers
 	// and leaves alike.
 	token := webs[0].Login(t, testapp.BootstrapAdminUser, testapp.BootstrapAdminPassword)
@@ -432,7 +328,7 @@ func TestMultipleInstancesOfEachMode(t *testing.T) {
 	}
 
 	all := append(append(append([]*testapp.Instance{}, webs...), encs...), orchestrators...)
-	deadline = time.Now().Add(20 * time.Second)
+	deadline := time.Now().Add(20 * time.Second)
 	for {
 		stillAccepting := ""
 		for _, inst := range all {
@@ -458,4 +354,13 @@ func TestMultipleInstancesOfEachMode(t *testing.T) {
 		}
 		time.Sleep(100 * time.Millisecond)
 	}
+}
+
+// testPeerTLS issues peer TLS material from a fresh CA, for tests that
+// start buses directly rather than through testapp.
+func testPeerTLS(t *testing.T) *messaging.PeerTLS {
+	t.Helper()
+	ca := testca.NewCA(t)
+	cert, key := ca.Issue(t, "console-peer-test", true)
+	return &messaging.PeerTLS{CertFile: cert, KeyFile: key, CAFile: ca.PEMFile(t)}
 }

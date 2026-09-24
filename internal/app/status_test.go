@@ -121,16 +121,20 @@ func TestStatusDistinguishesUnconfiguredFromUnreachable(t *testing.T) {
 func TestStatusReportsASplitTopology(t *testing.T) {
 	c := testapp.NewCluster(t)
 
-	const secret = "test-cluster-secret"
+	const (
+		secret     = "test-cluster-secret"
+		leafSecret = "test-leaf-secret"
+	)
 	seedAddr := testapp.FreeAddr(t)
 	seedLeafAddr := testapp.FreeAddr(t)
 
 	web := c.Start(testapp.Config{
 		Mode: runtime.ModeWeb,
 		Env: map[string]string{
-			"CONSOLE_CLUSTER_ADDR":      seedAddr,
-			"CONSOLE_CLUSTER_LEAF_ADDR": seedLeafAddr,
-			"CONSOLE_CLUSTER_SECRET":    secret,
+			"CONSOLE_CLUSTER_ADDR":        seedAddr,
+			"CONSOLE_CLUSTER_LEAF_ADDR":   seedLeafAddr,
+			"CONSOLE_CLUSTER_SECRET":      secret,
+			"CONSOLE_CLUSTER_LEAF_SECRET": leafSecret,
 		},
 	})
 	routedPeer := func(mode runtime.Mode) *testapp.Instance {
@@ -148,10 +152,10 @@ func TestStatusReportsASplitTopology(t *testing.T) {
 	c.Start(testapp.Config{
 		Mode: runtime.ModeENC,
 		Env: map[string]string{
-			"CONSOLE_CLUSTER_PEERS":  seedLeafAddr,
-			"CONSOLE_CLUSTER_MODE":   "leaf",
-			"CONSOLE_CLUSTER_SECRET": secret,
-			"CONSOLE_CLUSTER_ADDR":   "",
+			"CONSOLE_CLUSTER_PEERS":       seedLeafAddr,
+			"CONSOLE_CLUSTER_MODE":        "leaf",
+			"CONSOLE_CLUSTER_LEAF_SECRET": leafSecret,
+			"CONSOLE_CLUSTER_ADDR":        "",
 		},
 	})
 

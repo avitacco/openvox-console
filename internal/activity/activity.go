@@ -1,20 +1,21 @@
 // Package activity records and exposes an audit trail of meaningful
-// actions taken through the console. Every other capability publishes an
-// Event on the shared NATS subject; this package's Recorder is the single
-// subscriber that persists them to one table - see architecture-summary.md
-// ("a single subscriber persisting to one table, rather than each service
-// independently writing its own audit entries") and design.md in the
-// phase-4-activity-and-audit-log change.
+// actions taken through the console. Every capability records through a
+// Publisher, which writes each Event straight to one table - one shape
+// and one writer path for every producer, rather than each service
+// keeping its own audit entries.
+//
+// Events were once carried over the NATS bus to a single subscribing
+// recorder (see design.md in the phase-4-activity-and-audit-log change).
+// Core NATS is at-most-once: an event published while no recorder was
+// running - any split topology without a worker instance - or while the
+// recorder was behind or restarting was silently lost. Writing directly
+// removes every one of those windows, and needs nothing but the database
+// the action being recorded has just written to anyway.
 package activity
 
 import "time"
 
-// Subject is the NATS subject every activity event is published on.
-// There is exactly one, regardless of which capability or action
-// produced the event - see design.md's "single subject" decision.
-const Subject = "activity.events"
-
-// Event is the envelope published on Subject and persisted by Recorder.
+// Event is one recorded action.
 type Event struct {
 	Category   string    `json:"category"` // e.g. "classifier", "rbac"
 	Action     string    `json:"action"`   // e.g. "group.created", "role.assigned"

@@ -32,8 +32,11 @@ import (
 	"strings"
 	"time"
 
+	cdppage "github.com/chromedp/cdproto/page"
 	"github.com/chromedp/cdproto/runtime"
 	"github.com/chromedp/chromedp"
+
+	"github.com/voxpupuli/enterprise-console/marketing/guides"
 )
 
 // basePages mirrors the site's page list. Kept here rather than imported
@@ -46,6 +49,28 @@ var basePages = []string{
 	"features/orchestration.html",
 	"features/security.html",
 	"features/access-control.html",
+	"guides/index.html",
+}
+
+// guidesRoot is where the guide sources live, relative to the repository
+// root this tool is run from.
+const guidesRoot = "marketing/guides"
+
+// sitePages is basePages plus a page per guide. Guides are read from
+// their sources rather than listed here, so a new guide is audited the
+// moment it exists instead of when somebody remembers to add it.
+func sitePages() ([]string, error) {
+	sections, err := guides.Load(guidesRoot)
+	if err != nil {
+		return nil, err
+	}
+	out := append([]string(nil), basePages...)
+	for _, sec := range sections {
+		for _, g := range sec.Guides {
+			out = append(out, g.PageName())
+		}
+	}
+	return out, nil
 }
 
 // pages is every URL this run audits: basePages once per locale, and
@@ -58,7 +83,7 @@ var (
 
 // localisedPages prefixes the page list with each locale's directory.
 // English is the site root and takes no prefix.
-func localisedPages(locales []string) []string {
+func localisedPages(locales, basePages []string) []string {
 	var out []string
 	for _, locale := range locales {
 		locale = strings.TrimSpace(locale)
@@ -159,7 +184,11 @@ func run() error {
 	// would multiply the run without testing anything new. Widen it with
 	// -locales when the copy changes.
 	auditedLocales = *locales
-	pages = localisedPages(strings.Split(*locales, ","))
+	site, err := sitePages()
+	if err != nil {
+		return err
+	}
+	pages = localisedPages(strings.Split(*locales, ","), site)
 
 	axeJS, err := loadAxe(*axePath)
 	if err != nil {
@@ -301,6 +330,13 @@ func auditPage(alloc context.Context, axeJS, base, page, theme string, w, h int6
 
 	var raw string
 	err := chromedp.Run(ctx,
+		// A tab opened over DevTools is a background tab to a current
+		// ("new" headless) Chromium, and background tabs get no
+		// animation frames - so the requestAnimationFrame wait below
+		// would never return. Harmless where the tab is already in
+		// front, and it lets the audit run against a local browser as
+		// well as the capture container.
+		cdppage.BringToFront(),
 		chromedp.EmulateViewport(w, h),
 		chromedp.Navigate(url),
 		chromedp.Evaluate(setTheme, nil),

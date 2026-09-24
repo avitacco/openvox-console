@@ -7,6 +7,7 @@ import (
 
 	"github.com/nats-io/nats.go"
 
+	"github.com/voxpupuli/enterprise-console/internal/messaging"
 	"github.com/voxpupuli/enterprise-console/internal/testca"
 )
 
@@ -23,7 +24,7 @@ func startTestServer(t *testing.T) (*Server, *testca.CA) {
 		CertFile:   serverCert,
 		KeyFile:    serverKey,
 		CAFile:     ca.PEMFile(t),
-	})
+	}, messaging.Config{})
 	if err != nil {
 		t.Fatalf("New() error: %v", err)
 	}
@@ -38,17 +39,28 @@ func dialNode(t *testing.T, addr string, ca *testca.CA, commonName string) (*nat
 	t.Helper()
 
 	certPath, keyPath := ca.Issue(t, commonName, false)
+	return dialNodeWith(addr, ca, certPath, keyPath)
+}
+
+// dialNodeWith connects to addr presenting the certificate at
+// certPath/keyPath.
+func dialNodeWith(addr string, ca *testca.CA, certPath, keyPath string) (*nats.Conn, error) {
 	clientPair, err := tls.LoadX509KeyPair(certPath, keyPath)
 	if err != nil {
-		t.Fatalf("load client cert for %q: %v", commonName, err)
+		return nil, err
 	}
 	caPool := x509.NewCertPool()
 	caPool.AddCert(ca.Cert)
 
-	return nats.Connect("tls://"+addr, nats.Secure(&tls.Config{
-		Certificates: []tls.Certificate{clientPair},
-		RootCAs:      caPool,
-	}))
+	return nats.Connect("tls://"+addr,
+		nats.Secure(&tls.Config{
+			Certificates: []tls.Certificate{clientPair},
+			RootCAs:      caPool,
+		}),
+		// A test that expects to be cut off wants to see it, not have
+		// the client quietly reconnect.
+		nats.NoReconnect(),
+	)
 }
 
 func TestServer_AcceptsConnectionWithValidCASignedCert(t *testing.T) {

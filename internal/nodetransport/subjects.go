@@ -5,7 +5,7 @@ import "time"
 // PingInterval and MaxPingsOut tune how often each side of a node-agent's
 // connection pings the other, and how many unanswered pings it tolerates
 // before treating the connection as dead - shared by the server (see
-// server.go's Options) and internal/nodeagent's client so both directions
+// listener.go's NodeListener) and internal/nodeagent's client so both directions
 // generate keepalive traffic at the same cadence, exported here for the
 // same reason DispatchSubject is: one definition rather than each side
 // reimplementing it and risking drift.
@@ -24,14 +24,12 @@ const (
 	MaxPingsOut  = 3
 )
 
-// Every subject a given node may ever publish or subscribe to lives under
-// its own "node.<certname>." prefix (both the dispatch subject the console
-// publishes requests to, and the per-request reply subject the node
-// responds on - see dispatch.go) - this is what auth.go's per-node
-// Permissions restrict access to, giving the "a node can only ever
-// be addressed as itself" property without ever needing to special-case a
-// shared reply-subject namespace (e.g. NATS's default "_INBOX.>") that
-// every node would otherwise need some access to.
+// Every subject a node may subscribe to lives under its own
+// "node.<certname>." prefix - this is what auth.go's per-node
+// Permissions restrict it to, giving the "a node can only ever be
+// addressed as itself" property. A node publishes nothing at all except
+// replies to requests it received, which NATS's response permissions
+// (see auth.go) allow without any access to a shared reply namespace.
 
 func nodePrefix(certname string) string {
 	return "node." + certname + "."
@@ -48,8 +46,16 @@ func DispatchSubject(certname string) string {
 	return nodePrefix(certname) + "dispatch"
 }
 
-// ReplySubject returns the subject a node-agent replies with its
-// response on for one dispatch request - see DispatchSubject.
-func ReplySubject(certname, requestID string) string {
-	return nodePrefix(certname) + "reply." + requestID
-}
+// ResponseWindow is how long a node may take to answer a dispatch. A
+// node's permission to publish a reply is granted per request and
+// expires after this long, so no Dispatch timeout may exceed it - the
+// reply would be refused by the server and the dispatch would wait out
+// its timeout for an answer that can never arrive. Comfortably above
+// the orchestrator's own longest dispatch timeout.
+const ResponseWindow = 2 * time.Hour
+
+// CertificateRevokedSubject is published on the console's internal bus
+// (messaging.AccountConsole) when the console revokes or cleans a node's
+// certificate, so every instance drops that node's connections - see
+// AnnounceCertificateRevoked.
+const CertificateRevokedSubject = "nodetransport.certificate.revoked"

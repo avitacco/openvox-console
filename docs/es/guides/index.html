@@ -1,0 +1,202 @@
+<!DOCTYPE html><html lang="es" dir="ltr"><head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="Step-by-step guides to installing, scaling, using and operating OpenVox Console."/>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+    <title>Guides - OpenVox Console</title>
+
+    
+    <script>
+      (function () {
+        
+        
+        var stored = null;
+        try { stored = localStorage.getItem('vox-theme'); } catch (e) {}
+        var theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-vox-theme', theme);
+      })();
+    </script>
+    <style>
+      html { background-color: #f5faf9; }
+      html[data-vox-theme='dark'] { background-color: #0d1417; }
+    </style>
+
+    
+    <script>
+      (function () {
+        var LOCALES = ["en", "zh", "hi", "es", "fr", "de", "ja", "ar", ];
+        var KEY = 'vox-lang';
+
+        function stored() {
+          
+          
+          try { return localStorage.getItem(KEY); } catch (e) { return null; }
+        }
+
+        
+        
+        
+        
+        
+        document.addEventListener('click', function (event) {
+          var path = event.composedPath ? event.composedPath() : [event.target];
+          for (var i = 0; i < path.length; i++) {
+            var code = path[i].getAttribute && path[i].getAttribute('data-lang');
+            if (code) {
+              try { localStorage.setItem(KEY, code); } catch (e) {}
+              return;
+            }
+          }
+        });
+        
+      })();
+    </script>
+
+    <link rel="stylesheet" href="../../vendor/voxblocks.css"/>
+    <link rel="stylesheet" href="../../site.css"/>
+    <script type="module" src="../../vendor/voxblocks.js"></script>
+    <script type="module" src="../../theme.js"></script>
+    
+  </head>
+  <body>
+    
+    <a class="skip-link" href="#main">Saltar al contenido</a>
+
+    <vox-header site-title="OpenVox Console" href="../index.html">
+      
+      <svg slot="logo" viewBox="0 0 2560 2478" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M1946.22 272.18L1874.51 643.161C1840.69 625.335 1769.51 597.048 1744.63 592.202L1946.22 272.18ZM1647.05 893.509C1735.54 894.748 1789.05 935.815 1845.35 1010.52C1716.57 1047.71 1641.84 987.053 1586.85 899.704C1600.03 898.445 1634.39 893.339 1647.05 893.509ZM1421.62 600.655C1288.19 638.415 1170.91 730.251 1126.1 808.997C1126.1 808.997 1186.31 336.289 1244.88 158.652C1315.83 282.552 1421.62 600.655 1421.62 600.655ZM2477.39 1158.21C2342.39 1125.61 2074.76 1042.77 2053.7 881.139C2043.59 803.362 1980.86 717.271 1947.86 694.589L2004.72 106.064L1517.51 580.681C1517.51 580.681 1358.55 170.153 1243.89 0C1100.67 241.805 932.123 707.949 896.253 809.107L1227.33 1744.42C1243.68 1615.28 1328.09 1472.06 1428.27 1381.86C1350.61 1280.89 1210.56 1250.76 1151.7 1289.73C1228.31 1186.22 1376.21 1050.44 1651.27 1124.86C1773.51 1157.92 1898.72 1222.92 1978.75 1240.54C2184.12 1285.76 2337.81 1231.2 2337.81 1231.2C2336.23 1279.58 2360.5 1315.47 2410.61 1338.87C2196.05 1539.04 1914.11 1376.52 1715.51 1407.29C1514.8 1438.43 1238.87 2011.65 1201.73 2093.07L593.825 394.322L584.775 369.242C535.086 234.271 451.316 124.12 296.898 124.12H0V473.618H92.0793C145.649 473.618 170.849 489.355 189.769 542.882L903.123 2478H1248.99L1312.45 2324.93L1556.24 1812.6C1660.38 1581.57 1765.81 1518.18 2072.12 1531.73C2162.6 1535.73 2349.93 1537.27 2457.29 1405.96C2611.96 1216.8 2569.29 1180.38 2477.43 1158.16" fill="currentColor"></path>
+      </svg>
+      
+      <nav slot="actions" class="lang-switcher" aria-label="Idioma">
+        <vox-dropdown label="Español">
+          <a data-lang="en" href="../../guides/index.html" hreflang="en" lang="en">English</a>
+          <a data-lang="zh" href="../../zh/guides/index.html" hreflang="zh" lang="zh">中文</a>
+          <a data-lang="hi" href="../../hi/guides/index.html" hreflang="hi" lang="hi">हिन्दी</a>
+          <a aria-current="page" data-lang="es" href="../../es/guides/index.html" hreflang="es" lang="es">Español</a>
+          <a data-lang="fr" href="../../fr/guides/index.html" hreflang="fr" lang="fr">Français</a>
+          <a data-lang="de" href="../../de/guides/index.html" hreflang="de" lang="de">Deutsch</a>
+          <a data-lang="ja" href="../../ja/guides/index.html" hreflang="ja" lang="ja">日本語</a>
+          <a data-lang="ar" href="../../ar/guides/index.html" hreflang="ar" lang="ar">العربية</a>
+          </vox-dropdown>
+      </nav>
+      <vox-theme-toggle slot="actions"></vox-theme-toggle>
+      
+      <a href="../guides/index.html" slot="actions">Guides</a>
+      <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
+    </vox-header>
+
+    <div class="site-subnav">
+      <vox-subnav label="Capacidades" class="vox-container">
+      
+      <a href="../features/nodes.html">Nodes</a>
+      <a href="../features/classification.html">Clasificación</a>
+      <a href="../features/code.html">Code</a>
+      <a href="../features/orchestration.html">Orquestación</a>
+      <a href="../features/security.html">Seguridad</a>
+      <a href="../features/access-control.html">Control de acceso</a>
+      </vox-subnav>
+    </div>
+
+    <main id="main">
+      <div class="site-main vox-container"><vox-hero eyebrow="Guides" heading="From an empty host to a running fleet">
+  <p>Step by step: install the console, add your nodes, scale it out, and run it day to day. Every command is shown exactly as you type it.</p>
+</vox-hero>
+
+<section class="site-section" id="install">
+  <h2 class="vox-ts-xxl">Install</h2>
+  <vox-grid min="16rem">
+    <vox-card heading="Plan a deployment" href="../guides/plan.html"><p>What you are building, the names to settle before you start, and which install guide to follow.</p></vox-card>
+    <vox-card heading="Install with containers" href="../guides/containers.html"><p>Run openvoxserver, openvoxdb, both databases and the console with Docker Compose, from an empty host to a console ready for nodes.</p></vox-card>
+    <vox-card heading="Install from packages and binaries" href="../guides/packages.html"><p>Install openvoxserver, openvoxdb and Postgres from packages, build the console, and run it as a systemd service.</p></vox-card>
+    </vox-grid>
+</section>
+<section class="site-section" id="nodes">
+  <h2 class="vox-ts-xxl">Nodes</h2>
+  <vox-grid min="16rem">
+    <vox-card heading="Add nodes" href="../guides/add.html"><p>Enrol a node with one script on Linux, macOS or Windows, sign its certificate, and see it connect and run.</p></vox-card>
+    <vox-card heading="Manage node certificates" href="../guides/certificates.html"><p>Sign, revoke and clean node certificates from the console, and what each does to a connected node.</p></vox-card>
+    <vox-card heading="Remove a node" href="../guides/remove.html"><p>Delete a node from the console, what that does in openvoxdb and the CA, and what it keeps.</p></vox-card>
+    </vox-grid>
+</section>
+<section class="site-section" id="scale">
+  <h2 class="vox-ts-xxl">Scale</h2>
+  <vox-grid min="16rem">
+    <vox-card heading="Run modes" href="../guides/run-modes.html"><p>What each of the console&#39;s run modes serves and runs, and what each one needs configured.</p></vox-card>
+    <vox-card heading="Run more instances" href="../guides/cluster.html"><p>Cluster a second console instance, split instances into run modes, and place classification next to the compilers.</p></vox-card>
+    </vox-grid>
+</section>
+<section class="site-section" id="use">
+  <h2 class="vox-ts-xxl">Use</h2>
+  <vox-grid min="16rem">
+    <vox-card heading="Classify nodes" href="../guides/classify.html"><p>Decide which classes, parameters and environment each node gets, with node groups matched by facts or pinned by name.</p></vox-card>
+    <vox-card heading="Deploy code" href="../guides/deploy-code.html"><p>Deploy Puppet code from one or more control repositories into the environments openvoxserver compiles from.</p></vox-card>
+    <vox-card heading="Run jobs" href="../guides/run-jobs.html"><p>Run Puppet on demand on one node, a selection, or every node a group matches, and see what each node did.</p></vox-card>
+    <vox-card heading="Users, roles and tokens" href="../guides/access.html"><p>Give people access through roles and permissions, sign in with your identity provider, and issue tokens for programs.</p></vox-card>
+    <vox-card heading="Track vulnerabilities" href="../guides/vulnerabilities.html"><p>Set up vulnerability providers, read the findings for the fleet, and know what each provider can and cannot see.</p></vox-card>
+    </vox-grid>
+</section>
+<section class="site-section" id="operate">
+  <h2 class="vox-ts-xxl">Operate</h2>
+  <vox-grid min="16rem">
+    <vox-card heading="Fail over to a standby database" href="../guides/postgres-failover.html"><p>Recover from losing the console&#39;s database by promoting a streaming-replication standby.</p></vox-card>
+    <vox-card heading="Rotate the token signing key" href="../guides/rotate-signing-key.html"><p>Replace the key the console signs login tokens with, without logging anyone out.</p></vox-card>
+    <vox-card heading="Upgrade the container databases to Postgres 18" href="../guides/upgrade-postgres.html"><p>Move a container deployment&#39;s two databases from Postgres 17 to 18 by dumping and restoring them.</p></vox-card>
+    </vox-grid>
+</section>
+
+      </div>
+
+      
+      <vox-cta-band heading="Ejecútelo usted mismo">
+      <p>
+        OpenVox Console ships as container images, built for amd64 and
+        arm64 on every push, and as a single binary. The install guides
+        take you from an empty host to a working deployment -
+        openvoxserver, openvoxdb, Postgres and the console - with
+        containers or with packages.
+      </p>
+      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">Código fuente en GitHub</vox-cta>
+      <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">Imágenes de contenedor</vox-cta>
+      </vox-cta-band>
+    </main>
+
+    <vox-footer>
+      <vox-footer-column heading="OpenVox Console">
+        <a href="../index.html">Resumen</a>
+        <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">Código fuente</a>
+        <a href="../guides/index.html#install">Install guides</a>
+      </vox-footer-column>
+      <vox-footer-column heading="Capacidades">
+        <a href="../features/nodes.html">Nodes</a>
+        <a href="../features/classification.html">Clasificación</a>
+        <a href="../features/code.html">Code</a>
+        <a href="../features/orchestration.html">Orquestación</a>
+        <a href="../features/security.html">Seguridad</a>
+        <a href="../features/access-control.html">Control de acceso</a>
+        </vox-footer-column>
+      
+      <vox-footer-column heading="Idioma">
+        <a href="../../guides/index.html" hreflang="en" lang="en">English</a>
+        <a href="../../zh/guides/index.html" hreflang="zh" lang="zh">中文</a>
+        <a href="../../hi/guides/index.html" hreflang="hi" lang="hi">हिन्दी</a>
+        <a href="../../fr/guides/index.html" hreflang="fr" lang="fr">Français</a>
+        <a href="../../de/guides/index.html" hreflang="de" lang="de">Deutsch</a>
+        <a href="../../ja/guides/index.html" hreflang="ja" lang="ja">日本語</a>
+        <a href="../../ar/guides/index.html" hreflang="ar" lang="ar">العربية</a>
+        </vox-footer-column>
+      <vox-footer-column heading="OpenVox">
+        <a href="https://openvoxproject.github.io/" rel="noopener" target="_blank">OpenVox project</a>
+        <a href="https://github.com/voxpupuli" rel="noopener" target="_blank">Vox Pupuli</a>
+      </vox-footer-column>
+      <div slot="bottom" class="footer-note">
+        <span>Licencia GPL-3.0</span>
+        <span>Las capturas muestran la consola funcionando contra una flota de demostración sintética.</span>
+      </div>
+    </vox-footer>
+  
+
+</body></html>

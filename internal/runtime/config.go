@@ -93,6 +93,13 @@ type Config struct {
 	NodeTransportKeyFile    string
 	NodeTransportCAFile     string
 
+	// Optional: a CRL for NodeTransportCAFile, re-read when it changes -
+	// typically the console host's own Puppet agent's crl.pem, which the
+	// agent keeps current. Unset, the CRL is fetched from the CA instead
+	// when CAClientURL is configured; with neither, a revoked node
+	// certificate can still connect.
+	NodeTransportCRLFile string
+
 	// Optional: the Puppet server address a *remote node* should enroll
 	// against and run against, written into the generated install
 	// script. Node-facing in the same sense as
@@ -146,19 +153,6 @@ type Config struct {
 	// fields, not a separate stream).
 	AuditLogPath string
 
-	// Optional: node transport clustering. Separate from the internal
-	// bus's cluster above because the two NATS servers are separate
-	// (see architecture-summary.md sections 4 and 7), and separate from
-	// the node-facing mTLS material below because a node certificate
-	// must never be usable to join the transport as a peer.
-	//
-	// NodeTransportClusterAddr is this instance's transport peer
-	// listener; NodeTransportClusterPeers the peers to route to;
-	// NodeTransportClusterSecret authenticates those routes.
-	NodeTransportClusterAddr   string
-	NodeTransportClusterPeers  string
-	NodeTransportClusterSecret string
-
 	// Optional: clustering. Unset means a single, unclustered instance -
 	// the embedded bus opens no listener at all, exactly as before run
 	// modes existed.
@@ -172,14 +166,35 @@ type Config struct {
 	// full cluster peer (the core modes), "leaf" attaches it as an edge
 	// subscriber that receives events without every peer needing a
 	// network path back to it (enc instances, typically).
-	// ClusterSecret authenticates peer connections, and is required
+	// ClusterSecret authenticates route connections, and is required
 	// whenever a peer listener is configured - an open listener would
-	// put anything that can reach it on the internal event bus.
-	ClusterAddr     string
-	ClusterLeafAddr string
-	ClusterPeers    string
-	ClusterMode     ClusterMode
-	ClusterSecret   string
+	// put anything that can reach it on the internal event bus and in
+	// reach of every managed node. ClusterLeafSecret authenticates leaf
+	// connections, and must differ: an edge host holds it, and must not
+	// be able to join as a full peer with it.
+	//
+	// The node transport is part of the same cluster (one embedded NATS
+	// server carries both, in separate accounts), so there is nothing
+	// separate to configure for it.
+	ClusterAddr       string
+	ClusterLeafAddr   string
+	ClusterPeers      string
+	ClusterMode       ClusterMode
+	ClusterSecret     string
+	ClusterLeafSecret string
+
+	// ClusterAdvertise is the "host:port" peers should use to reach this
+	// instance's route listener, when what they would discover by gossip
+	// (an IP address) is not a name in this instance's certificate.
+	ClusterAdvertise string
+
+	// ClusterTLSCertFile/KeyFile/CAFile secure every peer connection
+	// with mutual TLS. Default to the openvoxdb client credential above:
+	// it is this console's own CA-issued identity, which every mode
+	// already requires.
+	ClusterTLSCertFile string
+	ClusterTLSKeyFile  string
+	ClusterTLSCAFile   string
 
 	// Optional: the key sealing secrets stored in Postgres - vulnerability
 	// provider credentials, today (see internal/sealer). sealer.KeySize
@@ -273,6 +288,7 @@ func LoadConfig(getenv func(string) string) (Config, error) {
 		NodeTransportCertFile:   getenv("CONSOLE_NODE_TRANSPORT_CERT_FILE"),
 		NodeTransportKeyFile:    getenv("CONSOLE_NODE_TRANSPORT_KEY_FILE"),
 		NodeTransportCAFile:     getenv("CONSOLE_NODE_TRANSPORT_CA_FILE"),
+		NodeTransportCRLFile:    getenv("CONSOLE_NODE_TRANSPORT_CRL_FILE"),
 
 		CAClientURL:      getenv("CONSOLE_CA_CLIENT_URL"),
 		CAClientCertFile: getenv("CONSOLE_CA_CLIENT_CERT_FILE"),
@@ -283,14 +299,29 @@ func LoadConfig(getenv func(string) string) (Config, error) {
 
 		AuditLogPath: getenv("CONSOLE_AUDIT_LOG_PATH"),
 
-		NodeTransportClusterAddr:   getenv("CONSOLE_NODE_TRANSPORT_CLUSTER_ADDR"),
-		NodeTransportClusterPeers:  getenv("CONSOLE_NODE_TRANSPORT_CLUSTER_PEERS"),
-		NodeTransportClusterSecret: getenv("CONSOLE_NODE_TRANSPORT_CLUSTER_SECRET"),
+		ClusterAddr:       getenv("CONSOLE_CLUSTER_ADDR"),
+		ClusterLeafAddr:   getenv("CONSOLE_CLUSTER_LEAF_ADDR"),
+		ClusterPeers:      getenv("CONSOLE_CLUSTER_PEERS"),
+		ClusterSecret:     getenv("CONSOLE_CLUSTER_SECRET"),
+		ClusterLeafSecret: getenv("CONSOLE_CLUSTER_LEAF_SECRET"),
+		ClusterAdvertise:  getenv("CONSOLE_CLUSTER_ADVERTISE"),
 
-		ClusterAddr:     getenv("CONSOLE_CLUSTER_ADDR"),
-		ClusterLeafAddr: getenv("CONSOLE_CLUSTER_LEAF_ADDR"),
-		ClusterPeers:    getenv("CONSOLE_CLUSTER_PEERS"),
-		ClusterSecret:   getenv("CONSOLE_CLUSTER_SECRET"),
+		ClusterTLSCertFile: getenv("CONSOLE_CLUSTER_TLS_CERT_FILE"),
+		ClusterTLSKeyFile:  getenv("CONSOLE_CLUSTER_TLS_KEY_FILE"),
+		ClusterTLSCAFile:   getenv("CONSOLE_CLUSTER_TLS_CA_FILE"),
+	}
+
+	// The node transport used to cluster separately. It is now part of
+	// the one cluster, and a setting that silently did nothing would
+	// leave an operator believing their transport was peered.
+	for _, removed := range []string{
+		"CONSOLE_NODE_TRANSPORT_CLUSTER_ADDR",
+		"CONSOLE_NODE_TRANSPORT_CLUSTER_PEERS",
+		"CONSOLE_NODE_TRANSPORT_CLUSTER_SECRET",
+	} {
+		if env(removed) != "" || env(removed+"_FILE") != "" {
+			return Config{}, fmt.Errorf("%s is no longer supported: the node transport now clusters with CONSOLE_CLUSTER_* - remove it", removed)
+		}
 	}
 
 	clusterMode, err := ParseClusterMode(getenv("CONSOLE_CLUSTER_MODE"))
@@ -348,6 +379,13 @@ func LoadConfig(getenv func(string) string) (Config, error) {
 	if cfg.NodeTransportPublicAddr == "" {
 		cfg.NodeTransportPublicAddr = cfg.NodeTransportAddr
 	}
+	if cfg.ClusterTLSCertFile == "" && cfg.ClusterTLSKeyFile == "" {
+		cfg.ClusterTLSCertFile = cfg.OpenvoxdbCertFile
+		cfg.ClusterTLSKeyFile = cfg.OpenvoxdbKeyFile
+	}
+	if cfg.ClusterTLSCAFile == "" {
+		cfg.ClusterTLSCAFile = cfg.OpenvoxdbCAFile
+	}
 
 	// Read before the fileErr check so an unreadable
 	// CONSOLE_SECRETS_KEY_FILE is reported as itself; decoded after it.
@@ -372,12 +410,13 @@ func LoadConfig(getenv func(string) string) (Config, error) {
 	}
 
 	// A peer listener with no credentials would let anything that can
-	// reach the port join the internal event bus - and through it read
-	// every activity and revocation event, and publish forged ones.
-	// Refused at configuration time rather than defaulting to open.
-	if cfg.ClusterLeafAddr != "" && cfg.ClusterSecret == "" {
+	// reach the port join the cluster - and through it read every
+	// revocation event, publish forged ones, and dispatch to every
+	// managed node. Refused at configuration time rather than defaulting
+	// to open.
+	if cfg.ClusterLeafAddr != "" && cfg.ClusterLeafSecret == "" {
 		return Config{}, fmt.Errorf(
-			"CONSOLE_CLUSTER_SECRET is required when CONSOLE_CLUSTER_LEAF_ADDR is set: " +
+			"CONSOLE_CLUSTER_LEAF_SECRET is required when CONSOLE_CLUSTER_LEAF_ADDR is set: " +
 				"a leaf listener without credentials would accept any connection that can reach it")
 	}
 	if cfg.ClusterAddr != "" && cfg.ClusterSecret == "" {
@@ -388,19 +427,32 @@ func LoadConfig(getenv func(string) string) (Config, error) {
 	// Peers with nothing to dial from, or a listener with nobody to talk
 	// to, is almost always half-finished configuration rather than an
 	// intent - but only the first is actually unworkable.
-	if cfg.ClusterPeers != "" && cfg.ClusterSecret == "" {
-		return Config{}, fmt.Errorf(
-			"CONSOLE_CLUSTER_SECRET is required when CONSOLE_CLUSTER_PEERS is set: " +
-				"a peer connection must authenticate")
+	if cfg.ClusterPeers != "" {
+		if cfg.EffectiveClusterMode() == ClusterModeLeaf {
+			if cfg.ClusterLeafSecret == "" {
+				return Config{}, fmt.Errorf(
+					"CONSOLE_CLUSTER_LEAF_SECRET is required when CONSOLE_CLUSTER_MODE is leaf: " +
+						"a leaf connection must authenticate")
+			}
+		} else if cfg.ClusterSecret == "" {
+			return Config{}, fmt.Errorf(
+				"CONSOLE_CLUSTER_SECRET is required when CONSOLE_CLUSTER_PEERS is set: " +
+					"a peer connection must authenticate")
+		}
 	}
-
-	// Same reasoning as the internal bus's secret: an unauthenticated
-	// transport peer listener would let anything that can reach it
-	// route dispatches to every managed node.
-	if (cfg.NodeTransportClusterAddr != "" || cfg.NodeTransportClusterPeers != "") && cfg.NodeTransportClusterSecret == "" {
+	// One secret for both would hand every edge host - the least trusted
+	// place a console runs - the credential to join as a full peer.
+	if cfg.ClusterLeafSecret != "" && cfg.ClusterLeafSecret == cfg.ClusterSecret {
 		return Config{}, fmt.Errorf(
-			"CONSOLE_NODE_TRANSPORT_CLUSTER_SECRET is required when the node transport is clustered: " +
-				"an unauthenticated peer could route dispatches to every managed node")
+			"CONSOLE_CLUSTER_LEAF_SECRET must differ from CONSOLE_CLUSTER_SECRET: " +
+				"an edge host holding the leaf secret must not be able to join as a full peer")
+	}
+	// Peer connections are always mutual TLS. The defaults above make
+	// this a check that a credential exists at all, not new setup.
+	if cfg.Clustered() && (cfg.ClusterTLSCertFile == "" || cfg.ClusterTLSKeyFile == "" || cfg.ClusterTLSCAFile == "") {
+		return Config{}, fmt.Errorf(
+			"CONSOLE_CLUSTER_TLS_CERT_FILE, CONSOLE_CLUSTER_TLS_KEY_FILE and CONSOLE_CLUSTER_TLS_CA_FILE are required when clustered " +
+				"(they default to the CONSOLE_OPENVOXDB_* credential)")
 	}
 
 	// Refused rather than merged: were both honoured, the same repo

@@ -60,8 +60,9 @@ var preSplitBaseline = Surface{
 	Workers: []string{
 		// go runtime.PollDependencyHealth(ctx, metrics, db, bus)
 		"dependency-health",
-		// activityRecorder.Start(bus)
-		"activity-recorder",
+		// activity-recorder was here: activity events are now written
+		// directly by the instance that records them, so no mode runs a
+		// recorder worker.
 		// go dispatcher.Run(ctx)
 		"orchestrator-dispatcher",
 		// initialRunTriggerImpl.Start(ctx)
@@ -162,7 +163,7 @@ func TestModeSurfacesMatchSpec(t *testing.T) {
 			mustHaveListen: []string{listenerHTTP},
 			mustNotListen:  []string{listenerNodeTransport},
 			mustHaveWorker: []string{workerStatusResponder},
-			mustNotWorker:  []string{workerActivityRecorder, workerDispatcher, workerInitialRun, workerVulnScheduler},
+			mustNotWorker:  []string{workerDispatcher, workerInitialRun, workerVulnScheduler},
 		},
 		{
 			// "enc SHALL serve only the ENC classification endpoint and
@@ -180,7 +181,7 @@ func TestModeSurfacesMatchSpec(t *testing.T) {
 			mustHaveListen: []string{listenerHTTP},
 			mustNotListen:  []string{listenerNodeTransport},
 			mustHaveWorker: []string{workerStatusResponder},
-			mustNotWorker:  []string{workerActivityRecorder, workerDispatcher, workerInitialRun, workerVulnScheduler},
+			mustNotWorker:  []string{workerDispatcher, workerInitialRun, workerVulnScheduler},
 		},
 		{
 			// "orchestrator SHALL terminate node transport connections and
@@ -202,7 +203,7 @@ func TestModeSurfacesMatchSpec(t *testing.T) {
 			mustNotRoutes:  []string{routeWebUI, routeRBAC, routeENC, routeCodeManager, routeOrchestrator, routeStatus},
 			mustHaveListen: []string{listenerHTTP},
 			mustNotListen:  []string{listenerNodeTransport},
-			mustHaveWorker: []string{workerActivityRecorder, workerVulnScheduler, workerStatusResponder},
+			mustHaveWorker: []string{workerVulnScheduler, workerStatusResponder},
 			mustNotWorker:  []string{workerDispatcher, workerInitialRun},
 		},
 	}

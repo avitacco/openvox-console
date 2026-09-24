@@ -1,0 +1,52 @@
+{{define "content"}}
+{{- $g := .GuideView -}}
+{{- $lr := .LocaleRoot -}}
+{{/* A guide page: every guide in the sidebar, then the guide itself.
+     The guide's body comes from its Markdown (marketing/guides), already
+     carrying its translation markers; the page is translated whole after
+     it renders, so nothing here translates anything itself. */}}
+<div class="guide-layout">
+  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides" data-i18n-attr="label,toggle-label">
+    {{range .Sections -}}
+    <vox-sidenav-group heading="{{.Title}}" data-i18n-attr="heading"{{if eq .Name $g.Section.Name}} open{{end}}>
+      {{range .Guides -}}
+      <vox-sidenav-item href="{{$lr}}/{{.PageName}}"{{if eq .Slug $g.Slug}} current aria-current="page"{{end}}><span data-i18n>{{.Title}}</span></vox-sidenav-item>
+      {{end -}}
+    </vox-sidenav-group>
+    {{end -}}
+  </vox-sidenav>
+
+  <article class="guide">
+    <p class="guide-eyebrow" data-i18n>{{$g.Section.Title}}</p>
+    <h1 class="guide-title vox-ts-xxl" data-i18n>{{$g.Title}}</h1>
+    <p class="guide-summary" data-i18n>{{$g.Summary}}</p>
+
+    {{/* Kept by the translator only on a translated page with passages
+         still in English - see translateHTML. */}}
+    <vox-callout variant="info" heading="Not fully translated yet" data-i18n-attr="heading" data-partial-notice>
+      <p data-i18n>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
+    </vox-callout>
+
+    {{if $g.TOC -}}
+    <vox-toc class="guide-toc" heading="On this page" data-i18n-attr="heading">
+      {{range $g.TOC -}}
+      <vox-toc-item href="#{{.ID}}"><span data-i18n-html>{{.HTML}}</span>
+        {{- range .Children}}
+        <vox-toc-item slot="children" href="#{{.ID}}"><span data-i18n-html>{{.HTML}}</span></vox-toc-item>
+        {{- end}}
+      </vox-toc-item>
+      {{end -}}
+    </vox-toc>
+    {{end -}}
+
+    <div class="guide-body vox-prose" data-guide-body>
+{{$g.Body}}
+    </div>
+
+    <vox-series-nav label="{{$g.Section.Title}}" previous-text="Previous" next-text="Next"
+      {{- with $g.Prev}} previous-href="{{$lr}}/{{.PageName}}" previous-label="{{.Title}}"{{end}}
+      {{- with $g.Next}} next-href="{{$lr}}/{{.PageName}}" next-label="{{.Title}}"{{end}}
+      data-i18n-attr="label,previous-text,next-text,previous-label,next-label"></vox-series-nav>
+  </article>
+</div>
+{{end}}

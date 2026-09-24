@@ -1,0 +1,573 @@
+<!DOCTYPE html><html lang="fr" dir="ltr"><head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="Run openvoxserver, openvoxdb, both databases and the console with Docker Compose, from an empty host to a console ready for nodes."/>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+    <title>Install with containers - OpenVox Console</title>
+
+    
+    <script>
+      (function () {
+        
+        
+        var stored = null;
+        try { stored = localStorage.getItem('vox-theme'); } catch (e) {}
+        var theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-vox-theme', theme);
+      })();
+    </script>
+    <style>
+      html { background-color: #f5faf9; }
+      html[data-vox-theme='dark'] { background-color: #0d1417; }
+    </style>
+
+    
+    <script>
+      (function () {
+        var LOCALES = ["en", "zh", "hi", "es", "fr", "de", "ja", "ar", ];
+        var KEY = 'vox-lang';
+
+        function stored() {
+          
+          
+          try { return localStorage.getItem(KEY); } catch (e) { return null; }
+        }
+
+        
+        
+        
+        
+        
+        document.addEventListener('click', function (event) {
+          var path = event.composedPath ? event.composedPath() : [event.target];
+          for (var i = 0; i < path.length; i++) {
+            var code = path[i].getAttribute && path[i].getAttribute('data-lang');
+            if (code) {
+              try { localStorage.setItem(KEY, code); } catch (e) {}
+              return;
+            }
+          }
+        });
+        
+      })();
+    </script>
+
+    <link rel="stylesheet" href="../../vendor/voxblocks.css"/>
+    <link rel="stylesheet" href="../../site.css"/>
+    <script type="module" src="../../vendor/voxblocks.js"></script>
+    <script type="module" src="../../theme.js"></script>
+    <script type="module" src="../../guides.js"></script>
+  </head>
+  <body>
+    
+    <a class="skip-link" href="#main">Aller au contenu</a>
+
+    <vox-header site-title="OpenVox Console" href="../index.html">
+      
+      <svg slot="logo" viewBox="0 0 2560 2478" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M1946.22 272.18L1874.51 643.161C1840.69 625.335 1769.51 597.048 1744.63 592.202L1946.22 272.18ZM1647.05 893.509C1735.54 894.748 1789.05 935.815 1845.35 1010.52C1716.57 1047.71 1641.84 987.053 1586.85 899.704C1600.03 898.445 1634.39 893.339 1647.05 893.509ZM1421.62 600.655C1288.19 638.415 1170.91 730.251 1126.1 808.997C1126.1 808.997 1186.31 336.289 1244.88 158.652C1315.83 282.552 1421.62 600.655 1421.62 600.655ZM2477.39 1158.21C2342.39 1125.61 2074.76 1042.77 2053.7 881.139C2043.59 803.362 1980.86 717.271 1947.86 694.589L2004.72 106.064L1517.51 580.681C1517.51 580.681 1358.55 170.153 1243.89 0C1100.67 241.805 932.123 707.949 896.253 809.107L1227.33 1744.42C1243.68 1615.28 1328.09 1472.06 1428.27 1381.86C1350.61 1280.89 1210.56 1250.76 1151.7 1289.73C1228.31 1186.22 1376.21 1050.44 1651.27 1124.86C1773.51 1157.92 1898.72 1222.92 1978.75 1240.54C2184.12 1285.76 2337.81 1231.2 2337.81 1231.2C2336.23 1279.58 2360.5 1315.47 2410.61 1338.87C2196.05 1539.04 1914.11 1376.52 1715.51 1407.29C1514.8 1438.43 1238.87 2011.65 1201.73 2093.07L593.825 394.322L584.775 369.242C535.086 234.271 451.316 124.12 296.898 124.12H0V473.618H92.0793C145.649 473.618 170.849 489.355 189.769 542.882L903.123 2478H1248.99L1312.45 2324.93L1556.24 1812.6C1660.38 1581.57 1765.81 1518.18 2072.12 1531.73C2162.6 1535.73 2349.93 1537.27 2457.29 1405.96C2611.96 1216.8 2569.29 1180.38 2477.43 1158.16" fill="currentColor"></path>
+      </svg>
+      
+      <nav slot="actions" class="lang-switcher" aria-label="Langue">
+        <vox-dropdown label="Français">
+          <a data-lang="en" href="../../guides/containers.html" hreflang="en" lang="en">English</a>
+          <a data-lang="zh" href="../../zh/guides/containers.html" hreflang="zh" lang="zh">中文</a>
+          <a data-lang="hi" href="../../hi/guides/containers.html" hreflang="hi" lang="hi">हिन्दी</a>
+          <a data-lang="es" href="../../es/guides/containers.html" hreflang="es" lang="es">Español</a>
+          <a aria-current="page" data-lang="fr" href="../../fr/guides/containers.html" hreflang="fr" lang="fr">Français</a>
+          <a data-lang="de" href="../../de/guides/containers.html" hreflang="de" lang="de">Deutsch</a>
+          <a data-lang="ja" href="../../ja/guides/containers.html" hreflang="ja" lang="ja">日本語</a>
+          <a data-lang="ar" href="../../ar/guides/containers.html" hreflang="ar" lang="ar">العربية</a>
+          </vox-dropdown>
+      </nav>
+      <vox-theme-toggle slot="actions"></vox-theme-toggle>
+      
+      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
+    </vox-header>
+
+    <div class="site-subnav">
+      <vox-subnav label="Fonctionnalités" class="vox-container">
+      
+      <a href="../features/nodes.html">Nodes</a>
+      <a href="../features/classification.html">Classification</a>
+      <a href="../features/code.html">Code</a>
+      <a href="../features/orchestration.html">Orchestration</a>
+      <a href="../features/security.html">Sécurité</a>
+      <a href="../features/access-control.html">Contrôle d&#39;accès</a>
+      </vox-subnav>
+    </div>
+
+    <main id="main">
+      <div class="site-main vox-container">
+<div class="guide-layout">
+  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
+    <vox-sidenav-group heading="Install" open="">
+      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html" current="" aria-current="page"><span>Install with containers</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    <vox-sidenav-group heading="Nodes">
+      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    <vox-sidenav-group heading="Scale">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    <vox-sidenav-group heading="Use">
+      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    <vox-sidenav-group heading="Operate">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    </vox-sidenav>
+
+  <article class="guide">
+    <p class="guide-eyebrow">Install</p>
+    <h1 class="guide-title vox-ts-xxl">Install with containers</h1>
+    <p class="guide-summary">Run openvoxserver, openvoxdb, both databases and the console with Docker Compose, from an empty host to a console ready for nodes.</p>
+
+    
+    <vox-callout variant="info" heading="Not fully translated yet">
+      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
+    </vox-callout>
+
+    <vox-toc class="guide-toc" heading="On this page">
+      <vox-toc-item href="#get-the-compose-file"><span>Get the compose file</span>
+      </vox-toc-item>
+      <vox-toc-item href="#set-the-deployment-s-own-values"><span>Set the deployment&#39;s own values</span>
+      </vox-toc-item>
+      <vox-toc-item href="#write-the-secrets"><span>Write the secrets</span>
+      </vox-toc-item>
+      <vox-toc-item href="#start-the-certificate-authority"><span>Start the certificate authority</span>
+      </vox-toc-item>
+      <vox-toc-item href="#issue-the-console-s-certificates"><span>Issue the console&#39;s certificates</span>
+        <vox-toc-item slot="children" href="#the-openvoxdb-client-certificate"><span>The openvoxdb client certificate</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#the-node-transport-certificate"><span>The node transport certificate</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#the-token-signing-key"><span>The token signing key</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#the-certificate-admin-credential-optional"><span>The certificate-admin credential (optional)</span></vox-toc-item>
+      </vox-toc-item>
+      <vox-toc-item href="#start-everything-else"><span>Start everything else</span>
+        <vox-toc-item slot="children" href="#if-openvoxdb-never-becomes-healthy"><span>If openvoxdb never becomes healthy</span></vox-toc-item>
+      </vox-toc-item>
+      <vox-toc-item href="#log-in-for-the-first-time"><span>Log in for the first time</span>
+      </vox-toc-item>
+      <vox-toc-item href="#connect-classification"><span>Connect classification</span>
+        <vox-toc-item slot="children" href="#issue-enc-bridge-a-token"><span>Issue enc-bridge a token</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#give-openvoxserver-the-token"><span>Give openvoxserver the token</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#check-classification"><span>Check classification</span></vox-toc-item>
+      </vox-toc-item>
+      <vox-toc-item href="#upgrade-later"><span>Upgrade later</span>
+      </vox-toc-item>
+      <vox-toc-item href="#check-the-whole-deployment"><span>Check the whole deployment</span>
+      </vox-toc-item>
+      </vox-toc>
+    <div class="guide-body vox-prose">
+<p>This guide runs the whole stack from the project&#39;s production compose
+file and published images. Nothing is built on the host. Settle the names
+in <a href="plan.html">Plan a deployment</a> before you start.</p>
+<p>You need a Linux host with Docker Engine and the Compose plugin.</p>
+<h2 id="get-the-compose-file">Get the compose file</h2>
+<p><code>docker-compose.yml</code> in the project repository is the production stack:
+the console, both databases, openvoxserver and openvoxdb. Copy that one
+file to the host, into a directory of its own:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>mkdir -p /opt/openvox-console/secrets /opt/openvox-console/certs
+cd /opt/openvox-console
+curl -fsSLO https://raw.githubusercontent.com/avitacco/openvox-console/main/docker-compose.yml
+</code></vox-code-block>
+<vox-callout variant="warning" heading="Warning"><p>Do not deploy from a checkout of the repository. A checkout also
+carries <code>docker-compose.override.yml</code>, the development stack, which a
+bare <code>docker compose up</code> loads silently: throwaway passwords, open
+database ports and automatic certificate signing. Every command in
+this guide passes <code>-f docker-compose.yml</code> so that only the production
+file is ever read.</p>
+</vox-callout>
+<h2 id="set-the-deployment-s-own-values">Set the deployment&#39;s own values</h2>
+<p>Create <code>.env</code> beside the compose file. The compose file refuses to start
+while any of the first three is unset, so a deployment cannot come up on a
+placeholder:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CONSOLE_BASE_URL=https://console.example.com
+CONSOLE_NODE_TRANSPORT_PUBLIC_ADDR=console.example.com:8142
+OPENVOXDB_POSTGRES_PASSWORD=&lt;a strong password&gt;
+
+# Every name nodes or the console use to reach openvoxserver, beyond its
+# own name &#34;openvoxserver&#34; - see Plan a deployment.
+OPENVOXSERVER_DNS_ALT_NAMES=puppet.example.com
+
+# The Puppet server a node should enrol against, written into the node
+# install script. Must be one of the names above.
+CONSOLE_PUPPET_SERVER_PUBLIC_ADDR=puppet.example.com
+</code></vox-code-block>
+<p>Choose which console image to run. <code>CONSOLE_IMAGE_TAG</code> defaults to
+<code>main</code>, which follows the latest commit. For a deployment you want to hold
+still, pin the immutable tag of one commit instead:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CONSOLE_IMAGE_TAG=sha-a1b2c3d
+</code></vox-code-block>
+<vox-callout variant="info" heading="Note"><p>Version tags such as <code>v1.2.3</code>, and <code>latest</code>, are published only once a
+release is cut. Until then, asking for <code>latest</code> fails with
+<code>manifest unknown</code>.</p>
+</vox-callout>
+<h2 id="write-the-secrets">Write the secrets</h2>
+<p>Secrets are files in <code>secrets/</code>, one value per file, rather than
+environment variables, so they never appear in <code>docker inspect</code>:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>printf &#39;%s&#39; &#39;&lt;console database password&gt;&#39; &gt; secrets/console_postgres_password
+printf &#39;postgres://console:%s@console-postgres:5432/console?sslmode=disable&#39; &#39;&lt;console database password&gt;&#39; \
+  &gt; secrets/console_postgres_dsn
+printf &#39;%s&#39; &#39;&lt;a strong password&gt;&#39; &gt; secrets/console_bootstrap_admin_password
+chmod 600 secrets/*
+</code></vox-code-block>
+<p>The console&#39;s database connection string must use the same password as
+<code>console_postgres_password</code>. <code>sslmode=disable</code> is deliberate: the
+Postgres container runs without TLS, and the connection never leaves the
+compose network, so asking for TLS would only make the console fail to
+connect.</p>
+<p>openvoxserver also needs a token file, <code>enc_bridge_token</code>, which you
+fill in once the console is running. Create it empty for now, because
+openvoxserver will not start without it:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>: &gt; secrets/enc_bridge_token
+</code></vox-code-block>
+<h2 id="start-the-certificate-authority">Start the certificate authority</h2>
+<p>openvoxserver is the CA every other part&#39;s certificate comes from, so it
+starts first and on its own:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml up -d openvoxserver
+</code></vox-code-block>
+<p>Its first start creates the CA, which takes a minute or two. Wait until
+it reports itself running:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml exec openvoxserver \
+  curl -ksS https://127.0.0.1:8140/status/v1/simple
+</code></vox-code-block>
+<p>The reply is <code>running</code>.</p>
+<vox-callout variant="danger" heading="Caution"><p>The <code>openvoxserver-ca</code> volume <em>is</em> your certificate authority. Losing
+it means every node has to enrol again. Back it up, and never remove it
+with <code>docker compose down -v</code>.</p>
+</vox-callout>
+<h2 id="issue-the-console-s-certificates">Issue the console&#39;s certificates</h2>
+<p>The console needs two certificates from the CA, and optionally a third.
+Issue them inside the running openvoxserver container and copy them
+into <code>certs/</code>, where the compose file mounts them for the console.</p>
+<h3 id="the-openvoxdb-client-certificate">The openvoxdb client certificate</h3>
+<p>This is how the console authenticates to openvoxdb:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml exec openvoxserver \
+  puppetserver ca generate --certname console
+
+docker compose -f docker-compose.yml cp \
+  openvoxserver:/etc/puppetlabs/puppet/ssl/certs/console.pem certs/console-cert.pem
+docker compose -f docker-compose.yml cp \
+  openvoxserver:/etc/puppetlabs/puppet/ssl/private_keys/console.pem certs/console-key.pem
+docker compose -f docker-compose.yml cp \
+  openvoxserver:/etc/puppetlabs/puppet/ssl/certs/ca.pem certs/ca.pem
+</code></vox-code-block>
+<h3 id="the-node-transport-certificate">The node transport certificate</h3>
+<p>Nodes check this certificate when they connect to the console, so it
+must carry the exact name they dial: the host part of
+<code>CONSOLE_NODE_TRANSPORT_PUBLIC_ADDR</code>.</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml exec openvoxserver \
+  puppetserver ca generate --certname node-transport \
+  --subject-alt-names console.example.com,node-transport
+
+docker compose -f docker-compose.yml cp \
+  openvoxserver:/etc/puppetlabs/puppet/ssl/certs/node-transport.pem certs/node-transport-cert.pem
+docker compose -f docker-compose.yml cp \
+  openvoxserver:/etc/puppetlabs/puppet/ssl/private_keys/node-transport.pem certs/node-transport-key.pem
+</code></vox-code-block>
+<p>Nodes authenticate back with their own certificates from the same CA,
+which is why the console needs no other file for them.</p>
+<h3 id="the-token-signing-key">The token signing key</h3>
+<p>The console signs its own login tokens with an ES256 key. This one does
+not come from the CA. Generate it on any machine with OpenSSL:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>openssl ecparam -genkey -name prime256v1 -noout -out rbac-signing-key.pem
+</code></vox-code-block>
+<vox-callout variant="danger" heading="Caution"><p>Back this file up. Losing it invalidates every issued token, which logs
+everyone out; leaking it lets anyone mint tokens. See
+<a href="rotate-signing-key.html">Rotate the token signing key</a> to replace it
+safely.</p>
+</vox-callout>
+<p>Generate it straight into <code>certs/</code>:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>openssl ecparam -genkey -name prime256v1 -noout -out certs/rbac-signing-key.pem
+</code></vox-code-block>
+<h3 id="the-certificate-admin-credential-optional">The certificate-admin credential (optional)</h3>
+<p>This credential is what lets the <strong>Nodes</strong> page show certificate status,
+and sign, revoke and clean certificates. Without it the console lists
+only nodes that have already connected or reported. A node waiting for
+its certificate to be signed does not appear at all, because the CA is
+the only part that knows it exists.</p>
+<vox-callout variant="warning" heading="Warning"><p>This credential is full CA admin. openvoxserver gates every CA
+endpoint behind one authorization extension, so a certificate that can
+read statuses can also sign, revoke and clean <em>any</em> node&#39;s certificate.
+There is no read-only variant. Keep it only where the console runs, and
+read <a href="certificates.html">Manage node certificates</a> before issuing it.</p>
+</vox-callout>
+<p>Issuing it writes to CA state that a running openvoxserver also writes,
+so stop openvoxserver first and issue it from a one-off container using
+the same volumes. Compose names volumes after the project directory, so
+check the exact names first:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker volume ls | grep openvoxserver
+</code></vox-code-block>
+<p>Then, using the two names it printed:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml stop openvoxserver
+
+docker run --rm --entrypoint &#34;&#34; \
+  -v openvox-console_openvoxserver-ssl:/etc/puppetlabs/puppet/ssl \
+  -v openvox-console_openvoxserver-ca:/etc/puppetlabs/puppetserver/ca \
+  ghcr.io/avitacco/openvox-console-server:main \
+  puppetserver ca generate --ca-client --force --certname console-ca-client
+
+docker compose -f docker-compose.yml start openvoxserver
+</code></vox-code-block>
+<vox-callout variant="warning" heading="Warning"><p><code>--force</code> is required here. Before signing, the command checks that
+the server is really stopped, and inside a bare container it cannot
+tell, so without <code>--force</code> it prints &#34;Could not determine whether
+Puppet Server is online&#34; and exits having created nothing. Read its
+output rather than assuming it worked.</p>
+</vox-callout>
+<p>It reports writing its files under a long <code>.puppetlabs</code> path. Ignore
+that: in the volumes they land in the usual place. Copy them out:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml cp \
+  openvoxserver:/etc/puppetlabs/puppet/ssl/certs/console-ca-client.pem certs/ca-client-cert.pem
+docker compose -f docker-compose.yml cp \
+  openvoxserver:/etc/puppetlabs/puppet/ssl/private_keys/console-ca-client.pem certs/ca-client-key.pem
+</code></vox-code-block>
+<p>Then tell the console where the CA is, in <code>.env</code>. Inside the compose
+network the console reaches openvoxserver by its container name, which
+is always in openvoxserver&#39;s certificate:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CONSOLE_CA_CLIENT_URL=https://openvoxserver:8140
+</code></vox-code-block>
+<p>Confirm the credential is accepted, from inside openvoxserver:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml exec openvoxserver \
+  curl -sS -o /dev/null -w &#39;HTTP %{http_code}\n&#39; \
+  --cert /etc/puppetlabs/puppet/ssl/certs/console-ca-client.pem \
+  --key /etc/puppetlabs/puppet/ssl/private_keys/console-ca-client.pem \
+  --cacert /etc/puppetlabs/puppet/ssl/certs/ca.pem \
+  https://openvoxserver:8140/puppet-ca/v1/certificate_statuses/all
+</code></vox-code-block>
+<p><code>HTTP 200</code> means the CA accepts it.</p>
+<h2 id="start-everything-else">Start everything else</h2>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml pull
+docker compose -f docker-compose.yml up -d
+</code></vox-code-block>
+<p>openvoxdb requests its own certificate from the CA on first start. The
+compose file signs exactly that one request automatically, through an
+allow list holding only <code>openvoxdb</code>; nodes are never signed that way.
+openvoxdb then waits for its database, and the console waits for both.
+Watch them come up:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml ps
+</code></vox-code-block>
+<p>Every service reaches <code>healthy</code> within a few minutes.</p>
+<h3 id="if-openvoxdb-never-becomes-healthy">If openvoxdb never becomes healthy</h3>
+<p>openvoxdb gives up if its certificate request is not signed within two
+minutes, and when it does, it writes the failure into its own certificate
+file. Every restart after that sees a certificate file, skips enrolling,
+and fails with <code>No certs found in &#39;ssl-cert&#39; file</code>. It does not recover
+on its own. Reset its identity rather than restarting it:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml rm -sf openvoxdb
+docker volume rm openvox-console_openvoxdb-ssl
+docker compose -f docker-compose.yml exec openvoxserver \
+  puppetserver ca clean --certname openvoxdb
+docker compose -f docker-compose.yml up -d openvoxdb
+</code></vox-code-block>
+<p>The volume name follows the project directory&#39;s name; check it with
+<code>docker volume ls</code>. Skipping the <code>ca clean</code> leaves the CA holding a signed
+certificate for <code>openvoxdb</code> with no key to match, and the fresh start
+fails with <code>No keypair on disk and CA already has signed certificate</code>.</p>
+<h2 id="log-in-for-the-first-time">Log in for the first time</h2>
+<p>On its first start the console creates its database schema, then creates
+the bootstrap admin while the users table is still empty. Its log shows
+three lines once it is up:</p>
+<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>database migrations up to date
+node transport ready   addr=[::]:8142
+console ready          addr=:8080
+</code></vox-code-block>
+<p>Check that it reports itself healthy:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -fsS https://console.example.com/health
+</code></vox-code-block>
+<p>The reply lists each dependency as <code>ok</code>. Then open the console&#39;s base URL,
+log in as the bootstrap admin, and change its password straight away.</p>
+<vox-callout variant="info" heading="Note"><p>Once you have logged in and changed the password, remove the bootstrap
+admin settings from the console&#39;s configuration. They are only read
+while the users table is empty, but there is no reason to keep a
+password lying around.</p>
+</vox-callout>
+<h2 id="connect-classification">Connect classification</h2>
+<p>openvoxserver asks the console which classes each node gets, through
+Puppet&#39;s standard <code>exec</code> node terminus. A small program, <code>enc-bridge</code>,
+makes that request on openvoxserver&#39;s behalf, and it needs a token to do
+so.</p>
+<h3 id="issue-enc-bridge-a-token">Issue enc-bridge a token</h3>
+<p>A service token carries a fixed set of permissions chosen when it is
+created, with no role involved. Create one allowed only to read
+classification:</p>
+<ol>
+<li>In the console, open <strong>Admin</strong>, then <strong>Service tokens</strong>.</li>
+<li>Under <strong>New service token</strong>, name it <code>enc-bridge</code> and give it only the
+<code>enc:read</code> permission.</li>
+<li>Choose <strong>Create service token</strong>.</li>
+</ol>
+<p>The token is shown <strong>once</strong>. Copy it now.</p>
+<vox-callout variant="tip" heading="Tip"><p>The same through the API, with an access token from an admin login:
+<code>curl -X POST https://console.example.com/api/v1/service-tokens -H &#34;Authorization: Bearer &lt;admin access token&gt;&#34; -H &#39;Content-Type: application/json&#39; -d &#39;{&#34;name&#34;:&#34;enc-bridge&#34;,&#34;permissions&#34;:[&#34;enc:read&#34;]}&#39;</code></p>
+</vox-callout>
+<h3 id="give-openvoxserver-the-token">Give openvoxserver the token</h3>
+<p>The openvoxserver image already contains <code>enc-bridge</code> and the Puppet
+configuration that uses it, so all it needs is the token. Write it to the
+secret file you created empty earlier:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>printf &#39;%s&#39; &#39;&lt;the enc:read service token&gt;&#39; &gt; secrets/enc_bridge_token
+</code></vox-code-block>
+<p>openvoxserver does not run as root inside its container, and Compose
+mounts secret files with their ownership on the host. A file readable only
+by your own user is therefore unreadable to openvoxserver, and
+classification fails. Give group 0 read access and protect the directory
+instead:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo chgrp 0 secrets/enc_bridge_token
+chmod 640 secrets/enc_bridge_token
+chmod 700 secrets
+</code></vox-code-block>
+<p>Recreate openvoxserver so it reads the new token:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml up -d --force-recreate openvoxserver
+</code></vox-code-block>
+<h3 id="check-classification">Check classification</h3>
+<p>Ask enc-bridge directly, as openvoxserver runs it. This checks the
+program, the token, the file permissions and the console&#39;s answer in one
+command:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml exec -u puppet:0 openvoxserver \
+  /usr/local/bin/enc-bridge &lt;a certname&gt;
+</code></vox-code-block>
+<p><code>{}</code> means classification works and that node matches no group yet.
+Create a node group on the console&#39;s <strong>Groups</strong> page that pins that
+certname, run the same command again, and its classes come back:</p>
+<vox-code-block language="yaml" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>classes:
+    ntp:
+        servers:
+            - time.example.com
+parameters:
+    role: prodtest
+environment: production
+</code></vox-code-block>
+<p>An error here is the failure to catch. <code>permission denied</code> means the
+token is not readable by the user openvoxserver runs as, and a 401 means
+the token is wrong or lacks <code>enc:read</code>.</p>
+<vox-callout variant="tip" heading="Tip"><p>If a node&#39;s next Puppet run fails with <code>Could not find class &lt;name&gt;</code>,
+classification is working: the console told openvoxserver to include a
+class your Puppet code does not define yet.</p>
+</vox-callout>
+<p>openvoxserver caches environments, so after adding Puppet code, flush its
+cache or the same error persists:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml exec openvoxserver sh -c \
+  &#39;curl -ksS -X DELETE \
+     --cert /etc/puppetlabs/puppet/ssl/certs/openvoxserver.pem \
+     --key /etc/puppetlabs/puppet/ssl/private_keys/openvoxserver.pem \
+     https://127.0.0.1:8140/puppet-admin-api/v1/environment-cache&#39;
+</code></vox-code-block>
+<h2 id="upgrade-later">Upgrade later</h2>
+<p>To move to a newer console, change <code>CONSOLE_IMAGE_TAG</code> (or pull again if
+you follow <code>main</code>) and bring the stack up again. Compose recreates only
+what changed:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml pull
+docker compose -f docker-compose.yml up -d
+</code></vox-code-block>
+<h2 id="check-the-whole-deployment">Check the whole deployment</h2>
+<div class="guide-table" tabindex="0"><table class="vox-table">
+<thead>
+<tr>
+<th>Check</th>
+<th>Expect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>curl -ksS https://&lt;openvoxserver&gt;:8140/status/v1/simple</code></td>
+<td><code>running</code></td>
+</tr>
+<tr>
+<td><code>curl -ksS https://&lt;openvoxdb&gt;:8081/status/v1/simple</code></td>
+<td><code>running</code></td>
+</tr>
+<tr>
+<td><code>curl -fsS https://console.example.com/health</code></td>
+<td>every dependency <code>ok</code></td>
+</tr>
+<tr>
+<td>The console&#39;s log on start</td>
+<td>migrations, node transport, console ready</td>
+</tr>
+<tr>
+<td>Logging in as the bootstrap admin</td>
+<td>succeeds, and the password has been changed</td>
+</tr>
+<tr>
+<td>The <strong>Groups</strong> page</td>
+<td>a group matches the nodes you expect</td>
+</tr>
+</tbody>
+</table></div>
+<p>Your console is ready for nodes. Continue with
+<a href="add.html">Add nodes</a> to enrol the first one.</p>
+
+    </div>
+
+    <vox-series-nav label="Install" previous-text="Previous" next-text="Next" previous-href="../guides/plan.html" previous-label="Plan a deployment" next-href="../guides/packages.html" next-label="Install from packages and binaries"></vox-series-nav>
+  </article>
+</div>
+
+      </div>
+
+      
+      <vox-cta-band heading="Faites-le tourner vous-même">
+      <p>
+        OpenVox Console ships as container images, built for amd64 and
+        arm64 on every push, and as a single binary. The install guides
+        take you from an empty host to a working deployment -
+        openvoxserver, openvoxdb, Postgres and the console - with
+        containers or with packages.
+      </p>
+      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">Source sur GitHub</vox-cta>
+      <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">Images de conteneur</vox-cta>
+      </vox-cta-band>
+    </main>
+
+    <vox-footer>
+      <vox-footer-column heading="OpenVox Console">
+        <a href="../index.html">Aperçu</a>
+        <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">Source</a>
+        <a href="../guides/index.html#install">Install guides</a>
+      </vox-footer-column>
+      <vox-footer-column heading="Fonctionnalités">
+        <a href="../features/nodes.html">Nodes</a>
+        <a href="../features/classification.html">Classification</a>
+        <a href="../features/code.html">Code</a>
+        <a href="../features/orchestration.html">Orchestration</a>
+        <a href="../features/security.html">Sécurité</a>
+        <a href="../features/access-control.html">Contrôle d&#39;accès</a>
+        </vox-footer-column>
+      
+      <vox-footer-column heading="Langue">
+        <a href="../../guides/containers.html" hreflang="en" lang="en">English</a>
+        <a href="../../zh/guides/containers.html" hreflang="zh" lang="zh">中文</a>
+        <a href="../../hi/guides/containers.html" hreflang="hi" lang="hi">हिन्दी</a>
+        <a href="../../es/guides/containers.html" hreflang="es" lang="es">Español</a>
+        <a href="../../de/guides/containers.html" hreflang="de" lang="de">Deutsch</a>
+        <a href="../../ja/guides/containers.html" hreflang="ja" lang="ja">日本語</a>
+        <a href="../../ar/guides/containers.html" hreflang="ar" lang="ar">العربية</a>
+        </vox-footer-column>
+      <vox-footer-column heading="OpenVox">
+        <a href="https://openvoxproject.github.io/" rel="noopener" target="_blank">OpenVox project</a>
+        <a href="https://github.com/voxpupuli" rel="noopener" target="_blank">Vox Pupuli</a>
+      </vox-footer-column>
+      <div slot="bottom" class="footer-note">
+        <span>Sous licence GPL-3.0</span>
+        <span>Les captures montrent la console en fonctionnement face à un parc de démonstration synthétique.</span>
+      </div>
+    </vox-footer>
+  
+
+</body></html>

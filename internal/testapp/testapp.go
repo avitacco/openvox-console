@@ -288,7 +288,10 @@ func (c *Cluster) TryStart(cfg Config) error {
 func (c *Cluster) baseEnv(mode runtime.Mode, httpAddr string) map[string]string {
 	c.t.Helper()
 
-	certPath, keyPath := c.ca.Issue(c.t, "console-test", false)
+	// Usable as a server certificate too: it is also this instance's
+	// peer TLS identity (CONSOLE_CLUSTER_TLS_* default to it), and a
+	// route is served by one instance to another.
+	certPath, keyPath := c.ca.Issue(c.t, "console-test", true)
 
 	// Written as "<kid>.pem" in its own directory so the same file serves
 	// as both the signing key and the verification-key set - which is

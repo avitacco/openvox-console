@@ -69,28 +69,132 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 		return err
 	}
 
+	// caClient is nil when CONSOLE_CA_CLIENT_URL is unset - certificate
+	// status then simply reports "unknown" for every node, rather than
+	// the console failing to start (same posture as node transport
+	// below). See operations.md for why this credential is unusually
+	// privileged and kept in its own config/package.
+	//
+	// Built before the embedded server because the node listener, when
+	// there is one, fetches the CA's CRL through it.
+	var caHTTPClient *certstatus.Client
+	if cfg.CAClientURL != "" {
+		client, err := certstatus.New(certstatus.Config{
+			URL:      cfg.CAClientURL,
+			CertFile: cfg.CAClientCertFile,
+			KeyFile:  cfg.CAClientKeyFile,
+			CAFile:   cfg.CAClientCAFile,
+		})
+		if err != nil {
+			// Degrade, don't die. Certificate reporting is optional and
+			// already has a defined "off" state - every node reports
+			// status "unknown" - so an unreadable or missing credential
+			// must not take down classification, orchestration and the
+			// dashboards with it. Exiting here also produced a crash
+			// loop that hid the real cause behind restart spam.
+			logger.Error("failed to initialize certificate status client; "+
+				"certificate status reporting is disabled", "error", err)
+		} else {
+			caHTTPClient = client
+		}
+	} else {
+		logger.Warn("CONSOLE_CA_CLIENT_URL not set; certificate status reporting is disabled")
+	}
+
+	// The initial-run trigger needs the dispatcher, the dispatcher needs
+	// the bus, and the node listener - where connect notifications come
+	// from - has to exist before the bus does, since nats-server fixes
+	// its listeners at start. So the observer is wired now and filled in
+	// below, once the trigger exists. Atomic because a node can connect
+	// the moment the listener binds, which is before that assignment. A
+	// node that connects inside that window misses its automatic run,
+	// which the design already tolerates (see design.md's Risks).
+	var initialRunTrigger atomic.Pointer[initialrun.Trigger]
+
+	// nodeListener is nil when this mode terminates no node connections,
+	// or CONSOLE_NODE_TRANSPORT_ADDR is unset. Dispatch still works
+	// either way (see the dispatcher below): it reaches nodes connected
+	// to whichever instances do have a listener, and reports "not
+	// connected" when none does.
+	var nodeListener *nodetransport.Listener
+	if surface.HasListener(listenerNodeTransport) {
+		if cfg.NodeTransportAddr == "" {
+			logger.Warn("CONSOLE_NODE_TRANSPORT_ADDR not set; node-agent connections are disabled on this instance")
+		} else {
+			transportCfg := nodetransport.Config{
+				ListenAddr: cfg.NodeTransportAddr,
+				CertFile:   cfg.NodeTransportCertFile,
+				KeyFile:    cfg.NodeTransportKeyFile,
+				CAFile:     cfg.NodeTransportCAFile,
+				CRLFile:    cfg.NodeTransportCRLFile,
+				OnNodeConnect: func(certname string) {
+					if t := initialRunTrigger.Load(); t != nil {
+						t.Notify(certname)
+					}
+				},
+				Logger: logger,
+			}
+			if cfg.NodeTransportCRLFile == "" && caHTTPClient != nil {
+				transportCfg.FetchCRL = caHTTPClient.CRL
+			}
+			nodeListener, err = nodetransport.NewListener(transportCfg)
+			if err != nil {
+				return fmt.Errorf("failed to initialize node transport: %w", err)
+			}
+		}
+	}
+
 	// Embedded NATS has no external dependency to fail on; a startup
 	// failure here is unexpected and fatal.
 	//
-	// With no peers configured this is exactly what it always was: an
-	// in-process server with no listener. Peers turn it into one member
-	// of a cluster, which is what carries revocation and activity events
-	// between instances.
-	bus, err := messaging.StartWith(messaging.Config{
+	// With no peers and no node listener this is exactly what it always
+	// was: an in-process server with no listener. Peers turn it into one
+	// member of a cluster, which is what carries revocation events and
+	// node dispatches between instances.
+	busCfg := messaging.Config{
 		ListenAddr:     cfg.ClusterAddr,
 		LeafListenAddr: cfg.ClusterLeafAddr,
 		Peers:          cfg.PeerList(),
 		Leaf:           cfg.EffectiveClusterMode() == runtime.ClusterModeLeaf,
 		Secret:         cfg.ClusterSecret,
-	})
+		LeafSecret:     cfg.ClusterLeafSecret,
+		Advertise:      cfg.ClusterAdvertise,
+		Logger:         logger,
+	}
+	if cfg.Clustered() {
+		busCfg.TLS = &messaging.PeerTLS{
+			CertFile: cfg.ClusterTLSCertFile,
+			KeyFile:  cfg.ClusterTLSKeyFile,
+			CAFile:   cfg.ClusterTLSCAFile,
+		}
+	}
+	if nodeListener != nil {
+		busCfg.Nodes = nodeListener.NodeListener()
+	}
+	bus, err := messaging.StartWith(busCfg)
 	if err != nil {
 		return fmt.Errorf("failed to start embedded NATS server: %w", err)
 	}
 	defer bus.Close()
 	if cfg.Clustered() {
-		logger.Info("internal bus clustered",
+		logger.Info("cluster joined",
 			"mode", cfg.EffectiveClusterMode(), "listen", bus.ClusterAddr(),
 			"leaf", bus.LeafAddr(), "peers", cfg.PeerList())
+	}
+	if nodeListener != nil {
+		if err := nodeListener.Start(bus); err != nil {
+			return fmt.Errorf("failed to start node transport: %w", err)
+		}
+		defer nodeListener.Close()
+		logger.Info("node transport ready", "addr", nodeListener.Addr())
+	}
+
+	// Announces a revocation made through the console to every
+	// instance, so each drops the node's connections at once rather than
+	// at the next CRL refresh.
+	var caClient nodeconnectivity.CertStatusClient
+	if caHTTPClient != nil {
+		caClient = revocationAnnouncingClient{CertStatusClient: caHTTPClient, bus: bus, logger: logger}
 	}
 
 	db, err := persistence.Connect(context.Background(), cfg.PostgresDSN)
@@ -122,21 +226,13 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 
 	classifierStore := classifier.NewStore(db.Pool)
 
+	// Every mode records activity - a classification change on a web
+	// instance must be recorded - each event written once, directly, by
+	// the instance where it happened.
 	activityStore := activity.NewStore(db.Pool)
-	activityRecorder := activity.NewRecorder(activityStore, logger)
-	// Only modes that name this worker subscribe. Every mode still
-	// *publishes* activity events - a classification change on a web
-	// instance must be recorded - but exactly one subscriber persists
-	// them, which is what stops a clustered deployment writing one row
-	// per running instance.
-	if migrationsOK && surface.HasWorker(workerActivityRecorder) {
-		if err := activityRecorder.Start(bus); err != nil {
-			return fmt.Errorf("failed to start activity recorder: %w", err)
-		}
-	}
-	classifierActivityPublisher := activity.NewPublisher(bus, logger, "classifier")
-	rbacActivityPublisher := activity.NewPublisher(bus, logger, "rbac")
-	codemanagerActivityPublisher := activity.NewPublisher(bus, logger, "codemanager")
+	classifierActivityPublisher := activity.NewPublisher(activityStore, logger, "classifier")
+	rbacActivityPublisher := activity.NewPublisher(activityStore, logger, "rbac")
+	codemanagerActivityPublisher := activity.NewPublisher(activityStore, logger, "codemanager")
 
 	// actorFromRequest extracts the acting user's identity from a
 	// request's verified claims - shared by recordActivity below and
@@ -228,6 +324,11 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 		if err := revoker.Start(context.Background()); err != nil {
 			return fmt.Errorf("failed to start token revocation tracking: %w", err)
 		}
+		// The bus delivers a revocation at most once; this catches one
+		// it lost.
+		go revoker.Run(ctx, func(err error) {
+			logger.Warn("failed to re-read token revocations; will retry", "error", err)
+		})
 	}
 	verifier := rbac.NewVerifier(verificationKeys, cfg.RBACSigningKeyID, revoker)
 
@@ -277,64 +378,17 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 		auditWrite(auditlog.CategoryCode), auditRead(auditlog.CategoryCode),
 	)
 
-	// nodeTransport is nil when CONSOLE_NODE_TRANSPORT_ADDR is unset -
-	// orchestrator endpoints still work in that case (jobs can be
-	// created), but every target fails immediately with "not connected"
-	// (see disabledTransport below). Matches G10K's "never fatal at
-	// startup" posture (see runtime.Config).
 	orchestratorStore := orchestrator.NewStore(db.Pool)
 
-	// The initial-run trigger needs the dispatcher, the dispatcher needs
-	// the transport, and the transport is where connect notifications
-	// come from - so the observer is wired now and filled in below, once
-	// the trigger exists. Atomic because a node can connect the moment
-	// the transport binds, which is before that assignment. A node that
-	// connects inside that window misses its automatic run, which the
-	// design already tolerates (see design.md's Risks).
-	var initialRunTrigger atomic.Pointer[initialrun.Trigger]
-
-	var nodeTransport *nodetransport.Server
-	if cfg.NodeTransportAddr != "" && surface.HasListener(listenerNodeTransport) {
-		nodeTransport, err = nodetransport.New(nodetransport.Config{
-			ListenAddr: cfg.NodeTransportAddr,
-			CertFile:   cfg.NodeTransportCertFile,
-			KeyFile:    cfg.NodeTransportKeyFile,
-			CAFile:     cfg.NodeTransportCAFile,
-
-			ClusterAddr:   cfg.NodeTransportClusterAddr,
-			ClusterPeers:  cfg.NodeTransportPeerList(),
-			ClusterSecret: cfg.NodeTransportClusterSecret,
-			OnNodeConnect: func(certname string) {
-				if t := initialRunTrigger.Load(); t != nil {
-					t.Notify(certname)
-				}
-			},
-		})
-		if err != nil {
-			return fmt.Errorf("failed to initialize node transport: %w", err)
-		}
-		logger.Info("node transport ready", "addr", nodeTransport.Addr())
-		if cfg.NodeTransportClustered() {
-			logger.Info("node transport clustered",
-				"listen", nodeTransport.ClusterAddr(), "peers", cfg.NodeTransportPeerList())
-		}
-	} else {
-		logger.Warn("CONSOLE_NODE_TRANSPORT_ADDR not set; node-agent connections are disabled")
+	// Every instance can dispatch - see nodetransport.Dispatcher.
+	dispatcherTransport, err := nodetransport.NewDispatcher(bus)
+	if err != nil {
+		return fmt.Errorf("failed to start node dispatcher: %w", err)
 	}
-	if nodeTransport != nil {
-		defer nodeTransport.Close()
-	}
+	defer dispatcherTransport.Close()
+	var transport orchestrator.Transport = dispatcherTransport
 
-	// transport is disabledTransport (every dispatch fails immediately
-	// with "not connected") when nodeTransport is nil - orchestrator
-	// endpoints still work in that case (jobs can be created), just with
-	// every target failing immediately.
-	var transport orchestrator.Transport = disabledTransport{}
-	if nodeTransport != nil {
-		transport = nodeTransport
-	}
-
-	orchestratorActivityPublisher := activity.NewPublisher(bus, logger, "orchestrator")
+	orchestratorActivityPublisher := activity.NewPublisher(activityStore, logger, "orchestrator")
 	dispatcher := orchestrator.NewDispatcher(orchestratorStore, transport, logger)
 	dispatcher.SetReportCorrelator(orchestrator.NewReportCorrelator(orchestratorStore, openvoxdbClient, logger))
 	dispatcher.SetActivityRecorder(func(action, actor, summary string) {
@@ -346,7 +400,7 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 	// A node that enrols and connects has nothing in openvoxdb until it
 	// runs, so the console would show it as an empty row until its own
 	// scheduled run came around. Dispatch that first run for it. Inert
-	// without a node transport, since there would be no connections to
+	// without a node listener, since there would be no connections to
 	// observe. The job is recorded and audited like any other.
 	//
 	// Constructed here but NOT started: its queue accepts notifications
@@ -357,7 +411,7 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 	// dispatch before that blocks with nobody receiving, leaving its job
 	// stuck at "running".
 	var initialRunTriggerImpl *initialrun.Trigger
-	if nodeTransport != nil {
+	if nodeListener != nil {
 		initialRunTriggerImpl = initialrun.NewTrigger(
 			initialrun.NewStore(db.Pool),
 			func(ctx context.Context, certname string) (bool, error) {
@@ -392,41 +446,12 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 	})
 
 	// connRegistry stays a nil nodeconnectivity.Registry (not a typed-nil
-	// *nodetransport.Registry) when nodeTransport itself is nil, so
+	// *nodetransport.Registry) when nodeListener itself is nil, so
 	// Handlers.listConnected's nil check works correctly rather than
 	// panicking on a nil receiver.
 	var connRegistry nodeconnectivity.Registry
-	if nodeTransport != nil {
-		connRegistry = nodeTransport.Registry()
-	}
-
-	// caClient is nil when CONSOLE_CA_CLIENT_URL is unset - certificate
-	// status then simply reports "unknown" for every node, rather than
-	// the console failing to start (same posture as node transport
-	// above). See operations.md for why this credential is unusually
-	// privileged and kept in its own config/package.
-	var caClient nodeconnectivity.CertStatusClient
-	if cfg.CAClientURL != "" {
-		client, err := certstatus.New(certstatus.Config{
-			URL:      cfg.CAClientURL,
-			CertFile: cfg.CAClientCertFile,
-			KeyFile:  cfg.CAClientKeyFile,
-			CAFile:   cfg.CAClientCAFile,
-		})
-		if err != nil {
-			// Degrade, don't die. Certificate reporting is optional and
-			// already has a defined "off" state - every node reports
-			// status "unknown" - so an unreadable or missing credential
-			// must not take down classification, orchestration and the
-			// dashboards with it. Exiting here also produced a crash
-			// loop that hid the real cause behind restart spam.
-			logger.Error("failed to initialize certificate status client; "+
-				"certificate status reporting is disabled", "error", err)
-		} else {
-			caClient = client
-		}
-	} else {
-		logger.Warn("CONSOLE_CA_CLIENT_URL not set; certificate status reporting is disabled")
+	if nodeListener != nil {
+		connRegistry = nodeListener.Registry()
 	}
 
 	// infraCerts is derived entirely from cert files/URLs already
@@ -488,15 +513,18 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 	metrics := runtime.NewMetrics()
 	metrics.GaugeFunc("console_node_agent_connected", "Nodes currently connected to this instance's node transport.",
 		func() float64 {
-			if nodeTransport == nil {
+			if nodeListener == nil {
 				return 0
 			}
-			return float64(nodeTransport.Registry().Len())
+			return float64(nodeListener.Registry().Len())
 		})
 	metrics.GaugeFunc("console_orchestrator_pending_dispatches", "Dispatch requests this instance has sent and is awaiting a response for.",
 		func() float64 { return float64(dispatcher.PendingCount()) })
 	metrics.GaugeFunc("console_rbac_revoked_tokens", "Currently-tracked revoked token count.",
 		func() float64 { return float64(revoker.Len()) })
+	metrics.CounterFunc("console_nats_async_errors_total",
+		"Asynchronous NATS client errors - above all slow consumers, each of which means messages were dropped.",
+		func() float64 { return float64(bus.AsyncErrors()) })
 
 	// Vulnerability tracking (add-vulnerability-tracking). Provider types
 	// are compiled in and registered explicitly here; instances are
@@ -787,14 +815,38 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 	return nil
 }
 
-// disabledTransport is the orchestrator.Transport used when
-// CONSOLE_NODE_TRANSPORT_ADDR is unset - every dispatch fails immediately
-// as "not connected" rather than the console failing to start (same
-// "never fatal at startup" posture as G10K/OIDC above).
-type disabledTransport struct{}
+// revocationAnnouncingClient is the CA client with one addition: once
+// the CA has accepted a revocation or clean, every instance is told, so
+// the node's connections are dropped wherever they are terminated.
+// Announcing is best-effort - the CA's decision stands either way, and
+// each instance's CRL refresh enforces it within a minute regardless.
+type revocationAnnouncingClient struct {
+	nodeconnectivity.CertStatusClient
+	bus    *messaging.Bus
+	logger *slog.Logger
+}
 
-func (disabledTransport) Dispatch(_ context.Context, _ string, _ []byte, _ time.Duration) ([]byte, error) {
-	return nil, nodetransport.ErrNodeNotConnected
+func (c revocationAnnouncingClient) Revoke(ctx context.Context, certname string) error {
+	if err := c.CertStatusClient.Revoke(ctx, certname); err != nil {
+		return err
+	}
+	c.announce(certname)
+	return nil
+}
+
+func (c revocationAnnouncingClient) Clean(ctx context.Context, certname string) error {
+	if err := c.CertStatusClient.Clean(ctx, certname); err != nil {
+		return err
+	}
+	c.announce(certname)
+	return nil
+}
+
+func (c revocationAnnouncingClient) announce(certname string) {
+	if err := nodetransport.AnnounceCertificateRevoked(c.bus, certname); err != nil {
+		c.logger.Warn("failed to announce certificate revocation; nodes will be disconnected at the next CRL refresh",
+			"certname", certname, "error", err)
+	}
 }
 
 // bootstrapAdmin creates the very first admin user (with every permission)

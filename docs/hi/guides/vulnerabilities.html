@@ -1,0 +1,348 @@
+<!DOCTYPE html><html lang="hi" dir="ltr"><head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="Set up vulnerability providers, read the findings for the fleet, and know what each provider can and cannot see."/>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+    <title>Track vulnerabilities - OpenVox Console</title>
+
+    
+    <script>
+      (function () {
+        
+        
+        var stored = null;
+        try { stored = localStorage.getItem('vox-theme'); } catch (e) {}
+        var theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-vox-theme', theme);
+      })();
+    </script>
+    <style>
+      html { background-color: #f5faf9; }
+      html[data-vox-theme='dark'] { background-color: #0d1417; }
+    </style>
+
+    
+    <script>
+      (function () {
+        var LOCALES = ["en", "zh", "hi", "es", "fr", "de", "ja", "ar", ];
+        var KEY = 'vox-lang';
+
+        function stored() {
+          
+          
+          try { return localStorage.getItem(KEY); } catch (e) { return null; }
+        }
+
+        
+        
+        
+        
+        
+        document.addEventListener('click', function (event) {
+          var path = event.composedPath ? event.composedPath() : [event.target];
+          for (var i = 0; i < path.length; i++) {
+            var code = path[i].getAttribute && path[i].getAttribute('data-lang');
+            if (code) {
+              try { localStorage.setItem(KEY, code); } catch (e) {}
+              return;
+            }
+          }
+        });
+        
+      })();
+    </script>
+
+    <link rel="stylesheet" href="../../vendor/voxblocks.css"/>
+    <link rel="stylesheet" href="../../site.css"/>
+    <script type="module" src="../../vendor/voxblocks.js"></script>
+    <script type="module" src="../../theme.js"></script>
+    <script type="module" src="../../guides.js"></script>
+  </head>
+  <body>
+    
+    <a class="skip-link" href="#main">सामग्री पर जाएँ</a>
+
+    <vox-header site-title="OpenVox Console" href="../index.html">
+      
+      <svg slot="logo" viewBox="0 0 2560 2478" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M1946.22 272.18L1874.51 643.161C1840.69 625.335 1769.51 597.048 1744.63 592.202L1946.22 272.18ZM1647.05 893.509C1735.54 894.748 1789.05 935.815 1845.35 1010.52C1716.57 1047.71 1641.84 987.053 1586.85 899.704C1600.03 898.445 1634.39 893.339 1647.05 893.509ZM1421.62 600.655C1288.19 638.415 1170.91 730.251 1126.1 808.997C1126.1 808.997 1186.31 336.289 1244.88 158.652C1315.83 282.552 1421.62 600.655 1421.62 600.655ZM2477.39 1158.21C2342.39 1125.61 2074.76 1042.77 2053.7 881.139C2043.59 803.362 1980.86 717.271 1947.86 694.589L2004.72 106.064L1517.51 580.681C1517.51 580.681 1358.55 170.153 1243.89 0C1100.67 241.805 932.123 707.949 896.253 809.107L1227.33 1744.42C1243.68 1615.28 1328.09 1472.06 1428.27 1381.86C1350.61 1280.89 1210.56 1250.76 1151.7 1289.73C1228.31 1186.22 1376.21 1050.44 1651.27 1124.86C1773.51 1157.92 1898.72 1222.92 1978.75 1240.54C2184.12 1285.76 2337.81 1231.2 2337.81 1231.2C2336.23 1279.58 2360.5 1315.47 2410.61 1338.87C2196.05 1539.04 1914.11 1376.52 1715.51 1407.29C1514.8 1438.43 1238.87 2011.65 1201.73 2093.07L593.825 394.322L584.775 369.242C535.086 234.271 451.316 124.12 296.898 124.12H0V473.618H92.0793C145.649 473.618 170.849 489.355 189.769 542.882L903.123 2478H1248.99L1312.45 2324.93L1556.24 1812.6C1660.38 1581.57 1765.81 1518.18 2072.12 1531.73C2162.6 1535.73 2349.93 1537.27 2457.29 1405.96C2611.96 1216.8 2569.29 1180.38 2477.43 1158.16" fill="currentColor"></path>
+      </svg>
+      
+      <nav slot="actions" class="lang-switcher" aria-label="भाषा">
+        <vox-dropdown label="हिन्दी">
+          <a data-lang="en" href="../../guides/vulnerabilities.html" hreflang="en" lang="en">English</a>
+          <a data-lang="zh" href="../../zh/guides/vulnerabilities.html" hreflang="zh" lang="zh">中文</a>
+          <a aria-current="page" data-lang="hi" href="../../hi/guides/vulnerabilities.html" hreflang="hi" lang="hi">हिन्दी</a>
+          <a data-lang="es" href="../../es/guides/vulnerabilities.html" hreflang="es" lang="es">Español</a>
+          <a data-lang="fr" href="../../fr/guides/vulnerabilities.html" hreflang="fr" lang="fr">Français</a>
+          <a data-lang="de" href="../../de/guides/vulnerabilities.html" hreflang="de" lang="de">Deutsch</a>
+          <a data-lang="ja" href="../../ja/guides/vulnerabilities.html" hreflang="ja" lang="ja">日本語</a>
+          <a data-lang="ar" href="../../ar/guides/vulnerabilities.html" hreflang="ar" lang="ar">العربية</a>
+          </vox-dropdown>
+      </nav>
+      <vox-theme-toggle slot="actions"></vox-theme-toggle>
+      
+      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
+    </vox-header>
+
+    <div class="site-subnav">
+      <vox-subnav label="क्षमताएँ" class="vox-container">
+      
+      <a href="../features/nodes.html">Nodes</a>
+      <a href="../features/classification.html">वर्गीकरण</a>
+      <a href="../features/code.html">Code</a>
+      <a href="../features/orchestration.html">ऑर्केस्ट्रेशन</a>
+      <a href="../features/security.html">सुरक्षा</a>
+      <a href="../features/access-control.html">पहुँच नियंत्रण</a>
+      </vox-subnav>
+    </div>
+
+    <main id="main">
+      <div class="site-main vox-container">
+<div class="guide-layout">
+  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
+    <vox-sidenav-group heading="Install">
+      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    <vox-sidenav-group heading="Nodes">
+      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    <vox-sidenav-group heading="Scale">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    <vox-sidenav-group heading="Use" open="">
+      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html" current="" aria-current="page"><span>Track vulnerabilities</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    <vox-sidenav-group heading="Operate">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    </vox-sidenav>
+
+  <article class="guide">
+    <p class="guide-eyebrow">Use</p>
+    <h1 class="guide-title vox-ts-xxl">Track vulnerabilities</h1>
+    <p class="guide-summary">Set up vulnerability providers, read the findings for the fleet, and know what each provider can and cannot see.</p>
+
+    
+    <vox-callout variant="info" heading="Not fully translated yet">
+      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
+    </vox-callout>
+
+    <vox-toc class="guide-toc" heading="On this page">
+      <vox-toc-item href="#choose-a-provider"><span>Choose a provider</span>
+      </vox-toc-item>
+      <vox-toc-item href="#prepare-for-credentials"><span>Prepare for credentials</span>
+      </vox-toc-item>
+      <vox-toc-item href="#add-a-provider"><span>Add a provider</span>
+        <vox-toc-item slot="children" href="#what-osv-downloads"><span>What OSV downloads</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#air-gapped-sites"><span>Air-gapped sites</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#tenable"><span>Tenable</span></vox-toc-item>
+      </vox-toc-item>
+      <vox-toc-item href="#read-the-findings"><span>Read the findings</span>
+      </vox-toc-item>
+      <vox-toc-item href="#what-to-expect-from-osv"><span>What to expect from OSV</span>
+      </vox-toc-item>
+      </vox-toc>
+    <div class="guide-body vox-prose">
+<p>The console reports which nodes are affected by which known
+vulnerabilities, merged from one or more <strong>providers</strong>. It matches each
+provider&#39;s data against the packages each node reports, so nodes need
+package reporting switched on: see <a href="add.html">Add nodes</a>.</p>
+<p>Seeing findings needs <code>vulnerabilities:read</code>; configuring providers needs
+<code>vulnerabilities:manage</code>. Neither is implied by <code>nodes:read</code>: findings are
+more sensitive than an inventory.</p>
+<h2 id="choose-a-provider">Choose a provider</h2>
+<div class="guide-table" tabindex="0"><table class="vox-table">
+<thead>
+<tr>
+<th>Provider</th>
+<th>Data from</th>
+<th>Credentials</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OSV</td>
+<td>the public OSV database, or your own mirror of it</td>
+<td>none</td>
+</tr>
+<tr>
+<td>Tenable</td>
+<td>your Tenable tenant</td>
+<td>API keys</td>
+</tr>
+</tbody>
+</table></div>
+<p>Any number of providers can run at once, including two OSV providers with
+different data locations. A vulnerability reported by several shows once,
+listing each provider&#39;s own severity and fixed version.</p>
+<p>Nothing leaves the console until you enable a provider.</p>
+<h2 id="prepare-for-credentials">Prepare for credentials</h2>
+<p>A provider with credentials needs a key to seal them with in the
+database. Generate one, and name it in <code>CONSOLE_SECRETS_KEY_FILE</code>:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>openssl rand -base64 32 &gt; secrets.key
+chmod 600 secrets.key
+</code></vox-code-block>
+<p>Without it, OSV works, and a provider needing credentials is refused with
+an error naming the setting.</p>
+<vox-callout variant="danger" heading="Caution"><p>Back the key up with your database backups, but store it apart from
+them. Losing it loses no findings, but every stored credential becomes
+unreadable, and those providers fail until their credentials are
+entered again under a new key.</p>
+</vox-callout>
+<h2 id="add-a-provider">Add a provider</h2>
+<ol>
+<li>Open <strong>Vulnerabilities</strong>, then <strong>Providers</strong>.</li>
+<li>Add a provider of the type you want, and fill in its settings and any
+credentials. The console never shows a stored credential again; leave
+a credential field empty when editing to keep the stored one.</li>
+<li>Enable it.</li>
+</ol>
+<p>It syncs straight away and then on a schedule, hourly by default for OSV.
+Findings refresh when a provider syncs, not at every Puppet run.</p>
+<h3 id="what-osv-downloads">What OSV downloads</h3>
+<p>OSV downloads data only for the distributions your fleet runs, over
+HTTPS from <code>storage.googleapis.com</code> by default. The first sync of a
+distribution downloads its whole archive - around 70 MB for Debian and
+700 MB for Ubuntu - and later syncs only what changed.</p>
+<h3 id="air-gapped-sites">Air-gapped sites</h3>
+<p>Point an OSV provider&#39;s <strong>Data location</strong> at an internal mirror of the
+OSV bucket, laid out the same way for each distribution: its <code>all.zip</code>,
+its <code>modified_id.csv</code>, and a JSON file per changed record. A plain static
+web server is enough, and copying each distribution&#39;s directory is
+enough to fill it:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>gsutil -m rsync -r gs://osv-vulnerabilities/Debian ./Debian
+</code></vox-code-block>
+<p>Directory names contain spaces, such as <code>Rocky Linux</code> and <code>Red Hat</code>.</p>
+<h3 id="tenable">Tenable</h3>
+<p>A Tenable provider imports every open finding, then only changes. Each
+Tenable asset is matched to a node by its names against each node&#39;s
+certname and reported FQDN. An asset matching no node, or several, is
+skipped and counted as unmatched; a growing count usually means Tenable
+sees different names than your certnames.</p>
+<h2 id="read-the-findings">Read the findings</h2>
+<p>The <strong>Vulnerabilities</strong> page lists findings across the fleet, most severe
+first, with how many nodes each affects. It shows findings with a fix
+available by default, which is what patching would change; set <strong>Fix</strong> to
+<strong>All</strong> to include those with no fix released.</p>
+<p>A node that no enabled provider could assess is shown as <strong>not
+assessed</strong>, with each provider&#39;s reason, never as clean:</p>
+<div class="guide-table" tabindex="0"><table class="vox-table">
+<thead>
+<tr>
+<th>Reason</th>
+<th>Means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>unsupported OS</td>
+<td>OSV covers Debian, Ubuntu, AlmaLinux, Rocky Linux and RHEL 7 to 10</td>
+</tr>
+<tr>
+<td>no package data</td>
+<td>the node reports no packages; switch reporting on for it</td>
+</tr>
+<tr>
+<td>agent upgrade required</td>
+<td>the node&#39;s package data is too old to match reliably; upgrading its node agent fixes it at its next Puppet run</td>
+</tr>
+<tr>
+<td>not seen by Tenable</td>
+<td>no Tenable asset matched the node</td>
+</tr>
+<tr>
+<td>not yet synced</td>
+<td>the provider has not finished a sync</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="what-to-expect-from-osv">What to expect from OSV</h2>
+<ul>
+<li>On Debian and Ubuntu, many vulnerabilities the distribution rates as
+negligible, or has decided not to fix, still appear, as findings with
+no fix released. That is why the list starts at &#34;fix available&#34;.</li>
+<li>RHEL nodes are matched against the main repositories only. Nodes using
+extended-support or add-on repositories may show findings they do not
+have.</li>
+<li>AlmaLinux publishes no severity, so its findings show <strong>Unknown</strong>.</li>
+</ul>
+<vox-callout variant="tip" heading="Tip"><p>Findings against old kernels and other packages you removed long ago
+usually come from packages removed without purging, whose
+configuration files remain. Purge them on the node with
+<code>apt purge &#39;~c&#39;</code>; the findings close at the provider&#39;s next sync.</p>
+</vox-callout>
+
+    </div>
+
+    <vox-series-nav label="Use" previous-text="Previous" next-text="Next" previous-href="../guides/access.html" previous-label="Users, roles and tokens"></vox-series-nav>
+  </article>
+</div>
+
+      </div>
+
+      
+      <vox-cta-band heading="स्वयं चलाकर देखिए">
+      <p>
+        OpenVox Console ships as container images, built for amd64 and
+        arm64 on every push, and as a single binary. The install guides
+        take you from an empty host to a working deployment -
+        openvoxserver, openvoxdb, Postgres and the console - with
+        containers or with packages.
+      </p>
+      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">GitHub पर स्रोत</vox-cta>
+      <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">कंटेनर इमेज</vox-cta>
+      </vox-cta-band>
+    </main>
+
+    <vox-footer>
+      <vox-footer-column heading="OpenVox Console">
+        <a href="../index.html">सिंहावलोकन</a>
+        <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">स्रोत</a>
+        <a href="../guides/index.html#install">Install guides</a>
+      </vox-footer-column>
+      <vox-footer-column heading="क्षमताएँ">
+        <a href="../features/nodes.html">Nodes</a>
+        <a href="../features/classification.html">वर्गीकरण</a>
+        <a href="../features/code.html">Code</a>
+        <a href="../features/orchestration.html">ऑर्केस्ट्रेशन</a>
+        <a href="../features/security.html">सुरक्षा</a>
+        <a href="../features/access-control.html">पहुँच नियंत्रण</a>
+        </vox-footer-column>
+      
+      <vox-footer-column heading="भाषा">
+        <a href="../../guides/vulnerabilities.html" hreflang="en" lang="en">English</a>
+        <a href="../../zh/guides/vulnerabilities.html" hreflang="zh" lang="zh">中文</a>
+        <a href="../../es/guides/vulnerabilities.html" hreflang="es" lang="es">Español</a>
+        <a href="../../fr/guides/vulnerabilities.html" hreflang="fr" lang="fr">Français</a>
+        <a href="../../de/guides/vulnerabilities.html" hreflang="de" lang="de">Deutsch</a>
+        <a href="../../ja/guides/vulnerabilities.html" hreflang="ja" lang="ja">日本語</a>
+        <a href="../../ar/guides/vulnerabilities.html" hreflang="ar" lang="ar">العربية</a>
+        </vox-footer-column>
+      <vox-footer-column heading="OpenVox">
+        <a href="https://openvoxproject.github.io/" rel="noopener" target="_blank">OpenVox project</a>
+        <a href="https://github.com/voxpupuli" rel="noopener" target="_blank">Vox Pupuli</a>
+      </vox-footer-column>
+      <div slot="bottom" class="footer-note">
+        <span>GPL-3.0 के अंतर्गत लाइसेंस-प्राप्त</span>
+        <span>स्क्रीनशॉट कंसोल के वे दृश्य हैं जो एक कृत्रिम डेमो फ़्लीट के विरुद्ध चल रहा है।</span>
+      </div>
+    </vox-footer>
+  
+
+</body></html>

@@ -42,7 +42,6 @@ const (
 	listenerNodeTransport = "node-transport"
 
 	workerDependencyHealth = "dependency-health"
-	workerActivityRecorder = "activity-recorder"
 	workerDispatcher       = "orchestrator-dispatcher"
 	workerInitialRun       = "initial-run-trigger"
 	workerVulnScheduler    = "vulnerability-scheduler"
@@ -114,7 +113,6 @@ var modeSurfaces = map[runtime.Mode]Surface{
 		Listeners: []string{listenerHTTP, listenerNodeTransport},
 		Workers: []string{
 			workerDependencyHealth,
-			workerActivityRecorder,
 			workerDispatcher,
 			workerInitialRun,
 			workerVulnScheduler,
@@ -168,7 +166,6 @@ var modeSurfaces = map[runtime.Mode]Surface{
 		Listeners: []string{listenerHTTP},
 		Workers: []string{
 			workerDependencyHealth,
-			workerActivityRecorder,
 			workerVulnScheduler,
 			workerJobReaper,
 			workerStatusResponder,

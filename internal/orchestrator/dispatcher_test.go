@@ -6,6 +6,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/voxpupuli/enterprise-console/internal/messaging"
 	"github.com/voxpupuli/enterprise-console/internal/nodeagent"
 	"github.com/voxpupuli/enterprise-console/internal/nodetransport"
 	"github.com/voxpupuli/enterprise-console/internal/testca"
@@ -25,7 +26,7 @@ func startRealAgent(t *testing.T, certname string, runner nodeagent.CommandRunne
 		CertFile:   serverCert,
 		KeyFile:    serverKey,
 		CAFile:     ca.PEMFile(t),
-	})
+	}, messaging.Config{})
 	if err != nil {
 		t.Fatalf("nodetransport.New() error: %v", err)
 	}

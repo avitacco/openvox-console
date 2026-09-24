@@ -44,7 +44,7 @@ LOCALES=(zh:ltr hi:ltr es:ltr fr:ltr de:ltr ja:ltr ar:rtl)
 # Remove what this script generates, and only that. A blanket rm would
 # take the screenshots with it, and they are not regenerable from here -
 # recapturing them needs a seeded console and several minutes.
-rm -rf "$OUT/vendor" "$OUT/features"
+rm -rf "$OUT/vendor" "$OUT/features" "$OUT/guides"
 rm -f "$OUT"/*.html "$OUT"/*.css "$OUT"/*.js
 for entry in "${LOCALES[@]}"; do
   rm -rf "$OUT/${entry%%:*}"
@@ -67,7 +67,7 @@ touch "$OUT/.nojekyll"
 catalogues="$(mktemp -d)"
 trap 'rm -rf "$catalogues"' EXIT
 (cd ../frontend && go run ./i18n \
-  -source ../marketing/templates,../marketing/gen \
+  -source ../marketing/templates,../marketing/gen,../marketing/shots,../marketing/guides \
   -locales ../marketing/locales \
   -pot site.pot \
   -no-module \

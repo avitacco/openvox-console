@@ -1,35 +1,43 @@
 package activity
 
 import (
-	"encoding/json"
+	"context"
 	"log/slog"
 	"time"
 )
 
-// publisherBus is the subset of *messaging.Bus Publisher needs, so it can
-// be tested without a live NATS server.
-type publisherBus interface {
-	Publish(subject string, data []byte) error
+// recordTimeout bounds how long recording one event may hold up the
+// caller.
+const recordTimeout = 5 * time.Second
+
+// eventStore is the subset of *Store Publisher needs, so it can be
+// tested without a live Postgres.
+type eventStore interface {
+	RecordEvent(ctx context.Context, e Event) error
 }
 
-// Publisher publishes activity events for a fixed category (one per
+// Publisher records activity events for a fixed category (one per
 // producing capability - see design.md's injected-closure decision, which
-// is built on top of this type in cmd/console/main.go).
+// is built on top of this type in internal/app).
 type Publisher struct {
-	bus      publisherBus
+	store    eventStore
 	logger   *slog.Logger
 	category string
 }
 
-// NewPublisher builds a Publisher that publishes every event as category.
-func NewPublisher(bus publisherBus, logger *slog.Logger, category string) *Publisher {
-	return &Publisher{bus: bus, logger: logger, category: category}
+// NewPublisher builds a Publisher that records every event as category.
+func NewPublisher(store eventStore, logger *slog.Logger, category string) *Publisher {
+	return &Publisher{store: store, logger: logger, category: category}
 }
 
-// Publish sends an activity event. A failure to publish is logged, never
+// Publish records an activity event. A failure is logged, never
 // returned - see design.md: the action being recorded has already
-// succeeded by the time this is called, so a publish-time hiccup should
+// succeeded by the time this is called, so failing to record it should
 // never fail the caller's request.
+//
+// Exactly one row per call, on whichever instance the action happened:
+// there is no subscriber to run, and so none to be missing or to run
+// twice.
 func (p *Publisher) Publish(action, actor, summary string) {
 	e := Event{
 		Category:   p.category,
@@ -38,12 +46,9 @@ func (p *Publisher) Publish(action, actor, summary string) {
 		Summary:    summary,
 		OccurredAt: time.Now().UTC(),
 	}
-	data, err := json.Marshal(e)
-	if err != nil {
-		p.logger.Error("failed to encode activity event", "error", err, "category", e.Category, "action", e.Action)
-		return
-	}
-	if err := p.bus.Publish(Subject, data); err != nil {
-		p.logger.Error("failed to publish activity event", "error", err, "category", e.Category, "action", e.Action)
+	ctx, cancel := context.WithTimeout(context.Background(), recordTimeout)
+	defer cancel()
+	if err := p.store.RecordEvent(ctx, e); err != nil {
+		p.logger.Error("failed to record activity event", "error", err, "category", e.Category, "action", e.Action)
 	}
 }

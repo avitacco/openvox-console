@@ -85,6 +85,17 @@ func (m *Metrics) GaugeFunc(name, help string, value func() float64) {
 	}, value)
 }
 
+// CounterFunc registers a counter whose value is read on each scrape by
+// calling value, which must never decrease - for a monotonic count kept
+// in another package (messaging.Bus.AsyncErrors), the counter
+// counterpart of GaugeFunc.
+func (m *Metrics) CounterFunc(name, help string, value func() float64) {
+	promauto.With(m.registry).NewCounterFunc(prometheus.CounterOpts{
+		Name: name,
+		Help: help,
+	}, value)
+}
+
 // WrapMux wraps mux so every request is recorded (count + duration) by
 // its matched route pattern (e.g. "GET /api/v1/nodes/{name}", not the
 // raw URL path - so metrics stay low-cardinality even with a certname or

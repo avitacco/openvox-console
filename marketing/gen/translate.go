@@ -4,10 +4,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"sort"
 	"strings"
 
 	"golang.org/x/net/html"
 	"golang.org/x/net/html/atom"
+
+	"github.com/voxpupuli/enterprise-console/marketing/guides"
 )
 
 // A catalogue is the compiled msgid -> translation map that
@@ -70,10 +73,16 @@ func loadCatalogue(path, lang, dir string) (*catalogue, error) {
 // string is visible as English rather than as a blank or a build
 // failure that blocks every other locale.
 func (c *catalogue) get(source string) string {
+	t, _ := c.lookup(source)
+	return t
+}
+
+// lookup is get, also reporting whether a translation was found.
+func (c *catalogue) lookup(source string) (string, bool) {
 	if t, ok := c.messages[source]; ok && t != "" {
-		return t
+		return t, true
 	}
-	return source
+	return source, false
 }
 
 // translateHTML rewrites a rendered page in place.
@@ -88,14 +97,17 @@ func (c *catalogue) get(source string) string {
 // regex pass would be shorter but would be editing markup with a tool
 // that cannot see markup, which is how "translated" pages end up with
 // mismatched tags.
-func translateHTML(page []byte, cat *catalogue) ([]byte, error) {
+func translateHTML(page []byte, cat *catalogue) ([]byte, translateStats, error) {
+	var stats translateStats
 	doc, err := html.Parse(strings.NewReader(string(page)))
 	if err != nil {
-		return nil, fmt.Errorf("parsing rendered page: %w", err)
+		return nil, stats, fmt.Errorf("parsing rendered page: %w", err)
 	}
 
-	var walk func(*html.Node)
-	walk = func(n *html.Node) {
+	var notice *html.Node
+	var firstErr error
+	var walk func(n *html.Node, inGuide bool)
+	walk = func(n *html.Node, inGuide bool) {
 		if n.Type == html.ElementNode {
 			if n.DataAtom == atom.Html {
 				setAttr(n, "lang", cat.lang)
@@ -103,23 +115,70 @@ func translateHTML(page []byte, cat *catalogue) ([]byte, error) {
 				// on <html>, nothing per component.
 				setAttr(n, "dir", cat.dir)
 			}
-			translateNode(n, cat)
+			if _, ok := attr(n, guideBodyAttr); ok {
+				inGuide = true
+				removeAttr(n, guideBodyAttr)
+			}
+			if _, ok := attr(n, partialNoticeAttr); ok {
+				notice = n
+			}
+			unit, translated, err := translateNode(n, cat)
+			if err != nil && firstErr == nil {
+				firstErr = err
+			}
+			if unit && inGuide {
+				stats.units++
+				if !translated {
+					stats.missing++
+				}
+			}
 		}
 		for child := n.FirstChild; child != nil; child = child.NextSibling {
-			walk(child)
+			walk(child, inGuide)
 		}
 	}
-	walk(doc)
+	walk(doc, false)
+	if firstErr != nil {
+		return nil, stats, firstErr
+	}
+
+	// The notice is in every guide page's markup, and kept only where it
+	// is true: a translated page with at least one passage still in
+	// English. English is the source, so it never shows there.
+	if notice != nil {
+		if cat.lang != "en" && stats.missing > 0 {
+			removeAttr(notice, partialNoticeAttr)
+		} else {
+			notice.Parent.RemoveChild(notice)
+		}
+	}
 
 	var out strings.Builder
 	if err := html.Render(&out, doc); err != nil {
-		return nil, fmt.Errorf("rendering translated page: %w", err)
+		return nil, stats, fmt.Errorf("rendering translated page: %w", err)
 	}
-	return []byte(out.String()), nil
+	return []byte(out.String()), stats, nil
 }
 
-// translateNode applies whichever markings one element carries.
-func translateNode(n *html.Node, cat *catalogue) {
+// Markers gen's guide template puts in a page for translateHTML.
+const (
+	// guideBodyAttr marks the element holding a guide's own text, whose
+	// units are counted toward that guide's translation coverage.
+	guideBodyAttr = "data-guide-body"
+	// partialNoticeAttr marks the "not yet fully translated" callout.
+	partialNoticeAttr = "data-partial-notice"
+)
+
+// translateStats counts a page's guide units and how many had no
+// translation in the catalogue.
+type translateStats struct {
+	units, missing int
+}
+
+// translateNode applies whichever markings one element carries. It
+// reports whether the element was a prose unit (data-i18n-html) and, if
+// so, whether a translation was found for it.
+func translateNode(n *html.Node, cat *catalogue) (unit, translated bool, err error) {
 	if names, ok := attr(n, "data-i18n-attr"); ok {
 		for _, name := range strings.Split(names, ",") {
 			name = strings.TrimSpace(name)
@@ -134,23 +193,78 @@ func translateNode(n *html.Node, cat *catalogue) {
 	}
 
 	if _, ok := attr(n, "data-i18n-html"); ok {
-		inner, err := innerHTML(n)
-		if err == nil {
-			translated := cat.get(collapseSpace(inner))
-			if err := setInnerHTML(n, translated); err != nil {
-				// Leave the English in place rather than emptying the
-				// element: unreadable beats absent.
-				_ = err
-			}
-		}
 		removeAttr(n, "data-i18n-html")
-		return
+		source := guides.Key(n)
+		result, found := cat.lookup(source)
+		if !found {
+			return true, false, nil
+		}
+		if err := checkFrozen(n, result); err != nil {
+			return true, true, fmt.Errorf("%s translation of %q: %w", cat.lang, source, err)
+		}
+		if err := setInnerHTML(n, result); err != nil {
+			// Leave the English in place rather than emptying the
+			// element: unreadable beats absent.
+			return true, false, nil
+		}
+		return true, true, nil
 	}
 
 	if _, ok := attr(n, "data-i18n"); ok {
 		setText(n, cat.get(collapseSpace(textOf(n))))
 		removeAttr(n, "data-i18n")
 	}
+	return false, false, nil
+}
+
+// checkFrozen compares a translation against the source element it
+// replaces and refuses one that changes what must not change: the
+// contents of every <code> element, and every link target.
+//
+// Code is a command, a path or a setting name. A reader copies it; a
+// translated one does not work, and a subtly different one works
+// differently. Links are checked for the same reason - a translated
+// anchor points nowhere - and because the site's link check runs on
+// the English targets it can see, not on what a catalogue substitutes.
+func checkFrozen(source *html.Node, translation string) error {
+	parsed, err := html.ParseFragment(strings.NewReader(translation), source)
+	if err != nil {
+		return fmt.Errorf("does not parse as HTML: %w", err)
+	}
+	holder := &html.Node{Type: html.ElementNode, Data: "div", DataAtom: atom.Div}
+	for _, n := range parsed {
+		holder.AppendChild(n)
+	}
+	want, got := frozen(source), frozen(holder)
+	if strings.Join(want, "\x00") != strings.Join(got, "\x00") {
+		return fmt.Errorf("changes code or links: source has %q, translation has %q", want, got)
+	}
+	return nil
+}
+
+// frozen lists an element's code contents and link targets, sorted, so
+// a translation may reorder them but not change, add or drop any.
+func frozen(n *html.Node) []string {
+	var out []string
+	var walk func(*html.Node)
+	walk = func(c *html.Node) {
+		if c.Type == html.ElementNode {
+			switch c.DataAtom {
+			case atom.Code:
+				out = append(out, "code:"+textOf(c))
+				return
+			case atom.A:
+				href, _ := attr(c, "href")
+				out = append(out, "href:"+href)
+			}
+		}
+		for k := c.FirstChild; k != nil; k = k.NextSibling {
+			walk(k)
+		}
+	}
+	walk(n)
+	sort.Strings(out)
+	return out
 }
 
 // collapseSpace normalises whitespace so a msgid does not depend on how

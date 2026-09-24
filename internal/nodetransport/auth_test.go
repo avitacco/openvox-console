@@ -49,11 +49,13 @@ func TestAuth_NodeCannotAccessAnotherNodesSubject(t *testing.T) {
 	}
 	defer sub.Unsubscribe()
 
-	// node-b publishes on its own (permitted) subject.
-	if err := nodeB.Publish(DispatchSubject("node-b.example.com"), []byte("should not reach node-a")); err != nil {
-		t.Fatalf("node-b Publish() on its own subject should succeed: %v", err)
+	// Something is published on node-b's subject. Nodes publish nothing
+	// but replies, so it comes from the console's side, as a dispatch
+	// would.
+	if err := s.Dispatcher.conn.Publish(DispatchSubject("node-b.example.com"), []byte("should not reach node-a")); err != nil {
+		t.Fatalf("publish on node-b's subject: %v", err)
 	}
-	nodeB.Flush()
+	_ = s.Dispatcher.conn.Flush()
 
 	select {
 	case <-received:

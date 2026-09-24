@@ -8,14 +8,9 @@ import (
 
 	"github.com/nats-io/nats-server/v2/server"
 	"github.com/nats-io/nats.go"
-)
 
-// internalAdminConnName identifies the console's own internal client used
-// to consume $SYS.> connect/disconnect events, distinguishing it (via the
-// NATS CONNECT protocol's "name" field) from the console's other,
-// unprivileged in-process client (see server.go) - auth.go's Check grants
-// only a connection with this exact name access to the system account.
-const internalAdminConnName = "nodetransport-internal-admin"
+	"github.com/voxpupuli/enterprise-console/internal/messaging"
+)
 
 // Registry tracks which nodes currently hold a live connection, fed by
 // the embedded NATS server's $SYS.ACCOUNT.<account>.CONNECT/.DISCONNECT
@@ -154,45 +149,62 @@ func notifyConnect(onConnect func(certname string), certname string) {
 // connectEvent/disconnectEvent decode just the field this package needs
 // from nats-server's server.ConnectEventMsg/DisconnectEventMsg - the
 // certname a node authenticated as, carried in ClientInfo.User because
-// auth.go's Check registers each node with Username: certname.
+// auth.go's authorize registers each node with Username: certname.
 type systemEvent struct {
 	Client struct {
 		User string `json:"user"`
 	} `json:"client"`
 }
 
-// startRegistry subscribes an internal client (connected as the system
-// account, via auth.go's special-casing of internalAdminConnName, so it
-// can see $SYS.> events that a regular global-account connection cannot)
-// to connect/disconnect events for accName - the account nodes actually
-// connect into (the default global account) - feeding a Registry.
-func startRegistry(ns *server.Server, accName string, onConnect func(certname string)) (*Registry, *nats.Conn, error) {
-	conn, err := nats.Connect("", nats.InProcessServer(ns), nats.Name(internalAdminConnName))
+// nodeUser returns the certname a connect/disconnect event is for, or ""
+// when the event is not about a node - the console's own in-process
+// connections into the account (the dispatcher's) produce events too.
+func nodeUser(data []byte) string {
+	var evt systemEvent
+	if json.Unmarshal(data, &evt) != nil || messaging.IsInProcessUser(evt.Client.User) {
+		return ""
+	}
+	return evt.Client.User
+}
+
+// startRegistry subscribes a connection into the system account - the
+// only place nats-server publishes connect/disconnect events - to those
+// events for messaging.AccountNodes, feeding a Registry.
+//
+// Events are cluster-wide: the system account is routed like any other,
+// so a node connected to a different instance is seen here too.
+func startRegistry(bus *messaging.Bus, onConnect func(certname string)) (*Registry, *nats.Conn, error) {
+	conn, err := bus.Connect(server.DEFAULT_SYSTEM_ACCOUNT, "node-registry")
 	if err != nil {
 		return nil, nil, fmt.Errorf("connect internal registry client: %w", err)
 	}
 
 	reg := newRegistry()
 
-	if _, err := conn.Subscribe(fmt.Sprintf("$SYS.ACCOUNT.%s.CONNECT", accName), func(msg *nats.Msg) {
-		var evt systemEvent
-		if json.Unmarshal(msg.Data, &evt) == nil && evt.Client.User != "" {
-			reg.markConnected(evt.Client.User)
-			notifyConnect(onConnect, evt.Client.User)
+	if _, err := conn.Subscribe(fmt.Sprintf("$SYS.ACCOUNT.%s.CONNECT", messaging.AccountNodes), func(msg *nats.Msg) {
+		if certname := nodeUser(msg.Data); certname != "" {
+			reg.markConnected(certname)
+			notifyConnect(onConnect, certname)
 		}
 	}); err != nil {
 		conn.Close()
 		return nil, nil, fmt.Errorf("subscribe to node connect events: %w", err)
 	}
 
-	if _, err := conn.Subscribe(fmt.Sprintf("$SYS.ACCOUNT.%s.DISCONNECT", accName), func(msg *nats.Msg) {
-		var evt systemEvent
-		if json.Unmarshal(msg.Data, &evt) == nil && evt.Client.User != "" {
-			reg.markDisconnected(evt.Client.User)
+	if _, err := conn.Subscribe(fmt.Sprintf("$SYS.ACCOUNT.%s.DISCONNECT", messaging.AccountNodes), func(msg *nats.Msg) {
+		if certname := nodeUser(msg.Data); certname != "" {
+			reg.markDisconnected(certname)
 		}
 	}); err != nil {
 		conn.Close()
 		return nil, nil, fmt.Errorf("subscribe to node disconnect events: %w", err)
+	}
+
+	// Flushed so the subscriptions are in force when Start returns: a
+	// node connecting from then on is seen.
+	if err := conn.Flush(); err != nil {
+		conn.Close()
+		return nil, nil, fmt.Errorf("flush registry subscriptions: %w", err)
 	}
 
 	return reg, conn, nil

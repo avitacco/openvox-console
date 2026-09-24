@@ -723,7 +723,7 @@ func TestLoadConfig_ClusterLeafAttachment(t *testing.T) {
 	env := modeEnv(ModeENC)
 	env["CONSOLE_CLUSTER_PEERS"] = "10.0.0.2:6222"
 	env["CONSOLE_CLUSTER_MODE"] = "leaf"
-	env["CONSOLE_CLUSTER_SECRET"] = "s3cret"
+	env["CONSOLE_CLUSTER_LEAF_SECRET"] = "leaf-s3cret"
 
 	cfg, err := LoadConfig(envMap(validEnv(env)))
 	if err != nil {
@@ -761,6 +761,69 @@ func TestLoadConfig_ClusterPeersRequireSecret(t *testing.T) {
 	}
 	if !strings.Contains(err.Error(), "CONSOLE_CLUSTER_SECRET") {
 		t.Errorf("error %q does not name the missing secret", err)
+	}
+}
+
+// A leaf authenticates with the leaf credential, never the route one -
+// an edge host is the least trusted place a console runs.
+func TestLoadConfig_ClusterLeafRequiresLeafSecret(t *testing.T) {
+	env := modeEnv(ModeENC)
+	env["CONSOLE_CLUSTER_PEERS"] = "10.0.0.2:6223"
+	env["CONSOLE_CLUSTER_MODE"] = "leaf"
+	env["CONSOLE_CLUSTER_SECRET"] = "s3cret"
+
+	_, err := LoadConfig(envMap(validEnv(env)))
+	if err == nil || !strings.Contains(err.Error(), "CONSOLE_CLUSTER_LEAF_SECRET") {
+		t.Fatalf("error = %v, want one naming CONSOLE_CLUSTER_LEAF_SECRET", err)
+	}
+}
+
+func TestLoadConfig_ClusterLeafListenerRequiresLeafSecret(t *testing.T) {
+	_, err := LoadConfig(envMap(validEnv(map[string]string{
+		"CONSOLE_CLUSTER_ADDR":      "127.0.0.1:6222",
+		"CONSOLE_CLUSTER_LEAF_ADDR": "127.0.0.1:6223",
+		"CONSOLE_CLUSTER_SECRET":    "s3cret",
+	})))
+	if err == nil || !strings.Contains(err.Error(), "CONSOLE_CLUSTER_LEAF_SECRET") {
+		t.Fatalf("error = %v, want one naming CONSOLE_CLUSTER_LEAF_SECRET", err)
+	}
+}
+
+func TestLoadConfig_ClusterLeafSecretMustDiffer(t *testing.T) {
+	_, err := LoadConfig(envMap(validEnv(map[string]string{
+		"CONSOLE_CLUSTER_ADDR":        "127.0.0.1:6222",
+		"CONSOLE_CLUSTER_LEAF_ADDR":   "127.0.0.1:6223",
+		"CONSOLE_CLUSTER_SECRET":      "same",
+		"CONSOLE_CLUSTER_LEAF_SECRET": "same",
+	})))
+	if err == nil || !strings.Contains(err.Error(), "must differ") {
+		t.Fatalf("error = %v, want the shared secret refused", err)
+	}
+}
+
+// Peer TLS defaults to the console's own openvoxdb client credential, so
+// clustering needs no new certificate material.
+func TestLoadConfig_ClusterTLSDefaultsToOpenvoxdbCredential(t *testing.T) {
+	cfg, err := LoadConfig(envMap(validEnv(map[string]string{
+		"CONSOLE_CLUSTER_ADDR":   "127.0.0.1:6222",
+		"CONSOLE_CLUSTER_SECRET": "s3cret",
+	})))
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if cfg.ClusterTLSCertFile != cfg.OpenvoxdbCertFile || cfg.ClusterTLSKeyFile != cfg.OpenvoxdbKeyFile || cfg.ClusterTLSCAFile != cfg.OpenvoxdbCAFile {
+		t.Errorf("cluster TLS = %q/%q/%q, want the openvoxdb credential", cfg.ClusterTLSCertFile, cfg.ClusterTLSKeyFile, cfg.ClusterTLSCAFile)
+	}
+}
+
+// The separate transport cluster is gone; a leftover setting must not
+// silently do nothing.
+func TestLoadConfig_RemovedTransportClusterSettingsAreRefused(t *testing.T) {
+	_, err := LoadConfig(envMap(validEnv(map[string]string{
+		"CONSOLE_NODE_TRANSPORT_CLUSTER_ADDR": ":6232",
+	})))
+	if err == nil || !strings.Contains(err.Error(), "CONSOLE_NODE_TRANSPORT_CLUSTER_ADDR") {
+		t.Fatalf("error = %v, want the removed setting named", err)
 	}
 }
 

@@ -5,11 +5,13 @@ A Puppet Enterprise console equivalent for the OpenVox project. See
 and build order, and `openspec/specs/` for the current behavior
 specification.
 
-**Setting this up on real hosts?** See `SETUP.md` - a step-by-step guide
-covering openvoxserver, openvoxdb, Postgres, the console, and node
-enrolment, with both container and package instructions for each. The
+**Setting this up on real hosts?** Follow the guides on the project site
+(**Guides**, from any page) - step by step, from installing with
+containers or packages, through adding nodes and scaling out, to
+day-to-day use and runbooks. Their source is
+[`marketing/guides/`](marketing/guides/), which reads fine here too. The
 section below is the throwaway local dev stack instead, and
-`operations.md` covers running a deployment once it exists.
+`operations.md` holds the engineering notes behind running a deployment.
 
 **Container images:** two, built together for `linux/amd64` and
 `linux/arm64` by `.github/workflows/ci.yml` on every push to `main`:
@@ -23,11 +25,13 @@ section below is the throwaway local dev stack instead, and
 `:main` follows that branch and every build also gets an immutable
 `:sha-<commit>`; `:latest` and semver tags appear only when a `v*` tag is
 pushed. Run matching tags for the two. `docker-compose.yml` pulls both -
-see `SETUP.md` step 6.
+see the **Install with containers** guide
+([`marketing/guides/install/containers.md`](marketing/guides/install/containers.md)).
 
 **Marketing site:** `marketing/` holds the source of the public site
 describing what the console does, illustrated with screenshots captured
-from a running instance rather than drawn. `docs/` is the built site,
+from a running instance rather than drawn, and the step-by-step guides
+that are its user documentation. `docs/` is the built site,
 committed and served by GitHub Pages straight from the branch. Neither is
 part of the console binary.
 
@@ -35,14 +39,15 @@ It is built locally and pushed, not built in CI - so what is published is
 something somebody has looked at.
 
 ```sh
-make marketing              # regenerate docs/
+make marketing              # screenshots + docs/, starting and stopping what it needs
 make marketing-serve        # look at it before pushing
                             # then: git add docs && git commit && git push
 
-make screenshots-up         # stack configured for capture (retention off, browser up)
-make marketing-screenshots  # refresh every screenshot
-make screenshots-down       # back to normal
+make marketing-build        # just docs/, from the committed screenshots - quick
 ```
+
+See `marketing/README.md` for what `make marketing` starts, and what it
+puts back afterwards.
 
 Refreshing runs its own throwaway console against its own database, so
 your development console's jobs, deploys and users stay out of the

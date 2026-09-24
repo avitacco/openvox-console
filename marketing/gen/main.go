@@ -22,6 +22,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/voxpupuli/enterprise-console/marketing/guides"
 	"github.com/voxpupuli/enterprise-console/marketing/shots"
 )
 
@@ -48,6 +49,13 @@ type page struct {
 	// Capability marks which subnav entry is current; empty on the
 	// landing page, which is not in the subnav.
 	Capability string
+	// Guide is set on a guide page, which renders from Markdown through
+	// templates/guide.html.tmpl rather than from a page template.
+	Guide *guides.Guide
+	// DoIt names, by slug, the guides that carry out what a feature page
+	// describes - rendered as its "Do it" links. A slug that names no
+	// guide fails the build.
+	DoIt []string
 }
 
 // pages is the whole site. The order here is the order of the subnav.
@@ -63,6 +71,7 @@ var pages = []page{
 		NavLabel:   N_("Nodes"),
 		Summary:    N_("See every managed node, what it reported, whether it is reachable and the state of its certificate."),
 		Capability: "nodes",
+		DoIt:       []string{"add", "certificates", "remove"},
 	},
 	{
 		Name:       "features/classification.html",
@@ -70,6 +79,7 @@ var pages = []page{
 		NavLabel:   N_("Classification"),
 		Summary:    N_("Decide what configuration applies to which nodes with rule-based node groups, served to OpenVox over the standard ENC contract."),
 		Capability: "classification",
+		DoIt:       []string{"classify"},
 	},
 	{
 		Name:       "features/code.html",
@@ -77,6 +87,7 @@ var pages = []page{
 		NavLabel:   N_("Code"),
 		Summary:    N_("Deploy Puppet code from one or many control repositories, with a record of every deploy."),
 		Capability: "code",
+		DoIt:       []string{"deploy-code"},
 	},
 	{
 		Name:       "features/orchestration.html",
@@ -84,6 +95,7 @@ var pages = []page{
 		NavLabel:   N_("Orchestration"),
 		Summary:    N_("Run Puppet, tasks and plans on demand across the fleet, and see what each node did."),
 		Capability: "orchestration",
+		DoIt:       []string{"run-jobs"},
 	},
 	{
 		Name:       "features/security.html",
@@ -91,6 +103,7 @@ var pages = []page{
 		NavLabel:   N_("Security"),
 		Summary:    N_("Know what is installed across the fleet and which known vulnerabilities affect it."),
 		Capability: "security",
+		DoIt:       []string{"vulnerabilities"},
 	},
 	{
 		Name:       "features/access-control.html",
@@ -98,7 +111,28 @@ var pages = []page{
 		NavLabel:   N_("Access control"),
 		Summary:    N_("Role-based access control, service tokens, and an audit trail of who changed what."),
 		Capability: "access-control",
+		DoIt:       []string{"access"},
 	},
+	{
+		Name:    "guides/index.html",
+		Title:   N_("Guides - OpenVox Console"),
+		Summary: N_("Step-by-step guides to installing, scaling, using and operating OpenVox Console."),
+	},
+}
+
+// guidesRoot is where the guide sources live, relative to marketing/.
+const guidesRoot = "guides"
+
+// sitePages is every page in the build: the fixed table above, then one
+// page per guide, in guide order.
+func sitePages(sections []guides.Section) []page {
+	out := append([]page(nil), pages...)
+	for _, sec := range sections {
+		for _, g := range sec.Guides {
+			out = append(out, page{Name: g.PageName(), Title: g.Title, Summary: g.Summary, Guide: g})
+		}
+	}
+	return out
 }
 
 func main() {
@@ -150,14 +184,63 @@ func run() error {
 
 	layoutPath := filepath.Join("templates", "layout.html.tmpl")
 
-	for _, p := range pages {
-		if err := renderPage(p, layoutPath, outDir, *locale, cat); err != nil {
+	sections, err := guides.Load(guidesRoot)
+	if err != nil {
+		return err
+	}
+	settings, err := loadSettings(settingsSource, composeSource)
+	if err != nil {
+		return err
+	}
+	site := &siteData{sections: sections, all: sitePages(sections), settings: settings}
+
+	// Every page is rendered before any is written: the link check needs
+	// the whole locale, and a failure should leave no half-built site.
+	rendered := make([]renderedPage, 0, len(site.all))
+	var guideUnits, guideMissing int
+	for _, p := range site.all {
+		out, stats, err := renderPage(p, site, layoutPath, *locale, cat)
+		if err != nil {
 			return err
+		}
+		guideUnits += stats.units
+		guideMissing += stats.missing
+		rendered = append(rendered, renderedPage{page: p, html: out})
+	}
+
+	if err := checkLinks(rendered, siteRoot, *locale); err != nil {
+		return err
+	}
+
+	for _, r := range rendered {
+		outPath := filepath.Join(outDir, r.page.Name)
+		if err := os.MkdirAll(filepath.Dir(outPath), 0o755); err != nil {
+			return fmt.Errorf("creating %s: %w", filepath.Dir(outPath), err)
+		}
+		if err := os.WriteFile(outPath, r.html, 0o644); err != nil {
+			return fmt.Errorf("writing %s: %w", outPath, err)
 		}
 	}
 
-	fmt.Printf("Generated %d pages into %s (%s)\n", len(pages), outDir, *locale)
+	fmt.Printf("Generated %d pages into %s (%s)", len(rendered), outDir, *locale)
+	if *locale != "en" && guideUnits > 0 {
+		fmt.Printf(" - guides %d/%d passages translated", guideUnits-guideMissing, guideUnits)
+	}
+	fmt.Println()
 	return nil
+}
+
+// siteData is what every page's rendering can see of the whole build.
+type siteData struct {
+	sections []guides.Section
+	all      []page
+	settings map[string]bool
+}
+
+// renderedPage is one page, rendered and translated, not yet written.
+type renderedPage struct {
+	page page
+	html []byte
 }
 
 // verifyScreenshots checks that every declared shot has both its images
@@ -187,57 +270,87 @@ func verifyScreenshots(assetDir, locale string) error {
 		len(missing), assetDir, strings.Join(missing, "\n  "))
 }
 
-// renderPage renders one page.
-func renderPage(p page, layoutPath, outDir, locale string, cat *catalogue) error {
-	pageTmpl := strings.TrimSuffix(filepath.Base(p.Name), ".html") + ".tmpl"
-	pagePath := filepath.Join("templates", "pages", filepath.Dir(p.Name), pageTmpl)
-	if filepath.Dir(p.Name) == "." {
-		pagePath = filepath.Join("templates", "pages", pageTmpl)
+// renderPage renders and translates one page, in memory.
+func renderPage(p page, site *siteData, layoutPath, locale string, cat *catalogue) ([]byte, translateStats, error) {
+	var none translateStats
+
+	pagePath := filepath.Join("templates", "guide.html.tmpl")
+	if p.Guide == nil {
+		pageTmpl := strings.TrimSuffix(filepath.Base(p.Name), ".html") + ".tmpl"
+		pagePath = filepath.Join("templates", "pages", filepath.Dir(p.Name), pageTmpl)
+		if filepath.Dir(p.Name) == "." {
+			pagePath = filepath.Join("templates", "pages", pageTmpl)
+		}
 	}
 
-	tmpl := template.New("layout.html.tmpl").Funcs(funcsFor(p, locale))
+	funcs := funcsFor(p, locale)
+	tmpl := template.New("layout.html.tmpl").Funcs(funcs)
 	tmpl, err := tmpl.ParseFiles(layoutPath, pagePath)
 	if err != nil {
-		return fmt.Errorf("parsing templates for %s: %w", p.Name, err)
+		return nil, none, fmt.Errorf("parsing templates for %s: %w", p.Name, err)
 	}
 
-	outPath := filepath.Join(outDir, p.Name)
-	if err := os.MkdirAll(filepath.Dir(outPath), 0o755); err != nil {
-		return fmt.Errorf("creating %s: %w", filepath.Dir(outPath), err)
-	}
-
-	// Rendered into memory, translated, then written in one go: a
-	// failure part-way through leaves no half-written page behind, and
-	// the translator needs the whole document anyway.
-	var rendered bytes.Buffer
 	data := pageData{
 		page:       p,
 		Root:       rootFor(p.Name, locale),
 		SiteRoot:   rootFor(p.Name, locale),
+		LocaleRoot: rootFor(p.Name, "en"),
 		Pages:      pages,
+		Sections:   site.sections,
 		Locale:     locale,
 		Locales:    localeLinks(p.Name, locale),
 		LocaleName: localeName(locale),
 		Direction:  cat.dir,
 	}
+	if p.Guide != nil {
+		view, err := guideViewFor(p.Guide, site, funcs, cat)
+		if err != nil {
+			return nil, none, err
+		}
+		data.GuideView = view
+		// A guide's <title> is its own title plus the site's, which is
+		// not a message of its own - so it is composed here, from the
+		// translated guide title, rather than looked up whole.
+		data.Title = cat.get(p.Guide.Title) + " - OpenVox Console"
+		data.Summary = cat.get(p.Guide.Summary)
+	}
+	for _, slug := range p.DoIt {
+		g := findGuide(site.sections, slug)
+		if g == nil {
+			return nil, none, fmt.Errorf("%s links guide %q, which does not exist", p.Name, slug)
+		}
+		data.DoIt = append(data.DoIt, g)
+	}
+
+	// Rendered into memory, then translated: the translator needs the
+	// whole document, and nothing is written until every page of the
+	// locale has rendered and its links check out.
+	var rendered bytes.Buffer
 	if err := tmpl.ExecuteTemplate(&rendered, "layout.html.tmpl", data); err != nil {
-		return fmt.Errorf("rendering %s: %w", p.Name, err)
+		return nil, none, fmt.Errorf("rendering %s: %w", p.Name, err)
 	}
 
-	translated, err := translateHTML(rendered.Bytes(), cat)
+	translated, stats, err := translateHTML(rendered.Bytes(), cat)
 	if err != nil {
-		return fmt.Errorf("translating %s into %s: %w", p.Name, cat.lang, err)
+		return nil, none, fmt.Errorf("translating %s into %s: %w", p.Name, cat.lang, err)
 	}
-
-	if err := os.WriteFile(outPath, translated, 0o644); err != nil {
-		return fmt.Errorf("writing %s: %w", outPath, err)
-	}
-	return nil
+	return translated, stats, nil
 }
 
 // pageData is what a template is executed against.
 type pageData struct {
 	page
+	// LocaleRoot is the relative prefix back to this locale's root -
+	// the site root for English, the locale's directory otherwise. Links
+	// between pages go through it, so a reader stays in their language;
+	// assets, which every locale shares, go through Root.
+	LocaleRoot string
+	// Sections is the guide set, for the guides index and sidebar.
+	Sections []guides.Section
+	// GuideView is set on a guide page.
+	GuideView *guideView
+	// DoIt is the guides a feature page links to.
+	DoIt []*guides.Guide
 	// Root is the relative prefix back to the site root ("." for a
 	// top-level page, ".." for one in features/).
 	//
@@ -386,7 +499,7 @@ func funcsFor(p page, locale string) template.FuncMap {
 			html := fmt.Sprintf(`<figure class="shot">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="%s" data-theme-dark="%s" data-theme-light="%s" />
-    <img src="%s" alt="%s" width="%d" />
+    <img src="%s" alt="%s" width="%d" data-i18n-attr="alt" />
   </picture>
 </figure>`,
 				template.HTMLEscapeString(dark),
@@ -403,4 +516,16 @@ func funcsFor(p page, locale string) template.FuncMap {
 			return root + "/" + strings.TrimPrefix(path, "/")
 		},
 	}
+}
+
+// findGuide returns the guide with slug, or nil.
+func findGuide(sections []guides.Section, slug string) *guides.Guide {
+	for _, sec := range sections {
+		for _, g := range sec.Guides {
+			if g.Slug == slug {
+				return g
+			}
+		}
+	}
+	return nil
 }

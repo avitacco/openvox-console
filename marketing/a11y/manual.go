@@ -6,6 +6,7 @@ import (
 	"strings"
 	"time"
 
+	cdppage "github.com/chromedp/cdproto/page"
 	"github.com/chromedp/chromedp"
 )
 
@@ -143,6 +144,9 @@ func checkSkipLink(alloc context.Context, base string, pages []string) ([]string
 			Text           string `json:"text"`
 		}
 		err := chromedp.Run(tctx,
+			// focus() only moves focus - and so only matches :focus -
+			// in the foreground tab; see auditPage.
+			cdppage.BringToFront(),
 			chromedp.EmulateViewport(1440, 900),
 			chromedp.Navigate(fmt.Sprintf("%s/%s?skip=%d", strings.TrimSuffix(base, "/"), page, time.Now().UnixNano())),
 			chromedp.WaitVisible("vox-footer", chromedp.ByQuery),

@@ -10,7 +10,10 @@
     
     <script>
       (function () {
-        var stored = localStorage.getItem('vox-theme');
+        
+        
+        var stored = null;
+        try { stored = localStorage.getItem('vox-theme'); } catch (e) {}
         var theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         document.documentElement.setAttribute('data-vox-theme', theme);
       })();
@@ -79,6 +82,7 @@
     <link rel="stylesheet" href="./site.css"/>
     <script type="module" src="./vendor/voxblocks.js"></script>
     <script type="module" src="./theme.js"></script>
+    
   </head>
   <body>
     
@@ -103,11 +107,14 @@
           </vox-dropdown>
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
+      
+      <a href="./guides/index.html" slot="actions">Guides</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
     <div class="site-subnav">
       <vox-subnav label="Capabilities" class="vox-container">
+      
       <a href="./features/nodes.html">Nodes</a>
       <a href="./features/classification.html">Classification</a>
       <a href="./features/code.html">Code</a>
@@ -186,16 +193,27 @@
 </section>
 
 <vox-callout variant="tip" heading="Try it on a throwaway stack first">
-  <p><code>docker compose up</code> brings up openvoxserver, openvoxdb, Postgres and the console together, so you can point a test agent at it and see your own nodes appear before committing to anything.</p>
+  <p>
+    <code>docker compose up</code> brings up openvoxserver, openvoxdb,
+    Postgres and the console together, so you can point a test agent at it
+    and see your own nodes appear before committing to anything.
+  </p>
 </vox-callout>
-</div>
+
+      </div>
 
       
       <vox-cta-band heading="Run it yourself">
-      <p>OpenVox Console ships as two container images, built for amd64 and arm64 on every push. <code>SETUP.md</code> walks through a real deployment - openvoxserver, openvoxdb, Postgres and the console - with both container and package instructions.</p>
-      <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/blob/main/SETUP.md" target="_blank">Setup guide</vox-cta>
+      <p>
+        OpenVox Console ships as container images, built for amd64 and
+        arm64 on every push, and as a single binary. The install guides
+        take you from an empty host to a working deployment -
+        openvoxserver, openvoxdb, Postgres and the console - with
+        containers or with packages.
+      </p>
+      <vox-cta slot="actions" href="./guides/index.html#install">Install guides</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">Source on GitHub</vox-cta>
-        <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">Container images</vox-cta>
+      <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">Container images</vox-cta>
       </vox-cta-band>
     </main>
 
@@ -203,7 +221,7 @@
       <vox-footer-column heading="OpenVox Console">
         <a href="./index.html">Overview</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">Source</a>
-        <a href="https://github.com/avitacco/openvox-console/blob/main/SETUP.md" rel="noopener" target="_blank">Setup guide</a>
+        <a href="./guides/index.html#install">Install guides</a>
       </vox-footer-column>
       <vox-footer-column heading="Capabilities">
         <a href="./features/nodes.html">Nodes</a>

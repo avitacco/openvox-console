@@ -17,7 +17,10 @@
          visitor who prefers dark - a flash on every navigation. */}}
     <script>
       (function () {
-        var stored = localStorage.getItem('vox-theme');
+        // Private windows and blocked site data throw here; with no
+        // stored choice, the visitor's system preference decides.
+        var stored = null;
+        try { stored = localStorage.getItem('vox-theme'); } catch (e) {}
         var theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         document.documentElement.setAttribute('data-vox-theme', theme);
       })();
@@ -101,6 +104,7 @@
     <link rel="stylesheet" href="{{asset "site.css"}}" />
     <script type="module" src="{{asset "vendor/voxblocks.js"}}"></script>
     <script type="module" src="{{asset "theme.js"}}"></script>
+    {{if .GuideView}}<script type="module" src="{{asset "guides.js"}}"></script>{{end}}
   </head>
   <body>
     {{/* First thing in the tab order. Without it a keyboard user tabs
@@ -108,7 +112,7 @@
          content, on every page. Visually hidden until focused. */}}
     <a class="skip-link" href="#main" data-i18n>Skip to content</a>
 
-    <vox-header site-title="OpenVox Console" href="{{.Root}}/index.html">
+    <vox-header site-title="OpenVox Console" href="{{.LocaleRoot}}/index.html">
       {{/* The official OpenVox hexagon mark (voxpupuli/logos), the same
            inline vector the console's header uses. currentColor means it
            follows the header's text colour, so it needs no separate
@@ -148,12 +152,17 @@
         </vox-dropdown>
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
+      {{/* The guides are reachable from every page, beside the other
+           way off the marketing pages. Within the reader's locale, like
+           every page link here - see LocaleRoot in gen. */}}
+      <a slot="actions" href="{{.LocaleRoot}}/guides/index.html"{{if .GuideView}} aria-current="page"{{end}} data-i18n>Guides</a>
       <a slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank" rel="noopener">GitHub</a>
     </vox-header>
 
     <div class="site-subnav">
       <vox-subnav label="Capabilities" class="vox-container" data-i18n-attr="label">
-      {{$root := .Root}}{{$current := .Capability -}}
+      {{/* Page links stay within the reader's locale. */}}
+      {{$root := .LocaleRoot}}{{$current := .Capability -}}
       {{range .Pages}}{{if .Capability -}}
       <a href="{{$root}}/{{.Name}}"{{if eq .Capability $current}} aria-current="page"{{end}} data-i18n>{{.NavLabel}}</a>
       {{end}}{{end -}}
@@ -161,7 +170,21 @@
     </div>
 
     <main id="main">
-      <div class="site-main vox-container">{{template "content" .}}</div>
+      <div class="site-main vox-container">{{template "content" .}}
+      {{- if .DoIt}}
+      {{/* From what a capability does to doing it: the guides that carry
+           it out. Listed in gen's page table, so a renamed guide fails
+           the build rather than leaving a dead link. */}}
+      <section class="site-section do-it" aria-labelledby="do-it-heading">
+        <h2 id="do-it-heading" class="vox-ts-xxl" data-i18n>Do it</h2>
+        <vox-grid min="16rem">
+          {{range .DoIt -}}
+          <vox-card heading="{{.Title}}" href="{{$.LocaleRoot}}/{{.PageName}}" data-i18n-attr="heading"><p data-i18n>{{.Summary}}</p></vox-card>
+          {{end -}}
+        </vox-grid>
+      </section>
+      {{- end}}
+      </div>
 
       {{/* Inside <main> rather than after it: content outside every
            landmark is skipped by anyone navigating by landmark, and
@@ -170,22 +193,23 @@
            full width of the page. */}}
       <vox-cta-band heading="Run it yourself" data-i18n-attr="heading">
       <p data-i18n-html>
-        OpenVox Console ships as two container images, built for amd64 and
-        arm64 on every push. <code>SETUP.md</code> walks through a real
-        deployment - openvoxserver, openvoxdb, Postgres and the console -
-        with both container and package instructions.
+        OpenVox Console ships as container images, built for amd64 and
+        arm64 on every push, and as a single binary. The install guides
+        take you from an empty host to a working deployment -
+        openvoxserver, openvoxdb, Postgres and the console - with
+        containers or with packages.
       </p>
-      <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/blob/main/SETUP.md" target="_blank" data-i18n>Setup guide</vox-cta>
+      <vox-cta slot="actions" href="{{.LocaleRoot}}/guides/index.html#install" data-i18n>Install guides</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank" data-i18n>Source on GitHub</vox-cta>
-        <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank" data-i18n>Container images</vox-cta>
+      <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank" data-i18n>Container images</vox-cta>
       </vox-cta-band>
     </main>
 
     <vox-footer>
       <vox-footer-column heading="OpenVox Console">
-        <a href="{{.Root}}/index.html" data-i18n>Overview</a>
+        <a href="{{.LocaleRoot}}/index.html" data-i18n>Overview</a>
         <a href="https://github.com/avitacco/openvox-console" target="_blank" rel="noopener" data-i18n>Source</a>
-        <a href="https://github.com/avitacco/openvox-console/blob/main/SETUP.md" target="_blank" rel="noopener" data-i18n>Setup guide</a>
+        <a href="{{.LocaleRoot}}/guides/index.html#install" data-i18n>Install guides</a>
       </vox-footer-column>
       <vox-footer-column heading="Capabilities" data-i18n-attr="heading">
         {{range .Pages}}{{if .Capability -}}

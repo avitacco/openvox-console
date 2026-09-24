@@ -8,6 +8,7 @@ import (
 
 	"github.com/nats-io/nats.go"
 
+	"github.com/voxpupuli/enterprise-console/internal/messaging"
 	"github.com/voxpupuli/enterprise-console/internal/testca"
 )
 
@@ -26,7 +27,7 @@ func startTestServerWithObserver(t *testing.T, onConnect func(certname string)) 
 		KeyFile:       serverKey,
 		CAFile:        ca.PEMFile(t),
 		OnNodeConnect: onConnect,
-	})
+	}, messaging.Config{})
 	if err != nil {
 		t.Fatalf("New() error: %v", err)
 	}

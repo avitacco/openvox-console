@@ -24,6 +24,7 @@ import (
 	"crypto/x509"
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"net/url"
 	"os"
@@ -113,6 +114,32 @@ func (c *Client) Statuses(ctx context.Context) (map[string]string, error) {
 		statuses[e.Name] = e.State
 	}
 	return statuses, nil
+}
+
+// CRL returns the CA's current certificate revocation list, PEM-encoded,
+// as openvoxserver serves it to agents. The endpoint needs no
+// authorization, but is fetched with this client's credentials all the
+// same - they are what verify openvoxserver's own certificate.
+func (c *Client) CRL(ctx context.Context) ([]byte, error) {
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, c.baseURL+"/puppet-ca/v1/certificate_revocation_list/ca", nil)
+	if err != nil {
+		return nil, fmt.Errorf("build CRL request: %w", err)
+	}
+	resp, err := c.http.Do(req)
+	if err != nil {
+		return nil, fmt.Errorf("request CRL: %w", err)
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("CRL request failed: %s", resp.Status)
+	}
+	// A CRL is small; anything past a few megabytes is not one.
+	data, err := io.ReadAll(io.LimitReader(resp.Body, 8<<20))
+	if err != nil {
+		return nil, fmt.Errorf("read CRL: %w", err)
+	}
+	return data, nil
 }
 
 // WrongStateError reports that a sign or revoke action was rejected

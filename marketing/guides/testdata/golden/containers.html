@@ -1,0 +1,44 @@
+<h2 id="start-the-ca" data-i18n-html="">Start the CA</h2>
+<p data-i18n-html="">Run this first. It&#39;s the CA, so everything else depends on it.</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard" data-i18n-attr="copy-label,copied-label,copied-message"><code>docker compose up -d openvoxserver
+printf &#39;%s&#39; &#39;&lt;password&gt;&#39; &gt; &#34;secrets/a &amp; b&#34;
+
+echo after a blank line
+</code></vox-code-block>
+<vox-callout variant="warning" heading="Warning" data-i18n-attr="heading"><p data-i18n-html="">Don&#39;t sign <code>&lt;certname&gt;</code> requests you did not expect.</p>
+</vox-callout>
+<ul>
+<li data-i18n-html="">Tight item with <code>code</code></li>
+<li><span data-i18n-html="">Item with a nested list
+</span><ul>
+<li data-i18n-html="">Nested item</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>
+<p data-i18n-html="">Loose item.</p>
+<p data-i18n-html="">Second paragraph of it.</p>
+</li>
+</ol>
+<div class="guide-table" tabindex="0"><table class="vox-table">
+<thead>
+<tr>
+<th data-i18n-html="">Setting</th>
+<th data-i18n-html="">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CONSOLE_HTTP_ADDR</code></td>
+<td data-i18n-html="">Where the console listens</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="verify" data-i18n-html="">Verify</h2>
+<p data-i18n-html="">Check it answers:</p>
+<vox-tabs class="guide-tabs"><vox-tab slot="tab" panel="tab1-linux" data-tab-key="linux" selected="" data-i18n-html="">Linux</vox-tab><vox-tab-panel name="tab1-linux"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard" data-i18n-attr="copy-label,copied-label,copied-message"><code>curl -s http://localhost:8080/health
+</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab1-windows" data-tab-key="windows" data-i18n-html="">Windows</vox-tab><vox-tab-panel name="tab1-windows"><vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard" data-i18n-attr="copy-label,copied-label,copied-message"><code>Invoke-WebRequest http://localhost:8080/health
+</code></vox-code-block></vox-tab-panel></vox-tabs><h2 id="start-the-ca-2" data-i18n-html="">Start the CA</h2>
+<p data-i18n-html="">A duplicate heading gets a suffixed anchor.</p>
+<figure class="shot"><img src="dashboard.png" alt="The dashboard"/></figure>

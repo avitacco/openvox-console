@@ -183,3 +183,34 @@ func TestClean_UnknownCertnameIsNotFoundError(t *testing.T) {
 		t.Fatalf("Clean() error = %v, want a *NotFoundError", err)
 	}
 }
+
+func TestCRL_ReturnsTheCAsList(t *testing.T) {
+	const crl = "-----BEGIN X509 CRL-----\nMIIB\n-----END X509 CRL-----\n"
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != "/puppet-ca/v1/certificate_revocation_list/ca" {
+			http.NotFound(w, r)
+			return
+		}
+		_, _ = w.Write([]byte(crl))
+	}))
+	defer srv.Close()
+
+	got, err := newClient(srv.URL, srv.Client()).CRL(context.Background())
+	if err != nil {
+		t.Fatalf("CRL() error: %v", err)
+	}
+	if string(got) != crl {
+		t.Errorf("CRL() = %q, want %q", got, crl)
+	}
+}
+
+func TestCRL_NonOKStatusIsError(t *testing.T) {
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusServiceUnavailable)
+	}))
+	defer srv.Close()
+
+	if _, err := newClient(srv.URL, srv.Client()).CRL(context.Background()); err == nil {
+		t.Fatal("CRL() on a 503 returned no error")
+	}
+}

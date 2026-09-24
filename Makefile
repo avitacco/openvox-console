@@ -9,7 +9,7 @@ VERSION := $(shell git describe --tags --always --dirty 2>/dev/null || echo dev)
 -include .env
 export
 
-.PHONY: build frontend agent-binaries agent-packages docker-build up down openvox-up openvox-down openvox-test g10k-install control-repo-fixture code-sources-fixture rbac-keys rbac-rotate-key postgres-replication-up postgres-replication-down postgres-replication-failover run test clean demo-seed screenshots-up screenshots-down marketing marketing-serve marketing-screenshots marketing-a11y
+.PHONY: build frontend agent-binaries agent-packages docker-build up down openvox-up openvox-down openvox-test g10k-install control-repo-fixture code-sources-fixture rbac-keys rbac-rotate-key postgres-replication-up postgres-replication-down postgres-replication-failover run test clean demo-seed screenshots-up screenshots-down marketing marketing-build marketing-serve marketing-screenshots marketing-a11y
 
 # Compose invocation for a screenshot capture run. All three files, in
 # this order: naming any -f turns off compose's automatic loading of
@@ -146,7 +146,10 @@ demo-seed: ## Fill a LOCAL console with a fabricated demo fleet for screenshots/
 	# under the wrong settings can never be corrected in place.
 	go run ./cmd/demo-seed --reset --i-know-this-is-a-demo-console
 
-marketing: ## Rebuild the marketing site into docs/ (commit and push the result - it is not built in CI)
+marketing: ## Refresh every screenshot and rebuild the site into docs/ - starts what it needs, puts everything back afterwards (see marketing/refresh.sh)
+	./marketing/refresh.sh
+
+marketing-build: ## Rebuild the site from the committed screenshots only - quick, no containers (for editing text and guides)
 	cd marketing && ./build.sh
 
 marketing-a11y: ## Audit the built site against WCAG 2.2 AA (needs `make screenshots-up` for the browser)

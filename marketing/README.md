@@ -20,7 +20,8 @@ asserts exactly that (`internal/demodata`'s `TestDemoDataIsNotShipped`).
 marketing/              the source
   build.sh              builds the site into ../docs
   gen/                  renders templates/ into HTML (build-time only)
-  templates/            layout.html.tmpl + pages/*.tmpl
+  templates/            layout.html.tmpl, guide.html.tmpl + pages/*.tmpl
+  guides/               the step-by-step guides, as Markdown (see "Guides")
   src/                  site.css, theme.js
   shots/                the screenshot manifest - what gets captured
   capture/              drives a headless browser to take the screenshots
@@ -29,6 +30,7 @@ marketing/              the source
 docs/                   the built site, committed, served by Pages
   index.html            generated - do not edit
   features/*.html       generated - do not edit
+  guides/*.html         generated from marketing/guides - do not edit
   site.css, theme.js    copied from marketing/src
   vendor/               copied from the frontend's voxblocks
   assets/screenshots/   the PNGs - content, not build output
@@ -44,9 +46,35 @@ takes the screenshots with it.
 ## Building
 
 ```sh
-make marketing          # regenerate docs/
+make marketing          # everything: screenshots, then docs/
 make marketing-serve    # look at it: http://localhost:8777/
 git add docs && git commit && git push
+```
+
+`make marketing` is the whole refresh in one command
+(`marketing/refresh.sh`). It starts whatever the screenshots need that is
+not already running, captures every screenshot in every locale, rebuilds
+`docs/`, and then puts everything back the way it found it - whether the
+run succeeded or failed:
+
+- containers it started are stopped and removed; services that were
+  already running stay running, back on their normal configuration;
+- what the run created is removed: the demo fleet in openvoxdb, the demo
+  console's database and its deploy directory (`KEEP_DEMO=1` keeps them
+  for a look);
+- named volumes are **never** removed - they hold the development CA
+  that `certs/` and `.env` were issued from.
+
+It needs Docker running, and the development setup from the repository
+README (`.env` and `certs/`). The one-time fixtures below are made
+automatically the first time. A full run takes several minutes, most of
+it the browser passes.
+
+When you only changed text or a guide, rebuild from the committed
+screenshots instead - seconds, and no containers:
+
+```sh
+make marketing-build
 ```
 
 `voxblocks` comes from `frontend/node_modules`, not a second
@@ -60,14 +88,14 @@ stops the build instead of publishing a broken image.
 
 ## Refreshing the screenshots
 
+`make marketing` does this as part of every run. The steps it takes are
+also targets of their own, for working on capture itself:
+
 ```sh
 make screenshots-up         # openvoxdb retention off, headless browser up
 make marketing-screenshots  # demo console + seed + capture
 make screenshots-down       # back to normal
 ```
-
-That is the whole procedure. It takes a few minutes, most of it the two
-browser passes.
 
 ### Why it runs its own console
 
@@ -95,6 +123,8 @@ garbage-collect the demo fleet on its own schedule. Reseeding is part of
 the refresh command, so this is not something to remember.
 
 ### One-time setup
+
+`make marketing` makes the first two itself when they are missing:
 
 - `make g10k-install` - the Code page needs real deploys to show.
 - `make code-sources-fixture` - creates the two control repositories the
@@ -219,7 +249,7 @@ code.
 ```sh
 # after editing any marked text
 cd frontend && go run ./i18n \
-  -source ../marketing/templates,../marketing/gen \
+  -source ../marketing/templates,../marketing/gen,../marketing/shots,../marketing/guides \
   -locales ../marketing/locales -pot site.pot extract
 
 # fold the new strings into every .po, keeping existing translations
@@ -243,6 +273,105 @@ gen refuses to build a locale whose captures are missing, for the same
 reason it refuses an undeclared shot: a broken image should fail the
 build, not the published page.
 
+## Guides
+
+The site's step-by-step guides are the project's user documentation -
+installing, adding nodes, scaling, day-to-day use and operating. They are
+written in Markdown under `marketing/guides/` and rendered into the same
+layout as every other page. There is no other copy: `SETUP.md` and the
+user-facing parts of `operations.md` point here.
+
+### Where a guide lives
+
+```
+marketing/guides/
+  <section>/<slug>.md   one guide; published at guides/<slug>.html
+  _partials/<name>.md   shared passages, included into several guides
+```
+
+Sections are fixed, in this order: `install`, `nodes`, `scale`, `use`,
+`operate` (`Sections` in `marketing/guides/guides.go`). A directory that
+is not one of them fails the build rather than becoming a section nobody
+listed. Guides are published flat, so a slug must be unique across all
+sections.
+
+### Front matter
+
+Every guide starts with exactly this, and nothing else is accepted:
+
+```
+---
+title: Install with containers
+summary: One sentence - shown under the title, on the index, and as the page description.
+order: 2
+---
+```
+
+`order` sorts guides within their section. The guide's own title is the
+page's only `h1`, so the body starts its sections at `##`.
+
+### What you can write
+
+CommonMark, GFM tables, and four conventions. Anything else - raw HTML, an
+`h1`, an image that is not a declared screenshot - fails the build with
+the file and line.
+
+| Write | You get |
+| --- | --- |
+| a fenced code block with a language (`sh`, `yaml`, `ini`, `powershell`...) | a `vox-code-block` with a copy button. Languages the component has no grammar for are shown as plain text; one it cannot take at all is an error |
+| `> [!NOTE]`, `[!TIP]`, `[!WARNING]`, `[!CAUTION]` | a `vox-callout` (info, tip, warning, danger). GitHub renders the same syntax, so the file still reads well there |
+| consecutive fenced blocks each with `tab="Linux"` (etc.) after the language | one `vox-tabs` per group. Tabs with the same label switch together across the page, and the reader's choice is remembered |
+| `![](shot:nodes-list)`, on a line of its own | the declared screenshot, theme-aware, with its caption as alt text |
+
+Headings get anchors from their **English** text (`## Start the CA` is
+`#start-the-ca`), so a link to a section works in every locale. Link to
+another guide by its page name, relative to the guide: `[Add nodes](add.html)`
+or `[the CA step](containers.html#start-the-ca)`.
+
+### Sharing passages
+
+A passage both install guides need is written once in `_partials/` and
+included where it goes:
+
+```
+<!-- include: rbac-key.md -->
+```
+
+The comment is invisible on GitHub. A partial's text is one message for
+translators, however many guides include it.
+
+### What the build checks
+
+A guide that has drifted from the console fails the build (`make marketing` or `make marketing-build`), naming
+the guide and the problem:
+
+- every `CONSOLE_*` name it mentions is read by the console
+  (`internal/runtime/config.go`) or interpolated by `docker-compose.yml`;
+  `NAME_FILE` is accepted for any known `NAME`, and a name ending in `_`
+  (as in "the `CONSOLE_CLUSTER_*` settings") matches as a prefix;
+- every internal link resolves to a page that exists, and every
+  `#fragment` to an anchor on it - on every page of the site, not only
+  guides, and in every locale;
+- every screenshot is declared and captured;
+- no translation changes code: the contents of each `<code>` and each
+  link target in a translated passage must match the English exactly
+  (reordering is fine).
+
+### Translation
+
+Guides go through the same workflow as everything else (see
+"Translations"): `extract` finds their prose through the same renderer
+that builds the page, so a guide passage's message ID is exactly what the
+page looks up. Code blocks are never offered for translation.
+
+A passage with no translation shows in English, and a translated guide
+with any such passage shows a "not fully translated yet" notice at its
+top. Each locale's build prints its guide coverage:
+
+```
+Generated 26 pages into ../docs/de (de) - guides 412/430 passages translated
+```
+
 ## Accessibility
 
 The target is **WCAG 2.2 level AA**.
@@ -252,7 +381,17 @@ make screenshots-up    # the audit needs the headless browser
 make marketing-a11y
 ```
 
-`marketing/a11y` loads every page in a real browser and runs axe-core
+Or without the capture stack, against a Chromium installed locally:
+
+```sh
+chromium --headless=new --remote-debugging-port=9222 --user-data-dir="$(mktemp -d)" &
+(cd docs && python3 -m http.server 8778) &
+go run ./marketing/a11y --base http://localhost:8778 --best-practice
+```
+
+`marketing/a11y` loads every page - guides included, read from
+`marketing/guides` so a new guide is audited without being listed - in a
+real browser and runs axe-core
 over it in **both themes at both a desktop and a phone viewport** - 28
 renders. Contrast depends on the theme and reflow depends on the width,
 so a single pass would miss half of what there is to find. It also makes

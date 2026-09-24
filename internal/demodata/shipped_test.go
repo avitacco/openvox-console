@@ -31,9 +31,15 @@ func TestDemoDataIsNotShipped(t *testing.T) {
 		modulePath + "/cmd/build-agent-packages",
 	}
 
+	// Matched as prefixes, so a library's subpackages are covered too.
 	forbidden := []string{
 		modulePath + "/internal/demodata",
 		modulePath + "/cmd/demo-seed",
+		// The site's guide renderer and the Markdown library under it
+		// are build-time tooling for the marketing site, like the demo
+		// data that feeds its screenshots.
+		modulePath + "/marketing/",
+		"github.com/yuin/goldmark",
 	}
 
 	for _, binary := range shipped {
@@ -45,8 +51,8 @@ func TestDemoDataIsNotShipped(t *testing.T) {
 		deps := strings.Split(strings.TrimSpace(string(out)), "\n")
 		for _, dep := range deps {
 			for _, bad := range forbidden {
-				if dep == bad {
-					t.Errorf("%s depends on %s - demo data must never reach a shipped binary", binary, bad)
+				if dep == bad || strings.HasPrefix(dep, bad) && (strings.HasSuffix(bad, "/") || strings.HasPrefix(dep, bad+"/")) {
+					t.Errorf("%s depends on %s - demo data and site tooling must never reach a shipped binary", binary, dep)
 				}
 			}
 		}

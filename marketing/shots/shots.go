@@ -12,6 +12,12 @@
 // referencing its Name from a page template. Nothing else.
 package shots
 
+// N_ marks a caption for extraction without translating it here: a
+// caption becomes the screenshot's alt text, which the site translates
+// per locale like any other prose (see marketing/gen's screenshot
+// function, which marks the alt attribute).
+func N_(s string) string { return s }
+
 // Theme is one of the two variants every shot is captured in.
 type Theme string
 
@@ -92,21 +98,21 @@ var All = withDefaults([]Shot{
 	{
 		Name:        "dashboard",
 		Path:        "/",
-		Caption:     "The OpenVox Console dashboard showing fleet run status across 26 nodes, with counts of unchanged, changed and failed runs, recent jobs and recent activity",
+		Caption:     N_("The OpenVox Console dashboard showing fleet run status across 26 nodes, with counts of unchanged, changed and failed runs, recent jobs and recent activity"),
 		ReadyWhen:   "#status-summary vox-stat",
 		MustContain: "prod.example.com",
 	},
 	{
 		Name:        "nodes-list",
 		Path:        "/nodes.html",
-		Caption:     "The node inventory listing managed nodes with their connection state, certificate status and last report time",
+		Caption:     N_("The node inventory listing managed nodes with their connection state, certificate status and last report time"),
 		ReadyWhen:   "#results tbody tr",
 		MustContain: "prod.example.com",
 	},
 	{
 		Name:      "node-detail",
 		Path:      "/node.html?name=web-03.prod.example.com",
-		Caption:   "A single node's detail page showing its facts, recent Puppet runs and the classes applied to it",
+		Caption:   N_("A single node's detail page showing its facts, recent Puppet runs and the classes applied to it"),
 		ReadyWhen: "#facts tbody tr",
 		// The heading alone would be satisfied by the certname echoed
 		// from the query string, which a node the console knows nothing
@@ -118,7 +124,7 @@ var All = withDefaults([]Shot{
 	{
 		Name:        "groups-list",
 		Path:        "/groups.html",
-		Caption:     "Node groups listed with their environment, priority and the number of nodes each rule currently matches",
+		Caption:     N_("Node groups listed with their environment, priority and the number of nodes each rule currently matches"),
 		ReadyWhen:   "#results tbody tr",
 		MustContain: "Web Tier",
 	},
@@ -127,7 +133,7 @@ var All = withDefaults([]Shot{
 	{
 		Name:      "code-deploys",
 		Path:      "/code.html",
-		Caption:   "Code deployment history showing successful deploys from two separate control repositories, each with the source it came from, the environment it wrote, its ref, who triggered it and when it ran",
+		Caption:   N_("Code deployment history showing successful deploys from two separate control repositories, each with the source it came from, the environment it wrote, its ref, who triggered it and when it ran"),
 		ReadyWhen: "#code-tabs",
 		// The Code page opens on Repositories; deploy history is the
 		// second tab. Without this the screenshot shows the repository
@@ -142,7 +148,7 @@ var All = withDefaults([]Shot{
 	{
 		Name:        "jobs-list",
 		Path:        "/jobs.html",
-		Caption:     "Orchestration job history listing ad-hoc runs, tasks and plans with the nodes each targeted and whether it succeeded",
+		Caption:     N_("Orchestration job history listing ad-hoc runs, tasks and plans with the nodes each targeted and whether it succeeded"),
 		ReadyWhen:   "#results tbody tr",
 		MustContain: "o.operator",
 	},
@@ -151,14 +157,14 @@ var All = withDefaults([]Shot{
 	{
 		Name:        "packages",
 		Path:        "/packages.html",
-		Caption:     "Fleet-wide package inventory showing each package, its versions in use and how many nodes report it",
+		Caption:     N_("Fleet-wide package inventory showing each package, its versions in use and how many nodes report it"),
 		ReadyWhen:   "#results tbody tr",
 		MustContain: "haproxy",
 	},
 	{
 		Name:        "vulnerabilities",
 		Path:        "/vulnerabilities.html",
-		Caption:     "Vulnerability findings across the fleet, ordered by severity, showing affected node counts and whether a fix is available",
+		Caption:     N_("Vulnerability findings across the fleet, ordered by severity, showing affected node counts and whether a fix is available"),
 		ReadyWhen:   "#results tbody tr",
 		MustContain: "CVE-2024-31449",
 	},
@@ -167,14 +173,14 @@ var All = withDefaults([]Shot{
 	{
 		Name:        "roles",
 		Path:        "/roles.html",
-		Caption:     "Role-based access control showing roles and the specific permissions each one grants",
+		Caption:     N_("Role-based access control showing roles and the specific permissions each one grants"),
 		ReadyWhen:   "#results tbody tr",
 		MustContain: "Auditor",
 	},
 	{
 		Name:        "activity",
 		Path:        "/activity.html",
-		Caption:     "The audit trail recording who changed what in the console and when",
+		Caption:     N_("The audit trail recording who changed what in the console and when"),
 		ReadyWhen:   "#results tbody tr",
 		MustContain: "j.newstarter",
 	},

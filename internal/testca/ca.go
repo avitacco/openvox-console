@@ -42,7 +42,7 @@ func NewCA(t testing.TB) *CA {
 		NotBefore:             time.Now().Add(-time.Hour),
 		NotAfter:              time.Now().Add(time.Hour),
 		IsCA:                  true,
-		KeyUsage:              x509.KeyUsageCertSign | x509.KeyUsageDigitalSignature,
+		KeyUsage:              x509.KeyUsageCertSign | x509.KeyUsageCRLSign | x509.KeyUsageDigitalSignature,
 		BasicConstraintsValid: true,
 	}
 	der, err := x509.CreateCertificate(rand.Reader, tmpl, tmpl, &key.PublicKey, key)
@@ -65,8 +65,11 @@ func (ca *CA) PEMFile(t testing.TB) string {
 }
 
 // Issue signs a leaf certificate for commonName, writing its cert/key
-// PEM files and returning their paths. serverAuth selects server vs
-// client extended key usage.
+// PEM files and returning their paths. serverAuth selects a certificate
+// usable on both sides of a TLS connection - the shape the OpenVox CA
+// issues for a host, and what a console needs for its cluster routes,
+// where each instance is the server for some peers and the client of
+// others - versus a client-only one.
 func (ca *CA) Issue(t testing.TB, commonName string, serverAuth bool) (certPath, keyPath string) {
 	t.Helper()
 
@@ -82,7 +85,7 @@ func (ca *CA) Issue(t testing.TB, commonName string, serverAuth bool) (certPath,
 		KeyUsage:     x509.KeyUsageDigitalSignature,
 	}
 	if serverAuth {
-		tmpl.ExtKeyUsage = []x509.ExtKeyUsage{x509.ExtKeyUsageServerAuth}
+		tmpl.ExtKeyUsage = []x509.ExtKeyUsage{x509.ExtKeyUsageServerAuth, x509.ExtKeyUsageClientAuth}
 		tmpl.IPAddresses = []net.IP{net.ParseIP("127.0.0.1")}
 		tmpl.DNSNames = []string{"localhost"}
 	} else {
@@ -106,6 +109,66 @@ func (ca *CA) Issue(t testing.TB, commonName string, serverAuth bool) (certPath,
 	writePEM(t, keyPath, "EC PRIVATE KEY", keyDER)
 
 	return certPath, keyPath
+}
+
+// CRLFile writes a CRL signed by ca that revokes the certificates at
+// certPaths (as returned by Issue), returning its path. With no paths it
+// is a valid CRL revoking nothing.
+func (ca *CA) CRLFile(t testing.TB, certPaths ...string) string {
+	t.Helper()
+	path := filepath.Join(t.TempDir(), "crl.pem")
+	ca.WriteCRL(t, path, certPaths...)
+	return path
+}
+
+// WriteCRL writes a CRL signed by ca revoking the certificates at
+// certPaths to path, replacing whatever was there - for a test that
+// needs a CRL to change underneath a running reader.
+func (ca *CA) WriteCRL(t testing.TB, path string, certPaths ...string) {
+	t.Helper()
+
+	var revoked []x509.RevocationListEntry
+	for _, p := range certPaths {
+		revoked = append(revoked, x509.RevocationListEntry{
+			SerialNumber:   LeafCert(t, p).SerialNumber,
+			RevocationTime: time.Now().Add(-time.Minute),
+		})
+	}
+	der, err := x509.CreateRevocationList(rand.Reader, &x509.RevocationList{
+		Number:                    big.NewInt(time.Now().UnixNano()),
+		ThisUpdate:                time.Now().Add(-time.Minute),
+		NextUpdate:                time.Now().Add(time.Hour),
+		RevokedCertificateEntries: revoked,
+	}, ca.Cert, ca.key)
+	if err != nil {
+		t.Fatalf("create CRL: %v", err)
+	}
+	// Written aside and renamed into place, so a reader polling path
+	// never sees a half-written file.
+	tmp := path + ".tmp"
+	writePEM(t, tmp, "X509 CRL", der)
+	if err := os.Rename(tmp, path); err != nil {
+		t.Fatalf("move CRL into place: %v", err)
+	}
+}
+
+// LeafCert parses the first certificate in the PEM file at path.
+func LeafCert(t testing.TB, path string) *x509.Certificate {
+	t.Helper()
+
+	data, err := os.ReadFile(path)
+	if err != nil {
+		t.Fatalf("read %s: %v", path, err)
+	}
+	block, _ := pem.Decode(data)
+	if block == nil {
+		t.Fatalf("no PEM block in %s", path)
+	}
+	cert, err := x509.ParseCertificate(block.Bytes)
+	if err != nil {
+		t.Fatalf("parse certificate in %s: %v", path, err)
+	}
+	return cert
 }
 
 // SelfSigned issues a certificate signed by its own throwaway key, not

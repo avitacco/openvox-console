@@ -49,3 +49,18 @@ func TestPublishSubscribe_InProcess(t *testing.T) {
 		t.Fatal("timed out waiting for subscriber to receive message")
 	}
 }
+
+// Embedded, the server must leave the process's signals alone - see
+// options. nats-server's own handler would os.Exit on SIGTERM, skipping
+// the console's graceful shutdown.
+func TestEmbeddedServerDoesNotHandleSignals(t *testing.T) {
+	for _, cfg := range []Config{{}, {Nodes: nil}} {
+		opts, err := options(cfg, &authenticator{})
+		if err != nil {
+			t.Fatalf("options: %v", err)
+		}
+		if !opts.NoSigs {
+			t.Error("embedded server would install its own signal handlers")
+		}
+	}
+}

@@ -253,3 +253,103 @@ a:focus-visible {
     text-align: end;
   }
 }
+
+/* --- guides ------------------------------------------------------- */
+
+/*
+ * A guide page: the guide sidebar beside the article, stacking at the
+ * width vox-sidenav itself switches to its collapsed menu (768px), so
+ * the two never disagree about which layout the page is in.
+ */
+.guide-layout {
+  display: grid;
+  grid-template-columns: minmax(12rem, 16rem) minmax(0, 1fr);
+  gap: var(--vox-space-8);
+  align-items: start;
+  padding-block: var(--vox-space-8);
+}
+
+@media (max-width: 768px) {
+  .guide-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--vox-space-4);
+  }
+}
+
+/* Long guides: the sidebar stays in reach while the article scrolls. */
+@media (min-width: 769px) {
+  .guide-nav {
+    position: sticky;
+    top: var(--vox-space-4);
+    max-height: calc(100vh - 2 * var(--vox-space-4));
+    overflow-y: auto;
+  }
+}
+
+/* minmax(0, 1fr) above lets the article shrink below its content's
+   width; without it one long command would widen the whole page. */
+.guide {
+  min-width: 0;
+}
+
+.guide-eyebrow {
+  margin: 0;
+  color: var(--vox-color-text-2);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.guide-title {
+  margin-block: var(--vox-space-2) var(--vox-space-3);
+}
+
+.guide-summary {
+  margin-block: 0 var(--vox-space-6);
+  color: var(--vox-color-text-2);
+  font-size: 18px;
+}
+
+.guide-toc {
+  display: block;
+  margin-block-end: var(--vox-space-8);
+}
+
+.guide > vox-callout {
+  display: block;
+  margin-block-end: var(--vox-space-6);
+}
+
+.guide-body > vox-code-block,
+.guide-body > vox-callout,
+.guide-body > vox-tabs,
+.guide-body .shot {
+  display: block;
+  margin-block: var(--vox-space-4);
+  max-width: 100%;
+}
+
+/* Headings are link targets from the table of contents; keep them clear
+   of the viewport edge when jumped to. */
+.guide-body h2,
+.guide-body h3 {
+  scroll-margin-top: var(--vox-space-4);
+}
+
+.guide-table {
+  overflow-x: auto;
+  margin-block: var(--vox-space-4);
+}
+
+vox-series-nav {
+  display: block;
+  margin-block-start: var(--vox-space-8);
+}
+
+/* Setting names like CONSOLE_NODE_TRANSPORT_PUBLIC_ADDR have no break
+   opportunity, and at phone width one is wider than the column. Let
+   inline code break anywhere rather than push the page sideways
+   (SC 1.4.10). Code blocks are unaffected: they scroll in their own box. */
+.guide-body :not(pre) > code,
+.guide-summary code {
+  overflow-wrap: anywhere;
+}

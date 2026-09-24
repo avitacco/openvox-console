@@ -1,0 +1,20 @@
+{{define "content"}}
+{{- $lr := .LocaleRoot -}}
+<vox-hero eyebrow="Guides" heading="From an empty host to a running fleet" data-i18n-attr="heading,eyebrow">
+  <p data-i18n>
+    Step by step: install the console, add your nodes, scale it out, and
+    run it day to day. Every command is shown exactly as you type it.
+  </p>
+</vox-hero>
+
+{{range .Sections -}}
+<section class="site-section" id="{{.Name}}">
+  <h2 class="vox-ts-xxl" data-i18n>{{.Title}}</h2>
+  <vox-grid min="16rem">
+    {{range .Guides -}}
+    <vox-card heading="{{.Title}}" href="{{$lr}}/{{.PageName}}" data-i18n-attr="heading"><p data-i18n>{{.Summary}}</p></vox-card>
+    {{end -}}
+  </vox-grid>
+</section>
+{{end -}}
+{{end}}
