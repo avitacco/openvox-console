@@ -10,4 +10,4 @@
 | The **Groups** page | a group matches the nodes you expect |
 
 Your console is ready for nodes. Continue with
-[Add nodes](add.html) to enrol the first one.
+[Add nodes](add.html) to enroll the first one.

@@ -11,7 +11,7 @@ import (
 //
 // The site's translator looks prose up by this key and the extractor
 // offers translators exactly this key, so the two agree by sharing one
-// function rather than by two serialisers happening to match.
+// function rather than by two serializers happening to match.
 //
 // The spelling is html.Render's with one difference: in text, only &, <
 // and > are escaped. html.Render also escapes ' and ", which is valid

@@ -44,7 +44,7 @@ type SectionDef struct {
 	Title string
 }
 
-// Sections is the guide set's fixed organisation. A directory under the
+// Sections is the guide set's fixed organization. A directory under the
 // guides root that is not listed here is an error rather than a silently
 // unlisted section.
 var Sections = []SectionDef{

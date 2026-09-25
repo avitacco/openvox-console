@@ -201,7 +201,7 @@ func TestTrigger_FailedDispatchIsNotRetried(t *testing.T) {
 	}
 }
 
-// Task 3.4: a batch enrolment dispatches every node's run, without
+// Task 3.4: a batch enrollment dispatches every node's run, without
 // running them all at once.
 func TestTrigger_BatchDispatchesEveryNodeWithBoundedConcurrency(t *testing.T) {
 	const batch = 40

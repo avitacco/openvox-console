@@ -148,7 +148,7 @@
         <vox-toc-item slot="children" href="#check-it-is-running"><span>Check it is running</span></vox-toc-item>
       </vox-toc-item>
       <vox-toc-item href="#install-openvoxdb-and-its-database"><span>Install openvoxdb and its database</span>
-        <vox-toc-item slot="children" href="#enrol-openvoxdb-s-host"><span>Enrol openvoxdb&#39;s host</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#enroll-openvoxdb-s-host"><span>Enroll openvoxdb&#39;s host</span></vox-toc-item>
         <vox-toc-item slot="children" href="#create-its-database"><span>Create its database</span></vox-toc-item>
         <vox-toc-item slot="children" href="#install-and-start-openvoxdb"><span>Install and start openvoxdb</span></vox-toc-item>
         <vox-toc-item slot="children" href="#send-catalogs-and-reports-to-it"><span>Send catalogs and reports to it</span></vox-toc-item>
@@ -238,9 +238,9 @@ and let that start create the certificate with them:
 </code></vox-code-block>
 <p>The reply is <code>running</code>.</p>
 <h2 id="install-openvoxdb-and-its-database">Install openvoxdb and its database</h2>
-<h3 id="enrol-openvoxdb-s-host">Enrol openvoxdb&#39;s host</h3>
+<h3 id="enroll-openvoxdb-s-host">Enroll openvoxdb&#39;s host</h3>
 <p>openvoxdb does not request a certificate itself: its setup copies the one
-its host already has. If openvoxdb has a host of its own, enrol that host
+its host already has. If openvoxdb has a host of its own, enroll that host
 with the CA first, then sign its request on the CA if the CA does not sign
 automatically:</p>
 <vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo /opt/puppetlabs/bin/puppet ssl bootstrap --server puppet.example.com
@@ -464,7 +464,7 @@ CONSOLE_NODE_TRANSPORT_CERT_FILE=/etc/openvox-console/node-transport-cert.pem
 CONSOLE_NODE_TRANSPORT_KEY_FILE=/etc/openvox-console/node-transport-key.pem
 CONSOLE_NODE_TRANSPORT_CA_FILE=/etc/openvox-console/ca.pem
 
-# The Puppet server a node should enrol against, written into the node
+# The Puppet server a node should enroll against, written into the node
 # install script.
 CONSOLE_PUPPET_SERVER_PUBLIC_ADDR=puppet.example.com
 
@@ -644,7 +644,7 @@ sudo systemctl restart openvox-console
 </tbody>
 </table></div>
 <p>Your console is ready for nodes. Continue with
-<a href="add.html">Add nodes</a> to enrol the first one.</p>
+<a href="add.html">Add nodes</a> to enroll the first one.</p>
 
     </div>
 

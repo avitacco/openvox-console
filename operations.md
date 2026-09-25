@@ -713,7 +713,7 @@ change's `evidence/` directory under `openspec/changes/`, or its dated copy unde
   nodes - full then incremental syncs with the expected export filters, a CVE
   merged into the same finding OSV reports on that node, a plugin-only finding,
   hostname-only correlation, an unmatched asset counted and skipped, and
-  credentials absent from every API response and log line. Behaviour against a
+  credentials absent from every API response and log line. Behavior against a
   real tenant (export timings, rate limiting, data quirks) is untested.
 - Not live: the Ubuntu import (~700 MB download) was only exercised with small
   fixture archives, not against the real directory.

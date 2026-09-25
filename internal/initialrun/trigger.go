@@ -26,12 +26,12 @@ const TriggeredBy = "system:initial-run"
 
 // defaultWorkers bounds how many initial runs are set up at once. Each
 // worker holds an openvoxdb lookup, a Postgres claim and a dispatch, so
-// an unbounded fan-out on a batch enrolment would compete with the rest
+// an unbounded fan-out on a batch enrollment would compete with the rest
 // of the console for the same connection pool. Four keeps a batch moving
 // without letting it dominate.
 const defaultWorkers = 4
 
-// defaultQueueDepth is sized so that a routine batch enrolment queues
+// defaultQueueDepth is sized so that a routine batch enrollment queues
 // rather than drops - dropping is meant to signal genuine overload, not
 // "someone provisioned a rack".
 const defaultQueueDepth = 256

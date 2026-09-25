@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="ar" dir="rtl"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Enrol a node with one script on Linux, macOS or Windows, sign its certificate, and see it connect and run."/>
+    <meta name="description" content="Enroll a node with one script on Linux, macOS or Windows, sign its certificate, and see it connect and run."/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
@@ -135,7 +135,7 @@
   <article class="guide">
     <p class="guide-eyebrow">Nodes</p>
     <h1 class="guide-title vox-ts-xxl">Add nodes</h1>
-    <p class="guide-summary">Enrol a node with one script on Linux, macOS or Windows, sign its certificate, and see it connect and run.</p>
+    <p class="guide-summary">Enroll a node with one script on Linux, macOS or Windows, sign its certificate, and see it connect and run.</p>
 
     
     <vox-callout variant="info" heading="Not fully translated yet">
@@ -156,7 +156,7 @@
       </vox-toc>
     <div class="guide-body vox-prose">
 <p>Adding a node is one script, run once on the node. It installs the
-OpenVox agent, enrols the node with the CA if it has no certificate yet,
+OpenVox agent, enrolls the node with the CA if it has no certificate yet,
 installs the console&#39;s node agent from the console&#39;s own package
 repository, and starts it as a service. It is safe to run again.</p>
 <h2 id="before-you-start">Before you start</h2>
@@ -166,7 +166,7 @@ installed it:</p>
 <li><code>CONSOLE_NODE_TRANSPORT_PUBLIC_ADDR</code>, the address nodes dial to keep
 their connection to the console open. Its host must be in the node
 transport certificate.</li>
-<li><code>CONSOLE_PUPPET_SERVER_PUBLIC_ADDR</code>, the Puppet server a node enrols
+<li><code>CONSOLE_PUPPET_SERVER_PUBLIC_ADDR</code>, the Puppet server a node enrolls
 against. It must be a name in openvoxserver&#39;s certificate. If it is
 unset, the script leaves the node&#39;s Puppet server configuration alone,
 which suits nodes already pointed at a server some other way.</li>

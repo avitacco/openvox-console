@@ -432,7 +432,7 @@ func localeLinks(name, current string) []localeLink {
 }
 
 // localeName returns a locale's name in itself, for the switcher's
-// trigger. An unknown code falls back to the code so a mislabelled
+// trigger. An unknown code falls back to the code so a mislabeled
 // build is visibly wrong rather than silently blank.
 func localeName(code string) string {
 	for _, l := range siteLocales {

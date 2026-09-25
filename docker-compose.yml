@@ -55,7 +55,7 @@ services:
       CONSOLE_NODE_TRANSPORT_KEY_FILE: /etc/openvox-console/node-transport-key.pem
       CONSOLE_NODE_TRANSPORT_CA_FILE: /etc/openvox-console/ca.pem
 
-      # The Puppet server a *node* enrols against (node-facing - not the
+      # The Puppet server a *node* enrolls against (node-facing - not the
       # console's own view of the CA).
       CONSOLE_PUPPET_SERVER_PUBLIC_ADDR: ${CONSOLE_PUPPET_SERVER_PUBLIC_ADDR:-}
 
@@ -168,15 +168,15 @@ services:
       DNS_ALT_NAMES: ${OPENVOXSERVER_DNS_ALT_NAMES:+${OPENVOXSERVER_DNS_ALT_NAMES},}puppet
       CA_ALLOW_SUBJECT_ALT_NAMES: "true"
       # Accepts true|false|<path to an autosign allowlist>. The default
-      # is an allowlist naming ONLY openvoxdb, because openvoxdb enrols
+      # is an allowlist naming ONLY openvoxdb, because openvoxdb enrolls
       # itself on first boot and gives up after 120s - with plain
       # `false` it fails, writes a non-certificate into its cert file,
-      # and every later restart skips enrolment because that file is
+      # and every later restart skips enrollment because that file is
       # non-empty, so the stack never recovers on its own.
       #
       # Real nodes are deliberately NOT covered: they still need signing
       # from the Nodes page. Setting this to `true` would let anything
-      # that can reach port 8140 enrol itself.
+      # that can reach port 8140 enroll itself.
       AUTOSIGN: ${OPENVOXSERVER_AUTOSIGN:-/etc/puppetlabs/puppet/autosign.conf}
       # Classification. enc-bridge runs inside this container and calls
       # the console; its token is a file so it never lands in the
@@ -277,7 +277,7 @@ configs:
     content: |
       CREATE EXTENSION IF NOT EXISTS pg_trgm;
 
-  # Infrastructure certnames that may enrol unattended. openvoxdb is a
+  # Infrastructure certnames that may enroll unattended. openvoxdb is a
   # service in this stack, not a managed node - it has no operator to
   # wait for it. Do NOT add node names here.
   openvoxserver_autosign:

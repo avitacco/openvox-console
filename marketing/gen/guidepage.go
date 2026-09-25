@@ -26,7 +26,7 @@ type guideView struct {
 	Body template.HTML
 	// TOC is the guide's h2s, each with its h3s.
 	TOC []tocEntry
-	// Prev and Next are the neighbouring guides within the section.
+	// Prev and Next are the neighboring guides within the section.
 	Prev, Next *guides.Guide
 }
 

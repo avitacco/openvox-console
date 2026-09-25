@@ -15,7 +15,7 @@ import (
 // By the time this runs, the TLS handshake has required a client
 // certificate, verified its chain against the configured CA, and checked
 // it against the current CRL (see crl.go). The revocation check is
-// repeated here as defence in depth; the primary enforcement point for
+// repeated here as defense in depth; the primary enforcement point for
 // isolation is the Permissions assigned below - without them any
 // CA-signed connection would get NATS's default unrestricted access
 // within the account.

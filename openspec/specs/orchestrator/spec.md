@@ -136,9 +136,9 @@ causes unrequested work on a managed node.
 - **AND** the failure does not prevent other nodes' initial runs from
   being dispatched
 
-#### Scenario: Many nodes enrol at once
+#### Scenario: Many nodes enroll at once
 - **WHEN** a number of nodes with no inventory records connect within a
-  short interval, as when a provisioning run enrols a batch of machines
+  short interval, as when a provisioning run enrolls a batch of machines
 - **THEN** the system dispatches an initial run for each of them without
   dropping any node's run
 - **AND** limits how many it dispatches concurrently, so that a large

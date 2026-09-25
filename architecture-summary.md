@@ -157,7 +157,7 @@ PCP (Puppet Communications Protocol) and PXP (execution layer)
 specifications.
 
 The case for PCP/PXP would be wire compatibility with an existing agent,
-but that benefit does not materialise here: the upstream `pxp-agent` is
+but that benefit does not materialize here: the upstream `pxp-agent` is
 unmaintained, so this project ships its own on-node execution client
 (`node-agent-client`) either way. With both ends of the connection
 shipped from this repository, there is no external consumer to be
@@ -239,8 +239,8 @@ Instances form one NATS cluster, carrying both accounts:
   and the node transport, which removes the sticky-routing constraint on
   orchestration: a dispatch published by any instance reaches a node
   connected to any other. A node's CA-issued certificate is not enough to
-  join: the secret is required too, and a dialled peer must present a
-  certificate valid for the name it was dialled by.
+  join: the secret is required too, and a dialed peer must present a
+  certificate valid for the name it was dialed by.
 - **`enc` instances attach as leaf nodes**, outbound-only, so the core
   needs no network path to an instance sitting next to a compiler. A
   leaf is bound to the `CONSOLE` account alone and authenticates with

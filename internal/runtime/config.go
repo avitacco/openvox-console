@@ -455,7 +455,7 @@ func LoadConfig(getenv func(string) string) (Config, error) {
 				"(they default to the CONSOLE_OPENVOXDB_* credential)")
 	}
 
-	// Refused rather than merged: were both honoured, the same repo
+	// Refused rather than merged: were both honored, the same repo
 	// could be declared twice with different prefixes, and reading the
 	// sources file alone would not tell you what actually deploys.
 	if cfg.ControlRepoURL != "" && cfg.CodeSourcesPath != "" {

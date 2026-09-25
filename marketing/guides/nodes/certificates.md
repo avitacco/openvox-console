@@ -55,7 +55,7 @@ follow from it:
 | **Revoke** | `signed` | Stops the certificate being accepted anywhere, for good |
 | **Clean** | any known state | Revokes the certificate if needed, then removes the CA's record of the certname entirely |
 
-Clean is what to use before a node enrols again under the same name: once
+Clean is what to use before a node enrolls again under the same name: once
 the record is gone, the certname can submit a fresh request.
 
 An action the CA refuses, such as signing a certificate that is not
@@ -91,7 +91,7 @@ certificate can then still connect.
 The Nodes page lists every certname the CA knows, which includes the
 console's own certificates and those of the servers it talks to:
 `console`, `node-transport`, `console-ca-client`, `openvoxdb` and
-`openvoxserver` in a default install. These are recognised automatically
+`openvoxserver` in a default install. These are recognized automatically
 and hidden by default. **Show infrastructure certs** reveals them,
 marked, and revoking or cleaning one asks for confirmation naming what
 would break.

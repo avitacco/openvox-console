@@ -281,7 +281,7 @@ func TestClusteringWithoutASecretIsRefused(t *testing.T) {
 		t.Error("a peer listener started with no secret configured")
 	}
 	if _, err := startPeer(t, messaging.Config{Peers: []string{"127.0.0.1:6222"}}); err == nil {
-		t.Error("peers were dialled with no secret configured")
+		t.Error("peers were dialed with no secret configured")
 	}
 }
 

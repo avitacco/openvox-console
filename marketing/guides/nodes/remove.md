@@ -15,7 +15,7 @@ Deleting does two things, together:
   the fleet;
 - it **cleans the node's certificate from the CA**, the same as the
   **Clean** action, so the certname can never authenticate again and is
-  free to enrol afresh.
+  free to enroll afresh.
 
 Both halves are needed for the node to disappear from the page, which
 lists nodes known to openvoxdb and nodes known to the CA. If the console

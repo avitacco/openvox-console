@@ -87,7 +87,7 @@ The unit offered to translators is one block: a heading, paragraph, list
 item, table cell, callout body, or tab label. Blocks carry their inline
 markup (`<code>`, `<a>`, `<strong>`) in the message, as `data-i18n-html`
 already does for feature-page prose, because a translator must be able to
-move a link or an emphasised term within the sentence.
+move a link or an emphasized term within the sentence.
 
 Fenced code blocks are never marked and so never extracted.
 
@@ -140,7 +140,7 @@ reader on Windows is on Windows for the whole guide.
 *Alternative considered:* a container directive (`:::tabs`). This is not
 CommonMark, so it renders as literal text on GitHub and needs a custom
 parser extension. The info-string convention degrades to a readable
-sequence of labelled code blocks everywhere else.
+sequence of labeled code blocks everywhere else.
 
 ### Shared steps between the two install guides
 

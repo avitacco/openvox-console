@@ -887,8 +887,8 @@ msgid "Stores facts, reports and package inventory; the console queries it"
 msgstr ""
 
 #: ../marketing/guides/install/containers.md:112
-msgid "The <code>openvoxserver-ca</code> volume <em>is</em> your certificate authority. Losing it means every node has to enrol again. Back it up, and never remove it with <code>docker compose down -v</code>."
-msgstr ""
+#~ msgid "The <code>openvoxserver-ca</code> volume <em>is</em> your certificate authority. Losing it means every node has to enrol again. Back it up, and never remove it with <code>docker compose down -v</code>."
+#~ msgstr ""
 
 #: ../marketing/guides/_partials/checklist.md:10
 msgid "The <strong>Groups</strong> page"
@@ -945,8 +945,8 @@ msgid "The openvoxserver image already contains <code>enc-bridge</code> and the 
 msgstr ""
 
 #: ../marketing/guides/install/plan.md:64
-msgid "The parts interoperate freely, so you can also mix the two, for example a packaged openvoxserver with a containerised console."
-msgstr ""
+#~ msgid "The parts interoperate freely, so you can also mix the two, for example a packaged openvoxserver with a containerised console."
+#~ msgstr ""
 
 #: ../marketing/guides/install/containers.md:110
 #: ../marketing/guides/install/packages.md:202
@@ -1121,8 +1121,8 @@ msgid "<code>CONSOLE_POSTGRES_DSN</code> and the four <code>CONSOLE_OPENVOXDB_*<
 msgstr ""
 
 #: ../marketing/guides/nodes/add.md:20
-msgid "<code>CONSOLE_PUPPET_SERVER_PUBLIC_ADDR</code>, the Puppet server a node enrols against. It must be a name in openvoxserver's certificate. If it is unset, the script leaves the node's Puppet server configuration alone, which suits nodes already pointed at a server some other way."
-msgstr ""
+#~ msgid "<code>CONSOLE_PUPPET_SERVER_PUBLIC_ADDR</code>, the Puppet server a node enrols against. It must be a name in openvoxserver's certificate. If it is unset, the script leaves the node's Puppet server configuration alone, which suits nodes already pointed at a server some other way."
+#~ msgstr ""
 
 #: ../marketing/guides/scale/run-modes.md:44
 msgid "<code>CONSOLE_RBAC_SIGNING_KEY_FILE</code>: these are the only modes that issue login tokens"
@@ -1237,8 +1237,8 @@ msgid "<strong>a shared secret</strong>, the same on every core instance. A mana
 msgstr ""
 
 #: ../marketing/guides/scale/cluster.md:50
-msgid "<strong>mutual TLS</strong>, with each instance's certificate from the CA. By default an instance uses the same certificate it uses for openvoxdb, the one from <code>CONSOLE_OPENVOXDB_CERT_FILE</code>, so there is nothing new to issue. A peer that dials an instance checks that its certificate is valid for the name it dialled, so each instance must be reached by a name its certificate carries."
-msgstr ""
+#~ msgid "<strong>mutual TLS</strong>, with each instance's certificate from the CA. By default an instance uses the same certificate it uses for openvoxdb, the one from <code>CONSOLE_OPENVOXDB_CERT_FILE</code>, so there is nothing new to issue. A peer that dials an instance checks that its certificate is valid for the name it dialled, so each instance must be reached by a name its certificate carries."
+#~ msgstr ""
 
 #: ../marketing/guides/operate/upgrade-postgres.md:12
 msgid "A Postgres 18 container started against a volume still holding Postgres 17 data refuses to start, with an error beginning <code>Error: in 18+, these Docker images are configured to store database data in a format which is compatible with \"pg_ctlcluster\"</code>. That is a refusal, not damage: the old data is untouched. This guide moves it across."
@@ -1369,8 +1369,8 @@ msgid "Add nodes"
 msgstr ""
 
 #: ../marketing/guides/nodes/add.md:7
-msgid "Adding a node is one script, run once on the node. It installs the OpenVox agent, enrols the node with the CA if it has no certificate yet, installs the console's node agent from the console's own package repository, and starts it as a service. It is safe to run again."
-msgstr ""
+#~ msgid "Adding a node is one script, run once on the node. It installs the OpenVox agent, enrols the node with the CA if it has no certificate yet, installs the console's node agent from the console's own package repository, and starts it as a service. It is safe to run again."
+#~ msgstr ""
 
 #: ../marketing/guides/use/vulnerabilities.md:66
 msgid "Air-gapped sites"
@@ -1544,8 +1544,8 @@ msgid "Classify nodes"
 msgstr ""
 
 #: ../marketing/guides/nodes/certificates.md:58
-msgid "Clean is what to use before a node enrols again under the same name: once the record is gone, the certname can submit a fresh request."
-msgstr ""
+#~ msgid "Clean is what to use before a node enrols again under the same name: once the record is gone, the certname can submit a fresh request."
+#~ msgstr ""
 
 #: ../marketing/guides/scale/cluster.md:1
 msgid "Cluster a second console instance, split instances into run modes, and place classification next to the compilers."
@@ -1720,12 +1720,12 @@ msgid "Enable it."
 msgstr ""
 
 #: ../marketing/guides/nodes/add.md:1
-msgid "Enrol a node with one script on Linux, macOS or Windows, sign its certificate, and see it connect and run."
-msgstr ""
+#~ msgid "Enrol a node with one script on Linux, macOS or Windows, sign its certificate, and see it connect and run."
+#~ msgstr ""
 
 #: ../marketing/guides/install/packages.md:90
-msgid "Enrol openvoxdb's host"
-msgstr ""
+#~ msgid "Enrol openvoxdb's host"
+#~ msgstr ""
 
 #: ../marketing/guides/use/access.md:93
 msgid "Every change made through the console is on the <strong>Activity</strong> page, which needs <code>activity:read</code>. Separately, the console can write an audit log for a log collector, with one level per category:"
@@ -2430,8 +2430,8 @@ msgid "The API also accepts Puppet tasks and plans (<code>/api/v1/orchestrator/t
 msgstr ""
 
 #: ../marketing/guides/nodes/certificates.md:91
-msgid "The Nodes page lists every certname the CA knows, which includes the console's own certificates and those of the servers it talks to: <code>console</code>, <code>node-transport</code>, <code>console-ca-client</code>, <code>openvoxdb</code> and <code>openvoxserver</code> in a default install. These are recognised automatically and hidden by default. <strong>Show infrastructure certs</strong> reveals them, marked, and revoking or cleaning one asks for confirmation naming what would break."
-msgstr ""
+#~ msgid "The Nodes page lists every certname the CA knows, which includes the console's own certificates and those of the servers it talks to: <code>console</code>, <code>node-transport</code>, <code>console-ca-client</code>, <code>openvoxdb</code> and <code>openvoxserver</code> in a default install. These are recognised automatically and hidden by default. <strong>Show infrastructure certs</strong> reveals them, marked, and revoking or cleaning one asks for confirmation naming what would break."
+#~ msgstr ""
 
 #: ../marketing/guides/use/access.md:33
 msgid "The bootstrap admin gets every permission. A permission added in a newer console version is never added to existing roles for you, so after an upgrade, grant new ones on the <strong>Roles</strong> page to the roles that should have them."
@@ -2789,8 +2789,8 @@ msgid "Without it, OSV works, and a provider needing credentials is refused with
 msgstr ""
 
 #: ../marketing/guides/_partials/checklist.md:12
-msgid "Your console is ready for nodes. Continue with <a href=\"add.html\">Add nodes</a> to enrol the first one."
-msgstr ""
+#~ msgid "Your console is ready for nodes. Continue with <a href=\"add.html\">Add nodes</a> to enrol the first one."
+#~ msgstr ""
 
 #: ../marketing/guides/use/access.md:71
 msgid "Your provider must put the username and group claims in the ID token itself, not only behind its user-info endpoint. Some providers leave them out of the ID token by default when they also issue an access token, and need a setting to include them."
@@ -2873,8 +2873,8 @@ msgid "everything"
 msgstr ""
 
 #: ../marketing/guides/nodes/remove.md:16
-msgid "it <strong>cleans the node's certificate from the CA</strong>, the same as the <strong>Clean</strong> action, so the certname can never authenticate again and is free to enrol afresh."
-msgstr ""
+#~ msgid "it <strong>cleans the node's certificate from the CA</strong>, the same as the <strong>Clean</strong> action, so the certname can never authenticate again and is free to enrol afresh."
+#~ msgstr ""
 
 #: ../marketing/guides/nodes/remove.md:14
 msgid "it <strong>deactivates the node in openvoxdb</strong>, so it no longer appears in the fleet;"
@@ -2943,8 +2943,8 @@ msgid "nothing beyond health and metrics"
 msgstr ""
 
 #: ../marketing/guides/install/packages.md:92
-msgid "openvoxdb does not request a certificate itself: its setup copies the one its host already has. If openvoxdb has a host of its own, enrol that host with the CA first, then sign its request on the CA if the CA does not sign automatically:"
-msgstr ""
+#~ msgid "openvoxdb does not request a certificate itself: its setup copies the one its host already has. If openvoxdb has a host of its own, enrol that host with the CA first, then sign its request on the CA if the CA does not sign automatically:"
+#~ msgstr ""
 
 #: ../marketing/guides/install/containers.md:251
 msgid "openvoxdb gives up if its certificate request is not signed within two minutes, and when it does, it writes the failure into its own certificate file. Every restart after that sees a certificate file, skips enrolling, and fails with <code>No certs found in 'ssl-cert' file</code>. It does not recover on its own. Reset its identity rather than restarting it:"
@@ -3140,4 +3140,52 @@ msgstr ""
 
 #: ../marketing/guides/use/access.md:58
 msgid "your provider's issuer URL"
+msgstr ""
+
+#: ../marketing/guides/nodes/add.md:20
+msgid "<code>CONSOLE_PUPPET_SERVER_PUBLIC_ADDR</code>, the Puppet server a node enrolls against. It must be a name in openvoxserver's certificate. If it is unset, the script leaves the node's Puppet server configuration alone, which suits nodes already pointed at a server some other way."
+msgstr ""
+
+#: ../marketing/guides/scale/cluster.md:50
+msgid "<strong>mutual TLS</strong>, with each instance's certificate from the CA. By default an instance uses the same certificate it uses for openvoxdb, the one from <code>CONSOLE_OPENVOXDB_CERT_FILE</code>, so there is nothing new to issue. A peer that dials an instance checks that its certificate is valid for the name it dialed, so each instance must be reached by a name its certificate carries."
+msgstr ""
+
+#: ../marketing/guides/nodes/add.md:7
+msgid "Adding a node is one script, run once on the node. It installs the OpenVox agent, enrolls the node with the CA if it has no certificate yet, installs the console's node agent from the console's own package repository, and starts it as a service. It is safe to run again."
+msgstr ""
+
+#: ../marketing/guides/nodes/certificates.md:58
+msgid "Clean is what to use before a node enrolls again under the same name: once the record is gone, the certname can submit a fresh request."
+msgstr ""
+
+#: ../marketing/guides/nodes/add.md:1
+msgid "Enroll a node with one script on Linux, macOS or Windows, sign its certificate, and see it connect and run."
+msgstr ""
+
+#: ../marketing/guides/install/packages.md:90
+msgid "Enroll openvoxdb's host"
+msgstr ""
+
+#: ../marketing/guides/install/containers.md:112
+msgid "The <code>openvoxserver-ca</code> volume <em>is</em> your certificate authority. Losing it means every node has to enroll again. Back it up, and never remove it with <code>docker compose down -v</code>."
+msgstr ""
+
+#: ../marketing/guides/nodes/certificates.md:91
+msgid "The Nodes page lists every certname the CA knows, which includes the console's own certificates and those of the servers it talks to: <code>console</code>, <code>node-transport</code>, <code>console-ca-client</code>, <code>openvoxdb</code> and <code>openvoxserver</code> in a default install. These are recognized automatically and hidden by default. <strong>Show infrastructure certs</strong> reveals them, marked, and revoking or cleaning one asks for confirmation naming what would break."
+msgstr ""
+
+#: ../marketing/guides/install/plan.md:64
+msgid "The parts interoperate freely, so you can also mix the two, for example a packaged openvoxserver with a containerized console."
+msgstr ""
+
+#: ../marketing/guides/_partials/checklist.md:12
+msgid "Your console is ready for nodes. Continue with <a href=\"add.html\">Add nodes</a> to enroll the first one."
+msgstr ""
+
+#: ../marketing/guides/nodes/remove.md:16
+msgid "it <strong>cleans the node's certificate from the CA</strong>, the same as the <strong>Clean</strong> action, so the certname can never authenticate again and is free to enroll afresh."
+msgstr ""
+
+#: ../marketing/guides/install/packages.md:92
+msgid "openvoxdb does not request a certificate itself: its setup copies the one its host already has. If openvoxdb has a host of its own, enroll that host with the CA first, then sign its request on the CA if the CA does not sign automatically:"
 msgstr ""

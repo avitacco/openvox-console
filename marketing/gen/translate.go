@@ -267,7 +267,7 @@ func frozen(n *html.Node) []string {
 	return out
 }
 
-// collapseSpace normalises whitespace so a msgid does not depend on how
+// collapseSpace normalizes whitespace so a msgid does not depend on how
 // the template happened to be indented. Matches the extractor's own
 // collapse().
 func collapseSpace(s string) string {

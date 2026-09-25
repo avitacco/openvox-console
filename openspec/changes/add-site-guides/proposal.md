@@ -69,7 +69,7 @@ advertised.
 ### New Capabilities
 
 - `site-guides`: step-by-step user guides published on the site: which
-  guides exist and how they are organised and navigated, their Markdown
+  guides exist and how they are organized and navigated, their Markdown
   source and rendering, their translation (including the rule that code is
   never translated), the build-time checks that keep them true to the
   console, and the site becoming the canonical home for user-facing

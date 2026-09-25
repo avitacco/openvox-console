@@ -69,7 +69,7 @@
 // published while a route is down, or to a subscriber that has fallen
 // behind, is gone. Nothing that must not be lost may depend on the bus
 // alone - see rbac.Revoker, which treats Postgres as the source of truth
-// and the bus as a latency optimisation over it.
+// and the bus as a latency optimization over it.
 package messaging
 
 import (
@@ -189,7 +189,7 @@ type Config struct {
 
 // PeerTLS names the certificate material peer connections use: this
 // instance's own certificate (presented both as a server, to peers
-// dialling in, and as a client, when dialling out) and the CA a peer's
+// dialing in, and as a client, when dialing out) and the CA a peer's
 // certificate must chain to.
 type PeerTLS struct {
 	CertFile string
@@ -451,9 +451,9 @@ func options(cfg Config, auth *authenticator) (*server.Options, error) {
 // loadPeerTLS builds the server-side and client-side TLS configuration
 // for peer connections from p.
 //
-// Both sides verify: a peer dialling in must present a certificate
-// chaining to the CA, and a peer being dialled must present one valid
-// for the name it was dialled by. That second check is what stops a
+// Both sides verify: a peer dialing in must present a certificate
+// chaining to the CA, and a peer being dialed must present one valid
+// for the name it was dialed by. That second check is what stops a
 // managed node - which also holds a CA-issued certificate - from
 // intercepting a route and reading the secret sent over it: its
 // certificate is not valid for any console's name.

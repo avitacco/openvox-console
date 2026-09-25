@@ -87,10 +87,10 @@ The reply is `running`.
 
 ## Install openvoxdb and its database
 
-### Enrol openvoxdb's host
+### Enroll openvoxdb's host
 
 openvoxdb does not request a certificate itself: its setup copies the one
-its host already has. If openvoxdb has a host of its own, enrol that host
+its host already has. If openvoxdb has a host of its own, enroll that host
 with the CA first, then sign its request on the CA if the CA does not sign
 automatically:
 
@@ -379,7 +379,7 @@ CONSOLE_NODE_TRANSPORT_CERT_FILE=/etc/openvox-console/node-transport-cert.pem
 CONSOLE_NODE_TRANSPORT_KEY_FILE=/etc/openvox-console/node-transport-key.pem
 CONSOLE_NODE_TRANSPORT_CA_FILE=/etc/openvox-console/ca.pem
 
-# The Puppet server a node should enrol against, written into the node
+# The Puppet server a node should enroll against, written into the node
 # install script.
 CONSOLE_PUPPET_SERVER_PUBLIC_ADDR=puppet.example.com
 

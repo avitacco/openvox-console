@@ -45,7 +45,7 @@ OPENVOXDB_POSTGRES_PASSWORD=<a strong password>
 # own name "openvoxserver" - see Plan a deployment.
 OPENVOXSERVER_DNS_ALT_NAMES=puppet.example.com
 
-# The Puppet server a node should enrol against, written into the node
+# The Puppet server a node should enroll against, written into the node
 # install script. Must be one of the names above.
 CONSOLE_PUPPET_SERVER_PUBLIC_ADDR=puppet.example.com
 ```
@@ -111,7 +111,7 @@ The reply is `running`.
 
 > [!CAUTION]
 > The `openvoxserver-ca` volume *is* your certificate authority. Losing
-> it means every node has to enrol again. Back it up, and never remove it
+> it means every node has to enroll again. Back it up, and never remove it
 > with `docker compose down -v`.
 
 ## Issue the console's certificates

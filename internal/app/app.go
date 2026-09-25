@@ -1,6 +1,6 @@
 // Package app is the console's composition root: it builds every
 // subsystem the active run mode calls for and runs them until the given
-// context is cancelled.
+// context is canceled.
 //
 // It exists so that what a mode starts is decided in one place rather
 // than spread through the binary's entrypoint - see the run-modes
@@ -56,7 +56,7 @@ import (
 var allPermissions = []string{"nodes:read", "nodes:certs:manage", "nodes:manage", "classifier:read", "classifier:write", "enc:read", "rbac:admin", "activity:read", "status:read", "code:deploy", "code:read", "orchestrator:read", "orchestrator:run", "vulnerabilities:read", "vulnerabilities:manage"}
 
 // Run builds and starts the subsystems the configured run mode calls
-// for, and blocks until ctx is cancelled or a subsystem fails.
+// for, and blocks until ctx is canceled or a subsystem fails.
 //
 // Startup failures are returned rather than exiting the process, so that
 // every deferred shutdown below actually runs and so a test can start an
@@ -397,7 +397,7 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 	dispatcher.SetAuditRecorder(auditWriteNoRequest(auditlog.CategoryOrchestrator))
 	orchestratorHandlers := orchestrator.NewHandlers(orchestratorStore, dispatcher, actorFromRequest, auditRead(auditlog.CategoryOrchestrator))
 
-	// A node that enrols and connects has nothing in openvoxdb until it
+	// A node that enrolls and connects has nothing in openvoxdb until it
 	// runs, so the console would show it as an empty row until its own
 	// scheduled run came around. Dispatch that first run for it. Inert
 	// without a node listener, since there would be no connections to
@@ -740,7 +740,7 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 	}
 
 	// Signal handling belongs to the entrypoint, not here: ctx arrives
-	// already wired to it, so a test can drive shutdown by cancelling
+	// already wired to it, so a test can drive shutdown by canceling
 	// its own context instead of raising a signal at the test binary.
 
 	if surface.HasWorker(workerDependencyHealth) {
@@ -756,7 +756,7 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 		defer initialRunTriggerImpl.Stop()
 	}
 	// The scheduler's tables come from migrations; with them unapplied it
-	// would only log failures every tick. Syncs stop when ctx is cancelled
+	// would only log failures every tick. Syncs stop when ctx is canceled
 	// (their leases simply expire if the process exits first).
 	if migrationsOK && surface.HasWorker(workerVulnScheduler) {
 		go vulnScheduler.Run(ctx)
@@ -811,7 +811,7 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 	}
 
 	// ErrServerClosed is the ordinary shutdown path: the goroutine above
-	// called Shutdown because ctx was cancelled.
+	// called Shutdown because ctx was canceled.
 	return nil
 }
 

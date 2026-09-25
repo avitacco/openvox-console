@@ -40,8 +40,8 @@ function applyTheme(theme) {
     const wanted = theme === 'dark' ? source.getAttribute(DARK) : source.getAttribute(LIGHT);
     if (!wanted) return;
 
-    // Neutralise the media query once an explicit choice is in play,
-    // or the browser keeps honouring it over the img we just set.
+    // Neutralize the media query once an explicit choice is in play,
+    // or the browser keeps honoring it over the img we just set.
     source.setAttribute('srcset', wanted);
     if (img.getAttribute('src') !== wanted) {
       img.setAttribute('src', wanted);
@@ -58,7 +58,7 @@ function hasExplicitChoice() {
     return localStorage.getItem('vox-theme') !== null;
   } catch (e) {
     // Private windows and blocked site data both throw here. Falling
-    // back to the media query is the correct behaviour, not an error.
+    // back to the media query is the correct behavior, not an error.
     return false;
   }
 }

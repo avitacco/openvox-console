@@ -51,7 +51,7 @@ Every peer connection is encrypted and authenticated in two ways:
   default an instance uses the same certificate it uses for openvoxdb,
   the one from `CONSOLE_OPENVOXDB_CERT_FILE`, so there is nothing new to
   issue. A peer that dials an instance checks that its certificate is
-  valid for the name it dialled, so each instance must be reached by a
+  valid for the name it dialed, so each instance must be reached by a
   name its certificate carries.
 - **a shared secret**, the same on every core instance. A managed node
   also holds a certificate from the CA, and the secret is what keeps its

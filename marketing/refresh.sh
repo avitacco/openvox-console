@@ -58,7 +58,7 @@ fi
 # --- what is already running ----------------------------------------
 # Recorded before anything starts, so cleanup can tell what this run
 # started from what it merely borrowed. The screenshot files' view, so a
-# stack already in screenshot mode (headless-chrome up) is recognised.
+# stack already in screenshot mode (headless-chrome up) is recognized.
 mapfile -t BEFORE < <("${SHOTS[@]}" ps --status running --services 2>/dev/null || true)
 was_running() {
   local s

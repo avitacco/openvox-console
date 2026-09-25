@@ -62,4 +62,4 @@ openvoxserver, ready for nodes.
   packages, and runs the console as a systemd service.
 
 The parts interoperate freely, so you can also mix the two, for example
-a packaged openvoxserver with a containerised console.
+a packaged openvoxserver with a containerized console.

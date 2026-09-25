@@ -1,11 +1,11 @@
 ---
 title: Add nodes
-summary: Enrol a node with one script on Linux, macOS or Windows, sign its certificate, and see it connect and run.
+summary: Enroll a node with one script on Linux, macOS or Windows, sign its certificate, and see it connect and run.
 order: 1
 ---
 
 Adding a node is one script, run once on the node. It installs the
-OpenVox agent, enrols the node with the CA if it has no certificate yet,
+OpenVox agent, enrolls the node with the CA if it has no certificate yet,
 installs the console's node agent from the console's own package
 repository, and starts it as a service. It is safe to run again.
 
@@ -17,7 +17,7 @@ installed it:
 - `CONSOLE_NODE_TRANSPORT_PUBLIC_ADDR`, the address nodes dial to keep
   their connection to the console open. Its host must be in the node
   transport certificate.
-- `CONSOLE_PUPPET_SERVER_PUBLIC_ADDR`, the Puppet server a node enrols
+- `CONSOLE_PUPPET_SERVER_PUBLIC_ADDR`, the Puppet server a node enrolls
   against. It must be a name in openvoxserver's certificate. If it is
   unset, the script leaves the node's Puppet server configuration alone,
   which suits nodes already pointed at a server some other way.
