@@ -58,6 +58,7 @@
     <link rel="stylesheet" href="../../site.css"/>
     <script type="module" src="../../vendor/voxblocks.js"></script>
     <script type="module" src="../../theme.js"></script>
+    <script type="module" src="../../lightbox.js"></script>
     <script type="module" src="../../guides.js"></script>
   </head>
   <body>
@@ -97,6 +98,7 @@
       <a href="../features/orchestration.html">Orchestrierung</a>
       <a href="../features/security.html">Sicherheit</a>
       <a href="../features/access-control.html">Zugriffskontrolle</a>
+      <a href="../features/scaling.html">Scaling</a>
       </vox-subnav>
     </div>
 
@@ -142,24 +144,6 @@
       <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
     </vox-callout>
 
-    <vox-toc class="guide-toc" heading="On this page">
-      <vox-toc-item href="#how-instances-find-each-other"><span>How instances find each other</span>
-      </vox-toc-item>
-      <vox-toc-item href="#before-you-start"><span>Before you start</span>
-      </vox-toc-item>
-      <vox-toc-item href="#add-a-second-instance"><span>Add a second instance</span>
-        <vox-toc-item slot="children" href="#check-the-cluster-formed"><span>Check the cluster formed</span></vox-toc-item>
-      </vox-toc-item>
-      <vox-toc-item href="#split-instances-into-modes"><span>Split instances into modes</span>
-      </vox-toc-item>
-      <vox-toc-item href="#put-classification-beside-the-compilers"><span>Put classification beside the compilers</span>
-      </vox-toc-item>
-      <vox-toc-item href="#check-the-whole-fleet"><span>Check the whole fleet</span>
-        <vox-toc-item slot="children" href="#watch-for-dropped-messages"><span>Watch for dropped messages</span></vox-toc-item>
-      </vox-toc-item>
-      <vox-toc-item href="#undo-it"><span>Undo it</span>
-      </vox-toc-item>
-      </vox-toc>
     <div class="guide-body vox-prose">
 <p>Several console instances share one database and join one cluster. The
 cluster is how they tell each other about things that must reach every
@@ -312,7 +296,29 @@ cluster settings. Nothing in the database depends on the split.</p>
 
     <vox-series-nav label="Scale" previous-text="Previous" next-text="Next" previous-href="../guides/run-modes.html" previous-label="Run modes"></vox-series-nav>
   </article>
-</div>
+
+  
+  <div class="guide-toc-rail">
+    <vox-toc heading="On this page">
+      <vox-toc-item href="#how-instances-find-each-other"><span>How instances find each other</span>
+      </vox-toc-item>
+      <vox-toc-item href="#before-you-start"><span>Before you start</span>
+      </vox-toc-item>
+      <vox-toc-item href="#add-a-second-instance"><span>Add a second instance</span>
+        <vox-toc-item slot="children" href="#check-the-cluster-formed"><span>Check the cluster formed</span></vox-toc-item>
+      </vox-toc-item>
+      <vox-toc-item href="#split-instances-into-modes"><span>Split instances into modes</span>
+      </vox-toc-item>
+      <vox-toc-item href="#put-classification-beside-the-compilers"><span>Put classification beside the compilers</span>
+      </vox-toc-item>
+      <vox-toc-item href="#check-the-whole-fleet"><span>Check the whole fleet</span>
+        <vox-toc-item slot="children" href="#watch-for-dropped-messages"><span>Watch for dropped messages</span></vox-toc-item>
+      </vox-toc-item>
+      <vox-toc-item href="#undo-it"><span>Undo it</span>
+      </vox-toc-item>
+      </vox-toc>
+  </div>
+  </div>
 
       </div>
 
@@ -331,6 +337,14 @@ cluster settings. Nothing in the database depends on the split.</p>
       </vox-cta-band>
     </main>
 
+    
+    <dialog class="lightbox" aria-label="Full-size screenshot">
+      <div class="lightbox-bar">
+        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+      </div>
+      <img class="lightbox-image" alt=""/>
+    </dialog>
+
     <vox-footer>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">Überblick</a>
@@ -344,6 +358,7 @@ cluster settings. Nothing in the database depends on the split.</p>
         <a href="../features/orchestration.html">Orchestrierung</a>
         <a href="../features/security.html">Sicherheit</a>
         <a href="../features/access-control.html">Zugriffskontrolle</a>
+        <a href="../features/scaling.html">Scaling</a>
         </vox-footer-column>
       
       <vox-footer-column heading="Sprache">

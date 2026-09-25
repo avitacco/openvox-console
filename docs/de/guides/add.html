@@ -58,6 +58,7 @@
     <link rel="stylesheet" href="../../site.css"/>
     <script type="module" src="../../vendor/voxblocks.js"></script>
     <script type="module" src="../../theme.js"></script>
+    <script type="module" src="../../lightbox.js"></script>
     <script type="module" src="../../guides.js"></script>
   </head>
   <body>
@@ -97,6 +98,7 @@
       <a href="../features/orchestration.html">Orchestrierung</a>
       <a href="../features/security.html">Sicherheit</a>
       <a href="../features/access-control.html">Zugriffskontrolle</a>
+      <a href="../features/scaling.html">Scaling</a>
       </vox-subnav>
     </div>
 
@@ -142,18 +144,6 @@
       <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
     </vox-callout>
 
-    <vox-toc class="guide-toc" heading="On this page">
-      <vox-toc-item href="#before-you-start"><span>Before you start</span>
-      </vox-toc-item>
-      <vox-toc-item href="#run-the-install-script"><span>Run the install script</span>
-      </vox-toc-item>
-      <vox-toc-item href="#sign-the-node-s-certificate"><span>Sign the node&#39;s certificate</span>
-      </vox-toc-item>
-      <vox-toc-item href="#see-the-node-connect"><span>See the node connect</span>
-      </vox-toc-item>
-      <vox-toc-item href="#report-the-node-s-packages-optional"><span>Report the node&#39;s packages (optional)</span>
-      </vox-toc-item>
-      </vox-toc>
     <div class="guide-body vox-prose">
 <p>Adding a node is one script, run once on the node. It installs the
 OpenVox agent, enrolls the node with the CA if it has no certificate yet,
@@ -256,7 +246,23 @@ queueing a change for later.</p>
 
     <vox-series-nav label="Nodes" previous-text="Previous" next-text="Next" next-href="../guides/certificates.html" next-label="Manage node certificates"></vox-series-nav>
   </article>
-</div>
+
+  
+  <div class="guide-toc-rail">
+    <vox-toc heading="On this page">
+      <vox-toc-item href="#before-you-start"><span>Before you start</span>
+      </vox-toc-item>
+      <vox-toc-item href="#run-the-install-script"><span>Run the install script</span>
+      </vox-toc-item>
+      <vox-toc-item href="#sign-the-node-s-certificate"><span>Sign the node&#39;s certificate</span>
+      </vox-toc-item>
+      <vox-toc-item href="#see-the-node-connect"><span>See the node connect</span>
+      </vox-toc-item>
+      <vox-toc-item href="#report-the-node-s-packages-optional"><span>Report the node&#39;s packages (optional)</span>
+      </vox-toc-item>
+      </vox-toc>
+  </div>
+  </div>
 
       </div>
 
@@ -275,6 +281,14 @@ queueing a change for later.</p>
       </vox-cta-band>
     </main>
 
+    
+    <dialog class="lightbox" aria-label="Full-size screenshot">
+      <div class="lightbox-bar">
+        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+      </div>
+      <img class="lightbox-image" alt=""/>
+    </dialog>
+
     <vox-footer>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">Überblick</a>
@@ -288,6 +302,7 @@ queueing a change for later.</p>
         <a href="../features/orchestration.html">Orchestrierung</a>
         <a href="../features/security.html">Sicherheit</a>
         <a href="../features/access-control.html">Zugriffskontrolle</a>
+        <a href="../features/scaling.html">Scaling</a>
         </vox-footer-column>
       
       <vox-footer-column heading="Sprache">

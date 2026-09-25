@@ -85,7 +85,7 @@ var pages = []page{
 		Name:       "features/code.html",
 		Title:      N_("Code deployment - OpenVox Console"),
 		NavLabel:   N_("Code"),
-		Summary:    N_("Deploy Puppet code from one or many control repositories, with a record of every deploy."),
+		Summary:    N_("Deploy Puppet code from one or many control repositories, and see which nodes each repository's code actually reaches."),
 		Capability: "code",
 		DoIt:       []string{"deploy-code"},
 	},
@@ -93,7 +93,7 @@ var pages = []page{
 		Name:       "features/orchestration.html",
 		Title:      N_("Orchestration - OpenVox Console"),
 		NavLabel:   N_("Orchestration"),
-		Summary:    N_("Run Puppet, tasks and plans on demand across the fleet, and see what each node did."),
+		Summary:    N_("Run Puppet on demand across the fleet, and see what each node did."),
 		Capability: "orchestration",
 		DoIt:       []string{"run-jobs"},
 	},
@@ -109,9 +109,17 @@ var pages = []page{
 		Name:       "features/access-control.html",
 		Title:      N_("Access control and audit - OpenVox Console"),
 		NavLabel:   N_("Access control"),
-		Summary:    N_("Role-based access control, service tokens, and an audit trail of who changed what."),
+		Summary:    N_("Single sign-on through your identity provider, role-based access control, service tokens, and an audit trail of who changed what."),
 		Capability: "access-control",
 		DoIt:       []string{"access"},
+	},
+	{
+		Name:       "features/scaling.html",
+		Title:      N_("Scaling - OpenVox Console"),
+		NavLabel:   N_("Scaling"),
+		Summary:    N_("One binary that runs as a single instance or a clustered fleet of web, worker, orchestrator and ENC instances."),
+		Capability: "scaling",
+		DoIt:       []string{"run-modes", "cluster"},
 	},
 	{
 		Name:    "guides/index.html",
@@ -496,12 +504,21 @@ func funcsFor(p page, locale string) template.FuncMap {
 			// from anything that renders the page without scrolling -
 			// including the screenshots taken to review this site,
 			// where it showed up as a large empty panel.
+			// The picture is wrapped in a link to the full-size image, so
+			// a screenshot too small to read in place can be opened: with
+			// JavaScript, in a viewer on this page (lightbox.js); without
+			// it, as the image itself. The link's name is the caption plus
+			// what following it does.
 			html := fmt.Sprintf(`<figure class="shot">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="%s" data-theme-dark="%s" data-theme-light="%s" />
-    <img src="%s" alt="%s" width="%d" data-i18n-attr="alt" />
-  </picture>
+  <a class="shot-link" href="%s">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="%s" data-theme-dark="%s" data-theme-light="%s" />
+      <img src="%s" alt="%s" width="%d" data-i18n-attr="alt" />
+    </picture>
+    <span class="vox-sr-only" data-i18n>Open full size</span>
+  </a>
 </figure>`,
+				template.HTMLEscapeString(light),
 				template.HTMLEscapeString(dark),
 				template.HTMLEscapeString(dark),
 				template.HTMLEscapeString(light),

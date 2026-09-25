@@ -1,10 +1,29 @@
 {{define "content"}}
-<vox-hero eyebrow="Access control and audit" heading="Who can do what, and who did what" data-i18n-attr="heading,eyebrow">
+<vox-hero eyebrow="Access control and audit" heading="Your identity provider, your roles, your record" data-i18n-attr="heading,eyebrow">
   <p data-i18n>
-    Give people exactly the access they need, give your automation its own
+    Sign people in through the identity provider you already run, give
+    them exactly the access they need, give your automation its own
     credentials, and keep a record of every change.
   </p>
 </vox-hero>
+
+<section class="site-section">
+  <h2 class="vox-ts-xxl" data-i18n>Single sign-on, with roles that follow your groups</h2>
+  <div class="vox-prose">
+    <p data-i18n>
+      The console signs people in through OpenID Connect, so accounts,
+      passwords and multi-factor rules stay where they already live. The
+      groups your provider puts in a person's ID token are mapped onto
+      console roles each time they sign in: move someone between groups
+      and their access in the console follows at their next sign-in.
+    </p>
+    <p data-i18n>
+      A role you assign by hand is never touched by that mapping, and
+      local accounts keep working alongside single sign-on, for break-glass
+      access when the provider is down.
+    </p>
+  </div>
+</section>
 
 <section class="site-section">
   <h2 class="vox-ts-xxl" data-i18n>Roles are permission sets</h2>

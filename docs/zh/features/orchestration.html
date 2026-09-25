@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="zh" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="在整个机群上按需运行 Puppet、Tasks 和 Plans，并查看每个 Node 做了什么。"/>
+    <meta name="description" content="Run Puppet on demand across the fleet, and see what each node did."/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
@@ -58,6 +58,7 @@
     <link rel="stylesheet" href="../../site.css"/>
     <script type="module" src="../../vendor/voxblocks.js"></script>
     <script type="module" src="../../theme.js"></script>
+    <script type="module" src="../../lightbox.js"></script>
     
   </head>
   <body>
@@ -97,13 +98,14 @@
       <a aria-current="page" href="../features/orchestration.html">编排</a>
       <a href="../features/security.html">安全</a>
       <a href="../features/access-control.html">访问控制</a>
+      <a href="../features/scaling.html">Scaling</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <vox-hero eyebrow="编排" heading="立即运行，遍及各处">
-  <p>针对你挑选的 Nodes 触发 Puppet 运行、Tasks 和 Plans，并看着结果一个 Node 接一个 Node 地返回。</p>
+  <p>Run Puppet on the nodes you pick, right now, and watch the results come back one node at a time.</p>
 </vox-hero>
 
 <section class="site-section">
@@ -115,10 +117,13 @@
 </section>
 
 <figure class="shot">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/jobs-list-dark-zh.png" data-theme-dark="../../assets/screenshots/jobs-list-dark-zh.png" data-theme-light="../../assets/screenshots/jobs-list-light-zh.png"/>
-    <img src="../../assets/screenshots/jobs-list-light-zh.png" alt="Orchestration job history listing ad-hoc runs, tasks and plans with the nodes each targeted and whether it succeeded" width="1440"/>
-  </picture>
+  <a class="shot-link" href="../../assets/screenshots/jobs-list-light-zh.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/jobs-list-dark-zh.png" data-theme-dark="../../assets/screenshots/jobs-list-dark-zh.png" data-theme-light="../../assets/screenshots/jobs-list-light-zh.png"/>
+      <img src="../../assets/screenshots/jobs-list-light-zh.png" alt="Orchestration job history listing ad-hoc runs, tasks and plans with the nodes each targeted and whether it succeeded" width="1440"/>
+    </picture>
+    <span class="vox-sr-only">Open full size</span>
+  </a>
 </figure>
 
 <vox-timeline>
@@ -156,6 +161,14 @@
       </vox-cta-band>
     </main>
 
+    
+    <dialog class="lightbox" aria-label="Full-size screenshot">
+      <div class="lightbox-bar">
+        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+      </div>
+      <img class="lightbox-image" alt=""/>
+    </dialog>
+
     <vox-footer>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">概览</a>
@@ -169,6 +182,7 @@
         <a href="../features/orchestration.html">编排</a>
         <a href="../features/security.html">安全</a>
         <a href="../features/access-control.html">访问控制</a>
+        <a href="../features/scaling.html">Scaling</a>
         </vox-footer-column>
       
       <vox-footer-column heading="语言">

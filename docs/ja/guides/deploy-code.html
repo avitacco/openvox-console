@@ -58,6 +58,7 @@
     <link rel="stylesheet" href="../../site.css"/>
     <script type="module" src="../../vendor/voxblocks.js"></script>
     <script type="module" src="../../theme.js"></script>
+    <script type="module" src="../../lightbox.js"></script>
     <script type="module" src="../../guides.js"></script>
   </head>
   <body>
@@ -97,6 +98,7 @@
       <a href="../features/orchestration.html">オーケストレーション</a>
       <a href="../features/security.html">セキュリティ</a>
       <a href="../features/access-control.html">アクセス制御</a>
+      <a href="../features/scaling.html">Scaling</a>
       </vox-subnav>
     </div>
 
@@ -142,19 +144,6 @@
       <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
     </vox-callout>
 
-    <vox-toc class="guide-toc" heading="On this page">
-      <vox-toc-item href="#turn-code-deployment-on"><span>Turn code deployment on</span>
-        <vox-toc-item slot="children" href="#with-the-container-stack"><span>With the container stack</span></vox-toc-item>
-      </vox-toc-item>
-      <vox-toc-item href="#deploy-from-several-control-repositories"><span>Deploy from several control repositories</span>
-      </vox-toc-item>
-      <vox-toc-item href="#deploy"><span>Deploy</span>
-      </vox-toc-item>
-      <vox-toc-item href="#deploy-on-every-push"><span>Deploy on every push</span>
-      </vox-toc-item>
-      <vox-toc-item href="#read-the-repositories-tab"><span>Read the Repositories tab</span>
-      </vox-toc-item>
-      </vox-toc>
     <div class="guide-body vox-prose">
 <p>The console deploys Puppet code from control repositories - a Puppetfile
 and manifests in git - into the environments directory openvoxserver
@@ -297,7 +286,24 @@ them. Delete them yourself if that is what you meant.</p>
 
     <vox-series-nav label="Use" previous-text="Previous" next-text="Next" previous-href="../guides/classify.html" previous-label="Classify nodes" next-href="../guides/run-jobs.html" next-label="Run jobs"></vox-series-nav>
   </article>
-</div>
+
+  
+  <div class="guide-toc-rail">
+    <vox-toc heading="On this page">
+      <vox-toc-item href="#turn-code-deployment-on"><span>Turn code deployment on</span>
+        <vox-toc-item slot="children" href="#with-the-container-stack"><span>With the container stack</span></vox-toc-item>
+      </vox-toc-item>
+      <vox-toc-item href="#deploy-from-several-control-repositories"><span>Deploy from several control repositories</span>
+      </vox-toc-item>
+      <vox-toc-item href="#deploy"><span>Deploy</span>
+      </vox-toc-item>
+      <vox-toc-item href="#deploy-on-every-push"><span>Deploy on every push</span>
+      </vox-toc-item>
+      <vox-toc-item href="#read-the-repositories-tab"><span>Read the Repositories tab</span>
+      </vox-toc-item>
+      </vox-toc>
+  </div>
+  </div>
 
       </div>
 
@@ -316,6 +322,14 @@ them. Delete them yourself if that is what you meant.</p>
       </vox-cta-band>
     </main>
 
+    
+    <dialog class="lightbox" aria-label="Full-size screenshot">
+      <div class="lightbox-bar">
+        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+      </div>
+      <img class="lightbox-image" alt=""/>
+    </dialog>
+
     <vox-footer>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">概要</a>
@@ -329,6 +343,7 @@ them. Delete them yourself if that is what you meant.</p>
         <a href="../features/orchestration.html">オーケストレーション</a>
         <a href="../features/security.html">セキュリティ</a>
         <a href="../features/access-control.html">アクセス制御</a>
+        <a href="../features/scaling.html">Scaling</a>
         </vox-footer-column>
       
       <vox-footer-column heading="言語">

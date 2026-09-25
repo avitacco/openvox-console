@@ -58,6 +58,7 @@
     <link rel="stylesheet" href="../../site.css"/>
     <script type="module" src="../../vendor/voxblocks.js"></script>
     <script type="module" src="../../theme.js"></script>
+    <script type="module" src="../../lightbox.js"></script>
     
   </head>
   <body>
@@ -97,6 +98,7 @@
       <a href="../features/orchestration.html">Orquestación</a>
       <a href="../features/security.html">Seguridad</a>
       <a href="../features/access-control.html">Control de acceso</a>
+      <a href="../features/scaling.html">Scaling</a>
       </vox-subnav>
     </div>
 
@@ -114,10 +116,13 @@
 </section>
 
 <figure class="shot">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/dashboard-dark-es.png" data-theme-dark="../../assets/screenshots/dashboard-dark-es.png" data-theme-light="../../assets/screenshots/dashboard-light-es.png"/>
-    <img src="../../assets/screenshots/dashboard-light-es.png" alt="The OpenVox Console dashboard showing fleet run status across 26 nodes, with counts of unchanged, changed and failed runs, recent jobs and recent activity" width="1440"/>
-  </picture>
+  <a class="shot-link" href="../../assets/screenshots/dashboard-light-es.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/dashboard-dark-es.png" data-theme-dark="../../assets/screenshots/dashboard-dark-es.png" data-theme-light="../../assets/screenshots/dashboard-light-es.png"/>
+      <img src="../../assets/screenshots/dashboard-light-es.png" alt="The OpenVox Console dashboard showing fleet run status across 26 nodes, with counts of unchanged, changed and failed runs, recent jobs and recent activity" width="1440"/>
+    </picture>
+    <span class="vox-sr-only">Open full size</span>
+  </a>
 </figure>
 
 <section class="site-section">
@@ -129,10 +134,13 @@
 </section>
 
 <figure class="shot">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/nodes-list-dark-es.png" data-theme-dark="../../assets/screenshots/nodes-list-dark-es.png" data-theme-light="../../assets/screenshots/nodes-list-light-es.png"/>
-    <img src="../../assets/screenshots/nodes-list-light-es.png" alt="The node inventory listing managed nodes with their connection state, certificate status and last report time" width="1440"/>
-  </picture>
+  <a class="shot-link" href="../../assets/screenshots/nodes-list-light-es.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/nodes-list-dark-es.png" data-theme-dark="../../assets/screenshots/nodes-list-dark-es.png" data-theme-light="../../assets/screenshots/nodes-list-light-es.png"/>
+      <img src="../../assets/screenshots/nodes-list-light-es.png" alt="The node inventory listing managed nodes with their connection state, certificate status and last report time" width="1440"/>
+    </picture>
+    <span class="vox-sr-only">Open full size</span>
+  </a>
 </figure>
 
 <section class="site-section">
@@ -143,10 +151,13 @@
 </section>
 
 <figure class="shot">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/node-detail-dark-es.png" data-theme-dark="../../assets/screenshots/node-detail-dark-es.png" data-theme-light="../../assets/screenshots/node-detail-light-es.png"/>
-    <img src="../../assets/screenshots/node-detail-light-es.png" alt="A single node&#39;s detail page showing its facts, recent Puppet runs and the classes applied to it" width="1440"/>
-  </picture>
+  <a class="shot-link" href="../../assets/screenshots/node-detail-light-es.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/node-detail-dark-es.png" data-theme-dark="../../assets/screenshots/node-detail-dark-es.png" data-theme-light="../../assets/screenshots/node-detail-light-es.png"/>
+      <img src="../../assets/screenshots/node-detail-light-es.png" alt="A single node&#39;s detail page showing its facts, recent Puppet runs and the classes applied to it" width="1440"/>
+    </picture>
+    <span class="vox-sr-only">Open full size</span>
+  </a>
 </figure>
 
 <vox-callout variant="tip" heading="Los Reports conservan su detalle">
@@ -179,6 +190,14 @@
       </vox-cta-band>
     </main>
 
+    
+    <dialog class="lightbox" aria-label="Full-size screenshot">
+      <div class="lightbox-bar">
+        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+      </div>
+      <img class="lightbox-image" alt=""/>
+    </dialog>
+
     <vox-footer>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">Resumen</a>
@@ -192,6 +211,7 @@
         <a href="../features/orchestration.html">Orquestación</a>
         <a href="../features/security.html">Seguridad</a>
         <a href="../features/access-control.html">Control de acceso</a>
+        <a href="../features/scaling.html">Scaling</a>
         </vox-footer-column>
       
       <vox-footer-column heading="Idioma">

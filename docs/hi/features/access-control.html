@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="hi" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="भूमिका-आधारित पहुँच नियंत्रण, सेवा टोकन, और किसने क्या बदला इसका ऑडिट रिकॉर्ड।"/>
+    <meta name="description" content="Single sign-on through your identity provider, role-based access control, service tokens, and an audit trail of who changed what."/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
@@ -58,6 +58,7 @@
     <link rel="stylesheet" href="../../site.css"/>
     <script type="module" src="../../vendor/voxblocks.js"></script>
     <script type="module" src="../../theme.js"></script>
+    <script type="module" src="../../lightbox.js"></script>
     
   </head>
   <body>
@@ -97,14 +98,23 @@
       <a href="../features/orchestration.html">ऑर्केस्ट्रेशन</a>
       <a href="../features/security.html">सुरक्षा</a>
       <a aria-current="page" href="../features/access-control.html">पहुँच नियंत्रण</a>
+      <a href="../features/scaling.html">Scaling</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
-<vox-hero eyebrow="पहुँच नियंत्रण और ऑडिट" heading="कौन क्या कर सकता है, और किसने क्या किया">
-  <p>लोगों को ठीक उतनी ही पहुँच दीजिए जितनी चाहिए, अपने स्वचालन को उसकी अपनी साख दीजिए, और हर बदलाव का रिकॉर्ड रखिए।</p>
+<vox-hero eyebrow="पहुँच नियंत्रण और ऑडिट" heading="Your identity provider, your roles, your record">
+  <p>Sign people in through the identity provider you already run, give them exactly the access they need, give your automation its own credentials, and keep a record of every change.</p>
 </vox-hero>
+
+<section class="site-section">
+  <h2 class="vox-ts-xxl">Single sign-on, with roles that follow your groups</h2>
+  <div class="vox-prose">
+    <p>The console signs people in through OpenID Connect, so accounts, passwords and multi-factor rules stay where they already live. The groups your provider puts in a person&#39;s ID token are mapped onto console roles each time they sign in: move someone between groups and their access in the console follows at their next sign-in.</p>
+    <p>A role you assign by hand is never touched by that mapping, and local accounts keep working alongside single sign-on, for break-glass access when the provider is down.</p>
+  </div>
+</section>
 
 <section class="site-section">
   <h2 class="vox-ts-xxl">भूमिकाएँ अनुमतियों के समुच्चय हैं</h2>
@@ -114,10 +124,13 @@
 </section>
 
 <figure class="shot">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/roles-dark-hi.png" data-theme-dark="../../assets/screenshots/roles-dark-hi.png" data-theme-light="../../assets/screenshots/roles-light-hi.png"/>
-    <img src="../../assets/screenshots/roles-light-hi.png" alt="Role-based access control showing roles and the specific permissions each one grants" width="1440"/>
-  </picture>
+  <a class="shot-link" href="../../assets/screenshots/roles-light-hi.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/roles-dark-hi.png" data-theme-dark="../../assets/screenshots/roles-dark-hi.png" data-theme-light="../../assets/screenshots/roles-light-hi.png"/>
+      <img src="../../assets/screenshots/roles-light-hi.png" alt="Role-based access control showing roles and the specific permissions each one grants" width="1440"/>
+    </picture>
+    <span class="vox-sr-only">Open full size</span>
+  </a>
 </figure>
 
 <vox-grid min="240px" gap="lg">
@@ -146,10 +159,13 @@
 </section>
 
 <figure class="shot">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/activity-dark-hi.png" data-theme-dark="../../assets/screenshots/activity-dark-hi.png" data-theme-light="../../assets/screenshots/activity-light-hi.png"/>
-    <img src="../../assets/screenshots/activity-light-hi.png" alt="The audit trail recording who changed what in the console and when" width="1440"/>
-  </picture>
+  <a class="shot-link" href="../../assets/screenshots/activity-light-hi.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/activity-dark-hi.png" data-theme-dark="../../assets/screenshots/activity-dark-hi.png" data-theme-light="../../assets/screenshots/activity-light-hi.png"/>
+      <img src="../../assets/screenshots/activity-light-hi.png" alt="The audit trail recording who changed what in the console and when" width="1440"/>
+    </picture>
+    <span class="vox-sr-only">Open full size</span>
+  </a>
 </figure>
 
 <vox-callout variant="tip" heading="खोए हुए लैपटॉप को झेलने के लिए बना">
@@ -180,6 +196,14 @@
       </vox-cta-band>
     </main>
 
+    
+    <dialog class="lightbox" aria-label="Full-size screenshot">
+      <div class="lightbox-bar">
+        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+      </div>
+      <img class="lightbox-image" alt=""/>
+    </dialog>
+
     <vox-footer>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">सिंहावलोकन</a>
@@ -193,6 +217,7 @@
         <a href="../features/orchestration.html">ऑर्केस्ट्रेशन</a>
         <a href="../features/security.html">सुरक्षा</a>
         <a href="../features/access-control.html">पहुँच नियंत्रण</a>
+        <a href="../features/scaling.html">Scaling</a>
         </vox-footer-column>
       
       <vox-footer-column heading="भाषा">

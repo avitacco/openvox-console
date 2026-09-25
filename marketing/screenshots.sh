@@ -16,8 +16,11 @@
 #   1. creates the demo database (dropping any previous one)
 #   2. starts a console against it on its own port
 #   3. seeds it with the demo fleet
-#   4. captures every declared screenshot
-#   5. stops the demo console
+#   4. clusters three more instances with it - a worker, an orchestrator
+#      and an ENC instance attached as a leaf - so the fleet status
+#      screenshot shows a real multi-instance deployment
+#   5. captures every declared screenshot
+#   6. stops every demo instance
 #
 # Everything it creates is disposable. Nothing it does writes to the
 # development console's database.
@@ -32,6 +35,22 @@ DEMO_HTTP_PORT=${DEMO_HTTP_PORT:-8090}
 DEMO_TRANSPORT_PORT=${DEMO_TRANSPORT_PORT:-8143}
 DEMO_ADMIN_USER=${DEMO_ADMIN_USER:-admin}
 DEMO_ADMIN_PASSWORD=${DEMO_ADMIN_PASSWORD:-demo-only-not-a-real-password}
+
+# The demo cluster (step 4). The instances peer over mutual TLS, and a
+# peer checks the certificate of the one it dials against the name it
+# dialled - so CLUSTER_HOST must be a name in the certificate they share.
+# The development node transport certificate carries "localhost".
+CLUSTER_HOST=${CLUSTER_HOST:-localhost}
+CLUSTER_ROUTE_PORT=${CLUSTER_ROUTE_PORT:-16222}
+CLUSTER_LEAF_PORT=${CLUSTER_LEAF_PORT:-16229}
+WORKER_HTTP_PORT=${WORKER_HTTP_PORT:-8091}
+WORKER_ROUTE_PORT=${WORKER_ROUTE_PORT:-16223}
+ORCH_HTTP_PORT=${ORCH_HTTP_PORT:-8092}
+ORCH_ROUTE_PORT=${ORCH_ROUTE_PORT:-16224}
+ORCH_TRANSPORT_PORT=${ORCH_TRANSPORT_PORT:-8144}
+# marketing/shots' fleet-status shot looks for this address on the page,
+# as proof the leaf attached - change both together.
+ENC_HTTP_PORT=${ENC_HTTP_PORT:-8093}
 
 # The browser runs in a container, so it reaches a host-run console by
 # the gateway name rather than localhost.
@@ -81,6 +100,14 @@ set +a
 
 DEMO_LOG=$(mktemp -t openvox-demo-console-XXXXXX.log)
 
+# Throwaway credentials for the demo cluster. Two secrets because the
+# console refuses a leaf secret equal to the cluster secret.
+CLUSTER_SECRET=$(openssl rand -hex 24)
+CLUSTER_LEAF_SECRET=$(openssl rand -hex 24)
+CLUSTER_TLS_CERT=${CONSOLE_NODE_TRANSPORT_CERT_FILE:-$PWD/certs/node-transport-cert.pem}
+CLUSTER_TLS_KEY=${CONSOLE_NODE_TRANSPORT_KEY_FILE:-$PWD/certs/node-transport-key.pem}
+CLUSTER_TLS_CA=${CONSOLE_NODE_TRANSPORT_CA_FILE:-$PWD/certs/ca.pem}
+
 CONSOLE_HTTP_ADDR=":${DEMO_HTTP_PORT}" \
 CONSOLE_BASE_URL="http://localhost:${DEMO_HTTP_PORT}" \
 CONSOLE_POSTGRES_DSN="postgres://${POSTGRES_USER}:console@localhost:5432/${DEMO_DB}?sslmode=disable" \
@@ -93,18 +120,30 @@ CONSOLE_G10K_BIN_PATH="${G10K_BIN_PATH}" \
 CONSOLE_CODE_DIR_PATH="${CODE_DIR_PATH}" \
 CONSOLE_CONTROL_REPO_URL="" \
 CONSOLE_OIDC_ISSUER="" \
+CONSOLE_CLUSTER_ADDR="${CLUSTER_HOST}:${CLUSTER_ROUTE_PORT}" \
+CONSOLE_CLUSTER_LEAF_ADDR="${CLUSTER_HOST}:${CLUSTER_LEAF_PORT}" \
+CONSOLE_CLUSTER_SECRET="${CLUSTER_SECRET}" \
+CONSOLE_CLUSTER_LEAF_SECRET="${CLUSTER_LEAF_SECRET}" \
+CONSOLE_CLUSTER_TLS_CERT_FILE="${CLUSTER_TLS_CERT}" \
+CONSOLE_CLUSTER_TLS_KEY_FILE="${CLUSTER_TLS_KEY}" \
+CONSOLE_CLUSTER_TLS_CA_FILE="${CLUSTER_TLS_CA}" \
   ./bin/console >"$DEMO_LOG" 2>&1 &
 DEMO_PID=$!
+EXTRA_PIDS=()
 
 # Stop the demo console however this script ends, including on failure
 # or interrupt - a stray console holding a port is a confusing thing to
 # leave behind.
 cleanup() {
   local status=$?
-  if kill -0 "$DEMO_PID" 2>/dev/null; then
-    kill "$DEMO_PID" 2>/dev/null || true
-    wait "$DEMO_PID" 2>/dev/null || true
-  fi
+  local pid
+  for pid in "${EXTRA_PIDS[@]}" "$DEMO_PID"; do
+    if kill -0 "$pid" 2>/dev/null; then
+      kill "$pid" 2>/dev/null || true
+      wait "$pid" 2>/dev/null || true
+    fi
+  done
+  rm -rf "${VERIFY_KEYS_DIR:-}"
   # The log is only worth keeping when something went wrong.
   if [ "$status" -eq 0 ]; then
     rm -f "$DEMO_LOG"
@@ -147,7 +186,116 @@ CONSOLE_POSTGRES_DSN="postgres://${POSTGRES_USER}:console@localhost:5432/${DEMO_
     --reset \
     --i-know-this-is-a-demo-console
 
-# --- 4. capture ------------------------------------------------------
+# --- 4. a demo cluster -----------------------------------------------
+# Three more instances, joined to the demo console, so the fleet status
+# page has a real deployment to show: a worker and an orchestrator as
+# routed peers, and an ENC instance attached as a leaf, the way one
+# beside a compiler would be. Started after seeding, so the database is
+# already migrated and populated.
+#
+# The non-issuing modes verify tokens against a directory of keys named
+# by key ID; a copy of the signing key under its ID is that directory.
+VERIFY_KEYS_DIR=$(mktemp -d -t openvox-demo-keys-XXXXXX)
+cp "${CONSOLE_RBAC_SIGNING_KEY_FILE:-$PWD/certs/rbac-signing-key.pem}" \
+  "${VERIFY_KEYS_DIR}/${CONSOLE_RBAC_SIGNING_KEY_ID:-default}.pem"
+
+# start_instance <name> <http port> <env...>: starts one more demo
+# instance against the demo database, logging beside the demo console's.
+start_instance() {
+  local name=$1 port=$2
+  shift 2
+  env \
+    CONSOLE_HTTP_ADDR=":${port}" \
+    CONSOLE_BASE_URL="http://localhost:${DEMO_HTTP_PORT}" \
+    CONSOLE_POSTGRES_DSN="postgres://${POSTGRES_USER}:console@localhost:5432/${DEMO_DB}?sslmode=disable" \
+    CONSOLE_RBAC_VERIFICATION_KEYS_DIR="${VERIFY_KEYS_DIR}" \
+    CONSOLE_CLUSTER_TLS_CERT_FILE="${CLUSTER_TLS_CERT}" \
+    CONSOLE_CLUSTER_TLS_KEY_FILE="${CLUSTER_TLS_KEY}" \
+    CONSOLE_CLUSTER_TLS_CA_FILE="${CLUSTER_TLS_CA}" \
+    CONSOLE_CODE_SOURCES_PATH="${CODE_SOURCES_PATH}" \
+    CONSOLE_G10K_BIN_PATH="${G10K_BIN_PATH}" \
+    CONSOLE_CODE_DIR_PATH="${CODE_DIR_PATH}" \
+    CONSOLE_CONTROL_REPO_URL="" \
+    CONSOLE_OIDC_ISSUER="" \
+    CONSOLE_NODE_TRANSPORT_ADDR="" \
+    CONSOLE_CLUSTER_ADDR="" CONSOLE_CLUSTER_LEAF_ADDR="" CONSOLE_CLUSTER_PEERS="" \
+    CONSOLE_CLUSTER_SECRET="" CONSOLE_CLUSTER_LEAF_SECRET="" CONSOLE_CLUSTER_MODE="" \
+    "$@" \
+    ./bin/console >"${DEMO_LOG%.log}-${name}.log" 2>&1 &
+  EXTRA_PIDS+=($!)
+  local pid=$!
+
+  printf '   %s on :%s' "$name" "$port"
+  for _ in $(seq 1 60); do
+    # Any answer from /health means it is up; its dependencies' health
+    # is the page's business, not this script's.
+    if curl -s -o /dev/null "http://localhost:${port}/health" 2>/dev/null; then
+      echo " - up"
+      return 0
+    fi
+    if ! kill -0 "$pid" 2>/dev/null; then
+      echo
+      echo "The ${name} instance exited during startup. Its log:"
+      tail -20 "${DEMO_LOG%.log}-${name}.log"
+      exit 1
+    fi
+    sleep 1
+  done
+  echo
+  echo "The ${name} instance did not come up. Its log:"
+  tail -20 "${DEMO_LOG%.log}-${name}.log"
+  exit 1
+}
+
+log "Starting a demo cluster"
+start_instance worker "$WORKER_HTTP_PORT" \
+  CONSOLE_RUN_MODE=worker \
+  CONSOLE_CLUSTER_ADDR="${CLUSTER_HOST}:${WORKER_ROUTE_PORT}" \
+  CONSOLE_CLUSTER_PEERS="${CLUSTER_HOST}:${CLUSTER_ROUTE_PORT}" \
+  CONSOLE_CLUSTER_SECRET="${CLUSTER_SECRET}"
+start_instance orchestrator "$ORCH_HTTP_PORT" \
+  CONSOLE_RUN_MODE=orchestrator \
+  CONSOLE_NODE_TRANSPORT_ADDR=":${ORCH_TRANSPORT_PORT}" \
+  CONSOLE_NODE_TRANSPORT_PUBLIC_ADDR="localhost:${ORCH_TRANSPORT_PORT}" \
+  CONSOLE_CLUSTER_ADDR="${CLUSTER_HOST}:${ORCH_ROUTE_PORT}" \
+  CONSOLE_CLUSTER_PEERS="${CLUSTER_HOST}:${CLUSTER_ROUTE_PORT}" \
+  CONSOLE_CLUSTER_SECRET="${CLUSTER_SECRET}"
+start_instance enc "$ENC_HTTP_PORT" \
+  CONSOLE_RUN_MODE=enc \
+  CONSOLE_CLUSTER_MODE=leaf \
+  CONSOLE_CLUSTER_PEERS="${CLUSTER_HOST}:${CLUSTER_LEAF_PORT}" \
+  CONSOLE_CLUSTER_LEAF_SECRET="${CLUSTER_LEAF_SECRET}"
+
+# Routes and the leaf connect in the background after each instance is
+# up. The status page asks the cluster once, when it loads, so capture
+# must not start until every instance answers: poll the same API the page
+# uses until it reports all four and nothing missing.
+printf '   waiting for all four to answer'
+TOKEN=$(curl -fsS -X POST "http://localhost:${DEMO_HTTP_PORT}/api/v1/auth/login" \
+  -H 'Content-Type: application/json' \
+  -d "{\"username\":\"${DEMO_ADMIN_USER}\",\"password\":\"${DEMO_ADMIN_PASSWORD}\"}" |
+  sed -n 's/.*"accessToken":"\([^"]*\)".*/\1/p')
+cluster_ready=
+for _ in $(seq 1 60); do
+  STATUS=$(curl -fsS -H "Authorization: Bearer ${TOKEN}" \
+    "http://localhost:${DEMO_HTTP_PORT}/api/v1/status" 2>/dev/null || true)
+  if printf '%s' "$STATUS" | grep -q '"replied":4' &&
+    printf '%s' "$STATUS" | grep -q '"incomplete":false'; then
+    cluster_ready=1
+    break
+  fi
+  printf '.'
+  sleep 2
+done
+if [ -z "$cluster_ready" ]; then
+  echo
+  echo "The demo cluster never answered as four complete instances. Last status:"
+  echo "$STATUS"
+  exit 1
+fi
+echo " - ready"
+
+# --- 5. capture ------------------------------------------------------
 # One pass per locale, against the same seeded console. The language is
 # a browser-side preference the capture tool writes into localStorage,
 # so nothing about the console or its data changes between passes -
@@ -168,5 +316,5 @@ for locale in $CAPTURE_LOCALES; do
 done
 
 log "Screenshots captured"
-echo "The demo console has been stopped. \`make marketing\` removes ${DEMO_DB} and the demo"
+echo "The demo instances have been stopped. \`make marketing\` removes ${DEMO_DB} and the demo"
 echo "fleet next; run on its own, this leaves them for inspection until the next run."

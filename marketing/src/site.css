@@ -259,7 +259,8 @@ a:focus-visible {
 /*
  * A guide page: the guide sidebar beside the article, stacking at the
  * width vox-sidenav itself switches to its collapsed menu (768px), so
- * the two never disagree about which layout the page is in.
+ * the two never disagree about which layout the page is in. Wide enough
+ * for a third column, the "On this page" rail joins them on the right.
  */
 .guide-layout {
   display: grid;
@@ -267,6 +268,27 @@ a:focus-visible {
   gap: var(--vox-space-8);
   align-items: start;
   padding-block: var(--vox-space-8);
+}
+
+/* The outline is a scrollspy: it only means something while it stays in
+   view beside the text. Where there is no room for it beside the
+   article, it is left out rather than stacked into the reading flow. */
+.guide-toc-rail {
+  display: none;
+}
+
+@media (min-width: 1200px) {
+  .guide-layout {
+    grid-template-columns: minmax(12rem, 16rem) minmax(0, 1fr) minmax(10rem, 14rem);
+  }
+
+  .guide-toc-rail {
+    display: block;
+    position: sticky;
+    top: var(--vox-space-4);
+    max-height: calc(100vh - 2 * var(--vox-space-4));
+    overflow-y: auto;
+  }
 }
 
 @media (max-width: 768px) {
@@ -309,11 +331,6 @@ a:focus-visible {
   font-size: 18px;
 }
 
-.guide-toc {
-  display: block;
-  margin-block-end: var(--vox-space-8);
-}
-
 .guide > vox-callout {
   display: block;
   margin-block-end: var(--vox-space-6);
@@ -352,4 +369,54 @@ vox-series-nav {
 .guide-body :not(pre) > code,
 .guide-summary code {
   overflow-wrap: anywhere;
+}
+
+/* --- full-size screenshots (lightbox.js) --------------------------- */
+
+.shot-link {
+  display: block;
+  cursor: zoom-in;
+}
+
+.shot-link:focus-visible {
+  outline: 2px solid var(--vox-color-brand-1);
+  outline-offset: 2px;
+}
+
+/*
+ * The viewer fills the screen with the image at the width it was
+ * captured at, or the screen's width if that is smaller. A capture
+ * taller than the screen scrolls inside the viewer, not behind it.
+ */
+.lightbox {
+  box-sizing: border-box;
+  max-width: 96vw;
+  max-height: 96vh;
+  padding: 0;
+  border: 1px solid var(--vox-color-border);
+  border-radius: var(--vox-radius-lg);
+  background: var(--vox-color-bg-elv);
+  color: var(--vox-color-text-1);
+  box-shadow: var(--vox-shadow-2);
+  overflow: auto;
+}
+
+.lightbox::backdrop {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.lightbox-bar {
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--vox-space-2);
+  background: var(--vox-color-bg-elv);
+  border-bottom: 1px solid var(--vox-color-divider);
+}
+
+.lightbox-image {
+  display: block;
+  max-width: 100%;
+  height: auto;
 }

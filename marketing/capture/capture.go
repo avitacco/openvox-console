@@ -66,16 +66,47 @@ func capture(ctx context.Context, opts options) error {
 	return nil
 }
 
-// captureTheme runs one theme's pass in its own browser context.
+// captureTheme runs one theme's pass: the shots with a frozen clock in
+// one browser context, and any that want a live clock in another. The
+// clock is set by the context's init script, before any page script
+// runs, so the two kinds cannot share a context.
 func captureTheme(allocCtx context.Context, opts options, theme shots.Theme, tokens tokenPair, selected []shots.Shot) ([]string, error) {
+	var frozen, live []shots.Shot
+	for _, shot := range selected {
+		if shot.LiveClock {
+			live = append(live, shot)
+		} else {
+			frozen = append(frozen, shot)
+		}
+	}
+
+	var written []string
+	for _, group := range []struct {
+		shots     []shots.Shot
+		liveClock bool
+	}{{frozen, false}, {live, true}} {
+		if len(group.shots) == 0 {
+			continue
+		}
+		paths, err := captureInContext(allocCtx, opts, theme, tokens, group.shots, group.liveClock)
+		written = append(written, paths...)
+		if err != nil {
+			return written, err
+		}
+	}
+	return written, nil
+}
+
+// captureInContext captures shots in a browser context of their own.
+func captureInContext(allocCtx context.Context, opts options, theme shots.Theme, tokens tokenPair, selected []shots.Shot, liveClock bool) ([]string, error) {
 	ctx, cancel := chromedp.NewContext(allocCtx, chromedp.WithErrorf(quietErrorf))
 	defer cancel()
 
 	// Registered once for the context, and applied to every document
-	// loaded in it - which is what puts the theme, the frozen clock and
-	// the session in place before any of the console's own scripts run.
+	// loaded in it - which is what puts the theme, the clock and the
+	// session in place before any of the console's own scripts run.
 	if err := chromedp.Run(ctx, chromedp.ActionFunc(func(ctx context.Context) error {
-		_, err := page.AddScriptToEvaluateOnNewDocument(initScript(theme, tokens, opts.locale)).Do(ctx)
+		_, err := page.AddScriptToEvaluateOnNewDocument(initScript(theme, tokens, opts.locale, liveClock)).Do(ctx)
 		return err
 	})); err != nil {
 		return nil, fmt.Errorf("%s: installing the page init script: %w", theme, err)

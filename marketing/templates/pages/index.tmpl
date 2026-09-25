@@ -5,7 +5,7 @@
     what comes back. A Puppet Enterprise console for OpenVox &mdash; one
     Go binary, on top of the openvox-server and openvoxdb you already run.
   </p>
-  <vox-cta slot="actions" href="#capabilities" data-i18n>See what it does</vox-cta>
+  <vox-cta slot="actions" href="#highlights" data-i18n>See what it does</vox-cta>
   <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank" data-i18n>Get it on GitHub</vox-cta>
 </vox-hero>
 
@@ -17,14 +17,85 @@
   <vox-stat value="GPL-3.0" label="free and open source" data-i18n-attr="label"></vox-stat>
 </vox-grid>
 
-<section class="site-section" id="capabilities">
-  <h2 class="vox-ts-xxl" data-i18n>What it does</h2>
+{{/* The five things the console is chosen for, in the order they are
+     argued for. Each links to its capability page and to the guide that
+     does it; nodes and classification - what any console has to do -
+     follow in a compact list after them. */}}
+<section class="site-section" id="highlights">
+  <h2 class="vox-ts-xxl" data-i18n>Why teams choose it</h2>
   <div class="vox-prose">
     <p data-i18n>
-      Every page below shows the console itself, captured from a running
+      Every picture below is the console itself, captured from a running
       instance.
     </p>
   </div>
+</section>
+
+<vox-billboard class="highlight" heading="Know what is vulnerable, across the fleet" data-i18n-attr="heading">
+  <div slot="media">{{screenshot "vulnerabilities"}}</div>
+  <p data-i18n>
+    Every package every node reports, matched against known
+    vulnerabilities from OSV &mdash; or your own mirror of it, for sites
+    with no way out &mdash; and from Tenable, merged into one list. See
+    what patching would fix first. A node nobody could assess is shown as
+    exactly that, never as clean.
+  </p>
+  <vox-cta slot="actions" href="features/security.html" data-i18n>Vulnerability tracking</vox-cta>
+  <vox-cta slot="actions" href="guides/vulnerabilities.html" data-i18n>Set up a provider</vox-cta>
+</vox-billboard>
+
+<vox-billboard class="highlight" reverse heading="Sign in with the identity provider you already use" data-i18n-attr="heading">
+  <div slot="media">{{screenshot "roles"}}</div>
+  <p data-i18n>
+    Single sign-on through OpenID Connect, with your provider's groups
+    mapped onto console roles at every sign-in. Roles are plain sets of
+    permissions, so people see exactly what their job needs. Automation
+    gets service tokens of its own, and every change is on the record.
+  </p>
+  <vox-cta slot="actions" href="features/access-control.html" data-i18n>Access control</vox-cta>
+  <vox-cta slot="actions" href="guides/access.html" data-i18n>Connect your provider</vox-cta>
+</vox-billboard>
+
+<vox-billboard class="highlight" heading="One binary that scales out when you need it" data-i18n-attr="heading">
+  <div slot="media">{{screenshot "fleet-status"}}</div>
+  <p data-i18n>
+    Start with one instance. When the fleet grows, run the same image as
+    separate web, worker and orchestrator instances, clustered with
+    mutual TLS, and put classification right beside your compilers.
+    Everything durable lives in Postgres, so instances come and go behind
+    a load balancer, and one page shows the whole fleet of them.
+  </p>
+  <vox-cta slot="actions" href="features/scaling.html" data-i18n>Scaling</vox-cta>
+  <vox-cta slot="actions" href="guides/cluster.html" data-i18n>Run more instances</vox-cta>
+</vox-billboard>
+
+<vox-billboard class="highlight" reverse heading="Run Puppet now, on the nodes you choose" data-i18n-attr="heading">
+  <div slot="media">{{screenshot "jobs-list"}}</div>
+  <p data-i18n>
+    Run Puppet on one node, a selection, or every node a group matches,
+    without waiting for the next scheduled run. Each node's result comes
+    back on its own &mdash; status, output and a link to the report it
+    produced &mdash; and a node that was offline says so straight away.
+  </p>
+  <vox-cta slot="actions" href="features/orchestration.html" data-i18n>Orchestration</vox-cta>
+  <vox-cta slot="actions" href="guides/run-jobs.html" data-i18n>Run jobs</vox-cta>
+</vox-billboard>
+
+<vox-billboard class="highlight" heading="See what your code deploys actually reach" data-i18n-attr="heading">
+  <div slot="media">{{screenshot "code-repositories"}}</div>
+  <p data-i18n>
+    Deploy from one control repository or one per team, on demand or on
+    every push. Then see, for each repository, how many nodes are
+    assigned to its environments against how many are actually running
+    from them &mdash; the gap that says a deploy has not landed, or that
+    nodes are running code nothing sends them to.
+  </p>
+  <vox-cta slot="actions" href="features/code.html" data-i18n>Code deployment</vox-cta>
+  <vox-cta slot="actions" href="guides/deploy-code.html" data-i18n>Deploy code</vox-cta>
+</vox-billboard>
+
+<section class="site-section" id="capabilities">
+  <h2 class="vox-ts-xxl" data-i18n>And the rest of a console</h2>
 </section>
 
 <vox-link-hub>
@@ -37,42 +108,17 @@
     <vox-icon slot="icon" name="node-group"></vox-icon>
     <span data-i18n>Rule-based node groups that decide what configuration applies where.</span>
   </vox-link-hub-item>
-
-  <vox-link-hub-item href="features/code.html" heading="Code deployment" data-i18n-attr="heading">
-    <vox-icon slot="icon" name="deploy"></vox-icon>
-    <span data-i18n>Ship Puppet code from one control repository or many, on demand or by webhook.</span>
-  </vox-link-hub-item>
-
-  <vox-link-hub-item href="features/orchestration.html" heading="Orchestration" data-i18n-attr="heading">
-    <vox-icon slot="icon" name="orchestrate"></vox-icon>
-    <span data-i18n>Run Puppet, tasks and plans across the fleet, and see what each node did.</span>
-  </vox-link-hub-item>
-
-  <vox-link-hub-item href="features/security.html" heading="Packages and vulnerabilities" data-i18n-attr="heading">
-    <vox-icon slot="icon" name="vulnerability"></vox-icon>
-    <span data-i18n>What is installed everywhere, and which advisories affect it.</span>
-  </vox-link-hub-item>
-
-  <vox-link-hub-item href="features/access-control.html" heading="Access control and audit" data-i18n-attr="heading">
-    <vox-icon slot="icon" name="people"></vox-icon>
-    <span data-i18n>Roles, service tokens, and a record of who changed what.</span>
-  </vox-link-hub-item>
 </vox-link-hub>
 
 <section class="site-section">
-  <h2 class="vox-ts-xxl" data-i18n>One binary to run</h2>
+  <h2 class="vox-ts-xxl" data-i18n>Built on the stack you already run</h2>
   <div class="vox-prose">
     <p data-i18n>
-      The console, access control, classification, orchestration and code
-      deployment are one process. There is nothing to wire together, no
-      internal services to keep in step, and one thing to upgrade.
-    </p>
-    <p data-i18n>
-      It sits on top of the stack you already have. openvox-server still
-      compiles catalogs and runs the CA; openvoxdb still stores facts and
-      reports. Your agents carry on talking to exactly what they talk to
-      now &mdash; the console serves the standard ENC contract, so there
-      is nothing to change on the node side.
+      openvox-server still compiles catalogs and runs the CA; openvoxdb
+      still stores facts and reports. Your agents carry on talking to
+      exactly what they talk to now &mdash; the console serves the
+      standard ENC contract, so there is nothing to change on the node
+      side.
     </p>
   </div>
 </section>

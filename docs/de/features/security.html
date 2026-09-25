@@ -58,6 +58,7 @@
     <link rel="stylesheet" href="../../site.css"/>
     <script type="module" src="../../vendor/voxblocks.js"></script>
     <script type="module" src="../../theme.js"></script>
+    <script type="module" src="../../lightbox.js"></script>
     
   </head>
   <body>
@@ -97,6 +98,7 @@
       <a href="../features/orchestration.html">Orchestrierung</a>
       <a aria-current="page" href="../features/security.html">Sicherheit</a>
       <a href="../features/access-control.html">Zugriffskontrolle</a>
+      <a href="../features/scaling.html">Scaling</a>
       </vox-subnav>
     </div>
 
@@ -114,10 +116,13 @@
 </section>
 
 <figure class="shot">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/packages-dark-de.png" data-theme-dark="../../assets/screenshots/packages-dark-de.png" data-theme-light="../../assets/screenshots/packages-light-de.png"/>
-    <img src="../../assets/screenshots/packages-light-de.png" alt="Fleet-wide package inventory showing each package, its versions in use and how many nodes report it" width="1440"/>
-  </picture>
+  <a class="shot-link" href="../../assets/screenshots/packages-light-de.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/packages-dark-de.png" data-theme-dark="../../assets/screenshots/packages-dark-de.png" data-theme-light="../../assets/screenshots/packages-light-de.png"/>
+      <img src="../../assets/screenshots/packages-light-de.png" alt="Fleet-wide package inventory showing each package, its versions in use and how many nodes report it" width="1440"/>
+    </picture>
+    <span class="vox-sr-only">Open full size</span>
+  </a>
 </figure>
 
 <section class="site-section">
@@ -129,10 +134,13 @@
 </section>
 
 <figure class="shot">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/vulnerabilities-dark-de.png" data-theme-dark="../../assets/screenshots/vulnerabilities-dark-de.png" data-theme-light="../../assets/screenshots/vulnerabilities-light-de.png"/>
-    <img src="../../assets/screenshots/vulnerabilities-light-de.png" alt="Vulnerability findings across the fleet, ordered by severity, showing affected node counts and whether a fix is available" width="1440"/>
-  </picture>
+  <a class="shot-link" href="../../assets/screenshots/vulnerabilities-light-de.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/vulnerabilities-dark-de.png" data-theme-dark="../../assets/screenshots/vulnerabilities-dark-de.png" data-theme-light="../../assets/screenshots/vulnerabilities-light-de.png"/>
+      <img src="../../assets/screenshots/vulnerabilities-light-de.png" alt="Vulnerability findings across the fleet, ordered by severity, showing affected node counts and whether a fix is available" width="1440"/>
+    </picture>
+    <span class="vox-sr-only">Open full size</span>
+  </a>
 </figure>
 
 <vox-callout variant="warning" heading="Abdeckung wird gemeldet, nicht angenommen">
@@ -163,6 +171,14 @@
       </vox-cta-band>
     </main>
 
+    
+    <dialog class="lightbox" aria-label="Full-size screenshot">
+      <div class="lightbox-bar">
+        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+      </div>
+      <img class="lightbox-image" alt=""/>
+    </dialog>
+
     <vox-footer>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">Überblick</a>
@@ -176,6 +192,7 @@
         <a href="../features/orchestration.html">Orchestrierung</a>
         <a href="../features/security.html">Sicherheit</a>
         <a href="../features/access-control.html">Zugriffskontrolle</a>
+        <a href="../features/scaling.html">Scaling</a>
         </vox-footer-column>
       
       <vox-footer-column heading="Sprache">

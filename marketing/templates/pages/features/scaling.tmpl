@@ -1,0 +1,91 @@
+{{define "content"}}
+<vox-hero eyebrow="Scaling" heading="Start with one binary. Scale out when you need to." data-i18n-attr="heading,eyebrow">
+  <p data-i18n>
+    The console is one Go binary, and one container image. The same
+    binary runs a single all-in-one instance, or a fleet of instances
+    each doing one job.
+  </p>
+</vox-hero>
+
+<section class="site-section">
+  <h2 class="vox-ts-xxl" data-i18n>One instance to begin with</h2>
+  <div class="vox-prose">
+    <p data-i18n>
+      The console, access control, classification, orchestration and code
+      deployment run in one process by default. There is nothing to wire
+      together, no internal services to keep in step, and one thing to
+      upgrade.
+    </p>
+  </div>
+</section>
+
+<section class="site-section">
+  <h2 class="vox-ts-xxl" data-i18n>Split it by job when the fleet grows</h2>
+  <div class="vox-prose">
+    <p data-i18n>
+      One setting chooses what an instance runs, so each part can be
+      scaled and placed on its own. Everything durable lives in Postgres,
+      so any number of each can run at once.
+    </p>
+  </div>
+</section>
+
+<vox-grid min="220px" gap="lg">
+  <vox-card heading="Web" data-i18n-attr="heading">
+    <vox-icon slot="icon" name="dashboard"></vox-icon>
+    <span data-i18n>The console and its API, behind your load balancer.</span>
+  </vox-card>
+  <vox-card heading="Orchestrator" data-i18n-attr="heading">
+    <vox-icon slot="icon" name="orchestrate"></vox-icon>
+    <span data-i18n>Holds the connections to your nodes and runs the jobs sent down them.</span>
+  </vox-card>
+  <vox-card heading="Worker" data-i18n-attr="heading">
+    <vox-icon slot="icon" name="schedule"></vox-icon>
+    <span data-i18n>Background work, such as vulnerability syncs, done exactly once however many run.</span>
+  </vox-card>
+  <vox-card heading="ENC" data-i18n-attr="heading">
+    <vox-icon slot="icon" name="classifier"></vox-icon>
+    <span data-i18n>Classification only, running beside your compilers.</span>
+  </vox-card>
+</vox-grid>
+
+<section class="site-section">
+  <h2 class="vox-ts-xxl" data-i18n>Clustered, and secured by default</h2>
+  <div class="vox-prose">
+    <p data-i18n>
+      Instances join one cluster over mutual TLS, using the certificates
+      your OpenVox CA already issues. A revoked login or node certificate
+      is refused by every instance at once, and a job started on any
+      instance reaches a node connected to any other.
+    </p>
+    <p data-i18n>
+      Classification instances attach from the outside in: the connection
+      runs from beside the compilers to the core, so the core never needs
+      a way into that network, and those instances never carry node
+      traffic.
+    </p>
+  </div>
+</section>
+
+<section class="site-section">
+  <h2 class="vox-ts-xxl" data-i18n>The whole fleet on one page</h2>
+  <div class="vox-prose">
+    <p data-i18n>
+      The System page asks every instance to describe itself: its run
+      mode, health, uptime and background work, and how it sees each
+      service the console depends on. An instance that should have
+      answered and did not is called out rather than left off.
+    </p>
+  </div>
+</section>
+
+{{screenshot "fleet-status"}}
+
+<vox-callout variant="tip" heading="Grow into it one step at a time" data-i18n-attr="heading">
+  <p data-i18n>
+    Add a second all-in-one instance first, then split roles out as load
+    demands. Every step can be undone by setting an instance back to
+    running everything.
+  </p>
+</vox-callout>
+{{end}}

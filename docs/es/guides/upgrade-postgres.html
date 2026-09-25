@@ -58,6 +58,7 @@
     <link rel="stylesheet" href="../../site.css"/>
     <script type="module" src="../../vendor/voxblocks.js"></script>
     <script type="module" src="../../theme.js"></script>
+    <script type="module" src="../../lightbox.js"></script>
     <script type="module" src="../../guides.js"></script>
   </head>
   <body>
@@ -97,6 +98,7 @@
       <a href="../features/orchestration.html">Orquestación</a>
       <a href="../features/security.html">Seguridad</a>
       <a href="../features/access-control.html">Control de acceso</a>
+      <a href="../features/scaling.html">Scaling</a>
       </vox-subnav>
     </div>
 
@@ -142,18 +144,6 @@
       <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
     </vox-callout>
 
-    <vox-toc class="guide-toc" heading="On this page">
-      <vox-toc-item href="#dump-both-databases"><span>Dump both databases</span>
-      </vox-toc-item>
-      <vox-toc-item href="#replace-the-volumes"><span>Replace the volumes</span>
-      </vox-toc-item>
-      <vox-toc-item href="#restore-on-postgres-18"><span>Restore on Postgres 18</span>
-      </vox-toc-item>
-      <vox-toc-item href="#if-openvoxdb-says-pg-trgm-is-missing"><span>If openvoxdb says pg_trgm is missing</span>
-      </vox-toc-item>
-      <vox-toc-item href="#staying-on-postgres-17"><span>Staying on Postgres 17</span>
-      </vox-toc-item>
-      </vox-toc>
     <div class="guide-body vox-prose">
 <p>The production compose file runs both databases on Postgres 18. Postgres
 18 images keep their data in a version-numbered directory inside the
@@ -217,7 +207,23 @@ above.</p>
 
     <vox-series-nav label="Operate" previous-text="Previous" next-text="Next" previous-href="../guides/rotate-signing-key.html" previous-label="Rotate the token signing key"></vox-series-nav>
   </article>
-</div>
+
+  
+  <div class="guide-toc-rail">
+    <vox-toc heading="On this page">
+      <vox-toc-item href="#dump-both-databases"><span>Dump both databases</span>
+      </vox-toc-item>
+      <vox-toc-item href="#replace-the-volumes"><span>Replace the volumes</span>
+      </vox-toc-item>
+      <vox-toc-item href="#restore-on-postgres-18"><span>Restore on Postgres 18</span>
+      </vox-toc-item>
+      <vox-toc-item href="#if-openvoxdb-says-pg-trgm-is-missing"><span>If openvoxdb says pg_trgm is missing</span>
+      </vox-toc-item>
+      <vox-toc-item href="#staying-on-postgres-17"><span>Staying on Postgres 17</span>
+      </vox-toc-item>
+      </vox-toc>
+  </div>
+  </div>
 
       </div>
 
@@ -236,6 +242,14 @@ above.</p>
       </vox-cta-band>
     </main>
 
+    
+    <dialog class="lightbox" aria-label="Full-size screenshot">
+      <div class="lightbox-bar">
+        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+      </div>
+      <img class="lightbox-image" alt=""/>
+    </dialog>
+
     <vox-footer>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">Resumen</a>
@@ -249,6 +263,7 @@ above.</p>
         <a href="../features/orchestration.html">Orquestación</a>
         <a href="../features/security.html">Seguridad</a>
         <a href="../features/access-control.html">Control de acceso</a>
+        <a href="../features/scaling.html">Scaling</a>
         </vox-footer-column>
       
       <vox-footer-column heading="Idioma">

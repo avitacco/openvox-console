@@ -58,6 +58,7 @@
     <link rel="stylesheet" href="../../site.css"/>
     <script type="module" src="../../vendor/voxblocks.js"></script>
     <script type="module" src="../../theme.js"></script>
+    <script type="module" src="../../lightbox.js"></script>
     <script type="module" src="../../guides.js"></script>
   </head>
   <body>
@@ -97,6 +98,7 @@
       <a href="../features/orchestration.html">التنسيق</a>
       <a href="../features/security.html">الأمان</a>
       <a href="../features/access-control.html">التحكم في الوصول</a>
+      <a href="../features/scaling.html">Scaling</a>
       </vox-subnav>
     </div>
 
@@ -142,15 +144,6 @@
       <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
     </vox-callout>
 
-    <vox-toc class="guide-toc" heading="On this page">
-      <vox-toc-item href="#what-each-mode-runs"><span>What each mode runs</span>
-      </vox-toc-item>
-      <vox-toc-item href="#what-each-mode-needs"><span>What each mode needs</span>
-        <vox-toc-item slot="children" href="#give-non-issuing-modes-the-verification-keys"><span>Give non-issuing modes the verification keys</span></vox-toc-item>
-      </vox-toc-item>
-      <vox-toc-item href="#changing-an-instance-s-mode"><span>Changing an instance&#39;s mode</span>
-      </vox-toc-item>
-      </vox-toc>
     <div class="guide-body vox-prose">
 <p>One image, one binary. <code>CONSOLE_RUN_MODE</code> selects which parts of the
 console an instance runs, so parts with very different loads can be
@@ -275,7 +268,20 @@ sense among clustered instances that between them run every mode. See
 
     <vox-series-nav label="Scale" previous-text="Previous" next-text="Next" next-href="../guides/cluster.html" next-label="Run more instances"></vox-series-nav>
   </article>
-</div>
+
+  
+  <div class="guide-toc-rail">
+    <vox-toc heading="On this page">
+      <vox-toc-item href="#what-each-mode-runs"><span>What each mode runs</span>
+      </vox-toc-item>
+      <vox-toc-item href="#what-each-mode-needs"><span>What each mode needs</span>
+        <vox-toc-item slot="children" href="#give-non-issuing-modes-the-verification-keys"><span>Give non-issuing modes the verification keys</span></vox-toc-item>
+      </vox-toc-item>
+      <vox-toc-item href="#changing-an-instance-s-mode"><span>Changing an instance&#39;s mode</span>
+      </vox-toc-item>
+      </vox-toc>
+  </div>
+  </div>
 
       </div>
 
@@ -294,6 +300,14 @@ sense among clustered instances that between them run every mode. See
       </vox-cta-band>
     </main>
 
+    
+    <dialog class="lightbox" aria-label="Full-size screenshot">
+      <div class="lightbox-bar">
+        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+      </div>
+      <img class="lightbox-image" alt=""/>
+    </dialog>
+
     <vox-footer>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">نظرة عامة</a>
@@ -307,6 +321,7 @@ sense among clustered instances that between them run every mode. See
         <a href="../features/orchestration.html">التنسيق</a>
         <a href="../features/security.html">الأمان</a>
         <a href="../features/access-control.html">التحكم في الوصول</a>
+        <a href="../features/scaling.html">Scaling</a>
         </vox-footer-column>
       
       <vox-footer-column heading="اللغة">

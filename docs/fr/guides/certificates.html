@@ -58,6 +58,7 @@
     <link rel="stylesheet" href="../../site.css"/>
     <script type="module" src="../../vendor/voxblocks.js"></script>
     <script type="module" src="../../theme.js"></script>
+    <script type="module" src="../../lightbox.js"></script>
     <script type="module" src="../../guides.js"></script>
   </head>
   <body>
@@ -97,6 +98,7 @@
       <a href="../features/orchestration.html">Orchestration</a>
       <a href="../features/security.html">Sécurité</a>
       <a href="../features/access-control.html">Contrôle d&#39;accès</a>
+      <a href="../features/scaling.html">Scaling</a>
       </vox-subnav>
     </div>
 
@@ -142,20 +144,6 @@
       <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
     </vox-callout>
 
-    <vox-toc class="guide-toc" heading="On this page">
-      <vox-toc-item href="#turn-certificate-management-on"><span>Turn certificate management on</span>
-      </vox-toc-item>
-      <vox-toc-item href="#decide-who-may-act-on-certificates"><span>Decide who may act on certificates</span>
-      </vox-toc-item>
-      <vox-toc-item href="#sign-revoke-or-clean"><span>Sign, revoke or clean</span>
-      </vox-toc-item>
-      <vox-toc-item href="#what-revocation-does-to-a-connected-node"><span>What revocation does to a connected node</span>
-      </vox-toc-item>
-      <vox-toc-item href="#infrastructure-certificates"><span>Infrastructure certificates</span>
-      </vox-toc-item>
-      <vox-toc-item href="#retire-the-certificate-admin-credential"><span>Retire the certificate-admin credential</span>
-      </vox-toc-item>
-      </vox-toc>
     <div class="guide-body vox-prose">
 <p>Every node&#39;s identity is a certificate from openvoxserver&#39;s CA. With the
 certificate-admin credential configured, the console&#39;s <strong>Nodes</strong> page
@@ -297,7 +285,25 @@ simply reports every certificate as <code>unknown</code>; nothing else stops wor
 
     <vox-series-nav label="Nodes" previous-text="Previous" next-text="Next" previous-href="../guides/add.html" previous-label="Add nodes" next-href="../guides/remove.html" next-label="Remove a node"></vox-series-nav>
   </article>
-</div>
+
+  
+  <div class="guide-toc-rail">
+    <vox-toc heading="On this page">
+      <vox-toc-item href="#turn-certificate-management-on"><span>Turn certificate management on</span>
+      </vox-toc-item>
+      <vox-toc-item href="#decide-who-may-act-on-certificates"><span>Decide who may act on certificates</span>
+      </vox-toc-item>
+      <vox-toc-item href="#sign-revoke-or-clean"><span>Sign, revoke or clean</span>
+      </vox-toc-item>
+      <vox-toc-item href="#what-revocation-does-to-a-connected-node"><span>What revocation does to a connected node</span>
+      </vox-toc-item>
+      <vox-toc-item href="#infrastructure-certificates"><span>Infrastructure certificates</span>
+      </vox-toc-item>
+      <vox-toc-item href="#retire-the-certificate-admin-credential"><span>Retire the certificate-admin credential</span>
+      </vox-toc-item>
+      </vox-toc>
+  </div>
+  </div>
 
       </div>
 
@@ -316,6 +322,14 @@ simply reports every certificate as <code>unknown</code>; nothing else stops wor
       </vox-cta-band>
     </main>
 
+    
+    <dialog class="lightbox" aria-label="Full-size screenshot">
+      <div class="lightbox-bar">
+        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+      </div>
+      <img class="lightbox-image" alt=""/>
+    </dialog>
+
     <vox-footer>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">Aperçu</a>
@@ -329,6 +343,7 @@ simply reports every certificate as <code>unknown</code>; nothing else stops wor
         <a href="../features/orchestration.html">Orchestration</a>
         <a href="../features/security.html">Sécurité</a>
         <a href="../features/access-control.html">Contrôle d&#39;accès</a>
+        <a href="../features/scaling.html">Scaling</a>
         </vox-footer-column>
       
       <vox-footer-column heading="Langue">

@@ -72,6 +72,17 @@ type Shot struct {
 	Interactions []Interaction
 	// Width and Height are the viewport in CSS pixels.
 	Width, Height int
+	// LiveClock leaves the page's clock running in real time rather than
+	// frozen at the demo instant.
+	//
+	// Only for a view that shows the age of something that exists now
+	// rather than something the demo fleet is dated to - a running
+	// instance's uptime, say. Frozen at a past instant, that instance
+	// appears to have started in the future, and the console says so
+	// ("clock skew"). The price is determinism: the shot's times differ
+	// a little between runs.
+	LiveClock bool
+
 	// FullPage captures the whole scrollable page rather than the
 	// viewport.
 	//
@@ -144,6 +155,16 @@ var All = withDefaults([]Shot{
 		MustContain: "team_a_production",
 	},
 
+	{
+		Name:      "code-repositories",
+		Path:      "/code.html",
+		Caption:   N_("Code repositories, each showing the environments it has deployed, its size, when it last deployed, and how many nodes are assigned to its environments against how many are running from them"),
+		ReadyWhen: "#repo-results vox-record-list-item",
+		// The second source's name: only the demo's code-sources
+		// fixture declares it.
+		MustContain: "team_a",
+	},
+
 	// --- orchestration ---
 	{
 		Name:        "jobs-list",
@@ -167,6 +188,20 @@ var All = withDefaults([]Shot{
 		Caption:     N_("Vulnerability findings across the fleet, ordered by severity, showing affected node counts and whether a fix is available"),
 		ReadyWhen:   "#results tbody tr",
 		MustContain: "CVE-2024-31449",
+	},
+
+	// --- scaling ---
+	{
+		Name:      "fleet-status",
+		Path:      "/status.html",
+		Caption:   N_("The System page's fleet status, listing every running console instance grouped by run mode - an all-in-one instance, a worker, an orchestrator and an ENC instance - with each one's health, uptime and background work, and the health of every service the console depends on"),
+		ReadyWhen: "#instances table tbody tr",
+		// The ENC instance's address. It attaches as a leaf, the last
+		// and most involved part of the demo cluster to come up (see
+		// marketing/screenshots.sh), so seeing it means the whole
+		// cluster answered - not just the instance serving the page.
+		MustContain: ":8093",
+		LiveClock:   true,
 	},
 
 	// --- access control and audit ---

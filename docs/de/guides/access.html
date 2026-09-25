@@ -58,6 +58,7 @@
     <link rel="stylesheet" href="../../site.css"/>
     <script type="module" src="../../vendor/voxblocks.js"></script>
     <script type="module" src="../../theme.js"></script>
+    <script type="module" src="../../lightbox.js"></script>
     <script type="module" src="../../guides.js"></script>
   </head>
   <body>
@@ -97,6 +98,7 @@
       <a href="../features/orchestration.html">Orchestrierung</a>
       <a href="../features/security.html">Sicherheit</a>
       <a href="../features/access-control.html">Zugriffskontrolle</a>
+      <a href="../features/scaling.html">Scaling</a>
       </vox-subnav>
     </div>
 
@@ -142,18 +144,6 @@
       <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
     </vox-callout>
 
-    <vox-toc class="guide-toc" heading="On this page">
-      <vox-toc-item href="#the-permissions"><span>The permissions</span>
-      </vox-toc-item>
-      <vox-toc-item href="#give-someone-access"><span>Give someone access</span>
-      </vox-toc-item>
-      <vox-toc-item href="#sign-in-with-your-identity-provider"><span>Sign in with your identity provider</span>
-      </vox-toc-item>
-      <vox-toc-item href="#issue-a-token-for-a-program"><span>Issue a token for a program</span>
-      </vox-toc-item>
-      <vox-toc-item href="#keep-an-audit-trail"><span>Keep an audit trail</span>
-      </vox-toc-item>
-      </vox-toc>
     <div class="guide-body vox-prose">
 <p>Everything in the console is behind a permission, and every permission
 reaches a person through a <strong>role</strong>. Programs, such as enc-bridge, use
@@ -358,7 +348,23 @@ a log collector, with one level per category:</p>
 
     <vox-series-nav label="Use" previous-text="Previous" next-text="Next" previous-href="../guides/run-jobs.html" previous-label="Run jobs" next-href="../guides/vulnerabilities.html" next-label="Track vulnerabilities"></vox-series-nav>
   </article>
-</div>
+
+  
+  <div class="guide-toc-rail">
+    <vox-toc heading="On this page">
+      <vox-toc-item href="#the-permissions"><span>The permissions</span>
+      </vox-toc-item>
+      <vox-toc-item href="#give-someone-access"><span>Give someone access</span>
+      </vox-toc-item>
+      <vox-toc-item href="#sign-in-with-your-identity-provider"><span>Sign in with your identity provider</span>
+      </vox-toc-item>
+      <vox-toc-item href="#issue-a-token-for-a-program"><span>Issue a token for a program</span>
+      </vox-toc-item>
+      <vox-toc-item href="#keep-an-audit-trail"><span>Keep an audit trail</span>
+      </vox-toc-item>
+      </vox-toc>
+  </div>
+  </div>
 
       </div>
 
@@ -377,6 +383,14 @@ a log collector, with one level per category:</p>
       </vox-cta-band>
     </main>
 
+    
+    <dialog class="lightbox" aria-label="Full-size screenshot">
+      <div class="lightbox-bar">
+        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+      </div>
+      <img class="lightbox-image" alt=""/>
+    </dialog>
+
     <vox-footer>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">Überblick</a>
@@ -390,6 +404,7 @@ a log collector, with one level per category:</p>
         <a href="../features/orchestration.html">Orchestrierung</a>
         <a href="../features/security.html">Sicherheit</a>
         <a href="../features/access-control.html">Zugriffskontrolle</a>
+        <a href="../features/scaling.html">Scaling</a>
         </vox-footer-column>
       
       <vox-footer-column heading="Sprache">

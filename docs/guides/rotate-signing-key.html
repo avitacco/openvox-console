@@ -82,6 +82,7 @@
     <link rel="stylesheet" href="../site.css"/>
     <script type="module" src="../vendor/voxblocks.js"></script>
     <script type="module" src="../theme.js"></script>
+    <script type="module" src="../lightbox.js"></script>
     <script type="module" src="../guides.js"></script>
   </head>
   <body>
@@ -121,6 +122,7 @@
       <a href="../features/orchestration.html">Orchestration</a>
       <a href="../features/security.html">Security</a>
       <a href="../features/access-control.html">Access control</a>
+      <a href="../features/scaling.html">Scaling</a>
       </vox-subnav>
     </div>
 
@@ -164,16 +166,6 @@
     
     
 
-    <vox-toc class="guide-toc" heading="On this page">
-      <vox-toc-item href="#generate-the-new-key"><span>Generate the new key</span>
-      </vox-toc-item>
-      <vox-toc-item href="#make-every-instance-accept-both-keys"><span>Make every instance accept both keys</span>
-      </vox-toc-item>
-      <vox-toc-item href="#start-signing-with-the-new-key"><span>Start signing with the new key</span>
-      </vox-toc-item>
-      <vox-toc-item href="#retire-the-old-key"><span>Retire the old key</span>
-      </vox-toc-item>
-      </vox-toc>
     <div class="guide-body vox-prose">
 <p>The console signs its login tokens with its own ES256 key. Each token
 names the key that signed it, and the console checks tokens against a
@@ -247,7 +239,21 @@ key up before retiring the old one.</p>
 
     <vox-series-nav label="Operate" previous-text="Previous" next-text="Next" previous-href="../guides/postgres-failover.html" previous-label="Fail over to a standby database" next-href="../guides/upgrade-postgres.html" next-label="Upgrade the container databases to Postgres 18"></vox-series-nav>
   </article>
-</div>
+
+  
+  <div class="guide-toc-rail">
+    <vox-toc heading="On this page">
+      <vox-toc-item href="#generate-the-new-key"><span>Generate the new key</span>
+      </vox-toc-item>
+      <vox-toc-item href="#make-every-instance-accept-both-keys"><span>Make every instance accept both keys</span>
+      </vox-toc-item>
+      <vox-toc-item href="#start-signing-with-the-new-key"><span>Start signing with the new key</span>
+      </vox-toc-item>
+      <vox-toc-item href="#retire-the-old-key"><span>Retire the old key</span>
+      </vox-toc-item>
+      </vox-toc>
+  </div>
+  </div>
 
       </div>
 
@@ -266,6 +272,14 @@ key up before retiring the old one.</p>
       </vox-cta-band>
     </main>
 
+    
+    <dialog class="lightbox" aria-label="Full-size screenshot">
+      <div class="lightbox-bar">
+        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+      </div>
+      <img class="lightbox-image" alt=""/>
+    </dialog>
+
     <vox-footer>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">Overview</a>
@@ -279,6 +293,7 @@ key up before retiring the old one.</p>
         <a href="../features/orchestration.html">Orchestration</a>
         <a href="../features/security.html">Security</a>
         <a href="../features/access-control.html">Access control</a>
+        <a href="../features/scaling.html">Scaling</a>
         </vox-footer-column>
       
       <vox-footer-column heading="Language">

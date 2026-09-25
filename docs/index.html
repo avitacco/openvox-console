@@ -82,6 +82,7 @@
     <link rel="stylesheet" href="./site.css"/>
     <script type="module" src="./vendor/voxblocks.js"></script>
     <script type="module" src="./theme.js"></script>
+    <script type="module" src="./lightbox.js"></script>
     
   </head>
   <body>
@@ -121,6 +122,7 @@
       <a href="./features/orchestration.html">Orchestration</a>
       <a href="./features/security.html">Security</a>
       <a href="./features/access-control.html">Access control</a>
+      <a href="./features/scaling.html">Scaling</a>
       </vox-subnav>
     </div>
 
@@ -128,15 +130,18 @@
       <div class="site-main vox-container">
 <vox-hero eyebrow="OpenVox Console" heading="Your whole fleet, in one place">
   <p>See every node, decide what runs where, deploy your code, and act on what comes back. A Puppet Enterprise console for OpenVox — one Go binary, on top of the openvox-server and openvoxdb you already run.</p>
-  <vox-cta slot="actions" href="#capabilities">See what it does</vox-cta>
+  <vox-cta slot="actions" href="#highlights">See what it does</vox-cta>
   <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">Get it on GitHub</vox-cta>
 </vox-hero>
 
 <figure class="shot">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./assets/screenshots/dashboard-dark.png" data-theme-dark="./assets/screenshots/dashboard-dark.png" data-theme-light="./assets/screenshots/dashboard-light.png"/>
-    <img src="./assets/screenshots/dashboard-light.png" alt="The OpenVox Console dashboard showing fleet run status across 26 nodes, with counts of unchanged, changed and failed runs, recent jobs and recent activity" width="1440"/>
-  </picture>
+  <a class="shot-link" href="./assets/screenshots/dashboard-light.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="./assets/screenshots/dashboard-dark.png" data-theme-dark="./assets/screenshots/dashboard-dark.png" data-theme-light="./assets/screenshots/dashboard-light.png"/>
+      <img src="./assets/screenshots/dashboard-light.png" alt="The OpenVox Console dashboard showing fleet run status across 26 nodes, with counts of unchanged, changed and failed runs, recent jobs and recent activity" width="1440"/>
+    </picture>
+    <span class="vox-sr-only">Open full size</span>
+  </a>
 </figure>
 
 <vox-grid min="200px" gap="lg">
@@ -145,11 +150,91 @@
   <vox-stat value="GPL-3.0" label="free and open source"></vox-stat>
 </vox-grid>
 
-<section class="site-section" id="capabilities">
-  <h2 class="vox-ts-xxl">What it does</h2>
+
+<section class="site-section" id="highlights">
+  <h2 class="vox-ts-xxl">Why teams choose it</h2>
   <div class="vox-prose">
-    <p>Every page below shows the console itself, captured from a running instance.</p>
+    <p>Every picture below is the console itself, captured from a running instance.</p>
   </div>
+</section>
+
+<vox-billboard class="highlight" heading="Know what is vulnerable, across the fleet">
+  <div slot="media"><figure class="shot">
+  <a class="shot-link" href="./assets/screenshots/vulnerabilities-light.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="./assets/screenshots/vulnerabilities-dark.png" data-theme-dark="./assets/screenshots/vulnerabilities-dark.png" data-theme-light="./assets/screenshots/vulnerabilities-light.png"/>
+      <img src="./assets/screenshots/vulnerabilities-light.png" alt="Vulnerability findings across the fleet, ordered by severity, showing affected node counts and whether a fix is available" width="1440"/>
+    </picture>
+    <span class="vox-sr-only">Open full size</span>
+  </a>
+</figure></div>
+  <p>Every package every node reports, matched against known vulnerabilities from OSV — or your own mirror of it, for sites with no way out — and from Tenable, merged into one list. See what patching would fix first. A node nobody could assess is shown as exactly that, never as clean.</p>
+  <vox-cta slot="actions" href="features/security.html">Vulnerability tracking</vox-cta>
+  <vox-cta slot="actions" href="guides/vulnerabilities.html">Set up a provider</vox-cta>
+</vox-billboard>
+
+<vox-billboard class="highlight" reverse="" heading="Sign in with the identity provider you already use">
+  <div slot="media"><figure class="shot">
+  <a class="shot-link" href="./assets/screenshots/roles-light.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="./assets/screenshots/roles-dark.png" data-theme-dark="./assets/screenshots/roles-dark.png" data-theme-light="./assets/screenshots/roles-light.png"/>
+      <img src="./assets/screenshots/roles-light.png" alt="Role-based access control showing roles and the specific permissions each one grants" width="1440"/>
+    </picture>
+    <span class="vox-sr-only">Open full size</span>
+  </a>
+</figure></div>
+  <p>Single sign-on through OpenID Connect, with your provider&#39;s groups mapped onto console roles at every sign-in. Roles are plain sets of permissions, so people see exactly what their job needs. Automation gets service tokens of its own, and every change is on the record.</p>
+  <vox-cta slot="actions" href="features/access-control.html">Access control</vox-cta>
+  <vox-cta slot="actions" href="guides/access.html">Connect your provider</vox-cta>
+</vox-billboard>
+
+<vox-billboard class="highlight" heading="One binary that scales out when you need it">
+  <div slot="media"><figure class="shot">
+  <a class="shot-link" href="./assets/screenshots/fleet-status-light.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="./assets/screenshots/fleet-status-dark.png" data-theme-dark="./assets/screenshots/fleet-status-dark.png" data-theme-light="./assets/screenshots/fleet-status-light.png"/>
+      <img src="./assets/screenshots/fleet-status-light.png" alt="The System page&#39;s fleet status, listing every running console instance grouped by run mode - an all-in-one instance, a worker, an orchestrator and an ENC instance - with each one&#39;s health, uptime and background work, and the health of every service the console depends on" width="1440"/>
+    </picture>
+    <span class="vox-sr-only">Open full size</span>
+  </a>
+</figure></div>
+  <p>Start with one instance. When the fleet grows, run the same image as separate web, worker and orchestrator instances, clustered with mutual TLS, and put classification right beside your compilers. Everything durable lives in Postgres, so instances come and go behind a load balancer, and one page shows the whole fleet of them.</p>
+  <vox-cta slot="actions" href="features/scaling.html">Scaling</vox-cta>
+  <vox-cta slot="actions" href="guides/cluster.html">Run more instances</vox-cta>
+</vox-billboard>
+
+<vox-billboard class="highlight" reverse="" heading="Run Puppet now, on the nodes you choose">
+  <div slot="media"><figure class="shot">
+  <a class="shot-link" href="./assets/screenshots/jobs-list-light.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="./assets/screenshots/jobs-list-dark.png" data-theme-dark="./assets/screenshots/jobs-list-dark.png" data-theme-light="./assets/screenshots/jobs-list-light.png"/>
+      <img src="./assets/screenshots/jobs-list-light.png" alt="Orchestration job history listing ad-hoc runs, tasks and plans with the nodes each targeted and whether it succeeded" width="1440"/>
+    </picture>
+    <span class="vox-sr-only">Open full size</span>
+  </a>
+</figure></div>
+  <p>Run Puppet on one node, a selection, or every node a group matches, without waiting for the next scheduled run. Each node&#39;s result comes back on its own — status, output and a link to the report it produced — and a node that was offline says so straight away.</p>
+  <vox-cta slot="actions" href="features/orchestration.html">Orchestration</vox-cta>
+  <vox-cta slot="actions" href="guides/run-jobs.html">Run jobs</vox-cta>
+</vox-billboard>
+
+<vox-billboard class="highlight" heading="See what your code deploys actually reach">
+  <div slot="media"><figure class="shot">
+  <a class="shot-link" href="./assets/screenshots/code-repositories-light.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="./assets/screenshots/code-repositories-dark.png" data-theme-dark="./assets/screenshots/code-repositories-dark.png" data-theme-light="./assets/screenshots/code-repositories-light.png"/>
+      <img src="./assets/screenshots/code-repositories-light.png" alt="Code repositories, each showing the environments it has deployed, its size, when it last deployed, and how many nodes are assigned to its environments against how many are running from them" width="1440"/>
+    </picture>
+    <span class="vox-sr-only">Open full size</span>
+  </a>
+</figure></div>
+  <p>Deploy from one control repository or one per team, on demand or on every push. Then see, for each repository, how many nodes are assigned to its environments against how many are actually running from them — the gap that says a deploy has not landed, or that nodes are running code nothing sends them to.</p>
+  <vox-cta slot="actions" href="features/code.html">Code deployment</vox-cta>
+  <vox-cta slot="actions" href="guides/deploy-code.html">Deploy code</vox-cta>
+</vox-billboard>
+
+<section class="site-section" id="capabilities">
+  <h2 class="vox-ts-xxl">And the rest of a console</h2>
 </section>
 
 <vox-link-hub>
@@ -162,33 +247,12 @@
     <vox-icon slot="icon" name="node-group"></vox-icon>
     <span>Rule-based node groups that decide what configuration applies where.</span>
   </vox-link-hub-item>
-
-  <vox-link-hub-item href="features/code.html" heading="Code deployment">
-    <vox-icon slot="icon" name="deploy"></vox-icon>
-    <span>Ship Puppet code from one control repository or many, on demand or by webhook.</span>
-  </vox-link-hub-item>
-
-  <vox-link-hub-item href="features/orchestration.html" heading="Orchestration">
-    <vox-icon slot="icon" name="orchestrate"></vox-icon>
-    <span>Run Puppet, tasks and plans across the fleet, and see what each node did.</span>
-  </vox-link-hub-item>
-
-  <vox-link-hub-item href="features/security.html" heading="Packages and vulnerabilities">
-    <vox-icon slot="icon" name="vulnerability"></vox-icon>
-    <span>What is installed everywhere, and which advisories affect it.</span>
-  </vox-link-hub-item>
-
-  <vox-link-hub-item href="features/access-control.html" heading="Access control and audit">
-    <vox-icon slot="icon" name="people"></vox-icon>
-    <span>Roles, service tokens, and a record of who changed what.</span>
-  </vox-link-hub-item>
 </vox-link-hub>
 
 <section class="site-section">
-  <h2 class="vox-ts-xxl">One binary to run</h2>
+  <h2 class="vox-ts-xxl">Built on the stack you already run</h2>
   <div class="vox-prose">
-    <p>The console, access control, classification, orchestration and code deployment are one process. There is nothing to wire together, no internal services to keep in step, and one thing to upgrade.</p>
-    <p>It sits on top of the stack you already have. openvox-server still compiles catalogs and runs the CA; openvoxdb still stores facts and reports. Your agents carry on talking to exactly what they talk to now — the console serves the standard ENC contract, so there is nothing to change on the node side.</p>
+    <p>openvox-server still compiles catalogs and runs the CA; openvoxdb still stores facts and reports. Your agents carry on talking to exactly what they talk to now — the console serves the standard ENC contract, so there is nothing to change on the node side.</p>
   </div>
 </section>
 
@@ -217,6 +281,14 @@
       </vox-cta-band>
     </main>
 
+    
+    <dialog class="lightbox" aria-label="Full-size screenshot">
+      <div class="lightbox-bar">
+        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+      </div>
+      <img class="lightbox-image" alt=""/>
+    </dialog>
+
     <vox-footer>
       <vox-footer-column heading="OpenVox Console">
         <a href="./index.html">Overview</a>
@@ -230,6 +302,7 @@
         <a href="./features/orchestration.html">Orchestration</a>
         <a href="./features/security.html">Security</a>
         <a href="./features/access-control.html">Access control</a>
+        <a href="./features/scaling.html">Scaling</a>
         </vox-footer-column>
       
       <vox-footer-column heading="Language">

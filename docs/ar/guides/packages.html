@@ -58,6 +58,7 @@
     <link rel="stylesheet" href="../../site.css"/>
     <script type="module" src="../../vendor/voxblocks.js"></script>
     <script type="module" src="../../theme.js"></script>
+    <script type="module" src="../../lightbox.js"></script>
     <script type="module" src="../../guides.js"></script>
   </head>
   <body>
@@ -97,6 +98,7 @@
       <a href="../features/orchestration.html">التنسيق</a>
       <a href="../features/security.html">الأمان</a>
       <a href="../features/access-control.html">التحكم في الوصول</a>
+      <a href="../features/scaling.html">Scaling</a>
       </vox-subnav>
     </div>
 
@@ -142,45 +144,6 @@
       <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
     </vox-callout>
 
-    <vox-toc class="guide-toc" heading="On this page">
-      <vox-toc-item href="#install-openvoxserver"><span>Install openvoxserver</span>
-        <vox-toc-item slot="children" href="#check-its-certificate-s-names"><span>Check its certificate&#39;s names</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#check-it-is-running"><span>Check it is running</span></vox-toc-item>
-      </vox-toc-item>
-      <vox-toc-item href="#install-openvoxdb-and-its-database"><span>Install openvoxdb and its database</span>
-        <vox-toc-item slot="children" href="#enroll-openvoxdb-s-host"><span>Enroll openvoxdb&#39;s host</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#create-its-database"><span>Create its database</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#install-and-start-openvoxdb"><span>Install and start openvoxdb</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#send-catalogs-and-reports-to-it"><span>Send catalogs and reports to it</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#check-it-is-running-2"><span>Check it is running</span></vox-toc-item>
-      </vox-toc-item>
-      <vox-toc-item href="#create-the-console-s-database"><span>Create the console&#39;s database</span>
-      </vox-toc-item>
-      <vox-toc-item href="#issue-the-console-s-certificates"><span>Issue the console&#39;s certificates</span>
-        <vox-toc-item slot="children" href="#the-openvoxdb-client-certificate"><span>The openvoxdb client certificate</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#the-node-transport-certificate"><span>The node transport certificate</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#the-token-signing-key"><span>The token signing key</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#the-certificate-admin-credential-optional"><span>The certificate-admin credential (optional)</span></vox-toc-item>
-      </vox-toc-item>
-      <vox-toc-item href="#build-the-console"><span>Build the console</span>
-      </vox-toc-item>
-      <vox-toc-item href="#configure-the-console"><span>Configure the console</span>
-        <vox-toc-item slot="children" href="#keep-secrets-in-files"><span>Keep secrets in files</span></vox-toc-item>
-      </vox-toc-item>
-      <vox-toc-item href="#run-it-under-systemd"><span>Run it under systemd</span>
-      </vox-toc-item>
-      <vox-toc-item href="#log-in-for-the-first-time"><span>Log in for the first time</span>
-      </vox-toc-item>
-      <vox-toc-item href="#connect-classification"><span>Connect classification</span>
-        <vox-toc-item slot="children" href="#issue-enc-bridge-a-token"><span>Issue enc-bridge a token</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#install-enc-bridge-on-openvoxserver-s-host"><span>Install enc-bridge on openvoxserver&#39;s host</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#check-classification"><span>Check classification</span></vox-toc-item>
-      </vox-toc-item>
-      <vox-toc-item href="#upgrade-later"><span>Upgrade later</span>
-      </vox-toc-item>
-      <vox-toc-item href="#check-the-whole-deployment"><span>Check the whole deployment</span>
-      </vox-toc-item>
-      </vox-toc>
     <div class="guide-body vox-prose">
 <p>This guide installs openvoxserver, openvoxdb and Postgres from the
 OpenVox and distribution packages, and runs the console as a single
@@ -650,7 +613,50 @@ sudo systemctl restart openvox-console
 
     <vox-series-nav label="Install" previous-text="Previous" next-text="Next" previous-href="../guides/containers.html" previous-label="Install with containers"></vox-series-nav>
   </article>
-</div>
+
+  
+  <div class="guide-toc-rail">
+    <vox-toc heading="On this page">
+      <vox-toc-item href="#install-openvoxserver"><span>Install openvoxserver</span>
+        <vox-toc-item slot="children" href="#check-its-certificate-s-names"><span>Check its certificate&#39;s names</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#check-it-is-running"><span>Check it is running</span></vox-toc-item>
+      </vox-toc-item>
+      <vox-toc-item href="#install-openvoxdb-and-its-database"><span>Install openvoxdb and its database</span>
+        <vox-toc-item slot="children" href="#enroll-openvoxdb-s-host"><span>Enroll openvoxdb&#39;s host</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#create-its-database"><span>Create its database</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#install-and-start-openvoxdb"><span>Install and start openvoxdb</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#send-catalogs-and-reports-to-it"><span>Send catalogs and reports to it</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#check-it-is-running-2"><span>Check it is running</span></vox-toc-item>
+      </vox-toc-item>
+      <vox-toc-item href="#create-the-console-s-database"><span>Create the console&#39;s database</span>
+      </vox-toc-item>
+      <vox-toc-item href="#issue-the-console-s-certificates"><span>Issue the console&#39;s certificates</span>
+        <vox-toc-item slot="children" href="#the-openvoxdb-client-certificate"><span>The openvoxdb client certificate</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#the-node-transport-certificate"><span>The node transport certificate</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#the-token-signing-key"><span>The token signing key</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#the-certificate-admin-credential-optional"><span>The certificate-admin credential (optional)</span></vox-toc-item>
+      </vox-toc-item>
+      <vox-toc-item href="#build-the-console"><span>Build the console</span>
+      </vox-toc-item>
+      <vox-toc-item href="#configure-the-console"><span>Configure the console</span>
+        <vox-toc-item slot="children" href="#keep-secrets-in-files"><span>Keep secrets in files</span></vox-toc-item>
+      </vox-toc-item>
+      <vox-toc-item href="#run-it-under-systemd"><span>Run it under systemd</span>
+      </vox-toc-item>
+      <vox-toc-item href="#log-in-for-the-first-time"><span>Log in for the first time</span>
+      </vox-toc-item>
+      <vox-toc-item href="#connect-classification"><span>Connect classification</span>
+        <vox-toc-item slot="children" href="#issue-enc-bridge-a-token"><span>Issue enc-bridge a token</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#install-enc-bridge-on-openvoxserver-s-host"><span>Install enc-bridge on openvoxserver&#39;s host</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#check-classification"><span>Check classification</span></vox-toc-item>
+      </vox-toc-item>
+      <vox-toc-item href="#upgrade-later"><span>Upgrade later</span>
+      </vox-toc-item>
+      <vox-toc-item href="#check-the-whole-deployment"><span>Check the whole deployment</span>
+      </vox-toc-item>
+      </vox-toc>
+  </div>
+  </div>
 
       </div>
 
@@ -669,6 +675,14 @@ sudo systemctl restart openvox-console
       </vox-cta-band>
     </main>
 
+    
+    <dialog class="lightbox" aria-label="Full-size screenshot">
+      <div class="lightbox-bar">
+        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+      </div>
+      <img class="lightbox-image" alt=""/>
+    </dialog>
+
     <vox-footer>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">نظرة عامة</a>
@@ -682,6 +696,7 @@ sudo systemctl restart openvox-console
         <a href="../features/orchestration.html">التنسيق</a>
         <a href="../features/security.html">الأمان</a>
         <a href="../features/access-control.html">التحكم في الوصول</a>
+        <a href="../features/scaling.html">Scaling</a>
         </vox-footer-column>
       
       <vox-footer-column heading="اللغة">

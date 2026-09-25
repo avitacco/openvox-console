@@ -82,6 +82,7 @@
     <link rel="stylesheet" href="../site.css"/>
     <script type="module" src="../vendor/voxblocks.js"></script>
     <script type="module" src="../theme.js"></script>
+    <script type="module" src="../lightbox.js"></script>
     <script type="module" src="../guides.js"></script>
   </head>
   <body>
@@ -121,6 +122,7 @@
       <a href="../features/orchestration.html">Orchestration</a>
       <a href="../features/security.html">Security</a>
       <a href="../features/access-control.html">Access control</a>
+      <a href="../features/scaling.html">Scaling</a>
       </vox-subnav>
     </div>
 
@@ -164,16 +166,6 @@
     
     
 
-    <vox-toc class="guide-toc" heading="On this page">
-      <vox-toc-item href="#check-the-standby-before-you-need-it"><span>Check the standby before you need it</span>
-      </vox-toc-item>
-      <vox-toc-item href="#promote-the-standby"><span>Promote the standby</span>
-      </vox-toc-item>
-      <vox-toc-item href="#point-the-console-at-it"><span>Point the console at it</span>
-      </vox-toc-item>
-      <vox-toc-item href="#confirm-the-console-recovered"><span>Confirm the console recovered</span>
-      </vox-toc-item>
-      </vox-toc>
     <div class="guide-body vox-prose">
 <p>The console keeps everything durable in its Postgres database, and
 nothing in the console itself needs recovering. So losing the primary
@@ -213,7 +205,21 @@ database, so it proves writes work, not only reads.</p>
 
     <vox-series-nav label="Operate" previous-text="Previous" next-text="Next" next-href="../guides/rotate-signing-key.html" next-label="Rotate the token signing key"></vox-series-nav>
   </article>
-</div>
+
+  
+  <div class="guide-toc-rail">
+    <vox-toc heading="On this page">
+      <vox-toc-item href="#check-the-standby-before-you-need-it"><span>Check the standby before you need it</span>
+      </vox-toc-item>
+      <vox-toc-item href="#promote-the-standby"><span>Promote the standby</span>
+      </vox-toc-item>
+      <vox-toc-item href="#point-the-console-at-it"><span>Point the console at it</span>
+      </vox-toc-item>
+      <vox-toc-item href="#confirm-the-console-recovered"><span>Confirm the console recovered</span>
+      </vox-toc-item>
+      </vox-toc>
+  </div>
+  </div>
 
       </div>
 
@@ -232,6 +238,14 @@ database, so it proves writes work, not only reads.</p>
       </vox-cta-band>
     </main>
 
+    
+    <dialog class="lightbox" aria-label="Full-size screenshot">
+      <div class="lightbox-bar">
+        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+      </div>
+      <img class="lightbox-image" alt=""/>
+    </dialog>
+
     <vox-footer>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">Overview</a>
@@ -245,6 +259,7 @@ database, so it proves writes work, not only reads.</p>
         <a href="../features/orchestration.html">Orchestration</a>
         <a href="../features/security.html">Security</a>
         <a href="../features/access-control.html">Access control</a>
+        <a href="../features/scaling.html">Scaling</a>
         </vox-footer-column>
       
       <vox-footer-column heading="Language">

@@ -19,7 +19,9 @@ import (
 //     other theme briefly and a screenshot can catch it.
 //   - Date must be replaced before any script reads it, since the
 //     console formats timestamps as the page renders.
-func initScript(theme shots.Theme, tokens tokenPair, locale string) string {
+//
+// With liveClock the clock is left running: see shots.Shot.LiveClock.
+func initScript(theme shots.Theme, tokens tokenPair, locale string, liveClock bool) string {
 	return fmt.Sprintf(`
 (() => {
   // --- session -------------------------------------------------
@@ -64,6 +66,7 @@ func initScript(theme shots.Theme, tokens tokenPair, locale string) string {
   // Date is replaced rather than the DevTools virtual-time policy
   // being paused: pausing virtual time also stops the timers the page
   // needs to finish loading, which turns a screenshot into a hang.
+  if (%t) return;
   const fixed = %d;
   const RealDate = Date;
   function FrozenDate(...args) {
@@ -77,7 +80,7 @@ func initScript(theme shots.Theme, tokens tokenPair, locale string) string {
   Object.defineProperty(FrozenDate, 'name', { value: 'Date' });
   window.Date = FrozenDate;
 })()
-`, tokens.AccessToken, tokens.RefreshToken, locale, locale, theme, theme, demodata.InstantMillis())
+`, tokens.AccessToken, tokens.RefreshToken, locale, locale, theme, theme, liveClock, demodata.InstantMillis())
 }
 
 // stillnessCSS removes every source of motion and of per-frame

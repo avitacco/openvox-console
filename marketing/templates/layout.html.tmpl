@@ -104,6 +104,7 @@
     <link rel="stylesheet" href="{{asset "site.css"}}" />
     <script type="module" src="{{asset "vendor/voxblocks.js"}}"></script>
     <script type="module" src="{{asset "theme.js"}}"></script>
+    <script type="module" src="{{asset "lightbox.js"}}"></script>
     {{if .GuideView}}<script type="module" src="{{asset "guides.js"}}"></script>{{end}}
   </head>
   <body>
@@ -204,6 +205,17 @@
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank" data-i18n>Container images</vox-cta>
       </vox-cta-band>
     </main>
+
+    {{/* The full-size screenshot viewer (lightbox.js). A native dialog:
+         vox-dialog's width is fixed for forms and cannot be widened to
+         a screenshot, and the native element gives the same focus
+         trapping and Escape-to-close. Closed, it renders nothing. */}}
+    <dialog class="lightbox" aria-label="Full-size screenshot" data-i18n-attr="aria-label">
+      <div class="lightbox-bar">
+        <vox-button class="lightbox-close" size="sm" data-i18n>Close</vox-button>
+      </div>
+      <img class="lightbox-image" alt="" />
+    </dialog>
 
     <vox-footer>
       <vox-footer-column heading="OpenVox Console">

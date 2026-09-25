@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="fr" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Déployez du code Puppet depuis un ou plusieurs dépôts de contrôle, avec une trace de chaque déploiement."/>
+    <meta name="description" content="Deploy Puppet code from one or many control repositories, and see which nodes each repository&#39;s code actually reaches."/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
@@ -58,6 +58,7 @@
     <link rel="stylesheet" href="../../site.css"/>
     <script type="module" src="../../vendor/voxblocks.js"></script>
     <script type="module" src="../../theme.js"></script>
+    <script type="module" src="../../lightbox.js"></script>
     
   </head>
   <body>
@@ -97,6 +98,7 @@
       <a href="../features/orchestration.html">Orchestration</a>
       <a href="../features/security.html">Sécurité</a>
       <a href="../features/access-control.html">Contrôle d&#39;accès</a>
+      <a href="../features/scaling.html">Scaling</a>
       </vox-subnav>
     </div>
 
@@ -105,6 +107,24 @@
 <vox-hero eyebrow="Déploiement de code" heading="Livrez votre code Puppet">
   <p>Déployez des Environments depuis un dépôt de contrôle avec g10k, intégré. À la demande ou directement depuis un push, avec une trace de chaque déploiement.</p>
 </vox-hero>
+
+<section class="site-section">
+  <h2 class="vox-ts-xxl">See what your deploys actually reach</h2>
+  <div class="vox-prose">
+    <p>A successful deploy says the code arrived, not that anything is running it. For every repository, the console shows the environments it has deployed, how large they are, when it last deployed, and two counts side by side: the nodes classification sends to its environments, and the nodes actually running from them.</p>
+    <p>The gap between them is the useful part. Assigned but not reporting means a deploy that has not reached its nodes yet; reporting but not assigned means nodes running code nothing sends them to, usually an environment left behind. The console names those states rather than leaving you to compare numbers.</p>
+  </div>
+</section>
+
+<figure class="shot">
+  <a class="shot-link" href="../../assets/screenshots/code-repositories-light-fr.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/code-repositories-dark-fr.png" data-theme-dark="../../assets/screenshots/code-repositories-dark-fr.png" data-theme-light="../../assets/screenshots/code-repositories-light-fr.png"/>
+      <img src="../../assets/screenshots/code-repositories-light-fr.png" alt="Code repositories, each showing the environments it has deployed, its size, when it last deployed, and how many nodes are assigned to its environments against how many are running from them" width="1440"/>
+    </picture>
+    <span class="vox-sr-only">Open full size</span>
+  </a>
+</figure>
 
 <section class="site-section">
   <h2 class="vox-ts-xxl">Un dépôt de contrôle, ou un par équipe</h2>
@@ -129,10 +149,13 @@
 </section>
 
 <figure class="shot">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/code-deploys-dark-fr.png" data-theme-dark="../../assets/screenshots/code-deploys-dark-fr.png" data-theme-light="../../assets/screenshots/code-deploys-light-fr.png"/>
-    <img src="../../assets/screenshots/code-deploys-light-fr.png" alt="Code deployment history showing successful deploys from two separate control repositories, each with the source it came from, the environment it wrote, its ref, who triggered it and when it ran" width="1440"/>
-  </picture>
+  <a class="shot-link" href="../../assets/screenshots/code-deploys-light-fr.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/code-deploys-dark-fr.png" data-theme-dark="../../assets/screenshots/code-deploys-dark-fr.png" data-theme-light="../../assets/screenshots/code-deploys-light-fr.png"/>
+      <img src="../../assets/screenshots/code-deploys-light-fr.png" alt="Code deployment history showing successful deploys from two separate control repositories, each with the source it came from, the environment it wrote, its ref, who triggered it and when it ran" width="1440"/>
+    </picture>
+    <span class="vox-sr-only">Open full size</span>
+  </a>
 </figure>
 
 <vox-callout variant="tip" heading="Les webhooks sont par source">
@@ -163,6 +186,14 @@
       </vox-cta-band>
     </main>
 
+    
+    <dialog class="lightbox" aria-label="Full-size screenshot">
+      <div class="lightbox-bar">
+        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+      </div>
+      <img class="lightbox-image" alt=""/>
+    </dialog>
+
     <vox-footer>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">Aperçu</a>
@@ -176,6 +207,7 @@
         <a href="../features/orchestration.html">Orchestration</a>
         <a href="../features/security.html">Sécurité</a>
         <a href="../features/access-control.html">Contrôle d&#39;accès</a>
+        <a href="../features/scaling.html">Scaling</a>
         </vox-footer-column>
       
       <vox-footer-column heading="Langue">

@@ -49,6 +49,7 @@ var basePages = []string{
 	"features/orchestration.html",
 	"features/security.html",
 	"features/access-control.html",
+	"features/scaling.html",
 	"guides/index.html",
 }
 

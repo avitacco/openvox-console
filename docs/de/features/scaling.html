@@ -1,0 +1,242 @@
+<!DOCTYPE html><html lang="de" dir="ltr"><head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="One binary that runs as a single instance or a clustered fleet of web, worker, orchestrator and ENC instances."/>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+    <title>Scaling - OpenVox Console</title>
+
+    
+    <script>
+      (function () {
+        
+        
+        var stored = null;
+        try { stored = localStorage.getItem('vox-theme'); } catch (e) {}
+        var theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-vox-theme', theme);
+      })();
+    </script>
+    <style>
+      html { background-color: #f5faf9; }
+      html[data-vox-theme='dark'] { background-color: #0d1417; }
+    </style>
+
+    
+    <script>
+      (function () {
+        var LOCALES = ["en", "zh", "hi", "es", "fr", "de", "ja", "ar", ];
+        var KEY = 'vox-lang';
+
+        function stored() {
+          
+          
+          try { return localStorage.getItem(KEY); } catch (e) { return null; }
+        }
+
+        
+        
+        
+        
+        
+        document.addEventListener('click', function (event) {
+          var path = event.composedPath ? event.composedPath() : [event.target];
+          for (var i = 0; i < path.length; i++) {
+            var code = path[i].getAttribute && path[i].getAttribute('data-lang');
+            if (code) {
+              try { localStorage.setItem(KEY, code); } catch (e) {}
+              return;
+            }
+          }
+        });
+        
+      })();
+    </script>
+
+    <link rel="stylesheet" href="../../vendor/voxblocks.css"/>
+    <link rel="stylesheet" href="../../site.css"/>
+    <script type="module" src="../../vendor/voxblocks.js"></script>
+    <script type="module" src="../../theme.js"></script>
+    <script type="module" src="../../lightbox.js"></script>
+    
+  </head>
+  <body>
+    
+    <a class="skip-link" href="#main">Zum Inhalt springen</a>
+
+    <vox-header site-title="OpenVox Console" href="../index.html">
+      
+      <svg slot="logo" viewBox="0 0 2560 2478" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M1946.22 272.18L1874.51 643.161C1840.69 625.335 1769.51 597.048 1744.63 592.202L1946.22 272.18ZM1647.05 893.509C1735.54 894.748 1789.05 935.815 1845.35 1010.52C1716.57 1047.71 1641.84 987.053 1586.85 899.704C1600.03 898.445 1634.39 893.339 1647.05 893.509ZM1421.62 600.655C1288.19 638.415 1170.91 730.251 1126.1 808.997C1126.1 808.997 1186.31 336.289 1244.88 158.652C1315.83 282.552 1421.62 600.655 1421.62 600.655ZM2477.39 1158.21C2342.39 1125.61 2074.76 1042.77 2053.7 881.139C2043.59 803.362 1980.86 717.271 1947.86 694.589L2004.72 106.064L1517.51 580.681C1517.51 580.681 1358.55 170.153 1243.89 0C1100.67 241.805 932.123 707.949 896.253 809.107L1227.33 1744.42C1243.68 1615.28 1328.09 1472.06 1428.27 1381.86C1350.61 1280.89 1210.56 1250.76 1151.7 1289.73C1228.31 1186.22 1376.21 1050.44 1651.27 1124.86C1773.51 1157.92 1898.72 1222.92 1978.75 1240.54C2184.12 1285.76 2337.81 1231.2 2337.81 1231.2C2336.23 1279.58 2360.5 1315.47 2410.61 1338.87C2196.05 1539.04 1914.11 1376.52 1715.51 1407.29C1514.8 1438.43 1238.87 2011.65 1201.73 2093.07L593.825 394.322L584.775 369.242C535.086 234.271 451.316 124.12 296.898 124.12H0V473.618H92.0793C145.649 473.618 170.849 489.355 189.769 542.882L903.123 2478H1248.99L1312.45 2324.93L1556.24 1812.6C1660.38 1581.57 1765.81 1518.18 2072.12 1531.73C2162.6 1535.73 2349.93 1537.27 2457.29 1405.96C2611.96 1216.8 2569.29 1180.38 2477.43 1158.16" fill="currentColor"></path>
+      </svg>
+      
+      <nav slot="actions" class="lang-switcher" aria-label="Sprache">
+        <vox-dropdown label="Deutsch">
+          <a data-lang="en" href="../../features/scaling.html" hreflang="en" lang="en">English</a>
+          <a data-lang="zh" href="../../zh/features/scaling.html" hreflang="zh" lang="zh">中文</a>
+          <a data-lang="hi" href="../../hi/features/scaling.html" hreflang="hi" lang="hi">हिन्दी</a>
+          <a data-lang="es" href="../../es/features/scaling.html" hreflang="es" lang="es">Español</a>
+          <a data-lang="fr" href="../../fr/features/scaling.html" hreflang="fr" lang="fr">Français</a>
+          <a aria-current="page" data-lang="de" href="../../de/features/scaling.html" hreflang="de" lang="de">Deutsch</a>
+          <a data-lang="ja" href="../../ja/features/scaling.html" hreflang="ja" lang="ja">日本語</a>
+          <a data-lang="ar" href="../../ar/features/scaling.html" hreflang="ar" lang="ar">العربية</a>
+          </vox-dropdown>
+      </nav>
+      <vox-theme-toggle slot="actions"></vox-theme-toggle>
+      
+      <a href="../guides/index.html" slot="actions">Guides</a>
+      <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
+    </vox-header>
+
+    <div class="site-subnav">
+      <vox-subnav label="Funktionen" class="vox-container">
+      
+      <a href="../features/nodes.html">Nodes</a>
+      <a href="../features/classification.html">Klassifizierung</a>
+      <a href="../features/code.html">Code</a>
+      <a href="../features/orchestration.html">Orchestrierung</a>
+      <a href="../features/security.html">Sicherheit</a>
+      <a href="../features/access-control.html">Zugriffskontrolle</a>
+      <a aria-current="page" href="../features/scaling.html">Scaling</a>
+      </vox-subnav>
+    </div>
+
+    <main id="main">
+      <div class="site-main vox-container">
+<vox-hero eyebrow="Scaling" heading="Start with one binary. Scale out when you need to.">
+  <p>The console is one Go binary, and one container image. The same binary runs a single all-in-one instance, or a fleet of instances each doing one job.</p>
+</vox-hero>
+
+<section class="site-section">
+  <h2 class="vox-ts-xxl">One instance to begin with</h2>
+  <div class="vox-prose">
+    <p>The console, access control, classification, orchestration and code deployment run in one process by default. There is nothing to wire together, no internal services to keep in step, and one thing to upgrade.</p>
+  </div>
+</section>
+
+<section class="site-section">
+  <h2 class="vox-ts-xxl">Split it by job when the fleet grows</h2>
+  <div class="vox-prose">
+    <p>One setting chooses what an instance runs, so each part can be scaled and placed on its own. Everything durable lives in Postgres, so any number of each can run at once.</p>
+  </div>
+</section>
+
+<vox-grid min="220px" gap="lg">
+  <vox-card heading="Web">
+    <vox-icon slot="icon" name="dashboard"></vox-icon>
+    <span>The console and its API, behind your load balancer.</span>
+  </vox-card>
+  <vox-card heading="Orchestrator">
+    <vox-icon slot="icon" name="orchestrate"></vox-icon>
+    <span>Holds the connections to your nodes and runs the jobs sent down them.</span>
+  </vox-card>
+  <vox-card heading="Worker">
+    <vox-icon slot="icon" name="schedule"></vox-icon>
+    <span>Background work, such as vulnerability syncs, done exactly once however many run.</span>
+  </vox-card>
+  <vox-card heading="ENC">
+    <vox-icon slot="icon" name="classifier"></vox-icon>
+    <span>Classification only, running beside your compilers.</span>
+  </vox-card>
+</vox-grid>
+
+<section class="site-section">
+  <h2 class="vox-ts-xxl">Clustered, and secured by default</h2>
+  <div class="vox-prose">
+    <p>Instances join one cluster over mutual TLS, using the certificates your OpenVox CA already issues. A revoked login or node certificate is refused by every instance at once, and a job started on any instance reaches a node connected to any other.</p>
+    <p>Classification instances attach from the outside in: the connection runs from beside the compilers to the core, so the core never needs a way into that network, and those instances never carry node traffic.</p>
+  </div>
+</section>
+
+<section class="site-section">
+  <h2 class="vox-ts-xxl">The whole fleet on one page</h2>
+  <div class="vox-prose">
+    <p>The System page asks every instance to describe itself: its run mode, health, uptime and background work, and how it sees each service the console depends on. An instance that should have answered and did not is called out rather than left off.</p>
+  </div>
+</section>
+
+<figure class="shot">
+  <a class="shot-link" href="../../assets/screenshots/fleet-status-light-de.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/fleet-status-dark-de.png" data-theme-dark="../../assets/screenshots/fleet-status-dark-de.png" data-theme-light="../../assets/screenshots/fleet-status-light-de.png"/>
+      <img src="../../assets/screenshots/fleet-status-light-de.png" alt="The System page&#39;s fleet status, listing every running console instance grouped by run mode - an all-in-one instance, a worker, an orchestrator and an ENC instance - with each one&#39;s health, uptime and background work, and the health of every service the console depends on" width="1440"/>
+    </picture>
+    <span class="vox-sr-only">Open full size</span>
+  </a>
+</figure>
+
+<vox-callout variant="tip" heading="Grow into it one step at a time">
+  <p>Add a second all-in-one instance first, then split roles out as load demands. Every step can be undone by setting an instance back to running everything.</p>
+</vox-callout>
+
+      
+      <section class="site-section do-it" aria-labelledby="do-it-heading">
+        <h2 id="do-it-heading" class="vox-ts-xxl">Do it</h2>
+        <vox-grid min="16rem">
+          <vox-card heading="Run modes" href="../guides/run-modes.html"><p>What each of the console&#39;s run modes serves and runs, and what each one needs configured.</p></vox-card>
+          <vox-card heading="Run more instances" href="../guides/cluster.html"><p>Cluster a second console instance, split instances into run modes, and place classification next to the compilers.</p></vox-card>
+          </vox-grid>
+      </section>
+      </div>
+
+      
+      <vox-cta-band heading="Selbst ausführen">
+      <p>
+        OpenVox Console ships as container images, built for amd64 and
+        arm64 on every push, and as a single binary. The install guides
+        take you from an empty host to a working deployment -
+        openvoxserver, openvoxdb, Postgres and the console - with
+        containers or with packages.
+      </p>
+      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">Quellcode auf GitHub</vox-cta>
+      <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">Container-Images</vox-cta>
+      </vox-cta-band>
+    </main>
+
+    
+    <dialog class="lightbox" aria-label="Full-size screenshot">
+      <div class="lightbox-bar">
+        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+      </div>
+      <img class="lightbox-image" alt=""/>
+    </dialog>
+
+    <vox-footer>
+      <vox-footer-column heading="OpenVox Console">
+        <a href="../index.html">Überblick</a>
+        <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">Quellcode</a>
+        <a href="../guides/index.html#install">Install guides</a>
+      </vox-footer-column>
+      <vox-footer-column heading="Funktionen">
+        <a href="../features/nodes.html">Nodes</a>
+        <a href="../features/classification.html">Klassifizierung</a>
+        <a href="../features/code.html">Code</a>
+        <a href="../features/orchestration.html">Orchestrierung</a>
+        <a href="../features/security.html">Sicherheit</a>
+        <a href="../features/access-control.html">Zugriffskontrolle</a>
+        <a href="../features/scaling.html">Scaling</a>
+        </vox-footer-column>
+      
+      <vox-footer-column heading="Sprache">
+        <a href="../../features/scaling.html" hreflang="en" lang="en">English</a>
+        <a href="../../zh/features/scaling.html" hreflang="zh" lang="zh">中文</a>
+        <a href="../../hi/features/scaling.html" hreflang="hi" lang="hi">हिन्दी</a>
+        <a href="../../es/features/scaling.html" hreflang="es" lang="es">Español</a>
+        <a href="../../fr/features/scaling.html" hreflang="fr" lang="fr">Français</a>
+        <a href="../../ja/features/scaling.html" hreflang="ja" lang="ja">日本語</a>
+        <a href="../../ar/features/scaling.html" hreflang="ar" lang="ar">العربية</a>
+        </vox-footer-column>
+      <vox-footer-column heading="OpenVox">
+        <a href="https://openvoxproject.github.io/" rel="noopener" target="_blank">OpenVox project</a>
+        <a href="https://github.com/voxpupuli" rel="noopener" target="_blank">Vox Pupuli</a>
+      </vox-footer-column>
+      <div slot="bottom" class="footer-note">
+        <span>Lizenziert unter GPL-3.0</span>
+        <span>Die Screenshots zeigen die Konsole im Betrieb gegen eine synthetische Demo-Flotte.</span>
+      </div>
+    </vox-footer>
+  
+
+</body></html>

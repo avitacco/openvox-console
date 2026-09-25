@@ -58,6 +58,7 @@
     <link rel="stylesheet" href="../site.css"/>
     <script type="module" src="../vendor/voxblocks.js"></script>
     <script type="module" src="../theme.js"></script>
+    <script type="module" src="../lightbox.js"></script>
     
   </head>
   <body>
@@ -97,6 +98,7 @@
       <a href="./features/orchestration.html">编排</a>
       <a href="./features/security.html">安全</a>
       <a href="./features/access-control.html">访问控制</a>
+      <a href="./features/scaling.html">Scaling</a>
       </vox-subnav>
     </div>
 
@@ -104,15 +106,18 @@
       <div class="site-main vox-container">
 <vox-hero eyebrow="OpenVox Console" heading="你的整个机群，尽在一处">
   <p>查看每个 Node，决定什么在哪里运行，deploy 你的代码，并对返回的结果采取行动。面向 OpenVox 的 Puppet Enterprise 控制台——一个 Go 二进制文件，运行在你已有的 openvox-server 和 openvoxdb 之上。</p>
-  <vox-cta slot="actions" href="#capabilities">看看它能做什么</vox-cta>
+  <vox-cta slot="actions" href="#highlights">看看它能做什么</vox-cta>
   <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">在 GitHub 上获取</vox-cta>
 </vox-hero>
 
 <figure class="shot">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="../assets/screenshots/dashboard-dark-zh.png" data-theme-dark="../assets/screenshots/dashboard-dark-zh.png" data-theme-light="../assets/screenshots/dashboard-light-zh.png"/>
-    <img src="../assets/screenshots/dashboard-light-zh.png" alt="The OpenVox Console dashboard showing fleet run status across 26 nodes, with counts of unchanged, changed and failed runs, recent jobs and recent activity" width="1440"/>
-  </picture>
+  <a class="shot-link" href="../assets/screenshots/dashboard-light-zh.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="../assets/screenshots/dashboard-dark-zh.png" data-theme-dark="../assets/screenshots/dashboard-dark-zh.png" data-theme-light="../assets/screenshots/dashboard-light-zh.png"/>
+      <img src="../assets/screenshots/dashboard-light-zh.png" alt="The OpenVox Console dashboard showing fleet run status across 26 nodes, with counts of unchanged, changed and failed runs, recent jobs and recent activity" width="1440"/>
+    </picture>
+    <span class="vox-sr-only">Open full size</span>
+  </a>
 </figure>
 
 <vox-grid min="200px" gap="lg">
@@ -121,11 +126,91 @@
   <vox-stat value="GPL-3.0" label="自由且开源"></vox-stat>
 </vox-grid>
 
-<section class="site-section" id="capabilities">
-  <h2 class="vox-ts-xxl">它能做什么</h2>
+
+<section class="site-section" id="highlights">
+  <h2 class="vox-ts-xxl">Why teams choose it</h2>
   <div class="vox-prose">
-    <p>下面每个页面展示的都是控制台本身，截取自一个运行中的实例。</p>
+    <p>Every picture below is the console itself, captured from a running instance.</p>
   </div>
+</section>
+
+<vox-billboard class="highlight" heading="Know what is vulnerable, across the fleet">
+  <div slot="media"><figure class="shot">
+  <a class="shot-link" href="../assets/screenshots/vulnerabilities-light-zh.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="../assets/screenshots/vulnerabilities-dark-zh.png" data-theme-dark="../assets/screenshots/vulnerabilities-dark-zh.png" data-theme-light="../assets/screenshots/vulnerabilities-light-zh.png"/>
+      <img src="../assets/screenshots/vulnerabilities-light-zh.png" alt="Vulnerability findings across the fleet, ordered by severity, showing affected node counts and whether a fix is available" width="1440"/>
+    </picture>
+    <span class="vox-sr-only">Open full size</span>
+  </a>
+</figure></div>
+  <p>Every package every node reports, matched against known vulnerabilities from OSV — or your own mirror of it, for sites with no way out — and from Tenable, merged into one list. See what patching would fix first. A node nobody could assess is shown as exactly that, never as clean.</p>
+  <vox-cta slot="actions" href="features/security.html">Vulnerability tracking</vox-cta>
+  <vox-cta slot="actions" href="guides/vulnerabilities.html">Set up a provider</vox-cta>
+</vox-billboard>
+
+<vox-billboard class="highlight" reverse="" heading="Sign in with the identity provider you already use">
+  <div slot="media"><figure class="shot">
+  <a class="shot-link" href="../assets/screenshots/roles-light-zh.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="../assets/screenshots/roles-dark-zh.png" data-theme-dark="../assets/screenshots/roles-dark-zh.png" data-theme-light="../assets/screenshots/roles-light-zh.png"/>
+      <img src="../assets/screenshots/roles-light-zh.png" alt="Role-based access control showing roles and the specific permissions each one grants" width="1440"/>
+    </picture>
+    <span class="vox-sr-only">Open full size</span>
+  </a>
+</figure></div>
+  <p>Single sign-on through OpenID Connect, with your provider&#39;s groups mapped onto console roles at every sign-in. Roles are plain sets of permissions, so people see exactly what their job needs. Automation gets service tokens of its own, and every change is on the record.</p>
+  <vox-cta slot="actions" href="features/access-control.html">访问控制</vox-cta>
+  <vox-cta slot="actions" href="guides/access.html">Connect your provider</vox-cta>
+</vox-billboard>
+
+<vox-billboard class="highlight" heading="One binary that scales out when you need it">
+  <div slot="media"><figure class="shot">
+  <a class="shot-link" href="../assets/screenshots/fleet-status-light-zh.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="../assets/screenshots/fleet-status-dark-zh.png" data-theme-dark="../assets/screenshots/fleet-status-dark-zh.png" data-theme-light="../assets/screenshots/fleet-status-light-zh.png"/>
+      <img src="../assets/screenshots/fleet-status-light-zh.png" alt="The System page&#39;s fleet status, listing every running console instance grouped by run mode - an all-in-one instance, a worker, an orchestrator and an ENC instance - with each one&#39;s health, uptime and background work, and the health of every service the console depends on" width="1440"/>
+    </picture>
+    <span class="vox-sr-only">Open full size</span>
+  </a>
+</figure></div>
+  <p>Start with one instance. When the fleet grows, run the same image as separate web, worker and orchestrator instances, clustered with mutual TLS, and put classification right beside your compilers. Everything durable lives in Postgres, so instances come and go behind a load balancer, and one page shows the whole fleet of them.</p>
+  <vox-cta slot="actions" href="features/scaling.html">Scaling</vox-cta>
+  <vox-cta slot="actions" href="guides/cluster.html">Run more instances</vox-cta>
+</vox-billboard>
+
+<vox-billboard class="highlight" reverse="" heading="Run Puppet now, on the nodes you choose">
+  <div slot="media"><figure class="shot">
+  <a class="shot-link" href="../assets/screenshots/jobs-list-light-zh.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="../assets/screenshots/jobs-list-dark-zh.png" data-theme-dark="../assets/screenshots/jobs-list-dark-zh.png" data-theme-light="../assets/screenshots/jobs-list-light-zh.png"/>
+      <img src="../assets/screenshots/jobs-list-light-zh.png" alt="Orchestration job history listing ad-hoc runs, tasks and plans with the nodes each targeted and whether it succeeded" width="1440"/>
+    </picture>
+    <span class="vox-sr-only">Open full size</span>
+  </a>
+</figure></div>
+  <p>Run Puppet on one node, a selection, or every node a group matches, without waiting for the next scheduled run. Each node&#39;s result comes back on its own — status, output and a link to the report it produced — and a node that was offline says so straight away.</p>
+  <vox-cta slot="actions" href="features/orchestration.html">编排</vox-cta>
+  <vox-cta slot="actions" href="guides/run-jobs.html">Run jobs</vox-cta>
+</vox-billboard>
+
+<vox-billboard class="highlight" heading="See what your code deploys actually reach">
+  <div slot="media"><figure class="shot">
+  <a class="shot-link" href="../assets/screenshots/code-repositories-light-zh.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="../assets/screenshots/code-repositories-dark-zh.png" data-theme-dark="../assets/screenshots/code-repositories-dark-zh.png" data-theme-light="../assets/screenshots/code-repositories-light-zh.png"/>
+      <img src="../assets/screenshots/code-repositories-light-zh.png" alt="Code repositories, each showing the environments it has deployed, its size, when it last deployed, and how many nodes are assigned to its environments against how many are running from them" width="1440"/>
+    </picture>
+    <span class="vox-sr-only">Open full size</span>
+  </a>
+</figure></div>
+  <p>Deploy from one control repository or one per team, on demand or on every push. Then see, for each repository, how many nodes are assigned to its environments against how many are actually running from them — the gap that says a deploy has not landed, or that nodes are running code nothing sends them to.</p>
+  <vox-cta slot="actions" href="features/code.html">代码 deploy</vox-cta>
+  <vox-cta slot="actions" href="guides/deploy-code.html">Deploy code</vox-cta>
+</vox-billboard>
+
+<section class="site-section" id="capabilities">
+  <h2 class="vox-ts-xxl">And the rest of a console</h2>
 </section>
 
 <vox-link-hub>
@@ -138,33 +223,12 @@
     <vox-icon slot="icon" name="node-group"></vox-icon>
     <span>基于规则的 Node 分组，决定哪些配置适用于何处。</span>
   </vox-link-hub-item>
-
-  <vox-link-hub-item href="features/code.html" heading="代码 deploy">
-    <vox-icon slot="icon" name="deploy"></vox-icon>
-    <span>按需或通过 webhook，从一个或多个 control 仓库分发 Puppet 代码。</span>
-  </vox-link-hub-item>
-
-  <vox-link-hub-item href="features/orchestration.html" heading="编排">
-    <vox-icon slot="icon" name="orchestrate"></vox-icon>
-    <span>在整个机群上运行 Puppet、Tasks 和 Plans，并查看每个 Node 做了什么。</span>
-  </vox-link-hub-item>
-
-  <vox-link-hub-item href="features/security.html" heading="软件包与漏洞">
-    <vox-icon slot="icon" name="vulnerability"></vox-icon>
-    <span>各处安装了什么，以及哪些公告会影响它。</span>
-  </vox-link-hub-item>
-
-  <vox-link-hub-item href="features/access-control.html" heading="访问控制与审计">
-    <vox-icon slot="icon" name="people"></vox-icon>
-    <span>角色、服务令牌，以及谁改了什么的记录。</span>
-  </vox-link-hub-item>
 </vox-link-hub>
 
 <section class="site-section">
-  <h2 class="vox-ts-xxl">只需运行一个二进制文件</h2>
+  <h2 class="vox-ts-xxl">Built on the stack you already run</h2>
   <div class="vox-prose">
-    <p>控制台、访问控制、分类、编排和代码 deploy 同属一个进程。没有需要拼接的东西，没有需要保持同步的内部服务，只有一样东西需要升级。</p>
-    <p>它构建在你已有的技术栈之上。openvox-server 仍然编译目录并运行 CA；openvoxdb 仍然存储 Facts 和 Reports。你的代理继续与现在完全相同的对象通信——控制台提供标准 ENC 约定，因此 Node 端无需做任何改动。</p>
+    <p>openvox-server still compiles catalogs and runs the CA; openvoxdb still stores facts and reports. Your agents carry on talking to exactly what they talk to now — the console serves the standard ENC contract, so there is nothing to change on the node side.</p>
   </div>
 </section>
 
@@ -189,6 +253,14 @@
       </vox-cta-band>
     </main>
 
+    
+    <dialog class="lightbox" aria-label="Full-size screenshot">
+      <div class="lightbox-bar">
+        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+      </div>
+      <img class="lightbox-image" alt=""/>
+    </dialog>
+
     <vox-footer>
       <vox-footer-column heading="OpenVox Console">
         <a href="./index.html">概览</a>
@@ -202,6 +274,7 @@
         <a href="./features/orchestration.html">编排</a>
         <a href="./features/security.html">安全</a>
         <a href="./features/access-control.html">访问控制</a>
+        <a href="./features/scaling.html">Scaling</a>
         </vox-footer-column>
       
       <vox-footer-column heading="语言">

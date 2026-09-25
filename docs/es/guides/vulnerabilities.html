@@ -58,6 +58,7 @@
     <link rel="stylesheet" href="../../site.css"/>
     <script type="module" src="../../vendor/voxblocks.js"></script>
     <script type="module" src="../../theme.js"></script>
+    <script type="module" src="../../lightbox.js"></script>
     <script type="module" src="../../guides.js"></script>
   </head>
   <body>
@@ -97,6 +98,7 @@
       <a href="../features/orchestration.html">Orquestación</a>
       <a href="../features/security.html">Seguridad</a>
       <a href="../features/access-control.html">Control de acceso</a>
+      <a href="../features/scaling.html">Scaling</a>
       </vox-subnav>
     </div>
 
@@ -142,21 +144,6 @@
       <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
     </vox-callout>
 
-    <vox-toc class="guide-toc" heading="On this page">
-      <vox-toc-item href="#choose-a-provider"><span>Choose a provider</span>
-      </vox-toc-item>
-      <vox-toc-item href="#prepare-for-credentials"><span>Prepare for credentials</span>
-      </vox-toc-item>
-      <vox-toc-item href="#add-a-provider"><span>Add a provider</span>
-        <vox-toc-item slot="children" href="#what-osv-downloads"><span>What OSV downloads</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#air-gapped-sites"><span>Air-gapped sites</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#tenable"><span>Tenable</span></vox-toc-item>
-      </vox-toc-item>
-      <vox-toc-item href="#read-the-findings"><span>Read the findings</span>
-      </vox-toc-item>
-      <vox-toc-item href="#what-to-expect-from-osv"><span>What to expect from OSV</span>
-      </vox-toc-item>
-      </vox-toc>
     <div class="guide-body vox-prose">
 <p>The console reports which nodes are affected by which known
 vulnerabilities, merged from one or more <strong>providers</strong>. It matches each
@@ -291,7 +278,26 @@ configuration files remain. Purge them on the node with
 
     <vox-series-nav label="Use" previous-text="Previous" next-text="Next" previous-href="../guides/access.html" previous-label="Users, roles and tokens"></vox-series-nav>
   </article>
-</div>
+
+  
+  <div class="guide-toc-rail">
+    <vox-toc heading="On this page">
+      <vox-toc-item href="#choose-a-provider"><span>Choose a provider</span>
+      </vox-toc-item>
+      <vox-toc-item href="#prepare-for-credentials"><span>Prepare for credentials</span>
+      </vox-toc-item>
+      <vox-toc-item href="#add-a-provider"><span>Add a provider</span>
+        <vox-toc-item slot="children" href="#what-osv-downloads"><span>What OSV downloads</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#air-gapped-sites"><span>Air-gapped sites</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#tenable"><span>Tenable</span></vox-toc-item>
+      </vox-toc-item>
+      <vox-toc-item href="#read-the-findings"><span>Read the findings</span>
+      </vox-toc-item>
+      <vox-toc-item href="#what-to-expect-from-osv"><span>What to expect from OSV</span>
+      </vox-toc-item>
+      </vox-toc>
+  </div>
+  </div>
 
       </div>
 
@@ -310,6 +316,14 @@ configuration files remain. Purge them on the node with
       </vox-cta-band>
     </main>
 
+    
+    <dialog class="lightbox" aria-label="Full-size screenshot">
+      <div class="lightbox-bar">
+        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+      </div>
+      <img class="lightbox-image" alt=""/>
+    </dialog>
+
     <vox-footer>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">Resumen</a>
@@ -323,6 +337,7 @@ configuration files remain. Purge them on the node with
         <a href="../features/orchestration.html">Orquestación</a>
         <a href="../features/security.html">Seguridad</a>
         <a href="../features/access-control.html">Control de acceso</a>
+        <a href="../features/scaling.html">Scaling</a>
         </vox-footer-column>
       
       <vox-footer-column heading="Idioma">

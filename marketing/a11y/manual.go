@@ -108,6 +108,10 @@ func checkTextSpacing(alloc context.Context, base string, pages []string) ([]str
 					// Overflow is only a failure when the element clips it.
 					const style = getComputedStyle(el);
 					if (style.overflow === 'visible' && style.overflowY === 'visible') continue;
+					// Screen-reader-only text is clipped on purpose: it is
+					// never shown, so SC 1.4.12, which is about visible
+					// text, does not apply to it.
+					if (el.classList.contains('vox-sr-only')) continue;
 					if (el.scrollHeight > el.clientHeight + 2) {
 						out.push(el.tagName.toLowerCase() + ': ' + (el.textContent || '').trim().slice(0, 40));
 					}

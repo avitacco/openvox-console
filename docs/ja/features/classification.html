@@ -58,6 +58,7 @@
     <link rel="stylesheet" href="../../site.css"/>
     <script type="module" src="../../vendor/voxblocks.js"></script>
     <script type="module" src="../../theme.js"></script>
+    <script type="module" src="../../lightbox.js"></script>
     
   </head>
   <body>
@@ -97,6 +98,7 @@
       <a href="../features/orchestration.html">オーケストレーション</a>
       <a href="../features/security.html">セキュリティ</a>
       <a href="../features/access-control.html">アクセス制御</a>
+      <a href="../features/scaling.html">Scaling</a>
       </vox-subnav>
     </div>
 
@@ -114,10 +116,13 @@
 </section>
 
 <figure class="shot">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/groups-list-dark-ja.png" data-theme-dark="../../assets/screenshots/groups-list-dark-ja.png" data-theme-light="../../assets/screenshots/groups-list-light-ja.png"/>
-    <img src="../../assets/screenshots/groups-list-light-ja.png" alt="Node groups listed with their environment, priority and the number of nodes each rule currently matches" width="1440"/>
-  </picture>
+  <a class="shot-link" href="../../assets/screenshots/groups-list-light-ja.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/groups-list-dark-ja.png" data-theme-dark="../../assets/screenshots/groups-list-dark-ja.png" data-theme-light="../../assets/screenshots/groups-list-light-ja.png"/>
+      <img src="../../assets/screenshots/groups-list-light-ja.png" alt="Node groups listed with their environment, priority and the number of nodes each rule currently matches" width="1440"/>
+    </picture>
+    <span class="vox-sr-only">Open full size</span>
+  </a>
 </figure>
 
 <section class="site-section">
@@ -162,6 +167,14 @@
       </vox-cta-band>
     </main>
 
+    
+    <dialog class="lightbox" aria-label="Full-size screenshot">
+      <div class="lightbox-bar">
+        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+      </div>
+      <img class="lightbox-image" alt=""/>
+    </dialog>
+
     <vox-footer>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">概要</a>
@@ -175,6 +188,7 @@
         <a href="../features/orchestration.html">オーケストレーション</a>
         <a href="../features/security.html">セキュリティ</a>
         <a href="../features/access-control.html">アクセス制御</a>
+        <a href="../features/scaling.html">Scaling</a>
         </vox-footer-column>
       
       <vox-footer-column heading="言語">
