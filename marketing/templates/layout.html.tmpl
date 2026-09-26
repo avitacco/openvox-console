@@ -28,7 +28,25 @@
     <style>
       html { background-color: #f5faf9; }
       html[data-vox-theme='dark'] { background-color: #0d1417; }
+      html:not([data-vox-ready]) body { visibility: hidden; }
     </style>
+    {{/* The page is hidden until its components can render, the same way
+         the console's own layout does it. voxblocks.js is a module, so it
+         runs only after the page has been parsed - and until it has, every
+         vox-* element is unstyled light DOM: raw links, bare text, the
+         footer's columns run together. theme.js marks the page ready; it
+         is a module too, and modules run in order, so every component is
+         registered by then.
+
+         Two ways out, so a failure never leaves a blank page: without
+         JavaScript nothing is hidden at all, and a script that never
+         loads is outlasted by the timeout. */}}
+    <noscript><style>body { visibility: visible !important; }</style></noscript>
+    <script>
+      setTimeout(function () {
+        document.documentElement.setAttribute('data-vox-ready', '');
+      }, 2000);
+    </script>
 
     {{/* Language selection, in the same pre-paint position as the theme
          script above and for the same reason: a visitor who is about to

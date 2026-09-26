@@ -78,3 +78,10 @@ new MutationObserver(sync).observe(document.documentElement, {
 });
 
 document.addEventListener('DOMContentLoaded', sync);
+
+// Reveals the page, which the layout's <head> hides until its
+// components can render (see layout.html.tmpl). This module runs after
+// voxblocks.js, since module scripts run in document order, so every
+// component is registered by now, and each renders before the next
+// paint. The attribute is the console's own name for the same thing.
+document.documentElement.setAttribute('data-vox-ready', '');

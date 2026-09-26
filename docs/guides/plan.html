@@ -21,7 +21,15 @@
     <style>
       html { background-color: #f5faf9; }
       html[data-vox-theme='dark'] { background-color: #0d1417; }
+      html:not([data-vox-ready]) body { visibility: hidden; }
     </style>
+    
+    <noscript><style>body { visibility: visible !important; }</style></noscript>
+    <script>
+      setTimeout(function () {
+        document.documentElement.setAttribute('data-vox-ready', '');
+      }, 2000);
+    </script>
 
     
     <script>
