@@ -1,6 +1,7 @@
 #!/bin/sh
-# Runs on both install and upgrade (deb postinst / rpm %post - nfpm
-# shares this one script between both formats). Re-derives everything
+# Runs on both install and upgrade: as the deb's postinst, and as the
+# rpm's %posttrans (see cmd/build-agent-packages for why not %post).
+# Re-derives everything
 # node- and console-specific from scratch every time it runs, rather
 # than relying on values baked in at package-build time (ConsoleBaseURL
 # and TransportAddr are runtime console config, not compile-time

@@ -139,6 +139,9 @@ test('every module that renders text imports the translation functions', () => {
     'deploys-redirect.js', // redirect only, renders nothing
     'oidc-callback.js', // renders nothing but a spinner from its template
     'code.js', // dispatcher: delegates every render to the two modules it imports
+    'schedule-draft.js', // sessionStorage hand-off only, renders nothing
+    'pattern-text.js', // turns a field's text into a list and back, renders nothing
+    'role-sources.js', // splits a user's roles into direct and from-group, renders nothing
   ]);
 
   const missing = [];

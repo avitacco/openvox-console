@@ -123,6 +123,7 @@
       <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Scale">
       <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
@@ -132,8 +133,13 @@
       <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Operate">
       <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
@@ -203,7 +209,7 @@ environment variables, so they never appear in <code>docker inspect</code>:</p>
 <vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>printf &#39;%s&#39; &#39;&lt;console database password&gt;&#39; &gt; secrets/console_postgres_password
 printf &#39;postgres://console:%s@console-postgres:5432/console?sslmode=disable&#39; &#39;&lt;console database password&gt;&#39; \
   &gt; secrets/console_postgres_dsn
-printf &#39;%s&#39; &#39;&lt;a strong password&gt;&#39; &gt; secrets/console_bootstrap_admin_password
+printf &#39;%s&#39; &#39;&lt;a strong password, 12 characters or more&gt;&#39; &gt; secrets/console_bootstrap_admin_password
 chmod 600 secrets/*
 </code></vox-code-block>
 <p>The console&#39;s database connection string must use the same password as
@@ -331,6 +337,39 @@ is always in openvoxserver&#39;s certificate:</p>
   https://openvoxserver:8140/puppet-ca/v1/certificate_statuses/all
 </code></vox-code-block>
 <p><code>HTTP 200</code> means the CA accepts it.</p>
+<h3 id="tasks">Tasks</h3>
+<p>Running Puppet tasks needs nothing more. The console asks openvoxserver
+which tasks your deployed code contains, at
+<code>https://openvoxserver:8140</code>, using the openvoxdb client certificate you
+already issued; openvoxserver lets any certificate from its CA read
+tasks. To turn tasks off, set the address to nothing in <code>.env</code>:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CONSOLE_PUPPET_SERVER_URL=
+</code></vox-code-block>
+<p>See <a href="run-jobs.html">Run jobs</a> for running them.</p>
+<h3 id="the-class-list">The class list</h3>
+<p>A node group&#39;s page offers the classes your deployed code defines, with
+their parameters, so they are picked rather than typed. The console
+reads them from openvoxserver over the same connection as tasks.</p>
+<p>openvoxserver does not let any certificate read classes by default. The
+server image in the compose file adds the rule on every start, allowing
+the certificate named <code>console</code> - the openvoxdb client certificate you
+issued above. If you issued it under another name, set that name in
+<code>.env</code>:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CLASS_DISCOVERY_CERTNAME=my-console-cert
+</code></vox-code-block>
+<p>Check it from inside openvoxserver, with the console&#39;s certificate.
+<code>HTTP 200</code> means the list can be read:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml exec openvoxserver \
+  curl -sS -o /dev/null -w &#39;HTTP %{http_code}\n&#39; \
+  --cert /etc/puppetlabs/puppet/ssl/certs/console.pem \
+  --key /etc/puppetlabs/puppet/ssl/private_keys/console.pem \
+  --cacert /etc/puppetlabs/puppet/ssl/certs/ca.pem \
+  &#39;https://openvoxserver:8140/puppet/v3/environment_classes?environment=production&#39;
+</code></vox-code-block>
+<p><code>HTTP 403</code> means the rule does not name this certificate. Nothing else
+depends on it: the group page then says the list is unavailable, and
+classes are entered by name, as they were before the list existed. See
+<a href="classify.html">Classify nodes</a>.</p>
 <h2 id="start-everything-else">Start everything else</h2>
 <vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml pull
 docker compose -f docker-compose.yml up -d
@@ -372,6 +411,13 @@ console ready          addr=:8080
 </code></vox-code-block>
 <p>The reply lists each dependency as <code>ok</code>. Then open the console&#39;s base URL,
 log in as the bootstrap admin, and change its password straight away.</p>
+<p>The bootstrap admin&#39;s password must have at least 12 characters and
+must not be the same as its username. If it does not, no admin is
+created and nobody can log in. The log says so:</p>
+<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CONSOLE_BOOTSTRAP_ADMIN_PASSWORD does not meet the account policy, so no administrator was created
+</code></vox-code-block>
+<p>Set a longer password and start the console again. See
+<a href="access.html#passwords-and-lockout">Passwords and lockout</a>.</p>
 <vox-callout variant="info" heading="Note"><p>Once you have logged in and changed the password, remove the bootstrap
 admin settings from the console&#39;s configuration. They are only read
 while the users table is empty, but there is no reason to keep a
@@ -397,8 +443,10 @@ classification:</p>
 <code>curl -X POST https://console.example.com/api/v1/service-tokens -H &#34;Authorization: Bearer &lt;admin access token&gt;&#34; -H &#39;Content-Type: application/json&#39; -d &#39;{&#34;name&#34;:&#34;enc-bridge&#34;,&#34;permissions&#34;:[&#34;enc:read&#34;]}&#39;</code></p>
 </vox-callout>
 <h3 id="give-openvoxserver-the-token">Give openvoxserver the token</h3>
-<p>The openvoxserver image already contains <code>enc-bridge</code> and the Puppet
-configuration that uses it, so all it needs is the token. Write it to the
+<p>The openvoxserver image already contains <code>enc-bridge</code>, the Puppet
+configuration that uses it, and the Hiera function that lets nodes read
+<a href="classify.html#set-configuration-data">configuration data</a>, so all
+it needs is the token. Write it to the
 secret file you created empty earlier:</p>
 <vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>printf &#39;%s&#39; &#39;&lt;the enc:read service token&gt;&#39; &gt; secrets/enc_bridge_token
 </code></vox-code-block>
@@ -513,6 +561,8 @@ docker compose -f docker-compose.yml up -d
         <vox-toc-item slot="children" href="#the-node-transport-certificate"><span>The node transport certificate</span></vox-toc-item>
         <vox-toc-item slot="children" href="#the-token-signing-key"><span>The token signing key</span></vox-toc-item>
         <vox-toc-item slot="children" href="#the-certificate-admin-credential-optional"><span>The certificate-admin credential (optional)</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#tasks"><span>Tasks</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#the-class-list"><span>The class list</span></vox-toc-item>
       </vox-toc-item>
       <vox-toc-item href="#start-everything-else"><span>Start everything else</span>
         <vox-toc-item slot="children" href="#if-openvoxdb-never-becomes-healthy"><span>If openvoxdb never becomes healthy</span></vox-toc-item>

@@ -14,7 +14,10 @@ msgid "Account menu"
 msgstr "Menu akun"
 
 #: src/activity.js:39
+#: src/schedule.js:65
+#: src/schedules.js:49
 #: templates/pages/activity.tmpl:9
+#: templates/pages/schedule-edit.tmpl:22
 msgid "Action"
 msgstr "Tindakan"
 
@@ -22,7 +25,7 @@ msgstr "Tindakan"
 msgid "Actions"
 msgstr "Tindakan"
 
-#: templates/layout.html.tmpl:89
+#: templates/layout.html.tmpl:93
 #: templates/pages/activity.tmpl:3
 msgid "Activity"
 msgstr "Aktivitas"
@@ -32,11 +35,11 @@ msgstr "Aktivitas"
 msgid "Actor"
 msgstr "Pelaku"
 
-#: templates/pages/group.tmpl:57
+#: templates/pages/group.tmpl:107
 msgid "Add condition"
 msgstr "Tambah kondisi"
 
-#: templates/pages/nodes.tmpl:5
+#: templates/pages/nodes.tmpl:7
 msgid "Add node"
 msgstr "Tambah Node"
 
@@ -44,9 +47,11 @@ msgstr "Tambah Node"
 msgid "Add provider"
 msgstr "Tambah penyedia"
 
-#: templates/layout.html.tmpl:102
+#: templates/layout.html.tmpl:106
+#: templates/pages/account-policy.tmpl:3
 #: templates/pages/roles.tmpl:3
 #: templates/pages/service-tokens.tmpl:3
+#: templates/pages/user-groups.tmpl:3
 #: templates/pages/users.tmpl:3
 msgid "Admin"
 msgstr "Administrasi"
@@ -58,6 +63,8 @@ msgstr "Nodes terdampak"
 
 #: src/packages.js:169
 #: src/packages.js:26
+#: src/patches.js:290
+#: src/patches.js:45
 #: templates/pages/activity.tmpl:10
 #: templates/pages/activity.tmpl:6
 #: templates/pages/activity.tmpl:7
@@ -67,14 +74,17 @@ msgstr "Nodes terdampak"
 #: templates/pages/code.tmpl:47
 #: templates/pages/code.tmpl:48
 #: templates/pages/code.tmpl:52
-#: templates/pages/jobs.tmpl:14
-#: templates/pages/jobs.tmpl:8
-#: templates/pages/node.tmpl:48
-#: templates/pages/nodes.tmpl:13
-#: templates/pages/nodes.tmpl:18
+#: templates/pages/jobs.tmpl:21
+#: templates/pages/jobs.tmpl:29
+#: templates/pages/node.tmpl:67
+#: templates/pages/nodes.tmpl:17
+#: templates/pages/nodes.tmpl:22
 #: templates/pages/packages.tmpl:11
 #: templates/pages/packages.tmpl:13
 #: templates/pages/packages.tmpl:14
+#: templates/pages/patches.tmpl:17
+#: templates/pages/patches.tmpl:19
+#: templates/pages/patches.tmpl:20
 #: templates/pages/report.tmpl:12
 #: templates/pages/vulnerabilities.tmpl:12
 #: templates/pages/vulnerabilities.tmpl:20
@@ -82,15 +92,15 @@ msgstr "Nodes terdampak"
 msgid "All"
 msgstr "Semua"
 
-#: templates/pages/roles.tmpl:26
+#: templates/pages/roles.tmpl:40
 msgid "All roles"
 msgstr "Semua peran"
 
-#: templates/pages/service-tokens.tmpl:28
+#: templates/pages/service-tokens.tmpl:35
 msgid "All service tokens"
 msgstr "Semua token layanan"
 
-#: templates/pages/users.tmpl:31
+#: templates/pages/users.tmpl:34
 msgid "All users"
 msgstr "Semua pengguna"
 
@@ -98,8 +108,21 @@ msgstr "Semua pengguna"
 msgid "Applies to this browser only. Without a choice here, the console follows your browser's language."
 msgstr "Hanya berlaku untuk peramban ini. Tanpa pilihan di sini, konsol mengikuti bahasa peramban Anda."
 
-#: src/app.js:377
+#: src/agentless.js:307
+#: src/agentless.js:377
+#: src/app.js:456
+#: src/code-plans.js:159
+#: src/roles.js:117
+#: src/roles.js:132
+#: src/run-patch.js:174
+#: src/run-plan.js:34
+#: src/run-puppet.js:110
+#: src/run-task.js:43
+#: src/user-groups.js:87
+#: src/users.js:40
 #: src/vulnerability-providers.js:157
+#: templates/pages/plan-edit.tmpl:42
+#: templates/pages/schedule-edit.tmpl:92
 msgid "Cancel"
 msgstr "Batal"
 
@@ -108,84 +131,85 @@ msgstr "Batal"
 msgid "Category"
 msgstr "Kategori"
 
-#: src/nodes.js:252
-#: templates/pages/nodes.tmpl:17
+#: src/nodes.js:296
+#: templates/pages/nodes.tmpl:21
 msgid "Cert status"
 msgstr "Status sertifikat"
 
 #: templates/pages/preferences.tmpl:37
-#: templates/pages/preferences.tmpl:47
+#: templates/pages/preferences.tmpl:48
 msgid "Change password"
 msgstr "Ubah kata sandi"
 
 #: src/i18n.js:167
-#: templates/pages/node.tmpl:49
+#: templates/pages/node.tmpl:68
 msgid "Changed"
 msgstr "Berubah"
 
-#: src/groups.js:33
+#: src/groups.js:60
+#: templates/pages/group.tmpl:53
 msgid "Classes"
 msgstr "Kelas"
 
-#: templates/pages/group.tmpl:32
-msgid "Classes (JSON)"
-msgstr "Kelas (JSON)"
+#: templates/pages/group.tmpl:47
+#~ msgid "Classes (JSON)"
+#~ msgstr "Kelas (JSON)"
 
-#: templates/pages/group.tmpl:31
+#: templates/pages/group.tmpl:50
 msgid "Classification"
 msgstr "Klasifikasi"
 
-#: src/nodes.js:84
+#: src/nodes.js:92
 msgid "Clean"
 msgstr "Bersihkan"
 
-#: templates/pages/nodes.tmpl:34
+#: templates/pages/nodes.tmpl:39
 msgid "Clear"
 msgstr "Hapus pilihan"
 
-#: src/nodes.js:427
+#: src/nodes.js:466
 msgid "Close"
 msgstr "Tutup"
 
-#: templates/layout.html.tmpl:85
+#: templates/layout.html.tmpl:89
 #: templates/pages/code.tmpl:3
 msgid "Code"
 msgstr "Code"
 
 #: src/i18n.js:172
-#: src/index.js:114
-#: src/nodes.js:42
-#: templates/pages/nodes.tmpl:14
+#: src/index.js:149
+#: src/nodes.js:50
+#: templates/pages/nodes.tmpl:18
 msgid "Connected"
 msgstr "Terhubung"
 
-#: src/nodes.js:250
-#: templates/pages/nodes.tmpl:12
+#: src/nodes.js:294
+#: templates/pages/nodes.tmpl:16
 msgid "Connection"
 msgstr "Koneksi"
 
 #: src/i18n.js:171
-#: src/index.js:23
+#: src/index.js:24
 msgid "Corrected"
 msgstr "Dikoreksi"
 
-#: templates/pages/roles.tmpl:21
+#: templates/pages/roles.tmpl:35
 msgid "Create role"
 msgstr "Buat peran"
 
-#: templates/pages/service-tokens.tmpl:23
+#: templates/pages/service-tokens.tmpl:30
 msgid "Create service token"
 msgstr "Buat token layanan"
 
-#: templates/pages/users.tmpl:26
+#: templates/pages/users.tmpl:29
 msgid "Create user"
 msgstr "Buat pengguna"
 
-#: src/service-tokens.js:43
+#: src/service-tokens.js:47
 msgid "Created"
 msgstr "Dibuat"
 
-#: src/app.js:632
+#: src/app.js:711
 #: templates/pages/vulnerabilities.tmpl:13
 msgid "Critical"
 msgstr "Kritis"
@@ -199,12 +223,22 @@ msgstr "Kata sandi saat ini"
 msgid "Dashboard"
 msgstr "Dashboard"
 
-#: src/nodes.js:88
-#: src/roles.js:36
-#: src/service-tokens.js:34
-#: src/users.js:51
+#: src/agentless.js:125
+#: src/agentless.js:212
+#: src/agentless.js:227
+#: src/agentless.js:68
+#: src/nodes.js:96
+#: src/plan.js:61
+#: src/roles.js:136
+#: src/schedule.js:148
+#: src/service-tokens.js:38
+#: src/user-groups.js:119
+#: src/user-groups.js:156
+#: src/users.js:130
 #: src/vulnerability-providers.js:67
-#: templates/pages/group.tmpl:71
+#: templates/pages/group.tmpl:122
+#: templates/pages/plan.tmpl:14
+#: templates/pages/schedule.tmpl:15
 msgid "Delete"
 msgstr "Hapus"
 
@@ -220,28 +254,35 @@ msgstr "Riwayat deploy"
 msgid "Deploy now"
 msgstr "Deploy sekarang"
 
-#: templates/pages/group.tmpl:13
+#: templates/pages/group.tmpl:20
+#: templates/pages/plan-edit.tmpl:14
+#: templates/pages/schedule-edit.tmpl:15
 msgid "Details"
 msgstr "Detail"
 
-#: src/index.js:114
+#: src/index.js:149
 msgid "Disconnected"
 msgstr "Terputus"
 
+#: src/agentless.js:124
+#: src/agentless.js:67
 #: src/vulnerability-providers.js:66
+#: templates/pages/plan.tmpl:13
+#: templates/pages/schedule.tmpl:14
 msgid "Edit"
 msgstr "Ubah"
 
-#: templates/pages/group.tmpl:48
+#: templates/pages/group.tmpl:54
+#: templates/pages/group.tmpl:95
 msgid "Edit as JSON"
 msgstr "Ubah sebagai JSON"
 
-#: src/users.js:60
+#: src/users.js:141
 #: templates/pages/preferences.tmpl:18
 msgid "Email"
 msgstr "Email"
 
-#: templates/pages/users.tmpl:23
+#: templates/pages/users.tmpl:26
 msgid "Email (optional)"
 msgstr "Email (opsional)"
 
@@ -251,49 +292,55 @@ msgstr "Email (opsional)"
 msgid "Enabled"
 msgstr "Aktif"
 
-#: src/node.js:469
+#: src/node.js:473
 msgid "Ended"
 msgstr "Berakhir"
 
 #: src/deploys.js:57
-#: src/groups.js:33
+#: src/groups.js:60
+#: src/task-form.js:108
+#: templates/pages/plans.tmpl:26
 msgid "Environment"
 msgstr "Environment"
 
-#: templates/pages/group.tmpl:20
+#: src/run-puppet.js:29
+#: templates/pages/group.tmpl:35
 msgid "Environment (optional)"
 msgstr "Environment (opsional)"
 
 #: src/deploys.js:57
-#: src/job.js:53
+#: src/job.js:142
+#: src/run-patch.js:123
 msgid "Error"
 msgstr "Kesalahan"
 
-#: src/job.js:53
+#: src/job.js:142
+#: src/run-patch.js:123
 msgid "Exit code"
 msgstr "Kode keluar"
 
-#: templates/pages/index.tmpl:23
+#: templates/pages/index.tmpl:27
 msgid "Fact name"
 msgstr "Nama Fact"
 
-#: src/group.js:81
+#: src/group.js:245
 msgid "Fact path"
 msgstr "Jalur Fact"
 
-#: templates/pages/index.tmpl:24
+#: templates/pages/index.tmpl:28
 msgid "Fact value"
 msgstr "Nilai Fact"
 
-#: templates/pages/node.tmpl:15
+#: templates/pages/node.tmpl:23
 msgid "Facts"
 msgstr "Facts"
 
 #: src/i18n.js:164
-#: src/index.js:22
+#: src/index.js:23
+#: src/plan-common.js:72
 #: templates/pages/code.tmpl:55
-#: templates/pages/jobs.tmpl:17
-#: templates/pages/node.tmpl:51
+#: templates/pages/jobs.tmpl:32
+#: templates/pages/node.tmpl:70
 msgid "Failed"
 msgstr "Gagal"
 
@@ -303,20 +350,20 @@ msgstr "Kegagalan"
 
 #: templates/pages/activity.tmpl:12
 #: templates/pages/code.tmpl:50
-#: templates/pages/jobs.tmpl:19
+#: templates/pages/jobs.tmpl:34
 msgid "Filter by actor"
 msgstr "Filter menurut pelaku"
 
-#: templates/pages/index.tmpl:22
+#: templates/pages/index.tmpl:26
 #: templates/pages/packages.tmpl:8
 msgid "Filter by name"
 msgstr "Filter menurut nama"
 
-#: templates/pages/nodes.tmpl:11
+#: templates/pages/nodes.tmpl:15
 msgid "Filter by name…"
 msgstr "Filter menurut nama…"
 
-#: templates/pages/jobs.tmpl:6
+#: templates/pages/jobs.tmpl:19
 msgid "Filter by node"
 msgstr "Filter menurut Node"
 
@@ -325,7 +372,8 @@ msgid "Filter by version"
 msgstr "Filter menurut versi"
 
 #: src/deploys.js:57
-#: src/jobs.js:54
+#: src/jobs.js:82
+#: src/schedule-common.js:90
 msgid "Finished"
 msgstr "Selesai"
 
@@ -333,16 +381,16 @@ msgstr "Selesai"
 msgid "First name"
 msgstr "Nama depan"
 
-#: templates/pages/users.tmpl:21
+#: templates/pages/users.tmpl:24
 msgid "First name (optional)"
 msgstr "Nama depan (opsional)"
 
-#: src/node.js:604
+#: src/node.js:825
 #: src/vulnerability.js:54
 msgid "First seen"
 msgstr "Pertama terlihat"
 
-#: src/node.js:604
+#: src/node.js:825
 #: src/vulnerabilities.js:95
 #: templates/pages/vulnerabilities.tmpl:19
 msgid "Fix"
@@ -361,22 +409,25 @@ msgid "Fleet status"
 msgstr "Status armada"
 
 #: templates/pages/packages.tmpl:13
+#: templates/pages/patches.tmpl:19
 msgid "Group"
 msgstr "Grup"
 
-#: templates/layout.html.tmpl:77
+#: templates/layout.html.tmpl:81
 msgid "Groups"
 msgstr "Grup"
 
-#: src/app.js:633
+#: src/app.js:712
 #: templates/pages/vulnerabilities.tmpl:14
 msgid "High"
 msgstr "Tinggi"
 
-#: src/jobs.js:54
+#: src/jobs.js:82
 msgid "ID"
 msgstr "ID"
 
+#: src/node.js:695
+#: src/patches.js:130
 #: src/vulnerability.js:54
 msgid "Installed"
 msgstr "Terpasang"
@@ -385,14 +436,23 @@ msgstr "Terpasang"
 msgid "Interval"
 msgstr "Interval"
 
-#: templates/layout.html.tmpl:81
+#: templates/layout.html.tmpl:85
 #: templates/pages/job.tmpl:4
-#: templates/pages/jobs.tmpl:3
+#: templates/pages/jobs.tmpl:12
+#: templates/pages/jobs.tmpl:4
+#: templates/pages/plan-edit.tmpl:4
+#: templates/pages/plan.tmpl:4
+#: templates/pages/plans.tmpl:4
+#: templates/pages/plans.tmpl:7
+#: templates/pages/schedule-edit.tmpl:4
+#: templates/pages/schedule.tmpl:4
+#: templates/pages/schedules.tmpl:4
+#: templates/pages/schedules.tmpl:7
 msgid "Jobs"
 msgstr "Jobs"
 
-#: src/jobs.js:54
-#: templates/pages/jobs.tmpl:7
+#: src/jobs.js:82
+#: templates/pages/jobs.tmpl:20
 msgid "Kind"
 msgstr "Jenis"
 
@@ -401,7 +461,7 @@ msgstr "Jenis"
 msgid "Language"
 msgstr "Bahasa"
 
-#: src/index.js:249
+#: src/index.js:286
 msgid "Last check-in"
 msgstr "Kontak terakhir"
 
@@ -409,7 +469,7 @@ msgstr "Kontak terakhir"
 msgid "Last name"
 msgstr "Nama belakang"
 
-#: templates/pages/users.tmpl:22
+#: templates/pages/users.tmpl:25
 msgid "Last name (optional)"
 msgstr "Nama belakang (opsional)"
 
@@ -417,7 +477,7 @@ msgstr "Nama belakang (opsional)"
 msgid "Last sync"
 msgstr "Sinkronisasi terakhir"
 
-#: templates/layout.html.tmpl:117
+#: templates/layout.html.tmpl:121
 msgid "License (GPL-3.0)"
 msgstr "Lisensi (GPL-3.0)"
 
@@ -433,7 +493,7 @@ msgstr "Masuk dengan SSO"
 msgid "Log out"
 msgstr "Keluar"
 
-#: src/app.js:635
+#: src/app.js:714
 #: templates/pages/vulnerabilities.tmpl:16
 msgid "Low"
 msgstr "Rendah"
@@ -442,20 +502,20 @@ msgstr "Rendah"
 msgid "Main"
 msgstr "Navigasi utama"
 
-#: templates/pages/group.tmpl:47
+#: templates/pages/group.tmpl:94
 msgid "Match rule"
 msgstr "Aturan pencocokan"
 
-#: templates/pages/group.tmpl:45
+#: templates/pages/group.tmpl:92
 msgid "Matching"
 msgstr "Kecocokan"
 
-#: src/groups.js:33
-#: templates/pages/group.tmpl:77
+#: src/groups.js:60
+#: templates/pages/group.tmpl:128
 msgid "Matching nodes"
 msgstr "Nodes yang cocok"
 
-#: src/app.js:634
+#: src/app.js:713
 #: templates/pages/vulnerabilities.tmpl:15
 msgid "Medium"
 msgstr "Sedang"
@@ -472,16 +532,27 @@ msgstr "Nodes terdampak terbanyak dahulu"
 msgid "Most severe first"
 msgstr "Paling parah dahulu"
 
-#: src/groups.js:33
-#: src/jobs.js:54
-#: src/roles.js:45
-#: src/service-tokens.js:43
-#: src/users.js:60
+#: src/agentless.js:131
+#: src/agentless.js:278
+#: src/agentless.js:367
+#: src/agentless.js:95
+#: src/groups.js:60
+#: src/jobs.js:82
+#: src/plans.js:36
+#: src/roles.js:145
+#: src/schedules.js:49
+#: src/service-tokens.js:47
+#: src/user-groups.js:167
+#: src/user-groups.js:84
+#: src/users.js:141
 #: src/vulnerability-providers.js:150
 #: src/vulnerability-providers.js:75
-#: templates/pages/group.tmpl:15
-#: templates/pages/roles.tmpl:15
-#: templates/pages/service-tokens.tmpl:17
+#: templates/pages/group.tmpl:22
+#: templates/pages/plan-edit.tmpl:15
+#: templates/pages/roles.tmpl:17
+#: templates/pages/schedule-edit.tmpl:16
+#: templates/pages/service-tokens.tmpl:19
+#: templates/pages/user-groups.tmpl:21
 msgid "Name"
 msgstr "Nama"
 
@@ -492,28 +563,30 @@ msgstr "Baru"
 #: templates/pages/group.tmpl:5
 #: templates/pages/group.tmpl:7
 #: templates/pages/groups.tmpl:5
+#: templates/pages/user-groups.tmpl:18
 msgid "New group"
 msgstr "Grup baru"
 
+#: src/users.js:35
 #: templates/pages/preferences.tmpl:44
 msgid "New password"
 msgstr "Kata sandi baru"
 
-#: templates/pages/roles.tmpl:12
+#: templates/pages/roles.tmpl:14
 msgid "New role"
 msgstr "Peran baru"
 
-#: templates/pages/service-tokens.tmpl:14
+#: templates/pages/service-tokens.tmpl:16
 msgid "New service token"
 msgstr "Token layanan baru"
 
-#: templates/pages/users.tmpl:12
+#: templates/pages/users.tmpl:14
 msgid "New user"
 msgstr "Pengguna baru"
 
 #: templates/pages/activity.tmpl:14
 #: templates/pages/code.tmpl:58
-#: templates/pages/jobs.tmpl:21
+#: templates/pages/jobs.tmpl:36
 msgid "Newest first"
 msgstr "Terbaru dahulu"
 
@@ -521,7 +594,7 @@ msgstr "Terbaru dahulu"
 msgid "No activity recorded yet"
 msgstr "Belum ada aktivitas tercatat"
 
-#: src/index.js:135
+#: src/index.js:172
 msgid "No activity yet"
 msgstr "Belum ada aktivitas"
 
@@ -541,7 +614,7 @@ msgstr "Belum ada deploy"
 msgid "No events for this report"
 msgstr "Tidak ada peristiwa untuk Report ini"
 
-#: src/node.js:339
+#: src/node.js:343
 msgid "No facts reported"
 msgstr "Tidak ada Fact yang dilaporkan"
 
@@ -549,37 +622,37 @@ msgstr "Tidak ada Fact yang dilaporkan"
 msgid "No fix released"
 msgstr "Belum ada perbaikan dirilis"
 
-#: src/jobs.js:27
+#: src/jobs.js:55
 msgid "No jobs yet"
 msgstr "Belum ada Job"
 
-#: src/nodes.js:220
+#: src/nodes.js:264
 #: src/packages.js:129
 msgid "No matching nodes"
 msgstr "Tidak ada Node yang cocok"
 
 #: src/groups.js:10
-msgid "No node groups yet"
-msgstr "Belum ada grup Node"
+#~ msgid "No node groups yet"
+#~ msgstr "Belum ada grup Node"
 
-#: src/group.js:255
+#: src/group.js:440
 msgid "No nodes currently match this group"
 msgstr "Saat ini tidak ada Node yang cocok dengan grup ini"
 
-#: src/index.js:223
-#: src/nodes.js:225
+#: src/index.js:260
+#: src/nodes.js:269
 msgid "No nodes found"
 msgstr "Node tidak ditemukan"
 
-#: src/index.js:80
+#: src/index.js:81
 msgid "No nodes yet"
 msgstr "Belum ada Node"
 
-#: src/node.js:581
+#: src/node.js:802
 msgid "No open vulnerabilities"
 msgstr "Tidak ada kerentanan terbuka"
 
-#: src/node.js:398
+#: src/node.js:402
 msgid "No package data reported"
 msgstr "Tidak ada data paket yang dilaporkan"
 
@@ -591,27 +664,30 @@ msgstr "Tidak ada paket"
 msgid "No packages match"
 msgstr "Tidak ada paket yang cocok"
 
-#: src/node.js:448
+#: src/node.js:452
 msgid "No reports yet"
 msgstr "Belum ada Report"
 
-#: src/roles.js:23
+#: src/roles.js:95
+#: src/user-groups.js:26
 msgid "No roles yet"
 msgstr "Belum ada peran"
 
-#: src/index.js:175
+#: src/index.js:212
 msgid "No runs yet"
 msgstr "Belum ada eksekusi"
 
-#: src/service-tokens.js:17
+#: src/service-tokens.js:20
 msgid "No service tokens yet"
 msgstr "Belum ada token layanan"
 
-#: src/job.js:29
+#: src/job.js:119
+#: src/run-patch.js:96
 msgid "No targets"
 msgstr "Tidak ada target"
 
-#: src/users.js:33
+#: src/user-groups.js:52
+#: src/users.js:109
 msgid "No users yet"
 msgstr "Belum ada pengguna"
 
@@ -619,31 +695,42 @@ msgstr "Belum ada pengguna"
 msgid "No vulnerability providers"
 msgstr "Tidak ada penyedia kerentanan"
 
-#: src/index.js:196
-#: src/index.js:249
-#: src/job.js:53
-#: src/nodes.js:249
+#: src/index.js:233
+#: src/index.js:286
+#: src/job.js:142
+#: src/nodes.js:293
 #: src/packages.js:146
+#: src/patches.js:129
+#: src/patches.js:92
+#: src/run-patch.js:123
 #: src/vulnerability.js:54
 msgid "Node"
 msgstr "Node"
 
+#: src/roles.js:145
 #: templates/pages/group.tmpl:4
 #: templates/pages/groups.tmpl:4
+#: templates/pages/roles.tmpl:24
 msgid "Node groups"
 msgstr "Grup Node"
 
-#: templates/pages/index.tmpl:19
+#: templates/pages/index.tmpl:23
 msgid "Node inventory"
 msgstr "Inventaris Node"
 
-#: templates/pages/index.tmpl:22
-#: templates/pages/nodes.tmpl:11
+#: templates/pages/index.tmpl:26
+#: templates/pages/nodes.tmpl:15
 msgid "Node name"
 msgstr "Nama Node"
 
 #: src/packages.js:79
+#: src/patches.js:236
+#: src/patches.js:31
+#: src/schedule.js:66
+#: src/schedules.js:49
+#: src/target-picker.js:52
 #: templates/layout.html.tmpl:65
+#: templates/pages/agentless.tmpl:4
 #: templates/pages/node.tmpl:4
 #: templates/pages/nodes.tmpl:4
 #: templates/pages/report.tmpl:4
@@ -659,18 +746,18 @@ msgid "Nodes not assessed"
 msgstr "Nodes tidak dinilai"
 
 #: src/i18n.js:169
-#: templates/pages/node.tmpl:52
+#: templates/pages/node.tmpl:71
 #: templates/pages/report.tmpl:15
 msgid "Noop"
 msgstr "Noop"
 
 #: src/i18n.js:173
-#: src/nodes.js:43
-#: templates/pages/nodes.tmpl:15
+#: src/nodes.js:51
+#: templates/pages/nodes.tmpl:19
 msgid "Not connected"
 msgstr "Tidak terhubung"
 
-#: src/node.js:366
+#: src/node.js:370
 msgid "Nothing to summarise"
 msgstr "Tidak ada yang dirangkum"
 
@@ -680,32 +767,35 @@ msgstr "Lama"
 
 #: templates/pages/activity.tmpl:15
 #: templates/pages/code.tmpl:59
-#: templates/pages/jobs.tmpl:22
+#: templates/pages/jobs.tmpl:37
 msgid "Oldest first"
 msgstr "Terlama dahulu"
 
-#: templates/layout.html.tmpl:112
+#: templates/layout.html.tmpl:116
 #: templates/layout.html.tmpl:38
 #: templates/pages/login.tmpl:3
 msgid "OpenVox Console"
 msgstr "OpenVox Console"
 
-#: templates/layout.html.tmpl:113
+#: templates/layout.html.tmpl:117
 msgid "OpenVox project"
 msgstr "Proyek OpenVox"
 
-#: src/group.js:84
+#: src/group.js:248
 msgid "Operator"
 msgstr "Operator"
 
 #: templates/pages/activity.tmpl:13
 #: templates/pages/code.tmpl:57
-#: templates/pages/jobs.tmpl:20
+#: templates/pages/jobs.tmpl:35
 msgid "Order"
 msgstr "Urutan"
 
-#: src/node.js:418
+#: src/node.js:422
+#: src/node.js:695
 #: src/packages.js:79
+#: src/patches.js:129
+#: src/run-patch.js:72
 #: src/vulnerability.js:54
 #: templates/pages/vulnerabilities.tmpl:27
 msgid "Package"
@@ -715,20 +805,23 @@ msgstr "Paket"
 msgid "Package name"
 msgstr "Nama paket"
 
-#: src/node.js:604
+#: src/node.js:825
+#: src/run-patch.js:123
+#: src/run-patch.js:153
 #: src/vulnerabilities.js:95
 #: templates/layout.html.tmpl:69
-#: templates/pages/node.tmpl:16
+#: templates/pages/node.tmpl:24
 #: templates/pages/packages.tmpl:3
 msgid "Packages"
 msgstr "Paket"
 
-#: src/app.js:548
+#: src/app.js:627
 msgid "Pagination"
 msgstr "Penomoran halaman"
 
+#: src/agentless.js:250
 #: templates/pages/login.tmpl:11
-#: templates/pages/users.tmpl:18
+#: templates/pages/users.tmpl:20
 msgid "Password"
 msgstr "Kata sandi"
 
@@ -736,21 +829,27 @@ msgstr "Kata sandi"
 msgid "Pending"
 msgstr "Menunggu"
 
-#: src/roles.js:45
-#: src/service-tokens.js:43
+#: src/roles.js:145
+#: src/service-tokens.js:47
+#: templates/pages/roles.tmpl:20
 msgid "Permissions"
 msgstr "Izin"
 
-#: templates/pages/group.tmpl:62
+#: templates/pages/group.tmpl:112
 msgid "Pinned node certnames (JSON array)"
 msgstr "Certname Node yang disematkan (larik JSON)"
 
-#: src/groups.js:33
+#: src/groups.js:60
 msgid "Pinned nodes"
 msgstr "Nodes tersemat"
 
+#: src/code-plans.js:57
 #: src/i18n.js:200
-#: templates/pages/jobs.tmpl:11
+#: src/plan.js:48
+#: src/schedule-common.js:39
+#: templates/pages/jobs.tmpl:24
+#: templates/pages/plan.tmpl:6
+#: templates/pages/schedule-edit.tmpl:38
 msgid "Plan"
 msgstr "Plan"
 
@@ -759,8 +858,8 @@ msgstr "Plan"
 msgid "Preferences"
 msgstr "Preferensi"
 
-#: src/groups.js:33
-#: templates/pages/group.tmpl:18
+#: src/groups.js:60
+#: templates/pages/group.tmpl:32
 msgid "Priority"
 msgstr "Prioritas"
 
@@ -772,7 +871,7 @@ msgstr "Profil"
 msgid "Property"
 msgstr "Properti"
 
-#: src/node.js:418
+#: src/node.js:422
 #: src/packages.js:146
 #: src/vulnerability.js:54
 #: templates/pages/packages.tmpl:10
@@ -780,7 +879,7 @@ msgstr "Properti"
 msgid "Provider"
 msgstr "Penyedia"
 
-#: src/node.js:604
+#: src/node.js:825
 #: src/packages.js:79
 #: src/vulnerabilities.js:95
 #: templates/pages/vulnerability-providers.tmpl:5
@@ -792,18 +891,20 @@ msgid "Providers enabled"
 msgstr "Penyedia aktif"
 
 #: src/i18n.js:198
+#: src/plan-common.js:31
+#: src/schedule-common.js:44
 msgid "Puppet run"
 msgstr "Puppet run"
 
-#: templates/pages/node.tmpl:22
+#: templates/pages/node.tmpl:31
 msgid "Raw JSON"
 msgstr "JSON mentah"
 
-#: templates/pages/index.tmpl:14
+#: templates/pages/index.tmpl:18
 msgid "Recent activity"
 msgstr "Aktivitas terbaru"
 
-#: templates/pages/index.tmpl:11
+#: templates/pages/index.tmpl:15
 msgid "Recent runs"
 msgstr "Eksekusi terbaru"
 
@@ -812,16 +913,19 @@ msgstr "Eksekusi terbaru"
 msgid "Ref"
 msgstr "Ref"
 
-#: src/group.js:89
+#: src/class-editor.js:232
+#: src/class-editor.js:245
+#: src/group.js:253
+#: src/plan-edit.js:68
 msgid "Remove"
 msgstr "Hapus"
 
-#: src/job.js:53
+#: src/job.js:142
 #: templates/pages/report.tmpl:6
 msgid "Report"
 msgstr "Report"
 
-#: templates/pages/node.tmpl:30
+#: templates/pages/node.tmpl:39
 msgid "Report installed packages"
 msgstr "Laporkan paket terpasang"
 
@@ -830,7 +934,7 @@ msgid "Repositories"
 msgstr "Repositori"
 
 #: src/i18n.js:175
-#: templates/pages/nodes.tmpl:20
+#: templates/pages/nodes.tmpl:24
 msgid "Requested"
 msgstr "Diminta"
 
@@ -842,54 +946,69 @@ msgstr "Sumber daya"
 msgid "Resource events"
 msgstr "Peristiwa sumber daya"
 
-#: src/nodes.js:81
+#: src/nodes.js:89
 msgid "Revoke"
 msgstr "Cabut"
 
 #: src/i18n.js:176
-#: templates/pages/nodes.tmpl:21
+#: templates/pages/nodes.tmpl:25
 msgid "Revoked"
 msgstr "Dicabut"
 
-#: src/users.js:60
-#: templates/pages/roles.tmpl:5
-#: templates/pages/roles.tmpl:9
-#: templates/pages/service-tokens.tmpl:5
-#: templates/pages/users.tmpl:5
+#: src/user-groups.js:167
+#: src/users.js:141
+#: templates/pages/account-policy.tmpl:6
+#: templates/pages/roles.tmpl:11
+#: templates/pages/roles.tmpl:6
+#: templates/pages/service-tokens.tmpl:6
+#: templates/pages/user-groups.tmpl:6
+#: templates/pages/users.tmpl:6
 msgid "Roles"
 msgstr "Peran"
 
-#: templates/pages/jobs.tmpl:9
+#: src/code-plans.js:160
+#: src/code-plans.js:52
+#: src/plans.js:28
+#: src/run-puppet.js:111
+#: templates/pages/jobs.tmpl:22
+#: templates/pages/plan.tmpl:12
 msgid "Run"
 msgstr "Jalankan"
 
-#: src/nodes.js:340
-#: templates/pages/nodes.tmpl:33
+#: src/plan-edit.js:33
+#: src/run-puppet.js:87
+#: templates/pages/jobs.tmpl:8
+#: templates/pages/nodes.tmpl:37
+#: templates/pages/schedule-edit.tmpl:23
 msgid "Run Puppet"
 msgstr "Jalankan Puppet"
 
-#: src/nodes.js:341
+#: src/run-puppet.js:96
 msgid "Run Puppet on {count} node?"
 msgid_plural "Run Puppet on {count} nodes?"
 msgstr[0] "Jalankan Puppet pada {count} Node?"
 
-#: templates/pages/group.tmpl:78
-#: templates/pages/node.tmpl:9
+#: templates/pages/group.tmpl:131
+#: templates/pages/node.tmpl:11
 msgid "Run now"
 msgstr "Jalankan sekarang"
 
 #: src/i18n.js:165
+#: src/plan-common.js:70
 #: templates/pages/code.tmpl:53
-#: templates/pages/jobs.tmpl:15
+#: templates/pages/jobs.tmpl:30
 msgid "Running"
 msgstr "Berjalan"
 
-#: templates/pages/node.tmpl:18
+#: templates/pages/node.tmpl:27
 msgid "Runs"
 msgstr "Eksekusi"
 
+#: src/agentless.js:308
+#: src/agentless.js:378
 #: src/vulnerability-providers.js:156
-#: templates/pages/group.tmpl:70
+#: templates/pages/group.tmpl:121
+#: templates/pages/patches.tmpl:44
 msgid "Save"
 msgstr "Simpan"
 
@@ -901,29 +1020,31 @@ msgstr "Simpan bahasa"
 msgid "Save profile"
 msgstr "Simpan profil"
 
-#: src/service-tokens.js:90
+#: src/service-tokens.js:95
 msgid "Service token created - copy it now, it won't be shown again"
 msgstr "Token layanan dibuat — salin sekarang, token tidak akan ditampilkan lagi"
 
-#: templates/pages/roles.tmpl:6
-#: templates/pages/service-tokens.tmpl:6
-#: templates/pages/service-tokens.tmpl:9
-#: templates/pages/users.tmpl:6
+#: templates/pages/account-policy.tmpl:7
+#: templates/pages/roles.tmpl:7
+#: templates/pages/service-tokens.tmpl:11
+#: templates/pages/service-tokens.tmpl:7
+#: templates/pages/user-groups.tmpl:7
+#: templates/pages/users.tmpl:7
 msgid "Service tokens"
 msgstr "Token layanan"
 
-#: src/node.js:604
+#: src/node.js:825
 #: src/vulnerabilities.js:95
 #: src/vulnerability.js:54
 #: templates/pages/vulnerabilities.tmpl:11
 msgid "Severity"
 msgstr "Tingkat keparahan"
 
-#: templates/pages/node.tmpl:39
+#: templates/pages/node.tmpl:58
 msgid "Show closed"
 msgstr "Tampilkan yang ditutup"
 
-#: templates/pages/nodes.tmpl:24
+#: templates/pages/nodes.tmpl:28
 msgid "Show infrastructure certs"
 msgstr "Tampilkan sertifikat infrastruktur"
 
@@ -931,12 +1052,12 @@ msgstr "Tampilkan sertifikat infrastruktur"
 msgid "Showing {shown} of {total} packages"
 msgstr "Menampilkan {shown} dari {total} paket"
 
-#: src/nodes.js:78
+#: src/nodes.js:86
 msgid "Sign"
 msgstr "Tandatangani"
 
 #: src/i18n.js:174
-#: templates/pages/nodes.tmpl:19
+#: templates/pages/nodes.tmpl:23
 msgid "Signed"
 msgstr "Ditandatangani"
 
@@ -945,6 +1066,7 @@ msgstr "Ditandatangani"
 #~ msgstr "Sedang masuk&hellip;"
 
 #: src/i18n.js:170
+#: src/schedule-common.js:99
 #: templates/pages/report.tmpl:16
 msgid "Skipped"
 msgstr "Dilewati"
@@ -963,29 +1085,35 @@ msgid "Source to deploy"
 msgstr "Sumber untuk deploy"
 
 #: src/deploys.js:57
-#: src/jobs.js:54
-#: src/node.js:469
+#: src/jobs.js:82
+#: src/node.js:473
+#: src/patches.js:236
+#: src/schedule-common.js:98
 msgid "Started"
 msgstr "Dimulai"
 
+#: src/code-plans.js:273
 #: src/deploys.js:57
-#: src/index.js:249
-#: src/job.js:53
-#: src/jobs.js:54
-#: src/node.js:469
-#: src/node.js:604
+#: src/index.js:286
+#: src/job.js:142
+#: src/jobs.js:82
+#: src/node.js:473
+#: src/node.js:825
+#: src/patches.js:236
 #: src/report.js:48
+#: src/run-patch.js:123
 #: src/vulnerability-providers.js:75
 #: templates/pages/code.tmpl:51
-#: templates/pages/jobs.tmpl:13
-#: templates/pages/node.tmpl:47
+#: templates/pages/jobs.tmpl:28
+#: templates/pages/node.tmpl:66
 #: templates/pages/report.tmpl:11
 msgid "Status"
 msgstr "Status"
 
 #: src/i18n.js:163
+#: src/plan-common.js:71
 #: templates/pages/code.tmpl:54
-#: templates/pages/jobs.tmpl:16
+#: templates/pages/jobs.tmpl:31
 msgid "Succeeded"
 msgstr "Berhasil"
 
@@ -1006,28 +1134,32 @@ msgid "Sync now"
 msgstr "Sinkronkan sekarang"
 
 #: src/status.js:183
-#: templates/pages/jobs.tmpl:6
+#: templates/pages/jobs.tmpl:19
 msgid "Target"
 msgstr "Target"
 
-#: src/jobs.js:54
+#: src/jobs.js:82
 #: templates/pages/job.tmpl:12
 msgid "Targets"
 msgstr "Target"
 
 #: src/i18n.js:199
-#: templates/pages/jobs.tmpl:10
+#: src/plan-common.js:29
+#: src/schedule-common.js:42
+#: src/task-form.js:143
+#: templates/pages/jobs.tmpl:23
 msgid "Task"
 msgstr "Task"
 
-#: templates/pages/group.tmpl:37
+#: templates/pages/group.tmpl:78
 msgid "Top-scope parameters (JSON)"
 msgstr "Parameter lingkup teratas (JSON)"
 
 #: src/deploys.js:57
-#: src/jobs.js:54
+#: src/jobs.js:82
+#: src/patches.js:236
 #: templates/pages/code.tmpl:50
-#: templates/pages/jobs.tmpl:19
+#: templates/pages/jobs.tmpl:34
 msgid "Triggered by"
 msgstr "Dipicu oleh"
 
@@ -1038,39 +1170,41 @@ msgid "Type"
 msgstr "Tipe"
 
 #: src/i18n.js:168
-#: src/index.js:25
-#: templates/pages/node.tmpl:50
+#: src/index.js:26
+#: templates/pages/node.tmpl:69
 msgid "Unchanged"
 msgstr "Tidak berubah"
 
-#: src/app.js:636
+#: src/app.js:715
 #: src/i18n.js:177
-#: templates/pages/nodes.tmpl:22
+#: templates/pages/nodes.tmpl:26
 #: templates/pages/vulnerabilities.tmpl:17
 msgid "Unknown"
 msgstr "Tidak diketahui"
 
-#: src/users.js:60
+#: src/users.js:141
 #: templates/pages/login.tmpl:8
-#: templates/pages/users.tmpl:15
+#: templates/pages/users.tmpl:17
 msgid "Username"
 msgstr "Nama pengguna"
 
+#: templates/pages/account-policy.tmpl:4
 #: templates/pages/roles.tmpl:4
 #: templates/pages/service-tokens.tmpl:4
+#: templates/pages/user-groups.tmpl:4
+#: templates/pages/users.tmpl:11
 #: templates/pages/users.tmpl:4
-#: templates/pages/users.tmpl:9
 msgid "Users"
 msgstr "Pengguna"
 
-#: src/group.js:87
+#: src/group.js:251
 msgid "Value"
 msgstr "Nilai"
 
-#: src/node.js:418
+#: src/node.js:422
 #: src/packages.js:146
 #: src/status.js:136
-#: templates/layout.html.tmpl:118
+#: templates/layout.html.tmpl:122
 #: templates/pages/packages.tmpl:9
 msgid "Version"
 msgstr "Versi"
@@ -1079,15 +1213,15 @@ msgstr "Versi"
 msgid "Versions"
 msgstr "Versi"
 
-#: templates/layout.html.tmpl:73
-#: templates/pages/node.tmpl:17
+#: templates/layout.html.tmpl:77
+#: templates/pages/node.tmpl:26
 #: templates/pages/vulnerabilities.tmpl:4
 #: templates/pages/vulnerability-providers.tmpl:4
 #: templates/pages/vulnerability.tmpl:4
 msgid "Vulnerabilities"
 msgstr "Kerentanan"
 
-#: src/node.js:604
+#: src/node.js:825
 #: src/vulnerabilities.js:95
 msgid "Vulnerability"
 msgstr "Kerentanan"
@@ -1097,14 +1231,15 @@ msgid "Vulnerability providers"
 msgstr "Penyedia kerentanan"
 
 #: src/activity.js:39
+#: templates/pages/schedule-edit.tmpl:59
 msgid "When"
 msgstr "Kapan"
 
-#: templates/pages/index.tmpl:24
+#: templates/pages/index.tmpl:28
 msgid "e.g. Linux"
 msgstr "mis. Linux"
 
-#: templates/pages/index.tmpl:23
+#: templates/pages/index.tmpl:27
 msgid "e.g. kernel"
 msgstr "mis. kernel"
 
@@ -1117,7 +1252,7 @@ msgid "from {reporting} of {count} node"
 msgid_plural "from {reporting} of {count} nodes"
 msgstr[0] "dari {reporting} dari {count} Node"
 
-#: src/nodes.js:292
+#: src/nodes.js:340
 msgid "{count} node selected"
 msgid_plural "{count} nodes selected"
 msgstr[0] "{count} Node dipilih"
@@ -1127,11 +1262,14 @@ msgid "{count} node using an environment no repository here has deployed."
 msgid_plural "{count} nodes using an environment no repository here has deployed."
 msgstr[0] "{count} Node menggunakan Environment yang belum di-deploy oleh repositori mana pun di sini."
 
-#: src/preferences.js:95
+#: src/preferences.js:106
 msgid "Automatic"
 msgstr "Otomatis"
 
-#: src/index.js:192
+#: src/code-plans.js:273
+#: src/index.js:229
+#: src/patches.js:236
+#: src/schedule.js:107
 #: templates/pages/job.tmpl:5
 msgid "Job"
 msgstr "Job"
@@ -1144,7 +1282,8 @@ msgstr "Kelola penyedia"
 msgid "or"
 msgstr "atau"
 
-#: src/nodes.js:338
+#: src/run-patch.js:190
+#: src/run-puppet.js:93
 msgid ", and {count} more"
 msgid_plural ", and {count} more"
 msgstr[0] ", dan {count} lainnya"
@@ -1154,12 +1293,12 @@ msgid "<strong>Assigned</strong> counts nodes classification sends to a repo's e
 msgstr "<strong>Ditugaskan</strong> menghitung Nodes yang dikirim klasifikasi ke Environments sebuah repositori; <strong>melapor</strong> menghitung Nodes yang terakhir berjalan dari salah satunya. Keduanya ditampilkan terpisah karena selisih di antaranya adalah sinyal yang berguna."
 
 #: templates/pages/group.tmpl:23
-msgid "A node can match several groups at once. Their classes and parameters are combined; when two groups set the <em>same</em> class parameter, top-scope parameter, or environment, the one with the higher priority wins. Priorities must be unique."
-msgstr "Sebuah Node dapat cocok dengan beberapa grup sekaligus. Kelas dan parameternya digabungkan; ketika dua grup menetapkan parameter kelas, parameter lingkup atas, atau Environment yang <em>sama</em>, yang berprioritas lebih tinggi menang. Prioritas harus unik."
+#~ msgid "A node can match several groups at once. Their classes and parameters are combined; when two groups set the <em>same</em> class parameter, top-scope parameter, or environment, the one with the higher priority wins. Priorities must be unique."
+#~ msgstr "Sebuah Node dapat cocok dengan beberapa grup sekaligus. Kelas dan parameternya digabungkan; ketika dua grup menetapkan parameter kelas, parameter lingkup atas, atau Environment yang <em>sama</em>, yang berprioritas lebih tinggi menang. Prioritas harus unik."
 
 #: templates/pages/group.tmpl:50
-msgid "A node joins this group when its facts satisfy <em>every</em> condition below. Fact path is a dotted path into the node's facts, like <code>os.family</code> or <code>networking.fqdn</code> — open a node's page to see the facts it reports. With no conditions and no pinned nodes, the group matches nothing."
-msgstr "Sebuah Node bergabung ke grup ini ketika Facts-nya memenuhi <em>setiap</em> kondisi di bawah. Jalur Fact adalah jalur bertitik ke dalam Facts Node, seperti <code>os.family</code> atau <code>networking.fqdn</code> — buka halaman sebuah Node untuk melihat Facts yang dilaporkannya. Tanpa kondisi dan tanpa Nodes yang disematkan, grup tidak cocok dengan apa pun."
+#~ msgid "A node joins this group when its facts satisfy <em>every</em> condition below. Fact path is a dotted path into the node's facts, like <code>os.family</code> or <code>networking.fqdn</code> — open a node's page to see the facts it reports. With no conditions and no pinned nodes, the group matches nothing."
+#~ msgstr "Sebuah Node bergabung ke grup ini ketika Facts-nya memenuhi <em>setiap</em> kondisi di bawah. Jalur Fact adalah jalur bertitik ke dalam Facts Node, seperti <code>os.family</code> atau <code>networking.fqdn</code> — buka halaman sebuah Node untuk melihat Facts yang dilaporkannya. Tanpa kondisi dan tanpa Nodes yang disematkan, grup tidak cocok dengan apa pun."
 
 #: src/activity.js:17
 msgid "Actions taken through the console will show up here."
@@ -1170,8 +1309,8 @@ msgid "Assigned, none reporting"
 msgstr "Ditugaskan, tidak ada yang melapor"
 
 #: templates/pages/group.tmpl:63
-msgid "Certnames listed here are always in this group, whether or not the match rule matches them."
-msgstr "Certname yang tercantum di sini selalu berada dalam grup ini, terlepas dari apakah aturan pencocokan mencocokkannya."
+#~ msgid "Certnames listed here are always in this group, whether or not the match rule matches them."
+#~ msgstr "Certname yang tercantum di sini selalu berada dalam grup ini, terlepas dari apakah aturan pencocokan mencocokkannya."
 
 #: src/code-repositories.js:109
 msgid "Converging"
@@ -1181,7 +1320,7 @@ msgstr "Menyelaras"
 msgid "Deployed, but no node is classified into or reporting from its environments"
 msgstr "Ter-deploy, tetapi tidak ada Node yang diklasifikasikan ke Environments-nya atau melapor dari sana"
 
-#: templates/pages/group.tmpl:18
+#: templates/pages/group.tmpl:32
 msgid "Higher wins a conflict."
 msgstr "Prioritas lebih tinggi menang saat konflik."
 
@@ -1189,27 +1328,27 @@ msgstr "Prioritas lebih tinggi menang saat konflik."
 msgid "In use"
 msgstr "Digunakan"
 
-#: src/nodes.js:101
+#: src/nodes.js:109
 msgid "Infrastructure"
 msgstr "Infrastruktur"
 
-#: src/index.js:24
+#: src/index.js:25
 msgid "Intentional changes"
 msgstr "Perubahan yang disengaja"
 
 #: src/login.js:22
-msgid "Invalid username or password."
-msgstr "Nama pengguna atau kata sandi tidak valid."
+#~ msgid "Invalid username or password."
+#~ msgstr "Nama pengguna atau kata sandi tidak valid."
 
-#: src/nodes.js:251
+#: src/nodes.js:295
 msgid "Last connected"
 msgstr "Terakhir terhubung"
 
-#: src/job.js:71
+#: src/job.js:235
 msgid "No job specified."
 msgstr "Job tidak ditentukan."
 
-#: src/node.js:622
+#: src/node.js:843
 msgid "No node specified."
 msgstr "Node tidak ditentukan."
 
@@ -1257,24 +1396,25 @@ msgstr "Tidak terklasifikasi"
 msgid "Unused"
 msgstr "Tidak digunakan"
 
-#: templates/pages/group.tmpl:38
+#: templates/pages/group.tmpl:79
 msgid "Variables set for every manifest compiled for these nodes, available as $variable. An object of name/value pairs."
 msgstr "Variabel yang ditetapkan untuk setiap manifest yang dikompilasi bagi Nodes ini, tersedia sebagai $variable. Objek berisi pasangan nama/nilai."
 
-#: src/job.js:36
+#: src/job.js:125
 msgid "View report"
 msgstr "Lihat Report"
 
-#: src/nodes.js:38
-#: src/nodes.js:54
+#: src/nodes.js:46
+#: src/nodes.js:62
 msgid "checking…"
 msgstr "memeriksa…"
 
-#: src/nodes.js:49
+#: src/nodes.js:147
+#: src/nodes.js:57
 msgid "never"
 msgstr "tidak pernah"
 
-#: src/index.js:189
+#: src/index.js:226
 msgid "no targets"
 msgstr "tanpa target"
 
@@ -1294,20 +1434,22 @@ msgstr "{assigned} Node ditugaskan dan melapor"
 msgid "{reporting} node(s) report from its environments, but no group assigns any node there"
 msgstr "{reporting} Node melapor dari Environments-nya, tetapi tidak ada grup yang menugaskan Node di sana"
 
-#: templates/pages/group.tmpl:20
+#: templates/pages/group.tmpl:38
 msgid "Puppet environment matching nodes compile against. Blank means this group doesn't set one."
 msgstr "Environment Puppet tempat Nodes yang cocok melakukan kompilasi. Kosong berarti grup ini tidak menetapkannya."
 
-#: src/app.js:493
-#: src/app.js:505
+#: src/app.js:572
+#: src/app.js:584
 msgid ", +{count} more"
 msgid_plural ", +{count} more"
 msgstr[0] ", +{count} lagi"
 
-#: templates/pages/group.tmpl:33
-msgid "Puppet classes applied to every node in this group, each with optional parameters. A list of {\"name\", \"parameters\"} objects."
-msgstr "Kelas Puppet yang diterapkan ke setiap Node dalam grup ini, masing-masing dengan parameter opsional. Daftar objek {\"name\", \"parameters\"}."
+#: templates/pages/group.tmpl:48
+#~ msgid "Puppet classes applied to every node in this group, each with optional parameters. A list of {\"name\", \"parameters\"} objects."
+#~ msgstr "Kelas Puppet yang diterapkan ke setiap Node dalam grup ini, masing-masing dengan parameter opsional. Daftar objek {\"name\", \"parameters\"}."
 
+#: src/node.js:695
+#: src/patches.js:130
 #: src/vulnerabilities.js:87
 msgid "Available"
 msgstr "Tersedia"
@@ -1345,7 +1487,9 @@ msgstr "Belum disinkronkan"
 msgid "Syncing"
 msgstr "Menyinkronkan"
 
-#: src/index.js:151
+#: src/agentless.js:297
+#: src/agentless.js:369
+#: src/index.js:188
 msgid "User"
 msgstr "Pengguna"
 
@@ -1357,6 +1501,8 @@ msgstr "{minutes} mnt"
 msgid "Signing in…"
 msgstr "Sedang masuk&hellip;"
 
+#: src/agentless.js:282
+#: src/agentless.js:95
 #: src/status.js:133
 msgid "Address"
 msgstr "Alamat"
@@ -1427,7 +1573,7 @@ msgstr "selisih jam"
 msgid "differs by instance"
 msgstr "berbeda per instans"
 
-#: templates/layout.html.tmpl:98
+#: templates/layout.html.tmpl:102
 #: templates/pages/status.tmpl:3
 msgid "System"
 msgstr "Sistem"
@@ -1447,3 +1593,2194 @@ msgstr "Belum dikonfigurasi"
 #: src/status.js:31
 msgid "Unreachable"
 msgstr "Tidak terjangkau"
+
+#: src/task-form.js:144
+msgid "Choose a task"
+msgstr "Pilih Task"
+
+#: src/code-plans.js:111
+#: src/task-form.js:28
+msgid "Default: {value}"
+msgstr "Bawaan: {value}"
+
+#: src/job.js:53
+msgid "Environment:"
+msgstr "Environment:"
+
+#: src/task-form.js:303
+msgid "Fix these parameters first:"
+msgstr "Perbaiki parameter ini dulu:"
+
+#: src/code-plans.js:132
+#: src/task-form.js:51
+msgid "JSON, for example [\"a\", \"b\"]"
+msgstr "JSON, misalnya [\"a\", \"b\"]"
+
+#: src/task-form.js:139
+msgid "No tasks in this environment"
+msgstr "Tidak ada Task di Environment ini"
+
+#: src/code-plans.js:118
+#: src/code-plans.js:120
+#: src/task-form.js:37
+msgid "Not set"
+msgstr "Tidak diatur"
+
+#: src/run-task.js:126
+#~ msgid "On {count} nodes."
+#~ msgstr ""
+
+#: src/run-task.js:31
+msgid "On {node}."
+msgstr "Di {node}."
+
+#: src/code-plans.js:282
+#: src/code-plans.js:57
+#: src/job.js:99
+#: src/plan-common.js:137
+#: src/schedule.js:23
+#: src/task-form.js:185
+msgid "Parameters"
+msgstr "Parameter"
+
+#: src/plan-common.js:174
+#: src/task-form.js:282
+msgid "Problem:"
+msgstr "Masalah:"
+
+#: src/job.js:110
+msgid "Result from {node}"
+msgstr "Hasil dari {node}"
+
+#: src/plan-edit.js:33
+#: src/run-task.js:26
+#: templates/pages/schedule-edit.tmpl:24
+msgid "Run a task"
+msgstr "Jalankan Task"
+
+#: src/run-task.js:44
+#: templates/pages/group.tmpl:130
+#: templates/pages/jobs.tmpl:7
+#: templates/pages/node.tmpl:10
+#: templates/pages/nodes.tmpl:38
+msgid "Run task"
+msgstr "Jalankan Task"
+
+#: src/task-form.js:198
+msgid "Stopped if still running after this long. 30 minutes if left empty."
+msgstr "Dihentikan jika masih berjalan setelah waktu ini. 30 menit jika dikosongkan."
+
+#: src/task-form.js:97
+msgid "Tasks are not configured on this console. An administrator sets CONSOLE_PUPPET_SERVER_URL to enable them."
+msgstr "Task belum dikonfigurasi di konsol ini. Administrator mengaktifkannya dengan mengatur CONSOLE_PUPPET_SERVER_URL."
+
+#: src/task-form.js:318
+msgid "The console refused these parameters:"
+msgstr "Konsol menolak parameter ini:"
+
+#: src/task-form.js:186
+msgid "This task declares no parameters, so any JSON object is passed to it as is."
+msgstr "Task ini tidak mendeklarasikan parameter, jadi objek JSON apa pun diteruskan apa adanya."
+
+#: src/task-form.js:188
+msgid "This task takes no parameters."
+msgstr "Task ini tidak menerima parameter."
+
+#: src/task-form.js:197
+msgid "Timeout (minutes)"
+msgstr "Batas waktu (menit)"
+
+#: src/task-form.js:262
+msgid "is not valid JSON"
+msgstr "bukan JSON yang valid"
+
+#: src/task-form.js:237
+msgid "must be a JSON object"
+msgstr "harus berupa objek JSON"
+
+#: src/plan-common.js:174
+#: src/task-form.js:247
+msgid "required"
+msgstr "wajib diisi"
+
+#: src/run-task.js:32
+msgid "On {count} node."
+msgid_plural "On {count} nodes."
+msgstr[0] "Di {count} Node."
+
+#: src/node.js:577
+msgid "Attempt {attempts} of {max}. Next automatic attempt: {time}."
+msgstr "Percobaan {attempts} dari {max}. Percobaan otomatis berikutnya: {time}."
+
+#: src/node.js:575
+msgid "Automatic attempts stopped after {attempts} failures."
+msgstr "Percobaan otomatis dihentikan setelah {attempts} kegagalan."
+
+#: src/index.js:131
+msgid "Automatic upgrades are off."
+msgstr "Peningkatan otomatis nonaktif."
+
+#: src/index.js:131
+msgid "Automatic upgrades are on."
+msgstr "Peningkatan otomatis aktif."
+
+#: src/nodes.js:130
+msgid "Client out of date"
+msgstr "Klien kedaluwarsa"
+
+#: src/index.js:125
+msgid "Clients too old to upgrade themselves: {count}. Re-run the install script on those nodes once; the Nodes page marks them."
+msgstr "Klien yang terlalu lama untuk meningkatkan dirinya sendiri: {count}. Jalankan ulang skrip instalasi pada nodes tersebut satu kali; halaman Nodes menandainya."
+
+#: src/node.js:556
+msgid "Current"
+msgstr "Terkini"
+
+#: src/index.js:120
+msgid "Current: {count}"
+msgstr "Terkini: {count}"
+
+#: src/index.js:122
+msgid "Failed upgrades: {count}"
+msgstr "Peningkatan gagal: {count}"
+
+#: src/node.js:593
+#: src/node.js:611
+msgid "Node agent"
+msgstr "Agen node"
+
+#: src/index.js:129
+msgid "Node agents"
+msgstr "Agen nodes"
+
+#: src/node.js:557
+#: src/node.js:558
+#: src/patches.js:61
+msgid "Out of date"
+msgstr "Kedaluwarsa"
+
+#: src/index.js:121
+msgid "Out of date: {count}"
+msgstr "Kedaluwarsa: {count}"
+
+#: src/node.js:573
+msgid "The last client upgrade failed: {error}"
+msgstr "Peningkatan klien terakhir gagal: {error}"
+
+#: src/node.js:571
+msgid "The node has been told to upgrade its client. It restarts onto the new build when the upgrade completes."
+msgstr "Node telah diminta meningkatkan kliennya. Node akan dimulai ulang dengan build baru setelah peningkatan selesai."
+
+#: src/node.js:562
+msgid "This client is too old to upgrade itself. Re-run the install script on this node once; after that it keeps itself current."
+msgstr "Klien ini terlalu lama untuk meningkatkan dirinya sendiri. Jalankan ulang skrip instalasi pada node ini satu kali; setelah itu klien akan menjaga dirinya tetap terkini."
+
+#: src/node.js:564
+msgid "This console has no client package for the platform of this node."
+msgstr "Konsol ini tidak memiliki paket klien untuk platform node ini."
+
+#: src/node.js:593
+msgid "This node has not reported its client build yet. It does so the next time it connects."
+msgstr "Node ini belum melaporkan build kliennya. Node akan melaporkannya saat terhubung berikutnya."
+
+#: src/node.js:599
+msgid "Unknown build"
+msgstr "Build tidak dikenal"
+
+#: src/node.js:614
+msgid "Upgrade client"
+msgstr "Tingkatkan klien"
+
+#: src/node.js:563
+msgid "Upgrades are declined in the configuration of this node."
+msgstr "Peningkatan ditolak dalam konfigurasi node ini."
+
+#: src/node.js:600
+msgid "Version {version}, built {time}"
+msgstr "Versi {version}, dibuat {time}"
+
+#: src/node.js:602
+msgid "unknown"
+msgstr "tidak diketahui"
+
+#: src/node.js:601
+msgid "unversioned"
+msgstr "tanpa versi"
+
+#: templates/pages/group.tmpl:41
+msgid "A node can match several groups at once. Their classes and parameters are combined. When two groups set the <em>same</em> class parameter, top-scope parameter, or environment, a group always wins over the groups above it in the tree; between unrelated groups the one with the higher priority wins. Priorities must be unique."
+msgstr "Sebuah Node dapat cocok dengan beberapa grup sekaligus. Kelas dan parameternya digabungkan. Ketika dua grup menetapkan parameter kelas, parameter global, atau Environment yang <em>sama</em>, sebuah grup selalu menang atas grup di atasnya dalam pohon; di antara grup yang tidak berhubungan, yang prioritasnya lebih tinggi yang menang. Prioritas harus unik."
+
+#: templates/pages/group.tmpl:97
+msgid "A node joins this group when it is in the parent group and its facts satisfy the conditions below. Fact path is a dotted path into the node's facts, like <code>os.family</code> or <code>networking.fqdn</code> — open a node's page to see the facts it reports. With no conditions and no pinned nodes, the group matches nothing."
+msgstr "Sebuah Node masuk ke grup ini ketika berada di grup induk dan Facts-nya memenuhi syarat di bawah ini. Jalur Fact adalah jalur bertitik ke dalam Facts milik Node, seperti <code>os.family</code> atau <code>networking.fqdn</code> — buka halaman sebuah Node untuk melihat Facts yang dilaporkannya. Tanpa syarat dan tanpa Node tersemat, grup tidak cocok dengan apa pun."
+
+#: templates/pages/group.tmpl:104
+msgid "A node must satisfy"
+msgstr "Sebuah Node harus memenuhi"
+
+#: templates/pages/group.tmpl:13
+msgid "All Nodes is the built-in group every node belongs to. Its classes, parameters and environment apply to every node; its name, rule and pinned nodes cannot be changed."
+msgstr "All Nodes adalah grup bawaan yang berisi setiap Node. Kelas, parameter, dan Environment-nya berlaku untuk setiap Node; nama, aturan, dan Node tersematnya tidak dapat diubah."
+
+#: templates/pages/group.tmpl:113
+msgid "Certnames listed here are in this group whether or not the match rule matches them, as long as they are also in the parent group."
+msgstr "Certname yang tercantum di sini berada di grup ini, baik aturan pencocokan mencocokkannya atau tidak, selama juga berada di grup induk."
+
+#: src/groups.js:35
+msgid "Create a group to start classifying nodes."
+msgstr "Buat grup untuk mulai mengklasifikasikan Nodes."
+
+#: src/group.js:182
+msgid "Groups beneath this one override it despite their lower priority."
+msgstr "Grup di bawah grup ini menimpanya meskipun prioritasnya lebih rendah."
+
+#: src/group.js:172
+msgid "Its value is the one used, because a group always wins over the groups above it. Priority alone would have chosen the parent's. This group sets:"
+msgstr "Nilainya yang dipakai, karena sebuah grup selalu menang atas grup di atasnya. Prioritas saja akan memilih nilai induk. Grup ini menetapkan:"
+
+#: src/groups.js:14
+msgid "Overrides priority"
+msgstr "Menimpa prioritas"
+
+#: src/groups.js:8
+msgid "Overrides {count} value set by a parent with a higher priority"
+msgid_plural "Overrides {count} values set by a parent with a higher priority"
+msgstr[0] "Menimpa {count} nilai yang ditetapkan induk dengan prioritas lebih tinggi"
+
+#: templates/pages/group.tmpl:25
+msgid "Parent group"
+msgstr "Grup induk"
+
+#: src/group.js:183
+msgid "Their values are the ones used for their nodes:"
+msgstr "Nilai merekalah yang dipakai untuk Nodes mereka:"
+
+#: src/group.js:474
+msgid "These pinned nodes are not currently in this group, because they are not in its parent group (or are not known to the console):"
+msgstr "Node tersemat berikut saat ini tidak berada di grup ini, karena tidak berada di grup induknya (atau tidak dikenal oleh konsol):"
+
+#: templates/pages/group.tmpl:26
+msgid "This group can only contain nodes that are also in its parent, and it inherits the parent's classes and parameters."
+msgstr "Grup ini hanya dapat berisi Nodes yang juga berada di induknya, dan mewarisi kelas serta parameter induk."
+
+#: src/group.js:171
+msgid "This group overrides a parent with a higher priority."
+msgstr "Grup ini menimpa induk dengan prioritas lebih tinggi."
+
+#: src/group.js:457
+msgid "Whether each pinned node is currently in this group is unavailable."
+msgstr "Tidak dapat diketahui apakah setiap Node tersemat saat ini berada di grup ini."
+
+#: src/group.js:156
+msgid "a different environment from {ancestor}"
+msgstr "Environment yang berbeda dari {ancestor}"
+
+#: src/group.js:103
+msgid "all of the conditions"
+msgstr "semua syarat"
+
+#: src/group.js:104
+msgid "any one of the conditions"
+msgstr "salah satu syarat"
+
+#: src/group.js:158
+msgid "parameter {key} of class {class}, which {ancestor} sets differently"
+msgstr "parameter {key} dari kelas {class}, yang ditetapkan berbeda oleh {ancestor}"
+
+#: src/group.js:157
+msgid "top-scope parameter {key}, which {ancestor} sets differently"
+msgstr "parameter global {key}, yang ditetapkan berbeda oleh {ancestor}"
+
+#: src/roles.js:111
+#: src/roles.js:124
+#: src/user-groups.js:149
+msgid "Change"
+msgstr "Ubah"
+
+#: src/roles.js:64
+msgid "No node groups"
+msgstr "Tidak ada grup Node"
+
+#: src/roles.js:50
+msgid "Node groups could not be loaded, so the new role will cover all nodes. Viewing node groups needs the classifier:read permission."
+msgstr "Grup Node tidak dapat dimuat, sehingga peran baru akan mencakup semua Nodes. Melihat grup Node memerlukan izin classifier:read."
+
+#: src/roles.js:116
+msgid "Save node groups"
+msgstr "Simpan grup Node"
+
+#: templates/pages/roles.tmpl:25
+msgid "The role's permissions apply to the nodes in these groups and in every group beneath them. All Nodes covers the whole fleet."
+msgstr "Izin peran berlaku untuk Nodes di grup-grup ini dan di setiap grup di bawahnya. All Nodes mencakup seluruh armada."
+
+#: src/group.js:594
+msgid "This group is granted to one or more roles. Remove it from those roles on the Roles page before deleting it."
+msgstr "Grup ini diberikan kepada satu atau beberapa peran. Hapus grup ini dari peran tersebut di halaman Peran sebelum menghapusnya."
+
+#: src/nodes.js:589
+msgid "You are seeing the nodes in this node group and the groups beneath it: {groups}"
+msgid_plural "You are seeing the nodes in these node groups and the groups beneath them: {groups}"
+msgstr[0] "Anda melihat Nodes di grup Node berikut dan grup di bawahnya: {groups}"
+
+#: src/nodes.js:585
+msgid "Your roles are not granted on any node group, so no nodes are shown. Ask an administrator to add a node group to one of your roles."
+msgstr "Peran Anda tidak diberikan pada grup Node mana pun, sehingga tidak ada Node yang ditampilkan. Minta administrator menambahkan grup Node ke salah satu peran Anda."
+
+#: src/roles.js:67
+msgid "{count} node groups"
+msgstr "{count} grup Node"
+
+#: src/app.js:291
+msgid "Nothing was done. Your role cannot act on this node, because it is not in your node groups: {nodes}"
+msgid_plural "Nothing was done on any node. Your role cannot act on these nodes, because they are not in your node groups: {nodes}"
+msgstr[0] "Tidak ada yang dilakukan pada Node mana pun. Peran Anda tidak dapat bertindak pada Nodes berikut, karena tidak berada di grup Node Anda: {nodes}"
+
+#: src/job.js:57
+msgid "Only the nodes in your node groups are shown. This job also ran on other nodes, and its status covers all of them."
+msgstr "Hanya Nodes di grup Node Anda yang ditampilkan. Job ini juga berjalan di Nodes lain, dan statusnya mencakup semuanya."
+
+#: src/app.js:290
+msgid "{nodes} and {count} more"
+msgstr "{nodes} dan {count} lainnya"
+
+#: templates/pages/group.tmpl:67
+msgid "Add a class"
+msgstr "Tambah kelas"
+
+#: templates/pages/group.tmpl:72
+msgid "Add class"
+msgstr "Tambah kelas"
+
+#: src/class-editor.js:257
+msgid "Add parameter"
+msgstr "Tambah parameter"
+
+#: src/run-puppet.js:32
+msgid "Asks the node to run against this environment. A node whose node groups set an environment runs in that one instead; the job shows which was used."
+msgstr "Meminta Node berjalan dengan Environment ini. Node yang grup Node-nya menetapkan Environment akan berjalan di Environment itu; Job menunjukkan mana yang dipakai."
+
+#: src/class-editor.js:378
+msgid "Choose or type a class"
+msgstr "Pilih atau ketik kelas"
+
+#: src/class-editor.js:252
+msgid "Choose or type a parameter"
+msgstr "Pilih atau ketik parameter"
+
+#: src/class-editor.js:345
+msgid "Choosing from the classes in the {environment} environment, as read at {time}."
+msgstr "Memilih dari kelas di Environment {environment}, sebagaimana dibaca pada {time}."
+
+#: src/groups.js:28
+msgid "Class mismatch"
+msgstr "Kelas tidak cocok"
+
+#: src/class-editor.js:378
+msgid "Class name, like profile::base"
+msgstr "Nama kelas, seperti profile::base"
+
+#: src/class-editor.js:309
+msgid "Class {class} already sets parameter {parameter}."
+msgstr "Kelas {class} sudah menetapkan parameter {parameter}."
+
+#: src/class-editor.js:482
+msgid "Classes must be a JSON list of objects, each with a \"name\" and optional \"parameters\"."
+msgstr "Kelas harus berupa daftar JSON berisi objek, masing-masing dengan \"name\" dan \"parameters\" opsional."
+
+#: src/run-puppet.js:161
+msgid "Debug"
+msgstr "Debug"
+
+#: src/run-puppet.js:27
+msgid "Debug output"
+msgstr "Keluaran debug"
+
+#: src/class-editor.js:184
+msgid "Default: {default}"
+msgstr "Bawaan: {default}"
+
+#: src/class-editor.js:217
+msgid "Does not fit the type: {detail}"
+msgstr "Tidak sesuai dengan tipe: {detail}"
+
+#: src/class-editor.js:186
+msgid "Entered as JSON"
+msgstr "Dimasukkan sebagai JSON"
+
+#: src/run-puppet.js:160
+msgid "Environment: {environment}"
+msgstr "Environment: {environment}"
+
+#: src/class-editor.js:477
+msgid "Invalid JSON in the classes: {error}"
+msgstr "JSON tidak valid pada kelas: {error}"
+
+#: src/class-editor.js:264
+msgid "No classes yet. Nodes in this group get only what their other groups give them."
+msgstr "Belum ada kelas. Nodes di grup ini hanya mendapatkan apa yang diberikan grup lainnya."
+
+#: src/class-editor.js:185
+msgid "No default in the code"
+msgstr "Tidak ada nilai bawaan dalam kode"
+
+#: src/class-editor.js:247
+msgid "No parameters set: the code's own defaults and Hiera apply."
+msgstr "Tidak ada parameter yang ditetapkan: nilai bawaan kode dan Hiera yang berlaku."
+
+#: src/run-puppet.js:26
+msgid "No-op: report what would change, and change nothing"
+msgstr "No-op: laporkan apa yang akan berubah, tanpa mengubah apa pun"
+
+#: src/class-editor.js:213
+msgid "Not a parameter of this class"
+msgstr "Bukan parameter kelas ini"
+
+#: src/class-editor.js:242
+msgid "Not defined in {environment}"
+msgstr "Tidak didefinisikan di {environment}"
+
+#: src/job.js:78
+msgid "Output from {node}"
+msgstr "Keluaran dari {node}"
+
+#: src/class-editor.js:252
+msgid "Parameter name"
+msgstr "Nama parameter"
+
+#: src/class-editor.js:172
+msgid "Parameter {parameter} of class {class} is not valid JSON. Text needs double quotes, like \"value\"."
+msgstr "Parameter {parameter} dari kelas {class} bukan JSON yang valid. Teks memerlukan tanda kutip ganda, seperti \"value\"."
+
+#: src/class-editor.js:163
+msgid "Parameter {parameter} of class {class} needs a number. Enter one, or remove the parameter to leave it unset."
+msgstr "Parameter {parameter} dari kelas {class} memerlukan angka. Masukkan angka, atau hapus parameter agar tetap tidak ditetapkan."
+
+#: templates/pages/group.tmpl:56
+msgid "Puppet classes applied to every node in this group. A parameter left unset keeps the value the code or Hiera gives it. A class or parameter that the environment's code does not define can still be saved, and is marked."
+msgstr "Kelas Puppet yang diterapkan ke setiap Node di grup ini. Parameter yang tidak ditetapkan mempertahankan nilai yang diberikan kode atau Hiera. Kelas atau parameter yang tidak didefinisikan oleh kode Environment tetap dapat disimpan, dan akan ditandai."
+
+#: src/job.js:89
+msgid "Ran in {used}, not {requested}"
+msgstr "Berjalan di {used}, bukan {requested}"
+
+#: src/class-editor.js:351
+msgid "Refresh classes"
+msgstr "Segarkan kelas"
+
+#: src/class-editor.js:245
+msgid "Remove class {class}"
+msgstr "Hapus kelas {class}"
+
+#: src/class-editor.js:232
+msgid "Remove parameter {parameter}"
+msgstr "Hapus parameter {parameter}"
+
+#: src/run-puppet.js:95
+msgid "Run Puppet on {node}?"
+msgstr "Jalankan Puppet di {node}?"
+
+#: src/class-editor.js:250
+msgid "Set a parameter"
+msgstr "Tetapkan parameter"
+
+#: src/class-editor.js:361
+msgid "The Puppet server could not be reached just now, so this list of classes may be out of date. Nothing is marked as missing until it can be read again."
+msgstr "Server Puppet tidak dapat dihubungi barusan, sehingga daftar kelas ini mungkin sudah usang. Tidak ada yang ditandai hilang sampai daftar dapat dibaca kembali."
+
+#: src/class-editor.js:76
+msgid "The Puppet server has no environment named {environment}, so its classes cannot be listed. Classes and parameters can still be entered by name."
+msgstr "Server Puppet tidak memiliki Environment bernama {environment}, sehingga kelasnya tidak dapat ditampilkan. Kelas dan parameter tetap dapat dimasukkan dengan nama."
+
+#: src/job.js:58
+msgid "The environment is a request. A node whose node groups set an environment runs in that one instead, and is marked below once its report arrives."
+msgstr "Environment adalah permintaan. Node yang grup Node-nya menetapkan Environment akan berjalan di Environment itu, dan ditandai di bawah setelah Report-nya tiba."
+
+#: src/class-editor.js:78
+msgid "The list of classes is unavailable: the Puppet server could not be reached. Classes and parameters can still be entered by name."
+msgstr "Daftar kelas tidak tersedia: server Puppet tidak dapat dihubungi. Kelas dan parameter tetap dapat dimasukkan dengan nama."
+
+#: src/class-editor.js:74
+msgid "The list of classes is unavailable: the Puppet server does not allow the console to read classes. An administrator adds a rule for /puppet/v3/environment_classes to the server's auth.conf - see the installation guide. Classes and parameters can still be entered by name."
+msgstr "Daftar kelas tidak tersedia: server Puppet tidak mengizinkan konsol membaca kelas. Administrator menambahkan aturan untuk /puppet/v3/environment_classes ke auth.conf server - lihat panduan instalasi. Kelas dan parameter tetap dapat dimasukkan dengan nama."
+
+#: src/class-editor.js:72
+msgid "The list of classes is unavailable: this console has no connection to the Puppet server. An administrator sets CONSOLE_PUPPET_SERVER_URL to enable it. Classes and parameters can still be entered by name."
+msgstr "Daftar kelas tidak tersedia: konsol ini tidak memiliki koneksi ke server Puppet. Administrator menetapkan CONSOLE_PUPPET_SERVER_URL untuk mengaktifkannya. Kelas dan parameter tetap dapat dimasukkan dengan nama."
+
+#: src/class-editor.js:367
+msgid "These manifests could not be parsed, so their classes are not in the list, and no class is marked as undefined:"
+msgstr "Manifes berikut tidak dapat diurai, sehingga kelasnya tidak ada dalam daftar, dan tidak ada kelas yang ditandai tidak terdefinisi:"
+
+#: src/class-editor.js:419
+msgid "This group already has class {class}."
+msgstr "Grup ini sudah memiliki kelas {class}."
+
+#: src/job.js:90
+msgid "This node's node groups set its environment, which takes precedence over the one a run asks for."
+msgstr "Grup Node milik Node ini menetapkan Environment-nya, yang lebih diutamakan daripada yang diminta sebuah run."
+
+#: src/class-editor.js:396
+msgid "{count} class or parameter below does not match the code in the {environment} environment. It is saved and applied as it is; a node whose catalog needs it will fail to compile until the code or the group is changed."
+msgid_plural "{count} classes or parameters below do not match the code in the {environment} environment. They are saved and applied as they are; a node whose catalog needs them will fail to compile until the code or the group is changed."
+msgstr[0] "{count} kelas atau parameter di bawah tidak cocok dengan kode di Environment {environment}. Semuanya disimpan dan diterapkan apa adanya; Node yang katalognya memerlukannya akan gagal dikompilasi sampai kode atau grup diubah."
+
+#: src/groups.js:22
+msgid "{count} class or parameter does not match the code in {environment}"
+msgid_plural "{count} classes or parameters do not match the code in {environment}"
+msgstr[0] "{count} kelas atau parameter tidak cocok dengan kode di {environment}"
+
+#: templates/pages/schedule-edit.tmpl:51
+msgid "A query or a node group is worked out again each time the schedule starts, so it follows the nodes as they change. The preview shows what it would run on now."
+msgstr "Kueri atau grup Node dihitung ulang setiap kali jadwal dimulai, sehingga mengikuti Nodes saat berubah. Pratinjau menunjukkan di mana jadwal akan berjalan sekarang."
+
+#: src/target-picker.js:61
+msgid "A query that returns certname. It is run when the job starts, and the job runs on the matching nodes in your node groups."
+msgstr "Kueri yang mengembalikan certname. Kueri dijalankan saat Job dimulai, dan Job berjalan di Nodes yang cocok dalam grup Node Anda."
+
+#: templates/pages/schedule-edit.tmpl:82
+msgid "A repeat is a fixed length of time from the start: a day is 24 hours. Where the clocks change, a daily schedule moves by an hour on the local clock. It cannot repeat more often than every 5 minutes."
+msgstr "Pengulangan adalah rentang waktu tetap sejak mulai: satu hari adalah 24 jam. Saat jam berubah, jadwal harian bergeser satu jam pada jam lokal. Jadwal tidak dapat berulang lebih sering dari setiap 5 menit."
+
+#: templates/pages/schedules.tmpl:12
+#~ msgid "A scheduled job starts a Puppet run or a task later, once or repeatedly. Its nodes are worked out each time it starts, and it runs with its owner's access as it is at that moment."
+#~ msgstr ""
+
+#: src/plan-common.js:124
+#: src/task-form.js:29
+msgid "A value is stored. Leave this empty to keep it."
+msgstr "Sebuah nilai tersimpan. Biarkan kosong untuk mempertahankannya."
+
+#: src/schedule-common.js:88
+msgid "Active"
+msgstr "Aktif"
+
+#: src/schedule.js:60
+msgid "All {count} nodes"
+msgstr "Semua {count} Nodes"
+
+#: src/target-picker.js:184
+msgid "Choose a node group"
+msgstr "Pilih grup Node"
+
+#: src/target-picker.js:165
+msgid "Choose a node group first."
+msgstr "Pilih grup Node terlebih dahulu."
+
+#: src/task-form.js:297
+msgid "Choose a task first."
+msgstr "Pilih Task terlebih dahulu."
+
+#: src/target-picker.js:46
+msgid "Choose nodes by"
+msgstr "Pilih Nodes berdasarkan"
+
+#: src/schedule-edit.js:182
+msgid "Choose when it starts."
+msgstr "Pilih kapan dimulai."
+
+#: src/schedule.js:146
+msgid "Delete this schedule?"
+msgstr "Hapus jadwal ini?"
+
+#: src/schedule.js:107
+msgid "Due"
+msgstr "Jatuh tempo"
+
+#: src/schedule.js:75
+msgid "Each time it starts, it runs on the nodes its owner's role can act on at that moment. If the owner can no longer run jobs, nothing is started."
+msgstr "Setiap kali dimulai, jadwal berjalan di Nodes yang dapat ditindak oleh peran pemiliknya pada saat itu. Jika pemilik tidak lagi dapat menjalankan Jobs, tidak ada yang dimulai."
+
+#: src/schedule-edit.js:219
+#: src/schedule-edit.js:220
+msgid "Edit schedule"
+msgstr "Ubah jadwal"
+
+#: templates/pages/schedule-edit.tmpl:73
+msgid "Every"
+msgstr "Setiap"
+
+#: src/schedule-common.js:56
+#: src/target-picker.js:195
+#: src/target-picker.js:263
+msgid "Group {id}"
+msgstr "Grup {id}"
+
+#: src/target-picker.js:191
+msgid "Group {id} (deleted)"
+msgstr "Grup {id} (dihapus)"
+
+#: src/schedule-edit.js:143
+msgid "In your local time."
+msgstr "Dalam waktu lokal Anda."
+
+#: src/schedule-edit.js:142
+msgid "In your time zone, {zone}."
+msgstr "Dalam zona waktu Anda, {zone}."
+
+#: src/schedule.js:89
+msgid "It has not come due yet"
+msgstr "Belum jatuh tempo"
+
+#: src/schedule.js:147
+msgid "It will not start again. The jobs it has already started stay in the job history."
+msgstr "Jadwal tidak akan dimulai lagi. Jobs yang sudah dimulainya tetap ada di riwayat Job."
+
+#: src/code-plans.js:267
+#: src/job.js:66
+#: src/node.js:738
+#: src/patches.js:227
+#: src/schedule.js:98
+#: src/schedules.js:15
+msgid "Job #{id}"
+msgstr "Job #{id}"
+
+#: templates/pages/jobs.tmpl:13
+#: templates/pages/plans.tmpl:8
+#: templates/pages/schedules.tmpl:8
+msgid "Job history"
+msgstr "Riwayat Job"
+
+#: src/schedules.js:49
+msgid "Last time"
+msgstr "Terakhir kali"
+
+#: src/target-picker.js:167
+msgid "List at least one node first."
+msgstr "Cantumkan setidaknya satu Node terlebih dahulu."
+
+#: src/target-picker.js:47
+msgid "List of nodes"
+msgstr "Daftar Nodes"
+
+#: src/jobs.js:42
+msgid "Matched by"
+msgstr "Dicocokkan oleh"
+
+#: templates/pages/schedule-edit.tmpl:6
+#: templates/pages/schedule-edit.tmpl:8
+#: templates/pages/schedules.tmpl:5
+msgid "New schedule"
+msgstr "Jadwal baru"
+
+#: src/schedule.js:69
+#: src/schedules.js:49
+msgid "Next start"
+msgstr "Mulai berikutnya"
+
+#: src/target-picker.js:143
+msgid "No nodes match at the moment."
+msgstr "Tidak ada Node yang cocok saat ini."
+
+#: src/schedule.js:162
+msgid "No schedule specified."
+msgstr "Tidak ada jadwal yang ditentukan."
+
+#: src/schedules.js:23
+msgid "No scheduled jobs"
+msgstr "Tidak ada Job terjadwal"
+
+#: src/jobs.js:42
+#: src/schedule-common.js:57
+#: src/target-picker.js:49
+#: src/target-picker.js:65
+msgid "Node group"
+msgstr "Grup Node"
+
+#: src/job.js:30
+msgid "Node group:"
+msgstr "Grup Node:"
+
+#: src/target-picker.js:197
+msgid "Node groups cannot be listed: your role needs to be able to read them."
+msgstr "Grup Node tidak dapat ditampilkan: peran Anda harus dapat membacanya."
+
+#: src/job.js:30
+msgid "Nodes matched by:"
+msgstr "Nodes dicocokkan oleh:"
+
+#: src/schedule-common.js:53
+msgid "Nodes matching"
+msgstr "Nodes yang cocok"
+
+#: src/schedules.js:13
+msgid "Not yet"
+msgstr "Belum"
+
+#: src/schedule.js:51
+msgid "Nothing further: it does not repeat, and its time has passed."
+msgstr "Tidak ada lagi: jadwal tidak berulang, dan waktunya sudah lewat."
+
+#: src/schedule-common.js:67
+msgid "Once"
+msgstr "Sekali"
+
+#: src/target-picker.js:54
+msgid "One certname per line. If any is outside your node groups, nothing is run on any of them."
+msgstr "Satu certname per baris. Jika ada yang berada di luar grup Node Anda, tidak ada yang dijalankan pada satu pun."
+
+#: src/schedule.js:107
+msgid "Outcome"
+msgstr "Hasil"
+
+#: src/target-picker.js:58
+msgid "PQL query"
+msgstr "Kueri PQL"
+
+#: templates/pages/schedule.tmpl:12
+msgid "Pause"
+msgstr "Jeda"
+
+#: src/schedule-common.js:89
+msgid "Paused"
+msgstr "Dijeda"
+
+#: src/schedule.js:50
+msgid "Paused: it will not start until it is resumed."
+msgstr "Dijeda: tidak akan dimulai sampai dilanjutkan."
+
+#: src/target-picker.js:69
+msgid "Preview nodes"
+msgstr "Pratinjau Nodes"
+
+#: src/target-picker.js:48
+msgid "Query"
+msgstr "Kueri"
+
+#: src/schedule.js:107
+msgid "Reason"
+msgstr "Alasan"
+
+#: templates/pages/schedule-edit.tmpl:69
+msgid "Repeat"
+msgstr "Ulangi"
+
+#: src/schedule.js:68
+#: src/schedules.js:49
+msgid "Repeats"
+msgstr "Pengulangan"
+
+#: templates/pages/schedule.tmpl:13
+msgid "Resume"
+msgstr "Lanjutkan"
+
+#: src/jobs.js:57
+msgid "Run Puppet or a task, here or from a node or a node group, to see it here."
+msgstr "Jalankan Puppet atau Task, di sini atau dari sebuah Node atau grup Node, untuk melihatnya di sini."
+
+#: src/schedule.js:70
+#: src/schedules.js:49
+msgid "Runs as"
+msgstr "Berjalan sebagai"
+
+#: templates/pages/schedule-edit.tmpl:91
+msgid "Save schedule"
+msgstr "Simpan jadwal"
+
+#: src/schedule.js:125
+#: templates/pages/schedule.tmpl:6
+msgid "Schedule"
+msgstr "Jadwal"
+
+#: src/schedules.js:25
+#~ msgid "Schedule a Puppet run or a task to start later, once or repeatedly."
+#~ msgstr ""
+
+#: src/run-plan.js:33
+#: src/run-puppet.js:109
+#: src/run-task.js:42
+msgid "Schedule instead"
+msgstr "Jadwalkan saja"
+
+#: src/jobs.js:47
+msgid "Scheduled"
+msgstr "Terjadwal"
+
+#: templates/pages/jobs.tmpl:14
+#: templates/pages/plans.tmpl:9
+#: templates/pages/schedule-edit.tmpl:5
+#: templates/pages/schedule.tmpl:5
+#: templates/pages/schedules.tmpl:9
+msgid "Scheduled jobs"
+msgstr "Jobs terjadwal"
+
+#: src/schedule.js:67
+#: templates/pages/schedule-edit.tmpl:62
+msgid "Start"
+msgstr "Mulai"
+
+#: src/job.js:38
+msgid "Started by schedule:"
+msgstr "Dimulai oleh jadwal:"
+
+#: src/schedule.js:64
+#: src/schedules.js:49
+msgid "State"
+msgstr "Keadaan"
+
+#: src/target-picker.js:66
+msgid "The nodes in the group when the job starts."
+msgstr "Nodes yang ada di grup saat Job dimulai."
+
+#: src/task-form.js:157
+msgid "The task {task} is no longer in the {environment} environment. Choose another."
+msgstr "Task {task} sudah tidak ada di Environment {environment}. Pilih yang lain."
+
+#: src/target-picker.js:235
+msgid "These are the nodes the job will run on. Check them, then start it."
+msgstr "Inilah Nodes tempat Job akan berjalan. Periksa, lalu mulai."
+
+#: src/schedule-edit.js:230
+msgid "This schedule runs as {owner}. If you save it, it will run as you from then on, with your access. Any sensitive task values must be entered again."
+msgstr "Jadwal ini berjalan sebagai {owner}. Jika Anda menyimpannya, sejak itu jadwal akan berjalan sebagai Anda, dengan akses Anda. Nilai sensitif Task harus dimasukkan lagi."
+
+#: src/schedule.js:76
+#: src/schedules.js:54
+msgid "Times are shown in your time zone, {zone}."
+msgstr "Waktu ditampilkan dalam zona waktu Anda, {zone}."
+
+#: src/target-picker.js:163
+msgid "Type a query first."
+msgstr "Ketik kueri terlebih dahulu."
+
+#: templates/pages/schedule-edit.tmpl:74
+msgid "Unit"
+msgstr "Satuan"
+
+#: templates/pages/schedule.tmpl:23
+msgid "What happened each time it came due"
+msgstr "Apa yang terjadi setiap kali jatuh tempo"
+
+#: templates/pages/schedule-edit.tmpl:21
+msgid "What to run"
+msgstr "Apa yang dijalankan"
+
+#: templates/pages/schedule-edit.tmpl:50
+msgid "Which nodes"
+msgstr "Nodes yang mana"
+
+#: src/target-picker.js:268
+msgid "a query"
+msgstr "sebuah kueri"
+
+#: src/schedule-common.js:61
+msgid "and {count} more"
+msgid_plural "and {count} more"
+msgstr[0] "dan {count} lainnya"
+
+#: templates/pages/schedule-edit.tmpl:77
+msgid "days"
+msgstr "hari"
+
+#: templates/pages/schedule-edit.tmpl:76
+msgid "hours"
+msgstr "jam"
+
+#: templates/pages/schedule-edit.tmpl:75
+msgid "minutes"
+msgstr "menit"
+
+#: src/schedule.js:70
+msgid "service token"
+msgstr "token layanan"
+
+#: src/job.js:37
+msgid "since deleted"
+msgstr "sudah dihapus"
+
+#: templates/pages/schedule-edit.tmpl:78
+msgid "weeks"
+msgstr "minggu"
+
+#: src/patches.js:229
+#: src/run-patch.js:46
+#: src/target-picker.js:144
+msgid "{count} node"
+msgid_plural "{count} nodes"
+msgstr[0] "{count} Node"
+
+#: src/schedule-common.js:77
+msgid "Every {count} day"
+msgid_plural "Every {count} days"
+msgstr[0] "Setiap {count} hari"
+
+#: src/schedule-common.js:75
+msgid "Every {count} hour"
+msgid_plural "Every {count} hours"
+msgstr[0] "Setiap {count} jam"
+
+#: src/schedule-common.js:73
+msgid "Every {count} minute"
+msgid_plural "Every {count} minutes"
+msgstr[0] "Setiap {count} menit"
+
+#: src/schedule-common.js:79
+msgid "Every {count} week"
+msgid_plural "Every {count} weeks"
+msgstr[0] "Setiap {count} minggu"
+
+#: src/schedule-common.js:101
+msgid "Interrupted"
+msgstr "Terputus"
+
+#: src/schedule-common.js:100
+msgid "Missed"
+msgstr "Terlewat"
+
+#: src/schedule-common.js:102
+msgid "Starting"
+msgstr "Memulai"
+
+#: src/password-rules.js:20
+#: templates/pages/account-policy.tmpl:29
+msgid "A digit"
+msgstr "Satu angka"
+
+#: templates/pages/account-policy.tmpl:56
+msgid "A locked account cannot log in with its password until the time has passed, or until an administrator unlocks it on the Users page. Sessions that are already open carry on. The login page never says whether an account is locked, so that it does not reveal which usernames exist."
+msgstr "Akun yang terkunci tidak dapat masuk dengan kata sandinya sampai waktunya berlalu, atau sampai administrator membukanya di halaman Pengguna. Sesi yang sudah terbuka tetap berjalan. Halaman masuk tidak pernah menyatakan apakah sebuah akun terkunci, agar tidak mengungkap nama pengguna mana yang ada."
+
+#: src/password-rules.js:16
+#: templates/pages/account-policy.tmpl:27
+msgid "A lowercase letter"
+msgstr "Satu huruf kecil"
+
+#: templates/pages/account-policy.tmpl:32
+msgid "A password is checked when it is set. Existing passwords keep working, and are checked the next time they are changed. A password can never be the account's username, or longer than 72 bytes."
+msgstr "Kata sandi diperiksa saat ditetapkan. Kata sandi yang sudah ada tetap berfungsi, dan diperiksa saat diubah berikutnya. Kata sandi tidak boleh sama dengan nama pengguna akun, atau lebih panjang dari 72 byte."
+
+#: templates/pages/account-policy.tmpl:25
+msgid "A password must also contain:"
+msgstr "Kata sandi juga harus mengandung:"
+
+#: templates/pages/plan-edit.tmpl:37
+msgid "A plan can have at most 20 steps."
+msgstr "Sebuah Plan dapat memiliki paling banyak 20 langkah."
+
+#: templates/pages/plans.tmpl:13
+msgid "A plan is a list of Puppet runs and tasks carried out in order on the same nodes. Everyone who can run jobs can change a plan; which nodes it runs on is chosen each time it is run."
+msgstr "Plan adalah daftar run Puppet dan Tasks yang dijalankan berurutan pada Nodes yang sama. Siapa pun yang dapat menjalankan Jobs dapat mengubah Plan; Nodes tempatnya berjalan dipilih setiap kali dijalankan."
+
+#: src/plans.js:16
+msgid "A plan is a list of Puppet runs and tasks to carry out in order on the same nodes."
+msgstr "Plan adalah daftar run Puppet dan Tasks yang dijalankan berurutan pada Nodes yang sama."
+
+#: templates/pages/schedules.tmpl:13
+msgid "A scheduled job starts a Puppet run, a task or a plan later, once or repeatedly. Its nodes are worked out each time it starts, and it runs with its owner's access as it is at that moment."
+msgstr "Job terjadwal memulai run Puppet, Task, atau Plan nanti, sekali atau berulang. Nodes-nya ditentukan setiap kali dimulai, dan berjalan dengan akses pemiliknya sebagaimana adanya saat itu."
+
+#: src/task-form.js:21
+msgid "A sensitive value. It is not kept in the plan, and is asked for each time the plan is run."
+msgstr "Nilai sensitif. Nilai ini tidak disimpan dalam Plan, dan diminta setiap kali Plan dijalankan."
+
+#: src/plan-common.js:125
+msgid "A sensitive value: it is sent to the nodes and never shown again."
+msgstr "Nilai sensitif: dikirim ke Nodes dan tidak pernah ditampilkan lagi."
+
+#: templates/pages/account-policy.tmpl:30
+msgid "A symbol"
+msgstr "Satu simbol"
+
+#: src/password-rules.js:22
+msgid "A symbol, such as ! or #"
+msgstr "Satu simbol, seperti ! atau #"
+
+#: templates/pages/account-policy.tmpl:11
+#: templates/pages/account-policy.tmpl:8
+#: templates/pages/roles.tmpl:8
+#: templates/pages/service-tokens.tmpl:8
+#: templates/pages/user-groups.tmpl:8
+#: templates/pages/users.tmpl:8
+msgid "Account policy"
+msgstr "Kebijakan akun"
+
+#: templates/pages/plan-edit.tmpl:34
+msgid "Add a Puppet run step"
+msgstr "Tambah langkah run Puppet"
+
+#: templates/pages/plan-edit.tmpl:35
+msgid "Add a task step"
+msgstr "Tambah langkah Task"
+
+#: src/plan-edit.js:148
+msgid "Add at least one step."
+msgstr "Tambahkan setidaknya satu langkah."
+
+#: src/password-rules.js:18
+#: templates/pages/account-policy.tmpl:28
+msgid "An uppercase letter"
+msgstr "Satu huruf besar"
+
+#: src/plan.js:27
+msgid "Asked for when the plan is run:"
+msgstr "Diminta saat Plan dijalankan:"
+
+#: src/password-rules.js:14
+msgid "At least {count} character"
+msgid_plural "At least {count} characters"
+msgstr[0] "Setidaknya {count} karakter"
+
+#: templates/pages/account-policy.tmpl:50
+msgid "Between 1 and 1,440 (a day)."
+msgstr "Antara 1 dan 1.440 (satu hari)."
+
+#: templates/pages/account-policy.tmpl:46
+msgid "Between 3 and 100."
+msgstr "Antara 3 dan 100."
+
+#: templates/pages/account-policy.tmpl:23
+msgid "Between 8 and 72 characters."
+msgstr "Antara 8 dan 72 karakter."
+
+#: src/schedule-edit.js:58
+msgid "Choose a plan"
+msgstr "Pilih Plan"
+
+#: src/schedule-edit.js:167
+msgid "Choose the plan to run."
+msgstr "Pilih Plan yang akan dijalankan."
+
+#: src/preferences.js:65
+msgid "Current and new password are both required."
+msgstr "Kata sandi saat ini dan yang baru sama-sama wajib diisi."
+
+#: src/plan.js:59
+msgid "Delete this plan?"
+msgstr "Hapus Plan ini?"
+
+#: src/code-plans.js:57
+#: src/plans.js:36
+msgid "Description"
+msgstr "Deskripsi"
+
+#: templates/pages/plan-edit.tmpl:18
+msgid "Description (optional)"
+msgstr "Deskripsi (opsional)"
+
+#: src/plan.js:38
+#: src/run-plan.js:27
+msgid "Each step runs on every node, in this order. If a step fails on any node, the plan stops and the steps after it are not run."
+msgstr "Setiap langkah berjalan di setiap Node, dalam urutan ini. Jika sebuah langkah gagal di Node mana pun, Plan berhenti dan langkah setelahnya tidak dijalankan."
+
+#: src/plan-edit.js:175
+#: src/plan-edit.js:176
+msgid "Edit plan"
+msgstr "Ubah Plan"
+
+#: templates/pages/account-policy.tmpl:45
+msgid "Failed logins in a row"
+msgstr "Gagal masuk berturut-turut"
+
+#: src/job.js:164
+msgid "Finished {when}"
+msgstr "Selesai {when}"
+
+#: src/plan-edit.js:144
+msgid "Give the plan a name."
+msgstr "Beri nama Plan."
+
+#: src/users.js:37
+msgid "If the account is locked, this unlocks it. Sessions the user already has open carry on."
+msgstr "Jika akun terkunci, ini membukanya. Sesi yang sudah dibuka pengguna tetap berjalan."
+
+#: src/login.js:27
+msgid "Invalid username or password. After several failed attempts in a row, an account is locked for a while: wait, or ask an administrator to unlock it."
+msgstr "Nama pengguna atau kata sandi tidak valid. Setelah beberapa kali gagal berturut-turut, akun dikunci untuk sementara: tunggu, atau minta administrator membukanya."
+
+#: src/plan.js:60
+msgid "Jobs it has started stay in the job history, and schedules made from it keep their own copy of its steps."
+msgstr "Jobs yang telah dimulainya tetap ada di riwayat Job, dan jadwal yang dibuat darinya menyimpan salinan langkahnya sendiri."
+
+#: src/schedule-edit.js:58
+msgid "Keep the steps shown below"
+msgstr "Pertahankan langkah yang ditampilkan di bawah"
+
+#: src/plans.js:36
+msgid "Last changed by"
+msgstr "Terakhir diubah oleh"
+
+#: src/account-policy.js:39
+#: src/plan.js:37
+msgid "Last changed by {user} on {when}."
+msgstr "Terakhir diubah oleh {user} pada {when}."
+
+#: templates/pages/account-policy.tmpl:41
+msgid "Lock an account after repeated failed logins"
+msgstr "Kunci akun setelah gagal masuk berulang kali"
+
+#: templates/pages/account-policy.tmpl:49
+msgid "Locked for (minutes)"
+msgstr "Dikunci selama (menit)"
+
+#: src/users.js:20
+msgid "Locked until {when}"
+msgstr "Terkunci sampai {when}"
+
+#: templates/pages/account-policy.tmpl:40
+msgid "Login lockout"
+msgstr "Penguncian masuk"
+
+#: templates/pages/account-policy.tmpl:22
+msgid "Minimum length"
+msgstr "Panjang minimum"
+
+#: src/plan-edit.js:67
+msgid "Move down"
+msgstr "Pindah ke bawah"
+
+#: src/plan-edit.js:66
+msgid "Move up"
+msgstr "Pindah ke atas"
+
+#: templates/pages/plan-edit.tmpl:6
+#: templates/pages/plan-edit.tmpl:8
+#: templates/pages/plans.tmpl:5
+msgid "New plan"
+msgstr "Plan baru"
+
+#: src/password-rules.js:24
+msgid "No longer than 72 bytes"
+msgstr "Tidak lebih dari 72 byte"
+
+#: src/plan.js:75
+msgid "No plan specified."
+msgstr "Tidak ada Plan yang ditentukan."
+
+#: src/plans.js:14
+msgid "No plans yet"
+msgstr "Belum ada Plan"
+
+#: src/job.js:172
+msgid "No steps to show"
+msgstr "Tidak ada langkah untuk ditampilkan"
+
+#: templates/pages/plan-edit.tmpl:30
+msgid "No steps yet. Add the first one below."
+msgstr "Belum ada langkah. Tambahkan yang pertama di bawah."
+
+#: src/password-rules.js:70
+msgid "Not met:"
+msgstr "Tidak terpenuhi:"
+
+#: src/code-plans.js:10
+#: src/plan-common.js:73
+msgid "Not run"
+msgstr "Tidak dijalankan"
+
+#: src/job.js:156
+msgid "Not run, because an earlier step failed. Nothing was sent to any node for this step."
+msgstr "Tidak dijalankan, karena langkah sebelumnya gagal. Tidak ada yang dikirim ke Node mana pun untuk langkah ini."
+
+#: src/password-rules.js:26
+msgid "Not the same as the username"
+msgstr "Tidak sama dengan nama pengguna"
+
+#: src/preferences.js:72
+msgid "Password changed."
+msgstr "Kata sandi diubah."
+
+#: src/password-rules.js:66
+msgid "Password rules"
+msgstr "Aturan kata sandi"
+
+#: templates/pages/account-policy.tmpl:21
+msgid "Passwords"
+msgstr "Kata sandi"
+
+#: templates/pages/jobs.tmpl:15
+#: templates/pages/plan-edit.tmpl:5
+#: templates/pages/plan.tmpl:5
+#: templates/pages/plans.tmpl:10
+#: templates/pages/schedules.tmpl:10
+msgid "Plans"
+msgstr "Plans"
+
+#: templates/pages/account-policy.tmpl:12
+msgid "Rules for accounts that log in with a username and password. They do not apply to people who sign in through your identity provider, or to service tokens."
+msgstr "Aturan untuk akun yang masuk dengan nama pengguna dan kata sandi. Aturan ini tidak berlaku bagi orang yang masuk melalui penyedia identitas Anda, atau bagi token layanan."
+
+#: templates/pages/schedule-edit.tmpl:25
+msgid "Run a plan"
+msgstr "Jalankan Plan"
+
+#: src/run-plan.js:35
+msgid "Run plan"
+msgstr "Jalankan Plan"
+
+#: src/run-plan.js:20
+msgid "Run plan: {name}"
+msgstr "Jalankan Plan: {name}"
+
+#: templates/pages/plan-edit.tmpl:41
+msgid "Save plan"
+msgstr "Simpan Plan"
+
+#: templates/pages/account-policy.tmpl:66
+msgid "Save policy"
+msgstr "Simpan kebijakan"
+
+#: src/account-policy.js:64
+msgid "Saved. The policy is in force now, on every console instance."
+msgstr "Tersimpan. Kebijakan berlaku sekarang, di setiap instans konsol."
+
+#: src/schedules.js:25
+msgid "Schedule a Puppet run, a task or a plan to start later, once or repeatedly."
+msgstr "Jadwalkan run Puppet, Task, atau Plan untuk dimulai nanti, sekali atau berulang."
+
+#: src/users.js:32
+msgid "Set a password for {user}"
+msgstr "Tetapkan kata sandi untuk {user}"
+
+#: src/users.js:129
+#: src/users.js:41
+msgid "Set password"
+msgstr "Tetapkan kata sandi"
+
+#: src/job.js:163
+msgid "Started {when}"
+msgstr "Dimulai {when}"
+
+#: src/job.js:153
+msgid "Starts when the step before it has finished on every node."
+msgstr "Dimulai ketika langkah sebelumnya selesai di setiap Node."
+
+#: src/plan-common.js:17
+msgid "Step {number}"
+msgstr "Langkah {number}"
+
+#: src/job.js:62
+#~ msgid "Step {number} of {count}"
+#~ msgstr ""
+
+#: src/job.js:199
+#: src/job.js:202
+#: src/plans.js:36
+#: src/run-plan.js:25
+#: src/schedule.js:42
+#: templates/pages/plan-edit.tmpl:24
+#: templates/pages/plan.tmpl:22
+msgid "Steps"
+msgstr "Langkah"
+
+#: templates/pages/plan-edit.tmpl:25
+msgid "Steps run in this order, each on every node the plan is run on. If a step fails on any node, the plan stops there. A sensitive task value is never kept in a plan: it is asked for each time the plan is run."
+msgstr "Langkah berjalan dalam urutan ini, masing-masing di setiap Node tempat Plan dijalankan. Jika sebuah langkah gagal di Node mana pun, Plan berhenti di situ. Nilai sensitif Task tidak pernah disimpan dalam Plan: nilai itu diminta setiap kali Plan dijalankan."
+
+#: src/users.js:62
+msgid "That password does not meet the rules above."
+msgstr "Kata sandi itu tidak memenuhi aturan di atas."
+
+#: src/preferences.js:78
+#: src/users.js:251
+msgid "That password does not meet the rules shown under it."
+msgstr "Kata sandi itu tidak memenuhi aturan yang ditampilkan di bawahnya."
+
+#: templates/pages/schedule-edit.tmpl:39
+msgid "The schedule keeps its own copy of these steps. Changing or deleting the saved plan later does not change what the schedule runs; to pick up a change, choose the plan here again and save."
+msgstr "Jadwal menyimpan salinan langkah-langkah ini sendiri. Mengubah atau menghapus Plan tersimpan di kemudian hari tidak mengubah apa yang dijalankan jadwal; untuk mengambil perubahan, pilih lagi Plan di sini lalu simpan."
+
+#: src/schedule-edit.js:64
+msgid "There are no saved plans yet. Create one on the Plans page first."
+msgstr "Belum ada Plan tersimpan. Buat dulu di halaman Plans."
+
+#: src/account-policy.js:40
+msgid "These are the defaults: the policy has not been changed."
+msgstr "Ini adalah nilai bawaan: kebijakan belum diubah."
+
+#: src/run-plan.js:52
+msgid "This plan has a step that can no longer run. Edit the plan before running it."
+msgstr "Plan ini memiliki langkah yang tidak dapat lagi dijalankan. Ubah Plan sebelum menjalankannya."
+
+#: src/schedule.js:44
+msgid "This schedule keeps its own copy of the steps, taken when it was saved. Changing or deleting the saved plan does not change what the schedule runs."
+msgstr "Jadwal ini menyimpan salinan langkahnya sendiri, yang diambil saat disimpan. Mengubah atau menghapus Plan tersimpan tidak mengubah apa yang dijalankan jadwal."
+
+#: src/plan-common.js:45
+msgid "This step can no longer run as saved: {problem}"
+msgstr "Langkah ini tidak dapat lagi dijalankan sebagaimana disimpan: {problem}"
+
+#: src/plan-common.js:57
+msgid "Timeout: {count} minute"
+msgid_plural "Timeout: {count} minutes"
+msgstr[0] "Batas waktu: {count} menit"
+
+#: src/users.js:52
+msgid "Type the new password."
+msgstr "Ketik kata sandi baru."
+
+#: src/users.js:24
+msgid "Unlock"
+msgstr "Buka kunci"
+
+#: src/users.js:229
+msgid "Username and password are required."
+msgstr "Nama pengguna dan kata sandi wajib diisi."
+
+#: src/plan-common.js:69
+msgid "Waiting"
+msgstr "Menunggu"
+
+#: src/job.js:64
+#~ msgid "of plan"
+#~ msgstr ""
+
+#: src/plan.js:19
+msgid "optional"
+msgstr "opsional"
+
+#: src/code-plans.js:154
+#: src/plan-common.js:64
+msgid "{count} step"
+msgid_plural "{count} steps"
+msgstr[0] "{count} langkah"
+
+#: src/job.js:65
+msgid "Step {number} of {count} in the plan"
+msgstr "Langkah {number} dari {count} dalam Plan"
+
+#: src/task-patterns.js:15
+msgid "Every task"
+msgstr "Semua Task"
+
+#: src/roles.js:131
+msgid "Save tasks"
+msgstr "Simpan Task"
+
+#: src/roles.js:145
+#: src/service-tokens.js:47
+#: templates/pages/roles.tmpl:29
+msgid "Tasks"
+msgstr "Task"
+
+#: src/roles.js:127
+#: templates/pages/roles.tmpl:30
+#: templates/pages/service-tokens.tmpl:25
+msgid "Tasks it may run"
+msgstr "Task yang boleh dijalankan"
+
+#: src/run-plan.js:51
+msgid "You cannot run this plan: a step uses a task your roles do not allow."
+msgstr "Anda tidak dapat menjalankan Plan ini: satu langkah menggunakan Task yang tidak diizinkan oleh peran Anda."
+
+#: src/plan-common.js:42
+msgid "Your roles do not allow the task {task}, so you cannot run this step."
+msgstr "Peran Anda tidak mengizinkan Task {task}, sehingga Anda tidak dapat menjalankan langkah ini."
+
+#: templates/pages/service-tokens.tmpl:25
+msgid "One per line: a task name such as package::install, a module such as patch::*, or * for every task. Leave it empty to allow every task. Fixed when the token is created."
+msgstr "Satu per baris: nama Task seperti package::install, modul seperti patch::*, atau * untuk semua Task. Biarkan kosong untuk mengizinkan semua Task. Ditetapkan saat token dibuat."
+
+#: src/roles.js:128
+#: templates/pages/roles.tmpl:30
+msgid "One per line: a task name such as package::install, a module such as patch::*, or * for every task. Leave it empty to allow every task. This limits orchestrator:run; the role's node groups still decide which nodes."
+msgstr "Satu per baris: nama Task seperti package::install, modul seperti patch::*, atau * untuk semua Task. Biarkan kosong untuk mengizinkan semua Task. Ini membatasi orchestrator:run; grup Node milik peran tetap menentukan Node mana."
+
+#: templates/pages/user-groups.tmpl:12
+msgid "A group gives its members the roles granted to it, in addition to any roles they hold themselves. Each role keeps its own node groups and task limits."
+msgstr "Sebuah grup memberi anggotanya peran yang diberikan kepadanya, selain peran yang sudah mereka miliki sendiri. Setiap peran tetap memiliki grup node dan batasan tugasnya sendiri."
+
+#: templates/pages/user-groups.tmpl:29
+msgid "All groups"
+msgstr "Semua grup"
+
+#: src/user-groups.js:137
+msgid "Create a group above, then add members and grant it roles."
+msgstr "Buat grup di atas, lalu tambahkan anggota dan berikan peran kepadanya."
+
+#: templates/pages/user-groups.tmpl:24
+msgid "Create group"
+msgstr "Buat grup"
+
+#: src/user-groups.js:112
+msgid "Delete {group}?"
+msgstr "Hapus {group}?"
+
+#: src/user-groups.js:56
+msgid "Done"
+msgstr "Selesai"
+
+#: src/user-groups.js:211
+msgid "Give the group a name."
+msgstr "Beri nama pada grup."
+
+#: src/roles.js:89
+msgid "Granted to groups:"
+msgstr "Diberikan ke grup:"
+
+#: src/users.js:101
+msgid "In groups:"
+msgstr "Dalam grup:"
+
+#: src/user-groups.js:167
+msgid "Members"
+msgstr "Anggota"
+
+#: src/user-groups.js:46
+msgid "Members of {group}"
+msgstr "Anggota {group}"
+
+#: src/user-groups.js:135
+msgid "No groups yet"
+msgstr "Belum ada grup"
+
+#: src/user-groups.js:19
+msgid "No members"
+msgstr "Tidak ada anggota"
+
+#: src/user-groups.js:155
+#: src/user-groups.js:88
+msgid "Rename"
+msgstr "Ubah nama"
+
+#: src/user-groups.js:81
+msgid "Rename {group}"
+msgstr "Ubah nama {group}"
+
+#: templates/pages/account-policy.tmpl:5
+#: templates/pages/roles.tmpl:5
+#: templates/pages/service-tokens.tmpl:5
+#: templates/pages/user-groups.tmpl:11
+#: templates/pages/user-groups.tmpl:5
+#: templates/pages/users.tmpl:5
+msgid "User groups"
+msgstr "Grup pengguna"
+
+#: src/user-groups.js:21
+msgid "{count} member"
+msgid_plural "{count} members"
+msgstr[0] "{count} anggota"
+
+#: src/user-groups.js:113
+msgid "{count} person will lose the roles this group gives them."
+msgid_plural "{count} people will lose the roles this group gives them."
+msgstr[0] "{count} orang akan kehilangan peran yang diberikan grup ini."
+
+#: src/users.js:94
+msgid "{role} via {groups}"
+msgstr "{role} melalui {groups}"
+
+#: templates/pages/group.tmpl:83
+msgid "Configuration data (JSON)"
+msgstr "Data konfigurasi (JSON)"
+
+#: src/group.js:195
+msgid "Configuration data must be a JSON object: key/value pairs inside { }."
+msgstr "Data konfigurasi harus berupa objek JSON: pasangan kunci/nilai di dalam { }."
+
+#: templates/pages/group.tmpl:84
+msgid "Data that code reads with lookup(), consulted before the Hiera data in your control repo, so a key set here wins. An object of key/value pairs; a value can be any JSON. It is shown to everyone who can see node groups, so do not put secrets here."
+msgstr "Data yang dibaca kode dengan lookup(), diperiksa sebelum data Hiera di repositori kontrol Anda, sehingga kunci yang ditetapkan di sini diutamakan. Sebuah objek berisi pasangan kunci/nilai; nilainya dapat berupa JSON apa pun. Data ini terlihat oleh semua orang yang dapat melihat grup node, jadi jangan menaruh rahasia di sini."
+
+#: templates/pages/patches.tmpl:35
+msgid "Automatic scanning"
+msgstr "Pemindaian otomatis"
+
+#: templates/pages/patches.tmpl:47
+msgid "Between 15 minutes and 7 days (10080 minutes)."
+msgstr "Antara 15 menit dan 7 hari (10080 menit)."
+
+#: src/patches.js:53
+msgid "Cannot report"
+msgstr "Tidak dapat melapor"
+
+#: templates/pages/patches.tmpl:25
+msgid "Choose a group to scan all of its nodes now."
+msgstr "Pilih grup untuk memindai semua nodenya sekarang."
+
+#: templates/pages/patches.tmpl:15
+msgid "Filter by package name"
+msgstr "Filter menurut nama paket"
+
+#: templates/pages/patches.tmpl:43
+msgid "Interval in minutes"
+msgstr "Interval dalam menit"
+
+#: src/patches.js:62
+msgid "Last scan failed"
+msgstr "Pemindaian terakhir gagal"
+
+#: src/patches.js:94
+msgid "Last scanned"
+msgstr "Terakhir dipindai"
+
+#: src/node.js:661
+msgid "Last scanned {when} with {manager}."
+msgstr "Terakhir dipindai {when} dengan {manager}."
+
+#: src/patches.js:34
+msgid "Need a reboot"
+msgstr "Perlu reboot"
+
+#: src/patches.js:85
+msgid "No"
+msgstr "Tidak"
+
+#: src/patches.js:111
+msgid "No node has that update pending"
+msgstr "Tidak ada node yang memiliki pembaruan itu tertunda"
+
+#: src/patches.js:73
+msgid "No nodes match"
+msgstr "Tidak ada node yang cocok"
+
+#: src/patches.js:113
+msgid "No scanned node has an update pending for a package matching \"{name}\"."
+msgstr "Tidak ada node terpindai yang memiliki pembaruan tertunda untuk paket yang cocok dengan \"{name}\"."
+
+#: src/patches.js:35
+#: src/patches.js:57
+msgid "Not scanned"
+msgstr "Belum dipindai"
+
+#: src/node.js:682
+msgid "Nothing is pending"
+msgstr "Tidak ada yang tertunda"
+
+#: src/patches.js:92
+#: templates/pages/patches.tmpl:16
+msgid "Operating system"
+msgstr "Sistem operasi"
+
+#: src/patches.js:36
+msgid "Out of date scans"
+msgstr "Pemindaian kedaluwarsa"
+
+#: templates/pages/node.tmpl:25
+msgid "Patches"
+msgstr "Patch"
+
+#: templates/layout.html.tmpl:73
+#: templates/pages/patches.tmpl:3
+msgid "Patching"
+msgstr "Patching"
+
+#: templates/pages/patches.tmpl:15
+msgid "Pending package"
+msgstr "Paket tertunda"
+
+#: src/patches.js:94
+msgid "Reboot needed"
+msgstr "Perlu reboot"
+
+#: templates/pages/patches.tmpl:42
+msgid "Scan automatically"
+msgstr "Pindai otomatis"
+
+#: src/patches.js:56
+msgid "Scan failed"
+msgstr "Pemindaian gagal"
+
+#: templates/pages/node.tmpl:48
+msgid "Scan now"
+msgstr "Pindai sekarang"
+
+#: templates/pages/patches.tmpl:22
+msgid "Scan this group now"
+msgstr "Pindai grup ini sekarang"
+
+#: src/node.js:749
+#: src/patches.js:197
+msgid "Scanning. Refreshing package lists can take a while on a slow mirror."
+msgstr "Memindai. Menyegarkan daftar paket bisa memakan waktu pada mirror yang lambat."
+
+#: src/node.js:690
+#: src/node.js:695
+#: src/patches.js:123
+#: src/patches.js:130
+#: src/patches.js:93
+#: src/run-patch.js:64
+msgid "Security"
+msgstr "Keamanan"
+
+#: src/node.js:699
+#: src/patches.js:99
+msgid "Security is what the node's package manager marks as a security update. A system without that information shows none."
+msgstr "Yang dianggap keamanan adalah yang ditandai pengelola paket node sebagai pembaruan keamanan. Sistem tanpa informasi itu tidak menampilkan apa pun."
+
+#: templates/pages/patches.tmpl:36
+msgid "The console scans every connected node on this interval. A node that is offline is scanned once it reconnects."
+msgstr "Konsol memindai setiap node yang terhubung pada interval ini. Node yang offline dipindai setelah tersambung kembali."
+
+#: src/node.js:667
+msgid "The last attempt to scan failed: {error}"
+msgstr "Upaya pemindaian terakhir gagal: {error}"
+
+#: src/node.js:682
+msgid "The last scan found no updates waiting for this node."
+msgstr "Pemindaian terakhir tidak menemukan pembaruan yang menunggu untuk node ini."
+
+#: src/node.js:667
+msgid "The updates below are from the last scan that worked."
+msgstr "Pembaruan di bawah berasal dari pemindaian terakhir yang berhasil."
+
+#: templates/pages/patches.tmpl:4
+#~ msgid "The updates each node is missing, as its own package manager reports them. This page only looks: nothing here installs or changes a package."
+#~ msgstr "Pembaruan yang belum dimiliki setiap node, seperti yang dilaporkan pengelola paketnya sendiri. Halaman ini hanya melihat: tidak ada yang di sini memasang atau mengubah paket."
+
+#: src/node.js:670
+msgid "This node already needs a reboot."
+msgstr "Node ini sudah perlu di-reboot."
+
+#: src/node.js:654
+msgid "This node has not been scanned yet, so it is not known whether it is missing updates."
+msgstr "Node ini belum dipindai, jadi belum diketahui apakah ada pembaruan yang belum terpasang."
+
+#: src/node.js:755
+msgid "This node is offline, so it could not be scanned. It will be scanned when it reconnects."
+msgstr "Node ini offline sehingga tidak dapat dipindai. Node akan dipindai setelah tersambung kembali."
+
+#: src/node.js:664
+msgid "This scan is out of date. Scan again to see what is pending now."
+msgstr "Pemindaian ini sudah kedaluwarsa. Pindai lagi untuk melihat apa yang tertunda sekarang."
+
+#: src/patches.js:75
+msgid "Try a different package, operating system or group."
+msgstr "Coba paket, sistem operasi, atau grup lain."
+
+#: src/patches.js:93
+msgid "Updates"
+msgstr "Pembaruan"
+
+#: src/patches.js:32
+msgid "With pending updates"
+msgstr "Dengan pembaruan tertunda"
+
+#: src/patches.js:33
+msgid "With security updates"
+msgstr "Dengan pembaruan keamanan"
+
+#: src/patches.js:85
+msgid "Yes"
+msgstr "Ya"
+
+#: src/patches.js:183
+msgid "{count} failed"
+msgid_plural "{count} failed"
+msgstr[0] "{count} gagal"
+
+#: src/patches.js:184
+msgid "{count} left out: not in your node groups"
+msgid_plural "{count} left out: not in your node groups"
+msgstr[0] "{count} dikecualikan: tidak ada di grup node Anda"
+
+#: src/patches.js:181
+msgid "{count} node scanned"
+msgid_plural "{count} nodes scanned"
+msgstr[0] "{count} node dipindai"
+
+#: src/patches.js:182
+msgid "{count} offline"
+msgid_plural "{count} offline"
+msgstr[0] "{count} offline"
+
+#: src/run-patch.js:149
+msgid "All pending updates"
+msgstr "Semua pembaruan yang tertunda"
+
+#: src/run-patch.js:29
+msgid "All updates"
+msgstr "Semua pembaruan"
+
+#: src/run-patch.js:123
+msgid "Batch"
+msgstr "Batch"
+
+#: src/run-patch.js:102
+msgid "Details for {node}"
+msgstr "Detail untuk {node}"
+
+#: src/run-patch.js:31
+msgid "Dry run"
+msgstr "Uji coba"
+
+#: src/run-patch.js:157
+msgid "Dry run: report what would be upgraded, and change nothing"
+msgstr "Uji coba: laporkan apa yang akan ditingkatkan, dan jangan ubah apa pun"
+
+#: src/run-patch.js:199
+msgid "Finding the nodes in {group}…"
+msgstr "Mencari node di {group}…"
+
+#: src/run-patch.js:72
+msgid "From"
+msgstr "Dari"
+
+#: src/node.js:734
+msgid "Last patch run"
+msgstr "Eksekusi patch terakhir"
+
+#: src/run-patch.js:150
+msgid "Named packages"
+msgstr "Paket tertentu"
+
+#: src/run-patch.js:203
+msgid "No node is in this group, so there is nothing to patch."
+msgstr "Tidak ada node di grup ini, jadi tidak ada yang perlu di-patch."
+
+#: src/run-patch.js:60
+msgid "No package was selected."
+msgstr "Tidak ada paket yang dipilih."
+
+#: src/run-patch.js:170
+msgid "Nodes are patched a batch at a time. When this many nodes have failed, no further batch is started. 0 never stops."
+msgstr "Node di-patch satu batch demi satu batch. Jika sejumlah node ini gagal, tidak ada batch lagi yang dimulai. 0 berarti tidak pernah berhenti."
+
+#: src/run-patch.js:162
+msgid "Nodes at a time"
+msgstr "Node sekaligus"
+
+#: src/i18n.js:466
+msgid "Not upgraded"
+msgstr "Tidak ditingkatkan"
+
+#: src/i18n.js:467
+msgid "Nothing to apply"
+msgstr "Tidak ada yang diterapkan"
+
+#: src/run-patch.js:30
+msgid "Packages: {names}"
+msgstr "Paket: {names}"
+
+#: src/run-patch.js:175
+msgid "Patch"
+msgstr "Patch"
+
+#: src/run-patch.js:142
+msgid "Patch nodes"
+msgstr "Patch node"
+
+#: templates/pages/node.tmpl:49
+msgid "Patch now…"
+msgstr "Patch sekarang…"
+
+#: src/i18n.js:201
+#: templates/pages/jobs.tmpl:25
+msgid "Patch run"
+msgstr "Eksekusi patch"
+
+#: templates/pages/patches.tmpl:23
+msgid "Patch this group…"
+msgstr "Patch grup ini…"
+
+#: src/run-patch.js:193
+msgid "Patch {count} node?"
+msgid_plural "Patch {count} nodes?"
+msgstr[0] "Patch {count} node?"
+
+#: src/run-patch.js:192
+msgid "Patch {node}?"
+msgstr "Patch {node}?"
+
+#: src/run-patch.js:158
+msgid "Reboot a node that needs it once it is patched"
+msgstr "Reboot node yang membutuhkannya setelah di-patch"
+
+#: src/run-patch.js:32
+msgid "Reboots if required"
+msgstr "Reboot jika diperlukan"
+
+#: templates/pages/patches.tmpl:30
+msgid "Recent patch runs"
+msgstr "Eksekusi patch terbaru"
+
+#: src/run-patch.js:72
+msgid "Result"
+msgstr "Hasil"
+
+#: src/run-patch.js:28
+msgid "Security updates"
+msgstr "Pembaruan keamanan"
+
+#: src/run-patch.js:148
+msgid "Security updates only"
+msgstr "Hanya pembaruan keamanan"
+
+#: src/run-patch.js:155
+msgid "Separate package names with spaces or commas. Only those with an update pending are upgraded."
+msgstr "Pisahkan nama paket dengan spasi atau koma. Hanya paket yang pembaruannya tertunda yang ditingkatkan."
+
+#: src/run-patch.js:166
+msgid "Stop after failed nodes"
+msgstr "Berhenti setelah node gagal"
+
+#: templates/pages/patches.tmpl:4
+msgid "The updates each node is missing, as its own package manager reports them. Scanning only looks. A patch run, started for a node group, installs the updates in batches."
+msgstr "Pembaruan yang belum dimiliki setiap node, seperti dilaporkan pengelola paketnya sendiri. Pemindaian hanya melihat. Eksekusi patch, yang dimulai untuk grup node, memasang pembaruan per batch."
+
+#: src/run-patch.js:72
+msgid "To"
+msgstr "Ke"
+
+#: src/run-patch.js:147
+msgid "Updates to apply"
+msgstr "Pembaruan yang diterapkan"
+
+#: src/i18n.js:464
+msgid "Upgraded"
+msgstr "Ditingkatkan"
+
+#: src/i18n.js:465
+msgid "Would upgrade"
+msgstr "Akan ditingkatkan"
+
+#: src/run-patch.js:153
+msgid "curl openssl"
+msgstr "curl openssl"
+
+#: src/run-patch.js:47
+msgid "in {count} batch of up to {size}"
+msgid_plural "in {count} batches of up to {size}"
+msgstr[0] "dalam {count} batch hingga {size}"
+
+#: src/run-patch.js:86
+msgid "needs a reboot"
+msgstr "perlu reboot"
+
+#: src/run-patch.js:51
+msgid "never stops for failures"
+msgstr "tidak pernah berhenti karena kegagalan"
+
+#: src/run-patch.js:85
+msgid "rebooted"
+msgstr "di-reboot"
+
+#: src/run-patch.js:50
+msgid "stops after {count} failed node"
+msgid_plural "stops after {count} failed nodes"
+msgstr[0] "berhenti setelah {count} node gagal"
+
+#: src/run-patch.js:84
+msgid "{count} not upgraded"
+msgid_plural "{count} not upgraded"
+msgstr[0] "{count} tidak ditingkatkan"
+
+#: src/run-patch.js:82
+msgid "{count} upgraded"
+msgid_plural "{count} upgraded"
+msgstr[0] "{count} ditingkatkan"
+
+#: src/run-patch.js:83
+msgid "{count} would be upgraded"
+msgid_plural "{count} would be upgraded"
+msgstr[0] "{count} akan ditingkatkan"
+
+#: src/run-patch.js:48
+msgid "{done} finished"
+msgstr "{done} selesai"
+
+#: src/agentless.js:287
+msgid "A login of its own"
+msgstr "Login tersendiri"
+
+#: src/agentless.js:288
+msgid "A shared credential"
+msgstr "Kredensial bersama"
+
+#: src/agentless.js:78
+msgid "Add a host to run tasks on it over SSH."
+msgstr "Tambahkan host untuk menjalankan tugas di dalamnya lewat SSH."
+
+#: src/agentless.js:363
+msgid "Add a shared credential"
+msgstr "Tambah kredensial bersama"
+
+#: src/agentless.js:274
+msgid "Add an agentless target"
+msgstr "Tambah target tanpa agen"
+
+#: src/agentless.js:378
+#: templates/pages/agentless.tmpl:23
+msgid "Add shared credential"
+msgstr "Tambah kredensial bersama"
+
+#: src/agentless.js:308
+#: templates/pages/agentless.tmpl:9
+msgid "Add target"
+msgstr "Tambah target"
+
+#: src/nodes.js:145
+msgid "Agentless"
+msgstr "Tanpa agen"
+
+#: templates/pages/agentless.tmpl:5
+#: templates/pages/agentless.tmpl:8
+#: templates/pages/nodes.tmpl:6
+msgid "Agentless targets"
+msgstr "Target tanpa agen"
+
+#: src/agentless.js:63
+msgid "Check"
+msgstr "Periksa"
+
+#: src/agentless.js:58
+#: src/nodes.js:141
+msgid "Check failed"
+msgstr "Pemeriksaan gagal"
+
+#: src/agentless.js:166
+msgid "Checking {name}…"
+msgstr "Memeriksa {name}…"
+
+#: src/agentless.js:225
+msgid "Delete this shared credential?"
+msgstr "Hapus kredensial bersama ini?"
+
+#: src/agentless.js:210
+msgid "Delete this target?"
+msgstr "Hapus target ini?"
+
+#: src/agentless.js:274
+#: src/agentless.js:363
+msgid "Edit {name}"
+msgstr "Ubah {name}"
+
+#: src/agentless.js:96
+msgid "Host key"
+msgstr "Kunci host"
+
+#: src/agentless.js:42
+msgid "Host key changed"
+msgstr "Kunci host berubah"
+
+#: templates/pages/agentless.tmpl:11
+msgid "Hosts the console reaches over SSH instead of a node agent. Tasks can run on them; Puppet runs and patch runs need the agent. Logins are stored sealed and are never shown again."
+msgstr "Host yang dijangkau konsol lewat SSH, bukan lewat agen node. Tugas dapat dijalankan di sana; eksekusi Puppet dan patch memerlukan agen. Login disimpan terenkripsi dan tidak pernah ditampilkan lagi."
+
+#: src/agentless.js:279
+msgid "How the target is named in jobs and node groups. It cannot be the name of a node that exists."
+msgstr "Nama target dalam job dan grup node. Tidak boleh sama dengan nama node yang sudah ada."
+
+#: src/agentless.js:192
+msgid "Key it presents now"
+msgstr "Kunci yang disajikannya sekarang"
+
+#: src/agentless.js:248
+msgid "Key passphrase (if it has one)"
+msgstr "Frasa sandi kunci (jika ada)"
+
+#: src/agentless.js:96
+msgid "Last check"
+msgstr "Pemeriksaan terakhir"
+
+#: src/agentless.js:243
+msgid "Leave blank to keep the stored one."
+msgstr "Kosongkan untuk mempertahankan yang tersimpan."
+
+#: src/agentless.js:131
+#: src/agentless.js:286
+#: src/agentless.js:95
+msgid "Login"
+msgstr "Login"
+
+#: src/agentless.js:76
+msgid "No agentless targets"
+msgstr "Tidak ada target tanpa agen"
+
+#: src/agentless.js:115
+msgid "No shared credentials."
+msgstr "Tidak ada kredensial bersama."
+
+#: src/agentless.js:55
+#: src/nodes.js:138
+msgid "Not checked"
+msgstr "Belum diperiksa"
+
+#: src/agentless.js:50
+msgid "Not seen yet"
+msgstr "Belum terlihat"
+
+#: templates/pages/agentless.tmpl:25
+msgid "One login several targets can use. Replacing its key or password changes it for all of them."
+msgstr "Satu login yang dapat dipakai beberapa target. Mengganti kunci atau kata sandinya mengubahnya untuk semuanya."
+
+#: src/agentless.js:246
+msgid "Paste a PEM or OpenSSH private key."
+msgstr "Tempel kunci privat PEM atau OpenSSH."
+
+#: src/agentless.js:192
+msgid "Pinned key"
+msgstr "Kunci yang dipin"
+
+#: src/agentless.js:283
+msgid "Port"
+msgstr "Port"
+
+#: src/agentless.js:245
+msgid "Private key"
+msgstr "Kunci privat"
+
+#: src/nodes.js:345
+msgid "Puppet runs need the node agent, and a selected node is agentless. Run a task instead."
+msgstr "Eksekusi Puppet memerlukan agen node, dan node yang dipilih tidak memiliki agen. Jalankan tugas sebagai gantinya."
+
+#: src/agentless.js:57
+#: src/nodes.js:140
+msgid "Reachable"
+msgstr "Dapat dijangkau"
+
+#: src/agentless.js:197
+msgid "Replace pinned key"
+msgstr "Ganti kunci yang dipin"
+
+#: src/agentless.js:196
+msgid "Replace the pinned host key?"
+msgstr "Ganti kunci host yang dipin?"
+
+#: src/agentless.js:65
+#: src/agentless.js:66
+msgid "Review host key"
+msgstr "Tinjau kunci host"
+
+#: src/agentless.js:299
+#: src/agentless.js:371
+msgid "Run tasks as (optional)"
+msgstr "Jalankan tugas sebagai (opsional)"
+
+#: src/agentless.js:352
+msgid "Saved {name}. Check it to see its host key and confirm the login works."
+msgstr "{name} disimpan. Periksa untuk melihat kunci hostnya dan memastikan login berfungsi."
+
+#: src/agentless.js:131
+msgid "Secret"
+msgstr "Rahasia"
+
+#: src/agentless.js:291
+msgid "Shared credential"
+msgstr "Kredensial bersama"
+
+#: src/agentless.js:32
+msgid "Shared credential: {name}"
+msgstr "Kredensial bersama: {name}"
+
+#: templates/pages/agentless.tmpl:22
+msgid "Shared credentials"
+msgstr "Kredensial bersama"
+
+#: src/agentless.js:300
+msgid "Tasks run through sudo as this user. sudo must not ask for a password."
+msgstr "Tugas dijalankan lewat sudo sebagai pengguna ini. sudo tidak boleh meminta kata sandi."
+
+#: src/agentless.js:196
+msgid "Trust this host key?"
+msgstr "Percayai kunci host ini?"
+
+#: src/agentless.js:197
+msgid "Trust this key"
+msgstr "Percayai kunci ini"
+
+#: src/agentless.js:45
+msgid "Trusted"
+msgstr "Dipercaya"
+
+#: src/agentless.js:251
+msgid "Used when there is no key, or as well."
+msgstr "Dipakai bila tidak ada kunci, atau sebagai tambahan."
+
+#: src/agentless.js:48
+msgid "Waiting to be trusted"
+msgstr "Menunggu dipercaya"
+
+#: src/agentless.js:170
+msgid "and as {user}"
+msgstr "dan sebagai {user}"
+
+#: src/agentless.js:122
+#: src/agentless.js:34
+msgid "key"
+msgstr "kunci"
+
+#: src/agentless.js:122
+#: src/agentless.js:34
+msgid "password"
+msgstr "kata sandi"
+
+#: src/agentless.js:121
+#: src/agentless.js:35
+msgid "runs as {user}"
+msgstr "berjalan sebagai {user}"
+
+#: src/agentless.js:173
+msgid "{name} failed at {stage}: {reason}"
+msgstr "{name} gagal pada tahap {stage}: {reason}"
+
+#: src/agentless.js:191
+msgid "{name} is presenting a different host key from the one pinned. Nothing was sent to it. Replace the pin only if you know the host was rebuilt or its key rotated."
+msgstr "{name} menyajikan kunci host yang berbeda dari yang dipin. Tidak ada yang dikirim ke sana. Ganti pin hanya jika Anda tahu host dibangun ulang atau kuncinya dirotasi."
+
+#: src/agentless.js:171
+msgid "{name} is reachable. Logged in as {user}{as}."
+msgstr "{name} dapat dijangkau. Masuk sebagai {user}{as}."
+
+#: src/agentless.js:193
+msgid "{name} presented this host key. Compare it with the host's own (ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub) before trusting it."
+msgstr "{name} menyajikan kunci host ini. Bandingkan dengan kunci host itu sendiri (ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub) sebelum memercayainya."
+
+#: src/agentless.js:226
+msgid "{name} will be deleted. A credential still used by a target cannot be deleted."
+msgstr "{name} akan dihapus. Kredensial yang masih dipakai target tidak dapat dihapus."
+
+#: src/agentless.js:211
+msgid "{name} will no longer be reachable from the console. Its stored login is deleted."
+msgstr "{name} tidak lagi dapat dijangkau dari konsol. Login yang tersimpan dihapus."
+
+#: src/code-plans.js:50
+msgid "Cannot be run"
+msgstr "Tidak dapat dijalankan"
+
+#: src/i18n.js:202
+#: templates/pages/jobs.tmpl:26
+msgid "Code plan"
+msgstr "Rencana kode"
+
+#: src/code-plans.js:37
+msgid "Code plans are not available on this console instance: it does not hold the deployed code. Use an instance that does."
+msgstr "Rencana kode tidak tersedia di instans konsol ini: instans ini tidak menyimpan kode yang diterapkan. Gunakan instans yang menyimpannya."
+
+#: src/code-plans.js:41
+msgid "No plans in the modules of {environment}."
+msgstr "Tidak ada rencana di modul {environment}."
+
+#: src/code-plans.js:260
+msgid "No steps yet"
+msgstr "Belum ada langkah"
+
+#: src/code-plans.js:273
+msgid "Output"
+msgstr "Keluaran"
+
+#: templates/pages/plans.tmpl:20
+msgid "Plans in code"
+msgstr "Rencana di dalam kode"
+
+#: src/code-plans.js:279
+msgid "Returned value"
+msgstr "Nilai yang dikembalikan"
+
+#: src/code-plans.js:145
+msgid "Run {plan}"
+msgstr "Jalankan {plan}"
+
+#: src/code-plans.js:273
+msgid "Step"
+msgstr "Langkah"
+
+#: src/code-plans.js:257
+msgid "This plan also ran on nodes outside your node groups, so what it printed and returned is not shown."
+msgstr "Rencana ini juga berjalan di node di luar grup node Anda, sehingga apa yang dicetak dan dikembalikannya tidak ditampilkan."
+
+#: src/code-plans.js:155
+msgid "This plan takes no parameters."
+msgstr "Rencana ini tidak memiliki parameter."
+
+#: templates/pages/plans.tmpl:21
+msgid "YAML plans in the modules of an environment's deployed code. Each task step is checked against your node groups and task permissions as it is reached."
+msgstr "Rencana YAML di modul kode yang diterapkan pada suatu lingkungan. Setiap langkah tugas diperiksa saat dicapai terhadap grup node dan izin tugas Anda."
+
+#: src/code-plans.js:148
+#: src/code-plans.js:247
+msgid "message"
+msgstr "pesan"
+
+#: src/code-plans.js:205
+msgid "{name} is not valid JSON."
+msgstr "{name} bukan JSON yang valid."

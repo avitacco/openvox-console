@@ -1,0 +1,337 @@
+<!DOCTYPE html><html lang="fr" dir="ltr"><head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="Register hosts the console reaches over SSH, pin their host keys, check them, and run tasks on them like any other node."/>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+    <title>Run tasks on hosts without an agent - OpenVox Console</title>
+
+    
+    <script>
+      (function () {
+        
+        
+        var stored = null;
+        try { stored = localStorage.getItem('vox-theme'); } catch (e) {}
+        var theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-vox-theme', theme);
+      })();
+    </script>
+    <style>
+      html { background-color: #f5faf9; }
+      html[data-vox-theme='dark'] { background-color: #0d1417; }
+      html:not([data-vox-ready]) body { visibility: hidden; }
+    </style>
+    
+    <noscript><style>body { visibility: visible !important; }</style></noscript>
+    <script>
+      setTimeout(function () {
+        document.documentElement.setAttribute('data-vox-ready', '');
+      }, 2000);
+    </script>
+
+    
+    <script>
+      (function () {
+        var LOCALES = ["en", "zh", "hi", "es", "fr", "de", "ja", "ar", ];
+        var KEY = 'vox-lang';
+
+        function stored() {
+          
+          
+          try { return localStorage.getItem(KEY); } catch (e) { return null; }
+        }
+
+        
+        
+        
+        
+        
+        document.addEventListener('click', function (event) {
+          var path = event.composedPath ? event.composedPath() : [event.target];
+          for (var i = 0; i < path.length; i++) {
+            var code = path[i].getAttribute && path[i].getAttribute('data-lang');
+            if (code) {
+              try { localStorage.setItem(KEY, code); } catch (e) {}
+              return;
+            }
+          }
+        });
+        
+      })();
+    </script>
+
+    <link rel="stylesheet" href="../../vendor/voxblocks.css"/>
+    <link rel="stylesheet" href="../../site.css"/>
+    <script type="module" src="../../vendor/voxblocks.js"></script>
+    <script type="module" src="../../theme.js"></script>
+    <script type="module" src="../../lightbox.js"></script>
+    <script type="module" src="../../guides.js"></script>
+  </head>
+  <body>
+    
+    <a class="skip-link" href="#main">Aller au contenu</a>
+
+    <vox-header site-title="OpenVox Console" href="../index.html">
+      
+      <svg slot="logo" viewBox="0 0 2560 2478" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M1946.22 272.18L1874.51 643.161C1840.69 625.335 1769.51 597.048 1744.63 592.202L1946.22 272.18ZM1647.05 893.509C1735.54 894.748 1789.05 935.815 1845.35 1010.52C1716.57 1047.71 1641.84 987.053 1586.85 899.704C1600.03 898.445 1634.39 893.339 1647.05 893.509ZM1421.62 600.655C1288.19 638.415 1170.91 730.251 1126.1 808.997C1126.1 808.997 1186.31 336.289 1244.88 158.652C1315.83 282.552 1421.62 600.655 1421.62 600.655ZM2477.39 1158.21C2342.39 1125.61 2074.76 1042.77 2053.7 881.139C2043.59 803.362 1980.86 717.271 1947.86 694.589L2004.72 106.064L1517.51 580.681C1517.51 580.681 1358.55 170.153 1243.89 0C1100.67 241.805 932.123 707.949 896.253 809.107L1227.33 1744.42C1243.68 1615.28 1328.09 1472.06 1428.27 1381.86C1350.61 1280.89 1210.56 1250.76 1151.7 1289.73C1228.31 1186.22 1376.21 1050.44 1651.27 1124.86C1773.51 1157.92 1898.72 1222.92 1978.75 1240.54C2184.12 1285.76 2337.81 1231.2 2337.81 1231.2C2336.23 1279.58 2360.5 1315.47 2410.61 1338.87C2196.05 1539.04 1914.11 1376.52 1715.51 1407.29C1514.8 1438.43 1238.87 2011.65 1201.73 2093.07L593.825 394.322L584.775 369.242C535.086 234.271 451.316 124.12 296.898 124.12H0V473.618H92.0793C145.649 473.618 170.849 489.355 189.769 542.882L903.123 2478H1248.99L1312.45 2324.93L1556.24 1812.6C1660.38 1581.57 1765.81 1518.18 2072.12 1531.73C2162.6 1535.73 2349.93 1537.27 2457.29 1405.96C2611.96 1216.8 2569.29 1180.38 2477.43 1158.16" fill="currentColor"></path>
+      </svg>
+      
+      <nav slot="actions" class="lang-switcher" aria-label="Langue">
+        <vox-dropdown label="Français">
+          <a data-lang="en" href="../../guides/agentless.html" hreflang="en" lang="en">English</a>
+          <a data-lang="zh" href="../../zh/guides/agentless.html" hreflang="zh" lang="zh">中文</a>
+          <a data-lang="hi" href="../../hi/guides/agentless.html" hreflang="hi" lang="hi">हिन्दी</a>
+          <a data-lang="es" href="../../es/guides/agentless.html" hreflang="es" lang="es">Español</a>
+          <a aria-current="page" data-lang="fr" href="../../fr/guides/agentless.html" hreflang="fr" lang="fr">Français</a>
+          <a data-lang="de" href="../../de/guides/agentless.html" hreflang="de" lang="de">Deutsch</a>
+          <a data-lang="ja" href="../../ja/guides/agentless.html" hreflang="ja" lang="ja">日本語</a>
+          <a data-lang="ar" href="../../ar/guides/agentless.html" hreflang="ar" lang="ar">العربية</a>
+          </vox-dropdown>
+      </nav>
+      <vox-theme-toggle slot="actions"></vox-theme-toggle>
+      
+      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
+    </vox-header>
+
+    <div class="site-subnav">
+      <vox-subnav label="Fonctionnalités" class="vox-container">
+      
+      <a href="../features/nodes.html">Nodes</a>
+      <a href="../features/classification.html">Classification</a>
+      <a href="../features/code.html">Code</a>
+      <a href="../features/orchestration.html">Orchestration</a>
+      <a href="../features/security.html">Sécurité</a>
+      <a href="../features/access-control.html">Contrôle d&#39;accès</a>
+      <a href="../features/scaling.html">Scaling</a>
+      </vox-subnav>
+    </div>
+
+    <main id="main">
+      <div class="site-main vox-container">
+<div class="guide-layout">
+  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
+    <vox-sidenav-group heading="Install">
+      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    <vox-sidenav-group heading="Nodes">
+      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    <vox-sidenav-group heading="Scale">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    <vox-sidenav-group heading="Use" open="">
+      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html" current="" aria-current="page"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    <vox-sidenav-group heading="Operate">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    </vox-sidenav>
+
+  <article class="guide">
+    <p class="guide-eyebrow">Use</p>
+    <h1 class="guide-title vox-ts-xxl">Run tasks on hosts without an agent</h1>
+    <p class="guide-summary">Register hosts the console reaches over SSH, pin their host keys, check them, and run tasks on them like any other node.</p>
+
+    
+    <vox-callout variant="info" heading="Not fully translated yet">
+      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
+    </vox-callout>
+
+    <div class="guide-body vox-prose">
+<p>Some hosts cannot or should not run the node agent: appliances, locked-down
+servers, machines not yet enrolled. The console can reach a Linux host over
+<strong>SSH</strong> instead and run <a href="run-jobs.html">tasks</a> on it. Such a host is an
+<strong>agentless target</strong>.</p>
+<p>What an agentless target can do is deliberately narrow:</p>
+<ul>
+<li><strong>Tasks run on it</strong>, on their own, in a <a href="run-plans.html">plan</a> or on a
+<a href="schedule-jobs.html">schedule</a>, with the same permissions, node groups and
+task allowlists as any node.</li>
+<li><strong>Puppet runs and patch runs do not.</strong> They need the agent. A request that
+names an agentless target for one is refused whole, naming the target, and
+nothing is sent to anyone.</li>
+<li>It has <strong>no facts or reports</strong>, so a node group&#39;s rule, which matches on
+facts, cannot include it. A group includes it by <strong>pin</strong>.</li>
+</ul>
+<h2 id="add-a-target">Add a target</h2>
+<p>Open <strong>Nodes</strong>, then <strong>Agentless targets</strong>, then <strong>Add target</strong>. This needs
+<code>agentless:manage</code>. Give:</p>
+<ul>
+<li>a <strong>name</strong>, which is how the target appears in jobs and node groups. It
+cannot be the name of a node that exists, or of another target;</li>
+<li>the <strong>address</strong> and <strong>port</strong> (22 unless you say otherwise);</li>
+<li>the <strong>login</strong>: a user, and a <strong>private key</strong> (with its passphrase if it has
+one), a <strong>password</strong>, or both. Or choose a <strong>shared credential</strong>: one login
+several targets use. A target&#39;s own login wins over a shared one;</li>
+<li>optionally a user to <strong>run tasks as</strong>. Tasks then run through
+<code>sudo -n -u &lt;user&gt;</code>, so <code>sudo</code> must not ask for a password. Password <code>sudo</code>
+is not supported.</li>
+</ul>
+<p>The key, passphrase and password are stored <strong>sealed</strong> with the console&#39;s
+secrets key (<code>CONSOLE_SECRETS_KEY_FILE</code>; without it a target with credentials
+cannot be added). They are never returned by the console, written to its logs
+or audit entries, or put in a job. You can set or replace one but never read
+it: leave the fields blank when you edit to keep the stored ones. A key is
+checked when you save it, and a passphrase that does not open it is refused.</p>
+<p>A target must be pinned into a node group to be seen by anyone limited to
+that group. A user limited to some node groups can add and manage targets
+only inside their groups, and cannot use shared credentials at all, since a
+shared credential belongs to no node.</p>
+<h2 id="trust-its-host-key">Trust its host key</h2>
+<p>Before the console sends a login to a host it must know it is the right one.</p>
+<ol>
+<li><strong>Check</strong> the target. The console connects and reads the host&#39;s key
+<strong>without logging in</strong>, and shows its fingerprint.</li>
+<li>Compare that fingerprint with the host&#39;s own, for example
+<code>ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub</code> on the host, and
+choose <strong>Trust this key</strong>.</li>
+<li>Check again: now the console logs in, and reports who it logged in as
+(and as whom tasks will run, if you set a run-as user).</li>
+</ol>
+<p>Until a key is trusted, a task on the target fails as &#34;not trusted&#34; and
+nothing is run. If a trusted target later presents a <strong>different key</strong>, the
+connection is refused before any login is sent, and the target shows
+<strong>Host key changed</strong> with both fingerprints. Replace the pin only if you know
+the host was rebuilt or its key rotated: that is a separate, audited action.
+Changing a target&#39;s address or port clears its pin, since a pin vouches for a
+host, not a name.</p>
+<p>A failed check says which stage failed: connecting, the host key,
+authentication, becoming the run-as user, or running a command.</p>
+<h2 id="run-a-task-on-one">Run a task on one</h2>
+<p>On the Nodes page select targets with any other nodes and choose <strong>Run
+task</strong>, or name them in a task, plan or schedule. The job shows each target&#39;s
+own result.</p>
+<p>For each target the console downloads the task&#39;s files from the Puppet
+server, verifies their checksums, then connects, creates a private directory
+on the host (<code>mktemp -d</code>, mode 700), copies the files into it over the SSH
+session, runs the task and removes the directory, whether the task succeeded,
+failed or timed out. Nothing needs to be installed on the host beyond <code>sh</code>,
+<code>cat</code>, <code>mktemp</code> and (for a run-as user) <code>sudo</code>.</p>
+<ul>
+<li>Task <strong>parameters never appear on a command line</strong>, where any user of the
+host could read them. They reach the task on standard input or in its
+environment, as the task&#39;s metadata asks, and are never written to disk.
+What a task prints is recorded like any task&#39;s output.</li>
+<li>A task whose implementations all need the Puppet agent (<code>puppet-agent</code>)
+cannot run: the target provides a shell only.</li>
+<li>A task is limited by its <strong>timeout</strong>. When it runs out, the task is stopped
+and the target fails with that reason. Connecting is limited to 15 seconds.</li>
+<li>A target runs <strong>one task at a time</strong>; a second is refused as busy. At most
+20 SSH sessions run across the console at once, and the rest wait.</li>
+<li>A <code>/tmp</code> mounted <code>noexec</code> stops a task from running there. The failure says
+so; make a directory available or remount.</li>
+</ul>
+<h2 id="where-it-is-audited">Where it is audited</h2>
+<p>Adding, changing, deleting and checking a target, trusting or replacing a
+host key, and every shared credential change are audit entries naming who
+and what. They name which secrets were set, never their values. Jobs are
+audited as always.</p>
+<h2 id="not-covered">Not covered</h2>
+<p>Windows and WinRM, jump hosts, SSH certificates, Puppet runs, patch scans
+and patch runs, collecting facts, and Puppet-language plans.</p>
+
+    </div>
+
+    <vox-series-nav label="Use" previous-text="Previous" next-text="Next" previous-href="../guides/patching.html" previous-label="Find and apply missing updates" next-href="../guides/code-plans.html" next-label="Run plans from your code"></vox-series-nav>
+  </article>
+
+  
+  <div class="guide-toc-rail">
+    <vox-toc heading="On this page">
+      <vox-toc-item href="#add-a-target"><span>Add a target</span>
+      </vox-toc-item>
+      <vox-toc-item href="#trust-its-host-key"><span>Trust its host key</span>
+      </vox-toc-item>
+      <vox-toc-item href="#run-a-task-on-one"><span>Run a task on one</span>
+      </vox-toc-item>
+      <vox-toc-item href="#where-it-is-audited"><span>Where it is audited</span>
+      </vox-toc-item>
+      <vox-toc-item href="#not-covered"><span>Not covered</span>
+      </vox-toc-item>
+      </vox-toc>
+  </div>
+  </div>
+
+      </div>
+
+      
+      <vox-cta-band heading="Faites-le tourner vous-même">
+      <p>
+        OpenVox Console ships as container images, built for amd64 and
+        arm64 on every push, and as a single binary. The install guides
+        take you from an empty host to a working deployment -
+        openvoxserver, openvoxdb, Postgres and the console - with
+        containers or with packages.
+      </p>
+      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">Source sur GitHub</vox-cta>
+      <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">Images de conteneur</vox-cta>
+      </vox-cta-band>
+    </main>
+
+    
+    <dialog class="lightbox" aria-label="Full-size screenshot">
+      <div class="lightbox-bar">
+        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+      </div>
+      <img class="lightbox-image" alt=""/>
+    </dialog>
+
+    <vox-footer>
+      <vox-footer-column heading="OpenVox Console">
+        <a href="../index.html">Aperçu</a>
+        <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">Source</a>
+        <a href="../guides/index.html#install">Install guides</a>
+      </vox-footer-column>
+      <vox-footer-column heading="Fonctionnalités">
+        <a href="../features/nodes.html">Nodes</a>
+        <a href="../features/classification.html">Classification</a>
+        <a href="../features/code.html">Code</a>
+        <a href="../features/orchestration.html">Orchestration</a>
+        <a href="../features/security.html">Sécurité</a>
+        <a href="../features/access-control.html">Contrôle d&#39;accès</a>
+        <a href="../features/scaling.html">Scaling</a>
+        </vox-footer-column>
+      
+      <vox-footer-column heading="Langue">
+        <a href="../../guides/agentless.html" hreflang="en" lang="en">English</a>
+        <a href="../../zh/guides/agentless.html" hreflang="zh" lang="zh">中文</a>
+        <a href="../../hi/guides/agentless.html" hreflang="hi" lang="hi">हिन्दी</a>
+        <a href="../../es/guides/agentless.html" hreflang="es" lang="es">Español</a>
+        <a href="../../de/guides/agentless.html" hreflang="de" lang="de">Deutsch</a>
+        <a href="../../ja/guides/agentless.html" hreflang="ja" lang="ja">日本語</a>
+        <a href="../../ar/guides/agentless.html" hreflang="ar" lang="ar">العربية</a>
+        </vox-footer-column>
+      <vox-footer-column heading="OpenVox">
+        <a href="https://openvoxproject.github.io/" rel="noopener" target="_blank">OpenVox project</a>
+        <a href="https://github.com/voxpupuli" rel="noopener" target="_blank">Vox Pupuli</a>
+      </vox-footer-column>
+      <div slot="bottom" class="footer-note">
+        <span>Sous licence GPL-3.0</span>
+        <span>Les captures montrent la console en fonctionnement face à un parc de démonstration synthétique.</span>
+      </div>
+    </vox-footer>
+  
+
+</body></html>

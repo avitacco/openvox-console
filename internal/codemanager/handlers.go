@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/voxpupuli/enterprise-console/internal/nodescope"
 	"io"
 	"log/slog"
 	"net/http"
@@ -41,12 +42,19 @@ type Handlers struct {
 	// or unwired - the overview then reports counts as unavailable
 	// rather than failing (see listRepositories).
 	usage *UsageResolver
+	// scope limits the repository overview's node counts to the nodes
+	// in the caller's node group scope. Nil counts every node.
+	scope nodescope.Func
 }
 
 // SetUsageResolver wires the node-count source for the repository
 // overview. Injected after construction, like packageinventory's group
 // resolver, because it needs openvoxdb and the classifier - which this
 // package deliberately does not import.
+// SetScope makes the repository overview count only the nodes in each
+// caller's node group scope - see internal/nodescope.
+func (h *Handlers) SetScope(scope nodescope.Func) { h.scope = scope }
+
 func (h *Handlers) SetUsageResolver(u *UsageResolver) {
 	h.usage = u
 }

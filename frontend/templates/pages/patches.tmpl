@@ -1,0 +1,51 @@
+{{define "content" -}}
+    <main class="vox-container vox-p-y-xl">
+      <h1 class="vox-ts-xl vox-m-bottom-sm" data-i18n>Patching</h1>
+      <p class="vox-ts-sm vox-color-text-2 vox-m-top-none vox-m-bottom-lg" data-i18n>
+        The updates each node is missing, as its own package manager reports them. Scanning only
+        looks. A patch run, started for a node group, installs the updates in batches.
+      </p>
+
+      <div id="patch-error"></div>
+      <div id="scan-result"></div>
+
+      <vox-grid min="10rem" class="vox-m-bottom-lg" id="patch-totals"></vox-grid>
+
+      <div class="filters vox-display-flex vox-items-end vox-gap-md vox-flex-wrap vox-m-bottom-md">
+        <vox-input id="package-filter" label="Pending package" placeholder="Filter by package name" data-i18n-attr="label,placeholder"></vox-input>
+        <vox-select id="os-filter" label="Operating system" data-i18n-attr="label">
+          <option value="" data-i18n>All</option>
+        </vox-select>
+        <vox-combobox id="group-filter" label="Group" style="display: none" placeholder="All" data-i18n-attr="label,placeholder">
+          <option value="" data-i18n>All</option>
+        </vox-combobox>
+        <vox-button id="scan-group" variant="alt" style="display: none" disabled data-i18n>Scan this group now</vox-button>
+        <vox-button id="patch-group" variant="brand" style="display: none" disabled data-i18n>Patch this group…</vox-button>
+      </div>
+      <p id="scan-hint" class="vox-ts-sm vox-color-text-2 vox-m-top-none vox-m-bottom-md" style="display: none" data-i18n>Choose a group to scan all of its nodes now.</p>
+
+      <div id="results"></div>
+
+      <section id="patch-runs" class="vox-m-top-xl" style="display: none">
+        <h2 class="vox-ts-lg vox-m-bottom-sm" data-i18n>Recent patch runs</h2>
+        <div id="patch-runs-list"></div>
+      </section>
+
+      <section id="scan-settings" class="vox-m-top-xl" style="display: none">
+        <h2 class="vox-ts-lg vox-m-bottom-sm" data-i18n>Automatic scanning</h2>
+        <p class="vox-ts-sm vox-color-text-2 vox-m-top-none" data-i18n>
+          The console scans every connected node on this interval. A node that is offline is
+          scanned once it reconnects.
+        </p>
+        <div id="settings-error"></div>
+        <div class="vox-display-flex vox-items-end vox-gap-md vox-flex-wrap">
+          <vox-switch id="settings-enabled" data-i18n>Scan automatically</vox-switch>
+          <vox-input id="settings-interval" class="field-narrow" type="number" min="15" max="10080" step="1" label="Interval in minutes" data-i18n-attr="label"></vox-input>
+          <vox-button id="settings-save" variant="brand" data-i18n>Save</vox-button>
+        </div>
+        <div data-error-for="intervalMinutes"></div>
+        <p class="vox-ts-sm vox-color-text-2 vox-m-top-sm" data-i18n>Between 15 minutes and 7 days (10080 minutes).</p>
+        <div id="settings-saved"></div>
+      </section>
+    </main>
+{{- end}}

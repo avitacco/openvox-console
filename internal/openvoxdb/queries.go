@@ -147,6 +147,34 @@ type Report struct {
 	StartTime   time.Time `json:"start_time"`
 	EndTime     time.Time `json:"end_time"`
 	ReceiveTime time.Time `json:"receive_time"`
+	// Environment is the environment the run used, which is the
+	// server's choice when classification sets one.
+	Environment string `json:"environment"`
+}
+
+// ReportEnvironments returns the environment each of the reports named
+// by hashes records, keyed by hash. A hash with no report is absent.
+func (c *Client) ReportEnvironments(ctx context.Context, hashes []string) (map[string]string, error) {
+	out := map[string]string{}
+	if len(hashes) == 0 {
+		return out, nil
+	}
+	quoted := make([]string, len(hashes))
+	for i, h := range hashes {
+		quoted[i] = pqlString(h)
+	}
+	var rows []struct {
+		Hash        string `json:"hash"`
+		Environment string `json:"environment"`
+	}
+	pql := fmt.Sprintf("reports[hash, environment] { hash in [%s] }", strings.Join(quoted, ", "))
+	if err := c.query(ctx, pql, &rows); err != nil {
+		return nil, err
+	}
+	for _, r := range rows {
+		out[r.Hash] = r.Environment
+	}
+	return out, nil
 }
 
 // Reports returns the report history for the node named certname, most
@@ -418,6 +446,10 @@ func (c *Client) FleetNodeFacts(ctx context.Context) ([]NodeFacts, error) {
 
 // Event is a single resource-level event within a report.
 type Event struct {
+	// Certname is the node the event's report belongs to. Callers that
+	// scope what a user may see (internal/reporting) need it, since a
+	// report is looked up by hash alone.
+	Certname      string          `json:"certname"`
 	ResourceType  string          `json:"resource_type"`
 	ResourceTitle string          `json:"resource_title"`
 	Property      *string         `json:"property"`

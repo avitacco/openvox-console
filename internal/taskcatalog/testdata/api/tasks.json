@@ -1,0 +1,90 @@
+[
+    {
+        "name": "task_fixture::echo",
+        "private": false,
+        "description": "Echoes its parameters back as JSON",
+        "environment": [
+            {
+                "name": "production",
+                "code_id": null
+            }
+        ]
+    },
+    {
+        "name": "task_fixture::fail",
+        "private": false,
+        "description": "Always fails with a structured error",
+        "environment": [
+            {
+                "name": "production",
+                "code_id": null
+            }
+        ]
+    },
+    {
+        "name": "task_fixture",
+        "private": false,
+        "description": "Reports that the task fixture module ran",
+        "environment": [
+            {
+                "name": "production",
+                "code_id": null
+            }
+        ]
+    },
+    {
+        "name": "task_fixture::multi",
+        "private": false,
+        "description": "Runs a helper shipped in the module's files directory",
+        "environment": [
+            {
+                "name": "production",
+                "code_id": null
+            }
+        ]
+    },
+    {
+        "name": "task_fixture::plain",
+        "private": false,
+        "description": "",
+        "environment": [
+            {
+                "name": "production",
+                "code_id": null
+            }
+        ]
+    },
+    {
+        "name": "task_fixture::ruby",
+        "private": false,
+        "description": "A Ruby task using a helper from lib",
+        "environment": [
+            {
+                "name": "production",
+                "code_id": null
+            }
+        ]
+    },
+    {
+        "name": "task_fixture::secret",
+        "private": false,
+        "description": "Reports the length of a sensitive value without printing it",
+        "environment": [
+            {
+                "name": "production",
+                "code_id": null
+            }
+        ]
+    },
+    {
+        "name": "task_fixture::sleep",
+        "private": false,
+        "description": "Sleeps in a child process, for exercising timeouts",
+        "environment": [
+            {
+                "name": "production",
+                "code_id": null
+            }
+        ]
+    }
+]

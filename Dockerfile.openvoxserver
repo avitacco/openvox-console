@@ -42,5 +42,22 @@ COPY --from=build /out/enc-bridge /usr/local/bin/enc-bridge
 COPY openvoxserver-init/10-configure-enc.sh \
      /container-custom-entrypoint.d/10-configure-enc.sh
 
+# Allows the console's certificate to read each environment's classes
+# (/puppet/v3/environment_classes), which the stock auth.conf refuses.
+# Without it the console's class picker falls back to typed names.
+COPY openvoxserver-init/20-allow-class-discovery.sh \
+     /container-custom-entrypoint.d/20-allow-class-discovery.sh
+
+# Lets nodes read their node groups' configuration data with lookup(),
+# ahead of the control repo's Hiera data: installs the Hiera function (the
+# script copies it into the openvox gem's functions directory, the only
+# place the server loads one from) and adds it to the global hiera.yaml.
+COPY openvoxserver-init/console_config_data.rb \
+     /container-custom-entrypoint.d/console_config_data.rb
+COPY openvoxserver-init/30-configure-config-data.sh \
+     /container-custom-entrypoint.d/30-configure-config-data.sh
+
 RUN chmod 0755 /usr/local/bin/enc-bridge \
-               /container-custom-entrypoint.d/10-configure-enc.sh
+               /container-custom-entrypoint.d/10-configure-enc.sh \
+               /container-custom-entrypoint.d/20-allow-class-discovery.sh \
+               /container-custom-entrypoint.d/30-configure-config-data.sh

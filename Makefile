@@ -9,7 +9,7 @@ VERSION := $(shell git describe --tags --always --dirty 2>/dev/null || echo dev)
 -include .env
 export
 
-.PHONY: build frontend agent-binaries agent-packages docker-build up down openvox-up openvox-down openvox-test g10k-install control-repo-fixture code-sources-fixture rbac-keys rbac-rotate-key postgres-replication-up postgres-replication-down postgres-replication-failover run test clean demo-seed screenshots-up screenshots-down marketing marketing-build marketing-serve marketing-screenshots marketing-a11y
+.PHONY: build frontend agent-binaries agent-packages docker-build up down openvox-up openvox-down openvox-test g10k-install control-repo-fixture code-sources-fixture demo-code rbac-keys rbac-rotate-key postgres-replication-up postgres-replication-down postgres-replication-failover run test clean demo-seed screenshots-up screenshots-down marketing marketing-build marketing-serve marketing-screenshots marketing-a11y
 
 # Compose invocation for a screenshot capture run. All three files, in
 # this order: naming any -f turns off compose's automatic loading of
@@ -28,16 +28,13 @@ build: ## Build the console binary and enc-bridge for your local OS/arch
 frontend: ## Rebuild the embedded frontend bundle from frontend/src
 	cd frontend && ./build.sh
 
-agent-binaries: ## Cross-compile node-agent-client for internal/agentdist to embed (see design.md - console build time, not on-demand)
-	mkdir -p internal/agentdist/bin
-	GOOS=linux GOARCH=amd64 go build -o internal/agentdist/bin/node-agent-client-linux-amd64 ./cmd/node-agent-client
-	GOOS=linux GOARCH=arm64 go build -o internal/agentdist/bin/node-agent-client-linux-arm64 ./cmd/node-agent-client
-	# Windows is amd64-only: OpenVox publishes no Windows ARM64
-	# openvoxagent package for a node-agent build to pair with (see
-	# design.md in add-multi-platform-agent-install).
-	GOOS=windows GOARCH=amd64 go build -o internal/agentdist/bin/node-agent-client-windows-amd64 ./cmd/node-agent-client
-	GOOS=darwin GOARCH=amd64 go build -o internal/agentdist/bin/node-agent-client-darwin-amd64 ./cmd/node-agent-client
-	GOOS=darwin GOARCH=arm64 go build -o internal/agentdist/bin/node-agent-client-darwin-arm64 ./cmd/node-agent-client
+agent-binaries: ## Cross-compile node-agent-client for internal/agentdist to embed, stamped with version and build time (see design.md in add-agent-auto-upgrade)
+	# Every supported platform, plus bin/builds.json recording each
+	# build's digest and build time for the console to embed. Windows is
+	# amd64-only: OpenVox publishes no Windows ARM64 openvoxagent package
+	# for a node-agent build to pair with (see design.md in
+	# add-multi-platform-agent-install).
+	go run ./cmd/build-agent-binaries "$(VERSION)"
 
 agent-packages: agent-binaries ## Build node-agent-client .deb/.rpm packages for internal/agentdist to embed and serve (see design.md in add-native-agent-packaging - Linux only, see that design.md for why Windows/macOS aren't packaged natively)
 	go run ./cmd/build-agent-packages "$(VERSION)"
@@ -78,6 +75,10 @@ g10k-install: ## Build a real g10k binary into bin/ (one-time local dev setup)
 		-o $(CURDIR)/bin/g10k ./cmd/g10k); \
 	rm -rf "$$tmpdir"
 
+# The fixture carries the `profile` classes the demo node groups name
+# (internal/demodata/code), on a `production` and a `staging` branch.
+# Those groups match real nodes as well as the demo fleet, so without
+# the classes every Puppet run in the development stack fails to compile.
 control-repo-fixture: ## Create a real local bare git control repo for code-manager dev/testing (one-time setup)
 	rm -rf .dev/control-repo.git
 	mkdir -p .dev
@@ -88,7 +89,8 @@ control-repo-fixture: ## Create a real local bare git control repo for code-mana
 	printf 'forge "https://forgeapi.puppet.com"\nmod '"'"'puppetlabs/stdlib'"'"', '"'"'9.6.0'"'"'\n' > "$$tmpdir/Puppetfile" && \
 	printf 'node default {\n  class { '"'"'code_manager_test_marker'"'"': }\n}\n\nclass code_manager_test_marker {\n  file { '"'"'/tmp/enterprise-console-code-manager-test-marker'"'"':\n    ensure  => file,\n    content => "deployed by phase-5-code-manager\\n",\n  }\n}\n' > "$$tmpdir/manifests/site.pp" && \
 	printf 'modulepath = modules:site\n' > "$$tmpdir/environment.conf" && \
-	(cd "$$tmpdir" && git -c user.email=dev@localhost -c user.name=dev -c commit.gpgsign=false add -A && git -c user.email=dev@localhost -c user.name=dev -c commit.gpgsign=false commit -q -m "initial control repo fixture" && git branch -M production && git push -q origin production); \
+	mkdir -p "$$tmpdir/site" && cp -r internal/taskcatalog/testdata/modules/task_fixture internal/classcatalog/testdata/modules/class_fixture internal/demodata/code/profile "$$tmpdir/site/" && \
+	(cd "$$tmpdir" && git -c user.email=dev@localhost -c user.name=dev -c commit.gpgsign=false add -A && git -c user.email=dev@localhost -c user.name=dev -c commit.gpgsign=false commit -q -m "initial control repo fixture" && git branch -M production && git push -q origin production production:staging); \
 	rm -rf "$$tmpdir"
 	git -C .dev/control-repo.git symbolic-ref HEAD refs/heads/production
 
@@ -103,6 +105,7 @@ code-sources-fixture: control-repo-fixture ## Add a second control repo + a code
 	mkdir -p "$$tmpdir/manifests" && \
 	printf 'node default {\n  class { '"'"'team_a_marker'"'"': }\n}\n\nclass team_a_marker {\n  file { '"'"'/tmp/enterprise-console-team-a-marker'"'"':\n    ensure  => file,\n    content => "deployed from the team_a control repo\\n",\n  }\n}\n' > "$$tmpdir/manifests/site.pp" && \
 	printf 'modulepath = modules:site\n' > "$$tmpdir/environment.conf" && \
+	mkdir -p "$$tmpdir/site" && cp -r internal/demodata/code/profile "$$tmpdir/site/" && \
 	(cd "$$tmpdir" && git -c user.email=dev@localhost -c user.name=dev -c commit.gpgsign=false add -A && git -c user.email=dev@localhost -c user.name=dev -c commit.gpgsign=false commit -q -m "team_a control repo fixture" && git branch -M production && git push -q origin production); \
 	rm -rf "$$tmpdir"
 	git -C .dev/team-a-control.git symbolic-ref HEAD refs/heads/production
@@ -138,6 +141,24 @@ postgres-replication-down: ## Stop just the replication fixture, leaving everyth
 postgres-replication-failover: ## Promote the standby and repoint the proxy at it, without touching the console (see operations.md)
 	docker exec $$(docker compose ps -q postgres-standby) psql -U console -d console -c "SELECT pg_promote();"
 	POSTGRES_PROXY_TARGET=postgres-standby docker compose up -d postgres-proxy
+
+# The demo node groups assign `profile::*` classes, and their rules match
+# real nodes too (any Linux node is in "Linux Servers"). A server whose
+# code does not define those classes fails every such node's catalog.
+# This puts them there directly, for a stack whose code is not deployed
+# from the control repo fixture (which carries them as well).
+DEMO_CODE_ENV := /etc/puppetlabs/code/environments/production
+demo-code: ## Install the classes the demo node groups name into the running openvoxserver, so real nodes compile
+	# Copied over whatever is there, never removed first: a class dropped
+	# from the demo data leaves an unused manifest behind, which is
+	# harmless.
+	docker compose exec -T -u root openvoxserver sh -c 'mkdir -p $(DEMO_CODE_ENV)/site/profile && { grep -qs "site" $(DEMO_CODE_ENV)/environment.conf || printf "modulepath = modules:site\n" >> $(DEMO_CODE_ENV)/environment.conf; }'
+	docker compose cp internal/demodata/code/profile/. openvoxserver:$(DEMO_CODE_ENV)/site/profile/
+	docker compose exec -T -u root openvoxserver sh -c 'chmod -R a+rX $(DEMO_CODE_ENV)/site/profile'
+	# The server keeps compiled environments until told otherwise
+	# (environment_timeout = unlimited), so it would go on answering
+	# "could not find class" without this.
+	docker compose exec -T openvoxserver sh -c 'curl -sS -f -o /dev/null -X DELETE --cert "$$(puppet config print hostcert)" --key "$$(puppet config print hostprivkey)" --cacert "$$(puppet config print localcacert)" "https://$$(puppet config print certname):8140/puppet-admin-api/v1/environment-cache"'
 
 demo-seed: ## Fill a LOCAL console with a fabricated demo fleet for screenshots/demos (see marketing/README.md; refuses any non-local target)
 	# --reset first deletes the demo fleet from openvoxdb. Without it a

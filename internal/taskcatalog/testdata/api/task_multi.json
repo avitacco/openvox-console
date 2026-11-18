@@ -1,0 +1,66 @@
+{
+    "metadata": {
+        "description": "Runs a helper shipped in the module's files directory",
+        "implementations": [
+            {
+                "files": [
+                    "task_fixture/files/helper.sh"
+                ],
+                "name": "multi.sh",
+                "requirements": [
+                    "shell"
+                ]
+            },
+            {
+                "input_method": "powershell",
+                "name": "multi.ps1",
+                "requirements": [
+                    "powershell"
+                ]
+            }
+        ],
+        "input_method": "environment",
+        "parameters": {
+            "name": {
+                "description": "Name to greet",
+                "type": "String"
+            }
+        }
+    },
+    "name": "task_fixture::multi",
+    "files": [
+        {
+            "filename": "multi.sh",
+            "sha256": "f76d644146b64496f4cfdb4f0af1f2fc02c2cff35606db785613fef6e9618715",
+            "size_bytes": 76,
+            "uri": {
+                "path": "/puppet/v3/file_content/tasks/task_fixture/multi.sh",
+                "params": {
+                    "environment": "production"
+                }
+            }
+        },
+        {
+            "filename": "multi.ps1",
+            "sha256": "6aca61e58749992d3f5c76a2519a6f8939d0f1c43504344f605c2398cb843be4",
+            "size_bytes": 93,
+            "uri": {
+                "path": "/puppet/v3/file_content/tasks/task_fixture/multi.ps1",
+                "params": {
+                    "environment": "production"
+                }
+            }
+        },
+        {
+            "filename": "task_fixture/files/helper.sh",
+            "sha256": "ee8785dae9aa0ebe9c2143385225f2df6a4ac7bddde0a3661e196d7b4ca5a784",
+            "size_bytes": 54,
+            "uri": {
+                "path": "/puppet/v3/file_content/modules/task_fixture/helper.sh",
+                "params": {
+                    "environment": "production"
+                }
+            }
+        }
+    ]
+}

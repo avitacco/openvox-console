@@ -1,9 +1,17 @@
-import { fetchJSON, sendJSON, escapeHtml, hasPermission, statusVariant, qs, severityBadge, coverageReasonText, closeReasonText, paginationHTML, bindPagination, withLoading, t, formatDateTime } from './app.js';
+import { fetchJSON, sendJSON, escapeHtml, hasPermission, statusVariant, statusLabel, qs, severityBadge, coverageReasonText, closeReasonText, paginationHTML, bindPagination, withLoading, t, N_, formatDateTime } from './app.js';
+import { openRunTaskDialog } from './run-task.js';
+import { openRunPuppetDialog } from './run-puppet.js';
+import { openPatchDialog, patchOptionBadges, patchPackagesTable } from './run-patch.js';
 
 const certname = qs('name');
 const factsEl = document.getElementById('facts');
 const factsRawSwitch = document.getElementById('facts-raw-switch');
 const packagesEl = document.getElementById('packages');
+const patchesEl = document.getElementById('patches');
+const patchesStatusEl = document.getElementById('patches-status');
+const patchesScanButton = document.getElementById('patches-scan');
+const patchesPatchButton = document.getElementById('patches-patch');
+const patchesLastEl = document.getElementById('patches-last');
 const vulnerabilitiesTab = document.getElementById('vulnerabilities-tab');
 const vulnerabilitiesCoverageEl = document.getElementById('vulnerabilities-coverage');
 const vulnerabilitiesEl = document.getElementById('vulnerabilities');
@@ -12,6 +20,7 @@ const reportsEl = document.getElementById('reports');
 const statusFilter = document.getElementById('status-filter');
 const runNowButton = document.getElementById('run-now');
 const runNowError = document.getElementById('run-now-error');
+const runTaskButton = document.getElementById('run-task');
 const packageInventoryToggleEl = document.getElementById('package-inventory-toggle');
 const packageInventorySwitch = document.getElementById('package-inventory-switch');
 const packageInventoryStatusEl = document.getElementById('package-inventory-status');
@@ -57,19 +66,14 @@ document.getElementById('node-name').textContent = certname;
 
 if (hasPermission('orchestrator:run')) {
   runNowButton.style.display = '';
+  runTaskButton.style.display = '';
 }
 
-runNowButton.addEventListener('click', async () => {
+runTaskButton.addEventListener('click', () => openRunTaskDialog({ targets: [certname] }));
+
+runNowButton.addEventListener('click', () => {
   runNowError.innerHTML = '';
-  runNowButton.disabled = true;
-  try {
-    const job = await sendJSON('/api/v1/orchestrator/runs', 'POST', { targets: [certname] });
-    window.location.href = `/job.html?id=${job.id}`;
-  } catch (err) {
-    runNowError.innerHTML = `<vox-alert variant="danger">${escapeHtml(err.message)}</vox-alert>`;
-  } finally {
-    runNowButton.disabled = false;
-  }
+  openRunPuppetDialog({ targets: [certname] });
 });
 
 // Facts render two ways, chosen by the Raw JSON switch: a curated view
@@ -538,7 +542,224 @@ packageInventorySwitch.addEventListener('change', async () => {
   }
 });
 
+// The node's node-agent-client: which build it runs, whether that is
+// behind the build this console serves, what became of the last upgrade
+// attempt, and - with nodes:manage, for a connected node the console
+// can upgrade - the action to upgrade it now. See design.md in
+// add-agent-auto-upgrade.
+const agentStatusEl = document.getElementById('agent-status');
+// Set after an operator starts an upgrade, so the confirmation survives
+// the re-render that follows it.
+let agentNotice = '';
+
+const AGENT_STATE = {
+  current: { variant: 'tip', label: N_('Current') },
+  outdated: { variant: 'warning', label: N_('Out of date') },
+  unknown: { variant: 'warning', label: N_('Out of date') },
+};
+
+const AGENT_BLOCKED = {
+  'install-script': N_('This client is too old to upgrade itself. Re-run the install script on this node once; after that it keeps itself current.'),
+  declined: N_('Upgrades are declined in the configuration of this node.'),
+  'no-artifact': N_('This console has no client package for the platform of this node.'),
+};
+
+function agentUpgradeHTML(agent) {
+  const up = agent.upgrade;
+  if (!up) return '';
+  if (up.state === 'requested') {
+    return `<vox-alert variant="info" class="vox-m-top-sm">${escapeHtml(t('The node has been told to upgrade its client. It restarts onto the new build when the upgrade completes.'))}</vox-alert>`;
+  }
+  const lines = [t('The last client upgrade failed: {error}', { error: up.error })];
+  if (up.state === 'exhausted') {
+    lines.push(t('Automatic attempts stopped after {attempts} failures.', { attempts: up.attempts }));
+  } else if (up.nextAttemptAt) {
+    lines.push(t('Attempt {attempts} of {max}. Next automatic attempt: {time}.', {
+      attempts: up.attempts, max: up.maxAttempts, time: formatDateTime(up.nextAttemptAt),
+    }));
+  }
+  return `<vox-alert variant="danger" class="vox-m-top-sm">${lines.map(escapeHtml).join(' ')}</vox-alert>`;
+}
+
+function renderAgentStatus(node) {
+  const agent = node?.agent;
+  // Nothing to say about a certname with no agent of its own, or before
+  // this node has connected since build tracking began.
+  if (!agent || node.isInfrastructure) {
+    agentStatusEl.innerHTML = '';
+    return;
+  }
+  if (agent.state === 'unreported') {
+    agentStatusEl.innerHTML = `<p class="vox-ts-sm vox-m-y-none"><strong>${t('Node agent')}</strong> ${escapeHtml(t('This node has not reported its client build yet. It does so the next time it connects.'))}</p>`;
+    return;
+  }
+
+  const state = AGENT_STATE[agent.state];
+  const build = agent.state === 'unknown'
+    ? t('Unknown build')
+    : t('Version {version}, built {time}', {
+      version: agent.version || t('unversioned'),
+      time: agent.buildTime ? formatDateTime(agent.buildTime) : t('unknown'),
+    });
+  const canUpgrade = agent.canUpgrade && node.connected && hasPermission('nodes:manage');
+  const blocked = agent.outOfDate && AGENT_BLOCKED[agent.blocked]
+    ? `<vox-alert variant="warning" class="vox-m-top-sm">${escapeHtml(t(AGENT_BLOCKED[agent.blocked]))}</vox-alert>`
+    : '';
+
+  agentStatusEl.innerHTML = `
+    <div class="vox-display-flex vox-items-center vox-gap-sm vox-flex-wrap">
+      <strong class="vox-ts-sm">${t('Node agent')}</strong>
+      <span class="vox-ts-sm">${escapeHtml(build)}</span>
+      <vox-badge variant="${state.variant}">${escapeHtml(t(state.label))}</vox-badge>
+      ${canUpgrade ? `<vox-button id="agent-upgrade" variant="alt" size="sm">${t('Upgrade client')}</vox-button>` : ''}
+    </div>
+    ${blocked}
+    ${agentUpgradeHTML(agent)}
+    ${agentNotice}`;
+
+  document.getElementById('agent-upgrade')?.addEventListener('click', upgradeAgent);
+}
+
+async function loadAgentStatus() {
+  try {
+    const data = await fetchJSON('/api/v1/node-connectivity');
+    renderAgentStatus(data.nodes.find((n) => n.certname === certname));
+  } catch {
+    // The rest of the page does not depend on this.
+    agentStatusEl.innerHTML = '';
+  }
+}
+
+async function upgradeAgent(event) {
+  event.currentTarget.disabled = true;
+  agentNotice = '';
+  try {
+    await sendJSON(`/api/v1/nodes/${encodeURIComponent(certname)}/agent-upgrade`, 'POST', {});
+  } catch (err) {
+    // The server says which reason applies (not connected, busy, ...).
+    agentNotice = `<vox-alert variant="danger" class="vox-m-top-sm">${escapeHtml(err.message)}</vox-alert>`;
+  }
+  await loadAgentStatus();
+  agentNotice = '';
+}
+
 statusFilter.addEventListener('change', loadReports);
+
+// Patches (add-patch-inventory): the updates this node's package manager
+// reports pending, from the latest scan. A node never scanned is not a
+// node with nothing pending, and the panel says which it is.
+function patchesSummaryHTML(d) {
+  const snap = d.snapshot;
+  if (!snap) {
+    return `<vox-alert variant="info">${t('This node has not been scanned yet, so it is not known whether it is missing updates.')}</vox-alert>`;
+  }
+  if (snap.unsupported) {
+    return `<vox-alert variant="warning">${escapeHtml(snap.error)}</vox-alert>`;
+  }
+  const lines = [];
+  if (snap.scannedAt) {
+    lines.push(`<p class="vox-ts-sm">${escapeHtml(t('Last scanned {when} with {manager}.', { when: formatDateTime(snap.scannedAt), manager: snap.manager }))}</p>`);
+  }
+  if (d.stale) {
+    lines.push(`<vox-alert variant="warning">${t('This scan is out of date. Scan again to see what is pending now.')}</vox-alert>`);
+  }
+  if (snap.error) {
+    lines.push(`<vox-alert variant="danger">${escapeHtml(t('The last attempt to scan failed: {error}', { error: snap.error }))}${snap.scannedAt ? ` ${escapeHtml(t('The updates below are from the last scan that worked.'))}` : ''}</vox-alert>`);
+  }
+  if (snap.rebootRequired) {
+    lines.push(`<vox-alert variant="info">${t('This node already needs a reboot.')}</vox-alert>`);
+  }
+  return lines.join('');
+}
+
+function renderPatches(d) {
+  patchesStatusEl.innerHTML = patchesSummaryHTML(d);
+  if (!d.snapshot || !d.scanned) {
+    patchesEl.innerHTML = '';
+    return;
+  }
+  if (d.updates.length === 0) {
+    patchesEl.innerHTML = `<vox-empty-state heading="${t('Nothing is pending')}"><vox-icon slot="icon" name="shield" size="lg"></vox-icon>${t('The last scan found no updates waiting for this node.')}</vox-empty-state>`;
+    return;
+  }
+  const rows = d.updates.map((u) => `
+    <tr>
+      <th scope="row">${escapeHtml(u.name)}</th>
+      <td>${escapeHtml(u.installed) || '—'}</td>
+      <td>${escapeHtml(u.available)}</td>
+      <td>${u.security ? `<vox-badge variant="danger">${t('Security')}</vox-badge>` : '—'}</td>
+    </tr>`).join('');
+  patchesEl.innerHTML = `
+    <div class="vox-table-wrap">
+      <table class="vox-table vox-table--striped">
+        <thead><tr><th scope="col">${t('Package')}</th><th scope="col">${t('Installed')}</th><th scope="col">${t('Available')}</th><th scope="col">${t('Security')}</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+    <p class="vox-ts-sm vox-color-text-2">${t('Security is what the node\'s package manager marks as a security update. A system without that information shows none.')}</p>`;
+}
+
+async function loadPatches() {
+  try {
+    renderPatches(await withLoading(patchesEl, () => fetchJSON(`/api/v1/nodes/${encodeURIComponent(certname)}/patches`)));
+  } catch (err) {
+    patchesEl.innerHTML = `<vox-alert variant="danger">${escapeHtml(err.message)}</vox-alert>`;
+  }
+}
+
+if (hasPermission('orchestrator:run')) {
+  patchesScanButton.style.display = '';
+  patchesPatchButton.style.display = '';
+}
+patchesPatchButton.addEventListener('click', () => openPatchDialog({ targets: [certname] }));
+
+// The last patch run that included this node: what it did, package by
+// package. Reading jobs is orchestrator:read, so without it the panel
+// shows the scan alone.
+async function loadLastPatchRun() {
+  patchesLastEl.innerHTML = '';
+  if (!hasPermission('orchestrator:read')) return;
+  try {
+    const page = await fetchJSON(`/api/v1/orchestrator/jobs?kind=patch&target=${encodeURIComponent(certname)}&pageSize=1`);
+    if (page.items.length === 0) return;
+    const job = await fetchJSON(`/api/v1/orchestrator/jobs/${page.items[0].id}`);
+    const target = job.targets.find((x) => x.certname === certname);
+    if (!target) return;
+    const when = formatDateTime(target.finishedAt || target.startedAt || job.startedAt);
+    const error = target.errorDetail
+      ? `<vox-alert variant="danger">${escapeHtml(target.errorDetail)}</vox-alert>`
+      : '';
+    patchesLastEl.innerHTML = `
+      <section class="vox-m-bottom-lg">
+        <h3 class="vox-ts-md vox-m-bottom-xs">${escapeHtml(t('Last patch run'))}</h3>
+        <p class="vox-ts-sm vox-m-top-none">
+          <vox-badge variant="${statusVariant(target.status)}">${escapeHtml(statusLabel(target.status))}</vox-badge>
+          ${patchOptionBadges(job.patchOptions)}
+          ${escapeHtml(when)} · <a href="/job.html?id=${job.id}">${escapeHtml(t('Job #{id}', { id: job.id }))}</a>
+        </p>
+        ${error}
+        ${target.result ? patchPackagesTable(target.result) : ''}
+      </section>`;
+  } catch {
+    // The scan below is unaffected.
+  }
+}
+patchesScanButton.addEventListener('click', async () => {
+  patchesScanButton.disabled = true;
+  patchesStatusEl.innerHTML = `<vox-alert variant="info">${t('Scanning. Refreshing package lists can take a while on a slow mirror.')}</vox-alert>`;
+  try {
+    const r = await sendJSON(`/api/v1/nodes/${encodeURIComponent(certname)}/patches/scan`, 'POST');
+    const outcome = r.results[0];
+    await loadPatches();
+    if (outcome.outcome === 'offline') {
+      patchesStatusEl.insertAdjacentHTML('afterbegin', `<vox-alert variant="warning">${t('This node is offline, so it could not be scanned. It will be scanned when it reconnects.')}</vox-alert>`);
+    }
+  } catch (err) {
+    patchesStatusEl.innerHTML = `<vox-alert variant="danger">${escapeHtml(err.message)}</vox-alert>`;
+  } finally {
+    patchesScanButton.disabled = false;
+  }
+});
 
 // Vulnerabilities section (add-vulnerability-tracking): only shown with
 // vulnerabilities:read, and never presents an unassessed node as clean.
@@ -624,7 +845,13 @@ if (!certname) {
   loadFacts();
   loadPackages();
   loadReports();
+  loadPatches();
+  loadLastPatchRun();
   loadPackageInventoryToggle();
+  loadAgentStatus();
+  // An upgrade finishes on its own, a minute or so after it is asked
+  // for; keep the panel honest without a reload.
+  setInterval(loadAgentStatus, 30_000);
   if (hasPermission('vulnerabilities:read')) {
     loadVulnerabilities();
   }

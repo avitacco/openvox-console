@@ -43,7 +43,8 @@ listeners, and background workers, and SHALL NOT activate the others:
   before run modes existed.
 - `web` SHALL serve the console UI and the REST API, including code
   deployment endpoints and webhooks, and SHALL NOT terminate node transport
-  connections or run background workers.
+  connections or run scheduled background work. It SHALL follow each job
+  started through its API to that job's end.
 - `enc` SHALL serve only the ENC classification endpoint and the system's own
   operational endpoints (health and metrics), and SHALL NOT serve the console
   UI, the REST API, node transport connections, or background workers.

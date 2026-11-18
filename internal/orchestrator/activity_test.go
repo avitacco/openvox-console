@@ -102,7 +102,7 @@ func TestDispatcher_DoesNotRecordActivityForPlanSteps(t *testing.T) {
 	if err != nil {
 		t.Fatalf("CreatePlan() error: %v", err)
 	}
-	dispatcher.DispatchPlan(ctx, plan)
+	dispatcher.DispatchPlan(ctx, plan, nil)
 
 	waitForJobStatus(t, store, plan.ID, StatusSucceeded)
 	waitForActivityCount(t, &recorded, &mu, 2)

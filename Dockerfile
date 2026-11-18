@@ -38,16 +38,11 @@ RUN ./frontend/build.sh
 # and served to nodes from it. They are generated, not committed, so
 # they have to be produced here - without this a build from a clean
 # checkout fails with "pattern all:bin: no matching files found".
-# Filenames must match agentdist's own lookup:
-# node-agent-client-<goos>-<goarch>, with no extension even for Windows.
+# build-agent-binaries stamps each client with the version and build
+# time and writes bin/builds.json, which is how the console knows which
+# client build it serves and whether a node's is older.
 RUN set -eux; \
-    mkdir -p internal/agentdist/bin; \
-    for target in linux/amd64 linux/arm64 windows/amd64 darwin/amd64 darwin/arm64; do \
-        os="${target%/*}"; arch="${target#*/}"; \
-        GOOS="$os" GOARCH="$arch" go build \
-            -o "internal/agentdist/bin/node-agent-client-$os-$arch" \
-            ./cmd/node-agent-client; \
-    done; \
+    go run ./cmd/build-agent-binaries "$VERSION"; \
     go run ./cmd/build-agent-packages "$VERSION"
 
 ARG TARGETOS TARGETARCH
@@ -87,9 +82,12 @@ RUN set -eux; \
 # `git` for every clone, fetch and archive, so an image carrying g10k
 # without git would fail every deploy at runtime with the binary present
 # and apparently working. git in turn needs CA certificates for HTTPS
-# remotes and ssh for SSH remotes. g10k itself needs no shell - it
-# splits command strings and execs directly - so nothing here is for
-# g10k's own benefit beyond git and git's transports.
+# remotes and ssh for SSH remotes. g10k execs plain git directly, but
+# for a source with a private_key it runs `ssh-agent bash -c 'ssh-add
+# <key>; git clone ...'`, so bash and ssh-agent/ssh-add must be present:
+# without bash that clone fails with "bash: No such file or directory",
+# g10k logs a warning and exits 0, and a deploy then "succeeds" having
+# cloned nothing. bash is here for that, and only that.
 #
 # Alpine rather than debian-slim purely for size: Debian's git
 # hard-depends on perl, which made the image 325MB against Alpine's
@@ -97,7 +95,7 @@ RUN set -eux; \
 # and g10k are CGO_ENABLED=0 static binaries, so musl never enters into
 # it - nothing in this stage links against the C library.
 FROM alpine:3.22
-RUN apk add --no-cache ca-certificates git openssh-client
+RUN apk add --no-cache ca-certificates git openssh-client bash
 
 COPY --from=build /out/console /console
 COPY --from=build /out/g10k /usr/local/bin/g10k

@@ -2,8 +2,10 @@
     <main class="vox-container vox-p-y-xl">
       <vox-subnav label="Admin" class="vox-m-bottom-lg" data-i18n-attr="label">
         <a href="/users.html" data-i18n>Users</a>
+        <a href="/user-groups.html" data-i18n>User groups</a>
         <a href="/roles.html" data-i18n>Roles</a>
         <a href="/service-tokens.html" aria-current="page" data-i18n>Service tokens</a>
+        <a href="/account-policy.html" data-i18n>Account policy</a>
       </vox-subnav>
 
       <h1 class="vox-ts-xl vox-m-bottom-md" data-i18n>Service tokens</h1>
@@ -18,6 +20,11 @@
         </div>
         <div class="vox-m-bottom-md">
           <div id="new-token-permissions" class="vox-display-flex vox-flex-wrap vox-gap-md"></div>
+        </div>
+        <div class="vox-m-bottom-md">
+          <vox-textarea id="new-token-tasks" rows="3" class="vox-width-full" label="Tasks it may run" data-i18n-attr="label,note"
+            note="One per line: a task name such as package::install, a module such as patch::*, or * for every task. Leave it empty to allow every task. Fixed when the token is created."></vox-textarea>
+          <div id="new-token-tasks-error"></div>
         </div>
         <div class="vox-display-flex vox-gap-sm vox-m-top-lg">
           <vox-button id="create-token" variant="brand" data-i18n>Create service token</vox-button>

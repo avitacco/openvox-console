@@ -1,0 +1,393 @@
+<!DOCTYPE html><html lang="es" dir="ltr"><head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="Scan Linux nodes for pending package updates, then patch them in batches with a dry run, a stop threshold and an optional reboot."/>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+    <title>Find and apply missing updates - OpenVox Console</title>
+
+    
+    <script>
+      (function () {
+        
+        
+        var stored = null;
+        try { stored = localStorage.getItem('vox-theme'); } catch (e) {}
+        var theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-vox-theme', theme);
+      })();
+    </script>
+    <style>
+      html { background-color: #f5faf9; }
+      html[data-vox-theme='dark'] { background-color: #0d1417; }
+      html:not([data-vox-ready]) body { visibility: hidden; }
+    </style>
+    
+    <noscript><style>body { visibility: visible !important; }</style></noscript>
+    <script>
+      setTimeout(function () {
+        document.documentElement.setAttribute('data-vox-ready', '');
+      }, 2000);
+    </script>
+
+    
+    <script>
+      (function () {
+        var LOCALES = ["en", "zh", "hi", "es", "fr", "de", "ja", "ar", ];
+        var KEY = 'vox-lang';
+
+        function stored() {
+          
+          
+          try { return localStorage.getItem(KEY); } catch (e) { return null; }
+        }
+
+        
+        
+        
+        
+        
+        document.addEventListener('click', function (event) {
+          var path = event.composedPath ? event.composedPath() : [event.target];
+          for (var i = 0; i < path.length; i++) {
+            var code = path[i].getAttribute && path[i].getAttribute('data-lang');
+            if (code) {
+              try { localStorage.setItem(KEY, code); } catch (e) {}
+              return;
+            }
+          }
+        });
+        
+      })();
+    </script>
+
+    <link rel="stylesheet" href="../../vendor/voxblocks.css"/>
+    <link rel="stylesheet" href="../../site.css"/>
+    <script type="module" src="../../vendor/voxblocks.js"></script>
+    <script type="module" src="../../theme.js"></script>
+    <script type="module" src="../../lightbox.js"></script>
+    <script type="module" src="../../guides.js"></script>
+  </head>
+  <body>
+    
+    <a class="skip-link" href="#main">Saltar al contenido</a>
+
+    <vox-header site-title="OpenVox Console" href="../index.html">
+      
+      <svg slot="logo" viewBox="0 0 2560 2478" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M1946.22 272.18L1874.51 643.161C1840.69 625.335 1769.51 597.048 1744.63 592.202L1946.22 272.18ZM1647.05 893.509C1735.54 894.748 1789.05 935.815 1845.35 1010.52C1716.57 1047.71 1641.84 987.053 1586.85 899.704C1600.03 898.445 1634.39 893.339 1647.05 893.509ZM1421.62 600.655C1288.19 638.415 1170.91 730.251 1126.1 808.997C1126.1 808.997 1186.31 336.289 1244.88 158.652C1315.83 282.552 1421.62 600.655 1421.62 600.655ZM2477.39 1158.21C2342.39 1125.61 2074.76 1042.77 2053.7 881.139C2043.59 803.362 1980.86 717.271 1947.86 694.589L2004.72 106.064L1517.51 580.681C1517.51 580.681 1358.55 170.153 1243.89 0C1100.67 241.805 932.123 707.949 896.253 809.107L1227.33 1744.42C1243.68 1615.28 1328.09 1472.06 1428.27 1381.86C1350.61 1280.89 1210.56 1250.76 1151.7 1289.73C1228.31 1186.22 1376.21 1050.44 1651.27 1124.86C1773.51 1157.92 1898.72 1222.92 1978.75 1240.54C2184.12 1285.76 2337.81 1231.2 2337.81 1231.2C2336.23 1279.58 2360.5 1315.47 2410.61 1338.87C2196.05 1539.04 1914.11 1376.52 1715.51 1407.29C1514.8 1438.43 1238.87 2011.65 1201.73 2093.07L593.825 394.322L584.775 369.242C535.086 234.271 451.316 124.12 296.898 124.12H0V473.618H92.0793C145.649 473.618 170.849 489.355 189.769 542.882L903.123 2478H1248.99L1312.45 2324.93L1556.24 1812.6C1660.38 1581.57 1765.81 1518.18 2072.12 1531.73C2162.6 1535.73 2349.93 1537.27 2457.29 1405.96C2611.96 1216.8 2569.29 1180.38 2477.43 1158.16" fill="currentColor"></path>
+      </svg>
+      
+      <nav slot="actions" class="lang-switcher" aria-label="Idioma">
+        <vox-dropdown label="Español">
+          <a data-lang="en" href="../../guides/patching.html" hreflang="en" lang="en">English</a>
+          <a data-lang="zh" href="../../zh/guides/patching.html" hreflang="zh" lang="zh">中文</a>
+          <a data-lang="hi" href="../../hi/guides/patching.html" hreflang="hi" lang="hi">हिन्दी</a>
+          <a aria-current="page" data-lang="es" href="../../es/guides/patching.html" hreflang="es" lang="es">Español</a>
+          <a data-lang="fr" href="../../fr/guides/patching.html" hreflang="fr" lang="fr">Français</a>
+          <a data-lang="de" href="../../de/guides/patching.html" hreflang="de" lang="de">Deutsch</a>
+          <a data-lang="ja" href="../../ja/guides/patching.html" hreflang="ja" lang="ja">日本語</a>
+          <a data-lang="ar" href="../../ar/guides/patching.html" hreflang="ar" lang="ar">العربية</a>
+          </vox-dropdown>
+      </nav>
+      <vox-theme-toggle slot="actions"></vox-theme-toggle>
+      
+      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
+    </vox-header>
+
+    <div class="site-subnav">
+      <vox-subnav label="Capacidades" class="vox-container">
+      
+      <a href="../features/nodes.html">Nodes</a>
+      <a href="../features/classification.html">Clasificación</a>
+      <a href="../features/code.html">Code</a>
+      <a href="../features/orchestration.html">Orquestación</a>
+      <a href="../features/security.html">Seguridad</a>
+      <a href="../features/access-control.html">Control de acceso</a>
+      <a href="../features/scaling.html">Scaling</a>
+      </vox-subnav>
+    </div>
+
+    <main id="main">
+      <div class="site-main vox-container">
+<div class="guide-layout">
+  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
+    <vox-sidenav-group heading="Install">
+      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    <vox-sidenav-group heading="Nodes">
+      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    <vox-sidenav-group heading="Scale">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    <vox-sidenav-group heading="Use" open="">
+      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html" current="" aria-current="page"><span>Find and apply missing updates</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    <vox-sidenav-group heading="Operate">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    </vox-sidenav>
+
+  <article class="guide">
+    <p class="guide-eyebrow">Use</p>
+    <h1 class="guide-title vox-ts-xxl">Find and apply missing updates</h1>
+    <p class="guide-summary">Scan Linux nodes for pending package updates, then patch them in batches with a dry run, a stop threshold and an optional reboot.</p>
+
+    
+    <vox-callout variant="info" heading="Not fully translated yet">
+      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
+    </vox-callout>
+
+    <div class="guide-body vox-prose">
+<p>The <strong>Patching</strong> page shows which updates each node is missing, as the
+node&#39;s own package manager reports them. A scan only looks. A
+<a href="#patch-nodes">patch run</a> installs them.</p>
+<p>This covers Linux nodes that use <strong>apt</strong>, or <strong>dnf</strong> or <strong>yum</strong>. Windows,
+macOS and zypper (SUSE) are not scanned: a node on one of them is listed
+as unable to report, never as fully patched.</p>
+<p>Seeing results needs <code>nodes:read</code>, limited to the node groups your role
+names. Scanning or patching a node or a group needs <code>orchestrator:run</code>,
+again for the nodes your role covers. Changing how often the console scans
+needs <code>nodes:manage</code>. No new permission is involved.</p>
+<h2 id="what-a-scan-does">What a scan does</h2>
+<p>A scan asks the node&#39;s agent to run its package manager in a mode that
+changes nothing: it refreshes the package lists, then reports what an
+upgrade would replace. For each pending update you see the package, the
+installed version, the available version, and whether the package manager
+marks it a <strong>security</strong> update. A node also reports whether it already
+needs a reboot.</p>
+<p>Refreshing the lists means a scan reaches the node&#39;s mirrors. A node that
+cannot reach them records that the scan failed, and keeps showing the
+updates from the last scan that worked, marked as older than the last
+attempt.</p>
+<p>Two things to read carefully:</p>
+<ul>
+<li><strong>Security</strong> is what the package manager says. A system whose
+repositories carry no security information shows none, which is not the
+same as having none. Ubuntu and Debian mark them in the repository names;
+on RHEL-family systems the console asks <code>dnf updateinfo</code> for the
+security set.</li>
+<li><strong>Never scanned</strong> is not <strong>nothing pending</strong>. A node that has not been
+scanned is listed as not scanned, without counts.</li>
+</ul>
+<p>The node&#39;s agent must be built from a version that includes scanning. An
+older agent answers that it does not know the request, and the node is
+shown as one that cannot report until the agent is upgraded: see
+<a href="agent-upgrades.html">Keep node agents current</a>.</p>
+<h2 id="read-the-fleet">Read the fleet</h2>
+<p>Open <strong>Patching</strong>. The figures at the top count the nodes you can see:
+those with pending updates, those with security updates, those needing a
+reboot, those not scanned, and those whose last scan is out of date.</p>
+<p>A scan is <strong>out of date</strong> when it is older than twice the scan interval,
+so a node that quietly stopped being scanned stands out. With automatic
+scanning off, it is judged against a day.</p>
+<p>Filter by:</p>
+<ul>
+<li><strong>Operating system</strong>, to see one family at a time.</li>
+<li><strong>Group</strong>, if your role can read node groups.</li>
+<li><strong>Pending package</strong>, which switches the list to the nodes that have an
+update waiting for a package matching that name, with the installed and
+available versions. Searching <code>openssl</code> is how you find who still needs
+the fix.</li>
+</ul>
+<p>Select a node to open its page. The <strong>Patches</strong> tab lists its updates,
+security first, with when it was last scanned.</p>
+<h2 id="scan-now">Scan now</h2>
+<p>On a node&#39;s <strong>Patches</strong> tab, <strong>Scan now</strong> scans that node. On the Patching
+page, choose a group and <strong>Scan this group now</strong> scans every node of the
+group you may act on. The answer says, node by node, which were scanned,
+which failed, which were offline, and how many were left out because they
+are outside your node groups.</p>
+<p>A node that is offline is not scanned and keeps what it had; it is
+scanned on the next pass once it reconnects. A group scan runs a few nodes
+at a time, so a large group takes a while.</p>
+<p>Each scan you request is recorded in the audit log with who asked and the
+node or group.</p>
+<h2 id="scan-automatically">Scan automatically</h2>
+<p>Unless you switch it off, the console scans every connected node once a
+day. Under <strong>Automatic scanning</strong> on the Patching page (for <code>nodes:manage</code>)
+set the interval anywhere from 15 minutes to 7 days, or turn it off.</p>
+<ul>
+<li>Only one console instance runs the automatic scan at a time, however
+many you run, and a node scanned within the interval is not scanned
+again.</li>
+<li>A node whose scan failed is tried again after the next interval, not on
+every pass.</li>
+<li>Automatic scans write no audit entry per node. A change to the interval
+is audited.</li>
+<li>With <a href="run-modes.html">run modes</a>, the scan runs in <code>all</code> and <code>worker</code>
+instances.</li>
+<li>Results for a node nothing has tried for 90 days are removed.</li>
+</ul>
+<h2 id="patch-nodes">Patch nodes</h2>
+<p>A <strong>patch run</strong> installs pending updates on Linux nodes (apt, dnf or yum).
+Start one from the Patching page with <strong>Patch this group…</strong>, or from a
+node&#39;s <strong>Patches</strong> tab with <strong>Patch now…</strong>. It needs <code>orchestrator:run</code>, and
+like any run it is refused whole, naming the nodes, if any of them is
+outside your node groups.</p>
+<p>Choose:</p>
+<ul>
+<li><strong>Updates to apply</strong>: <strong>security updates only</strong>, <strong>all pending updates</strong>,
+or <strong>named packages</strong>. A named package that has no update pending is
+reported as nothing to apply and nothing else is touched. On dnf and yum,
+security-only needs the repository&#39;s security information; without it the
+node fails the run rather than installing everything.</li>
+<li><strong>Dry run</strong>, which reports what would be upgraded and changes, restarts
+and reboots nothing.</li>
+<li><strong>Reboot a node that needs it</strong>, which reboots a node after a successful
+run only if it reports that it needs one. A dry run or a failed node is
+never rebooted. The node delivers its result first and reboots about half
+a minute later.</li>
+<li><strong>Nodes at a time</strong> (1 to 100, default 10) and <strong>Stop after failed nodes</strong>
+(default 3, <strong>0</strong> never stops).</li>
+</ul>
+<h3 id="batches-and-stopping">Batches and stopping</h3>
+<p>Nodes are patched a batch at a time, in node-name order. A batch is patched
+at once and the next starts only when it has finished. When the number of
+failed nodes reaches the threshold, no further batch starts: the nodes not
+reached are recorded as <strong>not started</strong>, and nothing is sent to them. Use a
+small first batch on something you can afford to lose, then let the rest
+follow.</p>
+<p>A node that is already being patched by another run is not started again:
+the request is refused, naming it.</p>
+<h3 id="watch-a-run">Watch a run</h3>
+<p>The run opens as a job. It lists each node with its batch, status, exit
+status and the packages it upgraded (<strong>from</strong> and <strong>to</strong> versions), and
+under <strong>Details</strong> the package manager&#39;s own output. The page refreshes while
+the run is going. The node&#39;s <strong>Patches</strong> tab shows the last run on that
+node, and the Patching page lists recent runs.</p>
+<p>A run can take hours. The console asks each node how it is getting on every
+15 seconds, and every answer counts as proof the run is alive. A node that
+says nothing for ten minutes is failed, as is one still working after four
+hours, and the run carries on with the others. If the console instance
+following the run stops, the job is failed ten minutes after it was last
+heard from, with the reason recorded. The patch itself carries on on the
+node, so scan it again to see where it stands.</p>
+<h3 id="afterwards">Afterwards</h3>
+<p>When a node finishes, the packages it still has pending are what the
+Patching page shows: the node&#39;s own scan is taken at the end of its run. A
+node that rebooted is scanned again once it reconnects, for up to ten
+minutes. If it does not come back in that time its snapshot says the scan
+failed, and the run itself is not failed for it.</p>
+<p>Each run is audited when it starts, with who started it, the nodes&#39; source
+and every option chosen, and again when it ends. Both appear in the
+activity log.</p>
+<p>A node whose agent is too old to patch is failed with a reason saying so and
+nothing is installed on it: see <a href="agent-upgrades.html">Keep node agents
+current</a>.</p>
+<h2 id="not-covered">Not covered</h2>
+<p>This version does not schedule patch windows or blackouts, group nodes for
+patching, roll a patch back, patch Windows or macOS, or relate pending
+updates to known vulnerabilities: see
+<a href="vulnerabilities.html">Track vulnerabilities</a> for what is installed
+against known advisories.</p>
+
+    </div>
+
+    <vox-series-nav label="Use" previous-text="Previous" next-text="Next" previous-href="../guides/vulnerabilities.html" previous-label="Track vulnerabilities" next-href="../guides/agentless.html" next-label="Run tasks on hosts without an agent"></vox-series-nav>
+  </article>
+
+  
+  <div class="guide-toc-rail">
+    <vox-toc heading="On this page">
+      <vox-toc-item href="#what-a-scan-does"><span>What a scan does</span>
+      </vox-toc-item>
+      <vox-toc-item href="#read-the-fleet"><span>Read the fleet</span>
+      </vox-toc-item>
+      <vox-toc-item href="#scan-now"><span>Scan now</span>
+      </vox-toc-item>
+      <vox-toc-item href="#scan-automatically"><span>Scan automatically</span>
+      </vox-toc-item>
+      <vox-toc-item href="#patch-nodes"><span>Patch nodes</span>
+        <vox-toc-item slot="children" href="#batches-and-stopping"><span>Batches and stopping</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#watch-a-run"><span>Watch a run</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#afterwards"><span>Afterwards</span></vox-toc-item>
+      </vox-toc-item>
+      <vox-toc-item href="#not-covered"><span>Not covered</span>
+      </vox-toc-item>
+      </vox-toc>
+  </div>
+  </div>
+
+      </div>
+
+      
+      <vox-cta-band heading="Ejecútelo usted mismo">
+      <p>
+        OpenVox Console ships as container images, built for amd64 and
+        arm64 on every push, and as a single binary. The install guides
+        take you from an empty host to a working deployment -
+        openvoxserver, openvoxdb, Postgres and the console - with
+        containers or with packages.
+      </p>
+      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">Código fuente en GitHub</vox-cta>
+      <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">Imágenes de contenedor</vox-cta>
+      </vox-cta-band>
+    </main>
+
+    
+    <dialog class="lightbox" aria-label="Full-size screenshot">
+      <div class="lightbox-bar">
+        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+      </div>
+      <img class="lightbox-image" alt=""/>
+    </dialog>
+
+    <vox-footer>
+      <vox-footer-column heading="OpenVox Console">
+        <a href="../index.html">Resumen</a>
+        <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">Código fuente</a>
+        <a href="../guides/index.html#install">Install guides</a>
+      </vox-footer-column>
+      <vox-footer-column heading="Capacidades">
+        <a href="../features/nodes.html">Nodes</a>
+        <a href="../features/classification.html">Clasificación</a>
+        <a href="../features/code.html">Code</a>
+        <a href="../features/orchestration.html">Orquestación</a>
+        <a href="../features/security.html">Seguridad</a>
+        <a href="../features/access-control.html">Control de acceso</a>
+        <a href="../features/scaling.html">Scaling</a>
+        </vox-footer-column>
+      
+      <vox-footer-column heading="Idioma">
+        <a href="../../guides/patching.html" hreflang="en" lang="en">English</a>
+        <a href="../../zh/guides/patching.html" hreflang="zh" lang="zh">中文</a>
+        <a href="../../hi/guides/patching.html" hreflang="hi" lang="hi">हिन्दी</a>
+        <a href="../../fr/guides/patching.html" hreflang="fr" lang="fr">Français</a>
+        <a href="../../de/guides/patching.html" hreflang="de" lang="de">Deutsch</a>
+        <a href="../../ja/guides/patching.html" hreflang="ja" lang="ja">日本語</a>
+        <a href="../../ar/guides/patching.html" hreflang="ar" lang="ar">العربية</a>
+        </vox-footer-column>
+      <vox-footer-column heading="OpenVox">
+        <a href="https://openvoxproject.github.io/" rel="noopener" target="_blank">OpenVox project</a>
+        <a href="https://github.com/voxpupuli" rel="noopener" target="_blank">Vox Pupuli</a>
+      </vox-footer-column>
+      <div slot="bottom" class="footer-note">
+        <span>Licencia GPL-3.0</span>
+        <span>Las capturas muestran la consola funcionando contra una flota de demostración sintética.</span>
+      </div>
+    </vox-footer>
+  
+
+</body></html>

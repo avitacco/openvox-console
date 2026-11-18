@@ -1,7 +1,7 @@
 ---
 title: Track vulnerabilities
 summary: Set up vulnerability providers, read the findings for the fleet, and know what each provider can and cannot see.
-order: 5
+order: 7
 ---
 
 The console reports which nodes are affected by which known

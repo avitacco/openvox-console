@@ -1,4 +1,5 @@
 import { fetchJSON, sendJSON, escapeHtml, requirePermission, ALL_PERMISSIONS, withLoading, t, formatDateTime } from './app.js';
+import { parsePatterns, patternBadges, showPatternError } from './task-patterns.js';
 
 if (requirePermission('rbac:admin')) {
   const results = document.getElementById('results');
@@ -6,6 +7,8 @@ if (requirePermission('rbac:admin')) {
   const newTokenPanel = document.getElementById('new-token-panel');
   const newTokenName = document.getElementById('new-token-name');
   const newTokenPermissions = document.getElementById('new-token-permissions');
+  const newTokenTasks = document.getElementById('new-token-tasks');
+  const newTokenTasksError = document.getElementById('new-token-tasks-error');
 
   newTokenPermissions.innerHTML = ALL_PERMISSIONS.map(
     (p) => `<vox-checkbox value="${p}">${escapeHtml(p)}</vox-checkbox>`
@@ -30,6 +33,7 @@ if (requirePermission('rbac:admin')) {
       <tr>
         <td>${escapeHtml(token.name)}</td>
         <td>${token.permissions.map((p) => `<vox-badge variant="neutral">${escapeHtml(p)}</vox-badge>`).join(' ')}</td>
+        <td>${patternBadges(token.taskPatterns)}</td>
         <td>${escapeHtml(token.createdAt ? formatDateTime(token.createdAt) : '')}</td>
         <td><vox-button data-delete-id="${token.id}" variant="danger" size="sm">${t('Delete')}</vox-button></td>
       </tr>`
@@ -40,7 +44,7 @@ if (requirePermission('rbac:admin')) {
       <div class="vox-table-wrap">
         <table class="vox-table vox-table--striped">
           <thead>
-            <tr><th scope="col">${t('Name')}</th><th scope="col">${t('Permissions')}</th><th scope="col">${t('Created')}</th><th scope="col"></th></tr>
+            <tr><th scope="col">${t('Name')}</th><th scope="col">${t('Permissions')}</th><th scope="col">${t('Tasks')}</th><th scope="col">${t('Created')}</th><th scope="col"></th></tr>
           </thead>
           <tbody>${rows}</tbody>
         </table>
@@ -72,6 +76,7 @@ if (requirePermission('rbac:admin')) {
 
   document.getElementById('create-token').addEventListener('click', async () => {
     createError.innerHTML = '';
+    newTokenTasksError.innerHTML = '';
     const name = newTokenName.value.trim();
     const permissions = Array.from(newTokenPermissions.querySelectorAll('vox-checkbox'))
       .filter((cb) => cb.checked)
@@ -85,7 +90,7 @@ if (requirePermission('rbac:admin')) {
       return;
     }
     try {
-      const created = await sendJSON('/api/v1/service-tokens', 'POST', { name, permissions });
+      const created = await sendJSON('/api/v1/service-tokens', 'POST', { name, permissions, taskPatterns: parsePatterns(newTokenTasks.value) });
       newTokenPanel.innerHTML = `
         <vox-alert variant="success" heading="${t('Service token created - copy it now, it won\'t be shown again')}" dismissible>
           <pre class="value">${escapeHtml(created.token)}</pre>
@@ -95,9 +100,13 @@ if (requirePermission('rbac:admin')) {
       });
       newTokenName.value = '';
       newTokenPermissions.querySelectorAll('vox-checkbox').forEach((cb) => (cb.checked = false));
+      newTokenTasks.value = '';
       await load();
     } catch (err) {
-      createError.innerHTML = `<vox-alert variant="danger">${escapeHtml(err.message)}</vox-alert>`;
+      // A refused pattern is shown on its field, with what was entered kept.
+      if (!showPatternError(newTokenTasksError, err)) {
+        createError.innerHTML = `<vox-alert variant="danger">${escapeHtml(err.message)}</vox-alert>`;
+      }
     }
   });
 

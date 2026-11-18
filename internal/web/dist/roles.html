@@ -63,6 +63,10 @@
             <vox-icon slot="icon" name="collection"></vox-icon>
             <span data-i18n>Packages</span>
           </vox-sidenav-item>
+          <vox-sidenav-item href="/patches.html">
+            <vox-icon slot="icon" name="refresh"></vox-icon>
+            <span data-i18n>Patching</span>
+          </vox-sidenav-item>
           <vox-sidenav-item href="/vulnerabilities.html" id="nav-vulnerabilities-link" style="display: none">
             <vox-icon slot="icon" name="vulnerability"></vox-icon>
             <span data-i18n>Vulnerabilities</span>
@@ -98,8 +102,10 @@
         <main class="vox-container vox-p-y-xl">
       <vox-subnav label="Admin" class="vox-m-bottom-lg" data-i18n-attr="label">
         <a href="/users.html" data-i18n>Users</a>
+        <a href="/user-groups.html" data-i18n>User groups</a>
         <a href="/roles.html" aria-current="page" data-i18n>Roles</a>
         <a href="/service-tokens.html" data-i18n>Service tokens</a>
+        <a href="/account-policy.html" data-i18n>Account policy</a>
       </vox-subnav>
 
       <h1 class="vox-ts-xl vox-m-bottom-md" data-i18n>Roles</h1>
@@ -111,7 +117,19 @@
           <vox-input id="new-role-name" label="Name" required data-i18n-attr="label"></vox-input>
         </div>
         <div class="vox-m-bottom-md">
+          <h3 class="vox-ts-md" data-i18n>Permissions</h3>
           <div id="new-role-permissions" class="vox-display-flex vox-flex-wrap vox-gap-md"></div>
+        </div>
+        <div class="vox-m-bottom-md">
+          <h3 class="vox-ts-md" data-i18n>Node groups</h3>
+          <p class="vox-ts-sm vox-m-top-none" data-i18n>The role's permissions apply to the nodes in these groups and in every group beneath them. All Nodes covers the whole fleet.</p>
+          <div id="new-role-groups" class="role-group-tree"></div>
+        </div>
+        <div class="vox-m-bottom-md">
+          <h3 class="vox-ts-md" data-i18n>Tasks</h3>
+          <vox-textarea id="new-role-tasks" rows="3" class="vox-width-full" label="Tasks it may run" data-i18n-attr="label,note"
+            note="One per line: a task name such as package::install, a module such as patch::*, or * for every task. Leave it empty to allow every task. This limits orchestrator:run; the role's node groups still decide which nodes."></vox-textarea>
+          <div id="new-role-tasks-error"></div>
         </div>
         <div class="vox-display-flex vox-gap-sm vox-m-top-lg">
           <vox-button id="create-role" variant="brand" data-i18n>Create role</vox-button>

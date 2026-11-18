@@ -20,10 +20,14 @@ package testdb
 
 import (
 	"context"
+	"fmt"
+	"net/url"
 	"os"
 	"sync"
 	"testing"
+	"time"
 
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 
 	"github.com/voxpupuli/enterprise-console/internal/persistence"
@@ -57,5 +61,53 @@ func Pool(t *testing.T) *pgxpool.Pool {
 	}
 	t.Cleanup(pool.Close)
 
+	return pool
+}
+
+// ScratchPool returns a pool to a new, empty-but-migrated database that
+// exists only for this test, for a test whose subject is something the
+// shared database cannot show, such as "no user is left" (the shared one
+// always has the bootstrap administrator). The database is dropped when
+// the test finishes. It skips like Pool when no DSN is configured.
+func ScratchPool(t *testing.T) *pgxpool.Pool {
+	t.Helper()
+	dsn := os.Getenv("CONSOLE_TEST_POSTGRES_DSN")
+	if dsn == "" {
+		t.Skip("CONSOLE_TEST_POSTGRES_DSN not set; skipping integration test")
+	}
+	ctx := context.Background()
+	admin, err := pgx.Connect(ctx, dsn)
+	if err != nil {
+		t.Fatalf("connect: %v", err)
+	}
+	defer admin.Close(ctx)
+	name := fmt.Sprintf("testdb_scratch_%d", time.Now().UnixNano())
+	if _, err := admin.Exec(ctx, "CREATE DATABASE "+name); err != nil {
+		t.Fatalf("create scratch database: %v", err)
+	}
+	t.Cleanup(func() {
+		c, err := pgx.Connect(ctx, dsn)
+		if err != nil {
+			t.Errorf("connect to drop scratch database: %v", err)
+			return
+		}
+		defer c.Close(ctx)
+		if _, err := c.Exec(ctx, "DROP DATABASE IF EXISTS "+name+" WITH (FORCE)"); err != nil {
+			t.Errorf("drop scratch database: %v", err)
+		}
+	})
+	u, err := url.Parse(dsn)
+	if err != nil {
+		t.Fatalf("parse DSN: %v", err)
+	}
+	u.Path = "/" + name
+	if err := persistence.Migrate(u.String()); err != nil {
+		t.Fatalf("migrate scratch database: %v", err)
+	}
+	pool, err := pgxpool.New(ctx, u.String())
+	if err != nil {
+		t.Fatalf("pgxpool.New() error: %v", err)
+	}
+	t.Cleanup(pool.Close)
 	return pool
 }

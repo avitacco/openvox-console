@@ -1,4 +1,7 @@
-import { fetchJSON, escapeHtml, requirePermission, statusVariant, targetSummaryHTML, paginationHTML, bindPagination, qs, withLoading, t, formatDateTime, statusLabel, kindLabel } from './app.js';
+import { fetchJSON, escapeHtml, requirePermission, hasPermission, statusVariant, targetSummaryHTML, paginationHTML, bindPagination, qs, withLoading, t, formatDateTime, statusLabel, kindLabel } from './app.js';
+import { runOptionBadges, openRunPuppetDialog } from './run-puppet.js';
+import { openRunTaskDialog } from './run-task.js';
+import { targetSourceHTML } from './target-picker.js';
 
 if (requirePermission('orchestrator:read')) {
   const results = document.getElementById('results');
@@ -13,6 +16,15 @@ if (requirePermission('orchestrator:read')) {
   // target to be re-typed by hand once here.
   targetFilter.value = qs('target') || '';
 
+  // Starting a job from here offers the target chooser - a list of
+  // nodes, a query, or a node group - which the dialogs opened from a
+  // node or a group do not need.
+  if (hasPermission('orchestrator:run')) {
+    document.getElementById('start-actions').style.display = '';
+    document.getElementById('run-puppet').addEventListener('click', () => openRunPuppetDialog());
+    document.getElementById('run-task').addEventListener('click', () => openRunTaskDialog());
+  }
+
   let currentPage = 1;
 
   function jobName(j) {
@@ -21,12 +33,28 @@ if (requirePermission('orchestrator:read')) {
     return '';
   }
 
+  // What chose the job's nodes, and what started it, under the nodes
+  // themselves - when it was not somebody naming them by hand.
+  function originHTML(j) {
+    const parts = [];
+    const source = targetSourceHTML(j.targetSource);
+    if (source) {
+      parts.push(j.targetSource.kind === 'group' ? `${escapeHtml(t('Node group'))} ${source}` : `${escapeHtml(t('Matched by'))} ${source}`);
+    }
+    if (j.schedule) {
+      const name = escapeHtml(j.schedule.name);
+      const link = j.schedule.id ? `<a href="/schedule.html?id=${j.schedule.id}">${name}</a>` : name;
+      parts.push(`<vox-badge variant="neutral">${escapeHtml(t('Scheduled'))}</vox-badge> ${link}`);
+    }
+    return parts.length ? `<div class="vox-ts-sm vox-color-text-2 job-origin">${parts.join(' · ')}</div>` : '';
+  }
+
   function renderJobs(page) {
     if (page.items.length === 0) {
       results.innerHTML = `
         <vox-empty-state heading="${t('No jobs yet')}">
           <vox-icon slot="icon" name="orchestrate" size="lg"></vox-icon>
-          Trigger a run from a node's page to see it here.
+          ${escapeHtml(t('Run Puppet or a task, here or from a node or a node group, to see it here.'))}
         </vox-empty-state>`;
       return;
     }
@@ -37,8 +65,8 @@ if (requirePermission('orchestrator:read')) {
       <tr>
         <td><a href="/job.html?id=${j.id}">${j.id}</a></td>
         <td>${escapeHtml(kindLabel(j.kind))}</td>
-        <td>${escapeHtml(jobName(j))}</td>
-        <td>${targetSummaryHTML(j)}</td>
+        <td>${escapeHtml(jobName(j))}${runOptionBadges(j.runOptions)}</td>
+        <td>${targetSummaryHTML(j)}${originHTML(j)}</td>
         <td><vox-badge variant="${statusVariant(j.status)}">${escapeHtml(statusLabel(j.status))}</vox-badge></td>
         <td>${escapeHtml(j.triggeredBy)}</td>
         <td>${escapeHtml(formatDateTime(j.startedAt))}</td>

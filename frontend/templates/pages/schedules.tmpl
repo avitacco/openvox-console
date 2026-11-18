@@ -1,0 +1,19 @@
+{{define "content" -}}
+    <main class="vox-container vox-p-y-xl">
+      <div class="vox-display-flex vox-justify-between vox-items-center vox-gap-md vox-flex-wrap vox-m-bottom-md">
+        <h1 class="vox-ts-xl vox-m-y-none" data-i18n>Jobs</h1>
+        <vox-button id="new-schedule" variant="brand" href="/schedule-edit.html" style="display: none" data-i18n>New schedule</vox-button>
+      </div>
+      <vox-subnav label="Jobs" class="vox-m-bottom-lg" data-i18n-attr="label">
+        <a href="/jobs.html" data-i18n>Job history</a>
+        <a href="/schedules.html" aria-current="page" data-i18n>Scheduled jobs</a>
+        <a href="/plans.html" data-i18n>Plans</a>
+      </vox-subnav>
+
+      <p class="vox-ts-sm vox-color-text-2 vox-m-top-none vox-m-bottom-lg" data-i18n>
+        A scheduled job starts a Puppet run, a task or a plan later, once or repeatedly. Its nodes are worked
+        out each time it starts, and it runs with its owner's access as it is at that moment.
+      </p>
+      <div id="results"></div>
+    </main>
+{{- end}}

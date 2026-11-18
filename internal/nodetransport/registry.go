@@ -207,5 +207,141 @@ func startRegistry(bus *messaging.Bus, onConnect func(certname string)) (*Regist
 		return nil, nil, fmt.Errorf("flush registry subscriptions: %w", err)
 	}
 
+	// Events only cover what happens from now on. The nodes that were
+	// already connected - to this instance's peers, when this one joins
+	// a running cluster - are asked for once, in the background: an
+	// instance must not wait on its peers to start.
+	go func() {
+		// More than once, because the routes to this instance's peers
+		// come up a moment after it starts, and a listing taken before
+		// then holds only its own connections. Repeating is harmless:
+		// a node already known is left as it is.
+		for _, wait := range connzAttempts {
+			time.Sleep(wait)
+			if conn.IsClosed() {
+				return
+			}
+			reg.loadCurrent(conn)
+		}
+	}()
+
 	return reg, conn, nil
+}
+
+// StartRegistry starts a Registry on an instance that terminates no node
+// connections itself (a `web` instance), so that it can still say which
+// nodes are connected to the rest of the cluster. An instance with a
+// node listener gets its Registry from Listener.Start instead. The
+// returned function stops it.
+func StartRegistry(bus *messaging.Bus) (*Registry, func(), error) {
+	reg, conn, err := startRegistry(bus, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+	return reg, conn.Close, nil
+}
+
+// connzPageSize is how many connections are asked for at a time. A
+// reply must fit in one message, and a connection's entry is a few
+// hundred bytes.
+const connzPageSize = 1024
+
+// connzGatherWindow is how long loadCurrent waits for the cluster's
+// servers to answer one request. There is no way to know how many will.
+const connzGatherWindow = 2 * time.Second
+
+// connzAttempts is when, counted from the previous attempt, the nodes
+// already connected are asked for.
+var connzAttempts = []time.Duration{0, 3 * time.Second, 12 * time.Second}
+
+// connzReply is the part of nats-server's account connection listing
+// this package reads.
+type connzReply struct {
+	Server struct {
+		ID string `json:"id"`
+	} `json:"server"`
+	Data struct {
+		Total int `json:"total"`
+		Conns []struct {
+			User  string    `json:"authorized_user"`
+			Start time.Time `json:"start"`
+		} `json:"connections"`
+	} `json:"data"`
+}
+
+// loadCurrent asks every server in the cluster which nodes are connected
+// to it right now and records them. Best-effort: with no answer the
+// registry is what it was before this existed, correct for every
+// connection made from here on.
+func (r *Registry) loadCurrent(conn *nats.Conn) {
+	gather := func(subject string, request map[string]any, want int) []connzReply {
+		payload, err := json.Marshal(request)
+		if err != nil {
+			return nil
+		}
+		inbox := conn.NewRespInbox()
+		sub, err := conn.SubscribeSync(inbox)
+		if err != nil {
+			return nil
+		}
+		defer func() { _ = sub.Unsubscribe() }()
+		if err := conn.PublishRequest(subject, inbox, payload); err != nil {
+			return nil
+		}
+		var replies []connzReply
+		deadline := time.Now().Add(connzGatherWindow)
+		for {
+			msg, err := sub.NextMsg(time.Until(deadline))
+			if err != nil {
+				return replies
+			}
+			var reply connzReply
+			if json.Unmarshal(msg.Data, &reply) == nil {
+				replies = append(replies, reply)
+			}
+			if want > 0 && len(replies) >= want {
+				return replies
+			}
+		}
+	}
+	record := func(reply connzReply) {
+		for _, c := range reply.Data.Conns {
+			if c.User != "" && !messaging.IsInProcessUser(c.User) {
+				r.markAlreadyConnected(c.User, c.Start)
+			}
+		}
+	}
+
+	// "auth" asks for each connection's user, which is the certname.
+	first := gather(fmt.Sprintf("$SYS.REQ.ACCOUNT.%s.CONNZ", messaging.AccountNodes),
+		map[string]any{"auth": true, "limit": connzPageSize}, 0)
+	for _, reply := range first {
+		record(reply)
+		// A server with more than one page is asked for the rest by name.
+		for offset := len(reply.Data.Conns); offset < reply.Data.Total && reply.Server.ID != ""; {
+			page := gather(fmt.Sprintf("$SYS.REQ.SERVER.%s.CONNZ", reply.Server.ID),
+				map[string]any{"auth": true, "acc": messaging.AccountNodes, "limit": connzPageSize, "offset": offset}, 1)
+			if len(page) == 0 || len(page[0].Data.Conns) == 0 {
+				break
+			}
+			record(page[0])
+			offset += len(page[0].Data.Conns)
+		}
+	}
+}
+
+// markAlreadyConnected records a connection that was made before this
+// registry was listening. An event seen since then wins: it is newer
+// than the listing, which may have been taken just before the node
+// disconnected.
+func (r *Registry) markAlreadyConnected(certname string, since time.Time) {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+	if _, seen := r.history[certname]; seen {
+		return
+	}
+	r.connected[certname] = true
+	if !since.IsZero() {
+		r.history[certname] = nodeHistory{lastConnected: &since}
+	}
 }

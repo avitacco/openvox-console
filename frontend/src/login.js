@@ -19,7 +19,13 @@ async function login() {
     });
 
     if (!res.ok) {
-      errorEl.innerHTML = `<vox-alert variant="danger">${t('Invalid username or password.')}</vox-alert>`;
+      // The same message whatever the reason. The console does not say
+      // whether an account is locked - that would say the account
+      // exists - so this says that lockout happens, for whoever needs
+      // to know why a password they are sure of is refused.
+      errorEl.innerHTML = `<vox-alert variant="danger">${escapeHtml(
+        t('Invalid username or password. After several failed attempts in a row, an account is locked for a while: wait, or ask an administrator to unlock it.'),
+      )}</vox-alert>`;
       return;
     }
 

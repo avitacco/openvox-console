@@ -56,8 +56,9 @@ honest note on which parts of the demo data are fabricated.
 
 **Languages:** the console's interface is translated with gettext
 catalogues in `frontend/locales/`. English is the source language; 14
-others are scaffolded, of which German is complete and the rest fall back
-to English until translated. A user picks a language in Preferences;
+others are provided, all complete; a string added later falls back to
+English until it is translated (`go run ./i18n status` shows what is
+outstanding). A user picks a language in Preferences;
 without a choice the console follows the browser's.
 
 ```sh
@@ -366,12 +367,22 @@ Two things to expect when adding a source:
   that is what you meant.
 
 `control-repo-fixture` is a genuine git repository (not a mock) with a
-real Puppetfile (`puppetlabs/stdlib`) and a `code_manager_test_marker`
-class, on a `production` branch - point `.env`'s
+real Puppetfile (`puppetlabs/stdlib`), a `code_manager_test_marker`
+class, and a `task_fixture` module of Puppet tasks
+(`internal/taskcatalog/testdata/modules/task_fixture`) covering the
+shapes task execution has to handle, on a `production` branch - point `.env`'s
 `CONSOLE_CONTROL_REPO_URL` at it
 (`file:///path/to/enterprise-console/.dev/control-repo.git`) to deploy
 from it locally. Re-run `make control-repo-fixture` any time to reset it
 back to that known-good starting state.
+
+The fixture also carries a `profile` module (`internal/demodata/code`)
+with the classes the demo node groups assign. Those groups match real
+nodes as well as the demo fleet - any Linux node is in "Linux Servers" -
+so a Puppet server without the classes fails every real node's catalog
+with `Could not find class profile::...`. If your stack's code does not
+come from the fixture, `make demo-code` copies the module straight into
+the running `openvoxserver` and clears its environment cache.
 
 Then:
 

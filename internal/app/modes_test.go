@@ -51,6 +51,7 @@ func TestENCModeDoesNotServeOtherModesRoutes(t *testing.T) {
 		"/api/v1/groups",
 		"/api/v1/audit-log",
 		"/api/v1/orchestrator/jobs",
+		"/api/v1/tasks",
 	} {
 		if got := enc.StatusOf(t, path); got != http.StatusNotFound {
 			t.Errorf("GET %s on an enc-mode instance = %d, want %d", path, got, http.StatusNotFound)
@@ -122,6 +123,7 @@ func TestAllModeServesEverySurface(t *testing.T) {
 		"/api/v1/audit-log",
 		"/api/v1/nodes",
 		"/api/v1/orchestrator/jobs",
+		"/api/v1/tasks",
 	} {
 		if got := all.StatusOf(t, path); got == http.StatusNotFound {
 			t.Errorf("all mode does not serve %s", path)

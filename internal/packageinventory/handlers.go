@@ -15,6 +15,7 @@ import (
 	"strconv"
 
 	"github.com/voxpupuli/enterprise-console/internal/auditlog"
+	"github.com/voxpupuli/enterprise-console/internal/nodescope"
 	"github.com/voxpupuli/enterprise-console/internal/nodetransport"
 	"github.com/voxpupuli/enterprise-console/internal/openvoxdb"
 	"github.com/voxpupuli/enterprise-console/internal/pagination"
@@ -56,7 +57,14 @@ type Handlers struct {
 	// someone without it. The policy lives in main.go, where rbac and
 	// the classifier are already in scope.
 	resolveGroup func(r *http.Request, groupID int64) ([]string, error)
+	scope        nodescope.Func
 }
+
+// SetScope makes the read handlers show each caller only the packages
+// of nodes in their nodes:read node group scope, and lets them switch
+// package reporting only on a node in their orchestrator:run scope -
+// see internal/nodescope.
+func (h *Handlers) SetScope(scope nodescope.Func) { h.scope = scope }
 
 // SetGroupResolver enables the catalogue's group filter. Left unset,
 // the filter reports itself unavailable rather than silently ignoring
@@ -75,7 +83,7 @@ func (h *Handlers) SetGroupResolver(fn func(r *http.Request, groupID int64) ([]s
 // (see design.md in add-package-inventory-toggle for why that
 // permission, not a new one).
 func NewHandlers(client queryClient, transport transport, recordAudit, recordAuditRead func(r *http.Request, event auditlog.Event)) *Handlers {
-	return &Handlers{client: client, transport: transport, recordAudit: recordAudit, recordAuditRead: recordAuditRead}
+	return &Handlers{client: client, transport: transport, recordAudit: recordAudit, recordAuditRead: recordAuditRead, scope: nodescope.Unscoped}
 }
 
 // Register wires this package's routes onto mux - see
@@ -104,6 +112,19 @@ func toPackageSummary(p openvoxdb.Package) packageSummary {
 
 func (h *Handlers) listNodePackages(w http.ResponseWriter, r *http.Request) {
 	certname := r.PathValue("name")
+
+	scope, err := h.scope(r)
+	if err != nil {
+		writeError(w, err)
+		return
+	}
+	// A node outside the caller's scope answers as a node reporting no
+	// packages, which is what an unknown node answers.
+	if !scope.Allows(certname) {
+		h.recordAuditRead(r, auditlog.Event{Action: "node.packages.viewed", ResourceType: "node", ResourceID: certname})
+		writeJSON(w, []packageSummary{})
+		return
+	}
 
 	packages, err := h.client.NodePackages(r.Context(), certname)
 	if err != nil {
@@ -193,11 +214,18 @@ func (h *Handlers) searchPackages(w http.ResponseWriter, r *http.Request) {
 		version = &v
 	}
 
+	scope, err := h.scope(r)
+	if err != nil {
+		writeError(w, err)
+		return
+	}
+
 	packages, err := h.client.SearchPackages(r.Context(), name, version)
 	if err != nil {
 		writeError(w, err)
 		return
 	}
+	packages = nodescope.Filter(scope, packages, func(p openvoxdb.Package) string { return p.Certname })
 
 	results := make([]packageSearchResult, 0, len(packages))
 	for _, p := range packages {
@@ -262,6 +290,12 @@ func (h *Handlers) packagesCatalog(w http.ResponseWriter, r *http.Request) {
 		Provider:        r.URL.Query().Get("provider"),
 	}
 
+	scope, err := h.scope(r)
+	if err != nil {
+		writeError(w, err)
+		return
+	}
+
 	if raw := r.URL.Query().Get("group"); raw != "" {
 		groupID, convErr := strconv.ParseInt(raw, 10, 64)
 		if convErr != nil {
@@ -284,12 +318,19 @@ func (h *Handlers) packagesCatalog(w http.ResponseWriter, r *http.Request) {
 		// A group matching no node has no packages. Querying with an
 		// empty `in []` would either error or, worse, drop the
 		// condition and return the whole fleet.
-		if len(certnames) == 0 {
+		// The group narrows within the caller's scope; it never reaches
+		// outside it.
+		scope = scope.Intersect(certnames)
+	}
+	if !scope.All() {
+		filter.Certnames = scope.Certnames()
+		if len(filter.Certnames) == 0 {
+			// An empty node set is "nothing", but an empty `in []` is
+			// not a condition openvoxdb accepts - see PackageFilter.
 			h.recordAuditRead(r, auditlog.Event{Action: "package.catalog.viewed", ResourceType: "package"})
 			writeJSON(w, emptyCatalog(r))
 			return
 		}
-		filter.Certnames = certnames
 	}
 
 	counts, err := h.client.PackageNameCounts(ctx, filter)
@@ -302,7 +343,7 @@ func (h *Handlers) packagesCatalog(w http.ResponseWriter, r *http.Request) {
 		writeError(w, err)
 		return
 	}
-	providers, err := h.client.PackageProviders(ctx)
+	providerNames, err := h.providerNames(ctx, filter.Certnames)
 	if err != nil {
 		writeError(w, err)
 		return
@@ -316,6 +357,12 @@ func (h *Handlers) packagesCatalog(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		writeError(w, err)
 		return
+	}
+	// Coverage is "how many of my nodes report packages" - of the
+	// caller's nodes or, with a group filter, the group's.
+	if !scope.All() {
+		nodeCounts = nodescope.Filter(scope, nodeCounts, func(c openvoxdb.NodePackageCount) string { return c.Certname })
+		nodes = nodescope.Filter(scope, nodes, func(n openvoxdb.Node) string { return n.Certname })
 	}
 
 	// One package can be reported by more than one provider (and, on
@@ -353,12 +400,6 @@ func (h *Handlers) packagesCatalog(w http.ResponseWriter, r *http.Request) {
 	start := min(pagination.Offset(page, pageSize), len(items))
 	end := min(start+pageSize, len(items))
 
-	providerNames := make([]string, 0, len(providers))
-	for _, p := range providers {
-		providerNames = append(providerNames, p.Provider)
-	}
-	sort.Strings(providerNames)
-
 	h.recordAuditRead(r, auditlog.Event{Action: "package.catalog.viewed", ResourceType: "package"})
 	writeJSON(w, packageCatalog{
 		Items:     items[start:end],
@@ -374,6 +415,36 @@ func (h *Handlers) packagesCatalog(w http.ResponseWriter, r *http.Request) {
 // endpoints - Output is only present when a Puppet run actually
 // occurred (Ran distinguishes that from "ran but produced empty
 // output", see dispatch.go's dispatchResult doc comment).
+// providerNames lists the package providers in use, for the catalogue's
+// provider filter. Fleet-wide (certnames nil) that is one aggregate
+// query. For a restricted set of nodes it is read off those nodes'
+// package names instead, so the list names only providers the caller's
+// own nodes use.
+func (h *Handlers) providerNames(ctx context.Context, certnames []string) ([]string, error) {
+	names := []string{}
+	if certnames == nil {
+		providers, err := h.client.PackageProviders(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, p := range providers {
+			names = append(names, p.Provider)
+		}
+	} else {
+		counts, err := h.client.PackageNameCounts(ctx, openvoxdb.PackageFilter{Certnames: certnames})
+		if err != nil {
+			return nil, err
+		}
+		for _, c := range counts {
+			if c.Provider != "" && !slices.Contains(names, c.Provider) {
+				names = append(names, c.Provider)
+			}
+		}
+	}
+	sort.Strings(names)
+	return names, nil
+}
+
 type reportingStatus struct {
 	Enabled bool          `json:"enabled"`
 	Output  *reportingRun `json:"output,omitempty"`
@@ -396,7 +467,15 @@ func toReportingStatus(result *dispatchResult) reportingStatus {
 func (h *Handlers) reportingStatus(w http.ResponseWriter, r *http.Request) {
 	certname := r.PathValue("name")
 
-	if h.transport == nil {
+	scope, err := h.scope(r)
+	if err != nil {
+		writeError(w, err)
+		return
+	}
+	// A node outside the caller's scope answers as a node that is not
+	// connected, which is what an unknown node answers - and without
+	// sending the node anything.
+	if !scope.Allows(certname) || h.transport == nil {
 		writeNodeOffline(w, certname)
 		return
 	}
@@ -422,6 +501,11 @@ func (h *Handlers) setReporting(w http.ResponseWriter, r *http.Request) {
 	}
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 		writeStatus(w, http.StatusBadRequest, "invalid request body: "+err.Error())
+		return
+	}
+
+	// Before the node is sent anything.
+	if !nodescope.Permit(w, r, h.scope, certname) {
 		return
 	}
 

@@ -1,0 +1,31 @@
+{{define "content" -}}
+    <main class="vox-container vox-p-y-xl">
+      <div class="vox-display-flex vox-justify-between vox-items-center vox-gap-md vox-flex-wrap vox-m-bottom-md">
+        <h1 class="vox-ts-xl vox-m-y-none" data-i18n>Jobs</h1>
+        <vox-button id="new-plan" variant="brand" href="/plan-edit.html" style="display: none" data-i18n>New plan</vox-button>
+      </div>
+      <vox-subnav label="Jobs" class="vox-m-bottom-lg" data-i18n-attr="label">
+        <a href="/jobs.html" data-i18n>Job history</a>
+        <a href="/schedules.html" data-i18n>Scheduled jobs</a>
+        <a href="/plans.html" aria-current="page" data-i18n>Plans</a>
+      </vox-subnav>
+
+      <p class="vox-ts-sm vox-color-text-2 vox-m-top-none vox-m-bottom-lg" data-i18n>
+        A plan is a list of Puppet runs and tasks carried out in order on the same nodes. Everyone
+        who can run jobs can change a plan; which nodes it runs on is chosen each time it is run.
+      </p>
+      <div id="results"></div>
+
+      <section class="vox-m-top-xl">
+        <h2 class="vox-ts-lg vox-m-bottom-sm" data-i18n>Plans in code</h2>
+        <p class="vox-ts-sm vox-color-text-2 vox-m-top-none" data-i18n>
+          YAML plans in the modules of an environment's deployed code. Each task step is checked
+          against your node groups and task permissions as it is reached.
+        </p>
+        <div class="vox-display-flex vox-items-end vox-gap-md vox-m-bottom-md">
+          <vox-input id="code-environment" label="Environment" value="production" data-i18n-attr="label"></vox-input>
+        </div>
+        <div id="code-plans"></div>
+      </section>
+    </main>
+{{- end}}

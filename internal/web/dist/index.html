@@ -63,6 +63,10 @@
             <vox-icon slot="icon" name="collection"></vox-icon>
             <span data-i18n>Packages</span>
           </vox-sidenav-item>
+          <vox-sidenav-item href="/patches.html">
+            <vox-icon slot="icon" name="refresh"></vox-icon>
+            <span data-i18n>Patching</span>
+          </vox-sidenav-item>
           <vox-sidenav-item href="/vulnerabilities.html" id="nav-vulnerabilities-link" style="display: none">
             <vox-icon slot="icon" name="vulnerability"></vox-icon>
             <span data-i18n>Vulnerabilities</span>
@@ -101,6 +105,8 @@
       <section class="vox-m-bottom-xl">
         <h2 class="vox-ts-lg vox-m-bottom-md" data-i18n>Fleet status</h2>
         <div id="status-summary"></div>
+        
+        <div id="agent-summary" class="vox-m-top-md"></div>
       </section>
 
       <vox-grid min="320px" gap="lg" class="vox-m-bottom-xl">

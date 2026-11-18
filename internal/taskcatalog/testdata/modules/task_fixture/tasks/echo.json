@@ -1,0 +1,23 @@
+{
+  "description": "Echoes its parameters back as JSON",
+  "input_method": "stdin",
+  "supports_noop": false,
+  "parameters": {
+    "message": {
+      "description": "Text to echo back",
+      "type": "String[1]"
+    },
+    "count": {
+      "description": "How many times to repeat it",
+      "type": "Optional[Integer[1, 10]]",
+      "default": 1
+    },
+    "mode": {
+      "description": "Output style",
+      "type": "Enum['plain', 'loud']"
+    },
+    "tags": {
+      "type": "Optional[Array[String]]"
+    }
+  }
+}

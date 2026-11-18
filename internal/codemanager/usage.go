@@ -59,7 +59,11 @@ func NewUsageResolver(assigned, reporting NodeEnvironmentsFunc) *UsageResolver {
 // An error here is never fatal to the overview: the caller reports the
 // counts as unavailable and still returns each repository's remote,
 // prefix, size and last deploy, none of which depend on node data.
-func (u *UsageResolver) Usage(ctx context.Context) (NodeUsage, error) {
+//
+// allows limits both tallies to the nodes it accepts - the caller's node
+// group scope (internal/nodescope) - so a count never includes a node
+// the caller cannot see. Nil counts every node.
+func (u *UsageResolver) Usage(ctx context.Context, allows func(certname string) bool) (NodeUsage, error) {
 	if u == nil || u.assigned == nil || u.reporting == nil {
 		return NodeUsage{}, errUsageUnavailable
 	}
@@ -75,10 +79,14 @@ func (u *UsageResolver) Usage(ctx context.Context) (NodeUsage, error) {
 
 	var usage NodeUsage
 	for _, node := range assigned {
-		usage.Assigned.tally(node.Environment)
+		if allows == nil || allows(node.Certname) {
+			usage.Assigned.tally(node.Environment)
+		}
 	}
 	for _, node := range reporting {
-		usage.Reporting.tally(node.Environment)
+		if allows == nil || allows(node.Certname) {
+			usage.Reporting.tally(node.Environment)
+		}
 	}
 	return usage, nil
 }

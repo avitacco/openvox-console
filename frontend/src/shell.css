@@ -269,6 +269,34 @@ pre.value {
   min-width: 0;
 }
 
+/* Group tree (see add-group-hierarchy). The list is one table whose
+   name cell is indented by depth, rather than a nested list, so every
+   group keeps the same columns to compare down. */
+.group-tree-name {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--vox-space-2);
+}
+
+.group-tree-branch {
+  color: var(--vox-color-text-2);
+}
+
+/* Node group picker in the role editor (see
+   add-group-scoped-node-access): the group tree as a column of
+   checkboxes, indented by depth like the groups page. */
+.role-group-tree {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vox-space-1);
+  max-height: 16rem;
+  overflow-y: auto;
+}
+
+.role-group-editor {
+  padding: var(--vox-space-3) 0;
+}
+
 /* Match-rule conditions (see add-match-rule-builder-ui). Each condition
    is a bordered card (.vox-border-all/.vox-bg-soft utility classes in
    group.js's markup) rather than one unbroken row of controls - that
@@ -487,4 +515,301 @@ vox-record-list vox-badge:not(.truncate) {
   display: flex;
   flex-wrap: wrap;
   gap: 0.25rem;
+}
+
+/* The run-task dialog's form can be long. Its body scrolls, so the
+   dialog's footer - the Run button - stays in view rather than
+   scrolling away with the form. */
+.run-task-scroll {
+  max-height: min(60vh, 640px);
+  overflow-y: auto;
+}
+
+/* A native <input> dressed as a vox-input (see add-class-discovery-and-
+   run-options). Used only where a field needs a <datalist> - a list of
+   suggestions that still accepts anything typed - which vox-input cannot
+   have: its real input lives in a shadow root, where a datalist in the
+   page cannot be referenced. The values mirror voxblocks' own field
+   styles (src/internal/field.ts) so the two sit side by side unnoticed. */
+.native-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vox-space-1);
+  font-family: var(--vox-font-family-base);
+}
+
+.native-field > label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--vox-color-text-1);
+}
+
+.native-control {
+  box-sizing: border-box;
+  width: 100%;
+  background-color: var(--vox-color-bg);
+  border: 1px solid var(--vox-color-border);
+  border-radius: var(--vox-radius-md);
+  color: var(--vox-color-text-1);
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.5;
+  padding: var(--vox-space-2) var(--vox-space-3);
+  transition:
+    border-color var(--vox-transition-fast),
+    box-shadow var(--vox-transition-fast);
+}
+
+.native-control:focus {
+  outline: none;
+  border-color: var(--vox-color-brand-1);
+  box-shadow: 0 0 0 3px var(--vox-color-brand-soft);
+}
+
+.native-note {
+  margin: 0;
+  font-size: 12px;
+  color: var(--vox-color-text-2);
+}
+
+/* Classes editor on the group page. Each class is a card, like a match
+   rule's condition; its parameters are one per row, the value field
+   taking the width and Remove sitting against the input box rather than
+   the label above it. */
+.classes-source {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--vox-space-3);
+}
+
+.classes-notice > vox-alert {
+  display: block;
+  margin-bottom: var(--vox-space-4);
+}
+
+.class-name {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.class-params {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vox-space-4);
+}
+
+.class-param {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: var(--vox-space-3);
+  row-gap: var(--vox-space-1);
+  align-items: start;
+}
+
+.class-param-remove {
+  /* Down past the label (14px text, 1.5 line height, plus the gap), so
+     the button lines up with the input box. */
+  margin-top: calc(21px + var(--vox-space-1));
+}
+
+.class-param-flag {
+  grid-column: 1 / -1;
+}
+
+.class-param-flag:empty {
+  display: none;
+}
+
+.class-param-add,
+.class-add {
+  display: flex;
+  align-items: end;
+  gap: var(--vox-space-3);
+}
+
+.class-param-add .native-field,
+.class-add .native-field {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 28rem;
+}
+
+/* Run Puppet dialog: the options stacked, with room between them. */
+.run-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vox-space-4);
+  margin-top: var(--vox-space-4);
+}
+
+/* A run's output on the job page. A debug run prints thousands of
+   lines; the box scrolls rather than pushing the other nodes' rows a
+   hundred screens down the page. */
+.job-output {
+  max-height: 32rem;
+  overflow: auto;
+}
+
+/* Choosing a job's nodes (target-picker.js): the three ways stacked,
+   with the preview's answer in a box that scrolls rather than pushing
+   the rest of the form away. */
+.target-picker {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vox-space-4);
+}
+
+.target-query {
+  font-family: var(--vox-font-family-mono, ui-monospace, monospace);
+  resize: vertical;
+  min-height: 4.5rem;
+}
+
+.target-preview-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--vox-space-3);
+}
+
+.target-preview-list {
+  margin: 0;
+  padding: var(--vox-space-3) var(--vox-space-4) var(--vox-space-3) var(--vox-space-8);
+  max-height: 12rem;
+  overflow-y: auto;
+  border: 1px solid var(--vox-color-border);
+  border-radius: var(--vox-radius-md);
+  font-size: 14px;
+}
+
+/* A query shown back, on a job or a schedule: it can be long, and must
+   wrap rather than widen a table column. */
+.target-source-query {
+  overflow-wrap: anywhere;
+  font-size: 13px;
+}
+
+.job-origin {
+  margin-top: var(--vox-space-1);
+}
+
+/* "Schedule instead" sits apart from Cancel and Run in a dialog footer. */
+.dialog-footer-split {
+  display: flex;
+  align-items: center;
+  gap: var(--vox-space-2);
+  width: 100%;
+}
+
+.dialog-footer-start {
+  margin-inline-end: auto;
+}
+
+/* A schedule's page: its facts as a two-column list. */
+.schedule-summary {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: var(--vox-space-3) var(--vox-space-6);
+  margin: 0;
+}
+
+.schedule-summary dt {
+  font-weight: 600;
+  color: var(--vox-color-text-2);
+}
+
+.schedule-summary dd {
+  margin: 0;
+  min-width: 0;
+}
+
+.schedule-form .native-field {
+  max-width: 20rem;
+}
+
+.schedule-form .target-picker .native-field {
+  max-width: none;
+}
+
+/* A plan's steps: a numbered list of cards, in the editor, on a plan's
+   page, in the Run plan dialog and on a plan's job. */
+.plan-step-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--vox-space-3);
+}
+
+.plan-step {
+  border: 1px solid var(--vox-color-border);
+  border-radius: var(--vox-radius-md);
+  padding: var(--vox-space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--vox-space-3);
+  min-width: 0;
+}
+
+.plan-step-heading {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--vox-space-2);
+}
+
+.plan-step-number {
+  font-weight: 600;
+}
+
+.plan-step-number::after {
+  content: ':';
+}
+
+.plan-step-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--vox-space-3);
+}
+
+.plan-step-title {
+  margin: 0;
+  font-size: 16px;
+}
+
+.plan-step-buttons {
+  display: flex;
+  gap: var(--vox-space-2);
+}
+
+.plan-step-needs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vox-space-3);
+  max-width: 24rem;
+}
+
+.plan-step-times {
+  font-size: 14px;
+  color: var(--vox-color-text-2);
+}
+
+/* A password field's rules, listed under it. */
+.password-rules {
+  margin: var(--vox-space-2) 0 0;
+  padding-inline-start: var(--vox-space-6);
+  font-size: 14px;
+  color: var(--vox-color-text-2);
+}
+
+.password-rules li[data-failed] {
+  color: var(--vox-color-danger-1);
+  font-weight: 600;
+}
+
+.policy-form .field-narrow {
+  max-width: 12rem;
 }

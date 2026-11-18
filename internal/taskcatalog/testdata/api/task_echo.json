@@ -1,0 +1,39 @@
+{
+    "metadata": {
+        "description": "Echoes its parameters back as JSON",
+        "input_method": "stdin",
+        "parameters": {
+            "count": {
+                "default": 1,
+                "description": "How many times to repeat it",
+                "type": "Optional[Integer[1, 10]]"
+            },
+            "message": {
+                "description": "Text to echo back",
+                "type": "String[1]"
+            },
+            "mode": {
+                "description": "Output style",
+                "type": "Enum['plain', 'loud']"
+            },
+            "tags": {
+                "type": "Optional[Array[String]]"
+            }
+        },
+        "supports_noop": false
+    },
+    "name": "task_fixture::echo",
+    "files": [
+        {
+            "filename": "echo.sh",
+            "sha256": "137556c1c5836f945263c436c8c01a6018bcd5bd000dbade3af7825389c67eb1",
+            "size_bytes": 161,
+            "uri": {
+                "path": "/puppet/v3/file_content/tasks/task_fixture/echo.sh",
+                "params": {
+                    "environment": "production"
+                }
+            }
+        }
+    ]
+}

@@ -1,0 +1,19 @@
+{
+    "search_paths": [
+        "file:///etc/puppetlabs/code/environments",
+        "data:text/plain,internal"
+    ],
+    "environments": {
+        "production": {
+            "settings": {
+                "modulepath": [
+                    "/etc/puppetlabs/code/environments/production/modules",
+                    "/etc/puppetlabs/code/environments/production/site"
+                ],
+                "manifest": "/etc/puppetlabs/code/environments/production/manifests",
+                "environment_timeout": "unlimited",
+                "config_version": ""
+            }
+        }
+    }
+}

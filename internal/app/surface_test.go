@@ -67,11 +67,18 @@ var preSplitBaseline = Surface{
 		"orchestrator-dispatcher",
 		// initialRunTriggerImpl.Start(ctx)
 		"initial-run-trigger",
+		// agentUpgrades.Start(ctx) - added by add-agent-auto-upgrade
+		"agent-upgrade-coordinator",
 		// go vulnScheduler.Run(ctx)
 		"vulnerability-scheduler",
+		// Added by add-patch-inventory: the periodic patch scan.
+		"patch-scanner",
 		// Added by this change: nothing reaped jobs before, because a
 		// single instance never left one untracked.
 		"orchestrator-job-reaper",
+		// go schedules.Run(ctx) - added by
+		// add-pql-targeting-and-scheduled-jobs
+		"orchestrator-scheduler",
 		// Added by this change: every instance must be able to describe
 		// itself, in every mode.
 		"status-responder",
@@ -162,8 +169,11 @@ func TestModeSurfacesMatchSpec(t *testing.T) {
 			mustHaveRoutes: []string{routeWebUI, routeRBAC, routeCodeManager, routeOrchestrator, routeStatus},
 			mustHaveListen: []string{listenerHTTP},
 			mustNotListen:  []string{listenerNodeTransport},
-			mustHaveWorker: []string{workerStatusResponder},
-			mustNotWorker:  []string{workerDispatcher, workerInitialRun, workerVulnScheduler},
+			// The dispatcher is not one of those background workers:
+			// web starts jobs through the REST API it serves, and the
+			// instance that starts a job is the one that follows it.
+			mustHaveWorker: []string{workerStatusResponder, workerDispatcher},
+			mustNotWorker:  []string{workerInitialRun, workerAgentUpgrade, workerVulnScheduler, workerPatchScanner, workerJobReaper, workerScheduler},
 		},
 		{
 			// "enc SHALL serve only the ENC classification endpoint and
@@ -181,7 +191,7 @@ func TestModeSurfacesMatchSpec(t *testing.T) {
 			mustHaveListen: []string{listenerHTTP},
 			mustNotListen:  []string{listenerNodeTransport},
 			mustHaveWorker: []string{workerStatusResponder},
-			mustNotWorker:  []string{workerDispatcher, workerInitialRun, workerVulnScheduler},
+			mustNotWorker:  []string{workerDispatcher, workerInitialRun, workerAgentUpgrade, workerVulnScheduler, workerPatchScanner, workerScheduler},
 		},
 		{
 			// "orchestrator SHALL terminate node transport connections and
@@ -191,8 +201,10 @@ func TestModeSurfacesMatchSpec(t *testing.T) {
 			mustHaveRoutes: []string{routeOperational},
 			mustNotRoutes:  []string{routeWebUI, routeRBAC, routeENC, routeCodeManager, routeOrchestrator, routeStatus},
 			mustHaveListen: []string{listenerHTTP, listenerNodeTransport},
-			mustHaveWorker: []string{workerDispatcher, workerInitialRun, workerStatusResponder},
-			mustNotWorker:  []string{workerVulnScheduler},
+			// The scheduler runs beside the dispatcher: the job a
+			// schedule starts is dispatched by the instance that fired it.
+			mustHaveWorker: []string{workerDispatcher, workerInitialRun, workerAgentUpgrade, workerScheduler, workerStatusResponder},
+			mustNotWorker:  []string{workerVulnScheduler, workerPatchScanner},
 		},
 		{
 			// "worker SHALL run background workers, and SHALL NOT serve
@@ -203,8 +215,8 @@ func TestModeSurfacesMatchSpec(t *testing.T) {
 			mustNotRoutes:  []string{routeWebUI, routeRBAC, routeENC, routeCodeManager, routeOrchestrator, routeStatus},
 			mustHaveListen: []string{listenerHTTP},
 			mustNotListen:  []string{listenerNodeTransport},
-			mustHaveWorker: []string{workerVulnScheduler, workerStatusResponder},
-			mustNotWorker:  []string{workerDispatcher, workerInitialRun},
+			mustHaveWorker: []string{workerVulnScheduler, workerPatchScanner, workerStatusResponder},
+			mustNotWorker:  []string{workerDispatcher, workerInitialRun, workerAgentUpgrade, workerScheduler},
 		},
 	}
 

@@ -5,6 +5,7 @@ const nameFilter = document.getElementById('name-filter');
 const factNameFilter = document.getElementById('fact-name-filter');
 const factValueFilter = document.getElementById('fact-value-filter');
 const statusSummaryEl = document.getElementById('status-summary');
+const agentSummaryEl = document.getElementById('agent-summary');
 const recentActivityEl = document.getElementById('recent-activity');
 const recentJobsCard = document.getElementById('recent-jobs-card');
 const recentJobsEl = document.getElementById('recent-jobs');
@@ -98,6 +99,40 @@ async function loadStatusSummary() {
   renderStatusSummary();
 }
 
+// How current the fleet's node-agent-client builds are. Counts only
+// nodes that have reported a build (or shown they cannot): a node that
+// has not connected since build tracking began is neither current nor
+// out of date. "Each label: count" rather than sentences, so no label
+// has to agree in number with its count in any language.
+function renderAgentSummary(managed, autoUpgrade) {
+  // Absent when this console does not track client builds at all.
+  if (autoUpgrade === undefined || autoUpgrade === null) {
+    agentSummaryEl.innerHTML = '';
+    return;
+  }
+  const agents = managed.map((n) => n.agent).filter((a) => a && a.state !== 'unreported');
+  const current = agents.filter((a) => !a.outOfDate).length;
+  const outdated = agents.filter((a) => a.outOfDate).length;
+  const failed = agents.filter((a) => a.outOfDate && (a.upgrade?.state === 'failed' || a.upgrade?.state === 'exhausted')).length;
+  const manual = agents.filter((a) => a.outOfDate && a.blocked === 'install-script').length;
+
+  const parts = [
+    t('Current: {count}', { count: current }),
+    t('Out of date: {count}', { count: outdated }),
+    t('Failed upgrades: {count}', { count: failed }),
+  ];
+  const manualNote = manual > 0
+    ? `<vox-alert variant="warning" class="vox-m-top-sm">${escapeHtml(t('Clients too old to upgrade themselves: {count}. Re-run the install script on those nodes once; the Nodes page marks them.', { count: manual }))}</vox-alert>`
+    : '';
+  agentSummaryEl.innerHTML = `
+    <p class="vox-ts-sm vox-m-y-none">
+      <strong>${t('Node agents')}</strong>
+      ${parts.map(escapeHtml).join(' · ')}
+      · ${autoUpgrade ? t('Automatic upgrades are on.') : t('Automatic upgrades are off.')}
+    </p>
+    ${manualNote}`;
+}
+
 async function loadConnectivitySummary() {
   try {
     const data = await fetchJSON('/api/v1/node-connectivity');
@@ -112,10 +147,12 @@ async function loadConnectivitySummary() {
     const connected = managed.filter((n) => n.connected).length;
     const disconnected = managed.length - connected;
     connectivityCardsHTML = `<vox-stat class="vox-m-x-lg" value="${connected}" label="${t('Connected')}"></vox-stat><vox-stat class="vox-m-x-lg" value="${disconnected}" label="${t('Disconnected')}"></vox-stat>`;
+    renderAgentSummary(managed, data.agentAutoUpgrade);
   } catch (err) {
     // A connectivity fetch failure shouldn't blank out the report
     // status cards - just drop the connectivity cards for this cycle.
     connectivityCardsHTML = '';
+    agentSummaryEl.innerHTML = '';
   }
   renderStatusSummary();
 }

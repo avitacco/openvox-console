@@ -1,0 +1,46 @@
+{{define "content" -}}
+    <main class="vox-container vox-p-y-xl">
+      <vox-breadcrumbs>
+        <a href="/jobs.html" data-i18n>Jobs</a>
+        <a href="/plans.html" data-i18n>Plans</a>
+        <span id="breadcrumb-current" aria-current="page" data-i18n>New plan</span>
+      </vox-breadcrumbs>
+      <h1 id="heading" class="vox-ts-xl vox-m-bottom-lg" data-i18n>New plan</h1>
+
+      <div id="plan-form" class="group-form schedule-form">
+        <div id="form-error"></div>
+
+        <section>
+          <h2 class="form-section-heading" data-i18n>Details</h2>
+          <vox-input id="name" label="Name" required data-i18n-attr="label"></vox-input>
+          <div data-error-for="name"></div>
+          <div class="vox-m-top-md">
+            <vox-textarea id="description" rows="2" label="Description (optional)" data-i18n-attr="label"></vox-textarea>
+          </div>
+          <div data-error-for="description"></div>
+        </section>
+
+        <section>
+          <h2 class="form-section-heading" data-i18n>Steps</h2>
+          <p class="vox-ts-sm vox-color-text-2 vox-m-top-none vox-m-bottom-md" data-i18n>
+            Steps run in this order, each on every node the plan is run on. If a step fails on any
+            node, the plan stops there. A sensitive task value is never kept in a plan: it is asked
+            for each time the plan is run.
+          </p>
+          <p id="no-steps" class="vox-color-text-2" data-i18n>No steps yet. Add the first one below.</p>
+          <ol id="steps" class="plan-step-list"></ol>
+          <div data-error-for="steps" class="vox-m-top-md"></div>
+          <div class="vox-display-flex vox-gap-sm vox-flex-wrap vox-m-top-md">
+            <vox-button id="add-run" variant="alt" data-i18n>Add a Puppet run step</vox-button>
+            <vox-button id="add-task" variant="alt" data-i18n>Add a task step</vox-button>
+          </div>
+          <p id="steps-full" class="vox-ts-sm vox-color-text-2 vox-m-top-sm" style="display: none" data-i18n>A plan can have at most 20 steps.</p>
+        </section>
+
+        <div class="vox-display-flex vox-gap-sm vox-m-top-xl">
+          <vox-button id="save" variant="brand" data-i18n>Save plan</vox-button>
+          <vox-button id="cancel" variant="alt" href="/plans.html" data-i18n>Cancel</vox-button>
+        </div>
+      </div>
+    </main>
+{{- end}}

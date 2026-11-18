@@ -7,7 +7,8 @@ order: 3
 ## Delete a node
 
 On the **Nodes** page, choose **Delete** on the node, and confirm. This
-needs the `nodes:manage` permission.
+needs the `nodes:manage` permission, on a role whose node groups
+include the node.
 
 Deleting does two things, together:
 

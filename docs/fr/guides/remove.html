@@ -123,6 +123,7 @@
       <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/remove.html" current="" aria-current="page"><span>Remove a node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Scale">
       <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
@@ -132,8 +133,13 @@
       <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Operate">
       <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
@@ -155,7 +161,8 @@
     <div class="guide-body vox-prose">
 <h2 id="delete-a-node">Delete a node</h2>
 <p>On the <strong>Nodes</strong> page, choose <strong>Delete</strong> on the node, and confirm. This
-needs the <code>nodes:manage</code> permission.</p>
+needs the <code>nodes:manage</code> permission, on a role whose node groups
+include the node.</p>
 <p>Deleting does two things, together:</p>
 <ul>
 <li>it <strong>deactivates the node in openvoxdb</strong>, so it no longer appears in
@@ -186,7 +193,7 @@ its new request. See <a href="add.html">Add nodes</a>.</p>
 
     </div>
 
-    <vox-series-nav label="Nodes" previous-text="Previous" next-text="Next" previous-href="../guides/certificates.html" previous-label="Manage node certificates"></vox-series-nav>
+    <vox-series-nav label="Nodes" previous-text="Previous" next-text="Next" previous-href="../guides/certificates.html" previous-label="Manage node certificates" next-href="../guides/agent-upgrades.html" next-label="Keep node agents current"></vox-series-nav>
   </article>
 
   

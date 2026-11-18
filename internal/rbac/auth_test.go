@@ -7,12 +7,24 @@ import (
 
 	"github.com/voxpupuli/enterprise-console/internal/auditlog"
 	"github.com/voxpupuli/enterprise-console/internal/messaging"
+	"github.com/voxpupuli/enterprise-console/internal/taskscope"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type fakeAuthStore struct {
 	users       map[string]User // by username
 	permissions map[int64][]string
+	scopes      map[int64]map[string][]int64
+	tasks       map[int64][]taskscope.Grant // nil: no limit
+	policy      *AccountPolicy              // nil: the defaults
+}
+
+func (f *fakeAuthStore) UserNodeScopes(_ context.Context, userID int64) (map[string][]int64, error) {
+	return f.scopes[userID], nil
+}
+
+func (f *fakeAuthStore) UserTaskGrants(_ context.Context, userID int64) ([]taskscope.Grant, error) {
+	return f.tasks[userID], nil
 }
 
 func (f *fakeAuthStore) GetUserByUsername(_ context.Context, username string) (User, error) {
@@ -21,6 +33,43 @@ func (f *fakeAuthStore) GetUserByUsername(_ context.Context, username string) (U
 		return User{}, ErrNotFound
 	}
 	return u, nil
+}
+
+// The lockout methods mirror Store's rules in memory: a failure while
+// locked changes nothing, and the threshold sets a lock.
+func (f *fakeAuthStore) AccountPolicy(context.Context) (AccountPolicy, error) {
+	if f.policy != nil {
+		return *f.policy, nil
+	}
+	return DefaultAccountPolicy(), nil
+}
+
+func (f *fakeAuthStore) RecordFailedLogin(_ context.Context, id int64, threshold int, period time.Duration) (bool, *time.Time, error) {
+	for name, u := range f.users {
+		if u.ID != id || threshold <= 0 || u.Locked() {
+			continue
+		}
+		u.FailedLogins++
+		if u.FailedLogins >= threshold {
+			until := time.Now().Add(period)
+			u.LockedUntil = &until
+		}
+		f.users[name] = u
+		return u.LockedUntil != nil, u.LockedUntil, nil
+	}
+	return false, nil, nil
+}
+
+func (f *fakeAuthStore) ResetFailedLogins(_ context.Context, id int64) (bool, error) {
+	for name, u := range f.users {
+		if u.ID == id {
+			was := u.Locked()
+			u.FailedLogins, u.LockedUntil = 0, nil
+			f.users[name] = u
+			return was, nil
+		}
+	}
+	return false, ErrNotFound
 }
 
 func (f *fakeAuthStore) UserPermissions(_ context.Context, userID int64) ([]string, error) {

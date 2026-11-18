@@ -45,7 +45,7 @@ func TestMatches_Operators(t *testing.T) {
 
 func TestMatches_EmptyRuleAndNoPinsMatchesNothing(t *testing.T) {
 	g := Group{Name: "empty"}
-	if Matches(g, "any-node", map[string]any{}) {
+	if ownMatch(g, "any-node", map[string]any{}) {
 		t.Error("a group with no rule and no pins should not match any node")
 	}
 }
@@ -58,10 +58,10 @@ func TestMatches_PinnedNodeMatchesWithoutSatisfyingRule(t *testing.T) {
 	}
 	facts := map[string]any{"kernel": "Linux"} // does NOT satisfy the rule
 
-	if !Matches(g, "web01", facts) {
+	if !ownMatch(g, "web01", facts) {
 		t.Error("expected pinned node to match despite failing the rule")
 	}
-	if Matches(g, "web02", facts) {
+	if ownMatch(g, "web02", facts) {
 		t.Error("expected non-pinned, non-rule-matching node not to match")
 	}
 }
@@ -78,7 +78,7 @@ func TestMatches_AllConditionsMustMatch(t *testing.T) {
 		"kernel": "Linux",
 		"os":     map[string]any{"family": "Debian"},
 	}
-	if Matches(g, "node1", facts) {
+	if ownMatch(g, "node1", facts) {
 		t.Error("expected group not to match when only some AND conditions are satisfied")
 	}
 }

@@ -72,3 +72,68 @@ func pqlString(s string) string {
 	b.WriteByte('"')
 	return b.String()
 }
+
+// InvalidQueryError is a query that was refused as a query: by this
+// package's own checks, or by openvoxdb answering it with a 4xx. Message
+// is openvoxdb's own where it gave one.
+type InvalidQueryError struct {
+	Message string
+}
+
+func (e *InvalidQueryError) Error() string { return e.Message }
+
+// MaxUserQueryLength bounds a query a user typed.
+const MaxUserQueryLength = 4000
+
+// CheckUserQuery checks the shape of a PQL query a user supplied, before
+// it is sent anywhere: not empty, not over MaxUserQueryLength, in PQL
+// string form rather than AST (JSON array) form, and balanced. It
+// returns an *InvalidQueryError saying which.
+func CheckUserQuery(pql string) error {
+	trimmed := strings.TrimSpace(pql)
+	switch {
+	case trimmed == "":
+		return &InvalidQueryError{Message: "the query is empty"}
+	case len(pql) > MaxUserQueryLength:
+		return &InvalidQueryError{Message: fmt.Sprintf("the query is longer than %d characters", MaxUserQueryLength)}
+	case strings.HasPrefix(trimmed, "["):
+		return &InvalidQueryError{Message: "a PQL string is required, such as nodes[certname] { }; the JSON (AST) form is not accepted"}
+	}
+	if err := validatePQL(pql); err != nil {
+		return &InvalidQueryError{Message: err.Error()}
+	}
+	return nil
+}
+
+// HasSubquery reports whether pql reads from more than one entity: it
+// has more than one brace block outside string literals. Both of PQL's
+// subquery forms - explicit ("certname in facts[certname] { ... }") and
+// implicit ("nodes { facts { ... } }") - need a second block, and no
+// single-entity query has one, so counting is enough without parsing
+// the language. It errs toward true.
+func HasSubquery(pql string) bool {
+	blocks := 0
+	inString := false
+	var quote rune
+	escaped := false
+	for _, r := range pql {
+		if inString {
+			switch {
+			case escaped:
+				escaped = false
+			case r == '\\':
+				escaped = true
+			case r == quote:
+				inString = false
+			}
+			continue
+		}
+		switch r {
+		case '"', '\'':
+			inString, quote = true, r
+		case '{':
+			blocks++
+		}
+	}
+	return blocks > 1
+}

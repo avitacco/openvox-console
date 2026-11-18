@@ -1,0 +1,71 @@
+{{define "content" -}}
+    <main class="vox-container vox-p-y-xl">
+      <vox-subnav label="Admin" class="vox-m-bottom-lg" data-i18n-attr="label">
+        <a href="/users.html" data-i18n>Users</a>
+        <a href="/user-groups.html" data-i18n>User groups</a>
+        <a href="/roles.html" data-i18n>Roles</a>
+        <a href="/service-tokens.html" data-i18n>Service tokens</a>
+        <a href="/account-policy.html" aria-current="page" data-i18n>Account policy</a>
+      </vox-subnav>
+
+      <h1 class="vox-ts-xl vox-m-bottom-md" data-i18n>Account policy</h1>
+      <p class="vox-ts-sm vox-color-text-2 vox-m-top-none vox-m-bottom-lg" data-i18n>
+        Rules for accounts that log in with a username and password. They do not apply to people
+        who sign in through your identity provider, or to service tokens.
+      </p>
+
+      <div id="form-error"></div>
+      <div id="loading"></div>
+      <div id="policy-form" class="group-form policy-form" style="display: none">
+        <section>
+          <h2 class="form-section-heading" data-i18n>Passwords</h2>
+          <vox-input id="min-length" class="field-narrow" type="number" min="8" max="72" step="1" label="Minimum length" data-i18n-attr="label"></vox-input>
+          <p class="vox-ts-sm vox-color-text-2 vox-m-top-sm" data-i18n>Between 8 and 72 characters.</p>
+          <div data-error-for="minLength"></div>
+          <p class="vox-m-bottom-sm" data-i18n>A password must also contain:</p>
+          <div class="vox-display-flex vox-flex-wrap vox-gap-md">
+            <vox-checkbox id="require-lowercase" data-i18n>A lowercase letter</vox-checkbox>
+            <vox-checkbox id="require-uppercase" data-i18n>An uppercase letter</vox-checkbox>
+            <vox-checkbox id="require-digit" data-i18n>A digit</vox-checkbox>
+            <vox-checkbox id="require-symbol" data-i18n>A symbol</vox-checkbox>
+          </div>
+          <p class="vox-ts-sm vox-color-text-2 vox-m-top-md vox-m-bottom-none" data-i18n>
+            A password is checked when it is set. Existing passwords keep working, and are checked
+            the next time they are changed. A password can never be the account's username, or
+            longer than 72 bytes.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="form-section-heading" data-i18n>Login lockout</h2>
+          <vox-checkbox id="lockout-on" data-i18n>Lock an account after repeated failed logins</vox-checkbox>
+          <div id="lockout-fields" style="display: none">
+            <div class="vox-display-flex vox-gap-lg vox-flex-wrap vox-items-start vox-m-top-md">
+              <div>
+                <vox-input id="lockout-threshold" class="field-narrow" type="number" min="3" max="100" step="1" label="Failed logins in a row" data-i18n-attr="label"></vox-input>
+                <p class="vox-ts-sm vox-color-text-2 vox-m-top-sm" data-i18n>Between 3 and 100.</p>
+              </div>
+              <div>
+                <vox-input id="lockout-minutes" class="field-narrow" type="number" min="1" max="1440" step="1" label="Locked for (minutes)" data-i18n-attr="label"></vox-input>
+                <p class="vox-ts-sm vox-color-text-2 vox-m-top-sm" data-i18n>Between 1 and 1,440 (a day).</p>
+              </div>
+            </div>
+          </div>
+          <div data-error-for="lockoutThreshold"></div>
+          <div data-error-for="lockoutMinutes"></div>
+          <p class="vox-ts-sm vox-color-text-2 vox-m-top-md vox-m-bottom-none" data-i18n>
+            A locked account cannot log in with its password until the time has passed, or until an
+            administrator unlocks it on the Users page. Sessions that are already open carry on. The
+            login page never says whether an account is locked, so that it does not reveal which
+            usernames exist.
+          </p>
+        </section>
+
+        <div id="saved" class="vox-m-top-lg"></div>
+        <div class="vox-display-flex vox-gap-md vox-items-center vox-flex-wrap vox-m-top-lg">
+          <vox-button id="save" variant="brand" data-i18n>Save policy</vox-button>
+          <span id="last-changed" class="vox-ts-sm vox-color-text-2"></span>
+        </div>
+      </div>
+    </main>
+{{- end}}

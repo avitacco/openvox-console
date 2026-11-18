@@ -29,7 +29,9 @@ func realHandlers(t *testing.T) *Handlers {
 	ctx, cancel := context.WithCancel(context.Background())
 	t.Cleanup(cancel)
 	go dispatcher.Run(ctx)
-	return NewHandlers(store, dispatcher, noopActor, noopRecordAuditRead)
+	h := NewHandlers(store, dispatcher, noopActor, noopRecordAuditRead)
+	h.SetTaskCatalog(fakeCatalog{})
+	return h
 }
 
 func TestTriggerRun_Success(t *testing.T) {

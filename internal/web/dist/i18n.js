@@ -198,6 +198,8 @@ export function kindLabel(value) {
     run: N_('Puppet run'),
     task: N_('Task'),
     plan: N_('Plan'),
+    patch: N_('Patch run'),
+    codeplan: N_('Code plan'),
   };
   const source = known[String(value || '').toLowerCase()];
   return source ? t(source) : String(value || '');
@@ -343,7 +345,10 @@ export function translateDocument(root = document) {
   const needResync = new Set();
 
   for (const el of root.querySelectorAll('[data-i18n]')) {
-    const source = el.getAttribute('data-i18n') || el.textContent.trim();
+    // Whitespace is collapsed, as the extractor collapses it when it
+    // writes the msgid: a paragraph wrapped over several template
+    // lines would otherwise never match its entry and stay in English.
+    const source = el.getAttribute('data-i18n') || normaliseSpace(el.textContent);
     const translated = t(source);
     if (translated !== el.textContent) {
       el.textContent = translated;
@@ -451,3 +456,13 @@ function resyncClonedSlots(hosts) {
     if (options.length) host.append(...options);
   }
 }
+
+// The outcome labels a patch run's packages show (see run-patch.js). They
+// are listed here, with N_, so the extractor finds them: run-patch.js
+// looks them up by value.
+export const PATCH_OUTCOME_LABELS = [
+  N_('Upgraded'),
+  N_('Would upgrade'),
+  N_('Not upgraded'),
+  N_('Nothing to apply'),
+];

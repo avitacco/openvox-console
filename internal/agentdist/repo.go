@@ -24,6 +24,9 @@ type manifestEntry struct {
 	Format   string `json:"format"`
 	Arch     string `json:"arch"`
 	Version  string `json:"version"`
+	Epoch    string `json:"epoch,omitempty"`   // rpm only
+	Release  string `json:"release,omitempty"` // rpm only
+	GoArch   string `json:"goarch"`
 	Filename string `json:"filename"`
 	SHA256   string `json:"sha256"`
 	Size     int64  `json:"size"`
@@ -49,6 +52,9 @@ type packageRepo struct {
 	rpmFiles     map[string][]byte
 	yumRepomd    []byte
 	yumPrimaryGz []byte
+
+	// entries is the manifest itself, for artifacts.go.
+	entries []manifestEntry
 }
 
 // aptPoolPath returns the pool path apt repo convention uses: the
@@ -77,6 +83,7 @@ func buildPackageRepo() (*packageRepo, error) {
 	}
 
 	repo := &packageRepo{
+		entries:       manifest,
 		debFiles:      map[string][]byte{},
 		aptPackages:   map[string][]byte{},
 		aptPackagesGz: map[string][]byte{},
@@ -186,7 +193,7 @@ func (r *packageRepo) buildYumMetadata(entries []manifestEntry) error {
 		fmt.Fprintf(&pkgs, "<package type=\"rpm\">\n")
 		fmt.Fprintf(&pkgs, "  <name>%s</name>\n", packageName)
 		fmt.Fprintf(&pkgs, "  <arch>%s</arch>\n", e.Arch)
-		fmt.Fprintf(&pkgs, "  <version epoch=\"0\" ver=\"%s\" rel=\"1\"/>\n", e.Version)
+		fmt.Fprintf(&pkgs, "  <version epoch=\"%s\" ver=\"%s\" rel=\"%s\"/>\n", rpmEpoch(e), e.Version, rpmRelease(e))
 		fmt.Fprintf(&pkgs, "  <checksum type=\"sha256\" pkgid=\"YES\">%s</checksum>\n", e.SHA256)
 		fmt.Fprintf(&pkgs, "  <summary>OpenVox Console node-agent-client</summary>\n")
 		fmt.Fprintf(&pkgs, "  <description>OpenVox Console node-agent-client - connects a node to its console over the NATS-based node transport.</description>\n")
@@ -198,7 +205,7 @@ func (r *packageRepo) buildYumMetadata(entries []manifestEntry) error {
 		fmt.Fprintf(&pkgs, "  <format>\n")
 		fmt.Fprintf(&pkgs, "    <rpm:license>Apache-2.0</rpm:license>\n")
 		fmt.Fprintf(&pkgs, "    <rpm:group>Unspecified</rpm:group>\n")
-		fmt.Fprintf(&pkgs, "    <rpm:sourcerpm>%s-%s-1.src.rpm</rpm:sourcerpm>\n", packageName, e.Version)
+		fmt.Fprintf(&pkgs, "    <rpm:sourcerpm>%s-%s-%s.src.rpm</rpm:sourcerpm>\n", packageName, e.Version, rpmRelease(e))
 		fmt.Fprintf(&pkgs, "    <rpm:header-range start=\"0\" end=\"0\"/>\n")
 		fmt.Fprintf(&pkgs, "  </format>\n")
 		fmt.Fprintf(&pkgs, "</package>\n")
@@ -230,6 +237,22 @@ func (r *packageRepo) buildYumMetadata(entries []manifestEntry) error {
 `, sha256hex(primaryGz), sha256hex(primary), time.Now().Unix(), len(primaryGz), len(primary))
 	r.yumRepomd = []byte(repomd)
 	return nil
+}
+
+// rpmEpoch and rpmRelease default to what an rpm built before the
+// manifest carried them has: no epoch, release 1.
+func rpmEpoch(e manifestEntry) string {
+	if e.Epoch == "" {
+		return "0"
+	}
+	return e.Epoch
+}
+
+func rpmRelease(e manifestEntry) string {
+	if e.Release == "" {
+		return "1"
+	}
+	return e.Release
 }
 
 func gzipBytes(data []byte) ([]byte, error) {

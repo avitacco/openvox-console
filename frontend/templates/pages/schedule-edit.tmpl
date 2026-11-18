@@ -1,0 +1,96 @@
+{{define "content" -}}
+    <main class="vox-container vox-p-y-xl">
+      <vox-breadcrumbs>
+        <a href="/jobs.html" data-i18n>Jobs</a>
+        <a href="/schedules.html" data-i18n>Scheduled jobs</a>
+        <span id="breadcrumb-current" aria-current="page" data-i18n>New schedule</span>
+      </vox-breadcrumbs>
+      <h1 id="heading" class="vox-ts-xl vox-m-bottom-lg" data-i18n>New schedule</h1>
+
+      <div id="schedule-form" class="group-form schedule-form">
+        <div id="form-error"></div>
+        <div id="owner-notice"></div>
+
+        <section>
+          <h2 class="form-section-heading" data-i18n>Details</h2>
+          <vox-input id="name" label="Name" required data-i18n-attr="label"></vox-input>
+          <div data-error-for="name"></div>
+        </section>
+
+        <section>
+          <h2 class="form-section-heading" data-i18n>What to run</h2>
+          <vox-select id="kind" label="Action" data-i18n-attr="label">
+            <option value="run" data-i18n>Run Puppet</option>
+            <option value="task" data-i18n>Run a task</option>
+            <option value="plan" data-i18n>Run a plan</option>
+          </vox-select>
+          <div data-error-for="kind"></div>
+          <div id="run-pane">
+            <div id="run-options"></div>
+            <div data-error-for="options" class="vox-m-top-md"></div>
+          </div>
+          <div id="task-pane" class="vox-m-top-lg" style="display: none">
+            <div id="task-body"></div>
+            <div id="task-error" class="vox-m-top-md"></div>
+            <div data-error-for="params" class="vox-m-top-md"></div>
+          </div>
+          <div id="plan-pane" class="vox-m-top-lg" style="display: none">
+            <vox-select id="plan-select" label="Plan" data-i18n-attr="label"></vox-select>
+            <p id="plan-copy-note" class="vox-ts-sm vox-color-text-2 vox-m-top-md" style="display: none" data-i18n>
+              The schedule keeps its own copy of these steps. Changing or deleting the saved plan
+              later does not change what the schedule runs; to pick up a change, choose the plan
+              here again and save.
+            </p>
+            <div id="plan-steps" class="vox-m-top-md"></div>
+            <div data-error-for="steps" class="vox-m-top-md"></div>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="form-section-heading" data-i18n>Which nodes</h2>
+          <p class="vox-ts-sm vox-color-text-2 vox-m-top-none vox-m-bottom-md" data-i18n>
+            A query or a node group is worked out again each time the schedule starts, so it follows
+            the nodes as they change. The preview shows what it would run on now.
+          </p>
+          <div id="target"></div>
+        </section>
+
+        <section>
+          <h2 class="form-section-heading" data-i18n>When</h2>
+          <div class="vox-display-flex vox-gap-lg vox-flex-wrap vox-items-start">
+            <div class="native-field">
+              <label for="start-at" data-i18n>Start</label>
+              <input id="start-at" class="native-control" type="datetime-local">
+              <p id="start-note" class="native-note"></p>
+            </div>
+          </div>
+          <div data-error-for="startAt" class="vox-m-top-sm"></div>
+          <div class="vox-m-top-lg">
+            <vox-checkbox id="repeat" data-i18n>Repeat</vox-checkbox>
+          </div>
+          <div id="repeat-fields" style="display: none">
+            <div class="vox-display-flex vox-gap-md vox-flex-wrap vox-items-end vox-m-top-md">
+              <vox-input id="repeat-every" class="field-narrow" type="number" min="1" step="1" value="1" label="Every" data-i18n-attr="label"></vox-input>
+              <vox-select id="repeat-unit" label="Unit" data-i18n-attr="label">
+                <option value="minute" data-i18n>minutes</option>
+                <option value="hour" data-i18n>hours</option>
+                <option value="day" selected data-i18n>days</option>
+                <option value="week" data-i18n>weeks</option>
+              </vox-select>
+            </div>
+          </div>
+          <p id="repeat-note" class="vox-ts-sm vox-color-text-2 vox-m-top-sm vox-m-bottom-none" style="display: none" data-i18n>
+            A repeat is a fixed length of time from the start: a day is 24 hours. Where the clocks
+            change, a daily schedule moves by an hour on the local clock. It cannot repeat more often
+            than every 5 minutes.
+          </p>
+          <div data-error-for="repeat" class="vox-m-top-sm"></div>
+        </section>
+
+        <div class="vox-display-flex vox-gap-sm vox-m-top-xl">
+          <vox-button id="save" variant="brand" data-i18n>Save schedule</vox-button>
+          <vox-button id="cancel" variant="alt" href="/schedules.html" data-i18n>Cancel</vox-button>
+        </div>
+      </div>
+    </main>
+{{- end}}

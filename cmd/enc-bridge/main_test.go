@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -111,5 +112,57 @@ func TestClassesToYAML_EmptyMapBecomesNull(t *testing.T) {
 func TestClassesToYAML_NoClassesReturnsNil(t *testing.T) {
 	if got := classesToYAML(map[string]map[string]any{}); got != nil {
 		t.Errorf("classesToYAML(none) = %v, want nil", got)
+	}
+}
+
+func TestRunData_PrintsTheNodesDataAsJSON(t *testing.T) {
+	var gotAuth string
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != "/api/v1/enc/web%2001/data" && r.URL.Path != "/api/v1/enc/web 01/data" {
+			t.Errorf("unexpected path: %s", r.URL.Path)
+		}
+		gotAuth = r.Header.Get("Authorization")
+		_, _ = w.Write([]byte(`{"ntp::servers": ["a"], "dns::timeout": 5, "n": null}`))
+	}))
+	defer srv.Close()
+
+	var buf bytes.Buffer
+	if err := runData(srv.URL, "tok", "web 01", &buf); err != nil {
+		t.Fatalf("runData() error: %v", err)
+	}
+	if gotAuth != "Bearer tok" {
+		t.Errorf("Authorization = %q, want the bearer token", gotAuth)
+	}
+	var got map[string]any
+	if err := json.Unmarshal(buf.Bytes(), &got); err != nil {
+		t.Fatalf("output is not JSON: %v\n%s", err, buf.String())
+	}
+	if got["dns::timeout"] != 5.0 || len(got) != 3 {
+		t.Errorf("output = %v", got)
+	}
+}
+
+func TestRunData_ErrorsNameTheConsoleAndNeverPrintData(t *testing.T) {
+	cases := map[string]http.HandlerFunc{
+		"a refusal":     func(w http.ResponseWriter, _ *http.Request) { w.WriteHeader(http.StatusForbidden) },
+		"not an object": func(w http.ResponseWriter, _ *http.Request) { _, _ = w.Write([]byte(`["a"]`)) },
+		"not JSON":      func(w http.ResponseWriter, _ *http.Request) { _, _ = w.Write([]byte(`<html>`)) },
+	}
+	for name, handler := range cases {
+		t.Run(name, func(t *testing.T) {
+			srv := httptest.NewServer(handler)
+			defer srv.Close()
+			var buf bytes.Buffer
+			if err := runData(srv.URL, "", "web01", &buf); err == nil {
+				t.Error("runData() error = nil")
+			}
+			if buf.Len() != 0 {
+				t.Errorf("printed %q on an error; Hiera would read it as data", buf.String())
+			}
+		})
+	}
+	var buf bytes.Buffer
+	if err := runData("http://127.0.0.1:1", "", "web01", &buf); err == nil || !strings.Contains(err.Error(), "127.0.0.1:1") {
+		t.Errorf("an unreachable console: err = %v, want it to name the console", err)
 	}
 }

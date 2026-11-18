@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
+	"sort"
 	"testing"
 
 	"github.com/voxpupuli/enterprise-console/internal/auditlog"
@@ -54,6 +55,15 @@ func (f *fakeStore) ListGroups(_ context.Context, page, pageSize int) ([]Group, 
 		end = total
 	}
 	return groups[start:end], total, nil
+}
+
+func (f *fakeStore) ListAllGroups(context.Context) ([]Group, error) {
+	groups := make([]Group, 0, len(f.groups))
+	for _, g := range f.groups {
+		groups = append(groups, g)
+	}
+	sort.Slice(groups, func(i, j int) bool { return groups[i].ID < groups[j].ID })
+	return groups, nil
 }
 
 func (f *fakeStore) UpdateGroup(_ context.Context, g Group) error {
@@ -254,11 +264,11 @@ func TestUpdateGroup_RecordsAuditEventWithBeforeAfter(t *testing.T) {
 	if len(recorded) != 1 {
 		t.Fatalf("recorded %d audit events, want 1", len(recorded))
 	}
-	before, ok := recorded[0].Before.(Group)
+	before, ok := recorded[0].Before.(auditedGroup)
 	if !ok || before.Name != "a" {
 		t.Errorf("Before = %#v, want the pre-update group named a", recorded[0].Before)
 	}
-	after, ok := recorded[0].After.(Group)
+	after, ok := recorded[0].After.(auditedGroup)
 	if !ok || after.Name != "a-renamed" {
 		t.Errorf("After = %#v, want the post-update group named a-renamed", recorded[0].After)
 	}

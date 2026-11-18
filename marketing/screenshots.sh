@@ -76,6 +76,31 @@ CODE_DIR_PATH=${CONSOLE_CODE_DIR_PATH:-$PWD/.dev/demo-code}
 
 log() { printf '\n== %s\n' "$1"; }
 
+# --- hostnames -------------------------------------------------------
+# Every demo instance reports its hostname on the System page, and the
+# fleet status screenshot shows it - which would publish the name of
+# whoever's machine ran the capture. So each instance runs in a UTS
+# namespace of its own, under a made-up hostname: the console reads a
+# genuinely different hostname, and nothing on the page is edited after
+# the fact. Unprivileged user namespaces make this possible without
+# root.
+#
+# `${HOSTNAMED[@]} <hostname> <command...>` runs command under hostname.
+# unshare replaces itself rather than forking, so the PID recorded for an
+# instance is the console's own.
+HOSTNAMED=(unshare --user --map-root-user --uts sh -c 'hostname "$0" && exec "$@"')
+if [ "${ALLOW_REAL_HOSTNAME:-}" = 1 ]; then
+  HOSTNAMED=(sh -c 'exec "$@"')
+elif ! "${HOSTNAMED[@]}" check true 2>/dev/null; then
+  echo "Cannot give the demo instances hostnames of their own: this system does not"
+  echo "allow unprivileged user namespaces (unshare --user --uts), and without them the"
+  echo "fleet status screenshot would show this machine's real hostname."
+  echo
+  echo "Enable them (sysctl kernel.unprivileged_userns_clone=1 on some distributions),"
+  echo "or run with ALLOW_REAL_HOSTNAME=1 to capture with the real hostname anyway."
+  exit 1
+fi
+
 # --- 1. a database of its own ----------------------------------------
 log "Creating the ${DEMO_DB} database"
 # Dropped and recreated every run: the whole point is starting from
@@ -127,7 +152,7 @@ CONSOLE_CLUSTER_LEAF_SECRET="${CLUSTER_LEAF_SECRET}" \
 CONSOLE_CLUSTER_TLS_CERT_FILE="${CLUSTER_TLS_CERT}" \
 CONSOLE_CLUSTER_TLS_KEY_FILE="${CLUSTER_TLS_KEY}" \
 CONSOLE_CLUSTER_TLS_CA_FILE="${CLUSTER_TLS_CA}" \
-  ./bin/console >"$DEMO_LOG" 2>&1 &
+  "${HOSTNAMED[@]}" console-1 ./bin/console >"$DEMO_LOG" 2>&1 &
 DEMO_PID=$!
 EXTRA_PIDS=()
 
@@ -221,7 +246,7 @@ start_instance() {
     CONSOLE_CLUSTER_ADDR="" CONSOLE_CLUSTER_LEAF_ADDR="" CONSOLE_CLUSTER_PEERS="" \
     CONSOLE_CLUSTER_SECRET="" CONSOLE_CLUSTER_LEAF_SECRET="" CONSOLE_CLUSTER_MODE="" \
     "$@" \
-    ./bin/console >"${DEMO_LOG%.log}-${name}.log" 2>&1 &
+    "${HOSTNAMED[@]}" "${name}-1" ./bin/console >"${DEMO_LOG%.log}-${name}.log" 2>&1 &
   EXTRA_PIDS+=($!)
   local pid=$!
 

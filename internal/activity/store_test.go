@@ -57,6 +57,13 @@ func TestRecordEvent_AndListEvents(t *testing.T) {
 func TestListEvents_MostRecentFirst(t *testing.T) {
 	s := testStore(t)
 	ctx := context.Background()
+	// The test finds its events by category in a shared database, and the
+	// rows every earlier run left behind carry the same category: it would
+	// compare this run's events with a stale pair and fail once enough
+	// runs had accumulated. Start from none.
+	if _, err := testdb.Pool(t).Exec(ctx, `DELETE FROM activity_log WHERE category = 'activity-store-test-order'`); err != nil {
+		t.Fatalf("clear earlier runs' events: %v", err)
+	}
 
 	older := Event{
 		Category: "activity-store-test-order", Action: "first", Actor: "a",

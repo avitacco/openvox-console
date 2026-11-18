@@ -11,6 +11,7 @@ import {
   browserLanguage,
   AUTO,
 } from './app.js';
+import { createPasswordRules } from './password-rules.js';
 
 const avatarEl = document.getElementById('preferences-avatar');
 const usernameEl = document.getElementById('preferences-username');
@@ -22,6 +23,8 @@ const currentPasswordEl = document.getElementById('current-password');
 const newPasswordEl = document.getElementById('new-password');
 const passwordError = document.getElementById('password-error');
 const passwordSuccess = document.getElementById('password-success');
+
+const passwordRules = createPasswordRules(document.getElementById('new-password-rules'));
 
 let me = null;
 
@@ -55,18 +58,26 @@ document.getElementById('save-profile').addEventListener('click', async () => {
 document.getElementById('save-password').addEventListener('click', async () => {
   passwordError.innerHTML = '';
   passwordSuccess.innerHTML = '';
+  passwordRules.clear();
   const currentPassword = currentPasswordEl.value;
   const newPassword = newPasswordEl.value;
   if (!currentPassword || !newPassword) {
-    passwordError.innerHTML = `<vox-alert variant="danger">Current and new password are both required.</vox-alert>`;
+    passwordError.innerHTML = `<vox-alert variant="danger">${escapeHtml(t('Current and new password are both required.'))}</vox-alert>`;
     return;
   }
   try {
     await sendJSON('/api/v1/me', 'PUT', { currentPassword, newPassword });
     currentPasswordEl.value = '';
     newPasswordEl.value = '';
-    passwordSuccess.innerHTML = `<vox-alert variant="success">Password changed.</vox-alert>`;
+    passwordSuccess.innerHTML = `<vox-alert variant="success">${escapeHtml(t('Password changed.'))}</vox-alert>`;
   } catch (err) {
+    // A new password the account policy refuses: the rules it fails
+    // are marked under the field, and what was typed is kept.
+    if (err.rules) {
+      passwordRules.showFailed(err.rules);
+      passwordError.innerHTML = `<vox-alert variant="danger">${escapeHtml(t('That password does not meet the rules shown under it.'))}</vox-alert>`;
+      return;
+    }
     passwordError.innerHTML = `<vox-alert variant="danger">${escapeHtml(err.message)}</vox-alert>`;
   }
 });

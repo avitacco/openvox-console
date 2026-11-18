@@ -4,6 +4,7 @@ import (
 	"context"
 	"net/http"
 	"net/http/httptest"
+	"reflect"
 	"strconv"
 	"strings"
 	"testing"
@@ -91,7 +92,7 @@ func TestHandlers_Logout_RecordsAuthAuditEvent(t *testing.T) {
 func TestHandlers_CreateUser_RecordsWriteAuditEvent(t *testing.T) {
 	h, store, captured := newTestHandlers(t)
 
-	body := strings.NewReader(`{"username":"audit-test-create","password":"pw"}`)
+	body := strings.NewReader(`{"username":"audit-test-create","password":"a-long-enough-password"}`)
 	req := httptest.NewRequest(http.MethodPost, "/api/v1/users", body).WithContext(requestAs("admin").Context())
 	rec := httptest.NewRecorder()
 	h.createUser(rec, req)
@@ -272,13 +273,18 @@ func TestHandlers_UpdateRole_RecordsPermissionDiff(t *testing.T) {
 		t.Fatalf("write events = %v, want exactly 1", captured.write)
 	}
 	got := captured.write[0]
-	before, ok := got.Before.([]string)
-	if !ok || len(before) != 1 || before[0] != "nodes:read" {
-		t.Errorf("Before = %#v, want [nodes:read]", got.Before)
+	before, ok := got.Before.(roleAudit)
+	if !ok || len(before.Permissions) != 1 || before.Permissions[0] != "nodes:read" {
+		t.Errorf("Before = %#v, want permissions [nodes:read]", got.Before)
 	}
-	after, ok := got.After.([]string)
-	if !ok || len(after) != 2 {
-		t.Errorf("After = %#v, want [nodes:read rbac:admin]", got.After)
+	after, ok := got.After.(roleAudit)
+	if !ok || len(after.Permissions) != 2 {
+		t.Errorf("After = %#v, want permissions [nodes:read rbac:admin]", got.After)
+	}
+	// The request named no node groups, so the role keeps the ones it
+	// had - and the audit record says so rather than showing none.
+	if !reflect.DeepEqual(after.NodeGroups, before.NodeGroups) || len(after.NodeGroups) != 1 {
+		t.Errorf("node groups before = %v, after = %v; want the root group unchanged", before.NodeGroups, after.NodeGroups)
 	}
 }
 

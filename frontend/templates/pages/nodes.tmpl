@@ -2,9 +2,13 @@
     <main class="vox-container vox-p-y-xl">
       <div class="vox-display-flex vox-justify-between vox-items-center vox-gap-md vox-m-bottom-lg">
         <h1 class="vox-ts-xl vox-m-y-none" data-i18n>Nodes</h1>
-        <vox-button id="add-node" variant="brand" data-i18n>Add node</vox-button>
+        <div class="vox-display-flex vox-gap-sm">
+          <vox-button id="agentless-link" variant="alt" href="/agentless.html" data-i18n>Agentless targets</vox-button>
+          <vox-button id="add-node" variant="brand" data-i18n>Add node</vox-button>
+        </div>
       </div>
 
+      <div id="scope-notice"></div>
       <div id="action-error"></div>
 
       <div class="filters vox-display-flex vox-items-end vox-gap-md vox-flex-wrap vox-m-bottom-lg">
@@ -31,6 +35,7 @@
       <div id="selection-bar" class="vox-display-flex vox-items-center vox-gap-md vox-m-bottom-md vox-hide">
         <span id="selection-count" class="vox-ts-sm"></span>
         <vox-button id="run-selected" variant="brand" size="sm" data-i18n>Run Puppet</vox-button>
+        <vox-button id="run-task-selected" variant="alt" size="sm" data-i18n>Run task</vox-button>
         <vox-button id="clear-selection" variant="alt" size="sm" data-i18n>Clear</vox-button>
       </div>
 

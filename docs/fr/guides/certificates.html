@@ -123,6 +123,7 @@
       <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/certificates.html" current="" aria-current="page"><span>Manage node certificates</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Scale">
       <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
@@ -132,8 +133,13 @@
       <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Operate">
       <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
@@ -216,6 +222,24 @@ narrower variant. Keep its key readable only by the console.</p>
 CA: there is no way to allow signing but not revoking, or one node but
 not another. Give it to specific trusted operators, not to everyone who
 needs to see node status.</p>
+<h3 id="letting-a-team-sign-its-own-nodes">Letting a team sign its own nodes</h3>
+<p>A role granted on particular node groups can act only on certificates
+of nodes in those groups - see
+<a href="access.html">Users, roles and tokens</a>. A new node waiting to be signed
+has never run Puppet, so it has no facts and is in no group&#39;s rule.
+For a team to sign it, pin its name to the team&#39;s group first:</p>
+<ol>
+<li>Open <strong>Groups</strong> and the team&#39;s group. The group must sit directly
+under <strong>All Nodes</strong>; a pin in a deeper group counts only if the node
+is pinned to each group above it as well.</li>
+<li>Under <strong>Pinned nodes</strong>, add the node&#39;s name exactly as it will
+enrol, and save. This needs <code>classifier:write</code>.</li>
+<li>The team&#39;s <code>nodes:certs:manage</code> holders now see the request on the
+<strong>Nodes</strong> page and can sign it.</li>
+</ol>
+<p>Once the node has run Puppet, its facts place it in groups as usual
+and the pin can be removed. Anyone whose role is granted on
+<strong>All Nodes</strong> signs any request, as before.</p>
 <h2 id="sign-revoke-or-clean">Sign, revoke or clean</h2>
 <p>On the <strong>Nodes</strong> page, each node&#39;s certificate state is one of
 <code>requested</code>, <code>signed</code>, <code>revoked</code> or <code>unknown</code>, and the actions offered
@@ -300,6 +324,7 @@ simply reports every certificate as <code>unknown</code>; nothing else stops wor
       <vox-toc-item href="#turn-certificate-management-on"><span>Turn certificate management on</span>
       </vox-toc-item>
       <vox-toc-item href="#decide-who-may-act-on-certificates"><span>Decide who may act on certificates</span>
+        <vox-toc-item slot="children" href="#letting-a-team-sign-its-own-nodes"><span>Letting a team sign its own nodes</span></vox-toc-item>
       </vox-toc-item>
       <vox-toc-item href="#sign-revoke-or-clean"><span>Sign, revoke or clean</span>
       </vox-toc-item>

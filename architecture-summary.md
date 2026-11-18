@@ -62,6 +62,55 @@ model is a known source of user confusion. The internal merge/precedence logic
 should be redesigned for clarity as long as it produces correct classification
 output against the same external contract.
 
+**Decision (revised by `add-group-hierarchy`):** groups form a single tree under
+a built-in root, "All Nodes". The first design was flat groups ordered by
+explicit priority alone, to avoid Puppet Enterprise's confusing inheritance.
+That was reversed because access to nodes is to be granted per group and
+inherited down the tree, which needs a child's nodes to be a subset of its
+parent's. What came back is the tree, not the confusion:
+
+- **Membership narrows downward.** A group matches a node only if its parent
+  does, for pinned nodes as well as rule matches. A rule is a flat list of fact
+  conditions, all of which or any of which must hold.
+- **A child always wins.** When matching groups set the same class parameter,
+  top-scope parameter or environment, a descendant's value beats its
+  ancestors' whatever their priorities; a parent can never silently override
+  its own child. Priority decides between groups that are not ancestor and
+  descendant.
+- **One total order.** "Child wins, priority otherwise" loops on its own (parent
+  10, child 1, unrelated 5), so each group ranks as its own priority or its
+  parent's rank if higher, and groups merge in order of rank, then depth, then
+  priority. The root ranks below everything and has no priority.
+- **The override is reported.** When a child wins over a higher-priority
+  ancestor, the console warns on the group, in the list, in the activity log
+  and in the server log. It never fails a save or a classification, and the
+  ENC response carries no trace of it.
+
+Ancestry is a `parent_id` column resolved in memory by `classifier.Tree`, which
+every caller (the ENC endpoint, node counts, a group's node list, job targets)
+uses, so they cannot disagree about who is in a group.
+
+**Class discovery (added by `add-class-discovery-and-run-options`):** the
+group page offers the classes each environment's code defines, with their
+parameters, types and defaults.
+
+- **The source is openvoxserver**, `GET /puppet/v3/environment_classes`, over
+  the connection tasks already use. It is the only source that is both
+  correct (Puppet's own parser) and complete; the console parses no Puppet
+  code. The endpoint needs an `auth.conf` rule the default server lacks, which
+  installation adds for the console's certificate.
+- **Held in memory per instance** (`internal/classcatalog`), five minutes
+  fresh, expired on every instance by `codemanager.deployed`, refreshed on
+  request. It is derived data the server can reproduce, so nothing is stored
+  or synchronised. A server that cannot be reached leaves the last answer
+  standing, marked stale.
+- **Advice, never a gate.** A group naming a class, parameter or value that
+  does not match the code is marked, saved unchanged, and classified
+  unchanged. Nothing on the classification path imports the catalogue, and a
+  test holds that import boundary, so discovery cannot affect an ENC answer.
+- Unavailable discovery - no connection, the rule missing, the server down -
+  degrades to typed class names and marks nothing.
+
 ### 3. RBAC: signed JWTs, not encrypted, short-lived, with fast revocation
 
 - Use signed JWTs (JWS), not encrypted JWTs (JWE). Encryption addresses
@@ -79,6 +128,36 @@ output against the same external contract.
   NATS-published revocation events rather than a database check per request.
 - Use an established Go JOSE library (`golang-jwt/jwt` for JWS; `lestrrat-go/jwx`
   if JWE is ever genuinely needed). Do not hand-roll token parsing or validation.
+
+**Node group scope (added by `add-group-scoped-node-access`):** a role's
+permissions apply to the node groups it names and, by inheritance, to every
+group beneath them; the root group is fleet-wide.
+
+- The token carries, per permission, the *group ids* that permission applies
+  to - not node names. Membership follows facts and must not be frozen at
+  login, so groups are resolved to nodes when a request is served
+  (`internal/nodescope`, cached for 30 seconds per set of groups). A change to
+  a role takes effect at the next token refresh, like a permission change.
+- One rule decides which scope an endpoint uses: the scope of the permission
+  that gates it. There is no separate table of which permission governs which
+  data.
+- A token that states no scope at all - a service token, or an access token
+  issued before this existed - is fleet-wide. A user token always states one,
+  even when it is empty.
+- A node outside the caller's scope answers exactly as a node that does not
+  exist, and every count is taken over in-scope nodes only.
+- Actions follow the same rule (added by `add-group-scoped-node-actions`): a
+  run, task, plan, upgrade, removal or certificate action is refused with a 403
+  unless every node it names is in the caller's scope for that action's
+  permission. The check comes before any lookup, so a hidden node and an
+  unknown name are refused identically, and a multi-node action is refused
+  whole. Read and action scope are independent because scope is per
+  permission.
+- Jobs are scoped as the record of an action: listed when any of their nodes is
+  in scope, showing only those nodes.
+- Not scoped: the activity log (the audit surface), group definitions, service
+  tokens, code deploys, the ENC endpoint, and the console's own automatic
+  client upgrades.
 
 ### 4. Internal messaging: embedded NATS
 
@@ -206,6 +285,61 @@ What NATS gives instead:
   requests over a node's own NATS subject (a run/task's module+action+
   params payload), track status via NATS request-reply, correlate
   completed runs with reports pulled from openvoxdb.
+- Run options (no-op, environment, debug) are a **separate request**,
+  `run_with_options`, not parameters on `run`. Every client that predates
+  them ignores parameters on `run` and would carry out a no-op request as an
+  enforcing run; an action it does not know, it refuses. So a plain run is
+  byte-for-byte what it always was, on every client version, and a run with
+  options either happens as asked or does not happen. Both ends decode the
+  options strictly, so a future option is likewise never silently dropped.
+- A requested environment is a request: when classification sets one, Puppet
+  uses that. The console does not make the ENC answer differently for one
+  run; it reads the environment each run's report records and marks the
+  nodes where it differs.
+
+**Targets and schedules** (`add-pql-targeting-and-scheduled-jobs`). A job's
+nodes are a list, a PQL query, or a node group, resolved by one
+`TargetResolver` whether the request came over HTTP, from the preview, or
+from a schedule. For node scope, names are all or nothing while a query or a
+group is narrowed to the caller's nodes; a caller who is not fleet-wide may
+not use a subquery, which would let a query about their own node depend on
+someone else's facts.
+
+A schedule (`internal/scheduler`) adds only "when" and "as whom". It fires
+through the same `orchestrator.Starter` as an HTTP request, with its owner's
+permission and node scope read at that moment. Firing is a compare-and-set on
+the schedule's next start rather than a lease, so each due time is taken by
+exactly one instance without a leader, and it is at most once: the claim is
+committed before the job is created, and a firing lost to a crash is not
+retried. A firing found more than 15 minutes late is recorded as missed.
+
+A plan is an ordered list of run and task steps on one set of nodes,
+started through the same `Starter` and stopped at the first step that
+fails; the steps after it are closed as not run. A saved plan
+(`internal/plans`) is only a template: it names no nodes and holds no
+sensitive value, and running one means posting its steps as an ordinary
+plan request, so there is one start path and the caller sends exactly
+what will run. A scheduled plan holds its own copy of the steps rather
+than a reference, because a schedule fires with its owner's access while
+any operator may edit a saved plan.
+
+Local accounts are governed by one account policy stored in Postgres
+(`internal/rbac`): password rules applied wherever a password is set, and
+a temporary lockout after repeated failed password logins, counted on the
+user row with a single atomic update so that every instance counts
+together. A locked account is refused in exactly the words a wrong
+password is, so the login endpoint still does not reveal which usernames
+exist.
+
+Which tasks a caller may run is a second limit on `orchestrator:run`
+(`internal/taskscope`). A role, or a service token, carries a list of task
+patterns; a caller's token carries one grant per role, pairing that role's
+patterns with the role's own node groups, so that a narrow role on one
+tier is not widened by a broad role on another. The check sits in
+`orchestrator.Starter`, which every start, plan step, saved-plan save and
+schedule firing passes through, and runs on the task's name before the
+catalogue is read, so a task a caller may not run and one that does not
+exist are refused alike.
 
 ### 8. High availability and failover
 

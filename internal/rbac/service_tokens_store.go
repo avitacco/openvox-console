@@ -6,18 +6,31 @@ import (
 	"fmt"
 
 	"github.com/jackc/pgx/v5"
+
+	"github.com/voxpupuli/enterprise-console/internal/taskscope"
 )
 
 // CreateServiceToken records a service token's metadata (not the signed
 // token string itself - that's shown to the caller once, at issuance,
 // and never stored, matching typical API-token UX).
 func (s *Store) CreateServiceToken(ctx context.Context, name, jti string, permissions []string) (ServiceToken, error) {
+	return s.CreateServiceTokenWithTasks(ctx, name, jti, permissions, nil)
+}
+
+// CreateServiceTokenWithTasks is CreateServiceToken limited to the tasks
+// taskPatterns allow; none means every task. Patterns taskscope refuses
+// are returned as a *taskscope.PatternError.
+func (s *Store) CreateServiceTokenWithTasks(ctx context.Context, name, jti string, permissions, taskPatterns []string) (ServiceToken, error) {
+	taskPatterns = taskscope.Unique(taskPatterns)
+	if err := taskscope.ValidatePatterns(taskPatterns); err != nil {
+		return ServiceToken{}, err
+	}
 	var st ServiceToken
 	err := s.pool.QueryRow(ctx,
-		`INSERT INTO service_tokens (name, jti, permissions) VALUES ($1, $2, $3)
-		 RETURNING id, name, jti, permissions, created_at`,
-		name, jti, permissions,
-	).Scan(&st.ID, &st.Name, &st.JTI, &st.Permissions, &st.CreatedAt)
+		`INSERT INTO service_tokens (name, jti, permissions, task_patterns) VALUES ($1, $2, $3, $4)
+		 RETURNING id, name, jti, permissions, task_patterns, created_at`,
+		name, jti, permissions, taskPatterns,
+	).Scan(&st.ID, &st.Name, &st.JTI, &st.Permissions, &st.TaskPatterns, &st.CreatedAt)
 	if err != nil {
 		return ServiceToken{}, translateError(err)
 	}
@@ -29,9 +42,9 @@ func (s *Store) CreateServiceToken(ctx context.Context, name, jti string, permis
 func (s *Store) GetServiceToken(ctx context.Context, id int64) (ServiceToken, error) {
 	var st ServiceToken
 	err := s.pool.QueryRow(ctx,
-		`SELECT id, name, jti, permissions, created_at FROM service_tokens WHERE id = $1`,
+		`SELECT id, name, jti, permissions, task_patterns, created_at FROM service_tokens WHERE id = $1`,
 		id,
-	).Scan(&st.ID, &st.Name, &st.JTI, &st.Permissions, &st.CreatedAt)
+	).Scan(&st.ID, &st.Name, &st.JTI, &st.Permissions, &st.TaskPatterns, &st.CreatedAt)
 	if errors.Is(err, pgx.ErrNoRows) {
 		return ServiceToken{}, ErrNotFound
 	}
@@ -43,7 +56,7 @@ func (s *Store) GetServiceToken(ctx context.Context, id int64) (ServiceToken, er
 
 // ListServiceTokens returns every issued service token's metadata.
 func (s *Store) ListServiceTokens(ctx context.Context) ([]ServiceToken, error) {
-	rows, err := s.pool.Query(ctx, `SELECT id, name, jti, permissions, created_at FROM service_tokens ORDER BY id`)
+	rows, err := s.pool.Query(ctx, `SELECT id, name, jti, permissions, task_patterns, created_at FROM service_tokens ORDER BY id`)
 	if err != nil {
 		return nil, fmt.Errorf("list service tokens: %w", err)
 	}
@@ -52,7 +65,7 @@ func (s *Store) ListServiceTokens(ctx context.Context) ([]ServiceToken, error) {
 	tokens := make([]ServiceToken, 0)
 	for rows.Next() {
 		var st ServiceToken
-		if err := rows.Scan(&st.ID, &st.Name, &st.JTI, &st.Permissions, &st.CreatedAt); err != nil {
+		if err := rows.Scan(&st.ID, &st.Name, &st.JTI, &st.Permissions, &st.TaskPatterns, &st.CreatedAt); err != nil {
 			return nil, fmt.Errorf("list service tokens: %w", err)
 		}
 		tokens = append(tokens, st)

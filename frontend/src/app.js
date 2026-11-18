@@ -231,22 +231,69 @@ export async function fetchJSON(url, options = {}) {
   if (!res.ok) {
     let message = `request failed: ${res.status}`;
     let fields;
+    let outOfScope;
+    let reason;
+    let field;
+    let step;
+    let rules;
     try {
       const body = await res.json();
       if (body && body.error) message = body.error;
       // Per-field validation messages, where an endpoint provides them
       // (e.g. vulnerability provider configuration).
       if (body && body.fields) fields = body.fields;
+      // Why something is unavailable, where an endpoint says (e.g. the
+      // class catalogue: not configured, refused, or unreachable).
+      if (body && typeof body.reason === 'string') reason = body.reason;
+      // Which part of a form a refusal concerns, where an endpoint
+      // says (a schedule: name, startAt, repeat, target, options, task).
+      if (body && typeof body.field === 'string') field = body.field;
+      // Which step of a plan a refusal concerns, counted from 1.
+      if (body && typeof body.step === 'number') step = body.step;
+      // Which rules of the account policy a refused password fails
+      // (see password-rules.js).
+      if (body && Array.isArray(body.rules)) rules = body.rules;
+      // An action refused because it named nodes outside the node
+      // groups the caller's role can act on (see outOfScopeMessage).
+      if (res.status === 403 && body && Array.isArray(body.outOfScope) && body.outOfScope.length > 0) {
+        outOfScope = body.outOfScope;
+        message = outOfScopeMessage(outOfScope);
+      }
     } catch {
       // response wasn't JSON; keep the generic message
     }
     const err = new Error(message);
     err.status = res.status;
     if (fields) err.fields = fields;
+    if (reason) err.reason = reason;
+    if (field) err.field = field;
+    if (step) err.step = step;
+    if (rules) err.rules = rules;
+    if (outOfScope) err.outOfScope = outOfScope;
     throw err;
   }
   if (res.status === 204) return null;
   return res.json();
+}
+
+// What to tell someone whose action was refused because it named nodes
+// outside the node groups their role can act on. Every action in the
+// console - a run, a task, an upgrade, a removal, a certificate action
+// - is refused the same way, so the wording lives here once and each
+// page shows it wherever it already shows a failed action's error.
+//
+// The whole request is refused, never part of it: nothing ran on the
+// nodes that were allowed either, which the message says so nobody
+// assumes otherwise.
+export function outOfScopeMessage(certnames) {
+  const shown = certnames.slice(0, 5).join(', ');
+  const nodes = certnames.length > 5 ? t('{nodes} and {count} more', { nodes: shown, count: certnames.length - 5 }) : shown;
+  return tn(
+    'Nothing was done. Your role cannot act on this node, because it is not in your node groups: {nodes}',
+    'Nothing was done on any node. Your role cannot act on these nodes, because they are not in your node groups: {nodes}',
+    certnames.length,
+    { nodes }
+  );
 }
 
 // Convenience wrapper for POST/PUT bodies - fetchJSON handles the rest
@@ -258,6 +305,37 @@ export function sendJSON(url, method, body) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
   });
+}
+
+// Shared by the groups page and the role editor's node group picker.
+// Orders groups as a tree: each group followed by its children, depth
+// first, with siblings by priority. A group whose parent is missing from
+// the response is shown at the top level rather than dropped, so nothing
+// can vanish from the page because of a gap in the data.
+export function treeOrder(groups) {
+  const ids = new Set(groups.map((g) => g.id));
+  const children = new Map();
+  const top = [];
+  for (const g of groups) {
+    if (g.isRoot || g.parentId == null || !ids.has(g.parentId)) {
+      top.push(g);
+      continue;
+    }
+    if (!children.has(g.parentId)) children.set(g.parentId, []);
+    children.get(g.parentId).push(g);
+  }
+
+  const bySibling = (a, b) => Number(b.isRoot) - Number(a.isRoot) || (a.priority ?? 0) - (b.priority ?? 0);
+  const ordered = [];
+  const seen = new Set();
+  const visit = (g, depth) => {
+    if (seen.has(g.id)) return;
+    seen.add(g.id);
+    ordered.push({ group: g, depth });
+    (children.get(g.id) || []).sort(bySibling).forEach((child) => visit(child, depth + 1));
+  };
+  top.sort(bySibling).forEach((g) => visit(g, 0));
+  return ordered;
 }
 
 // The fixed permission set the backend defines (internal/app's
@@ -288,6 +366,7 @@ export const ALL_PERMISSIONS = [
   'orchestrator:run',
   'vulnerabilities:read',
   'vulnerabilities:manage',
+  'agentless:manage',
 ];
 
 // Redirects to / if the current session lacks the given permission - used

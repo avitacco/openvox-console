@@ -12,6 +12,12 @@ const (
 	moduleNamePuppet = "puppet"
 	actionRun        = "run"
 	actionRunTask    = "run_task"
+	// actionRunWithOptions is a run with RunOptions as its parameters.
+	// It is a separate action, not parameters on actionRun, because
+	// every client that predates it ignores parameters on actionRun and
+	// would carry out a no-op request as an enforcing run. An action it
+	// does not know, it refuses.
+	actionRunWithOptions = "run_with_options"
 	// The package-inventory actions are deliberately not declared here.
 	// This package never dispatches them: internal/packageinventory
 	// owns that exchange and declares its own copies, the same way
@@ -28,12 +34,6 @@ const (
 type requestData struct {
 	Module string          `json:"module"`
 	Action string          `json:"action"`
-	Params json.RawMessage `json:"params,omitempty"`
-}
-
-// taskParams is requestData.Params' shape for an actionRunTask request.
-type taskParams struct {
-	Task   string          `json:"task"`
 	Params json.RawMessage `json:"params,omitempty"`
 }
 
@@ -55,9 +55,13 @@ type wireResponse struct {
 // Output being the zero value, since a real run can legitimately
 // produce empty stdout/stderr and exit 0 (an unchanged, successful
 // run) - indistinguishable from "never ran" without it.
+//
+// Result is a task's structured result (see internal/nodeagent's task
+// runner): set on every task response, absent for runs.
 type responseData struct {
 	Output           outputData                `json:"output"`
 	PackageInventory *packageInventoryResponse `json:"package_inventory,omitempty"`
+	Result           json.RawMessage           `json:"result,omitempty"`
 }
 
 // packageInventoryResponse reports the node's package-inventory

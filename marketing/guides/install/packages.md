@@ -367,7 +367,8 @@ rather than blocking startup. For a real deployment, add:
 CONSOLE_HTTP_ADDR=:8080
 CONSOLE_BASE_URL=https://console.example.com
 
-# The first admin user, created only while there are no users.
+# The first admin user, created only while there are no users. The
+# password needs at least 12 characters.
 CONSOLE_BOOTSTRAP_ADMIN_USERNAME=admin
 CONSOLE_BOOTSTRAP_ADMIN_PASSWORD=<a strong password>
 
@@ -388,7 +389,64 @@ CONSOLE_CA_CLIENT_URL=https://puppet.example.com:8140
 CONSOLE_CA_CLIENT_CERT_FILE=/etc/openvox-console/ca-client-cert.pem
 CONSOLE_CA_CLIENT_KEY_FILE=/etc/openvox-console/ca-client-key.pem
 CONSOLE_CA_CLIENT_CA_FILE=/etc/openvox-console/ca.pem
+
+# Puppet tasks: where the console asks which tasks your deployed code
+# contains. Uses the openvoxdb client certificate above unless you name
+# another with CONSOLE_PUPPET_SERVER_CERT_FILE, _KEY_FILE and _CA_FILE.
+CONSOLE_PUPPET_SERVER_URL=https://puppet.example.com:8140
 ```
+
+Tasks need no certificate of their own: openvoxserver lets any
+certificate from its CA read tasks, so the openvoxdb client certificate
+serves. Do not point them at the certificate-admin credential, which can
+do far more than reading tasks needs. See [Run jobs](run-jobs.html)
+for running them.
+
+### Let the console read the class list
+
+A node group's page offers the classes your deployed code defines, with
+their parameters, so they are picked rather than typed. The console
+reads them from openvoxserver over the same connection as tasks, but
+openvoxserver lets no certificate read classes until a rule says so.
+
+On openvoxserver's host, add this rule to the `rules` list in
+`/etc/puppetlabs/puppetserver/conf.d/auth.conf`, above the final
+`puppetlabs deny all` rule. `console` is the name of the openvoxdb
+client certificate you issued above:
+
+```
+{
+    match-request: {
+        path: "/puppet/v3/environment_classes"
+        type: path
+        method: get
+    }
+    allow: "console"
+    sort-order: 500
+    name: "openvox console class discovery"
+},
+```
+
+Then reload openvoxserver:
+
+```sh
+sudo systemctl reload puppetserver
+```
+
+Check it from the console's host. `HTTP 200` means the list can be read:
+
+```sh
+sudo curl -sS -o /dev/null -w 'HTTP %{http_code}\n' \
+  --cert /etc/openvox-console/console-cert.pem \
+  --key /etc/openvox-console/console-key.pem \
+  --cacert /etc/openvox-console/ca.pem \
+  'https://puppet.example.com:8140/puppet/v3/environment_classes?environment=production'
+```
+
+`HTTP 403` means the rule is missing or names another certificate.
+Nothing else depends on this step: without it the group page says the
+list is unavailable, and classes are entered by name. See
+[Classify nodes](classify.html).
 
 ### Keep secrets in files
 
@@ -484,6 +542,48 @@ external_nodes = /usr/local/bin/enc-bridge
 ```sh
 sudo systemctl restart puppetserver
 ```
+
+### Let nodes read configuration data
+
+Optional. This lets nodes read the **configuration data** set on node
+groups with `lookup()`, ahead of your control repo's Hiera data. The
+function runs `enc-bridge --data`, so it uses the same console address and
+token as classification and needs nothing more configured. It needs an
+enc-bridge built from this version.
+
+The function has to be installed in the openvox gem's own function
+directory, the only place openvoxserver loads a global Hiera function
+from. The directory carries the gem's version, so find it:
+
+```sh
+FUNCTIONS=$(ls -d /opt/puppetlabs/server/data/puppetserver/jruby-gems/gems/openvox-[0-9]*/lib/puppet/functions | tail -n 1)
+sudo install -m 0644 openvoxserver-init/console_config_data.rb "$FUNCTIONS/console_config_data.rb"
+```
+
+Then add it to the **global** Hiera configuration,
+`/etc/puppetlabs/puppet/hiera.yaml`, first in the hierarchy so that
+console data wins. If the file does not exist, this is all of it:
+
+```yaml
+---
+version: 5
+hierarchy:
+  - name: "Console configuration data"
+    data_hash: console_config_data
+```
+
+If you already have a global `hiera.yaml`, add the entry to it and keep
+your own entries after it.
+
+```sh
+sudo systemctl restart puppetserver
+```
+
+Do this again after upgrading the openvox gem: the new version has its own
+directory. If a node's run fails with "Unable to find 'data_hash'
+function named 'console_config_data'", the function is not in the
+directory of the gem that is running. The container image does all of
+this itself on every start.
 
 ### Check classification
 

@@ -444,3 +444,62 @@ func waitForRoute(t *testing.T, from, to *messaging.Bus) {
 	}
 	t.Fatal("the route never came up")
 }
+
+// An instance that terminates no node connections (a `web` instance)
+// still answers which nodes are connected - including the ones that
+// connected before it started, which it has seen no event for - and
+// goes on following connects and disconnects after that.
+func TestRegistryWithoutAListenerLearnsExistingConnections(t *testing.T) {
+	a, _, ca := startPeeredServers(t)
+
+	before, err := dialNode(t, a.Addr(), ca, "connected-before.example.com")
+	if err != nil {
+		t.Fatalf("connect node: %v", err)
+	}
+	t.Cleanup(before.Close)
+
+	cert, key := ca.Issue(t, "test-web-instance", true)
+	bus, err := messaging.StartWith(messaging.Config{
+		ListenAddr: freeAddr(t),
+		Peers:      []string{a.Bus().ClusterAddr()},
+		Secret:     testClusterSecret,
+		TLS:        peerTLS(t, ca, cert, key),
+	})
+	if err != nil {
+		t.Fatalf("start a bus with no node listener: %v", err)
+	}
+	t.Cleanup(bus.Close)
+
+	registry, stop, err := StartRegistry(bus)
+	if err != nil {
+		t.Fatalf("start registry: %v", err)
+	}
+	t.Cleanup(stop)
+	awaitRegistry := func(certname string, want bool) bool {
+		deadline := time.Now().Add(25 * time.Second)
+		for time.Now().Before(deadline) {
+			if registry.Lookup(certname) == want {
+				return true
+			}
+			time.Sleep(100 * time.Millisecond)
+		}
+		return false
+	}
+
+	if !awaitRegistry("connected-before.example.com", true) {
+		t.Fatal("a node connected before the instance started is not reported as connected")
+	}
+	if registry.LastConnected("connected-before.example.com") == nil {
+		t.Error("the node's connection time is not known")
+	}
+
+	respondAs(t, a, ca, "connected-after.example.com", []byte("pong"))
+	if !awaitRegistry("connected-after.example.com", true) {
+		t.Error("a node connecting afterwards is not reported as connected")
+	}
+
+	before.Close()
+	if !awaitRegistry("connected-before.example.com", false) {
+		t.Error("a node that disconnected is still reported as connected")
+	}
+}

@@ -13,6 +13,7 @@ import (
 
 	"github.com/voxpupuli/enterprise-console/internal/auditlog"
 	"github.com/voxpupuli/enterprise-console/internal/certstatus"
+	"github.com/voxpupuli/enterprise-console/internal/nodescope"
 	"github.com/voxpupuli/enterprise-console/internal/openvoxdb"
 	"github.com/voxpupuli/enterprise-console/internal/pagination"
 )
@@ -49,7 +50,14 @@ type Handlers struct {
 	certClient      certCleaner
 	recordAudit     func(r *http.Request, event auditlog.Event)
 	recordAuditRead func(r *http.Request, event auditlog.Event)
+	scope           nodescope.Func
 }
+
+// SetScope makes the read handlers show each caller only the nodes in
+// their nodes:read node group scope, and node deletion act only on a
+// node in their nodes:manage scope - see internal/nodescope. Each route
+// is handed the scope of the permission that gates it.
+func (h *Handlers) SetScope(scope nodescope.Func) { h.scope = scope }
 
 // NewHandlers builds Handlers backed by client and certClient (may be
 // nil - see certCleaner's doc comment). recordAudit and recordAuditRead
@@ -58,7 +66,7 @@ type Handlers struct {
 // internal/nodeconnectivity already uses for its own mix of read and
 // write actions.
 func NewHandlers(client queryClient, certClient certCleaner, recordAudit, recordAuditRead func(r *http.Request, event auditlog.Event)) *Handlers {
-	return &Handlers{client: client, certClient: certClient, recordAudit: recordAudit, recordAuditRead: recordAuditRead}
+	return &Handlers{client: client, certClient: certClient, recordAudit: recordAudit, recordAuditRead: recordAuditRead, scope: nodescope.Unscoped}
 }
 
 // Register wires this package's routes onto mux. Every route requires
@@ -92,11 +100,20 @@ func toNodeSummary(n openvoxdb.Node) nodeSummary {
 func (h *Handlers) listNodes(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
+	scope, err := h.scope(r)
+	if err != nil {
+		writeError(w, err)
+		return
+	}
+
 	nodes, err := h.client.Nodes(ctx)
 	if err != nil {
 		writeError(w, err)
 		return
 	}
+	// Scope first, so every filter and the total below work on the
+	// caller's nodes only.
+	nodes = nodescope.Filter(scope, nodes, func(n openvoxdb.Node) string { return n.Certname })
 
 	factName := r.URL.Query().Get("fact")
 	factValue := r.URL.Query().Get("value")
@@ -179,11 +196,19 @@ func classifyForSummary(n openvoxdb.Node) string {
 }
 
 func (h *Handlers) nodesSummary(w http.ResponseWriter, r *http.Request) {
+	scope, err := h.scope(r)
+	if err != nil {
+		writeError(w, err)
+		return
+	}
 	nodes, err := h.client.Nodes(r.Context())
 	if err != nil {
 		writeError(w, err)
 		return
 	}
+	// The summary counts the caller's nodes only, so its total does not
+	// reveal how many nodes they cannot see.
+	nodes = nodescope.Filter(scope, nodes, func(n openvoxdb.Node) string { return n.Certname })
 
 	s := summary{Total: len(nodes), ByStatus: map[string]int{
 		"failed": 0, "corrected": 0, "intentional": 0, "unchanged": 0,
@@ -215,10 +240,23 @@ type nodeDetail struct {
 func (h *Handlers) getNode(w http.ResponseWriter, r *http.Request) {
 	certname := r.PathValue("name")
 
-	facts, err := h.client.Facts(r.Context(), certname)
+	scope, err := h.scope(r)
 	if err != nil {
 		writeError(w, err)
 		return
+	}
+
+	// A node outside the caller's scope is answered exactly as a node
+	// openvoxdb has never heard of - the certname with no facts - and
+	// without asking openvoxdb, so neither the body nor the timing of a
+	// lookup tells the two apart.
+	var facts []openvoxdb.Fact
+	if scope.Allows(certname) {
+		facts, err = h.client.Facts(r.Context(), certname)
+		if err != nil {
+			writeError(w, err)
+			return
+		}
 	}
 
 	detail := nodeDetail{Certname: certname, Facts: make(map[string]json.RawMessage, len(facts))}
@@ -244,6 +282,12 @@ func (h *Handlers) getNode(w http.ResponseWriter, r *http.Request) {
 func (h *Handlers) deleteNode(w http.ResponseWriter, r *http.Request) {
 	certname := r.PathValue("name")
 	ctx := r.Context()
+
+	// Scope is decided before the node is looked up, so a node outside
+	// the caller's groups and a name no node has are refused alike.
+	if !nodescope.Permit(w, r, h.scope, certname) {
+		return
+	}
 
 	if _, err := h.client.NodeByCertname(ctx, certname); err != nil {
 		if errors.Is(err, openvoxdb.ErrNodeNotFound) {

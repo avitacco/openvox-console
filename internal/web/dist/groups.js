@@ -1,24 +1,50 @@
-import { fetchJSON, escapeHtml, paginationHTML, bindPagination, withLoading, t } from './app.js';
+import { fetchJSON, escapeHtml, withLoading, t, tn, treeOrder } from './app.js';
 
 const results = document.getElementById('results');
 
-let currentPage = 1;
+function warningBadge(g) {
+  const count = (g.warnings || []).length;
+  if (count === 0) return '';
+  const title = tn(
+    'Overrides {count} value set by a parent with a higher priority',
+    'Overrides {count} values set by a parent with a higher priority',
+    count,
+    { count },
+  );
+  return ` <vox-badge variant="warning" title="${escapeHtml(title)}">${t('Overrides priority')}</vox-badge>`;
+}
 
-function renderGroups(page, nodeCounts) {
-  if (page.items.length === 0) {
-    results.innerHTML = `
-      <vox-empty-state heading="${t('No node groups yet')}">
-        <vox-icon slot="icon" name="node-group" size="lg"></vox-icon>
-        Create a group to start classifying nodes.
-      </vox-empty-state>`;
-    return;
-  }
+// Marks a group one or more of whose classes, parameters or values do
+// not match the code of its environment. The group page says which.
+function classBadge(g) {
+  const count = (g.classWarnings || []).length;
+  if (count === 0) return '';
+  const title = tn(
+    '{count} class or parameter does not match the code in {environment}',
+    '{count} classes or parameters do not match the code in {environment}',
+    count,
+    { count, environment: g.classEnvironment },
+  );
+  return ` <vox-badge variant="warning" title="${escapeHtml(title)}">${t('Class mismatch')}</vox-badge>`;
+}
 
-  const rows = page.items
-    .map((g) => `
+function renderGroups(groups, nodeCounts) {
+  // The built-in All Nodes group always exists, so "no groups yet" means
+  // nothing besides it.
+  const prompt = groups.every((g) => g.isRoot)
+    ? `<p class="vox-ts-sm vox-color-text-2">${t('Create a group to start classifying nodes.')}</p>`
+    : '';
+
+  const rows = treeOrder(groups)
+    .map(({ group: g, depth }) => `
       <tr>
-        <td><a href="/group.html?id=${g.id}">${escapeHtml(g.name)}</a></td>
-        <td>${g.priority}</td>
+        <td>
+          <span class="group-tree-name" style="padding-inline-start: ${depth * 1.5}rem">
+            ${depth > 0 ? '<span class="group-tree-branch" aria-hidden="true">└</span>' : ''}
+            <a href="/group.html?id=${g.id}">${escapeHtml(g.name)}</a>${warningBadge(g)}${classBadge(g)}
+          </span>
+        </td>
+        <td>${g.isRoot ? '—' : g.priority}</td>
         <td>${escapeHtml(g.environment || '')}</td>
         <td>${g.classes.length}</td>
         <td>${nodeCounts ? (nodeCounts.get(g.id) ?? 0) : '—'}</td>
@@ -27,6 +53,7 @@ function renderGroups(page, nodeCounts) {
     .join('');
 
   results.innerHTML = `
+    ${prompt}
     <div class="vox-table-wrap">
       <table class="vox-table vox-table--striped">
         <thead>
@@ -34,34 +61,23 @@ function renderGroups(page, nodeCounts) {
         </thead>
         <tbody>${rows}</tbody>
       </table>
-    </div>
-    ${paginationHTML(page.page, page.pageSize, page.total)}`;
-
-  bindPagination(results, (targetPage) => {
-    currentPage = targetPage;
-    load();
-  });
+    </div>`;
 }
 
 async function load() {
   try {
-    // node_groups is already ordered by priority server-side (see
-    // internal/classifier.Store.ListGroups), so no client-side sort
-    // needed - it'd only be able to sort the current page anyway.
+    // Every group in one response (?all=true), not a page of them: a
+    // tree cannot be drawn from part of itself.
     // Counts come from their own endpoint (one fleet-wide fact snapshot
     // matched against every group) rather than per row, and a failure
     // there shows as "-" instead of failing the whole list - the group
     // list is still useful without it.
     const [page, counts] = await Promise.all([
-      withLoading(results, () => fetchJSON(`/api/v1/groups?page=${currentPage}`)),
+      withLoading(results, () => fetchJSON('/api/v1/groups?all=true')),
       fetchJSON('/api/v1/groups/node-counts').catch(() => null),
     ]);
-    if (page.items.length === 0 && page.page > 1 && page.total > 0) {
-      currentPage = 1;
-      return load();
-    }
     const nodeCounts = counts ? new Map(counts.counts.map((c) => [c.groupId, c.nodes])) : null;
-    renderGroups(page, nodeCounts);
+    renderGroups(page.items, nodeCounts);
   } catch (err) {
     results.innerHTML = `<vox-alert variant="danger">${escapeHtml(err.message)}</vox-alert>`;
   }

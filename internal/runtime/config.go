@@ -127,6 +127,24 @@ type Config struct {
 	CAClientKeyFile  string
 	CAClientCAFile   string
 
+	// Optional: the task catalogue (internal/taskcatalog), reading
+	// /puppet/v3/environments and /puppet/v3/tasks from openvoxserver.
+	// PuppetServerURL is this console's own view of openvoxserver - like
+	// CAClientURL, routinely a loopback or container-internal address,
+	// and so deliberately separate from the node-facing
+	// PuppetServerPublicAddr above. Leaving it unset disables tasks: the
+	// catalogue and task runs report "not configured" rather than the
+	// console failing to start.
+	//
+	// The credential defaults to the openvoxdb client one, not the
+	// CA-client one: openvoxserver's default auth.conf lets any CA-issued
+	// certificate read tasks, and the CA-client credential carries full
+	// CA admin rights that reading tasks has no use for.
+	PuppetServerURL      string
+	PuppetServerCertFile string
+	PuppetServerKeyFile  string
+	PuppetServerCAFile   string
+
 	// Optional: this console's own externally-reachable base URL,
 	// embedded into the agent-distribution install script so a node
 	// can fetch its node-agent-client binary back from this console.
@@ -134,6 +152,15 @@ type Config struct {
 	// but a real deployment behind any proxy/DNS name should set this
 	// explicitly.
 	ConsoleBaseURL string
+
+	// AgentAutoUpgrade is whether this console tells nodes whose
+	// node-agent-client is older than the build it serves to upgrade
+	// (CONSOLE_AGENT_AUTO_UPGRADE, default on - see design.md in
+	// add-agent-auto-upgrade). Off, each node's client build is still
+	// recorded and out-of-date nodes are still reported; only the
+	// automatic upgrades stop. An operator can upgrade a single node
+	// either way.
+	AgentAutoUpgrade bool
 
 	// Optional: per-category audit event emission level (see
 	// internal/auditlog) - each defaults to "writes" (mutating actions
@@ -295,6 +322,11 @@ func LoadConfig(getenv func(string) string) (Config, error) {
 		CAClientKeyFile:  getenv("CONSOLE_CA_CLIENT_KEY_FILE"),
 		CAClientCAFile:   getenv("CONSOLE_CA_CLIENT_CA_FILE"),
 
+		PuppetServerURL:      getenv("CONSOLE_PUPPET_SERVER_URL"),
+		PuppetServerCertFile: getenv("CONSOLE_PUPPET_SERVER_CERT_FILE"),
+		PuppetServerKeyFile:  getenv("CONSOLE_PUPPET_SERVER_KEY_FILE"),
+		PuppetServerCAFile:   getenv("CONSOLE_PUPPET_SERVER_CA_FILE"),
+
 		ConsoleBaseURL: getenv("CONSOLE_BASE_URL"),
 
 		AuditLogPath: getenv("CONSOLE_AUDIT_LOG_PATH"),
@@ -370,6 +402,17 @@ func LoadConfig(getenv func(string) string) (Config, error) {
 	if cfg.CodeDirPath == "" {
 		cfg.CodeDirPath = "openvox-code"
 	}
+	// On unless explicitly turned off. Anything unrecognized is refused
+	// rather than read as either answer: this setting decides whether
+	// software is installed on every node.
+	switch strings.ToLower(getenv("CONSOLE_AGENT_AUTO_UPGRADE")) {
+	case "", "true", "1", "yes", "on":
+		cfg.AgentAutoUpgrade = true
+	case "false", "0", "no", "off":
+		cfg.AgentAutoUpgrade = false
+	default:
+		return Config{}, fmt.Errorf("CONSOLE_AGENT_AUTO_UPGRADE must be true or false, got %q", getenv("CONSOLE_AGENT_AUTO_UPGRADE"))
+	}
 	if cfg.RBACSigningKeyID == "" {
 		cfg.RBACSigningKeyID = DefaultSigningKeyID
 	}
@@ -385,6 +428,13 @@ func LoadConfig(getenv func(string) string) (Config, error) {
 	}
 	if cfg.ClusterTLSCAFile == "" {
 		cfg.ClusterTLSCAFile = cfg.OpenvoxdbCAFile
+	}
+	if cfg.PuppetServerCertFile == "" && cfg.PuppetServerKeyFile == "" {
+		cfg.PuppetServerCertFile = cfg.OpenvoxdbCertFile
+		cfg.PuppetServerKeyFile = cfg.OpenvoxdbKeyFile
+	}
+	if cfg.PuppetServerCAFile == "" {
+		cfg.PuppetServerCAFile = cfg.OpenvoxdbCAFile
 	}
 
 	// Read before the fileErr check so an unreadable

@@ -130,12 +130,22 @@ func (d *Deployer) Run(ctx context.Context, sourceName, branch string) (Deployme
 		return Deployment{}, fmt.Errorf("g10k deploy failed: %w: %s", err, string(output))
 	}
 
+	// g10k exits 0 when it cannot reach a repository: it logs a warning,
+	// syncs "0 git repositories" and carries on. Taken at its word the
+	// deploy would then look like it succeeded having cloned nothing, so
+	// its own account of what it could not do is read here.
+	if unresolved := unresolvedWarnings(string(output)); len(unresolved) > 0 {
+		return Deployment{}, fmt.Errorf("g10k could not use the repository for source %q (%s): %s",
+			source.Name, source.Remote, strings.Join(unresolved, "; "))
+	}
+
 	// g10k writes prefix+branch, which is exactly how environment was
 	// derived above - see Source.EffectivePrefix, which mirrors g10k's
 	// own resolution so these two never disagree.
 	deployedDir := filepath.Join(basedir, environment)
 	if _, statErr := os.Stat(deployedDir); statErr != nil {
-		return Deployment{}, fmt.Errorf("g10k reported success but deployed directory is missing: %w", statErr)
+		return Deployment{}, fmt.Errorf("g10k reported success but did not create environment %q: does the repository have a branch named %q? (%w)%s",
+			environment, branch, statErr, g10kOutputTail(string(output)))
 	}
 
 	deployment := Deployment{
@@ -153,6 +163,36 @@ func (d *Deployer) Run(ctx context.Context, sourceName, branch string) (Deployme
 	}
 
 	return deployment, nil
+}
+
+// unresolvedWarnings returns the lines of g10k's output that say a
+// repository could not be reached or cloned, trimmed, in the order g10k
+// printed them. Empty means g10k reported no such problem.
+func unresolvedWarnings(output string) []string {
+	var out []string
+	for _, line := range strings.Split(output, "\n") {
+		line = strings.TrimSpace(line)
+		if strings.Contains(line, "does not exist or is unreachable") ||
+			strings.Contains(line, "Could not resolve git repository") {
+			out = append(out, line)
+		}
+	}
+	return out
+}
+
+// g10kOutputTail is the end of g10k's output as a suffix for an error
+// message, or "" when there is none, so a failure that g10k did not call
+// one still carries what it said.
+func g10kOutputTail(output string) string {
+	output = strings.TrimSpace(output)
+	if output == "" {
+		return ""
+	}
+	const max = 1500
+	if len(output) > max {
+		output = "..." + output[len(output)-max:]
+	}
+	return "\ng10k said:\n" + output
 }
 
 // g10kConfig renders the per-attempt g10k configuration for a single

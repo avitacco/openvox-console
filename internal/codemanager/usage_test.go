@@ -24,7 +24,7 @@ func TestUsageResolver_TalliesBothReadings(t *testing.T) {
 		envList("a", "production", "b", "team_a_production", "c", "team_a_production", "d", nil),
 	)
 
-	usage, err := u.Usage(context.Background())
+	usage, err := u.Usage(context.Background(), nil)
 	if err != nil {
 		t.Fatalf("Usage() error: %v", err)
 	}
@@ -54,7 +54,7 @@ func TestUsageResolver_DivergenceIsPreserved(t *testing.T) {
 		envList("a", "production", "b", "production"),
 	)
 
-	usage, err := u.Usage(context.Background())
+	usage, err := u.Usage(context.Background(), nil)
 	if err != nil {
 		t.Fatalf("Usage() error: %v", err)
 	}
@@ -85,7 +85,7 @@ func TestUsageResolver_UnwiredIsUnavailableNotEmpty(t *testing.T) {
 		{"only assigned", NewUsageResolver(envList("a", "production"), nil)},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
-			if _, err := tc.u.Usage(context.Background()); err == nil {
+			if _, err := tc.u.Usage(context.Background(), nil); err == nil {
 				t.Error("Usage() returned no error; an unwired resolver must report unavailable, not zero counts")
 			}
 		})
@@ -99,12 +99,38 @@ func TestUsageResolver_ReadingFailurePropagates(t *testing.T) {
 	failing := func(context.Context) ([]NodeEnvironment, error) { return nil, boom }
 
 	u := NewUsageResolver(envList("a", "production"), failing)
-	if _, err := u.Usage(context.Background()); !errors.Is(err, boom) {
+	if _, err := u.Usage(context.Background(), nil); !errors.Is(err, boom) {
 		t.Errorf("Usage() error = %v, want the underlying failure", err)
 	}
 
 	u = NewUsageResolver(failing, envList("a", "production"))
-	if _, err := u.Usage(context.Background()); !errors.Is(err, boom) {
+	if _, err := u.Usage(context.Background(), nil); !errors.Is(err, boom) {
 		t.Errorf("Usage() error = %v, want the underlying failure", err)
+	}
+}
+
+// A scoped caller's counts cover only the nodes they can see.
+func TestUsageResolver_CountsOnlyAllowedNodes(t *testing.T) {
+	u := NewUsageResolver(
+		envList("a", "production", "b", "production", "c", "team_a_production", "d", nil),
+		envList("a", "production", "b", "team_a_production", "c", "team_a_production", "d", nil),
+	)
+	inScope := map[string]bool{"a": true, "d": true}
+
+	usage, err := u.Usage(context.Background(), func(certname string) bool { return inScope[certname] })
+	if err != nil {
+		t.Fatalf("Usage() error: %v", err)
+	}
+	if got := usage.Assigned.ByEnvironment["production"]; got != 1 {
+		t.Errorf("assigned production = %d, want 1 (only a is in scope)", got)
+	}
+	if got := usage.Assigned.ByEnvironment["team_a_production"]; got != 0 {
+		t.Errorf("assigned team_a_production = %d, want 0 (c is out of scope)", got)
+	}
+	if got := usage.Reporting.ByEnvironment["team_a_production"]; got != 0 {
+		t.Errorf("reporting team_a_production = %d, want 0", got)
+	}
+	if usage.Reporting.Unknown != 1 {
+		t.Errorf("reporting unknown = %d, want 1 (d)", usage.Reporting.Unknown)
 	}
 }

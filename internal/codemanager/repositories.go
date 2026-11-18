@@ -1,6 +1,7 @@
 package codemanager
 
 import (
+	"github.com/voxpupuli/enterprise-console/internal/nodescope"
 	"net/http"
 	"time"
 
@@ -76,7 +77,21 @@ func (h *Handlers) listRepositories(w http.ResponseWriter, r *http.Request) {
 
 	response := RepositoriesResponse{Repositories: make([]Repository, 0)}
 
-	usage, usageErr := h.usage.Usage(r.Context())
+	// The counts cover the caller's nodes only. If their scope cannot
+	// be worked out the counts are reported unavailable, like any other
+	// failure to compute them - never computed over the whole fleet.
+	var allows func(certname string) bool
+	var usage NodeUsage
+	var usageErr error
+	if h.scope != nil {
+		var scope nodescope.Scope
+		if scope, usageErr = h.scope(r); usageErr == nil && !scope.All() {
+			allows = scope.Allows
+		}
+	}
+	if usageErr == nil {
+		usage, usageErr = h.usage.Usage(r.Context(), allows)
+	}
 	if usageErr != nil {
 		// Warn, not error: the page still renders, and an operator
 		// running without openvoxdb reachable does not need this in

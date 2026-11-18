@@ -4,6 +4,7 @@ import (
 	"context"
 	"crypto/tls"
 	"crypto/x509"
+	"encoding/json"
 	"fmt"
 	"log/slog"
 	"os"
@@ -27,6 +28,25 @@ type Client struct {
 	handler Handler
 	logger  *slog.Logger
 	busy    atomic.Bool
+
+	// afterReply, when set, is asked after every reply for something to
+	// do once that reply is on its way - see SetAfterReply.
+	afterReply func() func(ctx context.Context)
+	// flush pushes pending replies to the server. Set by Run.
+	flush func()
+}
+
+// replyFlushTimeout bounds waiting for a reply to reach the server
+// before acting on it.
+const replyFlushTimeout = 5 * time.Second
+
+// SetAfterReply registers take, which is called after each reply is
+// sent and may return work that must only happen once the console has
+// its answer - an upgraded client restarting itself, say. That work
+// runs with the client still marked busy, so no other request is
+// accepted while it does. Call before Run.
+func (c *Client) SetAfterReply(take func() func(ctx context.Context)) {
+	c.afterReply = take
 }
 
 // New builds a Client. logger may be nil (slog.Default() is used).
@@ -120,9 +140,22 @@ func (c *Client) Run(ctx context.Context) error {
 		return fmt.Errorf("connect to node transport: %w", err)
 	}
 	defer conn.Close()
+	c.flush = func() {
+		if err := conn.FlushTimeout(replyFlushTimeout); err != nil {
+			c.logger.Warn("failed to flush reply", "error", err)
+		}
+	}
 
+	// Each request is handled on its own goroutine, not on the
+	// subscription's. NATS delivers to a subscription one message at a
+	// time, so handling a request where it is delivered would hold
+	// every later one in the client's queue until it finished: a
+	// second request during a ten-minute task would not be refused as
+	// busy, it would wait ten minutes - long after whoever sent it had
+	// given up - and then run anyway. Off the delivery goroutine, the
+	// busy check in dispatch is reached at once and does its job.
 	sub, err := conn.Subscribe(nodetransport.DispatchSubject(name), func(msg *nats.Msg) {
-		c.dispatch(ctx, msg)
+		go c.dispatch(ctx, msg)
 	})
 	if err != nil {
 		return fmt.Errorf("subscribe to dispatch subject: %w", err)
@@ -138,17 +171,64 @@ func (c *Client) Run(ctx context.Context) error {
 // (rejected, not queued - see specs/node-agent's "Single in-flight
 // request per client" requirement); otherwise it runs Handler and
 // replies with its response.
+//
+// A request that only reads the client's own build is the exception:
+// it is answered whatever else is running, and never makes the client
+// busy. It changes nothing on the node, and the console sends it the
+// moment a node connects - alongside a newly enrolled node's first
+// Puppet run, which must not be refused because the two crossed.
 func (c *Client) dispatch(ctx context.Context, msg *nats.Msg) {
+	if answeredWhileBusy(msg.Data) {
+		if err := msg.Respond(c.handler(ctx, msg.Data)); err != nil {
+			c.logger.Warn("failed to send response", "error", err)
+		}
+		return
+	}
+
 	if !c.busy.CompareAndSwap(false, true) {
 		if err := msg.Respond(errorResponse("node-agent is busy executing another request")); err != nil {
 			c.logger.Warn("failed to send busy response", "error", err)
 		}
 		return
 	}
-	defer c.busy.Store(false)
+	release := true
+	defer func() {
+		if release {
+			c.busy.Store(false)
+		}
+	}()
 
 	resp := c.handler(ctx, msg.Data)
 	if err := msg.Respond(resp); err != nil {
 		c.logger.Warn("failed to send response", "error", err)
 	}
+
+	if c.afterReply == nil {
+		return
+	}
+	after := c.afterReply()
+	if after == nil {
+		return
+	}
+	if c.flush != nil {
+		c.flush()
+	}
+	// Still busy, on a goroutine of its own so that dispatch returns
+	// once the reply is sent: requests arriving during the wait are
+	// refused at once and the console can try again, rather than being
+	// started only to be lost to the restart.
+	release = false
+	go func() {
+		defer c.busy.Store(false)
+		after(ctx)
+	}()
+}
+
+// answeredWhileBusy reports whether payload is a request the client
+// answers regardless of other work in progress - see dispatch. A
+// payload that cannot be read is not one: it goes the ordinary way and
+// the handler reports what is wrong with it.
+func answeredWhileBusy(payload []byte) bool {
+	var req requestData
+	return json.Unmarshal(payload, &req) == nil && (req.Action == actionAgentStatus || req.Action == actionPatchStatus)
 }

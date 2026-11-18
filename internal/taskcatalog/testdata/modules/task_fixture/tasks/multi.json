@@ -1,0 +1,14 @@
+{
+  "description": "Runs a helper shipped in the module's files directory",
+  "input_method": "environment",
+  "parameters": {
+    "name": {
+      "description": "Name to greet",
+      "type": "String"
+    }
+  },
+  "implementations": [
+    {"name": "multi.sh", "requirements": ["shell"], "files": ["task_fixture/files/helper.sh"]},
+    {"name": "multi.ps1", "requirements": ["powershell"], "input_method": "powershell"}
+  ]
+}

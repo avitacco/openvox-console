@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"strings"
 	"testing"
 )
 
@@ -103,42 +104,28 @@ func TestHandler_RunFailureToExecuteReturnsError(t *testing.T) {
 	}
 }
 
-func TestHandler_RunTaskPassesParameters(t *testing.T) {
+func TestHandler_RunTaskWithoutExecutorFails(t *testing.T) {
 	var invoked []string
-	handler := NewHandler(recordingRunner(&invoked, "task ran", 0), "puppet", t.TempDir(), noFileExists)
-	req := requestPayload(t, "puppet", actionRunTask, taskParams{
-		Task:   "package",
-		Params: json.RawMessage(`{"name":"nginx","action":"install"}`),
-	})
-
-	resp := handler(context.Background(), req)
-
-	want := []string{"puppet", "task", "run", "package", "--params", `{"name":"nginx","action":"install"}`}
-	if len(invoked) != len(want) {
-		t.Fatalf("invoked = %v, want %v", invoked, want)
+	handler := NewHandler(recordingRunner(&invoked, "", 0), "puppet", t.TempDir(), noFileExists)
+	wr := decodeWireResponse(t, handler(context.Background(), requestPayload(t, "puppet", actionRunTask, map[string]any{"task": "mod::t"})))
+	if !strings.Contains(wr.Error, "cannot run tasks") {
+		t.Errorf("Error = %q", wr.Error)
 	}
-	for i := range want {
-		if invoked[i] != want[i] {
-			t.Errorf("invoked[%d] = %q, want %q", i, invoked[i], want[i])
-		}
-	}
-
-	wr := decodeWireResponse(t, resp)
-	if wr.Result == nil {
-		t.Fatal("Result is nil, want a result")
-	}
-	if wr.Result.Output.Stdout != "task ran" {
-		t.Errorf("Stdout = %q", wr.Result.Output.Stdout)
+	if len(invoked) != 0 {
+		t.Errorf("something was run: %v", invoked)
 	}
 }
 
-func TestHandler_RunTaskMissingTaskNameReturnsError(t *testing.T) {
-	handler := NewHandler(fakeRunner("", "", 0, nil), "puppet", t.TempDir(), noFileExists)
-	req := requestPayload(t, "puppet", actionRunTask, taskParams{})
-
-	wr := decodeWireResponse(t, handler(context.Background(), req))
-	if wr.Error == "" {
-		t.Fatal("Error is empty, want a failure reason")
+func TestHandler_RunTaskGoesToTheExecutor(t *testing.T) {
+	var got json.RawMessage
+	tasks := TaskExecutorFunc(func(_ context.Context, params json.RawMessage) []byte {
+		got = params
+		return encodeResult(&responseData{Result: json.RawMessage(`{"ok":true}`)})
+	})
+	handler := NewHandlerWithTasks(fakeRunner("", "", 0, nil), "puppet", t.TempDir(), noFileExists, tasks)
+	wr := decodeWireResponse(t, handler(context.Background(), requestPayload(t, "puppet", actionRunTask, map[string]any{"task": "mod::t"})))
+	if string(got) != `{"task":"mod::t"}` || wr.Result == nil || string(wr.Result.Result) != `{"ok":true}` {
+		t.Errorf("executor got %s, response %+v", got, wr)
 	}
 }
 

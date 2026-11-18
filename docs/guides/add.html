@@ -147,6 +147,7 @@
       <vox-sidenav-item href="../guides/add.html" current="" aria-current="page"><span>Add nodes</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Scale">
       <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
@@ -156,8 +157,13 @@
       <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Operate">
       <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
@@ -262,6 +268,10 @@ console starts its first run for it straight away. That run appears on
 the <strong>Jobs</strong> page like any other, recorded as started by
 <code>system:initial-run</code>. Once it finishes, the node&#39;s page shows its facts,
 its reports and the classes applied to it.</p>
+<h2 id="after-that-the-node-agent-looks-after-itself">After that, the node agent looks after itself</h2>
+<p>You do not run the script again to upgrade the node agent. When you
+upgrade the console, it upgrades the node agent on each connected node
+for you; see <a href="agent-upgrades.html">Keep node agents current</a>.</p>
 <h2 id="report-the-node-s-packages-optional">Report the node&#39;s packages (optional)</h2>
 <p>Package inventory is off for each node until you turn it on. On the
 node&#39;s page, in its <strong>Packages</strong> section, switch reporting on. The
@@ -287,6 +297,8 @@ queueing a change for later.</p>
       <vox-toc-item href="#sign-the-node-s-certificate"><span>Sign the node&#39;s certificate</span>
       </vox-toc-item>
       <vox-toc-item href="#see-the-node-connect"><span>See the node connect</span>
+      </vox-toc-item>
+      <vox-toc-item href="#after-that-the-node-agent-looks-after-itself"><span>After that, the node agent looks after itself</span>
       </vox-toc-item>
       <vox-toc-item href="#report-the-node-s-packages-optional"><span>Report the node&#39;s packages (optional)</span>
       </vox-toc-item>

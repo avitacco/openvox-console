@@ -1,0 +1,20 @@
+{
+    "metadata": {
+        "description": "Always fails with a structured error",
+        "parameters": {}
+    },
+    "name": "task_fixture::fail",
+    "files": [
+        {
+            "filename": "fail.sh",
+            "sha256": "0549a11e46d7bf842d21088c7cb6bcdba577ec4bd6c2a2c09e30220625be130c",
+            "size_bytes": 117,
+            "uri": {
+                "path": "/puppet/v3/file_content/tasks/task_fixture/fail.sh",
+                "params": {
+                    "environment": "production"
+                }
+            }
+        }
+    ]
+}

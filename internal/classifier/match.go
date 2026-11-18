@@ -7,16 +7,26 @@ import (
 	"strings"
 )
 
-// Matches reports whether group g applies to a node named certname with
-// the given facts (a decoded JSON object: fact name -> value, where a
-// structured fact's value is itself a nested map).
+// ownMatch reports whether g, judged on its own and ignoring its
+// ancestors, applies to a node named certname with the given facts (a
+// decoded JSON object: fact name -> value, where a structured fact's
+// value is itself a nested map).
 //
-// A node matches if it is explicitly pinned to g, or if g has at least
-// one rule condition and every condition is satisfied (AND-only - see
-// design.md). A group with neither pins nor rule conditions matches no
-// node - an empty rule is not treated as "match everyone," since that
-// would make an accidentally-incomplete group dangerous by default.
-func Matches(g Group, certname string, facts map[string]any) bool {
+// The root matches every node. Any other group matches a node that is
+// explicitly pinned to it, or whose facts satisfy its rule: every
+// condition under RuleMatchAll (the default), at least one under
+// RuleMatchAny. A group with neither pins nor rule conditions matches
+// no node - an empty rule is not treated as "match everyone," since
+// that would make an accidentally-incomplete group dangerous by
+// default.
+//
+// Unexported on purpose: whether a group really applies depends on its
+// ancestors too, which only Tree knows. A caller holding one group
+// cannot get the right answer, so there is no exported way to ask.
+func ownMatch(g Group, certname string, facts map[string]any) bool {
+	if g.IsRoot {
+		return true
+	}
 	for _, pinned := range g.Pins {
 		if pinned == certname {
 			return true
@@ -24,6 +34,14 @@ func Matches(g Group, certname string, facts map[string]any) bool {
 	}
 
 	if len(g.Rule) == 0 {
+		return false
+	}
+	if g.RuleMatch == RuleMatchAny {
+		for _, cond := range g.Rule {
+			if cond.matches(facts) {
+				return true
+			}
+		}
 		return false
 	}
 	for _, cond := range g.Rule {

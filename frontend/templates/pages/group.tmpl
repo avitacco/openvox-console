@@ -8,51 +8,101 @@
 
       <div class="group-form">
         <div id="form-error"></div>
+        <div id="override-warnings"></div>
+        <div id="root-note" style="display: none">
+          <vox-alert variant="info" data-i18n>
+            All Nodes is the built-in group every node belongs to. Its classes, parameters and
+            environment apply to every node; its name, rule and pinned nodes cannot be changed.
+          </vox-alert>
+        </div>
 
         <section>
           <h2 class="form-section-heading" data-i18n>Details</h2>
           <div class="vox-m-bottom-lg">
             <vox-input id="name" label="Name" required data-i18n-attr="label"></vox-input>
           </div>
+          <div id="parent-field" class="vox-m-bottom-lg">
+            <vox-select id="parent" label="Parent group" data-i18n-attr="label"></vox-select>
+            <p class="vox-ts-sm vox-color-text-2 vox-m-top-sm vox-m-bottom-none" data-i18n>
+              This group can only contain nodes that are also in its parent, and it inherits the
+              parent's classes and parameters.
+            </p>
+          </div>
           <div class="vox-display-flex vox-gap-lg vox-flex-wrap vox-items-start">
             <vox-input id="priority" class="field-narrow" label="Priority" type="number" required
               note="Higher wins a conflict." data-i18n-attr="label,note"></vox-input>
-            <vox-input id="environment" class="field-grow" label="Environment (optional)"
-              note="Puppet environment matching nodes compile against. Blank means this group doesn't set one." data-i18n-attr="label,note"></vox-input>
+            <div class="native-field field-grow">
+              <label for="environment" data-i18n>Environment (optional)</label>
+              <input id="environment" class="native-control" list="environment-options" autocomplete="off" spellcheck="false">
+              <datalist id="environment-options"></datalist>
+              <p class="native-note" data-i18n>Puppet environment matching nodes compile against. Blank means this group doesn't set one.</p>
+            </div>
           </div>
           <p class="vox-ts-sm vox-color-text-2 vox-m-top-sm vox-m-bottom-none" data-i18n-html>
-            A node can match several groups at once. Their classes and parameters are combined; when two
-            groups set the <em>same</em> class parameter, top-scope parameter, or environment, the one with
-            the higher priority wins. Priorities must be unique.
+            A node can match several groups at once. Their classes and parameters are combined. When two
+            groups set the <em>same</em> class parameter, top-scope parameter, or environment, a group
+            always wins over the groups above it in the tree; between unrelated groups the one with the
+            higher priority wins. Priorities must be unique.
           </p>
         </section>
 
         <section>
           <h2 class="form-section-heading" data-i18n>Classification</h2>
-          <vox-disclosure id="classes-disclosure" summary="Classes (JSON)" data-i18n-attr="summary">
-            <vox-textarea id="classes" rows="6" class="vox-width-full"
-              placeholder='[{"name": "ntp", "parameters": {"server": "0.pool.ntp.org"}}]'
-              note="Puppet classes applied to every node in this group, each with optional parameters. A list of {&quot;name&quot;, &quot;parameters&quot;} objects." data-i18n-attr="note"></vox-textarea>
-          </vox-disclosure>
-          <vox-disclosure id="parameters-disclosure" class="vox-m-top-lg" summary="Top-scope parameters (JSON)" data-i18n-attr="summary">
+          <div id="classes-editor" class="classes-editor">
+            <div class="vox-display-flex vox-justify-between vox-items-center vox-m-bottom-xs">
+              <label class="vox-ts-sm vox-text-semibold" data-i18n>Classes</label>
+              <vox-switch data-classes-json-toggle data-i18n>Edit as JSON</vox-switch>
+            </div>
+            <p class="vox-ts-sm vox-color-text-2 vox-m-top-none vox-m-bottom-md" data-i18n>
+              Puppet classes applied to every node in this group. A parameter left unset keeps the
+              value the code or Hiera gives it. A class or parameter that the environment's code does
+              not define can still be saved, and is marked.
+            </p>
+            <div data-classes-source class="classes-source vox-ts-sm vox-color-text-2 vox-m-bottom-md"></div>
+            <div data-classes-notice class="classes-notice"></div>
+            <div data-classes-flags class="classes-notice"></div>
+            <div data-classes-builder></div>
+            <div data-classes-add class="class-add">
+              <div class="native-field">
+                <label for="class-add-name" data-i18n>Add a class</label>
+                <input id="class-add-name" class="native-control" list="class-options" data-class-add-name
+                  autocomplete="off" spellcheck="false">
+                <datalist id="class-options"></datalist>
+              </div>
+              <vox-button size="sm" data-class-add-button data-i18n>Add class</vox-button>
+            </div>
+            <vox-textarea data-classes-json rows="8" class="vox-width-full" style="display: none"
+              placeholder='[{"name": "ntp", "parameters": {"server": "0.pool.ntp.org"}}]'></vox-textarea>
+            <div data-classes-error class="vox-m-top-sm"></div>
+          </div>
+          <vox-disclosure id="parameters-disclosure" class="vox-m-top-xl" summary="Top-scope parameters (JSON)" data-i18n-attr="summary">
             <vox-textarea id="parameters" rows="4" class="vox-width-full"
               placeholder='{"role": "web"}'
               note="Variables set for every manifest compiled for these nodes, available as $variable. An object of name/value pairs." data-i18n-attr="note"></vox-textarea>
           </vox-disclosure>
+          <vox-disclosure id="config-data-disclosure" class="vox-m-top-md" summary="Configuration data (JSON)" data-i18n-attr="summary">
+            <vox-textarea id="config-data" rows="6" class="vox-width-full"
+              placeholder='{"ntp::servers": ["0.pool.ntp.org"], "dns::timeout": 5}'
+              note="Data that code reads with lookup(), consulted before the Hiera data in your control repo, so a key set here wins. An object of key/value pairs; a value can be any JSON. It is shown to everyone who can see node groups, so do not put secrets here." data-i18n-attr="note"></vox-textarea>
+            <div id="config-data-error" class="vox-m-top-sm"></div>
+          </vox-disclosure>
         </section>
 
-        <section>
+        <section id="matching-section">
           <h2 class="form-section-heading" data-i18n>Matching</h2>
           <div class="vox-display-flex vox-justify-between vox-items-center vox-m-bottom-xs">
             <label class="vox-ts-sm vox-text-semibold" data-i18n>Match rule</label>
             <vox-switch id="rule-json-toggle" data-i18n>Edit as JSON</vox-switch>
           </div>
           <p class="vox-ts-sm vox-color-text-2 vox-m-top-none vox-m-bottom-md" data-i18n-html>
-            A node joins this group when its facts satisfy <em>every</em> condition below. Fact path is a
-            dotted path into the node's facts, like <code>os.family</code> or <code>networking.fqdn</code> —
-            open a node's page to see the facts it reports. With no conditions and no pinned nodes, the
-            group matches nothing.
+            A node joins this group when it is in the parent group and its facts satisfy the conditions
+            below. Fact path is a dotted path into the node's facts, like <code>os.family</code> or
+            <code>networking.fqdn</code> — open a node's page to see the facts it reports. With no
+            conditions and no pinned nodes, the group matches nothing.
           </p>
+          <div class="vox-m-bottom-md">
+            <vox-select id="rule-match" label="A node must satisfy" data-i18n-attr="label"></vox-select>
+          </div>
           <div id="rule-builder"></div>
           <vox-button id="rule-add-condition" size="sm" data-i18n>Add condition</vox-button>
           <div id="rule-error" class="vox-m-top-sm"></div>
@@ -62,8 +112,9 @@
           <vox-disclosure id="pins-disclosure" class="vox-m-top-lg" summary="Pinned node certnames (JSON array)" data-i18n-attr="summary">
             <vox-textarea id="pins" rows="3" class="vox-width-full"
               placeholder='["web01.example.com"]'
-              note="Certnames listed here are always in this group, whether or not the match rule matches them." data-i18n-attr="note"></vox-textarea>
+              note="Certnames listed here are in this group whether or not the match rule matches them, as long as they are also in the parent group." data-i18n-attr="note"></vox-textarea>
           </vox-disclosure>
+          <div id="pins-outside" class="vox-m-top-sm"></div>
         </section>
 
         <div class="vox-display-flex vox-gap-sm vox-m-top-xl">
@@ -75,7 +126,10 @@
       <section id="matching-nodes-section" class="vox-m-top-xl" style="display: none">
         <div class="vox-display-flex vox-justify-between vox-items-center vox-gap-md vox-m-bottom-md">
           <h2 class="vox-m-y-none" data-i18n>Matching nodes</h2>
-          <vox-button id="run-now" variant="brand" style="display: none" data-i18n>Run now</vox-button>
+          <div class="vox-display-flex vox-gap-sm">
+            <vox-button id="run-task" variant="alt" style="display: none" data-i18n>Run task</vox-button>
+            <vox-button id="run-now" variant="brand" style="display: none" data-i18n>Run now</vox-button>
+          </div>
         </div>
         <div id="run-now-error"></div>
         <div id="matching-nodes"></div>

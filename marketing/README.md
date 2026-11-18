@@ -146,7 +146,13 @@ the product:
 - capture waits on a content selector and on `document.fonts.ready`,
   never on a timer;
 - the viewport is fixed per shot;
-- every id, hash and timestamp the seed writes is derived, never random.
+- every id, hash and timestamp the seed writes is derived, never random;
+- every demo console instance runs under a made-up hostname (`console-1`,
+  `worker-1`, ...) in a UTS namespace of its own, so the fleet status
+  screenshot never shows the name of the machine that ran the capture.
+  This needs unprivileged user namespaces; without them the run stops
+  rather than publish the real hostname (`ALLOW_REAL_HOSTNAME=1`
+  overrides that).
 
 Images are **not** expected to be byte-identical between runs. Measured
 across two full refreshes, 14 of 20 were; the other six move because the

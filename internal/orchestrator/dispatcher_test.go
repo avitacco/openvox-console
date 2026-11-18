@@ -2,6 +2,8 @@ package orchestrator
 
 import (
 	"context"
+	"encoding/json"
+	"strconv"
 	"sync"
 	"testing"
 	"time"
@@ -9,6 +11,7 @@ import (
 	"github.com/voxpupuli/enterprise-console/internal/messaging"
 	"github.com/voxpupuli/enterprise-console/internal/nodeagent"
 	"github.com/voxpupuli/enterprise-console/internal/nodetransport"
+	"github.com/voxpupuli/enterprise-console/internal/taskcatalog"
 	"github.com/voxpupuli/enterprise-console/internal/testca"
 )
 
@@ -32,7 +35,26 @@ func startRealAgent(t *testing.T, certname string, runner nodeagent.CommandRunne
 	}
 	certPath, keyPath := ca.Issue(t, certname, false)
 
-	handler := nodeagent.NewHandler(runner, "puppet", t.TempDir(), func(string) bool { return false })
+	// Task execution itself (downloads, checksums, interpreters) is the
+	// node agent's own tests' business; here a task is routed through
+	// runner as ("task", <name>), so a test can see which step ran.
+	tasks := nodeagent.TaskExecutorFunc(func(ctx context.Context, params json.RawMessage) []byte {
+		var req struct {
+			Task string `json:"task"`
+		}
+		_ = json.Unmarshal(params, &req)
+		stdout, stderr, exitCode, err := runner(ctx, "puppet", "task", req.Task)
+		if err != nil {
+			data, _ := json.Marshal(wireResponse{Error: err.Error()})
+			return data
+		}
+		data, _ := json.Marshal(wireResponse{Result: &responseData{
+			Output: outputData{Stdout: stdout, Stderr: stderr, ExitCode: exitCode},
+			Result: json.RawMessage(`{"_output":` + strconv.Quote(stdout) + `}`),
+		}})
+		return data
+	})
+	handler := nodeagent.NewHandlerWithTasks(runner, "puppet", t.TempDir(), func(string) bool { return false }, tasks)
 	client := nodeagent.New(nodeagent.Config{
 		TransportAddr: transport.Addr(),
 		CertFile:      certPath,
@@ -206,11 +228,12 @@ func TestDispatcher_PlanStepsRunInOrder(t *testing.T) {
 
 	runner := func(ctx context.Context, name string, args ...string) (string, string, int, error) {
 		mu.Lock()
-		// args[0] is "agent" for a run, or "run" for a task (puppet task run <name>) -
-		// use it plus a marker to identify which step this call is.
+		// args[0] is "agent" for a run, or "task" for a task routed
+		// through the runner by startRealAgent - use it plus a marker to
+		// identify which step this call is.
 		label := "run"
 		if len(args) > 0 && args[0] == "task" {
-			label = "task:" + args[2]
+			label = "task:" + args[1]
 		}
 		invokedOrder = append(invokedOrder, label)
 		mu.Unlock()
@@ -235,7 +258,7 @@ func TestDispatcher_PlanStepsRunInOrder(t *testing.T) {
 	if err != nil {
 		t.Fatalf("CreatePlan() error: %v", err)
 	}
-	dispatcher.DispatchPlan(ctx, plan)
+	dispatcher.DispatchPlan(ctx, plan, map[int]taskcatalog.Resolved{1: testPayload("verify")})
 
 	// Step 1 (the run) should have started, but step 2 (the task) must
 	// not have - it blocks on releaseStep1.
@@ -300,7 +323,7 @@ func TestDispatcher_PlanFailsFastOnStepFailure(t *testing.T) {
 	if err != nil {
 		t.Fatalf("CreatePlan() error: %v", err)
 	}
-	dispatcher.DispatchPlan(ctx, plan)
+	dispatcher.DispatchPlan(ctx, plan, map[int]taskcatalog.Resolved{1: testPayload("verify")})
 
 	waitForJobStatus(t, store, plan.ID, StatusFailed)
 

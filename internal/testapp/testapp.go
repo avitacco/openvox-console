@@ -93,6 +93,11 @@ type Config struct {
 	// so a test can configure a subsystem the harness does not know
 	// about without this package growing a field per setting.
 	Env map[string]string
+
+	// Log receives the instance's log output. Nil discards it. A test
+	// that sets it must hand over something safe to write to from
+	// another goroutine after the test body has returned.
+	Log io.Writer
 }
 
 // Cluster is a set of instances sharing one Postgres database.
@@ -208,7 +213,12 @@ func (c *Cluster) Start(cfg Config) *Instance {
 	// Discarded rather than routed to t.Logf: an instance outlives the
 	// test function body by however long shutdown takes, and logging
 	// after a test completes panics.
-	logger := runtime.NewLogger(io.Discard)
+	// Config.Log is the exception, for a test of what an instance says.
+	var logOutput io.Writer = io.Discard
+	if cfg.Log != nil {
+		logOutput = cfg.Log
+	}
+	logger := runtime.NewLogger(logOutput)
 
 	go func() { inst.done <- app.Run(ctx, runtimeCfg, logger) }()
 

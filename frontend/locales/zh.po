@@ -14,7 +14,10 @@ msgid "Account menu"
 msgstr "账户菜单"
 
 #: src/activity.js:39
+#: src/schedule.js:65
+#: src/schedules.js:49
 #: templates/pages/activity.tmpl:9
+#: templates/pages/schedule-edit.tmpl:22
 msgid "Action"
 msgstr "操作"
 
@@ -22,7 +25,7 @@ msgstr "操作"
 msgid "Actions"
 msgstr "操作"
 
-#: templates/layout.html.tmpl:89
+#: templates/layout.html.tmpl:93
 #: templates/pages/activity.tmpl:3
 msgid "Activity"
 msgstr "活动"
@@ -32,11 +35,11 @@ msgstr "活动"
 msgid "Actor"
 msgstr "操作者"
 
-#: templates/pages/group.tmpl:57
+#: templates/pages/group.tmpl:107
 msgid "Add condition"
 msgstr "添加条件"
 
-#: templates/pages/nodes.tmpl:5
+#: templates/pages/nodes.tmpl:7
 msgid "Add node"
 msgstr "添加 Node"
 
@@ -44,9 +47,11 @@ msgstr "添加 Node"
 msgid "Add provider"
 msgstr "添加提供方"
 
-#: templates/layout.html.tmpl:102
+#: templates/layout.html.tmpl:106
+#: templates/pages/account-policy.tmpl:3
 #: templates/pages/roles.tmpl:3
 #: templates/pages/service-tokens.tmpl:3
+#: templates/pages/user-groups.tmpl:3
 #: templates/pages/users.tmpl:3
 msgid "Admin"
 msgstr "管理"
@@ -58,6 +63,8 @@ msgstr "受影响的 Nodes"
 
 #: src/packages.js:169
 #: src/packages.js:26
+#: src/patches.js:290
+#: src/patches.js:45
 #: templates/pages/activity.tmpl:10
 #: templates/pages/activity.tmpl:6
 #: templates/pages/activity.tmpl:7
@@ -67,14 +74,17 @@ msgstr "受影响的 Nodes"
 #: templates/pages/code.tmpl:47
 #: templates/pages/code.tmpl:48
 #: templates/pages/code.tmpl:52
-#: templates/pages/jobs.tmpl:14
-#: templates/pages/jobs.tmpl:8
-#: templates/pages/node.tmpl:48
-#: templates/pages/nodes.tmpl:13
-#: templates/pages/nodes.tmpl:18
+#: templates/pages/jobs.tmpl:21
+#: templates/pages/jobs.tmpl:29
+#: templates/pages/node.tmpl:67
+#: templates/pages/nodes.tmpl:17
+#: templates/pages/nodes.tmpl:22
 #: templates/pages/packages.tmpl:11
 #: templates/pages/packages.tmpl:13
 #: templates/pages/packages.tmpl:14
+#: templates/pages/patches.tmpl:17
+#: templates/pages/patches.tmpl:19
+#: templates/pages/patches.tmpl:20
 #: templates/pages/report.tmpl:12
 #: templates/pages/vulnerabilities.tmpl:12
 #: templates/pages/vulnerabilities.tmpl:20
@@ -82,15 +92,15 @@ msgstr "受影响的 Nodes"
 msgid "All"
 msgstr "全部"
 
-#: templates/pages/roles.tmpl:26
+#: templates/pages/roles.tmpl:40
 msgid "All roles"
 msgstr "所有角色"
 
-#: templates/pages/service-tokens.tmpl:28
+#: templates/pages/service-tokens.tmpl:35
 msgid "All service tokens"
 msgstr "所有服务令牌"
 
-#: templates/pages/users.tmpl:31
+#: templates/pages/users.tmpl:34
 msgid "All users"
 msgstr "所有用户"
 
@@ -98,8 +108,21 @@ msgstr "所有用户"
 msgid "Applies to this browser only. Without a choice here, the console follows your browser's language."
 msgstr "仅适用于此浏览器。未在此处选择时，控制台将跟随浏览器语言。"
 
-#: src/app.js:377
+#: src/agentless.js:307
+#: src/agentless.js:377
+#: src/app.js:456
+#: src/code-plans.js:159
+#: src/roles.js:117
+#: src/roles.js:132
+#: src/run-patch.js:174
+#: src/run-plan.js:34
+#: src/run-puppet.js:110
+#: src/run-task.js:43
+#: src/user-groups.js:87
+#: src/users.js:40
 #: src/vulnerability-providers.js:157
+#: templates/pages/plan-edit.tmpl:42
+#: templates/pages/schedule-edit.tmpl:92
 msgid "Cancel"
 msgstr "取消"
 
@@ -108,84 +131,85 @@ msgstr "取消"
 msgid "Category"
 msgstr "类别"
 
-#: src/nodes.js:252
-#: templates/pages/nodes.tmpl:17
+#: src/nodes.js:296
+#: templates/pages/nodes.tmpl:21
 msgid "Cert status"
 msgstr "证书状态"
 
 #: templates/pages/preferences.tmpl:37
-#: templates/pages/preferences.tmpl:47
+#: templates/pages/preferences.tmpl:48
 msgid "Change password"
 msgstr "修改密码"
 
 #: src/i18n.js:167
-#: templates/pages/node.tmpl:49
+#: templates/pages/node.tmpl:68
 msgid "Changed"
 msgstr "已更改"
 
-#: src/groups.js:33
+#: src/groups.js:60
+#: templates/pages/group.tmpl:53
 msgid "Classes"
 msgstr "类"
 
-#: templates/pages/group.tmpl:32
-msgid "Classes (JSON)"
-msgstr "类 (JSON)"
+#: templates/pages/group.tmpl:47
+#~ msgid "Classes (JSON)"
+#~ msgstr "类 (JSON)"
 
-#: templates/pages/group.tmpl:31
+#: templates/pages/group.tmpl:50
 msgid "Classification"
 msgstr "分类"
 
-#: src/nodes.js:84
+#: src/nodes.js:92
 msgid "Clean"
 msgstr "清理"
 
-#: templates/pages/nodes.tmpl:34
+#: templates/pages/nodes.tmpl:39
 msgid "Clear"
 msgstr "清除选择"
 
-#: src/nodes.js:427
+#: src/nodes.js:466
 msgid "Close"
 msgstr "关闭"
 
-#: templates/layout.html.tmpl:85
+#: templates/layout.html.tmpl:89
 #: templates/pages/code.tmpl:3
 msgid "Code"
 msgstr "Code"
 
 #: src/i18n.js:172
-#: src/index.js:114
-#: src/nodes.js:42
-#: templates/pages/nodes.tmpl:14
+#: src/index.js:149
+#: src/nodes.js:50
+#: templates/pages/nodes.tmpl:18
 msgid "Connected"
 msgstr "已连接"
 
-#: src/nodes.js:250
-#: templates/pages/nodes.tmpl:12
+#: src/nodes.js:294
+#: templates/pages/nodes.tmpl:16
 msgid "Connection"
 msgstr "连接"
 
 #: src/i18n.js:171
-#: src/index.js:23
+#: src/index.js:24
 msgid "Corrected"
 msgstr "已纠正"
 
-#: templates/pages/roles.tmpl:21
+#: templates/pages/roles.tmpl:35
 msgid "Create role"
 msgstr "创建角色"
 
-#: templates/pages/service-tokens.tmpl:23
+#: templates/pages/service-tokens.tmpl:30
 msgid "Create service token"
 msgstr "创建服务令牌"
 
-#: templates/pages/users.tmpl:26
+#: templates/pages/users.tmpl:29
 msgid "Create user"
 msgstr "创建用户"
 
-#: src/service-tokens.js:43
+#: src/service-tokens.js:47
 msgid "Created"
 msgstr "创建时间"
 
-#: src/app.js:632
+#: src/app.js:711
 #: templates/pages/vulnerabilities.tmpl:13
 msgid "Critical"
 msgstr "严重"
@@ -199,12 +223,22 @@ msgstr "当前密码"
 msgid "Dashboard"
 msgstr "Dashboard"
 
-#: src/nodes.js:88
-#: src/roles.js:36
-#: src/service-tokens.js:34
-#: src/users.js:51
+#: src/agentless.js:125
+#: src/agentless.js:212
+#: src/agentless.js:227
+#: src/agentless.js:68
+#: src/nodes.js:96
+#: src/plan.js:61
+#: src/roles.js:136
+#: src/schedule.js:148
+#: src/service-tokens.js:38
+#: src/user-groups.js:119
+#: src/user-groups.js:156
+#: src/users.js:130
 #: src/vulnerability-providers.js:67
-#: templates/pages/group.tmpl:71
+#: templates/pages/group.tmpl:122
+#: templates/pages/plan.tmpl:14
+#: templates/pages/schedule.tmpl:15
 msgid "Delete"
 msgstr "删除"
 
@@ -220,28 +254,35 @@ msgstr "Deploy 历史"
 msgid "Deploy now"
 msgstr "立即 deploy"
 
-#: templates/pages/group.tmpl:13
+#: templates/pages/group.tmpl:20
+#: templates/pages/plan-edit.tmpl:14
+#: templates/pages/schedule-edit.tmpl:15
 msgid "Details"
 msgstr "详情"
 
-#: src/index.js:114
+#: src/index.js:149
 msgid "Disconnected"
 msgstr "已断开"
 
+#: src/agentless.js:124
+#: src/agentless.js:67
 #: src/vulnerability-providers.js:66
+#: templates/pages/plan.tmpl:13
+#: templates/pages/schedule.tmpl:14
 msgid "Edit"
 msgstr "编辑"
 
-#: templates/pages/group.tmpl:48
+#: templates/pages/group.tmpl:54
+#: templates/pages/group.tmpl:95
 msgid "Edit as JSON"
 msgstr "以 JSON 编辑"
 
-#: src/users.js:60
+#: src/users.js:141
 #: templates/pages/preferences.tmpl:18
 msgid "Email"
 msgstr "电子邮件"
 
-#: templates/pages/users.tmpl:23
+#: templates/pages/users.tmpl:26
 msgid "Email (optional)"
 msgstr "电子邮件（可选）"
 
@@ -251,49 +292,55 @@ msgstr "电子邮件（可选）"
 msgid "Enabled"
 msgstr "已启用"
 
-#: src/node.js:469
+#: src/node.js:473
 msgid "Ended"
 msgstr "结束"
 
 #: src/deploys.js:57
-#: src/groups.js:33
+#: src/groups.js:60
+#: src/task-form.js:108
+#: templates/pages/plans.tmpl:26
 msgid "Environment"
 msgstr "Environment"
 
-#: templates/pages/group.tmpl:20
+#: src/run-puppet.js:29
+#: templates/pages/group.tmpl:35
 msgid "Environment (optional)"
 msgstr "Environment（可选）"
 
 #: src/deploys.js:57
-#: src/job.js:53
+#: src/job.js:142
+#: src/run-patch.js:123
 msgid "Error"
 msgstr "错误"
 
-#: src/job.js:53
+#: src/job.js:142
+#: src/run-patch.js:123
 msgid "Exit code"
 msgstr "退出码"
 
-#: templates/pages/index.tmpl:23
+#: templates/pages/index.tmpl:27
 msgid "Fact name"
 msgstr "Fact 名称"
 
-#: src/group.js:81
+#: src/group.js:245
 msgid "Fact path"
 msgstr "Fact 路径"
 
-#: templates/pages/index.tmpl:24
+#: templates/pages/index.tmpl:28
 msgid "Fact value"
 msgstr "Fact 值"
 
-#: templates/pages/node.tmpl:15
+#: templates/pages/node.tmpl:23
 msgid "Facts"
 msgstr "Facts"
 
 #: src/i18n.js:164
-#: src/index.js:22
+#: src/index.js:23
+#: src/plan-common.js:72
 #: templates/pages/code.tmpl:55
-#: templates/pages/jobs.tmpl:17
-#: templates/pages/node.tmpl:51
+#: templates/pages/jobs.tmpl:32
+#: templates/pages/node.tmpl:70
 msgid "Failed"
 msgstr "失败"
 
@@ -303,20 +350,20 @@ msgstr "故障"
 
 #: templates/pages/activity.tmpl:12
 #: templates/pages/code.tmpl:50
-#: templates/pages/jobs.tmpl:19
+#: templates/pages/jobs.tmpl:34
 msgid "Filter by actor"
 msgstr "按操作者筛选"
 
-#: templates/pages/index.tmpl:22
+#: templates/pages/index.tmpl:26
 #: templates/pages/packages.tmpl:8
 msgid "Filter by name"
 msgstr "按名称筛选"
 
-#: templates/pages/nodes.tmpl:11
+#: templates/pages/nodes.tmpl:15
 msgid "Filter by name…"
 msgstr "按名称筛选…"
 
-#: templates/pages/jobs.tmpl:6
+#: templates/pages/jobs.tmpl:19
 msgid "Filter by node"
 msgstr "按 Node 筛选"
 
@@ -325,7 +372,8 @@ msgid "Filter by version"
 msgstr "按版本筛选"
 
 #: src/deploys.js:57
-#: src/jobs.js:54
+#: src/jobs.js:82
+#: src/schedule-common.js:90
 msgid "Finished"
 msgstr "完成"
 
@@ -333,16 +381,16 @@ msgstr "完成"
 msgid "First name"
 msgstr "名"
 
-#: templates/pages/users.tmpl:21
+#: templates/pages/users.tmpl:24
 msgid "First name (optional)"
 msgstr "名（可选）"
 
-#: src/node.js:604
+#: src/node.js:825
 #: src/vulnerability.js:54
 msgid "First seen"
 msgstr "首次发现"
 
-#: src/node.js:604
+#: src/node.js:825
 #: src/vulnerabilities.js:95
 #: templates/pages/vulnerabilities.tmpl:19
 msgid "Fix"
@@ -361,22 +409,25 @@ msgid "Fleet status"
 msgstr "集群状态"
 
 #: templates/pages/packages.tmpl:13
+#: templates/pages/patches.tmpl:19
 msgid "Group"
 msgstr "组"
 
-#: templates/layout.html.tmpl:77
+#: templates/layout.html.tmpl:81
 msgid "Groups"
 msgstr "组"
 
-#: src/app.js:633
+#: src/app.js:712
 #: templates/pages/vulnerabilities.tmpl:14
 msgid "High"
 msgstr "高"
 
-#: src/jobs.js:54
+#: src/jobs.js:82
 msgid "ID"
 msgstr "ID"
 
+#: src/node.js:695
+#: src/patches.js:130
 #: src/vulnerability.js:54
 msgid "Installed"
 msgstr "已安装"
@@ -385,14 +436,23 @@ msgstr "已安装"
 msgid "Interval"
 msgstr "间隔"
 
-#: templates/layout.html.tmpl:81
+#: templates/layout.html.tmpl:85
 #: templates/pages/job.tmpl:4
-#: templates/pages/jobs.tmpl:3
+#: templates/pages/jobs.tmpl:12
+#: templates/pages/jobs.tmpl:4
+#: templates/pages/plan-edit.tmpl:4
+#: templates/pages/plan.tmpl:4
+#: templates/pages/plans.tmpl:4
+#: templates/pages/plans.tmpl:7
+#: templates/pages/schedule-edit.tmpl:4
+#: templates/pages/schedule.tmpl:4
+#: templates/pages/schedules.tmpl:4
+#: templates/pages/schedules.tmpl:7
 msgid "Jobs"
 msgstr "Jobs"
 
-#: src/jobs.js:54
-#: templates/pages/jobs.tmpl:7
+#: src/jobs.js:82
+#: templates/pages/jobs.tmpl:20
 msgid "Kind"
 msgstr "种类"
 
@@ -401,7 +461,7 @@ msgstr "种类"
 msgid "Language"
 msgstr "语言"
 
-#: src/index.js:249
+#: src/index.js:286
 msgid "Last check-in"
 msgstr "最后签入"
 
@@ -409,7 +469,7 @@ msgstr "最后签入"
 msgid "Last name"
 msgstr "姓"
 
-#: templates/pages/users.tmpl:22
+#: templates/pages/users.tmpl:25
 msgid "Last name (optional)"
 msgstr "姓（可选）"
 
@@ -417,7 +477,7 @@ msgstr "姓（可选）"
 msgid "Last sync"
 msgstr "上次同步"
 
-#: templates/layout.html.tmpl:117
+#: templates/layout.html.tmpl:121
 msgid "License (GPL-3.0)"
 msgstr "许可证 (GPL-3.0)"
 
@@ -433,7 +493,7 @@ msgstr "使用 SSO 登录"
 msgid "Log out"
 msgstr "退出登录"
 
-#: src/app.js:635
+#: src/app.js:714
 #: templates/pages/vulnerabilities.tmpl:16
 msgid "Low"
 msgstr "低"
@@ -442,20 +502,20 @@ msgstr "低"
 msgid "Main"
 msgstr "主导航"
 
-#: templates/pages/group.tmpl:47
+#: templates/pages/group.tmpl:94
 msgid "Match rule"
 msgstr "匹配规则"
 
-#: templates/pages/group.tmpl:45
+#: templates/pages/group.tmpl:92
 msgid "Matching"
 msgstr "匹配"
 
-#: src/groups.js:33
-#: templates/pages/group.tmpl:77
+#: src/groups.js:60
+#: templates/pages/group.tmpl:128
 msgid "Matching nodes"
 msgstr "匹配的 Nodes"
 
-#: src/app.js:634
+#: src/app.js:713
 #: templates/pages/vulnerabilities.tmpl:15
 msgid "Medium"
 msgstr "中"
@@ -472,16 +532,27 @@ msgstr "受影响 Nodes 最多优先"
 msgid "Most severe first"
 msgstr "最严重优先"
 
-#: src/groups.js:33
-#: src/jobs.js:54
-#: src/roles.js:45
-#: src/service-tokens.js:43
-#: src/users.js:60
+#: src/agentless.js:131
+#: src/agentless.js:278
+#: src/agentless.js:367
+#: src/agentless.js:95
+#: src/groups.js:60
+#: src/jobs.js:82
+#: src/plans.js:36
+#: src/roles.js:145
+#: src/schedules.js:49
+#: src/service-tokens.js:47
+#: src/user-groups.js:167
+#: src/user-groups.js:84
+#: src/users.js:141
 #: src/vulnerability-providers.js:150
 #: src/vulnerability-providers.js:75
-#: templates/pages/group.tmpl:15
-#: templates/pages/roles.tmpl:15
-#: templates/pages/service-tokens.tmpl:17
+#: templates/pages/group.tmpl:22
+#: templates/pages/plan-edit.tmpl:15
+#: templates/pages/roles.tmpl:17
+#: templates/pages/schedule-edit.tmpl:16
+#: templates/pages/service-tokens.tmpl:19
+#: templates/pages/user-groups.tmpl:21
 msgid "Name"
 msgstr "名称"
 
@@ -492,28 +563,30 @@ msgstr "新建"
 #: templates/pages/group.tmpl:5
 #: templates/pages/group.tmpl:7
 #: templates/pages/groups.tmpl:5
+#: templates/pages/user-groups.tmpl:18
 msgid "New group"
 msgstr "新建组"
 
+#: src/users.js:35
 #: templates/pages/preferences.tmpl:44
 msgid "New password"
 msgstr "新密码"
 
-#: templates/pages/roles.tmpl:12
+#: templates/pages/roles.tmpl:14
 msgid "New role"
 msgstr "新建角色"
 
-#: templates/pages/service-tokens.tmpl:14
+#: templates/pages/service-tokens.tmpl:16
 msgid "New service token"
 msgstr "新建服务令牌"
 
-#: templates/pages/users.tmpl:12
+#: templates/pages/users.tmpl:14
 msgid "New user"
 msgstr "新建用户"
 
 #: templates/pages/activity.tmpl:14
 #: templates/pages/code.tmpl:58
-#: templates/pages/jobs.tmpl:21
+#: templates/pages/jobs.tmpl:36
 msgid "Newest first"
 msgstr "最新优先"
 
@@ -521,7 +594,7 @@ msgstr "最新优先"
 msgid "No activity recorded yet"
 msgstr "尚未记录任何活动"
 
-#: src/index.js:135
+#: src/index.js:172
 msgid "No activity yet"
 msgstr "暂无活动"
 
@@ -541,7 +614,7 @@ msgstr "暂无 deploy"
 msgid "No events for this report"
 msgstr "此 Report 无事件"
 
-#: src/node.js:339
+#: src/node.js:343
 msgid "No facts reported"
 msgstr "未上报 Facts"
 
@@ -549,37 +622,37 @@ msgstr "未上报 Facts"
 msgid "No fix released"
 msgstr "尚未发布修复"
 
-#: src/jobs.js:27
+#: src/jobs.js:55
 msgid "No jobs yet"
 msgstr "暂无 Jobs"
 
-#: src/nodes.js:220
+#: src/nodes.js:264
 #: src/packages.js:129
 msgid "No matching nodes"
 msgstr "无匹配的 Node"
 
 #: src/groups.js:10
-msgid "No node groups yet"
-msgstr "暂无 Node 组"
+#~ msgid "No node groups yet"
+#~ msgstr "暂无 Node 组"
 
-#: src/group.js:255
+#: src/group.js:440
 msgid "No nodes currently match this group"
 msgstr "当前没有 Node 匹配此组"
 
-#: src/index.js:223
-#: src/nodes.js:225
+#: src/index.js:260
+#: src/nodes.js:269
 msgid "No nodes found"
 msgstr "未找到 Node"
 
-#: src/index.js:80
+#: src/index.js:81
 msgid "No nodes yet"
 msgstr "暂无 Nodes"
 
-#: src/node.js:581
+#: src/node.js:802
 msgid "No open vulnerabilities"
 msgstr "无未处理的漏洞"
 
-#: src/node.js:398
+#: src/node.js:402
 msgid "No package data reported"
 msgstr "未上报软件包数据"
 
@@ -591,27 +664,30 @@ msgstr "无软件包"
 msgid "No packages match"
 msgstr "无匹配的软件包"
 
-#: src/node.js:448
+#: src/node.js:452
 msgid "No reports yet"
 msgstr "暂无 Reports"
 
-#: src/roles.js:23
+#: src/roles.js:95
+#: src/user-groups.js:26
 msgid "No roles yet"
 msgstr "暂无角色"
 
-#: src/index.js:175
+#: src/index.js:212
 msgid "No runs yet"
 msgstr "暂无运行记录"
 
-#: src/service-tokens.js:17
+#: src/service-tokens.js:20
 msgid "No service tokens yet"
 msgstr "暂无服务令牌"
 
-#: src/job.js:29
+#: src/job.js:119
+#: src/run-patch.js:96
 msgid "No targets"
 msgstr "无目标"
 
-#: src/users.js:33
+#: src/user-groups.js:52
+#: src/users.js:109
 msgid "No users yet"
 msgstr "暂无用户"
 
@@ -619,31 +695,42 @@ msgstr "暂无用户"
 msgid "No vulnerability providers"
 msgstr "无漏洞提供方"
 
-#: src/index.js:196
-#: src/index.js:249
-#: src/job.js:53
-#: src/nodes.js:249
+#: src/index.js:233
+#: src/index.js:286
+#: src/job.js:142
+#: src/nodes.js:293
 #: src/packages.js:146
+#: src/patches.js:129
+#: src/patches.js:92
+#: src/run-patch.js:123
 #: src/vulnerability.js:54
 msgid "Node"
 msgstr "Node"
 
+#: src/roles.js:145
 #: templates/pages/group.tmpl:4
 #: templates/pages/groups.tmpl:4
+#: templates/pages/roles.tmpl:24
 msgid "Node groups"
 msgstr "Node 组"
 
-#: templates/pages/index.tmpl:19
+#: templates/pages/index.tmpl:23
 msgid "Node inventory"
 msgstr "Node 清单"
 
-#: templates/pages/index.tmpl:22
-#: templates/pages/nodes.tmpl:11
+#: templates/pages/index.tmpl:26
+#: templates/pages/nodes.tmpl:15
 msgid "Node name"
 msgstr "Node 名称"
 
 #: src/packages.js:79
+#: src/patches.js:236
+#: src/patches.js:31
+#: src/schedule.js:66
+#: src/schedules.js:49
+#: src/target-picker.js:52
 #: templates/layout.html.tmpl:65
+#: templates/pages/agentless.tmpl:4
 #: templates/pages/node.tmpl:4
 #: templates/pages/nodes.tmpl:4
 #: templates/pages/report.tmpl:4
@@ -659,18 +746,18 @@ msgid "Nodes not assessed"
 msgstr "未评估的 Nodes"
 
 #: src/i18n.js:169
-#: templates/pages/node.tmpl:52
+#: templates/pages/node.tmpl:71
 #: templates/pages/report.tmpl:15
 msgid "Noop"
 msgstr "Noop"
 
 #: src/i18n.js:173
-#: src/nodes.js:43
-#: templates/pages/nodes.tmpl:15
+#: src/nodes.js:51
+#: templates/pages/nodes.tmpl:19
 msgid "Not connected"
 msgstr "未连接"
 
-#: src/node.js:366
+#: src/node.js:370
 msgid "Nothing to summarise"
 msgstr "无可汇总内容"
 
@@ -680,32 +767,35 @@ msgstr "旧"
 
 #: templates/pages/activity.tmpl:15
 #: templates/pages/code.tmpl:59
-#: templates/pages/jobs.tmpl:22
+#: templates/pages/jobs.tmpl:37
 msgid "Oldest first"
 msgstr "最早优先"
 
-#: templates/layout.html.tmpl:112
+#: templates/layout.html.tmpl:116
 #: templates/layout.html.tmpl:38
 #: templates/pages/login.tmpl:3
 msgid "OpenVox Console"
 msgstr "OpenVox Console"
 
-#: templates/layout.html.tmpl:113
+#: templates/layout.html.tmpl:117
 msgid "OpenVox project"
 msgstr "OpenVox 项目"
 
-#: src/group.js:84
+#: src/group.js:248
 msgid "Operator"
 msgstr "运算符"
 
 #: templates/pages/activity.tmpl:13
 #: templates/pages/code.tmpl:57
-#: templates/pages/jobs.tmpl:20
+#: templates/pages/jobs.tmpl:35
 msgid "Order"
 msgstr "顺序"
 
-#: src/node.js:418
+#: src/node.js:422
+#: src/node.js:695
 #: src/packages.js:79
+#: src/patches.js:129
+#: src/run-patch.js:72
 #: src/vulnerability.js:54
 #: templates/pages/vulnerabilities.tmpl:27
 msgid "Package"
@@ -715,20 +805,23 @@ msgstr "软件包"
 msgid "Package name"
 msgstr "软件包名称"
 
-#: src/node.js:604
+#: src/node.js:825
+#: src/run-patch.js:123
+#: src/run-patch.js:153
 #: src/vulnerabilities.js:95
 #: templates/layout.html.tmpl:69
-#: templates/pages/node.tmpl:16
+#: templates/pages/node.tmpl:24
 #: templates/pages/packages.tmpl:3
 msgid "Packages"
 msgstr "软件包"
 
-#: src/app.js:548
+#: src/app.js:627
 msgid "Pagination"
 msgstr "分页"
 
+#: src/agentless.js:250
 #: templates/pages/login.tmpl:11
-#: templates/pages/users.tmpl:18
+#: templates/pages/users.tmpl:20
 msgid "Password"
 msgstr "密码"
 
@@ -736,21 +829,27 @@ msgstr "密码"
 msgid "Pending"
 msgstr "待处理"
 
-#: src/roles.js:45
-#: src/service-tokens.js:43
+#: src/roles.js:145
+#: src/service-tokens.js:47
+#: templates/pages/roles.tmpl:20
 msgid "Permissions"
 msgstr "权限"
 
-#: templates/pages/group.tmpl:62
+#: templates/pages/group.tmpl:112
 msgid "Pinned node certnames (JSON array)"
 msgstr "固定的 Node certname（JSON 数组）"
 
-#: src/groups.js:33
+#: src/groups.js:60
 msgid "Pinned nodes"
 msgstr "固定的 Nodes"
 
+#: src/code-plans.js:57
 #: src/i18n.js:200
-#: templates/pages/jobs.tmpl:11
+#: src/plan.js:48
+#: src/schedule-common.js:39
+#: templates/pages/jobs.tmpl:24
+#: templates/pages/plan.tmpl:6
+#: templates/pages/schedule-edit.tmpl:38
 msgid "Plan"
 msgstr "Plan"
 
@@ -759,8 +858,8 @@ msgstr "Plan"
 msgid "Preferences"
 msgstr "偏好设置"
 
-#: src/groups.js:33
-#: templates/pages/group.tmpl:18
+#: src/groups.js:60
+#: templates/pages/group.tmpl:32
 msgid "Priority"
 msgstr "优先级"
 
@@ -772,7 +871,7 @@ msgstr "个人资料"
 msgid "Property"
 msgstr "属性"
 
-#: src/node.js:418
+#: src/node.js:422
 #: src/packages.js:146
 #: src/vulnerability.js:54
 #: templates/pages/packages.tmpl:10
@@ -780,7 +879,7 @@ msgstr "属性"
 msgid "Provider"
 msgstr "提供方"
 
-#: src/node.js:604
+#: src/node.js:825
 #: src/packages.js:79
 #: src/vulnerabilities.js:95
 #: templates/pages/vulnerability-providers.tmpl:5
@@ -792,18 +891,20 @@ msgid "Providers enabled"
 msgstr "已启用的提供方"
 
 #: src/i18n.js:198
+#: src/plan-common.js:31
+#: src/schedule-common.js:44
 msgid "Puppet run"
 msgstr "Puppet run"
 
-#: templates/pages/node.tmpl:22
+#: templates/pages/node.tmpl:31
 msgid "Raw JSON"
 msgstr "原始 JSON"
 
-#: templates/pages/index.tmpl:14
+#: templates/pages/index.tmpl:18
 msgid "Recent activity"
 msgstr "最近活动"
 
-#: templates/pages/index.tmpl:11
+#: templates/pages/index.tmpl:15
 msgid "Recent runs"
 msgstr "最近运行"
 
@@ -812,16 +913,19 @@ msgstr "最近运行"
 msgid "Ref"
 msgstr "Ref"
 
-#: src/group.js:89
+#: src/class-editor.js:232
+#: src/class-editor.js:245
+#: src/group.js:253
+#: src/plan-edit.js:68
 msgid "Remove"
 msgstr "移除"
 
-#: src/job.js:53
+#: src/job.js:142
 #: templates/pages/report.tmpl:6
 msgid "Report"
 msgstr "Report"
 
-#: templates/pages/node.tmpl:30
+#: templates/pages/node.tmpl:39
 msgid "Report installed packages"
 msgstr "上报已安装软件包"
 
@@ -830,7 +934,7 @@ msgid "Repositories"
 msgstr "仓库"
 
 #: src/i18n.js:175
-#: templates/pages/nodes.tmpl:20
+#: templates/pages/nodes.tmpl:24
 msgid "Requested"
 msgstr "已请求"
 
@@ -842,54 +946,69 @@ msgstr "资源"
 msgid "Resource events"
 msgstr "资源事件"
 
-#: src/nodes.js:81
+#: src/nodes.js:89
 msgid "Revoke"
 msgstr "吊销"
 
 #: src/i18n.js:176
-#: templates/pages/nodes.tmpl:21
+#: templates/pages/nodes.tmpl:25
 msgid "Revoked"
 msgstr "已吊销"
 
-#: src/users.js:60
-#: templates/pages/roles.tmpl:5
-#: templates/pages/roles.tmpl:9
-#: templates/pages/service-tokens.tmpl:5
-#: templates/pages/users.tmpl:5
+#: src/user-groups.js:167
+#: src/users.js:141
+#: templates/pages/account-policy.tmpl:6
+#: templates/pages/roles.tmpl:11
+#: templates/pages/roles.tmpl:6
+#: templates/pages/service-tokens.tmpl:6
+#: templates/pages/user-groups.tmpl:6
+#: templates/pages/users.tmpl:6
 msgid "Roles"
 msgstr "角色"
 
-#: templates/pages/jobs.tmpl:9
+#: src/code-plans.js:160
+#: src/code-plans.js:52
+#: src/plans.js:28
+#: src/run-puppet.js:111
+#: templates/pages/jobs.tmpl:22
+#: templates/pages/plan.tmpl:12
 msgid "Run"
 msgstr "运行"
 
-#: src/nodes.js:340
-#: templates/pages/nodes.tmpl:33
+#: src/plan-edit.js:33
+#: src/run-puppet.js:87
+#: templates/pages/jobs.tmpl:8
+#: templates/pages/nodes.tmpl:37
+#: templates/pages/schedule-edit.tmpl:23
 msgid "Run Puppet"
 msgstr "运行 Puppet"
 
-#: src/nodes.js:341
+#: src/run-puppet.js:96
 msgid "Run Puppet on {count} node?"
 msgid_plural "Run Puppet on {count} nodes?"
 msgstr[0] "在 {count} 个 Node 上运行 Puppet？"
 
-#: templates/pages/group.tmpl:78
-#: templates/pages/node.tmpl:9
+#: templates/pages/group.tmpl:131
+#: templates/pages/node.tmpl:11
 msgid "Run now"
 msgstr "立即运行"
 
 #: src/i18n.js:165
+#: src/plan-common.js:70
 #: templates/pages/code.tmpl:53
-#: templates/pages/jobs.tmpl:15
+#: templates/pages/jobs.tmpl:30
 msgid "Running"
 msgstr "运行中"
 
-#: templates/pages/node.tmpl:18
+#: templates/pages/node.tmpl:27
 msgid "Runs"
 msgstr "运行记录"
 
+#: src/agentless.js:308
+#: src/agentless.js:378
 #: src/vulnerability-providers.js:156
-#: templates/pages/group.tmpl:70
+#: templates/pages/group.tmpl:121
+#: templates/pages/patches.tmpl:44
 msgid "Save"
 msgstr "保存"
 
@@ -901,29 +1020,31 @@ msgstr "保存语言"
 msgid "Save profile"
 msgstr "保存个人资料"
 
-#: src/service-tokens.js:90
+#: src/service-tokens.js:95
 msgid "Service token created - copy it now, it won't be shown again"
 msgstr "服务令牌已创建 — 请立即复制，它不会再次显示"
 
-#: templates/pages/roles.tmpl:6
-#: templates/pages/service-tokens.tmpl:6
-#: templates/pages/service-tokens.tmpl:9
-#: templates/pages/users.tmpl:6
+#: templates/pages/account-policy.tmpl:7
+#: templates/pages/roles.tmpl:7
+#: templates/pages/service-tokens.tmpl:11
+#: templates/pages/service-tokens.tmpl:7
+#: templates/pages/user-groups.tmpl:7
+#: templates/pages/users.tmpl:7
 msgid "Service tokens"
 msgstr "服务令牌"
 
-#: src/node.js:604
+#: src/node.js:825
 #: src/vulnerabilities.js:95
 #: src/vulnerability.js:54
 #: templates/pages/vulnerabilities.tmpl:11
 msgid "Severity"
 msgstr "严重程度"
 
-#: templates/pages/node.tmpl:39
+#: templates/pages/node.tmpl:58
 msgid "Show closed"
 msgstr "显示已关闭"
 
-#: templates/pages/nodes.tmpl:24
+#: templates/pages/nodes.tmpl:28
 msgid "Show infrastructure certs"
 msgstr "显示基础设施证书"
 
@@ -931,12 +1052,12 @@ msgstr "显示基础设施证书"
 msgid "Showing {shown} of {total} packages"
 msgstr "显示 {total} 个软件包中的 {shown} 个"
 
-#: src/nodes.js:78
+#: src/nodes.js:86
 msgid "Sign"
 msgstr "签名"
 
 #: src/i18n.js:174
-#: templates/pages/nodes.tmpl:19
+#: templates/pages/nodes.tmpl:23
 msgid "Signed"
 msgstr "已签名"
 
@@ -945,6 +1066,7 @@ msgstr "已签名"
 #~ msgstr "正在登录&hellip;"
 
 #: src/i18n.js:170
+#: src/schedule-common.js:99
 #: templates/pages/report.tmpl:16
 msgid "Skipped"
 msgstr "已跳过"
@@ -963,29 +1085,35 @@ msgid "Source to deploy"
 msgstr "要 deploy 的来源"
 
 #: src/deploys.js:57
-#: src/jobs.js:54
-#: src/node.js:469
+#: src/jobs.js:82
+#: src/node.js:473
+#: src/patches.js:236
+#: src/schedule-common.js:98
 msgid "Started"
 msgstr "开始"
 
+#: src/code-plans.js:273
 #: src/deploys.js:57
-#: src/index.js:249
-#: src/job.js:53
-#: src/jobs.js:54
-#: src/node.js:469
-#: src/node.js:604
+#: src/index.js:286
+#: src/job.js:142
+#: src/jobs.js:82
+#: src/node.js:473
+#: src/node.js:825
+#: src/patches.js:236
 #: src/report.js:48
+#: src/run-patch.js:123
 #: src/vulnerability-providers.js:75
 #: templates/pages/code.tmpl:51
-#: templates/pages/jobs.tmpl:13
-#: templates/pages/node.tmpl:47
+#: templates/pages/jobs.tmpl:28
+#: templates/pages/node.tmpl:66
 #: templates/pages/report.tmpl:11
 msgid "Status"
 msgstr "状态"
 
 #: src/i18n.js:163
+#: src/plan-common.js:71
 #: templates/pages/code.tmpl:54
-#: templates/pages/jobs.tmpl:16
+#: templates/pages/jobs.tmpl:31
 msgid "Succeeded"
 msgstr "成功"
 
@@ -1006,28 +1134,32 @@ msgid "Sync now"
 msgstr "立即同步"
 
 #: src/status.js:183
-#: templates/pages/jobs.tmpl:6
+#: templates/pages/jobs.tmpl:19
 msgid "Target"
 msgstr "目标"
 
-#: src/jobs.js:54
+#: src/jobs.js:82
 #: templates/pages/job.tmpl:12
 msgid "Targets"
 msgstr "目标"
 
 #: src/i18n.js:199
-#: templates/pages/jobs.tmpl:10
+#: src/plan-common.js:29
+#: src/schedule-common.js:42
+#: src/task-form.js:143
+#: templates/pages/jobs.tmpl:23
 msgid "Task"
 msgstr "Task"
 
-#: templates/pages/group.tmpl:37
+#: templates/pages/group.tmpl:78
 msgid "Top-scope parameters (JSON)"
 msgstr "顶层作用域参数 (JSON)"
 
 #: src/deploys.js:57
-#: src/jobs.js:54
+#: src/jobs.js:82
+#: src/patches.js:236
 #: templates/pages/code.tmpl:50
-#: templates/pages/jobs.tmpl:19
+#: templates/pages/jobs.tmpl:34
 msgid "Triggered by"
 msgstr "触发者"
 
@@ -1038,39 +1170,41 @@ msgid "Type"
 msgstr "类型"
 
 #: src/i18n.js:168
-#: src/index.js:25
-#: templates/pages/node.tmpl:50
+#: src/index.js:26
+#: templates/pages/node.tmpl:69
 msgid "Unchanged"
 msgstr "未更改"
 
-#: src/app.js:636
+#: src/app.js:715
 #: src/i18n.js:177
-#: templates/pages/nodes.tmpl:22
+#: templates/pages/nodes.tmpl:26
 #: templates/pages/vulnerabilities.tmpl:17
 msgid "Unknown"
 msgstr "未知"
 
-#: src/users.js:60
+#: src/users.js:141
 #: templates/pages/login.tmpl:8
-#: templates/pages/users.tmpl:15
+#: templates/pages/users.tmpl:17
 msgid "Username"
 msgstr "用户名"
 
+#: templates/pages/account-policy.tmpl:4
 #: templates/pages/roles.tmpl:4
 #: templates/pages/service-tokens.tmpl:4
+#: templates/pages/user-groups.tmpl:4
+#: templates/pages/users.tmpl:11
 #: templates/pages/users.tmpl:4
-#: templates/pages/users.tmpl:9
 msgid "Users"
 msgstr "用户"
 
-#: src/group.js:87
+#: src/group.js:251
 msgid "Value"
 msgstr "值"
 
-#: src/node.js:418
+#: src/node.js:422
 #: src/packages.js:146
 #: src/status.js:136
-#: templates/layout.html.tmpl:118
+#: templates/layout.html.tmpl:122
 #: templates/pages/packages.tmpl:9
 msgid "Version"
 msgstr "版本"
@@ -1079,15 +1213,15 @@ msgstr "版本"
 msgid "Versions"
 msgstr "版本"
 
-#: templates/layout.html.tmpl:73
-#: templates/pages/node.tmpl:17
+#: templates/layout.html.tmpl:77
+#: templates/pages/node.tmpl:26
 #: templates/pages/vulnerabilities.tmpl:4
 #: templates/pages/vulnerability-providers.tmpl:4
 #: templates/pages/vulnerability.tmpl:4
 msgid "Vulnerabilities"
 msgstr "漏洞"
 
-#: src/node.js:604
+#: src/node.js:825
 #: src/vulnerabilities.js:95
 msgid "Vulnerability"
 msgstr "漏洞"
@@ -1097,14 +1231,15 @@ msgid "Vulnerability providers"
 msgstr "漏洞提供方"
 
 #: src/activity.js:39
+#: templates/pages/schedule-edit.tmpl:59
 msgid "When"
 msgstr "时间"
 
-#: templates/pages/index.tmpl:24
+#: templates/pages/index.tmpl:28
 msgid "e.g. Linux"
 msgstr "例如 Linux"
 
-#: templates/pages/index.tmpl:23
+#: templates/pages/index.tmpl:27
 msgid "e.g. kernel"
 msgstr "例如 kernel"
 
@@ -1117,7 +1252,7 @@ msgid "from {reporting} of {count} node"
 msgid_plural "from {reporting} of {count} nodes"
 msgstr[0] "{count} 个 Node 中的 {reporting} 个"
 
-#: src/nodes.js:292
+#: src/nodes.js:340
 msgid "{count} node selected"
 msgid_plural "{count} nodes selected"
 msgstr[0] "已选择 {count} 个 Node"
@@ -1127,11 +1262,14 @@ msgid "{count} node using an environment no repository here has deployed."
 msgid_plural "{count} nodes using an environment no repository here has deployed."
 msgstr[0] "{count} 个 Node 使用了此处任何仓库都未 deploy 的 Environment。"
 
-#: src/preferences.js:95
+#: src/preferences.js:106
 msgid "Automatic"
 msgstr "自动"
 
-#: src/index.js:192
+#: src/code-plans.js:273
+#: src/index.js:229
+#: src/patches.js:236
+#: src/schedule.js:107
 #: templates/pages/job.tmpl:5
 msgid "Job"
 msgstr "Job"
@@ -1144,7 +1282,8 @@ msgstr "管理提供方"
 msgid "or"
 msgstr "或"
 
-#: src/nodes.js:338
+#: src/run-patch.js:190
+#: src/run-puppet.js:93
 msgid ", and {count} more"
 msgid_plural ", and {count} more"
 msgstr[0] "，以及其他 {count} 个"
@@ -1154,12 +1293,12 @@ msgid "<strong>Assigned</strong> counts nodes classification sends to a repo's e
 msgstr "<strong>已分配</strong>统计分类规则将其送往某仓库 Environments 的 Nodes；<strong>上报中</strong>统计最近从其中一个 Environment 运行过的 Nodes。两者分开显示，因为它们之间的差距才是有用的信号。"
 
 #: templates/pages/group.tmpl:23
-msgid "A node can match several groups at once. Their classes and parameters are combined; when two groups set the <em>same</em> class parameter, top-scope parameter, or environment, the one with the higher priority wins. Priorities must be unique."
-msgstr "一个 Node 可以同时匹配多个组。它们的类和参数会合并；当两个组设置了<em>相同的</em>类参数、顶层作用域参数或 Environment 时，优先级高者胜出。优先级必须唯一。"
+#~ msgid "A node can match several groups at once. Their classes and parameters are combined; when two groups set the <em>same</em> class parameter, top-scope parameter, or environment, the one with the higher priority wins. Priorities must be unique."
+#~ msgstr "一个 Node 可以同时匹配多个组。它们的类和参数会合并；当两个组设置了<em>相同的</em>类参数、顶层作用域参数或 Environment 时，优先级高者胜出。优先级必须唯一。"
 
 #: templates/pages/group.tmpl:50
-msgid "A node joins this group when its facts satisfy <em>every</em> condition below. Fact path is a dotted path into the node's facts, like <code>os.family</code> or <code>networking.fqdn</code> — open a node's page to see the facts it reports. With no conditions and no pinned nodes, the group matches nothing."
-msgstr "当一个 Node 的 Facts 满足下方<em>每一项</em>条件时，它就加入本组。Fact 路径是指向 Node 的 Facts 的点分隔路径，例如 <code>os.family</code> 或 <code>networking.fqdn</code> — 打开某个 Node 的页面即可查看其上报的 Facts。若既无条件也无固定 Nodes，则本组不匹配任何对象。"
+#~ msgid "A node joins this group when its facts satisfy <em>every</em> condition below. Fact path is a dotted path into the node's facts, like <code>os.family</code> or <code>networking.fqdn</code> — open a node's page to see the facts it reports. With no conditions and no pinned nodes, the group matches nothing."
+#~ msgstr "当一个 Node 的 Facts 满足下方<em>每一项</em>条件时，它就加入本组。Fact 路径是指向 Node 的 Facts 的点分隔路径，例如 <code>os.family</code> 或 <code>networking.fqdn</code> — 打开某个 Node 的页面即可查看其上报的 Facts。若既无条件也无固定 Nodes，则本组不匹配任何对象。"
 
 #: src/activity.js:17
 msgid "Actions taken through the console will show up here."
@@ -1170,8 +1309,8 @@ msgid "Assigned, none reporting"
 msgstr "已分配，无上报"
 
 #: templates/pages/group.tmpl:63
-msgid "Certnames listed here are always in this group, whether or not the match rule matches them."
-msgstr "此处列出的 certname 始终属于本组，无论匹配规则是否匹配它们。"
+#~ msgid "Certnames listed here are always in this group, whether or not the match rule matches them."
+#~ msgstr "此处列出的 certname 始终属于本组，无论匹配规则是否匹配它们。"
 
 #: src/code-repositories.js:109
 msgid "Converging"
@@ -1181,7 +1320,7 @@ msgstr "收敛中"
 msgid "Deployed, but no node is classified into or reporting from its environments"
 msgstr "已 deploy，但没有 Node 被分类到其 Environments，也没有从中上报"
 
-#: templates/pages/group.tmpl:18
+#: templates/pages/group.tmpl:32
 msgid "Higher wins a conflict."
 msgstr "冲突时优先级高者胜出。"
 
@@ -1189,27 +1328,27 @@ msgstr "冲突时优先级高者胜出。"
 msgid "In use"
 msgstr "使用中"
 
-#: src/nodes.js:101
+#: src/nodes.js:109
 msgid "Infrastructure"
 msgstr "基础设施"
 
-#: src/index.js:24
+#: src/index.js:25
 msgid "Intentional changes"
 msgstr "有意变更"
 
 #: src/login.js:22
-msgid "Invalid username or password."
-msgstr "用户名或密码无效。"
+#~ msgid "Invalid username or password."
+#~ msgstr "用户名或密码无效。"
 
-#: src/nodes.js:251
+#: src/nodes.js:295
 msgid "Last connected"
 msgstr "最后连接"
 
-#: src/job.js:71
+#: src/job.js:235
 msgid "No job specified."
 msgstr "未指定 Job。"
 
-#: src/node.js:622
+#: src/node.js:843
 msgid "No node specified."
 msgstr "未指定 Node。"
 
@@ -1257,24 +1396,25 @@ msgstr "未分类"
 msgid "Unused"
 msgstr "未使用"
 
-#: templates/pages/group.tmpl:38
+#: templates/pages/group.tmpl:79
 msgid "Variables set for every manifest compiled for these nodes, available as $variable. An object of name/value pairs."
 msgstr "为这些 Nodes 编译的每个 manifest 设置的变量，可通过 $variable 访问。一个名称/值键值对的对象。"
 
-#: src/job.js:36
+#: src/job.js:125
 msgid "View report"
 msgstr "查看 Report"
 
-#: src/nodes.js:38
-#: src/nodes.js:54
+#: src/nodes.js:46
+#: src/nodes.js:62
 msgid "checking…"
 msgstr "检查中…"
 
-#: src/nodes.js:49
+#: src/nodes.js:147
+#: src/nodes.js:57
 msgid "never"
 msgstr "从未"
 
-#: src/index.js:189
+#: src/index.js:226
 msgid "no targets"
 msgstr "无目标"
 
@@ -1294,20 +1434,22 @@ msgstr "{assigned} 个 Node 已分配并上报"
 msgid "{reporting} node(s) report from its environments, but no group assigns any node there"
 msgstr "{reporting} 个 Node 从其 Environments 上报，但没有组向其分配 Node"
 
-#: templates/pages/group.tmpl:20
+#: templates/pages/group.tmpl:38
 msgid "Puppet environment matching nodes compile against. Blank means this group doesn't set one."
 msgstr "匹配的 Nodes 编译时所针对的 Puppet Environment。留空表示本组不设置。"
 
-#: src/app.js:493
-#: src/app.js:505
+#: src/app.js:572
+#: src/app.js:584
 msgid ", +{count} more"
 msgid_plural ", +{count} more"
 msgstr[0] "，+{count} 个"
 
-#: templates/pages/group.tmpl:33
-msgid "Puppet classes applied to every node in this group, each with optional parameters. A list of {\"name\", \"parameters\"} objects."
-msgstr "应用于本组每个 Node 的 Puppet 类，每个可附带可选参数。一个由 {\"name\", \"parameters\"} 对象组成的列表。"
+#: templates/pages/group.tmpl:48
+#~ msgid "Puppet classes applied to every node in this group, each with optional parameters. A list of {\"name\", \"parameters\"} objects."
+#~ msgstr "应用于本组每个 Node 的 Puppet 类，每个可附带可选参数。一个由 {\"name\", \"parameters\"} 对象组成的列表。"
 
+#: src/node.js:695
+#: src/patches.js:130
 #: src/vulnerabilities.js:87
 msgid "Available"
 msgstr "可用"
@@ -1345,7 +1487,9 @@ msgstr "尚未同步"
 msgid "Syncing"
 msgstr "同步中"
 
-#: src/index.js:151
+#: src/agentless.js:297
+#: src/agentless.js:369
+#: src/index.js:188
 msgid "User"
 msgstr "用户"
 
@@ -1357,6 +1501,8 @@ msgstr "{minutes} 分钟"
 msgid "Signing in…"
 msgstr "正在登录&hellip;"
 
+#: src/agentless.js:282
+#: src/agentless.js:95
 #: src/status.js:133
 msgid "Address"
 msgstr "地址"
@@ -1427,7 +1573,7 @@ msgstr "时钟偏差"
 msgid "differs by instance"
 msgstr "因实例而异"
 
-#: templates/layout.html.tmpl:98
+#: templates/layout.html.tmpl:102
 #: templates/pages/status.tmpl:3
 msgid "System"
 msgstr "系统"
@@ -1447,3 +1593,2194 @@ msgstr "未配置"
 #: src/status.js:31
 msgid "Unreachable"
 msgstr "无法访问"
+
+#: src/task-form.js:144
+msgid "Choose a task"
+msgstr "选择一个 Task"
+
+#: src/code-plans.js:111
+#: src/task-form.js:28
+msgid "Default: {value}"
+msgstr "默认值：{value}"
+
+#: src/job.js:53
+msgid "Environment:"
+msgstr "Environment："
+
+#: src/task-form.js:303
+msgid "Fix these parameters first:"
+msgstr "请先修正以下参数："
+
+#: src/code-plans.js:132
+#: src/task-form.js:51
+msgid "JSON, for example [\"a\", \"b\"]"
+msgstr "JSON，例如 [\"a\", \"b\"]"
+
+#: src/task-form.js:139
+msgid "No tasks in this environment"
+msgstr "此 Environment 中没有 Task"
+
+#: src/code-plans.js:118
+#: src/code-plans.js:120
+#: src/task-form.js:37
+msgid "Not set"
+msgstr "未设置"
+
+#: src/run-task.js:126
+#~ msgid "On {count} nodes."
+#~ msgstr ""
+
+#: src/run-task.js:31
+msgid "On {node}."
+msgstr "目标：{node}"
+
+#: src/code-plans.js:282
+#: src/code-plans.js:57
+#: src/job.js:99
+#: src/plan-common.js:137
+#: src/schedule.js:23
+#: src/task-form.js:185
+msgid "Parameters"
+msgstr "参数"
+
+#: src/plan-common.js:174
+#: src/task-form.js:282
+msgid "Problem:"
+msgstr "问题："
+
+#: src/job.js:110
+msgid "Result from {node}"
+msgstr "来自 {node} 的结果"
+
+#: src/plan-edit.js:33
+#: src/run-task.js:26
+#: templates/pages/schedule-edit.tmpl:24
+msgid "Run a task"
+msgstr "运行 Task"
+
+#: src/run-task.js:44
+#: templates/pages/group.tmpl:130
+#: templates/pages/jobs.tmpl:7
+#: templates/pages/node.tmpl:10
+#: templates/pages/nodes.tmpl:38
+msgid "Run task"
+msgstr "运行 Task"
+
+#: src/task-form.js:198
+msgid "Stopped if still running after this long. 30 minutes if left empty."
+msgstr "超过此时间仍在运行则停止。留空则为 30 分钟。"
+
+#: src/task-form.js:97
+msgid "Tasks are not configured on this console. An administrator sets CONSOLE_PUPPET_SERVER_URL to enable them."
+msgstr "此控制台未配置 Task。管理员设置 CONSOLE_PUPPET_SERVER_URL 后即可启用。"
+
+#: src/task-form.js:318
+msgid "The console refused these parameters:"
+msgstr "控制台拒绝了以下参数："
+
+#: src/task-form.js:186
+msgid "This task declares no parameters, so any JSON object is passed to it as is."
+msgstr "此 Task 未声明参数，因此任何 JSON 对象都会原样传给它。"
+
+#: src/task-form.js:188
+msgid "This task takes no parameters."
+msgstr "此 Task 不接受参数。"
+
+#: src/task-form.js:197
+msgid "Timeout (minutes)"
+msgstr "超时（分钟）"
+
+#: src/task-form.js:262
+msgid "is not valid JSON"
+msgstr "不是有效的 JSON"
+
+#: src/task-form.js:237
+msgid "must be a JSON object"
+msgstr "必须是 JSON 对象"
+
+#: src/plan-common.js:174
+#: src/task-form.js:247
+msgid "required"
+msgstr "必填"
+
+#: src/run-task.js:32
+msgid "On {count} node."
+msgid_plural "On {count} nodes."
+msgstr[0] "目标：{count} 个 Node"
+
+#: src/node.js:577
+msgid "Attempt {attempts} of {max}. Next automatic attempt: {time}."
+msgstr "第 {attempts} 次尝试，共 {max} 次。下次自动尝试：{time}。"
+
+#: src/node.js:575
+msgid "Automatic attempts stopped after {attempts} failures."
+msgstr "失败 {attempts} 次后已停止自动尝试。"
+
+#: src/index.js:131
+msgid "Automatic upgrades are off."
+msgstr "自动升级已关闭。"
+
+#: src/index.js:131
+msgid "Automatic upgrades are on."
+msgstr "自动升级已开启。"
+
+#: src/nodes.js:130
+msgid "Client out of date"
+msgstr "客户端已过期"
+
+#: src/index.js:125
+msgid "Clients too old to upgrade themselves: {count}. Re-run the install script on those nodes once; the Nodes page marks them."
+msgstr "版本过旧、无法自行升级的客户端：{count}。请在这些 nodes 上重新运行一次安装脚本；Nodes 页面会标出它们。"
+
+#: src/node.js:556
+msgid "Current"
+msgstr "最新"
+
+#: src/index.js:120
+msgid "Current: {count}"
+msgstr "最新：{count}"
+
+#: src/index.js:122
+msgid "Failed upgrades: {count}"
+msgstr "升级失败：{count}"
+
+#: src/node.js:593
+#: src/node.js:611
+msgid "Node agent"
+msgstr "Node 代理"
+
+#: src/index.js:129
+msgid "Node agents"
+msgstr "Node 代理"
+
+#: src/node.js:557
+#: src/node.js:558
+#: src/patches.js:61
+msgid "Out of date"
+msgstr "已过期"
+
+#: src/index.js:121
+msgid "Out of date: {count}"
+msgstr "已过期：{count}"
+
+#: src/node.js:573
+msgid "The last client upgrade failed: {error}"
+msgstr "上次客户端升级失败：{error}"
+
+#: src/node.js:571
+msgid "The node has been told to upgrade its client. It restarts onto the new build when the upgrade completes."
+msgstr "已指示该 node 升级其客户端。升级完成后，它将以新版本重新启动。"
+
+#: src/node.js:562
+msgid "This client is too old to upgrade itself. Re-run the install script on this node once; after that it keeps itself current."
+msgstr "此客户端版本过旧，无法自行升级。请在此 node 上重新运行一次安装脚本；此后它会自行保持最新。"
+
+#: src/node.js:564
+msgid "This console has no client package for the platform of this node."
+msgstr "此控制台没有适用于此 node 平台的客户端软件包。"
+
+#: src/node.js:593
+msgid "This node has not reported its client build yet. It does so the next time it connects."
+msgstr "此 node 尚未报告其客户端版本。它将在下次连接时报告。"
+
+#: src/node.js:599
+msgid "Unknown build"
+msgstr "未知版本"
+
+#: src/node.js:614
+msgid "Upgrade client"
+msgstr "升级客户端"
+
+#: src/node.js:563
+msgid "Upgrades are declined in the configuration of this node."
+msgstr "此 node 的配置拒绝升级。"
+
+#: src/node.js:600
+msgid "Version {version}, built {time}"
+msgstr "版本 {version}，构建于 {time}"
+
+#: src/node.js:602
+msgid "unknown"
+msgstr "未知"
+
+#: src/node.js:601
+msgid "unversioned"
+msgstr "无版本号"
+
+#: templates/pages/group.tmpl:41
+msgid "A node can match several groups at once. Their classes and parameters are combined. When two groups set the <em>same</em> class parameter, top-scope parameter, or environment, a group always wins over the groups above it in the tree; between unrelated groups the one with the higher priority wins. Priorities must be unique."
+msgstr "一个 Node 可以同时匹配多个组。这些组的类和参数会合并。当两个组设置了<em>相同</em>的类参数、顶级作用域参数或 Environment 时，组总是优先于树中位于其上方的组；在没有上下级关系的组之间，优先级较高的组胜出。优先级必须唯一。"
+
+#: templates/pages/group.tmpl:97
+msgid "A node joins this group when it is in the parent group and its facts satisfy the conditions below. Fact path is a dotted path into the node's facts, like <code>os.family</code> or <code>networking.fqdn</code> — open a node's page to see the facts it reports. With no conditions and no pinned nodes, the group matches nothing."
+msgstr "当 Node 位于父组中且其 Facts 满足以下条件时，它会加入此组。Fact 路径是 Node 的 Facts 中以点分隔的路径，例如 <code>os.family</code> 或 <code>networking.fqdn</code>——打开某个 Node 的页面即可查看它上报的 Facts。如果没有条件也没有固定的 Nodes，该组不匹配任何 Node。"
+
+#: templates/pages/group.tmpl:104
+msgid "A node must satisfy"
+msgstr "Node 必须满足"
+
+#: templates/pages/group.tmpl:13
+msgid "All Nodes is the built-in group every node belongs to. Its classes, parameters and environment apply to every node; its name, rule and pinned nodes cannot be changed."
+msgstr "All Nodes 是每个 Node 都属于的内置组。它的类、参数和 Environment 适用于每个 Node；它的名称、规则和固定的 Nodes 不能更改。"
+
+#: templates/pages/group.tmpl:113
+msgid "Certnames listed here are in this group whether or not the match rule matches them, as long as they are also in the parent group."
+msgstr "此处列出的 certname 只要同时位于父组中，无论匹配规则是否匹配它们，都属于此组。"
+
+#: src/groups.js:35
+msgid "Create a group to start classifying nodes."
+msgstr "创建一个组以开始对 Nodes 进行分类。"
+
+#: src/group.js:182
+msgid "Groups beneath this one override it despite their lower priority."
+msgstr "此组下方的组尽管优先级较低，仍会覆盖它。"
+
+#: src/group.js:172
+msgid "Its value is the one used, because a group always wins over the groups above it. Priority alone would have chosen the parent's. This group sets:"
+msgstr "使用的是它的值，因为组总是优先于其上方的组。仅按优先级的话会选择父组的值。此组设置了："
+
+#: src/groups.js:14
+msgid "Overrides priority"
+msgstr "覆盖优先级"
+
+#: src/groups.js:8
+msgid "Overrides {count} value set by a parent with a higher priority"
+msgid_plural "Overrides {count} values set by a parent with a higher priority"
+msgstr[0] "覆盖了优先级更高的父组设置的 {count} 个值"
+
+#: templates/pages/group.tmpl:25
+msgid "Parent group"
+msgstr "父组"
+
+#: src/group.js:183
+msgid "Their values are the ones used for their nodes:"
+msgstr "它们的 Nodes 使用的是它们的值："
+
+#: src/group.js:474
+msgid "These pinned nodes are not currently in this group, because they are not in its parent group (or are not known to the console):"
+msgstr "以下固定的 Nodes 当前不在此组中，因为它们不在父组中（或控制台不认识它们）："
+
+#: templates/pages/group.tmpl:26
+msgid "This group can only contain nodes that are also in its parent, and it inherits the parent's classes and parameters."
+msgstr "此组只能包含同时位于其父组中的 Nodes，并继承父组的类和参数。"
+
+#: src/group.js:171
+msgid "This group overrides a parent with a higher priority."
+msgstr "此组覆盖了优先级更高的父组。"
+
+#: src/group.js:457
+msgid "Whether each pinned node is currently in this group is unavailable."
+msgstr "无法获知每个固定的 Node 当前是否在此组中。"
+
+#: src/group.js:156
+msgid "a different environment from {ancestor}"
+msgstr "与 {ancestor} 不同的 Environment"
+
+#: src/group.js:103
+msgid "all of the conditions"
+msgstr "所有条件"
+
+#: src/group.js:104
+msgid "any one of the conditions"
+msgstr "任意一个条件"
+
+#: src/group.js:158
+msgid "parameter {key} of class {class}, which {ancestor} sets differently"
+msgstr "类 {class} 的参数 {key}，{ancestor} 对它的设置不同"
+
+#: src/group.js:157
+msgid "top-scope parameter {key}, which {ancestor} sets differently"
+msgstr "顶级作用域参数 {key}，{ancestor} 对它的设置不同"
+
+#: src/roles.js:111
+#: src/roles.js:124
+#: src/user-groups.js:149
+msgid "Change"
+msgstr "更改"
+
+#: src/roles.js:64
+msgid "No node groups"
+msgstr "没有 Node 组"
+
+#: src/roles.js:50
+msgid "Node groups could not be loaded, so the new role will cover all nodes. Viewing node groups needs the classifier:read permission."
+msgstr "无法加载 Node 组，因此新角色将覆盖所有 Nodes。查看 Node 组需要 classifier:read 权限。"
+
+#: src/roles.js:116
+msgid "Save node groups"
+msgstr "保存 Node 组"
+
+#: templates/pages/roles.tmpl:25
+msgid "The role's permissions apply to the nodes in these groups and in every group beneath them. All Nodes covers the whole fleet."
+msgstr "角色的权限适用于这些组及其下方所有组中的 Nodes。All Nodes 覆盖整个机群。"
+
+#: src/group.js:594
+msgid "This group is granted to one or more roles. Remove it from those roles on the Roles page before deleting it."
+msgstr "此组已授予一个或多个角色。删除之前，请先在“角色”页面将它从这些角色中移除。"
+
+#: src/nodes.js:589
+msgid "You are seeing the nodes in this node group and the groups beneath it: {groups}"
+msgid_plural "You are seeing the nodes in these node groups and the groups beneath them: {groups}"
+msgstr[0] "您看到的是以下 Node 组及其下方各组中的 Nodes：{groups}"
+
+#: src/nodes.js:585
+msgid "Your roles are not granted on any node group, so no nodes are shown. Ask an administrator to add a node group to one of your roles."
+msgstr "您的角色未被授予任何 Node 组，因此不显示任何 Node。请让管理员为您的某个角色添加 Node 组。"
+
+#: src/roles.js:67
+msgid "{count} node groups"
+msgstr "{count} 个 Node 组"
+
+#: src/app.js:291
+msgid "Nothing was done. Your role cannot act on this node, because it is not in your node groups: {nodes}"
+msgid_plural "Nothing was done on any node. Your role cannot act on these nodes, because they are not in your node groups: {nodes}"
+msgstr[0] "未对任何 Node 执行任何操作。您的角色无法操作以下 Nodes，因为它们不在您的 Node 组中：{nodes}"
+
+#: src/job.js:57
+msgid "Only the nodes in your node groups are shown. This job also ran on other nodes, and its status covers all of them."
+msgstr "仅显示您的 Node 组中的 Nodes。此 Job 还在其他 Nodes 上运行过，其状态涵盖所有这些 Nodes。"
+
+#: src/app.js:290
+msgid "{nodes} and {count} more"
+msgstr "{nodes} 以及另外 {count} 个"
+
+#: templates/pages/group.tmpl:67
+msgid "Add a class"
+msgstr "添加类"
+
+#: templates/pages/group.tmpl:72
+msgid "Add class"
+msgstr "添加类"
+
+#: src/class-editor.js:257
+msgid "Add parameter"
+msgstr "添加参数"
+
+#: src/run-puppet.js:32
+msgid "Asks the node to run against this environment. A node whose node groups set an environment runs in that one instead; the job shows which was used."
+msgstr "要求 Node 在此 Environment 下运行。如果 Node 的 Node 组设置了 Environment，它会改在该 Environment 中运行；Job 会显示实际使用的是哪一个。"
+
+#: src/class-editor.js:378
+msgid "Choose or type a class"
+msgstr "选择或输入类"
+
+#: src/class-editor.js:252
+msgid "Choose or type a parameter"
+msgstr "选择或输入参数"
+
+#: src/class-editor.js:345
+msgid "Choosing from the classes in the {environment} environment, as read at {time}."
+msgstr "正在从 {environment} Environment 的类中选择，读取时间为 {time}。"
+
+#: src/groups.js:28
+msgid "Class mismatch"
+msgstr "类不匹配"
+
+#: src/class-editor.js:378
+msgid "Class name, like profile::base"
+msgstr "类名，例如 profile::base"
+
+#: src/class-editor.js:309
+msgid "Class {class} already sets parameter {parameter}."
+msgstr "类 {class} 已设置参数 {parameter}。"
+
+#: src/class-editor.js:482
+msgid "Classes must be a JSON list of objects, each with a \"name\" and optional \"parameters\"."
+msgstr "类必须是由对象组成的 JSON 列表，每个对象包含 \"name\" 和可选的 \"parameters\"。"
+
+#: src/run-puppet.js:161
+msgid "Debug"
+msgstr "调试"
+
+#: src/run-puppet.js:27
+msgid "Debug output"
+msgstr "调试输出"
+
+#: src/class-editor.js:184
+msgid "Default: {default}"
+msgstr "默认值：{default}"
+
+#: src/class-editor.js:217
+msgid "Does not fit the type: {detail}"
+msgstr "与类型不符：{detail}"
+
+#: src/class-editor.js:186
+msgid "Entered as JSON"
+msgstr "以 JSON 输入"
+
+#: src/run-puppet.js:160
+msgid "Environment: {environment}"
+msgstr "Environment：{environment}"
+
+#: src/class-editor.js:477
+msgid "Invalid JSON in the classes: {error}"
+msgstr "类中的 JSON 无效：{error}"
+
+#: src/class-editor.js:264
+msgid "No classes yet. Nodes in this group get only what their other groups give them."
+msgstr "还没有类。此组中的 Nodes 只获得其他组给予它们的内容。"
+
+#: src/class-editor.js:185
+msgid "No default in the code"
+msgstr "代码中没有默认值"
+
+#: src/class-editor.js:247
+msgid "No parameters set: the code's own defaults and Hiera apply."
+msgstr "未设置参数：采用代码自身的默认值和 Hiera。"
+
+#: src/run-puppet.js:26
+msgid "No-op: report what would change, and change nothing"
+msgstr "No-op：报告将会发生的更改，但不做任何更改"
+
+#: src/class-editor.js:213
+msgid "Not a parameter of this class"
+msgstr "不是此类的参数"
+
+#: src/class-editor.js:242
+msgid "Not defined in {environment}"
+msgstr "未在 {environment} 中定义"
+
+#: src/job.js:78
+msgid "Output from {node}"
+msgstr "来自 {node} 的输出"
+
+#: src/class-editor.js:252
+msgid "Parameter name"
+msgstr "参数名称"
+
+#: src/class-editor.js:172
+msgid "Parameter {parameter} of class {class} is not valid JSON. Text needs double quotes, like \"value\"."
+msgstr "类 {class} 的参数 {parameter} 不是有效的 JSON。文本需要双引号，例如 \"value\"。"
+
+#: src/class-editor.js:163
+msgid "Parameter {parameter} of class {class} needs a number. Enter one, or remove the parameter to leave it unset."
+msgstr "类 {class} 的参数 {parameter} 需要一个数字。请输入数字，或移除该参数使其保持未设置。"
+
+#: templates/pages/group.tmpl:56
+msgid "Puppet classes applied to every node in this group. A parameter left unset keeps the value the code or Hiera gives it. A class or parameter that the environment's code does not define can still be saved, and is marked."
+msgstr "应用于此组中每个 Node 的 Puppet 类。未设置的参数保留代码或 Hiera 给它的值。Environment 的代码未定义的类或参数仍可保存，并会被标记。"
+
+#: src/job.js:89
+msgid "Ran in {used}, not {requested}"
+msgstr "在 {used} 中运行，而不是 {requested}"
+
+#: src/class-editor.js:351
+msgid "Refresh classes"
+msgstr "刷新类"
+
+#: src/class-editor.js:245
+msgid "Remove class {class}"
+msgstr "移除类 {class}"
+
+#: src/class-editor.js:232
+msgid "Remove parameter {parameter}"
+msgstr "移除参数 {parameter}"
+
+#: src/run-puppet.js:95
+msgid "Run Puppet on {node}?"
+msgstr "在 {node} 上运行 Puppet？"
+
+#: src/class-editor.js:250
+msgid "Set a parameter"
+msgstr "设置参数"
+
+#: src/class-editor.js:361
+msgid "The Puppet server could not be reached just now, so this list of classes may be out of date. Nothing is marked as missing until it can be read again."
+msgstr "刚才无法连接到 Puppet 服务器，因此此类列表可能已过期。在能够再次读取之前，不会将任何内容标记为缺失。"
+
+#: src/class-editor.js:76
+msgid "The Puppet server has no environment named {environment}, so its classes cannot be listed. Classes and parameters can still be entered by name."
+msgstr "Puppet 服务器上没有名为 {environment} 的 Environment，因此无法列出其类。仍然可以按名称输入类和参数。"
+
+#: src/job.js:58
+msgid "The environment is a request. A node whose node groups set an environment runs in that one instead, and is marked below once its report arrives."
+msgstr "Environment 是一项请求。如果 Node 的 Node 组设置了 Environment，它会改在该 Environment 中运行，并在其 Report 到达后在下方标出。"
+
+#: src/class-editor.js:78
+msgid "The list of classes is unavailable: the Puppet server could not be reached. Classes and parameters can still be entered by name."
+msgstr "类列表不可用：无法连接到 Puppet 服务器。仍然可以按名称输入类和参数。"
+
+#: src/class-editor.js:74
+msgid "The list of classes is unavailable: the Puppet server does not allow the console to read classes. An administrator adds a rule for /puppet/v3/environment_classes to the server's auth.conf - see the installation guide. Classes and parameters can still be entered by name."
+msgstr "类列表不可用：Puppet 服务器不允许控制台读取类。管理员需在服务器的 auth.conf 中为 /puppet/v3/environment_classes 添加规则——请参阅安装指南。仍然可以按名称输入类和参数。"
+
+#: src/class-editor.js:72
+msgid "The list of classes is unavailable: this console has no connection to the Puppet server. An administrator sets CONSOLE_PUPPET_SERVER_URL to enable it. Classes and parameters can still be entered by name."
+msgstr "类列表不可用：此控制台未连接到 Puppet 服务器。管理员需设置 CONSOLE_PUPPET_SERVER_URL 以启用。仍然可以按名称输入类和参数。"
+
+#: src/class-editor.js:367
+msgid "These manifests could not be parsed, so their classes are not in the list, and no class is marked as undefined:"
+msgstr "以下清单无法解析，因此它们的类不在列表中，也不会将任何类标记为未定义："
+
+#: src/class-editor.js:419
+msgid "This group already has class {class}."
+msgstr "此组已有类 {class}。"
+
+#: src/job.js:90
+msgid "This node's node groups set its environment, which takes precedence over the one a run asks for."
+msgstr "此 Node 的 Node 组设置了它的 Environment，其优先于运行所请求的 Environment。"
+
+#: src/class-editor.js:396
+msgid "{count} class or parameter below does not match the code in the {environment} environment. It is saved and applied as it is; a node whose catalog needs it will fail to compile until the code or the group is changed."
+msgid_plural "{count} classes or parameters below do not match the code in the {environment} environment. They are saved and applied as they are; a node whose catalog needs them will fail to compile until the code or the group is changed."
+msgstr[0] "下方有 {count} 个类或参数与 {environment} Environment 中的代码不匹配。它们会按原样保存并应用；在代码或组更改之前，目录需要它们的 Node 将无法编译。"
+
+#: src/groups.js:22
+msgid "{count} class or parameter does not match the code in {environment}"
+msgid_plural "{count} classes or parameters do not match the code in {environment}"
+msgstr[0] "{count} 个类或参数与 {environment} 中的代码不匹配"
+
+#: templates/pages/schedule-edit.tmpl:51
+msgid "A query or a node group is worked out again each time the schedule starts, so it follows the nodes as they change. The preview shows what it would run on now."
+msgstr "查询或 Node 组会在计划每次启动时重新计算，因此会随 Nodes 的变化而变化。预览显示的是现在运行时的目标。"
+
+#: src/target-picker.js:61
+msgid "A query that returns certname. It is run when the job starts, and the job runs on the matching nodes in your node groups."
+msgstr "返回 certname 的查询。它在 Job 启动时运行，Job 在您的 Node 组中匹配的 Nodes 上运行。"
+
+#: templates/pages/schedule-edit.tmpl:82
+msgid "A repeat is a fixed length of time from the start: a day is 24 hours. Where the clocks change, a daily schedule moves by an hour on the local clock. It cannot repeat more often than every 5 minutes."
+msgstr "重复间隔是从开始时间起的固定时长：一天为 24 小时。在时钟调整时，每日计划在本地时钟上会偏移一小时。重复频率不能高于每 5 分钟一次。"
+
+#: templates/pages/schedules.tmpl:12
+#~ msgid "A scheduled job starts a Puppet run or a task later, once or repeatedly. Its nodes are worked out each time it starts, and it runs with its owner's access as it is at that moment."
+#~ msgstr ""
+
+#: src/plan-common.js:124
+#: src/task-form.js:29
+msgid "A value is stored. Leave this empty to keep it."
+msgstr "已存储一个值。留空即可保留它。"
+
+#: src/schedule-common.js:88
+msgid "Active"
+msgstr "活动"
+
+#: src/schedule.js:60
+msgid "All {count} nodes"
+msgstr "全部 {count} 个 Nodes"
+
+#: src/target-picker.js:184
+msgid "Choose a node group"
+msgstr "选择 Node 组"
+
+#: src/target-picker.js:165
+msgid "Choose a node group first."
+msgstr "请先选择 Node 组。"
+
+#: src/task-form.js:297
+msgid "Choose a task first."
+msgstr "请先选择 Task。"
+
+#: src/target-picker.js:46
+msgid "Choose nodes by"
+msgstr "选择 Nodes 的方式"
+
+#: src/schedule-edit.js:182
+msgid "Choose when it starts."
+msgstr "请选择开始时间。"
+
+#: src/schedule.js:146
+msgid "Delete this schedule?"
+msgstr "删除此计划？"
+
+#: src/schedule.js:107
+msgid "Due"
+msgstr "到期"
+
+#: src/schedule.js:75
+msgid "Each time it starts, it runs on the nodes its owner's role can act on at that moment. If the owner can no longer run jobs, nothing is started."
+msgstr "每次启动时，它在其所有者的角色当时可以操作的 Nodes 上运行。如果所有者不再能运行 Job，则不会启动任何内容。"
+
+#: src/schedule-edit.js:219
+#: src/schedule-edit.js:220
+msgid "Edit schedule"
+msgstr "编辑计划"
+
+#: templates/pages/schedule-edit.tmpl:73
+msgid "Every"
+msgstr "每隔"
+
+#: src/schedule-common.js:56
+#: src/target-picker.js:195
+#: src/target-picker.js:263
+msgid "Group {id}"
+msgstr "组 {id}"
+
+#: src/target-picker.js:191
+msgid "Group {id} (deleted)"
+msgstr "组 {id}（已删除）"
+
+#: src/schedule-edit.js:143
+msgid "In your local time."
+msgstr "按您的本地时间。"
+
+#: src/schedule-edit.js:142
+msgid "In your time zone, {zone}."
+msgstr "按您的时区，{zone}。"
+
+#: src/schedule.js:89
+msgid "It has not come due yet"
+msgstr "尚未到期"
+
+#: src/schedule.js:147
+msgid "It will not start again. The jobs it has already started stay in the job history."
+msgstr "它不会再启动。它已启动的 Jobs 保留在 Job 历史记录中。"
+
+#: src/code-plans.js:267
+#: src/job.js:66
+#: src/node.js:738
+#: src/patches.js:227
+#: src/schedule.js:98
+#: src/schedules.js:15
+msgid "Job #{id}"
+msgstr "Job #{id}"
+
+#: templates/pages/jobs.tmpl:13
+#: templates/pages/plans.tmpl:8
+#: templates/pages/schedules.tmpl:8
+msgid "Job history"
+msgstr "Job 历史记录"
+
+#: src/schedules.js:49
+msgid "Last time"
+msgstr "上次"
+
+#: src/target-picker.js:167
+msgid "List at least one node first."
+msgstr "请先列出至少一个 Node。"
+
+#: src/target-picker.js:47
+msgid "List of nodes"
+msgstr "Nodes 列表"
+
+#: src/jobs.js:42
+msgid "Matched by"
+msgstr "匹配方式"
+
+#: templates/pages/schedule-edit.tmpl:6
+#: templates/pages/schedule-edit.tmpl:8
+#: templates/pages/schedules.tmpl:5
+msgid "New schedule"
+msgstr "新建计划"
+
+#: src/schedule.js:69
+#: src/schedules.js:49
+msgid "Next start"
+msgstr "下次启动"
+
+#: src/target-picker.js:143
+msgid "No nodes match at the moment."
+msgstr "目前没有匹配的 Node。"
+
+#: src/schedule.js:162
+msgid "No schedule specified."
+msgstr "未指定计划。"
+
+#: src/schedules.js:23
+msgid "No scheduled jobs"
+msgstr "没有计划的 Job"
+
+#: src/jobs.js:42
+#: src/schedule-common.js:57
+#: src/target-picker.js:49
+#: src/target-picker.js:65
+msgid "Node group"
+msgstr "Node 组"
+
+#: src/job.js:30
+msgid "Node group:"
+msgstr "Node 组："
+
+#: src/target-picker.js:197
+msgid "Node groups cannot be listed: your role needs to be able to read them."
+msgstr "无法列出 Node 组：您的角色需要有读取它们的权限。"
+
+#: src/job.js:30
+msgid "Nodes matched by:"
+msgstr "Nodes 匹配方式："
+
+#: src/schedule-common.js:53
+msgid "Nodes matching"
+msgstr "匹配的 Nodes"
+
+#: src/schedules.js:13
+msgid "Not yet"
+msgstr "尚无"
+
+#: src/schedule.js:51
+msgid "Nothing further: it does not repeat, and its time has passed."
+msgstr "没有后续：它不重复，且时间已过。"
+
+#: src/schedule-common.js:67
+msgid "Once"
+msgstr "一次"
+
+#: src/target-picker.js:54
+msgid "One certname per line. If any is outside your node groups, nothing is run on any of them."
+msgstr "每行一个 certname。只要有一个不在您的 Node 组中，就不会在任何 Node 上运行。"
+
+#: src/schedule.js:107
+msgid "Outcome"
+msgstr "结果"
+
+#: src/target-picker.js:58
+msgid "PQL query"
+msgstr "PQL 查询"
+
+#: templates/pages/schedule.tmpl:12
+msgid "Pause"
+msgstr "暂停"
+
+#: src/schedule-common.js:89
+msgid "Paused"
+msgstr "已暂停"
+
+#: src/schedule.js:50
+msgid "Paused: it will not start until it is resumed."
+msgstr "已暂停：恢复之前不会启动。"
+
+#: src/target-picker.js:69
+msgid "Preview nodes"
+msgstr "预览 Nodes"
+
+#: src/target-picker.js:48
+msgid "Query"
+msgstr "查询"
+
+#: src/schedule.js:107
+msgid "Reason"
+msgstr "原因"
+
+#: templates/pages/schedule-edit.tmpl:69
+msgid "Repeat"
+msgstr "重复"
+
+#: src/schedule.js:68
+#: src/schedules.js:49
+msgid "Repeats"
+msgstr "重复"
+
+#: templates/pages/schedule.tmpl:13
+msgid "Resume"
+msgstr "恢复"
+
+#: src/jobs.js:57
+msgid "Run Puppet or a task, here or from a node or a node group, to see it here."
+msgstr "在此处，或从某个 Node 或 Node 组运行 Puppet 或 Task，即可在此处看到。"
+
+#: src/schedule.js:70
+#: src/schedules.js:49
+msgid "Runs as"
+msgstr "运行身份"
+
+#: templates/pages/schedule-edit.tmpl:91
+msgid "Save schedule"
+msgstr "保存计划"
+
+#: src/schedule.js:125
+#: templates/pages/schedule.tmpl:6
+msgid "Schedule"
+msgstr "计划"
+
+#: src/schedules.js:25
+#~ msgid "Schedule a Puppet run or a task to start later, once or repeatedly."
+#~ msgstr ""
+
+#: src/run-plan.js:33
+#: src/run-puppet.js:109
+#: src/run-task.js:42
+msgid "Schedule instead"
+msgstr "改为计划"
+
+#: src/jobs.js:47
+msgid "Scheduled"
+msgstr "已计划"
+
+#: templates/pages/jobs.tmpl:14
+#: templates/pages/plans.tmpl:9
+#: templates/pages/schedule-edit.tmpl:5
+#: templates/pages/schedule.tmpl:5
+#: templates/pages/schedules.tmpl:9
+msgid "Scheduled jobs"
+msgstr "计划的 Jobs"
+
+#: src/schedule.js:67
+#: templates/pages/schedule-edit.tmpl:62
+msgid "Start"
+msgstr "开始"
+
+#: src/job.js:38
+msgid "Started by schedule:"
+msgstr "由计划启动："
+
+#: src/schedule.js:64
+#: src/schedules.js:49
+msgid "State"
+msgstr "状态"
+
+#: src/target-picker.js:66
+msgid "The nodes in the group when the job starts."
+msgstr "Job 启动时组中的 Nodes。"
+
+#: src/task-form.js:157
+msgid "The task {task} is no longer in the {environment} environment. Choose another."
+msgstr "Task {task} 已不在 {environment} Environment 中。请选择其他 Task。"
+
+#: src/target-picker.js:235
+msgid "These are the nodes the job will run on. Check them, then start it."
+msgstr "Job 将在这些 Nodes 上运行。请检查后再启动。"
+
+#: src/schedule-edit.js:230
+msgid "This schedule runs as {owner}. If you save it, it will run as you from then on, with your access. Any sensitive task values must be entered again."
+msgstr "此计划以 {owner} 的身份运行。如果您保存它，此后它将以您的身份、按您的访问权限运行。任何敏感的 Task 值都必须重新输入。"
+
+#: src/schedule.js:76
+#: src/schedules.js:54
+msgid "Times are shown in your time zone, {zone}."
+msgstr "时间按您的时区 {zone} 显示。"
+
+#: src/target-picker.js:163
+msgid "Type a query first."
+msgstr "请先输入查询。"
+
+#: templates/pages/schedule-edit.tmpl:74
+msgid "Unit"
+msgstr "单位"
+
+#: templates/pages/schedule.tmpl:23
+msgid "What happened each time it came due"
+msgstr "每次到期时发生的情况"
+
+#: templates/pages/schedule-edit.tmpl:21
+msgid "What to run"
+msgstr "运行内容"
+
+#: templates/pages/schedule-edit.tmpl:50
+msgid "Which nodes"
+msgstr "哪些 Nodes"
+
+#: src/target-picker.js:268
+msgid "a query"
+msgstr "查询"
+
+#: src/schedule-common.js:61
+msgid "and {count} more"
+msgid_plural "and {count} more"
+msgstr[0] "以及另外 {count} 个"
+
+#: templates/pages/schedule-edit.tmpl:77
+msgid "days"
+msgstr "天"
+
+#: templates/pages/schedule-edit.tmpl:76
+msgid "hours"
+msgstr "小时"
+
+#: templates/pages/schedule-edit.tmpl:75
+msgid "minutes"
+msgstr "分钟"
+
+#: src/schedule.js:70
+msgid "service token"
+msgstr "服务令牌"
+
+#: src/job.js:37
+msgid "since deleted"
+msgstr "之后已删除"
+
+#: templates/pages/schedule-edit.tmpl:78
+msgid "weeks"
+msgstr "周"
+
+#: src/patches.js:229
+#: src/run-patch.js:46
+#: src/target-picker.js:144
+msgid "{count} node"
+msgid_plural "{count} nodes"
+msgstr[0] "{count} 个 Node"
+
+#: src/schedule-common.js:77
+msgid "Every {count} day"
+msgid_plural "Every {count} days"
+msgstr[0] "每 {count} 天"
+
+#: src/schedule-common.js:75
+msgid "Every {count} hour"
+msgid_plural "Every {count} hours"
+msgstr[0] "每 {count} 小时"
+
+#: src/schedule-common.js:73
+msgid "Every {count} minute"
+msgid_plural "Every {count} minutes"
+msgstr[0] "每 {count} 分钟"
+
+#: src/schedule-common.js:79
+msgid "Every {count} week"
+msgid_plural "Every {count} weeks"
+msgstr[0] "每 {count} 周"
+
+#: src/schedule-common.js:101
+msgid "Interrupted"
+msgstr "已中断"
+
+#: src/schedule-common.js:100
+msgid "Missed"
+msgstr "已错过"
+
+#: src/schedule-common.js:102
+msgid "Starting"
+msgstr "正在启动"
+
+#: src/password-rules.js:20
+#: templates/pages/account-policy.tmpl:29
+msgid "A digit"
+msgstr "一个数字"
+
+#: templates/pages/account-policy.tmpl:56
+msgid "A locked account cannot log in with its password until the time has passed, or until an administrator unlocks it on the Users page. Sessions that are already open carry on. The login page never says whether an account is locked, so that it does not reveal which usernames exist."
+msgstr "被锁定的账户在时间到期或管理员在“用户”页面解锁之前，无法使用密码登录。已打开的会话继续有效。登录页面从不说明账户是否被锁定，以免泄露存在哪些用户名。"
+
+#: src/password-rules.js:16
+#: templates/pages/account-policy.tmpl:27
+msgid "A lowercase letter"
+msgstr "一个小写字母"
+
+#: templates/pages/account-policy.tmpl:32
+msgid "A password is checked when it is set. Existing passwords keep working, and are checked the next time they are changed. A password can never be the account's username, or longer than 72 bytes."
+msgstr "密码在设置时进行检查。现有密码继续有效，并在下次更改时检查。密码不能与账户的用户名相同，也不能超过 72 字节。"
+
+#: templates/pages/account-policy.tmpl:25
+msgid "A password must also contain:"
+msgstr "密码还必须包含："
+
+#: templates/pages/plan-edit.tmpl:37
+msgid "A plan can have at most 20 steps."
+msgstr "一个 Plan 最多可以有 20 个步骤。"
+
+#: templates/pages/plans.tmpl:13
+msgid "A plan is a list of Puppet runs and tasks carried out in order on the same nodes. Everyone who can run jobs can change a plan; which nodes it runs on is chosen each time it is run."
+msgstr "Plan 是在相同 Nodes 上按顺序执行的 Puppet 运行和 Tasks 的列表。任何可以运行 Job 的人都可以更改 Plan；每次运行时选择在哪些 Nodes 上运行。"
+
+#: src/plans.js:16
+msgid "A plan is a list of Puppet runs and tasks to carry out in order on the same nodes."
+msgstr "Plan 是要在相同 Nodes 上按顺序执行的 Puppet 运行和 Tasks 的列表。"
+
+#: templates/pages/schedules.tmpl:13
+msgid "A scheduled job starts a Puppet run, a task or a plan later, once or repeatedly. Its nodes are worked out each time it starts, and it runs with its owner's access as it is at that moment."
+msgstr "计划的 Job 会在稍后启动一次 Puppet 运行、一个 Task 或一个 Plan，可以一次性或重复执行。它的 Nodes 在每次启动时确定，并以所有者当时的访问权限运行。"
+
+#: src/task-form.js:21
+msgid "A sensitive value. It is not kept in the plan, and is asked for each time the plan is run."
+msgstr "敏感值。它不会保存在 Plan 中，每次运行 Plan 时都会要求输入。"
+
+#: src/plan-common.js:125
+msgid "A sensitive value: it is sent to the nodes and never shown again."
+msgstr "敏感值：它会发送到 Nodes，之后不再显示。"
+
+#: templates/pages/account-policy.tmpl:30
+msgid "A symbol"
+msgstr "一个符号"
+
+#: src/password-rules.js:22
+msgid "A symbol, such as ! or #"
+msgstr "一个符号，例如 ! 或 #"
+
+#: templates/pages/account-policy.tmpl:11
+#: templates/pages/account-policy.tmpl:8
+#: templates/pages/roles.tmpl:8
+#: templates/pages/service-tokens.tmpl:8
+#: templates/pages/user-groups.tmpl:8
+#: templates/pages/users.tmpl:8
+msgid "Account policy"
+msgstr "账户策略"
+
+#: templates/pages/plan-edit.tmpl:34
+msgid "Add a Puppet run step"
+msgstr "添加 Puppet 运行步骤"
+
+#: templates/pages/plan-edit.tmpl:35
+msgid "Add a task step"
+msgstr "添加 Task 步骤"
+
+#: src/plan-edit.js:148
+msgid "Add at least one step."
+msgstr "请至少添加一个步骤。"
+
+#: src/password-rules.js:18
+#: templates/pages/account-policy.tmpl:28
+msgid "An uppercase letter"
+msgstr "一个大写字母"
+
+#: src/plan.js:27
+msgid "Asked for when the plan is run:"
+msgstr "运行 Plan 时要求输入："
+
+#: src/password-rules.js:14
+msgid "At least {count} character"
+msgid_plural "At least {count} characters"
+msgstr[0] "至少 {count} 个字符"
+
+#: templates/pages/account-policy.tmpl:50
+msgid "Between 1 and 1,440 (a day)."
+msgstr "介于 1 和 1,440（一天）之间。"
+
+#: templates/pages/account-policy.tmpl:46
+msgid "Between 3 and 100."
+msgstr "介于 3 和 100 之间。"
+
+#: templates/pages/account-policy.tmpl:23
+msgid "Between 8 and 72 characters."
+msgstr "介于 8 和 72 个字符之间。"
+
+#: src/schedule-edit.js:58
+msgid "Choose a plan"
+msgstr "选择 Plan"
+
+#: src/schedule-edit.js:167
+msgid "Choose the plan to run."
+msgstr "请选择要运行的 Plan。"
+
+#: src/preferences.js:65
+msgid "Current and new password are both required."
+msgstr "当前密码和新密码均为必填。"
+
+#: src/plan.js:59
+msgid "Delete this plan?"
+msgstr "删除此 Plan？"
+
+#: src/code-plans.js:57
+#: src/plans.js:36
+msgid "Description"
+msgstr "说明"
+
+#: templates/pages/plan-edit.tmpl:18
+msgid "Description (optional)"
+msgstr "说明（可选）"
+
+#: src/plan.js:38
+#: src/run-plan.js:27
+msgid "Each step runs on every node, in this order. If a step fails on any node, the plan stops and the steps after it are not run."
+msgstr "每个步骤按此顺序在每个 Node 上运行。如果某个步骤在任一 Node 上失败，Plan 会停止，其后的步骤不会运行。"
+
+#: src/plan-edit.js:175
+#: src/plan-edit.js:176
+msgid "Edit plan"
+msgstr "编辑 Plan"
+
+#: templates/pages/account-policy.tmpl:45
+msgid "Failed logins in a row"
+msgstr "连续登录失败次数"
+
+#: src/job.js:164
+msgid "Finished {when}"
+msgstr "完成于 {when}"
+
+#: src/plan-edit.js:144
+msgid "Give the plan a name."
+msgstr "请为 Plan 命名。"
+
+#: src/users.js:37
+msgid "If the account is locked, this unlocks it. Sessions the user already has open carry on."
+msgstr "如果账户已被锁定，此操作会将其解锁。用户已打开的会话继续有效。"
+
+#: src/login.js:27
+msgid "Invalid username or password. After several failed attempts in a row, an account is locked for a while: wait, or ask an administrator to unlock it."
+msgstr "用户名或密码无效。连续多次失败后，账户会被锁定一段时间：请等待，或让管理员解锁。"
+
+#: src/plan.js:60
+msgid "Jobs it has started stay in the job history, and schedules made from it keep their own copy of its steps."
+msgstr "它已启动的 Jobs 保留在 Job 历史记录中，由它创建的计划保留各自的步骤副本。"
+
+#: src/schedule-edit.js:58
+msgid "Keep the steps shown below"
+msgstr "保留下方显示的步骤"
+
+#: src/plans.js:36
+msgid "Last changed by"
+msgstr "最后更改者"
+
+#: src/account-policy.js:39
+#: src/plan.js:37
+msgid "Last changed by {user} on {when}."
+msgstr "最后由 {user} 于 {when} 更改。"
+
+#: templates/pages/account-policy.tmpl:41
+msgid "Lock an account after repeated failed logins"
+msgstr "多次登录失败后锁定账户"
+
+#: templates/pages/account-policy.tmpl:49
+msgid "Locked for (minutes)"
+msgstr "锁定时长（分钟）"
+
+#: src/users.js:20
+msgid "Locked until {when}"
+msgstr "锁定至 {when}"
+
+#: templates/pages/account-policy.tmpl:40
+msgid "Login lockout"
+msgstr "登录锁定"
+
+#: templates/pages/account-policy.tmpl:22
+msgid "Minimum length"
+msgstr "最小长度"
+
+#: src/plan-edit.js:67
+msgid "Move down"
+msgstr "下移"
+
+#: src/plan-edit.js:66
+msgid "Move up"
+msgstr "上移"
+
+#: templates/pages/plan-edit.tmpl:6
+#: templates/pages/plan-edit.tmpl:8
+#: templates/pages/plans.tmpl:5
+msgid "New plan"
+msgstr "新建 Plan"
+
+#: src/password-rules.js:24
+msgid "No longer than 72 bytes"
+msgstr "不超过 72 字节"
+
+#: src/plan.js:75
+msgid "No plan specified."
+msgstr "未指定 Plan。"
+
+#: src/plans.js:14
+msgid "No plans yet"
+msgstr "还没有 Plan"
+
+#: src/job.js:172
+msgid "No steps to show"
+msgstr "没有可显示的步骤"
+
+#: templates/pages/plan-edit.tmpl:30
+msgid "No steps yet. Add the first one below."
+msgstr "还没有步骤。请在下方添加第一个步骤。"
+
+#: src/password-rules.js:70
+msgid "Not met:"
+msgstr "未满足："
+
+#: src/code-plans.js:10
+#: src/plan-common.js:73
+msgid "Not run"
+msgstr "未运行"
+
+#: src/job.js:156
+msgid "Not run, because an earlier step failed. Nothing was sent to any node for this step."
+msgstr "未运行，因为之前的步骤失败了。此步骤未向任何 Node 发送任何内容。"
+
+#: src/password-rules.js:26
+msgid "Not the same as the username"
+msgstr "不能与用户名相同"
+
+#: src/preferences.js:72
+msgid "Password changed."
+msgstr "密码已更改。"
+
+#: src/password-rules.js:66
+msgid "Password rules"
+msgstr "密码规则"
+
+#: templates/pages/account-policy.tmpl:21
+msgid "Passwords"
+msgstr "密码"
+
+#: templates/pages/jobs.tmpl:15
+#: templates/pages/plan-edit.tmpl:5
+#: templates/pages/plan.tmpl:5
+#: templates/pages/plans.tmpl:10
+#: templates/pages/schedules.tmpl:10
+msgid "Plans"
+msgstr "Plans"
+
+#: templates/pages/account-policy.tmpl:12
+msgid "Rules for accounts that log in with a username and password. They do not apply to people who sign in through your identity provider, or to service tokens."
+msgstr "适用于使用用户名和密码登录的账户的规则。它们不适用于通过身份提供商登录的人员，也不适用于服务令牌。"
+
+#: templates/pages/schedule-edit.tmpl:25
+msgid "Run a plan"
+msgstr "运行 Plan"
+
+#: src/run-plan.js:35
+msgid "Run plan"
+msgstr "运行 Plan"
+
+#: src/run-plan.js:20
+msgid "Run plan: {name}"
+msgstr "运行 Plan：{name}"
+
+#: templates/pages/plan-edit.tmpl:41
+msgid "Save plan"
+msgstr "保存 Plan"
+
+#: templates/pages/account-policy.tmpl:66
+msgid "Save policy"
+msgstr "保存策略"
+
+#: src/account-policy.js:64
+msgid "Saved. The policy is in force now, on every console instance."
+msgstr "已保存。策略现已在每个控制台实例上生效。"
+
+#: src/schedules.js:25
+msgid "Schedule a Puppet run, a task or a plan to start later, once or repeatedly."
+msgstr "计划一次 Puppet 运行、一个 Task 或一个 Plan 在稍后启动，可以一次性或重复执行。"
+
+#: src/users.js:32
+msgid "Set a password for {user}"
+msgstr "为 {user} 设置密码"
+
+#: src/users.js:129
+#: src/users.js:41
+msgid "Set password"
+msgstr "设置密码"
+
+#: src/job.js:163
+msgid "Started {when}"
+msgstr "开始于 {when}"
+
+#: src/job.js:153
+msgid "Starts when the step before it has finished on every node."
+msgstr "在前一个步骤在每个 Node 上完成后开始。"
+
+#: src/plan-common.js:17
+msgid "Step {number}"
+msgstr "步骤 {number}"
+
+#: src/job.js:62
+#~ msgid "Step {number} of {count}"
+#~ msgstr ""
+
+#: src/job.js:199
+#: src/job.js:202
+#: src/plans.js:36
+#: src/run-plan.js:25
+#: src/schedule.js:42
+#: templates/pages/plan-edit.tmpl:24
+#: templates/pages/plan.tmpl:22
+msgid "Steps"
+msgstr "步骤"
+
+#: templates/pages/plan-edit.tmpl:25
+msgid "Steps run in this order, each on every node the plan is run on. If a step fails on any node, the plan stops there. A sensitive task value is never kept in a plan: it is asked for each time the plan is run."
+msgstr "步骤按此顺序运行，每个步骤都在运行 Plan 的每个 Node 上运行。如果某个步骤在任一 Node 上失败，Plan 会就此停止。敏感的 Task 值从不保存在 Plan 中：每次运行 Plan 时都会要求输入。"
+
+#: src/users.js:62
+msgid "That password does not meet the rules above."
+msgstr "该密码不符合上述规则。"
+
+#: src/preferences.js:78
+#: src/users.js:251
+msgid "That password does not meet the rules shown under it."
+msgstr "该密码不符合其下方显示的规则。"
+
+#: templates/pages/schedule-edit.tmpl:39
+msgid "The schedule keeps its own copy of these steps. Changing or deleting the saved plan later does not change what the schedule runs; to pick up a change, choose the plan here again and save."
+msgstr "计划保留这些步骤的自有副本。之后更改或删除已保存的 Plan 不会改变计划运行的内容；要采用更改，请在此处重新选择该 Plan 并保存。"
+
+#: src/schedule-edit.js:64
+msgid "There are no saved plans yet. Create one on the Plans page first."
+msgstr "还没有已保存的 Plan。请先在 Plans 页面创建一个。"
+
+#: src/account-policy.js:40
+msgid "These are the defaults: the policy has not been changed."
+msgstr "这些是默认值：策略尚未更改。"
+
+#: src/run-plan.js:52
+msgid "This plan has a step that can no longer run. Edit the plan before running it."
+msgstr "此 Plan 有一个无法再运行的步骤。请在运行前编辑该 Plan。"
+
+#: src/schedule.js:44
+msgid "This schedule keeps its own copy of the steps, taken when it was saved. Changing or deleting the saved plan does not change what the schedule runs."
+msgstr "此计划保留保存时获取的步骤的自有副本。更改或删除已保存的 Plan 不会改变计划运行的内容。"
+
+#: src/plan-common.js:45
+msgid "This step can no longer run as saved: {problem}"
+msgstr "此步骤无法再按保存的内容运行：{problem}"
+
+#: src/plan-common.js:57
+msgid "Timeout: {count} minute"
+msgid_plural "Timeout: {count} minutes"
+msgstr[0] "超时：{count} 分钟"
+
+#: src/users.js:52
+msgid "Type the new password."
+msgstr "请输入新密码。"
+
+#: src/users.js:24
+msgid "Unlock"
+msgstr "解锁"
+
+#: src/users.js:229
+msgid "Username and password are required."
+msgstr "用户名和密码为必填。"
+
+#: src/plan-common.js:69
+msgid "Waiting"
+msgstr "等待中"
+
+#: src/job.js:64
+#~ msgid "of plan"
+#~ msgstr ""
+
+#: src/plan.js:19
+msgid "optional"
+msgstr "可选"
+
+#: src/code-plans.js:154
+#: src/plan-common.js:64
+msgid "{count} step"
+msgid_plural "{count} steps"
+msgstr[0] "{count} 个步骤"
+
+#: src/job.js:65
+msgid "Step {number} of {count} in the plan"
+msgstr "Plan 中第 {number} 步，共 {count} 步"
+
+#: src/task-patterns.js:15
+msgid "Every task"
+msgstr "所有 Task"
+
+#: src/roles.js:131
+msgid "Save tasks"
+msgstr "保存 Task"
+
+#: src/roles.js:145
+#: src/service-tokens.js:47
+#: templates/pages/roles.tmpl:29
+msgid "Tasks"
+msgstr "Tasks"
+
+#: src/roles.js:127
+#: templates/pages/roles.tmpl:30
+#: templates/pages/service-tokens.tmpl:25
+msgid "Tasks it may run"
+msgstr "可运行的 Task"
+
+#: src/run-plan.js:51
+msgid "You cannot run this plan: a step uses a task your roles do not allow."
+msgstr "您无法运行此 Plan：其中一个步骤使用了您的角色不允许的 Task。"
+
+#: src/plan-common.js:42
+msgid "Your roles do not allow the task {task}, so you cannot run this step."
+msgstr "您的角色不允许 Task {task}，因此无法运行此步骤。"
+
+#: templates/pages/service-tokens.tmpl:25
+msgid "One per line: a task name such as package::install, a module such as patch::*, or * for every task. Leave it empty to allow every task. Fixed when the token is created."
+msgstr "每行一个：Task 名称（如 package::install）、模块（如 patch::*），或用 * 表示所有 Task。留空表示允许所有 Task。在创建令牌时固定。"
+
+#: src/roles.js:128
+#: templates/pages/roles.tmpl:30
+msgid "One per line: a task name such as package::install, a module such as patch::*, or * for every task. Leave it empty to allow every task. This limits orchestrator:run; the role's node groups still decide which nodes."
+msgstr "每行一个：Task 名称（如 package::install）、模块（如 patch::*），或用 * 表示所有 Task。留空表示允许所有 Task。这会限制 orchestrator:run；具体是哪些 Nodes 仍由角色的 Node 组决定。"
+
+#: templates/pages/user-groups.tmpl:12
+msgid "A group gives its members the roles granted to it, in addition to any roles they hold themselves. Each role keeps its own node groups and task limits."
+msgstr "除成员自己持有的角色外，组还会为其成员提供授予该组的角色。每个角色保留自己的节点组和任务限制。"
+
+#: templates/pages/user-groups.tmpl:29
+msgid "All groups"
+msgstr "所有组"
+
+#: src/user-groups.js:137
+msgid "Create a group above, then add members and grant it roles."
+msgstr "请先在上方创建一个组，然后添加成员并为其授予角色。"
+
+#: templates/pages/user-groups.tmpl:24
+msgid "Create group"
+msgstr "创建组"
+
+#: src/user-groups.js:112
+msgid "Delete {group}?"
+msgstr "删除 {group}？"
+
+#: src/user-groups.js:56
+msgid "Done"
+msgstr "完成"
+
+#: src/user-groups.js:211
+msgid "Give the group a name."
+msgstr "请为该组命名。"
+
+#: src/roles.js:89
+msgid "Granted to groups:"
+msgstr "已授予的组："
+
+#: src/users.js:101
+msgid "In groups:"
+msgstr "所在的组："
+
+#: src/user-groups.js:167
+msgid "Members"
+msgstr "成员"
+
+#: src/user-groups.js:46
+msgid "Members of {group}"
+msgstr "{group} 的成员"
+
+#: src/user-groups.js:135
+msgid "No groups yet"
+msgstr "还没有组"
+
+#: src/user-groups.js:19
+msgid "No members"
+msgstr "没有成员"
+
+#: src/user-groups.js:155
+#: src/user-groups.js:88
+msgid "Rename"
+msgstr "重命名"
+
+#: src/user-groups.js:81
+msgid "Rename {group}"
+msgstr "重命名 {group}"
+
+#: templates/pages/account-policy.tmpl:5
+#: templates/pages/roles.tmpl:5
+#: templates/pages/service-tokens.tmpl:5
+#: templates/pages/user-groups.tmpl:11
+#: templates/pages/user-groups.tmpl:5
+#: templates/pages/users.tmpl:5
+msgid "User groups"
+msgstr "用户组"
+
+#: src/user-groups.js:21
+msgid "{count} member"
+msgid_plural "{count} members"
+msgstr[0] "{count} 名成员"
+
+#: src/user-groups.js:113
+msgid "{count} person will lose the roles this group gives them."
+msgid_plural "{count} people will lose the roles this group gives them."
+msgstr[0] "{count} 人将失去该组授予的角色。"
+
+#: src/users.js:94
+msgid "{role} via {groups}"
+msgstr "{role}（通过 {groups}）"
+
+#: templates/pages/group.tmpl:83
+msgid "Configuration data (JSON)"
+msgstr "配置数据（JSON）"
+
+#: src/group.js:195
+msgid "Configuration data must be a JSON object: key/value pairs inside { }."
+msgstr "配置数据必须是 JSON 对象：{ } 中的键/值对。"
+
+#: templates/pages/group.tmpl:84
+msgid "Data that code reads with lookup(), consulted before the Hiera data in your control repo, so a key set here wins. An object of key/value pairs; a value can be any JSON. It is shown to everyone who can see node groups, so do not put secrets here."
+msgstr "代码通过 lookup() 读取的数据，会先于控制仓库中的 Hiera 数据被查询，因此在此设置的键优先。它是由键/值对组成的对象，值可以是任意 JSON。所有能查看节点组的人都能看到它，因此请不要在此放置机密信息。"
+
+#: templates/pages/patches.tmpl:35
+msgid "Automatic scanning"
+msgstr "自动扫描"
+
+#: templates/pages/patches.tmpl:47
+msgid "Between 15 minutes and 7 days (10080 minutes)."
+msgstr "介于 15 分钟到 7 天之间(10080 分钟)。"
+
+#: src/patches.js:53
+msgid "Cannot report"
+msgstr "无法上报"
+
+#: templates/pages/patches.tmpl:25
+msgid "Choose a group to scan all of its nodes now."
+msgstr "选择一个组，即可立即扫描其全部节点。"
+
+#: templates/pages/patches.tmpl:15
+msgid "Filter by package name"
+msgstr "按软件包名称筛选"
+
+#: templates/pages/patches.tmpl:43
+msgid "Interval in minutes"
+msgstr "间隔(分钟)"
+
+#: src/patches.js:62
+msgid "Last scan failed"
+msgstr "上次扫描失败"
+
+#: src/patches.js:94
+msgid "Last scanned"
+msgstr "上次扫描"
+
+#: src/node.js:661
+msgid "Last scanned {when} with {manager}."
+msgstr "上次扫描时间：{when}，使用 {manager}。"
+
+#: src/patches.js:34
+msgid "Need a reboot"
+msgstr "需要重启"
+
+#: src/patches.js:85
+msgid "No"
+msgstr "否"
+
+#: src/patches.js:111
+msgid "No node has that update pending"
+msgstr "没有节点有该更新待安装"
+
+#: src/patches.js:73
+msgid "No nodes match"
+msgstr "没有匹配的节点"
+
+#: src/patches.js:113
+msgid "No scanned node has an update pending for a package matching \"{name}\"."
+msgstr "没有已扫描的节点有名称匹配“{name}”的软件包的待安装更新。"
+
+#: src/patches.js:35
+#: src/patches.js:57
+msgid "Not scanned"
+msgstr "未扫描"
+
+#: src/node.js:682
+msgid "Nothing is pending"
+msgstr "没有待处理的内容"
+
+#: src/patches.js:92
+#: templates/pages/patches.tmpl:16
+msgid "Operating system"
+msgstr "操作系统"
+
+#: src/patches.js:36
+msgid "Out of date scans"
+msgstr "已过期的扫描"
+
+#: templates/pages/node.tmpl:25
+msgid "Patches"
+msgstr "补丁"
+
+#: templates/layout.html.tmpl:73
+#: templates/pages/patches.tmpl:3
+msgid "Patching"
+msgstr "补丁管理"
+
+#: templates/pages/patches.tmpl:15
+msgid "Pending package"
+msgstr "待更新的软件包"
+
+#: src/patches.js:94
+msgid "Reboot needed"
+msgstr "是否需要重启"
+
+#: templates/pages/patches.tmpl:42
+msgid "Scan automatically"
+msgstr "自动扫描"
+
+#: src/patches.js:56
+msgid "Scan failed"
+msgstr "扫描失败"
+
+#: templates/pages/node.tmpl:48
+msgid "Scan now"
+msgstr "立即扫描"
+
+#: templates/pages/patches.tmpl:22
+msgid "Scan this group now"
+msgstr "立即扫描此组"
+
+#: src/node.js:749
+#: src/patches.js:197
+msgid "Scanning. Refreshing package lists can take a while on a slow mirror."
+msgstr "正在扫描。镜像较慢时，刷新软件包列表可能需要一段时间。"
+
+#: src/node.js:690
+#: src/node.js:695
+#: src/patches.js:123
+#: src/patches.js:130
+#: src/patches.js:93
+#: src/run-patch.js:64
+msgid "Security"
+msgstr "安全"
+
+#: src/node.js:699
+#: src/patches.js:99
+msgid "Security is what the node's package manager marks as a security update. A system without that information shows none."
+msgstr "节点的包管理器标记为安全更新的内容才算安全更新。不提供该信息的系统不会显示任何安全更新。"
+
+#: templates/pages/patches.tmpl:36
+msgid "The console scans every connected node on this interval. A node that is offline is scanned once it reconnects."
+msgstr "控制台按此间隔扫描每个已连接的节点。离线的节点会在重新连接后被扫描。"
+
+#: src/node.js:667
+msgid "The last attempt to scan failed: {error}"
+msgstr "上次扫描尝试失败：{error}"
+
+#: src/node.js:682
+msgid "The last scan found no updates waiting for this node."
+msgstr "上次扫描没有发现该节点有待安装的更新。"
+
+#: src/node.js:667
+msgid "The updates below are from the last scan that worked."
+msgstr "下面的更新来自最近一次成功的扫描。"
+
+#: templates/pages/patches.tmpl:4
+#~ msgid "The updates each node is missing, as its own package manager reports them. This page only looks: nothing here installs or changes a package."
+#~ msgstr "每个节点缺少的更新，以其自身包管理器的报告为准。此页面只读：这里的任何操作都不会安装或更改软件包。"
+
+#: src/node.js:670
+msgid "This node already needs a reboot."
+msgstr "此节点已经需要重启。"
+
+#: src/node.js:654
+msgid "This node has not been scanned yet, so it is not known whether it is missing updates."
+msgstr "此节点尚未扫描，因此不清楚它是否缺少更新。"
+
+#: src/node.js:755
+msgid "This node is offline, so it could not be scanned. It will be scanned when it reconnects."
+msgstr "此节点处于离线状态，无法扫描。重新连接后将进行扫描。"
+
+#: src/node.js:664
+msgid "This scan is out of date. Scan again to see what is pending now."
+msgstr "此扫描已过期。请重新扫描以查看当前待处理的内容。"
+
+#: src/patches.js:75
+msgid "Try a different package, operating system or group."
+msgstr "请尝试其他软件包、操作系统或组。"
+
+#: src/patches.js:93
+msgid "Updates"
+msgstr "更新"
+
+#: src/patches.js:32
+msgid "With pending updates"
+msgstr "有待安装更新"
+
+#: src/patches.js:33
+msgid "With security updates"
+msgstr "有安全更新"
+
+#: src/patches.js:85
+msgid "Yes"
+msgstr "是"
+
+#: src/patches.js:183
+msgid "{count} failed"
+msgid_plural "{count} failed"
+msgstr[0] "{count} 个失败"
+
+#: src/patches.js:184
+msgid "{count} left out: not in your node groups"
+msgid_plural "{count} left out: not in your node groups"
+msgstr[0] "{count} 个已排除：不在您的节点组中"
+
+#: src/patches.js:181
+msgid "{count} node scanned"
+msgid_plural "{count} nodes scanned"
+msgstr[0] "已扫描 {count} 个节点"
+
+#: src/patches.js:182
+msgid "{count} offline"
+msgid_plural "{count} offline"
+msgstr[0] "{count} 个离线"
+
+#: src/run-patch.js:149
+msgid "All pending updates"
+msgstr "所有待安装的更新"
+
+#: src/run-patch.js:29
+msgid "All updates"
+msgstr "所有更新"
+
+#: src/run-patch.js:123
+msgid "Batch"
+msgstr "批次"
+
+#: src/run-patch.js:102
+msgid "Details for {node}"
+msgstr "{node} 的详细信息"
+
+#: src/run-patch.js:31
+msgid "Dry run"
+msgstr "试运行"
+
+#: src/run-patch.js:157
+msgid "Dry run: report what would be upgraded, and change nothing"
+msgstr "试运行：报告将升级的内容，不做任何更改"
+
+#: src/run-patch.js:199
+msgid "Finding the nodes in {group}…"
+msgstr "正在查找 {group} 中的节点…"
+
+#: src/run-patch.js:72
+msgid "From"
+msgstr "原版本"
+
+#: src/node.js:734
+msgid "Last patch run"
+msgstr "最近一次补丁运行"
+
+#: src/run-patch.js:150
+msgid "Named packages"
+msgstr "指定的软件包"
+
+#: src/run-patch.js:203
+msgid "No node is in this group, so there is nothing to patch."
+msgstr "此组中没有节点，因此没有需要打补丁的内容。"
+
+#: src/run-patch.js:60
+msgid "No package was selected."
+msgstr "未选择任何软件包。"
+
+#: src/run-patch.js:170
+msgid "Nodes are patched a batch at a time. When this many nodes have failed, no further batch is started. 0 never stops."
+msgstr "节点按批次依次打补丁。失败的节点达到此数量时，不再启动后续批次。0 表示永不停止。"
+
+#: src/run-patch.js:162
+msgid "Nodes at a time"
+msgstr "同时处理的节点数"
+
+#: src/i18n.js:466
+msgid "Not upgraded"
+msgstr "未升级"
+
+#: src/i18n.js:467
+msgid "Nothing to apply"
+msgstr "无需应用"
+
+#: src/run-patch.js:30
+msgid "Packages: {names}"
+msgstr "软件包：{names}"
+
+#: src/run-patch.js:175
+msgid "Patch"
+msgstr "打补丁"
+
+#: src/run-patch.js:142
+msgid "Patch nodes"
+msgstr "为节点打补丁"
+
+#: templates/pages/node.tmpl:49
+msgid "Patch now…"
+msgstr "立即打补丁…"
+
+#: src/i18n.js:201
+#: templates/pages/jobs.tmpl:25
+msgid "Patch run"
+msgstr "补丁运行"
+
+#: templates/pages/patches.tmpl:23
+msgid "Patch this group…"
+msgstr "为此组打补丁…"
+
+#: src/run-patch.js:193
+msgid "Patch {count} node?"
+msgid_plural "Patch {count} nodes?"
+msgstr[0] "为 {count} 个节点打补丁吗？"
+
+#: src/run-patch.js:192
+msgid "Patch {node}?"
+msgstr "为 {node} 打补丁吗？"
+
+#: src/run-patch.js:158
+msgid "Reboot a node that needs it once it is patched"
+msgstr "打完补丁后重启需要重启的节点"
+
+#: src/run-patch.js:32
+msgid "Reboots if required"
+msgstr "需要时重启"
+
+#: templates/pages/patches.tmpl:30
+msgid "Recent patch runs"
+msgstr "最近的补丁运行"
+
+#: src/run-patch.js:72
+msgid "Result"
+msgstr "结果"
+
+#: src/run-patch.js:28
+msgid "Security updates"
+msgstr "安全更新"
+
+#: src/run-patch.js:148
+msgid "Security updates only"
+msgstr "仅安全更新"
+
+#: src/run-patch.js:155
+msgid "Separate package names with spaces or commas. Only those with an update pending are upgraded."
+msgstr "软件包名称用空格或逗号分隔。只升级有待安装更新的软件包。"
+
+#: src/run-patch.js:166
+msgid "Stop after failed nodes"
+msgstr "失败节点达到此数量后停止"
+
+#: templates/pages/patches.tmpl:4
+msgid "The updates each node is missing, as its own package manager reports them. Scanning only looks. A patch run, started for a node group, installs the updates in batches."
+msgstr "各节点缺少的更新，由其自身的包管理器报告。扫描只查看。针对节点组启动的补丁运行会分批安装更新。"
+
+#: src/run-patch.js:72
+msgid "To"
+msgstr "新版本"
+
+#: src/run-patch.js:147
+msgid "Updates to apply"
+msgstr "要应用的更新"
+
+#: src/i18n.js:464
+msgid "Upgraded"
+msgstr "已升级"
+
+#: src/i18n.js:465
+msgid "Would upgrade"
+msgstr "将升级"
+
+#: src/run-patch.js:153
+msgid "curl openssl"
+msgstr "curl openssl"
+
+#: src/run-patch.js:47
+msgid "in {count} batch of up to {size}"
+msgid_plural "in {count} batches of up to {size}"
+msgstr[0] "分为 {count} 个批次，每批最多 {size} 个"
+
+#: src/run-patch.js:86
+msgid "needs a reboot"
+msgstr "需要重启"
+
+#: src/run-patch.js:51
+msgid "never stops for failures"
+msgstr "出现失败时也不会停止"
+
+#: src/run-patch.js:85
+msgid "rebooted"
+msgstr "已重启"
+
+#: src/run-patch.js:50
+msgid "stops after {count} failed node"
+msgid_plural "stops after {count} failed nodes"
+msgstr[0] "失败 {count} 个节点后停止"
+
+#: src/run-patch.js:84
+msgid "{count} not upgraded"
+msgid_plural "{count} not upgraded"
+msgstr[0] "{count} 个未升级"
+
+#: src/run-patch.js:82
+msgid "{count} upgraded"
+msgid_plural "{count} upgraded"
+msgstr[0] "{count} 个已升级"
+
+#: src/run-patch.js:83
+msgid "{count} would be upgraded"
+msgid_plural "{count} would be upgraded"
+msgstr[0] "{count} 个将升级"
+
+#: src/run-patch.js:48
+msgid "{done} finished"
+msgstr "已完成 {done} 个"
+
+#: src/agentless.js:287
+msgid "A login of its own"
+msgstr "专用登录"
+
+#: src/agentless.js:288
+msgid "A shared credential"
+msgstr "共享凭据"
+
+#: src/agentless.js:78
+msgid "Add a host to run tasks on it over SSH."
+msgstr "添加主机，以便通过 SSH 在其上运行任务。"
+
+#: src/agentless.js:363
+msgid "Add a shared credential"
+msgstr "添加共享凭据"
+
+#: src/agentless.js:274
+msgid "Add an agentless target"
+msgstr "添加无代理目标"
+
+#: src/agentless.js:378
+#: templates/pages/agentless.tmpl:23
+msgid "Add shared credential"
+msgstr "添加共享凭据"
+
+#: src/agentless.js:308
+#: templates/pages/agentless.tmpl:9
+msgid "Add target"
+msgstr "添加目标"
+
+#: src/nodes.js:145
+msgid "Agentless"
+msgstr "无代理"
+
+#: templates/pages/agentless.tmpl:5
+#: templates/pages/agentless.tmpl:8
+#: templates/pages/nodes.tmpl:6
+msgid "Agentless targets"
+msgstr "无代理目标"
+
+#: src/agentless.js:63
+msgid "Check"
+msgstr "检查"
+
+#: src/agentless.js:58
+#: src/nodes.js:141
+msgid "Check failed"
+msgstr "检查失败"
+
+#: src/agentless.js:166
+msgid "Checking {name}…"
+msgstr "正在检查 {name}…"
+
+#: src/agentless.js:225
+msgid "Delete this shared credential?"
+msgstr "删除此共享凭据？"
+
+#: src/agentless.js:210
+msgid "Delete this target?"
+msgstr "删除此目标？"
+
+#: src/agentless.js:274
+#: src/agentless.js:363
+msgid "Edit {name}"
+msgstr "编辑 {name}"
+
+#: src/agentless.js:96
+msgid "Host key"
+msgstr "主机密钥"
+
+#: src/agentless.js:42
+msgid "Host key changed"
+msgstr "主机密钥已更改"
+
+#: templates/pages/agentless.tmpl:11
+msgid "Hosts the console reaches over SSH instead of a node agent. Tasks can run on them; Puppet runs and patch runs need the agent. Logins are stored sealed and are never shown again."
+msgstr "控制台通过 SSH 而非节点代理连接的主机。可以在其上运行任务；Puppet 运行和补丁运行需要代理。登录信息加密存储，不会再次显示。"
+
+#: src/agentless.js:279
+msgid "How the target is named in jobs and node groups. It cannot be the name of a node that exists."
+msgstr "目标在作业和节点组中的名称。不能是已存在节点的名称。"
+
+#: src/agentless.js:192
+msgid "Key it presents now"
+msgstr "它现在出示的密钥"
+
+#: src/agentless.js:248
+msgid "Key passphrase (if it has one)"
+msgstr "密钥口令（如果有）"
+
+#: src/agentless.js:96
+msgid "Last check"
+msgstr "上次检查"
+
+#: src/agentless.js:243
+msgid "Leave blank to keep the stored one."
+msgstr "留空以保留已存储的。"
+
+#: src/agentless.js:131
+#: src/agentless.js:286
+#: src/agentless.js:95
+msgid "Login"
+msgstr "登录"
+
+#: src/agentless.js:76
+msgid "No agentless targets"
+msgstr "没有无代理目标"
+
+#: src/agentless.js:115
+msgid "No shared credentials."
+msgstr "没有共享凭据。"
+
+#: src/agentless.js:55
+#: src/nodes.js:138
+msgid "Not checked"
+msgstr "未检查"
+
+#: src/agentless.js:50
+msgid "Not seen yet"
+msgstr "尚未见到"
+
+#: templates/pages/agentless.tmpl:25
+msgid "One login several targets can use. Replacing its key or password changes it for all of them."
+msgstr "多个目标可以使用的登录。更换其密钥或密码会对所有目标生效。"
+
+#: src/agentless.js:246
+msgid "Paste a PEM or OpenSSH private key."
+msgstr "粘贴 PEM 或 OpenSSH 私钥。"
+
+#: src/agentless.js:192
+msgid "Pinned key"
+msgstr "已固定的密钥"
+
+#: src/agentless.js:283
+msgid "Port"
+msgstr "端口"
+
+#: src/agentless.js:245
+msgid "Private key"
+msgstr "私钥"
+
+#: src/nodes.js:345
+msgid "Puppet runs need the node agent, and a selected node is agentless. Run a task instead."
+msgstr "Puppet 运行需要节点代理，而所选节点中有无代理的节点。请改为运行任务。"
+
+#: src/agentless.js:57
+#: src/nodes.js:140
+msgid "Reachable"
+msgstr "可访问"
+
+#: src/agentless.js:197
+msgid "Replace pinned key"
+msgstr "替换已固定的密钥"
+
+#: src/agentless.js:196
+msgid "Replace the pinned host key?"
+msgstr "替换已固定的主机密钥？"
+
+#: src/agentless.js:65
+#: src/agentless.js:66
+msgid "Review host key"
+msgstr "查看主机密钥"
+
+#: src/agentless.js:299
+#: src/agentless.js:371
+msgid "Run tasks as (optional)"
+msgstr "以此用户运行任务（可选）"
+
+#: src/agentless.js:352
+msgid "Saved {name}. Check it to see its host key and confirm the login works."
+msgstr "已保存 {name}。请检查它，以查看其主机密钥并确认登录可用。"
+
+#: src/agentless.js:131
+msgid "Secret"
+msgstr "机密"
+
+#: src/agentless.js:291
+msgid "Shared credential"
+msgstr "共享凭据"
+
+#: src/agentless.js:32
+msgid "Shared credential: {name}"
+msgstr "共享凭据：{name}"
+
+#: templates/pages/agentless.tmpl:22
+msgid "Shared credentials"
+msgstr "共享凭据"
+
+#: src/agentless.js:300
+msgid "Tasks run through sudo as this user. sudo must not ask for a password."
+msgstr "任务通过 sudo 以此用户运行。sudo 不能要求输入密码。"
+
+#: src/agentless.js:196
+msgid "Trust this host key?"
+msgstr "信任此主机密钥？"
+
+#: src/agentless.js:197
+msgid "Trust this key"
+msgstr "信任此密钥"
+
+#: src/agentless.js:45
+msgid "Trusted"
+msgstr "已信任"
+
+#: src/agentless.js:251
+msgid "Used when there is no key, or as well."
+msgstr "在没有密钥时使用，或与密钥一起使用。"
+
+#: src/agentless.js:48
+msgid "Waiting to be trusted"
+msgstr "等待信任"
+
+#: src/agentless.js:170
+msgid "and as {user}"
+msgstr "并以 {user} 身份"
+
+#: src/agentless.js:122
+#: src/agentless.js:34
+msgid "key"
+msgstr "密钥"
+
+#: src/agentless.js:122
+#: src/agentless.js:34
+msgid "password"
+msgstr "密码"
+
+#: src/agentless.js:121
+#: src/agentless.js:35
+msgid "runs as {user}"
+msgstr "以 {user} 运行"
+
+#: src/agentless.js:173
+msgid "{name} failed at {stage}: {reason}"
+msgstr "{name} 在{stage}阶段失败：{reason}"
+
+#: src/agentless.js:191
+msgid "{name} is presenting a different host key from the one pinned. Nothing was sent to it. Replace the pin only if you know the host was rebuilt or its key rotated."
+msgstr "{name} 出示的主机密钥与已固定的不同。未向其发送任何内容。只有在确认主机已重建或密钥已轮换时才替换固定。"
+
+#: src/agentless.js:171
+msgid "{name} is reachable. Logged in as {user}{as}."
+msgstr "{name} 可以访问。已以 {user}{as} 登录。"
+
+#: src/agentless.js:193
+msgid "{name} presented this host key. Compare it with the host's own (ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub) before trusting it."
+msgstr "{name} 出示了此主机密钥。信任之前，请与主机自身的密钥（ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub）比对。"
+
+#: src/agentless.js:226
+msgid "{name} will be deleted. A credential still used by a target cannot be deleted."
+msgstr "将删除 {name}。仍被目标使用的凭据无法删除。"
+
+#: src/agentless.js:211
+msgid "{name} will no longer be reachable from the console. Its stored login is deleted."
+msgstr "{name} 将无法再从控制台访问。其存储的登录信息将被删除。"
+
+#: src/code-plans.js:50
+msgid "Cannot be run"
+msgstr "无法运行"
+
+#: src/i18n.js:202
+#: templates/pages/jobs.tmpl:26
+msgid "Code plan"
+msgstr "代码计划"
+
+#: src/code-plans.js:37
+msgid "Code plans are not available on this console instance: it does not hold the deployed code. Use an instance that does."
+msgstr "此控制台实例上无法使用代码计划：它不持有已部署的代码。请使用持有代码的实例。"
+
+#: src/code-plans.js:41
+msgid "No plans in the modules of {environment}."
+msgstr "{environment} 的模块中没有计划。"
+
+#: src/code-plans.js:260
+msgid "No steps yet"
+msgstr "尚无步骤"
+
+#: src/code-plans.js:273
+msgid "Output"
+msgstr "输出"
+
+#: templates/pages/plans.tmpl:20
+msgid "Plans in code"
+msgstr "代码中的计划"
+
+#: src/code-plans.js:279
+msgid "Returned value"
+msgstr "返回值"
+
+#: src/code-plans.js:145
+msgid "Run {plan}"
+msgstr "运行 {plan}"
+
+#: src/code-plans.js:273
+msgid "Step"
+msgstr "步骤"
+
+#: src/code-plans.js:257
+msgid "This plan also ran on nodes outside your node groups, so what it printed and returned is not shown."
+msgstr "此计划还在您的节点组之外的节点上运行过，因此不显示它的输出和返回值。"
+
+#: src/code-plans.js:155
+msgid "This plan takes no parameters."
+msgstr "此计划没有参数。"
+
+#: templates/pages/plans.tmpl:21
+msgid "YAML plans in the modules of an environment's deployed code. Each task step is checked against your node groups and task permissions as it is reached."
+msgstr "环境已部署代码的模块中的 YAML 计划。每个任务步骤在执行到时，都会按您的节点组和任务权限进行检查。"
+
+#: src/code-plans.js:148
+#: src/code-plans.js:247
+msgid "message"
+msgstr "消息"
+
+#: src/code-plans.js:205
+msgid "{name} is not valid JSON."
+msgstr "{name} 不是有效的 JSON。"

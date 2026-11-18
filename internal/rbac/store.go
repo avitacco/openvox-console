@@ -15,6 +15,9 @@ import (
 var (
 	ErrNotFound      = errors.New("not found")
 	ErrDuplicateName = errors.New("a record with this name already exists")
+	// ErrUnknownNodeGroup is returned when a role names a node group
+	// that does not exist.
+	ErrUnknownNodeGroup = errors.New("role names a node group that does not exist")
 )
 
 // Store persists users, roles, permissions, and tokens in Postgres.
@@ -31,6 +34,9 @@ func translateError(err error) error {
 	var pgErr *pgconn.PgError
 	if errors.As(err, &pgErr) && pgErr.Code == "23505" {
 		return ErrDuplicateName
+	}
+	if errors.As(err, &pgErr) && pgErr.Code == "23503" && pgErr.TableName == "role_node_groups" {
+		return ErrUnknownNodeGroup
 	}
 	return fmt.Errorf("store error: %w", err)
 }

@@ -24,8 +24,8 @@ are the exceptions worth knowing about:
 | State | Where | Survives routing to a different instance? |
 | --- | --- | --- |
 | RBAC token revocation cache | `internal/rbac.Revoker` | **Yes, when clustered.** In-memory only for zero-latency checks, but Postgres is the durable source of truth and a revocation is published over NATS (`rbac.revoked` subject) to every other running instance's in-memory cache immediately, with no restart. A request rejected for a revoked token on instance A is rejected identically on instance B. Each instance also re-reads revocations from Postgres every 30 seconds, so one missed on the bus - a route down at the wrong moment - is picked up within that window rather than lost. Instances should still be peered (`CONSOLE_CLUSTER_*`): unpeered, the 30-second re-read is the *only* propagation. |
-| Node transport connections | `internal/nodetransport.Registry` | **Yes, when clustered.** A node's connection is still a single TCP connection terminated at one instance, but with the instances peered (`CONSOLE_CLUSTER_*`) a dispatch published by any routed instance - including one that terminates no node connections, like `web` - is routed to whichever one holds that connection, and the connection registry reflects connects and disconnects cluster-wide. Unclustered, this remains instance-local: only the instance a node connected to can reach it. |
-| Orchestrator in-flight dispatch tracking | `internal/orchestrator.Dispatcher.pending` | **Instance-local, but no longer load-bearing.** A dispatch's response still returns to the instance that published it, so that instance tracks it to completion. What changed is that *any* instance can publish the dispatch, so triggering a run no longer depends on reaching a particular one. If the dispatching instance stops before a job reaches a terminal state, the stale-job reaper (`worker`/`all` mode, leased) records that job as failed rather than leaving it "running" forever. |
+| Node transport connections | `internal/nodetransport.Registry` | **Yes, when clustered.** A node's connection is still a single TCP connection terminated at one instance, but with the instances peered (`CONSOLE_CLUSTER_*`) a dispatch published by any routed instance - including one that terminates no node connections, like `web` - is routed to whichever one holds that connection, and the connection registry reflects connects and disconnects cluster-wide. An instance with no node listener (`web`) runs the registry on its own, and every registry asks the cluster once at start (`$SYS.REQ.ACCOUNT.<account>.CONNZ`, repeated twice while routes come up) for the nodes already connected, since events only cover what happens after it starts. Unclustered, this remains instance-local: only the instance a node connected to can reach it. |
+| Orchestrator in-flight dispatch tracking | `internal/orchestrator.Dispatcher.pending` | **Instance-local, but no longer load-bearing.** A dispatch's response still returns to the instance that published it, so that instance tracks it to completion. What changed is that *any* instance can publish the dispatch, so triggering a run no longer depends on reaching a particular one. If the dispatching instance stops before a job reaches a terminal state, the stale-job reaper (`worker`/`all` mode, leased) records that job as failed rather than leaving it "running" forever. A patch run is judged by its heartbeat, not its age: see "Patch runs". |
 
 Everything else - job/deploy/report history, users/roles/permissions,
 node classification, activity log (written directly by the instance
@@ -718,3 +718,843 @@ change's `evidence/` directory under `openspec/changes/`, or its dated copy unde
 - Not live: the Ubuntu import (~700 MB download) was only exercised with small
   fixture archives, not against the real directory.
 
+
+## Tasks: the Puppet server credential, and where tasks actually run
+
+How to run a task is in the **Run jobs** guide
+([`use/run-jobs.md`](marketing/guides/use/run-jobs.md)); turning tasks on is
+in both install guides.
+
+**Engineering notes** kept here:
+
+- **The credential is not the CA-client one, on purpose.** The console reads
+  `/puppet/v3/environments` and `/puppet/v3/tasks` from openvoxserver with
+  `CONSOLE_PUPPET_SERVER_*`, which default to the openvoxdb client certificate.
+  openvoxserver's default `auth.conf` allows any CA-issued certificate on
+  `/puppet/v3/tasks` and `/puppet/v3/file_content` (rules "puppet tasks
+  information" and "puppetlabs file content"), so an ordinary certificate
+  serves. The CA-client credential would also work, but carries `pp_cli_auth`
+  - full CA admin - and reading tasks has no use for it. Keeping it in
+  `internal/certstatus` alone is the point of that package.
+- **Tasks never worked before `add-task-execution`.** `node-agent-client`
+  used to run `puppet task run`, which the agent does not have (`Error:
+  Unknown subcommand 'task'` on OpenVox 8.29.0). In Puppet Enterprise that
+  work was `pxp-agent`'s; this project ships its own agent, so the agent now
+  does it: download, verify by SHA-256, lay out an install directory as Bolt
+  does, run with the input method, enforce a timeout on the whole process
+  tree (process group on Unix, job object on Windows).
+- **The console resolves, the node verifies.** The console fetches a task's
+  metadata and file list (with checksums) from openvoxserver and sends that;
+  the node downloads the files from *its own* Puppet server - the one
+  `puppet config print server_list server serverport --section agent` names,
+  often a compiler - and runs nothing on a checksum mismatch. The console
+  vouches for content, never transports it.
+- **Sensitive parameter values exist only in memory and on the wire.** They
+  are redacted before the job row is written, and the real values held by
+  the dispatching instance's `Dispatcher` until the job ends. That relies on
+  the existing rule that a job is followed only by the instance that started
+  it; if that instance stops, the reaper fails the job anyway.
+- **Output is capped.** A reply is one NATS message (1 MB by default) and
+  carries stdout twice, raw and as the result, so the agent keeps the first
+  256 KiB of stdout and 64 KiB of stderr and says so in the output.
+- **Run directories** live in `task-runs` beside the cache
+  (`/opt/puppetlabs/node-agent/task-cache` on Linux and macOS), not in the
+  temp directory, which is often mounted `noexec`.
+
+## node-agent-client upgrades itself
+
+`add-agent-auto-upgrade` exists because a production node ran a client
+from before the package-inventory fix, kept the old fact script,
+reported removed kernel packages as installed and showed 6,817
+vulnerabilities on a patched host - and nothing said the client was out
+of date. Nothing upgraded clients, and nothing could have: the packages
+were versioned `0.0.0+<git sha>`, which no package manager can order.
+
+**Build identity.** A client is identified by the SHA-256 of its own
+executable, plus a version and build time stamped in by
+`cmd/build-agent-binaries` (which `make agent-binaries` and the
+Dockerfile now run instead of bare `go build`s). The same tool writes
+`internal/agentdist/bin/builds.json`, which is how the console knows
+what it serves. `node-agent-client --build-info` prints the three
+values. A plain `go build` produces an unstamped client; a console
+embedding unstamped clients records builds but upgrades nobody, and
+logs a warning saying so at start.
+
+**Package versions.** deb is `<base>+<YYYYMMDDHHMMSS>.<revision>`, rpm
+is version `<base>`, release `<YYYYMMDDHHMMSS>.<revision>`, **epoch 1**.
+`<base>` is the release tag, or `0.1.0` while there is none. The build
+time leads, so a later build is always an upgrade. The rpm epoch is not
+decoration: the old rpm Version was the bare sha, and a sha beginning
+with a digit (`4a4a7ef`) sorts above any small version number under
+rpm's rules, so only an epoch puts new packages above every old one.
+`cmd/build-agent-packages/versions_test.go` holds both package
+managers' comparison rules and asserts the ordering against the
+versions already shipped.
+
+**The exchange.** Two dispatch actions on the existing node transport:
+`agent_status` (digest, build time, version, os, arch, install method,
+whether upgrades are accepted) and `agent_upgrade` (target digest and
+build time, plus the artifact's URL, size, SHA-256 and format). A client
+from before this change answers `unsupported action`, which the console
+records as an unknown build: out of date, and only fixable by re-running
+the install script once. The artifact is downloaded over plain HTTP(S)
+from `CONSOLE_BASE_URL` with TLS verification off on purpose - the
+package routes are public, and nothing downloaded is trusted until it
+matches the digest that came over the mutually authenticated transport.
+
+**On the node.** The artifact is staged in a directory recreated private
+to root/Administrators for each upgrade
+(`/opt/puppetlabs/node-agent/upgrade`,
+`%ProgramData%\PuppetLabs\node-agent\upgrade`; override with
+`NODE_AGENT_UPGRADE_DIR`) and removed afterwards. After the size and
+digest check, the client binary is unpacked from the package (in Go -
+no `dpkg-deb`/`rpm2cpio` needed, which is why the packages pin gzip
+payloads) and run with `--build-info`; it must report the requested
+build. Then:
+
+- **deb/rpm:** `dpkg -i` / `rpm -U --oldpackage --replacepkgs`, launched
+  with `systemd-run --unit=node-agent-client-upgrade --collect`. It has
+  to be its own unit: the package's install script restarts the service, and
+  systemd kills everything in the service's cgroup, including a package
+  manager the client started itself. `journalctl -u
+  node-agent-client-upgrade` is where a failed install explains itself.
+  Without systemd the install runs in a new session and stops the client
+  afterwards for its supervisor to restart.
+- **macOS:** the new binary is renamed over the installed one and the
+  client exits; launchd's `KeepAlive` starts it.
+- **Windows:** a running `.exe` cannot be replaced but can be renamed,
+  so it is moved to `node-agent-client.exe.old` (deleted at the next
+  start), the new one moved into place, and the client exits non-zero so
+  the Service Control Manager's recovery action restarts it. `install.ps1`
+  now sets those actions (`sc.exe failure`); a Windows node installed
+  before this needs the script re-run for that as well.
+- **A Linux binary no package owns** (a pre-packaging install) is
+  refused with "re-run the install script".
+
+**Package scripts on upgrade.** Both package managers run the old
+package's removal script while upgrading, and rpm runs it *after* the
+new package's `%post`. `postrm.sh` used to stop and disable the service
+and delete its environment file every time it ran, so an rpm upgrade
+ended with no client running. It now does that only on a real removal
+(`remove`/`purge` from dpkg, `0` from rpm). The rpm also runs
+`postinst.sh` as `%posttrans`, the last thing in the transaction,
+instead of `%post`: that is what brings the service back when upgrading
+*from* a package that still has the old removal script, which is every
+rpm built before this. Found by upgrading a live Rocky node; the deb
+was unaffected only because dpkg happens to run the two in the other
+order.
+
+A node opts out with `NODE_AGENT_ACCEPT_UPGRADES=false`. On Linux put it
+in `/etc/node-agent-client/local.env`, a file the unit now reads if
+present and the package never writes - `environment` beside it is
+regenerated on every install.
+
+**Reading a node's build.** A node's connection is announced before
+its client has subscribed for requests, so the first status request can
+find nobody listening. The coordinator retries for a few seconds and
+then leaves it to the next sweep, rather than treating the node as gone.
+It also asks every connected node when it starts, because nodes
+reconnect within a second of a console restart - before the coordinator
+is receiving connect notifications. A build that cannot be read is
+logged (`could not read a node's client build`).
+
+**A busy node.** A client executing a run or task refuses any other
+request as busy, immediately, and the refused request is never run
+later. (It used to wait in the client's queue until the work ended:
+NATS delivers to a subscription one message at a time, and the client
+did the work where the message was delivered. Each request now gets its
+own goroutine.) The one exception is the build-status request, which
+changes nothing and is answered whatever the client is doing - so the
+console knows a busy node's build, and the request it sends on connect
+cannot get a new node's first Puppet run refused. An automatic upgrade
+refused as busy is tried again a minute later and is not counted as a
+failure. A manual upgrade from the node page is refused with "the node
+is busy"; try again when the job has finished.
+
+**On the console.** `internal/agentupgrade` holds one row per node in
+`node_agents` (migration `000028`). Out of date is computed when read,
+not stored: an unknown build, or a build that differs from the
+console's for that platform **and** was built earlier. Newer is never
+out of date, so a cluster part-way through a deployment does not flap
+clients and a rollback does not downgrade them. A coordinator runs
+wherever the node listener does (`all` and `orchestrator` modes): it
+asks each node for its build on connect and sweeps every minute.
+Claiming a node is a conditional `UPDATE` under an advisory lock, which
+is what keeps two instances from instructing one node and bounds the
+fleet to 20 upgrades at a time. Busy nodes are retried in a minute and
+not counted. Failures back off 5 minutes doubling to 6 hours and stop
+after 5 attempts at one build; a different console build, or an
+operator, starts again. An upgrade is only complete when the node
+reports the new build - one that accepts and never does is failed after
+10 minutes.
+
+`CONSOLE_AGENT_AUTO_UPGRADE=false` stops the automatic upgrades and
+nothing else. `POST /api/v1/nodes/{name}/agent-upgrade` (`nodes:manage`,
+audited as `node.agent.upgrade_requested`) upgrades one node regardless,
+answering 409 with a reason code when it cannot: `not-connected`,
+`busy`, `current`, `in-progress`, `install-script`, `declined`,
+`no-artifact`.
+
+**There is no automatic rollback.** The `--build-info` check is the only
+guard against a build that starts but then cannot connect. Such a build
+stalls at 20 nodes, which then need the install script re-run against a
+fixed console.
+
+**What has and has not been verified.** Covered by tests: version
+ordering, the package unpacking against real nfpm-built `.deb`/`.rpm`
+files, every refusal and failure path on the client, the binary
+replacement for both the macOS and Windows rules, the coordinator's
+retry/backoff/exhaustion/concurrency behaviour, and one test that runs
+the real client and the real coordinator against each other over a real
+node transport (`TestEndToEnd_ConsoleUpgradesAnOutOfDateClient`).
+**Not yet run on a real node of any platform:** the `systemd-run`
+install on Debian and Rocky, the Postgres store (its tests need
+`CONSOLE_TEST_POSTGRES_DSN`), and, as with the installers themselves,
+anything on Windows or macOS. Do those before relying on this in
+production - `tasks.md` in the change lists them.
+
+## Node group scope: who sees which nodes
+
+A role's permissions apply to the node groups it names, and to every
+group beneath them. The user-facing procedure is in the site's
+"Users, roles and tokens" guide; this is what an operator needs beyond
+it.
+
+**Upgrading changes nothing.** Migration `000030` grants the built-in
+All Nodes group to every existing role, so each user sees what they saw
+before. Access tokens issued by the previous build carry no scope and
+are treated as fleet-wide until they expire (15 minutes at most);
+refreshed tokens carry the root scope. Nothing is narrowed until an
+administrator edits a role.
+
+**Rolling back widens access.** The previous build ignores the scope in
+a token and has no notion of a role's node groups, and the down
+migration drops `role_node_groups`. Any role that was narrowed becomes
+fleet-wide again. If roles have been narrowed, treat a rollback as an
+access change: tell the people who rely on the restriction, or remove
+the permissions from those roles first.
+
+**During a rolling upgrade** an instance still on the old build serves
+node data unfiltered. No role can be narrowed until an upgraded
+instance is serving the Roles page, so the exposure is limited to the
+rollout itself - but do not narrow a role until every instance is on
+the new build.
+
+**How long a change takes.** A change to a role's node groups reaches a
+signed-in user at their next token refresh (15 minutes at most); revoke
+their sessions to force it. A node that moves between groups shows up
+for, or disappears from, scoped users within 30 seconds: each instance
+caches "which nodes are in these groups" for that long, per distinct
+set of groups. The cache is derived from Postgres and openvoxdb and
+holds nothing that is lost with the instance.
+
+**Cost.** A fleet-wide caller costs nothing extra: no lookup happens.
+A scoped caller costs one read of the node groups and one fleet-wide
+fact query to openvoxdb per cache miss, however many requests a page
+makes.
+
+**If openvoxdb is unreachable** a scoped caller's node-data requests
+fail with 502 rather than fall back to unfiltered data. Fleet-wide
+callers are unaffected by the scope lookup (their requests may still
+fail for needing openvoxdb themselves).
+
+**Actions are scoped too.** Runs, tasks, plans, the package reporting
+toggle, client upgrades, node removal and certificate actions are
+refused with a 403 naming the nodes unless every node is in the
+caller's groups for that action's permission. A multi-node action is
+refused whole. The check runs before openvoxdb, the CA or the node is
+contacted, so a refused action leaves no trace but the 403.
+
+**Upgrading from the read-only release narrows what narrowed roles can
+do.** If you limited a role to some node groups before actions were
+scoped, its members could still act fleet-wide; after this upgrade
+they cannot. Before upgrading, look at each narrowed role's
+`orchestrator:run`, `nodes:manage` and `nodes:certs:manage` and decide
+whether that is what you want. Roles on All Nodes, and service tokens,
+are unaffected.
+
+**Jobs** are listed to a scoped caller when any of their nodes is in
+scope, and show only those nodes. A job's stored status is not
+recomputed per viewer, so it can read "failed" for a failure on a node
+the viewer is not shown; the job page says nodes are hidden. Scope is
+by current group membership: a removed node's job history is visible
+to fleet-wide roles only.
+
+**What is not scoped**, and so still names any node to anyone holding
+the permission: the Activity page and the audit log, node group
+definitions (including pinned node names), the ENC endpoint, and
+service tokens, which are always fleet-wide. The upgrades the console
+starts by itself are not a user's action and ignore scope.
+
+**Nodes with no facts** - never run, or waiting for a certificate - are
+in no group but All Nodes unless pinned, so only fleet-wide roles see
+them. A team signs its own new nodes' certificates when the certname is
+pinned into the team's group first (a group directly under All Nodes);
+otherwise a fleet-wide role signs.
+
+**Deleting a group a role is granted on** is refused with a 409. The
+foreign key from `role_node_groups` enforces it in the database as
+well, so a group cannot be removed out from under a role by any path.
+
+## Class discovery and Puppet run options
+
+Added by `add-class-discovery-and-run-options`.
+
+**Class discovery**
+
+- Source: `GET /puppet/v3/environment_classes?environment=<env>` on
+  openvoxserver, with the Puppet server credential (the openvoxdb client
+  certificate unless `CONSOLE_PUPPET_SERVER_CERT_FILE` names another). No new
+  console setting.
+- **openvoxserver refuses this endpoint by default** (403; confirmed on the
+  dev stack). It needs one `auth.conf` rule allowing the console's
+  certificate. The server image adds it on every start
+  (`openvoxserver-init/20-allow-class-discovery.sh`, certificate name from
+  `CLASS_DISCOVERY_CERTNAME`, default `console`); a package install adds it
+  by hand - see the install guides.
+- Symptoms and causes, as `GET /api/v1/classes` reports them in `reason`:
+  `not_configured` (no `CONSOLE_PUPPET_SERVER_URL`), `forbidden` (the rule is
+  missing or names another certificate), `unreachable`. In every case groups
+  save and nodes classify as normal; only the picker and the marks are lost.
+- Cache: per instance, in memory, five minutes. Expired on every instance
+  when a deploy publishes `codemanager.deployed`. `POST
+  /api/v1/classes/refresh` re-reads on the instance that serves it; the
+  others follow within five minutes. A restart simply re-reads.
+- **The server has its own environment cache.** With
+  `environment_timeout = unlimited` (the container image's setting) the
+  server keeps answering with the classes it first loaded until
+  `DELETE /puppet-admin-api/v1/environment-cache` is called. The console does
+  not call it. This is the same flush a catalog needs after new code, and
+  until it happens "Refresh classes" re-reads the server's stale answer.
+- The server sends no `ETag` unless its `environment-class-cache-enabled` is
+  on, so each read is a full parse of the environment. One read per
+  environment per five minutes per instance.
+- A manifest that fails to parse is listed with its error, and suppresses
+  "class not defined" marks for that environment: the class may be in it.
+
+**Run options**
+
+- `POST /api/v1/orchestrator/runs` takes `options` (`noop`, `environment`,
+  `debug`). They are stored in the job's existing `params` and `environment`
+  columns; there is no migration.
+- A run with options is sent as `run_with_options`. A node agent client from
+  before this change answers `unsupported action`, which the console records
+  as "client is too old" on that node - and Puppet is not run there. Plain
+  runs are unchanged for every client version.
+- The client runs `puppet agent --onetime --no-daemonize --detailed-exitcodes
+  [--noop] [--environment <env>] (--debug | --verbose) --color=false`.
+  `--verbose` is what makes a no-op run print its would-be changes;
+  `--color=false` because Puppet writes ANSI colour codes even to a pipe.
+  Output is cut at 256 KB stdout, 64 KB stderr.
+- The environment is checked against the server's list when the list can be
+  read, and taken on trust when it cannot.
+- **Environment is not an override.** A node whose classification sets an
+  environment runs in that one. The job page compares the requested
+  environment with the one in each node's report (one openvoxdb query per
+  job view, only for jobs that requested an environment) and marks
+  differences.
+- Not covered: options on plan steps, on a new node's initial run, and on the
+  run that follows a package-reporting toggle.
+
+## Targets by query or group, and scheduled jobs
+
+Added by `add-pql-targeting-and-scheduled-jobs`.
+
+**Targets**
+
+- A run or a task names its nodes as `targets` (a list), `query` (PQL) or
+  `group` (a node group id). One resolver (`orchestrator.TargetResolver`)
+  serves the HTTP handlers, the preview (`POST
+  /api/v1/orchestrator/targets/resolve`) and scheduled firings.
+- **Names are all or nothing; a query or a group is narrowed** to the
+  caller's `orchestrator:run` scope, and nothing says what was left out. A
+  query matching only other teams' nodes answers "no nodes matched", the
+  same as one matching nothing.
+- **A caller who is not fleet-wide may not send a subquery.** The check is a
+  count of `{` outside string literals (more than one is a subquery), made
+  before the query is sent. It is not a PQL parser. If PQL gains another way
+  to read across entities, this check needs extending.
+- A scoped caller's query still runs against the whole fleet in openvoxdb;
+  only the result is narrowed. It is bounded at 30 seconds and 4,000
+  characters. AST (JSON) queries are refused.
+- A job stores where its targets came from (`jobs.target_source`) and the
+  schedule that started it (`jobs.schedule_id`, `jobs.schedule_name`). The
+  query text is withheld from a reader who is not shown every node the job
+  ran on.
+
+**Scheduled jobs**
+
+- Tables `scheduled_jobs` and `scheduled_job_firings` (migration 31). No new
+  setting, no new permission (`orchestrator:run` / `orchestrator:read`).
+- Worker `orchestrator-scheduler`, in the `all` and `orchestrator` modes: it
+  runs beside the dispatcher because the instance that fires a schedule
+  dispatches its job. Every such instance polls every 20 seconds.
+- **Not leased.** An instance takes a due time with a compare-and-set on
+  `next_run_at`, in the same transaction that records the firing. Whichever
+  instance's update changes the row fires it. Due-ness and lateness are
+  judged by the database clock.
+- **At most once.** The claim commits before the job is created. An instance
+  that stops in between leaves the firing with outcome `firing`, shown as
+  "interrupted" after ten minutes, and nobody retries it.
+- **Late firings are missed, not run**: more than 15 minutes after the due
+  time (`scheduler.LateLimit`, a constant). A repeating schedule records one
+  missed firing and moves to its next time still ahead.
+- A firing is the on-demand request made at that moment by the schedule's
+  owner: same `orchestrator.Starter`, same checks. The owner's permission and
+  node scope are read from the database then (`internal/app`'s
+  `scheduleAuthority`), not from any token. An owner is a name and a kind
+  (user or service token), because the two share a namespace.
+- Saving a schedule's contents makes the saver its owner. Pause and resume do
+  not.
+- A firing is skipped, with the reason recorded on the schedule and in the
+  activity log, when the owner has lost `orchestrator:run`, the target
+  resolves to nothing or is now refused, the task or environment is gone,
+  openvoxdb or the Puppet server cannot be reached, or the schedule's
+  previous job is still running.
+- **Sensitive task parameters** are sealed with `CONSOLE_SECRETS_KEY`
+  (`internal/sealer`), bound to the schedule's id. No key: such a schedule is
+  refused. Changed key: its firings are skipped until it is saved again.
+  An `orchestrator`-mode instance needs the key, and
+  `CONSOLE_PUPPET_SERVER_URL`, to fire scheduled tasks.
+- Repeats are fixed intervals from the start time (a day is 24 hours), so a
+  daily schedule shifts by an hour on a local clock across a daylight-saving
+  change.
+- Deleting a node group does not touch schedules that target it; they are
+  skipped until changed.
+- A user or service token deleted and recreated under the same name becomes
+  the owner of schedules the earlier one saved, since ownership is by name.
+
+**Found while building this, not changed by it**
+
+- A job started through the API of a `web`-mode instance never completed:
+  its targets stayed `pending` and the job `running` until the reaper failed
+  it. `web` served the orchestrator routes but did not run
+  `orchestrator-dispatcher`, the only consumer of dispatch outcomes.
+  **Fixed since:** `web` now runs `orchestrator-dispatcher`, so every mode
+  that can start a job follows it. Covered by
+  `TestWebInstanceFollowsTheJobsItStarts` in `internal/app`.
+- A `web`-mode instance reported every node as not connected, because the
+  connection registry existed only beside a node listener, and an instance
+  joining a running cluster knew nothing of the nodes already connected.
+  **Fixed since:** see "Node transport connections" in the table at the top.
+  Covered by `TestRegistryWithoutAListenerLearnsExistingConnections` in
+  `internal/nodetransport`.
+
+## Plans in the console, and the account policy
+
+Added by `add-plans-ui-and-account-policy`.
+
+**Plans**
+
+- A plan request (`POST /api/v1/orchestrator/plans`) now goes through
+  `orchestrator.Starter.StartPlan`, like runs and tasks. It takes `targets`,
+  `query` or `group`, resolved once and used for every step. A step is
+  `{kind: run, options}` or `{kind: task, taskName, environment, params,
+  timeoutSeconds}`; 1 to 20 steps. Every step is checked before anything is
+  created, and a refused step is named (`step`, counted from 1).
+- **A failed step closes the rest.** `Store.FailPlan` fails the plan and, in
+  the same transaction, every later step and its targets, with the reason
+  `not run: step N failed`. Nothing is dispatched for them. Before this
+  change those steps stayed `running` until the reaper.
+- A step's state as read (`waiting`, `running`, `succeeded`, `failed`,
+  `not_run`) is derived in `orchestrator.stepViews`; the stored status is
+  still one of `running`, `succeeded`, `failed`. A step's job row is created
+  with the plan, so a step's start time is the previous step's finish time.
+- `GET /api/v1/orchestrator/jobs/{id}` returns `steps` for a plan and `plan`
+  for a step. `GET /api/v1/orchestrator/jobs` lists only top-level jobs;
+  `?parent=<id>` lists a plan's steps. A listed plan shows its first step's
+  nodes.
+- **Saved plans**: table `plans` (migration 32), package `internal/plans`,
+  routes under `/api/v1/orchestrator/saved-plans`. Read with
+  `orchestrator:read`, change with `orchestrator:run`. They are not limited
+  by node scope: they name no nodes.
+- A saved plan is a template. **There is no run-by-id route**: a client reads
+  the plan and posts its steps to `/api/v1/orchestrator/plans`.
+- **A saved plan never holds a sensitive task value.** On save the value is
+  dropped and a missing sensitive parameter is not an error
+  (`Starter.CheckPlanTemplate`). On read each task step lists `needs`, from
+  the task's metadata at that moment, or `problem` if the task is gone.
+- **A scheduled plan is a copy** (`scheduled_jobs.plan_name`, `steps`). It
+  does not reference the saved plan. This is a security boundary: a schedule
+  fires with its owner's access, and anyone with `orchestrator:run` can edit
+  a saved plan. Sensitive values are sealed in the schedule's one sealed
+  blob, keyed by step index; they are kept on a replace only for the same
+  owner and only for a step whose task and environment are unchanged at the
+  same position.
+- The reaper's staleness limit counts from a job's start, and a plan's steps
+  are created when the plan starts. A plan that runs longer than the limit
+  (two hours) has its remaining steps failed by the reaper. Not changed here.
+- A plan is followed by the instance that started it, `web` included (see
+  the fixed `web`-mode fault in the previous section). Its task steps'
+  resolved payloads live in that instance's memory, so a plan does not
+  survive that instance stopping.
+
+**Account policy**
+
+- One row, `account_policy` (migration 33), read from the database each time
+  a password is set or a login fails. No row means the defaults in
+  `rbac.DefaultAccountPolicy`: minimum length 12, no required character
+  kinds, lock for 15 minutes after 10 failures. No cache, so a change through
+  one instance applies on all of them at once.
+- Routes: `GET /api/v1/account-policy` (any authenticated caller, because
+  the change-password form shows the rules), `PUT /api/v1/account-policy`
+  and `POST /api/v1/users/{id}/unlock` (`rbac:admin`).
+- **Password rules** (`rbac.CheckPassword`) apply in the create-user,
+  administrator set-password and change-own-password handlers, and to the
+  first-start administrator. `Store.CreateUser` itself does not check, so
+  code that calls the store directly (tests, the OIDC provisioning path with
+  its random password) is unaffected. Minimum length is counted in
+  characters; the 72 maximum in bytes, which is bcrypt's limit.
+- **First start**: a `CONSOLE_BOOTSTRAP_ADMIN_PASSWORD` that fails the policy
+  creates no administrator and logs an error naming the rule. It is examined
+  only while the users table is empty.
+- **Lockout state is on the user row** (`users.failed_logins`,
+  `users.locked_until`). `Store.RecordFailedLogin` is one statement judged by
+  the database clock: concurrent failures are each counted, a failure while
+  locked changes nothing, and the first failure after a lock has passed
+  starts the count at one.
+- **A locked account answers exactly as a wrong password does** (401,
+  `invalid credentials`), and the bcrypt comparison is made either way. This
+  keeps the existing rule that login does not reveal whether a username
+  exists. The lock is visible to administrators (`lockedUntil` on a user) and
+  in the audit log (`user.locked`, `user.login.locked`).
+- Lockout covers password login and the current-password check of
+  `PUT /api/v1/me` only. Token refresh, existing access tokens, OIDC login
+  and service tokens are unaffected. An OIDC login does not clear a lock.
+- **Known limit:** anyone who knows a username can keep that account locked
+  by failing logins. The lock is temporary for that reason, and the threshold
+  can be set to 0. There is no lockout by client address and no command-line
+  unlock.
+- Audit actions: `user.locked`, `user.unlocked`, `user.login.locked`,
+  `user.password.rejected` (with the rule codes, never the password),
+  `account_policy.updated` (before and after). Activity: `user.locked`,
+  `user.unlocked`, `account_policy.updated`.
+
+## Task permissions
+
+Added by `add-task-permissions`.
+
+- **Storage.** `roles.task_patterns` and `service_tokens.task_patterns`
+  (migration 34), `TEXT[]`, empty by default. Empty means every task, which is
+  what every row existing before the migration has. Patterns are a task name,
+  `module::*` (which also allows the module's own task `module`) or `*`; at
+  most 20 of at most 64 characters; validated in `internal/taskscope`, in the
+  store as well as the handlers.
+- **Pairing.** A caller's task grants are one `{tasks, groups}` pair per role
+  that carries `orchestrator:run` (a role with an empty list contributes
+  `{["*"], groups}`), built by `rbac.Store.UserTaskGrants` and written to the
+  access token as `taskGrants`. A task may run on the union of the groups of
+  the grants that match it. A service token carries one fleet-wide grant, or
+  none. **No claim means no limit**: it is what a user none of whose roles has
+  a list, a service token without one, and a token issued before the upgrade
+  all carry. The issuer refuses an empty non-nil list, which JSON would drop
+  and so read as unlimited.
+- **Where it is enforced.** `orchestrator.Starter`, for `StartTask`,
+  `CheckTask`, each task step of `StartPlan`/`CheckPlan`, and
+  `CheckPlanTemplate` (saved plans; by name only, there being no target). The
+  name is matched before the catalogue is read. A node list that names a node
+  outside the task's nodes is refused (`403`, `outOfScope`); a query or group
+  is narrowed, and a plan to the intersection over its task steps. A
+  `StartRequest` with no `Tasks` set allows none: a caller that forgets to say
+  fails closed.
+- **Handlers** take `SetTaskScope`; the default allows every task so existing
+  tests keep working. `TestTaskPermissions_EveryTaskHandlerIsLimitedOnEveryInstance`
+  fails for any of the orchestrator, schedule, saved-plan and task catalogue
+  handler sets left without one. The scheduler asks `scheduleAuthority` for the
+  owner's node scope **and** task scope from their roles at each firing.
+- **The catalogue** (`GET /api/v1/tasks`, `/tasks/{module}/{task}`) omits tasks
+  the caller may not run on any node, and answers a hidden task as unknown. A
+  caller without `orchestrator:run` is not limited.
+- **Audit.** `task.denied` (category `orchestrator`; actor, task, and `step`
+  for a plan; never parameters), written by the instance that answered the
+  request. A refused save is not audited, and a refused scheduled firing is
+  its firing record. Role updates carry `taskPatterns` before and after.
+- **Token size.** About 1.3 KB per restricted role at the limits. A user with
+  many restricted roles can approach an 8 KB header limit on a reverse proxy.
+- **Takes effect** at the next token refresh (15 minutes) for people, and at
+  the next firing for schedules.
+
+## User groups
+
+Added by `add-user-groups`.
+
+- **Storage.** `user_groups` (unique on `lower(name)`), `user_group_members`
+  and `user_group_roles` (migration 35), all cascading, and the view
+  `user_effective_roles`: `user_roles` (direct assignments) `UNION` the roles of
+  each group a user belongs to, so a role held twice is one row.
+- **One source of truth.** `UserPermissions`, `UserNodeScopes`,
+  `UserTaskGrants` and the role listing read the view, never `user_roles`, so
+  the token, the schedule owner's authority at each firing and the Users page
+  cannot disagree. `TestNothingReadsUserRolesDirectly` fails for any other
+  production query on `user_roles`; only role assignment and OIDC
+  reconciliation (which writes its own direct rows) may name it.
+- **Pairing is untouched.** Each role is still one row joined to its own node
+  groups and `task_patterns`; a group only adds rows.
+- **API** (`rbac:admin`): `/api/v1/user-groups` (list, create), `/{id}` (read,
+  rename, delete), `/{id}/members/{userId}` and `/{id}/roles/{roleId}` (POST,
+  DELETE), `GET /api/v1/users/{id}/groups`. `GET /api/v1/users/{id}/roles`
+  returns each role with `via`: `direct` and/or each granting group's name.
+  Deleting a group with members answers `409` with `memberCount` unless
+  `?confirm=true`.
+- **Last administrator.** Deleting a group, revoking a role from it or removing
+  a member is refused (`409`, `reason: last-admin`) when it would leave no user
+  with `rbac:admin`. The direct assignment and user/role deletion paths are
+  unchanged.
+- **Audit** (category `rbac`): `group.created`, `group.renamed`,
+  `group.deleted` (with the member count), `group.member.added`/`removed` and
+  `group.role.granted`/`revoked`; never a password or token.
+- **Takes effect** at the next token refresh (15 minutes) for people, and at
+  the next firing for schedules. Out of scope: LDAP, SAML or OIDC group
+  mapping (OIDC still assigns roles directly), and nested groups.
+
+## Configuration data
+
+Added by `add-config-data`.
+
+- **Storage.** `node_group_config_data (group_id, key, value jsonb)`
+  (migration 36), cascading with the group. Keys, counts and sizes are
+  validated in `internal/classifier` (`ValidateConfigData`): up to 1000
+  keys of up to 255 characters from `[A-Za-z0-9_:.-]`, values up to 64 KiB
+  encoded, and `lookup_options` refused.
+- **Merge.** `Tree.Classify` folds each matching group's data in
+  `mergeOrder`, as it does class parameters: a later (winning) group
+  replaces a key **whole**, with no deep merge.
+- **API.** `configData` on a group (read and write). An update that does not
+  send it keeps what is stored (a nil map); `{}` clears it. A refusal is
+  `400` with `fields.configData`. `GET /api/v1/enc/{certname}/data`
+  (`enc:read`) returns the node's merged data, `{}` when there is none.
+- **Audit.** The group audit entries (`group.created`, `.updated`,
+  `.deleted`) never carry a configuration value: they record
+  `configDataKeys` and, on an update, `configDataChange` (added, changed,
+  removed key names). `auditedGroup` hides `ConfigData` from the log.
+- **Delivery.** `openvoxserver-init/console_config_data.rb` is a Hiera
+  `data_hash` function that runs `enc-bridge --data <certname>` (the program
+  from puppet.conf's `external_nodes`; it prints the data route's answer as
+  JSON) once per compile. It does not call the console itself, because
+  openvoxserver does not give its environment (`ENC_BRIDGE_URL`, the token) to
+  Ruby code, only to the programs it runs. A console that cannot answer
+  fails the compile.
+  `openvoxserver-init/30-configure-config-data.sh` runs on every start and
+  - copies the function into
+    `jruby-gems/gems/openvox-<version>/lib/puppet/functions` (found by
+    glob). This is the **only** place the server loads a global-layer
+    function from; `vendor_ruby`, the plugin cache lib and the server's var
+    dir lib were tried and do not work. A recreate loses it, a restart does
+    not, hence every start;
+  - writes `/etc/puppetlabs/puppet/hiera.yaml` with the console entry when
+    there is none, and rewrites it only while its first line is `# Managed
+    by OpenVox Console`. A global `hiera.yaml` you wrote is never edited:
+    the script logs the entry to add. Remove the marker line from ours to
+    take it over.
+- **Precedence.** The global layer is consulted first, so console data beats
+  the environment's Hiera data; keys it does not set fall through.
+- **Checking it.** `puppet lookup` on the server does not exercise this path
+  (no puppetdb terminus, a different load path). Run a real agent against a
+  manifest that calls `lookup()`.
+
+## Patch inventory
+
+Added by `add-patch-inventory`.
+
+- **What it is.** A read-only picture of the updates each Linux node is
+  missing. Nothing installs, upgrades or removes a package: `apt-get -s`
+  is a simulation, and dnf/yum only list.
+- **Collection.** A new node-agent action, `patch_scan`
+  (`internal/nodeagent/patchscan.go`). apt: `apt-get update`, then
+  `apt-get -s dist-upgrade`, reading the `Inst` lines that have an
+  installed version; a line whose origin names `security` is a security
+  update; `/var/run/reboot-required` is the reboot flag. dnf/yum:
+  `check-update --refresh` (exit 100 means updates), `updateinfo list
+  security` for the security set (best effort), `needs-restarting -r` for the
+  reboot flag. `refresh=false` skips the list refresh. A node with none
+  of apt, dnf or yum answers `unsupported`.
+  An agent that predates the action answers `unsupported action
+  "patch_scan"`, which the console records as an agent too old to scan.
+- **Not orchestrator jobs.** A scan is a short dispatch whose result is a
+  snapshot, so it follows what package-inventory reporting does: dispatched
+  directly from the API (`internal/patchinventory`), `orchestrator:run`,
+  node scope checked before anything is sent. Week-by-week history is not
+  kept: only the latest scan per node.
+- **Storage.** `node_patch_scans` and `node_patch_updates` (migration 37),
+  replaced in one transaction per scan and read in one snapshot-isolated
+  transaction, so a reader never sees a summary that disagrees with its
+  list. `scanned_at` is the last success, `attempted_at` the last try; a
+  failure sets `attempted_at` and `error` and keeps the last good updates.
+  `patch_scan_settings` is one row: `enabled`, `interval_minutes` (15 to
+  10080).
+- **Permissions.** Reads `nodes:read`, scan `orchestrator:run`, the
+  interval `nodes:manage`. Each is scoped by the permission that gates it
+  (the node-scope sweep covers the reads and the single-node scan; a group
+  scan skips out-of-scope nodes and counts them, tested in
+  `internal/patchinventory`).
+- **Periodic scan.** Worker `patch-scanner` (modes `all` and `worker`),
+  leased under `patch-scan`, ticking each minute. It scans connected nodes
+  whose last attempt is at least the interval old, 8 at a time. A node that
+  is offline records no attempt, so it is scanned on the pass after it
+  reconnects; a failed attempt does count, so a broken node is retried once
+  per interval. A pass logs one summary line and writes no audit entries.
+  Once a day it purges snapshots of nodes not attempted for 90 days.
+- **Staleness** is worked out when read: a successful scan older than twice
+  the interval (a day with scanning off).
+- **Limits.** One scan runs up to five minutes. A node that is mid-install
+  holds the package manager lock and fails that scan; the next pass tries
+  again. The security flag is only as good as the repository metadata.
+
+## Patch runs
+
+Added by `add-patch-runs`.
+
+- **A job kind.** `patch` in `jobs.kind` (migration 38), with one
+  `job_targets` row per node, numbered by `batch`. Options are the job's
+  `params`: `scope` (`security`, `all`, `packages`), `packages`, `reboot`,
+  `dryRun`, `batchSize` (1 to 100, default 10) and `stopAfterFailures` (0 to
+  1000, default 3, 0 never). Per-package results are the target's `result`.
+  Started with `POST /api/v1/orchestrator/patches` (`orchestrator:run`,
+  through the same target resolution and node scope as a run; a refused
+  option is a 400 naming `field`, a node in another patch run a 409).
+- **Why not one request.** A dispatch is one request and reply, capped at an
+  hour by `dispatchTimeout` and two by the node's reply window. A patch can
+  outlast both, so it is start-and-poll: the agent action `patch_apply`
+  answers at once and the run carries on in the background with the agent
+  busy; `patch_status`, answered even while busy, reports `running`, `done`,
+  `failed` or `interrupted`. The agent keeps the last status in
+  `patch-run.json` beside the task cache, so a run an agent restart cut short
+  reads as interrupted.
+- **The coordinator** (`internal/orchestrator.PatchCoordinator`) runs
+  in the instance that started the run, with the dispatcher worker. It starts
+  each batch, polls each node every 15 seconds (30 second timeout), and
+  records each answer as a heartbeat on the target and the job. A node
+  silent for 10 minutes, or still running after 4 hours, is failed. It is
+  held in memory, like a task's payload: if the instance stops, nothing
+  follows the run.
+- **The reaper's second rule.** A `patch` job is failed when its
+  `heartbeat_at` is 10 minutes old, together with its pending and running
+  targets, reason "progress stopped being reported". Every other kind keeps
+  the rule that fails a job two hours after its `started_at`. A run that was
+  failed this way may have installed some packages: read the node's status
+  with a scan.
+- **What runs on the node.** apt: `DEBIAN_FRONTEND=noninteractive apt-get -y
+  -q -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold`,
+  with `dist-upgrade` for all, or `install --only-upgrade <names>` for
+  security and named packages (the names come from the scan's own
+  simulation). dnf/yum: `upgrade -y`, `--security`, or the names. A dry run
+  runs only the scan. Package names are checked on both ends against a
+  strict pattern so one can never be read as an option.
+- **Inventory.** The agent returns its post-run scan in the final status and
+  the console stores it. After a reboot (the agent waits 30 seconds, then
+  `systemctl reboot`) the node is scanned again once it reconnects, for up to
+  10 minutes; otherwise its snapshot records the failed scan.
+- **Audit.** `patch.triggered` (options and node count in `After`) and
+  `patch.succeeded` / `patch.failed`, plus activity entries.
+- **Limits.** The agent must be built from this version; an older one fails
+  the node as too old. One run per node at a time (checked under an advisory
+  lock when the run is created, and by the agent being busy). No schedules,
+  windows or rollback.
+
+## Agentless SSH targets
+
+Added by `add-agentless-ssh-targets`.
+
+- **What it is.** A host with no node agent that the console reaches over SSH
+  (`internal/agentless`) and runs tasks on. Not Puppet runs, patch runs or
+  plan run steps: `orchestrator.Starter` refuses them naming the target
+  (`AgentlessTargetsError`), through every entry (HTTP, schedules, plans).
+- **Storage.** `agentless_targets` and `agentless_credentials` (migration 39).
+  A target has its own login or a `credential_id`; its own wins. Secrets
+  (`sealed_private_key`, `sealed_passphrase`, `sealed_password`) are
+  `internal/sealer` envelopes with associated data
+  `agentless:<table>:<id>:<field>`, so a ciphertext moved to another row will
+  not open. Reads return `hasKey`, `hasPassword` and a public key fingerprint,
+  never material. Without `CONSOLE_SECRETS_KEY_FILE` a credentialed target
+  cannot be created, and one that exists cannot be used.
+- **Routing.** The orchestrator's dispatcher sends through a
+  `RoutedTransport`: a name in `agentless.Directory` (the target names, cached
+  for 5 seconds and cleared by a change on that instance) goes to the SSH
+  `Executor`, everything else to the node transport. The executor answers in
+  the JSON an agent would, so results, plans and schedules need no special case.
+- **Host keys.** `pinned_key` is trusted; `proposed_key` is what the last
+  check saw. A target with no pin is never logged in to: the key is recorded
+  as proposed and the connection dropped, and a task fails as "not trusted".
+  A pinned target presenting another key is refused before authentication and
+  flagged `key_changed`; only an explicit replace (audited with both
+  fingerprints) clears it. Changing address or port clears the pin.
+- **Running a task.** The console downloads the task's files from the Puppet
+  server with its own client certificate (`taskcatalog.Client.File`, checksum
+  and size verified, cached by SHA-256 for a short while) before touching the
+  host. On the host: `mktemp -d`, copy each file with `cat >` over the
+  session (no SFTP needed), run, `rm -rf`. Environment parameters are sent
+  ahead of the task's own stdin as shell assignments, which a bootstrap reads
+  with `dd bs=1 count=N` and `eval`s, so no value is on a command line.
+  Run-as is `sudo -n -u <user> --` around the bootstrap. The shared pure logic
+  (implementation choice, input method, output parsing and caps) is
+  `internal/taskexec`, used by the node agent too.
+- **Limits.** 15 s to connect, a task's own timeout, output capped as an
+  agent's, one task per target (a second is "busy"), 20 concurrent sessions
+  console-wide (the rest wait). A task that outlives its timeout is sent
+  SIGKILL on its session; a process that ignores a closed session may outlive
+  it, and its directory is removed regardless.
+- **Permissions.** New: `agentless:manage` (create, change, delete, trust
+  keys, shared credentials). Reads are `nodes:read`; check and tasks are
+  `orchestrator:run`. All are node-scoped; a target outside the caller's
+  scope reads as one that does not exist, a new name must be inside their
+  scope, and shared credentials need a caller whose permission covers every
+  node. The node-scope sweep covers the routes.
+- **Not included.** Windows/WinRM, jump hosts, SSH certificates, Puppet runs,
+  patch scan/apply over SSH, facts.
+
+## Code plans
+
+Added by `add-code-plans`.
+
+- **What it is.** Plans in environment code, run by the console itself
+  (`internal/codeplans`): a subset of Bolt's YAML plan format with a Go
+  interpreter. Not the Puppet language.
+- **Where the files are.** `Loader` reads `<codedir>/environments/<env>` -
+  `CONSOLE_CODE_DIR_PATH`, the directory the code manager deploys to - using
+  the `modulepath` from `environment.conf` (default `modules`; `$` variables and
+  absolute entries are not followed). Plans are `<module>/plans/<name>.yaml`
+  (`init.yaml` is the module's name). Every path is resolved through
+  symlinks (an environment is a symlink to a deploy) and must stay inside the
+  environment; files over 256 KiB are refused. An instance with no code
+  directory answers "not available", not "no plans". The Puppet Server's plans
+  API lists plans but does not return a YAML plan's steps, so it is not used.
+  Only the instance holding the code can run plans.
+- **The subset.** Top level `description`, `parameters`, `steps`, `return`.
+  Steps: `task`, `plan` or `message`, with `name`, `description`, `targets`
+  (task) and `parameters`. `command`, `script`, `upload`, `download`,
+  `resources` and `eval` are refused at load, naming the step. Values are
+  references (`$a.b[0]`, `${a.b}` in text, `$$`) to parameters and earlier
+  steps - never code. Parameter types use `taskcatalog.ParamType`, the
+  checker task parameters are validated with, plus `TargetSpec` and
+  `Sensitive`. Numbers are `json.Number` throughout so `Integer` and `Float` stay
+  distinct.
+- **Running.** `Coordinator` (like the patch coordinator, on the instance that
+  started the run, under the dispatcher worker) checks the request - plan and
+  every plan it calls load, no cycle, depth at most 5, parameters bind, target
+  parameters resolve within the caller's scope, each task step's task exists
+  and is allowed by name - then records a `codeplan` job and follows it. Each
+  task step is started through `Starter.StartTask` with the caller's captured
+  node scope and task scope, as a child job (`parent_job_id`, `step_order`), and
+  polled every 500 ms; so every step is checked when it is reached. Failure of
+  any target fails the plan; remaining steps are `not_run`. Nested plans run in
+  the same job and trace (`path` `1.2`, `depth` 1), their task steps children of
+  the outer plan job. `Dispatcher.advancePlan` is skipped for a code plan's
+  children.
+- **The record.** `jobs.kind = codeplan` (migration 40): `plan_name`,
+  `environment`, `params` (`{parameters, sha256}`, sensitive redacted),
+  `plan_trace`, `result`, `error`. A reader limited to some nodes finds the
+  job through the steps they may see and, when others are hidden, gets no
+  message, result, error or parameters.
+- **Heartbeat.** The reaper judges any job with a `heartbeat_at` by silence
+  (10 minutes) and any without by age (2 hours): patch runs and code plans
+  report; everything else does not. A plan that fails this way may have started
+  tasks that carry on.
+- **Sensitive.** A `Sensitive[T]` parameter is a wrapper that prints as
+  `[redacted]` (also in JSON), is unwrapped only to build a task's parameters,
+  and may be passed to another plan only into a `Sensitive` parameter. A task
+  that prints its own sensitive parameter is recorded as it printed it.
+- **Limits.** 200 steps, depth 5, 24 hours, 1000 targets a step, 256 KiB a file.
+- **Audit.** `codeplan.triggered` (plan, environment, sha256, parameter
+  *names*) and `codeplan.succeeded` / `codeplan.failed`, plus activity entries.
+- **Not included.** Scheduling a code plan, Puppet-language plans, parallel
+  steps, error catching, retries.

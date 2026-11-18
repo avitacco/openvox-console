@@ -1,0 +1,25 @@
+{
+    "metadata": {
+        "description": "Sleeps in a child process, for exercising timeouts",
+        "parameters": {
+            "seconds": {
+                "description": "How long to sleep",
+                "type": "Integer[0]"
+            }
+        }
+    },
+    "name": "task_fixture::sleep",
+    "files": [
+        {
+            "filename": "sleep.sh",
+            "sha256": "5dfc068a64c976927ba872eb9499bcabf9db8cdd7ec832d85934afe4e422c7e7",
+            "size_bytes": 110,
+            "uri": {
+                "path": "/puppet/v3/file_content/tasks/task_fixture/sleep.sh",
+                "params": {
+                    "environment": "production"
+                }
+            }
+        }
+    ]
+}

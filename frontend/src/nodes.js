@@ -1,4 +1,6 @@
 import { fetchJSON, sendJSON, escapeHtml, hasPermission, confirmDialog, withLoading, tn, t, statusLabel, formatDateTime } from './app.js';
+import { openRunTaskDialog } from './run-task.js';
+import { openRunPuppetDialog } from './run-puppet.js';
 
 const results = document.getElementById('results');
 const actionError = document.getElementById('action-error');
@@ -10,6 +12,7 @@ const addNodeButton = document.getElementById('add-node');
 const selectionBar = document.getElementById('selection-bar');
 const selectionCount = document.getElementById('selection-count');
 const runSelectedButton = document.getElementById('run-selected');
+const runTaskSelectedButton = document.getElementById('run-task-selected');
 const clearSelectionButton = document.getElementById('clear-selection');
 
 // inventoryCertnames: null until /api/v1/nodes (fetched in full - see
@@ -18,6 +21,11 @@ let inventoryCertnames = null;
 // connectivityByCertname: null until /api/v1/node-connectivity resolves;
 // certname -> {connected, lastConnected, lastDisconnected, certStatus}.
 let connectivityByCertname = null;
+
+// agentlessByName: certname -> target, for hosts reached over SSH rather
+// than through a node agent (add-agentless-ssh-targets). They are not in
+// openvoxdb or the CA registry, so they are added to the list here.
+let agentlessByName = new Map();
 
 let sortColumn = 'name';
 let sortDirection = 'asc';
@@ -112,11 +120,42 @@ function selectCell(certname) {
   return `<td><vox-checkbox data-select-certname="${escapeHtml(certname)}"${checked}></vox-checkbox></td>`;
 }
 
+// agentBadge marks a node whose node-agent-client is older than the
+// build this console serves (or too old to say). A node that has simply
+// not reported yet gets nothing: that is not the same as out of date.
+// The node's own page says why, and offers the upgrade.
+function agentBadge(certname) {
+  const entry = connectivityByCertname?.get(certname);
+  if (!entry?.agent?.outOfDate || entry.isInfrastructure) return '';
+  return ` <vox-badge variant="warning">${t('Client out of date')}</vox-badge>`;
+}
+
+// An agentless target has no connection, certificate or last connected
+// time; what the console knows is whether its last check worked.
+function agentlessRow(x) {
+  const check = x.check;
+  const state = !check.at
+    ? `<vox-badge variant="neutral">${t('Not checked')}</vox-badge>`
+    : check.ok
+      ? `<vox-badge variant="tip">${t('Reachable')}</vox-badge>`
+      : `<vox-badge variant="danger">${t('Check failed')}</vox-badge>`;
+  return `
+        <tr>
+          ${selectCell(x.name)}
+          <td><a href="/agentless.html">${escapeHtml(x.name)}</a> <vox-badge variant="neutral">${t('Agentless')}</vox-badge></td>
+          <td>${state}</td>
+          <td>${check.at ? escapeHtml(formatDateTime(check.at)) : t('never')}</td>
+          <td>—</td>
+          <td></td>
+        </tr>`;
+}
+
 function nodeRow(certname, nodeLink) {
+  if (agentlessByName.has(certname)) return agentlessRow(agentlessByName.get(certname));
   return `
         <tr>
           ${selectCell(certname)}
-          <td>${nodeLink}${infrastructureBadge(certname)}</td>
+          <td>${nodeLink}${infrastructureBadge(certname)}${agentBadge(certname)}</td>
           <td>${connectivityBadge(certname)}</td>
           <td>${lastConnectedCell(certname)}</td>
           <td>${certStatusBadge(certname)}</td>
@@ -133,6 +172,7 @@ function nodeRow(certname, nodeLink) {
 // certname, so its name isn't rendered as a link.
 function allCertnames() {
   const seen = new Set(inventoryCertnames ?? []);
+  for (const name of agentlessByName.keys()) seen.add(name);
   if (connectivityByCertname) {
     for (const c of connectivityByCertname.keys()) seen.add(c);
   }
@@ -140,11 +180,13 @@ function allCertnames() {
 }
 
 function connectionSortValue(certname) {
+  const target = agentlessByName.get(certname);
+  if (target) return target.check.ok ? 1 : 0;
   return connectivityByCertname?.get(certname)?.connected ? 1 : 0;
 }
 
 function lastConnectedSortValue(certname) {
-  const raw = connectivityByCertname?.get(certname)?.lastConnected;
+  const raw = agentlessByName.get(certname)?.check.at ?? connectivityByCertname?.get(certname)?.lastConnected;
   return raw ? new Date(raw).getTime() : null;
 }
 
@@ -179,7 +221,9 @@ function filteredCertnames() {
     if (!showInfrastructureEl.checked && connectivityByCertname?.get(certname)?.isInfrastructure) return false;
     if (nameFilter && !certname.toLowerCase().includes(nameFilter)) return false;
     if (connectionFilter) {
-      const connected = connectivityByCertname?.get(certname)?.connected ?? false;
+      const target = agentlessByName.get(certname);
+      // An agentless target is "connected" when its last check worked.
+      const connected = target ? Boolean(target.check.ok) : connectivityByCertname?.get(certname)?.connected ?? false;
       if (connectionFilter === 'connected' && !connected) return false;
       if (connectionFilter === 'not-connected' && connected) return false;
     }
@@ -285,11 +329,20 @@ function pruneSelection(visible) {
   }
 }
 
+function selectionHasAgentless() {
+  return [...selected].some((c) => agentlessByName.has(c));
+}
+
 function renderSelectionBar() {
   if (!canRun) return;
   const count = selected.size;
   selectionBar.classList.toggle('vox-hide', count === 0);
   selectionCount.textContent = tn('{count} node selected', '{count} nodes selected', count);
+  // Puppet needs the agent; tasks do not. An agentless target in the
+  // selection leaves only the task button.
+  const agentless = selectionHasAgentless();
+  runSelectedButton.disabled = agentless;
+  runSelectedButton.title = agentless ? t('Puppet runs need the node agent, and a selected node is agentless. Run a task instead.') : '';
 }
 
 function bindSelection(visible) {
@@ -328,27 +381,13 @@ function syncSelectAll(visible) {
 
 // A run applies configuration on every target, so the count is
 // confirmed before anything is dispatched - selecting 200 nodes with a
-// header checkbox is one click away.
-async function runSelected() {
+// header checkbox is one click away. The dialog that confirms it is
+// also where a no-op, debug or other-environment run is chosen.
+function runSelected() {
   const targets = [...selected];
   if (targets.length === 0) return;
   actionError.innerHTML = '';
-
-  const preview = targets.slice(0, 5).map((name) => escapeHtml(name)).join(', ');
-  const more = targets.length > 5 ? tn(', and {count} more', ', and {count} more', targets.length - 5) : '';
-  const confirmed = await confirmDialog({
-    heading: t('Run Puppet'),
-    body: `<p>${escapeHtml(tn('Run Puppet on {count} node?', 'Run Puppet on {count} nodes?', targets.length))}</p><p class="vox-ts-sm">${preview}${more}</p>`,
-    confirmLabel: 'Run',
-  });
-  if (!confirmed) return;
-
-  try {
-    const job = await sendJSON('/api/v1/orchestrator/runs', 'POST', { targets });
-    window.location.href = `/job.html?id=${job.id}`;
-  } catch (err) {
-    showActionError(err.message);
-  }
+  openRunPuppetDialog({ targets });
 }
 
 function showActionError(message) {
@@ -510,6 +549,12 @@ async function load() {
   try {
     const items = await fetchAllNodes();
     inventoryCertnames = items.map((n) => n.certname);
+    try {
+      const page = await fetchJSON('/api/v1/agentless/targets');
+      agentlessByName = new Map(page.items.map((x) => [x.name, x]));
+    } catch {
+      // Without them the list is the agent nodes alone.
+    }
     render();
   } catch (err) {
     results.innerHTML = `<vox-alert variant="danger">${escapeHtml(err.message)}</vox-alert>`;
@@ -528,12 +573,40 @@ async function loadConnectivity() {
   render();
 }
 
+// A user whose roles are granted on particular node groups sees only
+// those groups' nodes. Say so, or a short list looks like a broken one.
+async function loadScopeNotice() {
+  const notice = document.getElementById('scope-notice');
+  try {
+    const me = await fetchJSON('/api/v1/me');
+    const scope = me.nodeScope;
+    if (!scope || scope.all) return;
+    if (scope.groups.length === 0) {
+      notice.innerHTML = `<vox-alert variant="warning" class="vox-m-bottom-md">${t('Your roles are not granted on any node group, so no nodes are shown. Ask an administrator to add a node group to one of your roles.')}</vox-alert>`;
+      return;
+    }
+    const names = scope.groups.map((g) => escapeHtml(g.name)).join(', ');
+    notice.innerHTML = `<vox-alert variant="info" class="vox-m-bottom-md">${tn(
+      'You are seeing the nodes in this node group and the groups beneath it: {groups}',
+      'You are seeing the nodes in these node groups and the groups beneath them: {groups}',
+      scope.groups.length,
+      { groups: names }
+    )}</vox-alert>`;
+  } catch {
+    // The notice is an explanation, not data: without it the page still
+    // shows exactly the nodes the caller may see.
+  }
+}
+
 nameFilterEl.addEventListener('input', render);
 connectionFilterEl.addEventListener('change', render);
 certStatusFilterEl.addEventListener('change', render);
 showInfrastructureEl.addEventListener('change', render);
 
 runSelectedButton?.addEventListener('click', runSelected);
+runTaskSelectedButton?.addEventListener('click', () => {
+  if (selected.size > 0) openRunTaskDialog({ targets: [...selected] });
+});
 clearSelectionButton?.addEventListener('click', () => {
   selected.clear();
   render();
@@ -541,3 +614,4 @@ clearSelectionButton?.addEventListener('click', () => {
 
 load();
 loadConnectivity();
+loadScopeNotice();

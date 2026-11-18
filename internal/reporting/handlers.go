@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/voxpupuli/enterprise-console/internal/auditlog"
+	"github.com/voxpupuli/enterprise-console/internal/nodescope"
 	"github.com/voxpupuli/enterprise-console/internal/openvoxdb"
 )
 
@@ -23,13 +24,18 @@ type queryClient interface {
 type Handlers struct {
 	client          queryClient
 	recordAuditRead func(r *http.Request, event auditlog.Event)
+	scope           nodescope.Func
 }
+
+// SetScope makes the handlers show each caller only the reports of
+// nodes in their node group scope - see internal/nodescope.
+func (h *Handlers) SetScope(scope nodescope.Func) { h.scope = scope }
 
 // NewHandlers builds Handlers backed by client. recordAuditRead is bound
 // to the nodes category (configurable-audit-logging) - both routes here
 // require nodes:read, the same permission scope as internal/inventory.
 func NewHandlers(client queryClient, recordAuditRead func(r *http.Request, event auditlog.Event)) *Handlers {
-	return &Handlers{client: client, recordAuditRead: recordAuditRead}
+	return &Handlers{client: client, recordAuditRead: recordAuditRead, scope: nodescope.Unscoped}
 }
 
 // Register wires this package's routes onto mux, requiring the
@@ -59,10 +65,21 @@ func toReportSummary(r openvoxdb.Report) reportSummary {
 func (h *Handlers) listReports(w http.ResponseWriter, r *http.Request) {
 	certname := r.PathValue("name")
 
-	reports, err := h.client.Reports(r.Context(), certname)
+	scope, err := h.scope(r)
 	if err != nil {
 		writeError(w, err)
 		return
+	}
+
+	// A node outside the caller's scope answers as a node with no
+	// reports does, which is also what an unknown node answers.
+	var reports []openvoxdb.Report
+	if scope.Allows(certname) {
+		reports, err = h.client.Reports(r.Context(), certname)
+		if err != nil {
+			writeError(w, err)
+			return
+		}
 	}
 
 	if status := r.URL.Query().Get("status"); status != "" {
@@ -110,11 +127,21 @@ func toEventDetail(e openvoxdb.Event) eventDetail {
 func (h *Handlers) listEvents(w http.ResponseWriter, r *http.Request) {
 	reportHash := r.PathValue("id")
 
+	scope, err := h.scope(r)
+	if err != nil {
+		writeError(w, err)
+		return
+	}
+
 	events, err := h.client.Events(r.Context(), reportHash)
 	if err != nil {
 		writeError(w, err)
 		return
 	}
+	// A report is addressed by its hash, not its node, so the node is
+	// read off the events themselves. A report of a node outside the
+	// caller's scope answers as an unknown report does: no events.
+	events = nodescope.Filter(scope, events, func(e openvoxdb.Event) string { return e.Certname })
 
 	if status := r.URL.Query().Get("status"); status != "" {
 		filtered := make([]openvoxdb.Event, 0, len(events))

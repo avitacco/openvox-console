@@ -128,3 +128,30 @@ func TestGroupRulesMatchSomething(t *testing.T) {
 		}
 	}
 }
+
+// The seed configures the console's built-in root rather than creating
+// it, and creates the rest in order, so the root comes first with no
+// rule and every parent is listed before its children.
+func TestGroups_RootFirstAndParentsBeforeChildren(t *testing.T) {
+	if len(Groups) == 0 || Groups[0].Name != RootGroupName {
+		t.Fatalf("Groups[0] should be the root %q", RootGroupName)
+	}
+	if len(Groups[0].Rule) != 0 || Groups[0].Parent != "" {
+		t.Errorf("the root takes no rule and no parent: %+v", Groups[0])
+	}
+
+	seen := map[string]bool{}
+	nested := 0
+	for _, group := range Groups {
+		if group.Parent != "" {
+			nested++
+			if !seen[group.Parent] {
+				t.Errorf("group %q names parent %q, which is not listed before it", group.Name, group.Parent)
+			}
+		}
+		seen[group.Name] = true
+	}
+	if nested < 2 {
+		t.Errorf("%d nested groups, want at least 2 so the demo shows a hierarchy", nested)
+	}
+}

@@ -14,9 +14,9 @@ instance, which is what a single-instance deployment always runs.
 | Mode | Serves | Listens | Runs in the background |
 | --- | --- | --- | --- |
 | `all` (the default) | everything | HTTP, node transport | every background task |
-| `web` | the console, its API, code-deploy webhooks and classification | HTTP | nothing |
+| `web` | the console, its API, code-deploy webhooks and classification | HTTP | following the jobs started through it |
 | `enc` | classification only | HTTP | nothing |
-| `orchestrator` | nothing beyond health and metrics | HTTP, node transport | job dispatch, and the first run of new nodes |
+| `orchestrator` | nothing beyond health and metrics | HTTP, node transport | job dispatch, scheduled jobs, the first run of new nodes, and node agent upgrades |
 | `worker` | nothing beyond health and metrics | HTTP | vulnerability syncs, and cleanup of abandoned jobs |
 
 Every mode serves `/health` and `/metrics`, so any instance can be
@@ -32,6 +32,12 @@ Two choices in that table are deliberate:
 - **`orchestrator` serves no API.** It holds the node connections and
   sends jobs down them. Starting a job is `web`'s job, and `web` reaches
   those connections through the cluster.
+- **A job is followed by the instance that started it.** A run, task or
+  plan started in the console is sent and tracked by the `web` instance
+  that took the request, so `web` instances must be
+  [clustered](cluster.html) with the `orchestrator` instances to reach
+  any node. If that `web` instance stops before the job ends, the job is
+  marked failed by a `worker` instance.
 
 ## What each mode needs
 
@@ -44,6 +50,23 @@ naming the missing setting:
 | `all`, `web` | `CONSOLE_RBAC_SIGNING_KEY_FILE`: these are the only modes that issue login tokens |
 | `enc`, `orchestrator`, `worker` | `CONSOLE_RBAC_VERIFICATION_KEYS_DIR`: they check tokens, but never issue them |
 | `orchestrator` | `CONSOLE_NODE_TRANSPORT_ADDR`: without a node listener every job would fail "not connected" on an instance that looked healthy |
+
+### Give the scheduler what scheduled jobs use
+
+[Scheduled jobs](schedule-jobs.html) are started by `all` and
+`orchestrator` instances, not by `web`. An `orchestrator` instance
+starts without these, but a schedule that needs one is skipped, saying
+why, until the instance has it:
+
+- `CONSOLE_PUPPET_SERVER_URL`, to start a scheduled task: the task is
+  looked up in the deployed code when the schedule starts.
+- `CONSOLE_SECRETS_KEY_FILE`, the same key as on `web`, to start a
+  scheduled task that has a sensitive parameter.
+
+When several instances run the scheduler, each due time is started by
+exactly one of them. If none is running when a schedule comes due, it
+starts when one is - unless that is more than 15 minutes late, in which
+case that time is recorded as missed.
 
 ### Give non-issuing modes the verification keys
 

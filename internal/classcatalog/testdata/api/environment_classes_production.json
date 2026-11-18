@@ -1,0 +1,152 @@
+{
+    "files": [
+        {
+            "classes": [
+                {
+                    "name": "code_manager_test_marker",
+                    "params": []
+                },
+                {
+                    "name": "code_manager_e2e_marker",
+                    "params": []
+                }
+            ],
+            "path": "/etc/puppetlabs/code/environments/production/manifests/site.pp"
+        },
+        {
+            "classes": [
+                {
+                    "name": "stdlib",
+                    "params": []
+                }
+            ],
+            "path": "/etc/puppetlabs/code/environments/production/modules/stdlib/manifests/init.pp"
+        },
+        {
+            "classes": [
+                {
+                    "name": "stdlib::manage",
+                    "params": [
+                        {
+                            "default_literal": {},
+                            "default_source": "{}",
+                            "name": "create_resources",
+                            "type": "Hash[String, Hash]"
+                        }
+                    ]
+                }
+            ],
+            "path": "/etc/puppetlabs/code/environments/production/modules/stdlib/manifests/manage.pp"
+        },
+        {
+            "classes": [
+                {
+                    "name": "stdlib::stages",
+                    "params": []
+                }
+            ],
+            "path": "/etc/puppetlabs/code/environments/production/modules/stdlib/manifests/stages.pp"
+        },
+        {
+            "error": "Syntax error at ')' (file: /etc/puppetlabs/code/environments/production/site/class_fixture/manifests/broken.pp, line: 5, column: 1)",
+            "path": "/etc/puppetlabs/code/environments/production/site/class_fixture/manifests/broken.pp"
+        },
+        {
+            "classes": [
+                {
+                    "name": "class_fixture",
+                    "params": [
+                        {
+                            "name": "owner",
+                            "type": "String"
+                        },
+                        {
+                            "default_literal": true,
+                            "default_source": "true",
+                            "name": "manage_service",
+                            "type": "Boolean"
+                        },
+                        {
+                            "default_literal": 8080,
+                            "default_source": "8080",
+                            "name": "port",
+                            "type": "Integer[1, 65535]"
+                        },
+                        {
+                            "default_literal": 0.5,
+                            "default_source": "0.5",
+                            "name": "ratio",
+                            "type": "Float"
+                        },
+                        {
+                            "default_literal": "present",
+                            "default_source": "'present'",
+                            "name": "ensure",
+                            "type": "Enum['absent', 'present']"
+                        },
+                        {
+                            "default_literal": [
+                                "a.example.com",
+                                "b.example.com"
+                            ],
+                            "default_source": "['a.example.com', 'b.example.com']",
+                            "name": "servers",
+                            "type": "Array[String]"
+                        },
+                        {
+                            "default_literal": {
+                                "open_files": 1024
+                            },
+                            "default_source": "{ 'open_files' => 1024 }",
+                            "name": "limits",
+                            "type": "Hash[String, Integer]"
+                        },
+                        {
+                            "default_source": "undef",
+                            "name": "comment",
+                            "type": "Optional[String]"
+                        },
+                        {
+                            "default_literal": "web",
+                            "default_source": "'web'",
+                            "name": "tag_or_id",
+                            "type": "Variant[String, Integer]"
+                        },
+                        {
+                            "default_source": "Sensitive('changeme')",
+                            "name": "secret",
+                            "type": "Sensitive[String]"
+                        },
+                        {
+                            "default_literal": "/etc/class_fixture",
+                            "default_source": "'/etc/class_fixture'",
+                            "name": "config_dir",
+                            "type": "TypeReference['Stdlib::Absolutepath']"
+                        },
+                        {
+                            "default_source": "\"hello from ${facts['networking']['fqdn']}\"",
+                            "name": "greeting",
+                            "type": "String"
+                        },
+                        {
+                            "default_literal": "anything",
+                            "default_source": "'anything'",
+                            "name": "untyped"
+                        }
+                    ]
+                }
+            ],
+            "path": "/etc/puppetlabs/code/environments/production/site/class_fixture/manifests/init.pp"
+        },
+        {
+            "classes": [
+                {
+                    "name": "class_fixture::worker",
+                    "params": []
+                }
+            ],
+            "path": "/etc/puppetlabs/code/environments/production/site/class_fixture/manifests/worker.pp"
+        }
+    ],
+    "name": "production"
+}

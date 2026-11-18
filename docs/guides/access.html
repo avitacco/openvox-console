@@ -147,6 +147,7 @@
       <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Scale">
       <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
@@ -156,8 +157,13 @@
       <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/access.html" current="" aria-current="page"><span>Users, roles and tokens</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Operate">
       <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
@@ -190,11 +196,11 @@ reaches a person through a <strong>role</strong>. Programs, such as enc-bridge, 
 <tbody>
 <tr>
 <td><code>nodes:read</code></td>
-<td>seeing nodes, their facts, reports, packages and certificate states</td>
+<td>seeing nodes, their facts, reports, packages, pending updates and certificate states</td>
 </tr>
 <tr>
 <td><code>nodes:manage</code></td>
-<td>deleting nodes</td>
+<td>deleting nodes, and setting how often the console scans for pending updates</td>
 </tr>
 <tr>
 <td><code>nodes:certs:manage</code></td>
@@ -226,7 +232,7 @@ reaches a person through a <strong>role</strong>. Programs, such as enc-bridge, 
 </tr>
 <tr>
 <td><code>orchestrator:run</code></td>
-<td>starting jobs, and switching a node&#39;s package reporting</td>
+<td>starting jobs (Puppet runs, tasks, plans and patch runs), switching a node&#39;s package reporting, and scanning nodes for pending updates</td>
 </tr>
 <tr>
 <td><code>vulnerabilities:read</code></td>
@@ -235,6 +241,10 @@ reaches a person through a <strong>role</strong>. Programs, such as enc-bridge, 
 <tr>
 <td><code>vulnerabilities:manage</code></td>
 <td>configuring vulnerability providers</td>
+</tr>
+<tr>
+<td><code>agentless:manage</code></td>
+<td>adding, changing and deleting agentless SSH targets and shared credentials, and trusting their host keys</td>
 </tr>
 <tr>
 <td><code>activity:read</code></td>
@@ -263,7 +273,336 @@ permissions the job needs - for example, <code>nodes:read</code>,
 does not change.</li>
 <li>Open <strong>Users</strong>, create the user, and assign the role.</li>
 </ol>
-<p>A user&#39;s permissions are the combination of all their roles.</p>
+<p>A user&#39;s permissions are the combination of all their roles. To give
+the same roles to a whole team, use a <a href="#give-roles-to-a-group">user group</a>.</p>
+<h2 id="passwords-and-lockout">Passwords and lockout</h2>
+<p>These rules cover accounts that log in with a username and password.
+They do not cover people who sign in through your identity provider, or
+service tokens. An administrator (<code>rbac:admin</code>) sets them under
+<strong>Admin</strong>, then <strong>Account policy</strong>. A change applies at once, on every
+console instance.</p>
+<h3 id="password-rules">Password rules</h3>
+<div class="guide-table" tabindex="0"><table class="vox-table">
+<thead>
+<tr>
+<th>Rule</th>
+<th>Unless changed</th>
+<th>Can be</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Minimum length</td>
+<td>12 characters</td>
+<td>8 to 72</td>
+</tr>
+<tr>
+<td>Must contain a lowercase letter, an uppercase letter, a digit, a symbol</td>
+<td>none required</td>
+<td>each on or off</td>
+</tr>
+</tbody>
+</table></div>
+<p>Two rules cannot be turned off: a password cannot be the account&#39;s
+username, and cannot be longer than 72 bytes.</p>
+<p>A password is checked when it is set: when an administrator creates a
+user or sets a user&#39;s password, and when someone changes their own
+under <strong>Preferences</strong>. Each of those forms lists the rules, and marks
+the ones a refused password did not meet.</p>
+<p>Passwords that already exist are not checked again. After you tighten
+the rules, everyone can still log in; the new rules apply the next time
+each password is changed.</p>
+<h3 id="lockout">Lockout</h3>
+<p>After 10 failed password logins in a row, an account is locked for 15
+minutes. Both numbers can be changed (3 to 100 logins; 1 to 1,440
+minutes), and lockout can be turned off.</p>
+<ul>
+<li>While an account is locked, its password is refused even when it is
+right. Failed logins while it is locked do not make the lock longer.</li>
+<li>The lock ends by itself. A successful login sets the count back to
+zero.</li>
+<li>Failed logins are counted together across all console instances.</li>
+<li><strong>The login page does not say that an account is locked.</strong> It gives
+the same answer as for a wrong password, because saying &#34;locked&#34;
+would tell an attacker which usernames exist. The message for every
+failed login mentions that accounts are locked after repeated
+attempts.</li>
+</ul>
+<p>Lockout is about guessing passwords, so it stops password login only:</p>
+<ul>
+<li>Sessions that are already open carry on.</li>
+<li>Signing in through your identity provider still works.</li>
+<li>Service tokens are not affected.</li>
+<li>Changing your own password asks for the current one. A wrong current
+password counts as a failed login, and the change is refused while
+the account is locked.</li>
+</ul>
+<h3 id="unlock-an-account">Unlock an account</h3>
+<p>Open <strong>Admin</strong>, then <strong>Users</strong>. A locked account shows <strong>Locked
+until</strong> and the time. Choose <strong>Unlock</strong>, or <strong>Set password</strong> to give
+the user a new password, which unlocks the account as well.</p>
+<p>If the only administrator is locked out and nobody else can unlock the
+account, wait for the lock to end. To stop someone keeping an account
+locked by failing logins on purpose, put the console behind something
+that limits requests to <code>/api/v1/auth/login</code>, or turn lockout off and
+rely on that instead.</p>
+<p>Locks, unlocks, refused passwords and changes to the policy are written
+to the audit log; locks, unlocks and policy changes also appear on the
+<strong>Activity</strong> page.</p>
+<h2 id="give-roles-to-a-group">Give roles to a group</h2>
+<p>A <strong>user group</strong> is a named set of users. Roles granted to a group are
+held by every member, in addition to any roles they hold themselves, so
+when a team changes you change the group instead of each account.</p>
+<ol>
+<li>Open <strong>Admin</strong>, then <strong>User groups</strong>, give the group a name and choose
+<strong>Create group</strong>.</li>
+<li>Choose <strong>Change</strong> under <strong>Members</strong> and tick the users who belong.</li>
+<li>Tick the roles the group should give, in the <strong>Roles</strong> column.</li>
+</ol>
+<p>A person who belongs to several groups, or who holds a role both
+themselves and through a group, has it once. Removing the role from the
+person leaves the group&#39;s grant, and removing them from the group
+leaves what they hold themselves.</p>
+<p>The <strong>Users</strong> page shows each person&#39;s groups and the roles they hold
+through them, such as &#34;Patcher via Web ops&#34;. Those cannot be unticked
+there: change the group. The <strong>Roles</strong> page shows the groups each role
+is granted to.</p>
+<h3 id="groups-and-limits">Groups and limits</h3>
+<p>A group adds roles; it does not merge them. Each role still applies on
+<strong>its own</strong> node groups and, if it has one, its own
+<a href="#limit-a-role-to-some-tasks">task list</a>, as for roles assigned to a
+person directly. Someone in a group that grants a role limited to
+<code>patch::*</code> on the web servers, and who is also assigned a role allowing
+every task on the database servers, can run patch tasks on the web
+servers and anything on the database servers.</p>
+<h3 id="deleting-and-removing">Deleting and removing</h3>
+<ul>
+<li>Deleting a group takes its roles away from its members. When it has
+members the console says how many people are affected before it
+deletes.</li>
+<li>Deleting a user removes them from their groups, and deleting a role
+removes it from the groups that hold it.</li>
+<li>The console will not delete a group, take a role from it or remove a
+member if that would leave nobody with <code>rbac:admin</code>.</li>
+</ul>
+<h3 id="when-a-change-takes-effect">When a change takes effect</h3>
+<p>Joining or leaving a group, and granting or revoking a group&#39;s roles,
+take effect the next time the person&#39;s session is refreshed, within 15
+minutes, as any role change does. A <a href="schedule-jobs.html">scheduled job</a>
+is checked against its owner&#39;s groups each time it fires.</p>
+<p>Every change to a group, its members and its roles is written to the
+audit trail under the <code>rbac</code> category.</p>
+<h2 id="limit-a-role-to-some-of-your-nodes">Limit a role to some of your nodes</h2>
+<p>A role&#39;s permissions apply to <strong>node groups</strong>. A new role is granted on
+<strong>All Nodes</strong>, which is the whole fleet. To limit a team to its own
+servers, grant the role on that team&#39;s group instead:</p>
+<ol>
+<li>Make sure a node group holds exactly the nodes the team should see -
+see <a href="classify.html">Classify nodes</a>.</li>
+<li>Open <strong>Admin</strong>, then <strong>Roles</strong>.</li>
+<li>In the role&#39;s <strong>Node groups</strong> column, choose <strong>Change</strong>, clear
+<strong>All Nodes</strong>, and tick the team&#39;s group.</li>
+<li>Choose <strong>Save node groups</strong>.</li>
+</ol>
+<p>A grant on a group covers every group beneath it, so a role on
+<em>Linux Servers</em> also sees the nodes in <em>Debian Family</em>. The role&#39;s
+members get the change the next time their session refreshes, within
+15 minutes; a node that moves into or out of the group appears or
+disappears within a minute.</p>
+<p>Someone limited this way sees only their nodes everywhere node data
+appears: the node list and each node&#39;s facts, reports, packages and
+vulnerabilities, the dashboard figures, the package catalogue, the
+vulnerability list, the <strong>Jobs</strong> page, and the node counts on the
+<strong>Groups</strong> and <strong>Code</strong> pages. A node outside their groups answers
+exactly as a node that does not exist. The <strong>Nodes</strong> page says which
+groups they are seeing.</p>
+<p>The same groups limit what they can <strong>do</strong>. Running Puppet, a task or a
+plan, switching a node&#39;s package reporting, upgrading its agent,
+deleting it, and signing, revoking or cleaning its certificate all
+need the node to be in the groups of a role that grants that
+permission. An action that names a node outside them is refused, and
+the console says which nodes those were. When an action names several
+nodes and one is outside, nothing is done on any of them.</p>
+<p>A job&#39;s nodes can also be chosen by a query or a node group rather
+than by name - see <a href="run-jobs.html">Run jobs</a>. Those are narrowed
+instead of refused: someone limited to some node groups gets the
+matching nodes that are in their groups, and is told nothing about the
+rest. Their queries cannot contain a subquery, which could otherwise be
+used to learn about nodes outside their groups.</p>
+<p>A <a href="schedule-jobs.html">scheduled job</a> runs as its owner, with the
+owner&#39;s roles as they are each time it starts. Removing someone&#39;s role
+stops their schedules starting anything; narrowing it narrows what
+their schedules run on. People see and change their own schedules, and
+only a role granted on <strong>All Nodes</strong> sees and changes everyone&#39;s.</p>
+<h3 id="see-more-than-you-can-change">See more than you can change</h3>
+<p>Each permission is limited by the roles that grant it, so seeing and
+acting can differ. To let a team see the whole fleet but run Puppet
+only on its own servers, give its people two roles:</p>
+<div class="guide-table" tabindex="0"><table class="vox-table">
+<thead>
+<tr>
+<th>Role</th>
+<th>Permissions</th>
+<th>Node groups</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fleet readers</td>
+<td><code>nodes:read</code>, <code>classifier:read</code>, <code>orchestrator:read</code></td>
+<td>All Nodes</td>
+</tr>
+<tr>
+<td>Web operators</td>
+<td><code>orchestrator:run</code></td>
+<td>Web Servers</td>
+</tr>
+</tbody>
+</table></div>
+<p>They see every node and every job, and a run on a database server is
+refused.</p>
+<h3 id="what-node-groups-do-not-limit">What node groups do not limit</h3>
+<ul>
+<li><strong>The Activity page.</strong> It is the audit trail and names every node.
+Give <code>activity:read</code> only to people who may know about the whole
+fleet.</li>
+<li><strong>Node group definitions.</strong> Everyone with <code>classifier:read</code> sees
+every group, including the node names pinned to it, and
+<code>classifier:write</code> can change any group.</li>
+<li><strong>Service tokens</strong>, which are always fleet-wide. They can be limited
+to some tasks, as a role can - see
+<a href="#issue-a-token-for-a-program">Issue a token for a program</a>.</li>
+<li><strong>Saved plans.</strong> Everyone with <code>orchestrator:read</code> sees every
+<a href="run-plans.html">plan</a>, and everyone with <code>orchestrator:run</code> can
+change any of them. Running one is limited to your nodes.</li>
+<li><strong>Code deploys</strong>, which are not about a node.</li>
+</ul>
+<h3 id="things-to-know">Things to know</h3>
+<ul>
+<li>A node that has never run Puppet has no facts, so it matches no
+group&#39;s rule. It is in a team&#39;s groups only if it is pinned to one.
+That includes nodes waiting for their certificate to be signed - see
+<a href="certificates.html">Manage node certificates</a>.</li>
+<li>A role with no node groups at all shows a <strong>No node groups</strong> warning.
+Its permissions apply to no node.</li>
+<li>Job history follows a node&#39;s current groups. When a node moves to
+another group, its past jobs move out of the old group&#39;s view with
+it.</li>
+</ul>
+<h2 id="limit-a-role-to-some-tasks">Limit a role to some tasks</h2>
+<p><code>orchestrator:run</code> on its own lets someone run <strong>every</strong> task the
+console knows about, on the nodes the role covers. To let a team run
+the patch tasks and nothing else, give its role a <strong>task allowlist</strong>:</p>
+<ol>
+<li>Open <strong>Admin</strong>, then <strong>Roles</strong>.</li>
+<li>In the role&#39;s <strong>Tasks</strong> column, choose <strong>Change</strong>.</li>
+<li>Type one pattern per line, then choose <strong>Save tasks</strong>. The <strong>New
+role</strong> form has the same field.</li>
+</ol>
+<p>A pattern is one of:</p>
+<div class="guide-table" tabindex="0"><table class="vox-table">
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Allows</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>package::install</code></td>
+<td>that task only</td>
+</tr>
+<tr>
+<td><code>patch::*</code></td>
+<td>every task in the <code>patch</code> module, and the module&#39;s own task <code>patch</code></td>
+</tr>
+<tr>
+<td><code>*</code></td>
+<td>every task</td>
+</tr>
+</tbody>
+</table></div>
+<p>Matching is exact and case-sensitive, so <code>patch::*</code> does not allow
+<code>patching::apply</code>. Nothing else is accepted: a pattern with a wildcard
+anywhere else, an empty line or a capital letter is refused, and the
+form keeps what you typed. A role may hold up to 20 patterns of up to 64
+characters.</p>
+<p>A role with <strong>no</strong> patterns allows every task. That is how every role
+you already have is left, so nothing changes until you add one. The
+list only narrows <code>orchestrator:run</code>: it never grants anything, and
+the role&#39;s node groups still decide which nodes.</p>
+<h3 id="how-a-person-s-roles-combine">How a person&#39;s roles combine</h3>
+<p>Each role&#39;s list applies on that role&#39;s <strong>own</strong> node groups, not on
+all of the person&#39;s. Someone with these two roles:</p>
+<div class="guide-table" tabindex="0"><table class="vox-table">
+<thead>
+<tr>
+<th>Role</th>
+<th>Node groups</th>
+<th>Tasks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Web patchers</td>
+<td>Web Servers</td>
+<td><code>patch::*</code></td>
+</tr>
+<tr>
+<td>Database operators</td>
+<td>Database Servers</td>
+<td><em>(every task)</em></td>
+</tr>
+</tbody>
+</table></div>
+<p>can run <code>patch::apply</code> on a web server and any task on a database
+server, and a task such as <code>package::install</code> is refused on a web
+server. Having the second role does not widen the first.</p>
+<p>When a task is started on nodes chosen by a query or a node group, it
+runs on the matching nodes the person may run it on and is told nothing
+about the rest, as with node groups. A <a href="run-plans.html">plan</a> is
+narrowed to the nodes <strong>every</strong> one of its task steps may run on, so
+all its steps still run on the same nodes. A list of named nodes that
+includes one the task is not allowed on is refused, naming it.</p>
+<h3 id="what-a-refusal-looks-like">What a refusal looks like</h3>
+<p>Starting a task the person&#39;s roles do not allow is refused with <code>403</code>
+and the task&#39;s name; nothing is started. A plan names the step as well,
+as <code>step 2 (package::install)</code>. A task that does not exist and one the
+person may not run are refused alike, so the list does not reveal which
+tasks exist. Each refusal is in the audit log as <code>task.denied</code>, with the
+person, the task and the step, and never the task&#39;s parameters.</p>
+<p>What the list does <strong>not</strong> limit:</p>
+<ul>
+<li><strong>Puppet runs</strong>, which are not tasks.</li>
+<li><strong>Seeing jobs and their history.</strong> It limits what someone may start.</li>
+<li><strong>People who can only read.</strong> Someone with <code>orchestrator:read</code> and no
+<code>orchestrator:run</code> sees every task in the task list.</li>
+</ul>
+<p>The <strong>Run task</strong> dialog, the plan editor and the schedule form offer
+only the tasks the person may run.</p>
+<h3 id="plans-and-schedules">Plans and schedules</h3>
+<ul>
+<li><strong>Saving a <a href="run-plans.html">plan</a> or a <a href="schedule-jobs.html">schedule</a></strong>
+with a task the person may not run is refused, naming the step and the
+task.</li>
+<li><strong>A plan someone else saved</strong> shows every step to a person with a
+narrower list, with the steps they may not run marked. They cannot run
+it, and cannot save changes to it without removing those steps.</li>
+<li><strong>A schedule is checked every time it starts</strong>, against its owner&#39;s
+roles as they are then. If the owner may no longer run one of its
+tasks, nothing starts and the firing is recorded as skipped, naming the
+task (and the step, for a plan).</li>
+</ul>
+<h3 id="when-a-change-takes-effect-2">When a change takes effect</h3>
+<p>A role&#39;s list reaches a person&#39;s sessions the next time they refresh,
+within 15 minutes, like any other permission. A schedule picks it up at
+its next start.</p>
+<vox-callout variant="info" heading="Note"><p>A person&#39;s task lists travel in their access token. The limits above
+keep one role to about 1.3 KB at most, and most people carry a few
+short patterns. If you give someone many restricted roles, check that
+the reverse proxy in front of the console accepts request headers
+that large; some allow only 8 KB.</p>
+</vox-callout>
 <h2 id="sign-in-with-your-identity-provider">Sign in with your identity provider</h2>
 <p>The console can also sign people in through OpenID Connect. Local
 sign-in and service tokens keep working alongside it. Register the
@@ -323,6 +662,10 @@ only what it needs:</p>
 <ol>
 <li>Open <strong>Admin</strong>, then <strong>Service tokens</strong>.</li>
 <li>Under <strong>New service token</strong>, name it and choose its permissions.</li>
+<li>Optionally, under <strong>Tasks it may run</strong>, list the tasks it may start,
+one pattern per line, as for a <a href="#limit-a-role-to-some-tasks">role</a>.
+Leave it empty to allow every task. The list is fixed when the token
+is created.</li>
 <li>Choose <strong>Create service token</strong>, and copy the token: it is shown
 once.</li>
 </ol>
@@ -350,7 +693,7 @@ a log collector, with one level per category:</p>
 </tr>
 <tr>
 <td><code>CONSOLE_AUDIT_RBAC</code></td>
-<td>users, roles and tokens</td>
+<td>users, user groups, roles and tokens</td>
 </tr>
 <tr>
 <td><code>CONSOLE_AUDIT_AUTH</code></td>
@@ -362,7 +705,7 @@ a log collector, with one level per category:</p>
 </tr>
 <tr>
 <td><code>CONSOLE_AUDIT_ORCHESTRATOR</code></td>
-<td>jobs</td>
+<td>jobs, and tasks refused to someone whose roles do not allow them</td>
 </tr>
 <tr>
 <td><code>CONSOLE_AUDIT_VULNERABILITIES</code></td>
@@ -376,7 +719,7 @@ a log collector, with one level per category:</p>
 
     </div>
 
-    <vox-series-nav label="Use" previous-text="Previous" next-text="Next" previous-href="../guides/run-jobs.html" previous-label="Run jobs" next-href="../guides/vulnerabilities.html" next-label="Track vulnerabilities"></vox-series-nav>
+    <vox-series-nav label="Use" previous-text="Previous" next-text="Next" previous-href="../guides/schedule-jobs.html" previous-label="Schedule jobs" next-href="../guides/vulnerabilities.html" next-label="Track vulnerabilities"></vox-series-nav>
   </article>
 
   
@@ -385,6 +728,27 @@ a log collector, with one level per category:</p>
       <vox-toc-item href="#the-permissions"><span>The permissions</span>
       </vox-toc-item>
       <vox-toc-item href="#give-someone-access"><span>Give someone access</span>
+      </vox-toc-item>
+      <vox-toc-item href="#passwords-and-lockout"><span>Passwords and lockout</span>
+        <vox-toc-item slot="children" href="#password-rules"><span>Password rules</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#lockout"><span>Lockout</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#unlock-an-account"><span>Unlock an account</span></vox-toc-item>
+      </vox-toc-item>
+      <vox-toc-item href="#give-roles-to-a-group"><span>Give roles to a group</span>
+        <vox-toc-item slot="children" href="#groups-and-limits"><span>Groups and limits</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#deleting-and-removing"><span>Deleting and removing</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#when-a-change-takes-effect"><span>When a change takes effect</span></vox-toc-item>
+      </vox-toc-item>
+      <vox-toc-item href="#limit-a-role-to-some-of-your-nodes"><span>Limit a role to some of your nodes</span>
+        <vox-toc-item slot="children" href="#see-more-than-you-can-change"><span>See more than you can change</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#what-node-groups-do-not-limit"><span>What node groups do not limit</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#things-to-know"><span>Things to know</span></vox-toc-item>
+      </vox-toc-item>
+      <vox-toc-item href="#limit-a-role-to-some-tasks"><span>Limit a role to some tasks</span>
+        <vox-toc-item slot="children" href="#how-a-person-s-roles-combine"><span>How a person&#39;s roles combine</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#what-a-refusal-looks-like"><span>What a refusal looks like</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#plans-and-schedules"><span>Plans and schedules</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#when-a-change-takes-effect-2"><span>When a change takes effect</span></vox-toc-item>
       </vox-toc-item>
       <vox-toc-item href="#sign-in-with-your-identity-provider"><span>Sign in with your identity provider</span>
       </vox-toc-item>

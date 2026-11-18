@@ -16,8 +16,10 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/voxpupuli/enterprise-console/internal/agentupgrade"
 	"github.com/voxpupuli/enterprise-console/internal/auditlog"
 	"github.com/voxpupuli/enterprise-console/internal/certstatus"
+	"github.com/voxpupuli/enterprise-console/internal/nodescope"
 )
 
 // Registry is the subset of *nodetransport.Registry this package needs,
@@ -45,8 +47,18 @@ type InfrastructureCertnames interface {
 	Lookup(certname string) (reason string, ok bool)
 }
 
+// AgentBuilds is the subset of *agentupgrade.Coordinator this package
+// needs: each node's node-agent-client build judged against the one
+// this console serves, and whether automatic upgrades are on.
+type AgentBuilds interface {
+	Views(ctx context.Context) (map[string]agentupgrade.NodeView, error)
+	AutoUpgrade() bool
+}
+
 // Handlers serves the node-connectivity HTTP API.
 type Handlers struct {
+	agents          AgentBuilds
+	scope           nodescope.Func
 	registry        Registry
 	certStatus      CertStatusClient
 	infraCerts      InfrastructureCertnames
@@ -74,7 +86,25 @@ func NewHandlers(registry Registry, certStatus CertStatusClient, infraCerts Infr
 	if logger == nil {
 		logger = slog.Default()
 	}
-	return &Handlers{registry: registry, certStatus: certStatus, infraCerts: infraCerts, recordAudit: recordAudit, recordAuditRead: recordAuditRead, logger: logger}
+	return &Handlers{registry: registry, certStatus: certStatus, infraCerts: infraCerts, recordAudit: recordAudit, recordAuditRead: recordAuditRead, logger: logger, scope: nodescope.Unscoped}
+}
+
+// SetScope makes the connectivity listing show each caller only the
+// nodes in their node group scope - see internal/nodescope. That
+// includes pending certificate requests: a node that has never
+// reported facts is in no group but the root (or one it is pinned to),
+// so in practice those are listed for fleet-wide callers only.
+// Certificate actions are limited the same way, by the caller's
+// nodes:certs:manage scope: a team signs the request of a node pinned
+// into its group, and a fleet-wide role signs anything.
+func (h *Handlers) SetScope(scope nodescope.Func) { h.scope = scope }
+
+// SetAgentBuilds makes every node's status carry its node-agent-client
+// build and upgrade state. Without it - or when the lookup fails - the
+// "agent" field is simply absent, and the rest of the status is
+// unaffected. Call before Register.
+func (h *Handlers) SetAgentBuilds(agents AgentBuilds) {
+	h.agents = agents
 }
 
 // Register wires this package's routes onto mux: viewing connectivity/
@@ -103,13 +133,27 @@ type nodeStatus struct {
 	CertStatus           string     `json:"certStatus"`
 	IsInfrastructure     bool       `json:"isInfrastructure"`
 	InfrastructureReason string     `json:"infrastructureReason,omitempty"`
+	// Agent is the node's node-agent-client build as last reported and
+	// the state of any upgrade. Its state is "unreported" for a node
+	// that has not connected since build tracking began - which is not
+	// the same as out of date.
+	Agent *agentupgrade.NodeView `json:"agent,omitempty"`
 }
 
 type connectivityResponse struct {
 	Nodes []nodeStatus `json:"nodes"`
+	// AgentAutoUpgrade is whether this console upgrades out-of-date
+	// clients by itself. Absent when client builds are not tracked.
+	AgentAutoUpgrade *bool `json:"agentAutoUpgrade,omitempty"`
 }
 
 func (h *Handlers) listConnected(w http.ResponseWriter, r *http.Request) {
+	scope, err := h.scope(r)
+	if err != nil {
+		http.Error(w, "could not determine which nodes you may see: "+err.Error(), http.StatusBadGateway)
+		return
+	}
+
 	certStatuses := map[string]string{}
 	if h.certStatus != nil {
 		statuses, err := h.certStatus.Statuses(r.Context())
@@ -139,8 +183,33 @@ func (h *Handlers) listConnected(w http.ResponseWriter, r *http.Request) {
 	}
 
 	resp := connectivityResponse{Nodes: []nodeStatus{}}
+
+	// Like certificate statuses: a failure here costs the client-build
+	// column, not the whole response.
+	var agentViews map[string]agentupgrade.NodeView
+	if h.agents != nil {
+		views, err := h.agents.Views(r.Context())
+		if err != nil {
+			h.logger.Warn("failed to read node-agent-client builds", "error", err)
+		} else {
+			agentViews = views
+			auto := h.agents.AutoUpgrade()
+			resp.AgentAutoUpgrade = &auto
+		}
+	}
+
 	for certname := range certnames {
+		if !scope.Allows(certname) {
+			continue
+		}
 		status := nodeStatus{Certname: certname, CertStatus: certStatusUnknown}
+		if agentViews != nil {
+			view, ok := agentViews[certname]
+			if !ok {
+				view = agentupgrade.View(nil, nil)
+			}
+			status.Agent = &view
+		}
 		if h.registry != nil {
 			status.Connected = h.registry.Lookup(certname)
 			status.LastConnected = h.registry.LastConnected(certname)
@@ -193,6 +262,14 @@ func (h *Handlers) cleanCert(w http.ResponseWriter, r *http.Request) {
 // specs/node-certificate-management/spec.md.
 func (h *Handlers) certAction(w http.ResponseWriter, r *http.Request, verbPastTense string, action func(ctx context.Context, certname string) error) {
 	certname := r.PathValue("certname")
+
+	// First of all: before any call to the CA, and before saying
+	// whether certificate management is even configured, so a certname
+	// outside the caller's groups is refused the same way whatever the
+	// CA knows or the deployment has.
+	if !nodescope.Permit(w, r, h.scope, certname) {
+		return
+	}
 
 	if h.certStatus == nil {
 		http.Error(w, "certificate management is not configured", http.StatusServiceUnavailable)

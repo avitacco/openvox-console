@@ -36,11 +36,18 @@ type encDocument struct {
 }
 
 func main() {
-	if len(os.Args) < 2 {
-		fmt.Fprintln(os.Stderr, "usage: enc-bridge <certname>")
+	// "enc-bridge --data <certname>" prints the node's configuration data
+	// as JSON instead of the classification YAML. It is what the
+	// console_config_data Hiera function (openvoxserver-init) runs, so that
+	// it shares this program's address and token handling: openvoxserver
+	// does not hand its own environment to Ruby code, but it does to the
+	// programs it runs.
+	dataMode := len(os.Args) == 3 && os.Args[1] == "--data"
+	if len(os.Args) < 2 || (len(os.Args) != 2 && !dataMode) {
+		fmt.Fprintln(os.Stderr, "usage: enc-bridge <certname>\n       enc-bridge --data <certname>")
 		os.Exit(1)
 	}
-	certname := os.Args[1]
+	certname := os.Args[len(os.Args)-1]
 
 	baseURL := os.Getenv("ENC_BRIDGE_URL")
 	if baseURL == "" {
@@ -57,7 +64,11 @@ func main() {
 		os.Exit(1)
 	}
 
-	if err := run(baseURL, token, certname, os.Stdout); err != nil {
+	do := run
+	if dataMode {
+		do = runData
+	}
+	if err := do(baseURL, token, certname, os.Stdout); err != nil {
 		fmt.Fprintf(os.Stderr, "enc-bridge: %v\n", err)
 		os.Exit(1)
 	}
@@ -78,6 +89,39 @@ func envOrFile(name string) (string, error) {
 		return "", fmt.Errorf("%s_FILE: %w", name, err)
 	}
 	return strings.TrimSpace(string(contents)), nil
+}
+
+// runData writes the node's merged configuration data, a JSON object, to
+// out. The body is decoded and written again rather than copied, so
+// anything that is not a JSON object is an error here and never reaches
+// Hiera as data.
+func runData(baseURL, token, certname string, out io.Writer) error {
+	req, err := http.NewRequest(http.MethodGet, baseURL+"/api/v1/enc/"+url.PathEscape(certname)+"/data", nil)
+	if err != nil {
+		return fmt.Errorf("build configuration data request: %w", err)
+	}
+	if token != "" {
+		req.Header.Set("Authorization", "Bearer "+token)
+	}
+
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return fmt.Errorf("request configuration data from %s: %w", baseURL, err)
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("the console at %s answered %d for the configuration data of %s", baseURL, resp.StatusCode, certname)
+	}
+
+	var data map[string]any
+	if err := json.NewDecoder(resp.Body).Decode(&data); err != nil {
+		return fmt.Errorf("decode configuration data: %w", err)
+	}
+	if data == nil {
+		data = map[string]any{}
+	}
+	return json.NewEncoder(out).Encode(data)
 }
 
 func run(baseURL, token, certname string, out io.Writer) error {

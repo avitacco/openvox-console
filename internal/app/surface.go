@@ -44,9 +44,23 @@ const (
 	workerDependencyHealth = "dependency-health"
 	workerDispatcher       = "orchestrator-dispatcher"
 	workerInitialRun       = "initial-run-trigger"
-	workerVulnScheduler    = "vulnerability-scheduler"
-	workerJobReaper        = "orchestrator-job-reaper"
-	workerStatusResponder  = "status-responder"
+	// workerAgentUpgrade records each connecting node's
+	// node-agent-client build and upgrades out-of-date clients. It runs
+	// where node connections are, like the initial-run trigger: both
+	// are driven by connect notifications.
+	workerAgentUpgrade  = "agent-upgrade-coordinator"
+	workerVulnScheduler = "vulnerability-scheduler"
+	// workerPatchScanner scans connected nodes for pending updates on
+	// an interval. Any instance can dispatch, and a lease keeps one
+	// scanning at a time, so it sits with the other leased workers.
+	workerPatchScanner = "patch-scanner"
+	workerJobReaper    = "orchestrator-job-reaper"
+	// workerScheduler fires scheduled jobs. It runs where the
+	// dispatcher does, because the job it starts is dispatched by the
+	// same instance: a task's resolved payload lives in that
+	// instance's memory, and its results come back to it.
+	workerScheduler       = "orchestrator-scheduler"
+	workerStatusResponder = "status-responder"
 )
 
 // Surface is what one run mode activates.
@@ -104,9 +118,14 @@ var allRoutes = []string{
 //     else - a web/orchestrator/worker split that silently stopped
 //     answering classification would be a much worse failure than web
 //     carrying some ENC load.
-//   - orchestrator serves no REST API. It holds node connections and runs
-//     the dispatcher; the job-triggering endpoints live in web, which
-//     reaches those connections over the cluster.
+//   - orchestrator serves no REST API. It holds node connections and
+//     starts the jobs nobody asked for over the API (scheduled jobs, a
+//     new node's first run). The job-triggering endpoints live in web,
+//     which reaches those connections over the cluster.
+//   - the dispatcher runs wherever a job can be started - web as well as
+//     orchestrator - because a job is followed to its end by the
+//     instance that started it. It is not scheduled work: it only
+//     handles the answers to requests this instance itself sent.
 var modeSurfaces = map[runtime.Mode]Surface{
 	runtime.ModeAll: {
 		Routes:    allRoutes,
@@ -115,8 +134,11 @@ var modeSurfaces = map[runtime.Mode]Surface{
 			workerDependencyHealth,
 			workerDispatcher,
 			workerInitialRun,
+			workerAgentUpgrade,
 			workerVulnScheduler,
+			workerPatchScanner,
 			workerJobReaper,
+			workerScheduler,
 			workerStatusResponder,
 		},
 	},
@@ -141,7 +163,10 @@ var modeSurfaces = map[runtime.Mode]Surface{
 			routeWebUI,
 		},
 		Listeners: []string{listenerHTTP},
-		Workers:   []string{workerDependencyHealth, workerStatusResponder},
+		// web starts jobs, so it runs the dispatcher: the loop that
+		// records what each node answered. Without it a job started
+		// here is sent but never finishes.
+		Workers: []string{workerDependencyHealth, workerDispatcher, workerStatusResponder},
 	},
 
 	runtime.ModeENC: {
@@ -157,6 +182,8 @@ var modeSurfaces = map[runtime.Mode]Surface{
 			workerDependencyHealth,
 			workerDispatcher,
 			workerInitialRun,
+			workerAgentUpgrade,
+			workerScheduler,
 			workerStatusResponder,
 		},
 	},
@@ -167,6 +194,7 @@ var modeSurfaces = map[runtime.Mode]Surface{
 		Workers: []string{
 			workerDependencyHealth,
 			workerVulnScheduler,
+			workerPatchScanner,
 			workerJobReaper,
 			workerStatusResponder,
 		},

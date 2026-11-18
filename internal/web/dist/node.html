@@ -63,6 +63,10 @@
             <vox-icon slot="icon" name="collection"></vox-icon>
             <span data-i18n>Packages</span>
           </vox-sidenav-item>
+          <vox-sidenav-item href="/patches.html">
+            <vox-icon slot="icon" name="refresh"></vox-icon>
+            <span data-i18n>Patching</span>
+          </vox-sidenav-item>
           <vox-sidenav-item href="/vulnerabilities.html" id="nav-vulnerabilities-link" style="display: none">
             <vox-icon slot="icon" name="vulnerability"></vox-icon>
             <span data-i18n>Vulnerabilities</span>
@@ -102,14 +106,21 @@
       </vox-breadcrumbs>
       <div class="vox-display-flex vox-justify-between vox-items-center vox-gap-md vox-m-bottom-md">
         <h1 id="node-heading" class="vox-ts-xl vox-m-y-none">…</h1>
-        <vox-button id="run-now" variant="brand" style="display: none" data-i18n>Run now</vox-button>
+        <div class="vox-display-flex vox-gap-sm">
+          <vox-button id="run-task" variant="alt" style="display: none" data-i18n>Run task</vox-button>
+          <vox-button id="run-now" variant="brand" style="display: none" data-i18n>Run now</vox-button>
+        </div>
       </div>
 
       <div id="run-now-error"></div>
 
+      
+      <div id="agent-status" class="vox-m-bottom-md"></div>
+
       <vox-tabs>
         <vox-tab slot="tab" panel="facts" selected data-i18n>Facts</vox-tab>
         <vox-tab slot="tab" panel="packages" data-i18n>Packages</vox-tab>
+        <vox-tab slot="tab" panel="patches" data-i18n>Patches</vox-tab>
         <vox-tab slot="tab" panel="vulnerabilities" id="vulnerabilities-tab" style="display: none" data-i18n>Vulnerabilities</vox-tab>
         <vox-tab slot="tab" panel="runs" data-i18n>Runs</vox-tab>
 
@@ -128,6 +139,16 @@
           </div>
           <div id="package-inventory-status"></div>
           <div id="packages"></div>
+        </vox-tab-panel>
+
+        <vox-tab-panel name="patches">
+          <div class="vox-display-flex vox-justify-end vox-items-center vox-gap-md vox-m-bottom-md">
+            <vox-button id="patches-scan" variant="alt" size="sm" style="display: none" data-i18n>Scan now</vox-button>
+            <vox-button id="patches-patch" variant="brand" size="sm" style="display: none" data-i18n>Patch now…</vox-button>
+          </div>
+          <div id="patches-status"></div>
+          <div id="patches-last"></div>
+          <div id="patches"></div>
         </vox-tab-panel>
 
         <vox-tab-panel name="vulnerabilities">

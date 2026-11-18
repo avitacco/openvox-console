@@ -72,7 +72,7 @@ environment variables, so they never appear in `docker inspect`:
 printf '%s' '<console database password>' > secrets/console_postgres_password
 printf 'postgres://console:%s@console-postgres:5432/console?sslmode=disable' '<console database password>' \
   > secrets/console_postgres_dsn
-printf '%s' '<a strong password>' > secrets/console_bootstrap_admin_password
+printf '%s' '<a strong password, 12 characters or more>' > secrets/console_bootstrap_admin_password
 chmod 600 secrets/*
 ```
 
@@ -227,6 +227,53 @@ docker compose -f docker-compose.yml exec openvoxserver \
 
 `HTTP 200` means the CA accepts it.
 
+### Tasks
+
+Running Puppet tasks needs nothing more. The console asks openvoxserver
+which tasks your deployed code contains, at
+`https://openvoxserver:8140`, using the openvoxdb client certificate you
+already issued; openvoxserver lets any certificate from its CA read
+tasks. To turn tasks off, set the address to nothing in `.env`:
+
+```sh
+CONSOLE_PUPPET_SERVER_URL=
+```
+
+See [Run jobs](run-jobs.html) for running them.
+
+### The class list
+
+A node group's page offers the classes your deployed code defines, with
+their parameters, so they are picked rather than typed. The console
+reads them from openvoxserver over the same connection as tasks.
+
+openvoxserver does not let any certificate read classes by default. The
+server image in the compose file adds the rule on every start, allowing
+the certificate named `console` - the openvoxdb client certificate you
+issued above. If you issued it under another name, set that name in
+`.env`:
+
+```sh
+CLASS_DISCOVERY_CERTNAME=my-console-cert
+```
+
+Check it from inside openvoxserver, with the console's certificate.
+`HTTP 200` means the list can be read:
+
+```sh
+docker compose -f docker-compose.yml exec openvoxserver \
+  curl -sS -o /dev/null -w 'HTTP %{http_code}\n' \
+  --cert /etc/puppetlabs/puppet/ssl/certs/console.pem \
+  --key /etc/puppetlabs/puppet/ssl/private_keys/console.pem \
+  --cacert /etc/puppetlabs/puppet/ssl/certs/ca.pem \
+  'https://openvoxserver:8140/puppet/v3/environment_classes?environment=production'
+```
+
+`HTTP 403` means the rule does not name this certificate. Nothing else
+depends on it: the group page then says the list is unavailable, and
+classes are entered by name, as they were before the list existed. See
+[Classify nodes](classify.html).
+
 ## Start everything else
 
 ```sh
@@ -273,8 +320,10 @@ fails with `No keypair on disk and CA already has signed certificate`.
 
 ### Give openvoxserver the token
 
-The openvoxserver image already contains `enc-bridge` and the Puppet
-configuration that uses it, so all it needs is the token. Write it to the
+The openvoxserver image already contains `enc-bridge`, the Puppet
+configuration that uses it, and the Hiera function that lets nodes read
+[configuration data](classify.html#set-configuration-data), so all
+it needs is the token. Write it to the
 secret file you created empty earlier:
 
 ```sh

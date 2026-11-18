@@ -1,0 +1,31 @@
+{{define "content" -}}
+    <main class="vox-container vox-p-y-xl">
+      <vox-breadcrumbs>
+        <a href="/nodes.html" data-i18n>Nodes</a>
+        <span aria-current="page" data-i18n>Agentless targets</span>
+      </vox-breadcrumbs>
+      <div class="vox-display-flex vox-justify-between vox-items-center vox-gap-md vox-flex-wrap vox-m-bottom-sm">
+        <h1 class="vox-ts-xl vox-m-y-none" data-i18n>Agentless targets</h1>
+        <vox-button id="add-target" variant="brand" style="display: none" data-i18n>Add target</vox-button>
+      </div>
+      <p class="vox-ts-sm vox-color-text-2 vox-m-top-none vox-m-bottom-lg" data-i18n>
+        Hosts the console reaches over SSH instead of a node agent. Tasks can run on them; Puppet
+        runs and patch runs need the agent. Logins are stored sealed and are never shown again.
+      </p>
+
+      <div id="page-error"></div>
+      <div id="check-result"></div>
+      <div id="targets"></div>
+
+      <section id="credentials-section" class="vox-m-top-xl" style="display: none">
+        <div class="vox-display-flex vox-justify-between vox-items-center vox-gap-md vox-flex-wrap vox-m-bottom-sm">
+          <h2 class="vox-ts-lg vox-m-y-none" data-i18n>Shared credentials</h2>
+          <vox-button id="add-credential" variant="alt" data-i18n>Add shared credential</vox-button>
+        </div>
+        <p class="vox-ts-sm vox-color-text-2 vox-m-top-none" data-i18n>
+          One login several targets can use. Replacing its key or password changes it for all of them.
+        </p>
+        <div id="credentials"></div>
+      </section>
+    </main>
+{{- end}}

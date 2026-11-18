@@ -147,6 +147,7 @@
       <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Scale" open="">
       <vox-sidenav-item href="../guides/run-modes.html" current="" aria-current="page"><span>Run modes</span></vox-sidenav-item>
@@ -156,8 +157,13 @@
       <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Operate">
       <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
@@ -200,7 +206,7 @@ instance, which is what a single-instance deployment always runs.</p>
 <td><code>web</code></td>
 <td>the console, its API, code-deploy webhooks and classification</td>
 <td>HTTP</td>
-<td>nothing</td>
+<td>following the jobs started through it</td>
 </tr>
 <tr>
 <td><code>enc</code></td>
@@ -212,7 +218,7 @@ instance, which is what a single-instance deployment always runs.</p>
 <td><code>orchestrator</code></td>
 <td>nothing beyond health and metrics</td>
 <td>HTTP, node transport</td>
-<td>job dispatch, and the first run of new nodes</td>
+<td>job dispatch, scheduled jobs, the first run of new nodes, and node agent upgrades</td>
 </tr>
 <tr>
 <td><code>worker</code></td>
@@ -234,6 +240,12 @@ be far worse than <code>web</code> carrying some of that load.</li>
 <li><strong><code>orchestrator</code> serves no API.</strong> It holds the node connections and
 sends jobs down them. Starting a job is <code>web</code>&#39;s job, and <code>web</code> reaches
 those connections through the cluster.</li>
+<li><strong>A job is followed by the instance that started it.</strong> A run, task or
+plan started in the console is sent and tracked by the <code>web</code> instance
+that took the request, so <code>web</code> instances must be
+<a href="cluster.html">clustered</a> with the <code>orchestrator</code> instances to reach
+any node. If that <code>web</code> instance stops before the job ends, the job is
+marked failed by a <code>worker</code> instance.</li>
 </ul>
 <h2 id="what-each-mode-needs">What each mode needs</h2>
 <p>Each mode requires only what it uses, and refuses to start without it,
@@ -264,6 +276,21 @@ naming the missing setting:</p>
 </tr>
 </tbody>
 </table></div>
+<h3 id="give-the-scheduler-what-scheduled-jobs-use">Give the scheduler what scheduled jobs use</h3>
+<p><a href="schedule-jobs.html">Scheduled jobs</a> are started by <code>all</code> and
+<code>orchestrator</code> instances, not by <code>web</code>. An <code>orchestrator</code> instance
+starts without these, but a schedule that needs one is skipped, saying
+why, until the instance has it:</p>
+<ul>
+<li><code>CONSOLE_PUPPET_SERVER_URL</code>, to start a scheduled task: the task is
+looked up in the deployed code when the schedule starts.</li>
+<li><code>CONSOLE_SECRETS_KEY_FILE</code>, the same key as on <code>web</code>, to start a
+scheduled task that has a sensitive parameter.</li>
+</ul>
+<p>When several instances run the scheduler, each due time is started by
+exactly one of them. If none is running when a schedule comes due, it
+starts when one is - unless that is more than 15 minutes late, in which
+case that time is recorded as missed.</p>
 <h3 id="give-non-issuing-modes-the-verification-keys">Give non-issuing modes the verification keys</h3>
 <p>An instance that only checks tokens reads the keys to check them against
 from a directory, one file per key, named after the key&#39;s ID. A
@@ -305,6 +332,7 @@ sense among clustered instances that between them run every mode. See
       <vox-toc-item href="#what-each-mode-runs"><span>What each mode runs</span>
       </vox-toc-item>
       <vox-toc-item href="#what-each-mode-needs"><span>What each mode needs</span>
+        <vox-toc-item slot="children" href="#give-the-scheduler-what-scheduled-jobs-use"><span>Give the scheduler what scheduled jobs use</span></vox-toc-item>
         <vox-toc-item slot="children" href="#give-non-issuing-modes-the-verification-keys"><span>Give non-issuing modes the verification keys</span></vox-toc-item>
       </vox-toc-item>
       <vox-toc-item href="#changing-an-instance-s-mode"><span>Changing an instance&#39;s mode</span>

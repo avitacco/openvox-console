@@ -15,6 +15,7 @@ import (
 	"golang.org/x/oauth2"
 
 	"github.com/voxpupuli/enterprise-console/internal/auditlog"
+	"github.com/voxpupuli/enterprise-console/internal/taskscope"
 )
 
 // oidcStateTTL bounds how long an in-progress OIDC login (state persisted
@@ -56,6 +57,8 @@ type oidcStore interface {
 	GetRoleByName(ctx context.Context, name string) (Role, error)
 	ReconcileOIDCRoles(ctx context.Context, userID int64, desiredRoleIDs []int64) (added, removed []int64, err error)
 	UserPermissions(ctx context.Context, userID int64) ([]string, error)
+	UserNodeScopes(ctx context.Context, userID int64) (map[string][]int64, error)
+	UserTaskGrants(ctx context.Context, userID int64) ([]taskscope.Grant, error)
 	UpdateProfile(ctx context.Context, id int64, firstName, lastName, email string) error
 }
 
@@ -218,7 +221,17 @@ func (o *OIDCService) HandleCallback(ctx context.Context, code, state string) (T
 		return TokenPair{}, fmt.Errorf("load permissions: %w", err)
 	}
 
-	pair, err := issuePair(o.issuer, user.Username, perms)
+	scopes, err := o.store.UserNodeScopes(ctx, user.ID)
+	if err != nil {
+		return TokenPair{}, fmt.Errorf("load node scopes: %w", err)
+	}
+
+	tasks, err := o.store.UserTaskGrants(ctx, user.ID)
+	if err != nil {
+		return TokenPair{}, fmt.Errorf("load task grants: %w", err)
+	}
+
+	pair, err := issuePair(o.issuer, user.Username, perms, scopes, tasks)
 	if err != nil {
 		return TokenPair{}, err
 	}

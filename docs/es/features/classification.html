@@ -136,26 +136,26 @@
 <section class="site-section">
   <h2 class="vox-ts-xxl">Precedencia que se lee en la página</h2>
   <div class="vox-prose">
-    <p>Cuando varios grupos se aplican a un Node, un número decide cuál gana. Los grupos son planos y cada uno lleva una prioridad explícita, así que averiguar por qué un Node recibió una clase es leer una lista, no seguir un árbol de herencia.</p>
+    <p>Groups form a tree, and a group only ever contains nodes its parent does. When several groups apply to a node, a group always wins over the groups above it, and an explicit priority decides between the rest. If that ever lets a child override a parent with a higher priority, the console says so on the group instead of leaving you to work it out.</p>
   </div>
 </section>
 
 <vox-step-indicator>
   <vox-step>A node asks for its catalog</vox-step>
   <vox-step>openvox-server asks the console what applies</vox-step>
-  <vox-step>Matching groups merge by priority</vox-step>
+  <vox-step>Matching groups merge, child over parent</vox-step>
   <vox-step>Classes, parameters and environment come back</vox-step>
 </vox-step-indicator>
 
 <vox-callout variant="warning" heading="Las reglas coinciden con los Facts reportados">
-  <p>Un Node que nunca ha reportado todavía no tiene Facts, así que ninguna regla basada en Facts puede coincidir con él. Fíjelo directamente a un grupo si necesita clasificación antes de su primera ejecución.</p>
+  <p>A node that has never checked in has no facts yet, so no fact-based rule can match it. It is still in All Nodes, and can be pinned to a group directly beneath it if it needs more before its first run.</p>
 </vox-callout>
 
       
       <section class="site-section do-it" aria-labelledby="do-it-heading">
         <h2 id="do-it-heading" class="vox-ts-xxl">Do it</h2>
         <vox-grid min="16rem">
-          <vox-card heading="Classify nodes" href="../guides/classify.html"><p>Decide which classes, parameters and environment each node gets, with node groups matched by facts or pinned by name.</p></vox-card>
+          <vox-card heading="Classify nodes" href="../guides/classify.html"><p>Decide which classes, parameters and environment each node gets, with a tree of node groups matched by facts or pinned by name.</p></vox-card>
           </vox-grid>
       </section>
       </div>

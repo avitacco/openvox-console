@@ -14,7 +14,10 @@ msgid "Account menu"
 msgstr "アカウントメニュー"
 
 #: src/activity.js:39
+#: src/schedule.js:65
+#: src/schedules.js:49
 #: templates/pages/activity.tmpl:9
+#: templates/pages/schedule-edit.tmpl:22
 msgid "Action"
 msgstr "アクション"
 
@@ -22,7 +25,7 @@ msgstr "アクション"
 msgid "Actions"
 msgstr "操作"
 
-#: templates/layout.html.tmpl:89
+#: templates/layout.html.tmpl:93
 #: templates/pages/activity.tmpl:3
 msgid "Activity"
 msgstr "アクティビティ"
@@ -32,11 +35,11 @@ msgstr "アクティビティ"
 msgid "Actor"
 msgstr "実行者"
 
-#: templates/pages/group.tmpl:57
+#: templates/pages/group.tmpl:107
 msgid "Add condition"
 msgstr "条件を追加"
 
-#: templates/pages/nodes.tmpl:5
+#: templates/pages/nodes.tmpl:7
 msgid "Add node"
 msgstr "Node を追加"
 
@@ -44,9 +47,11 @@ msgstr "Node を追加"
 msgid "Add provider"
 msgstr "プロバイダーを追加"
 
-#: templates/layout.html.tmpl:102
+#: templates/layout.html.tmpl:106
+#: templates/pages/account-policy.tmpl:3
 #: templates/pages/roles.tmpl:3
 #: templates/pages/service-tokens.tmpl:3
+#: templates/pages/user-groups.tmpl:3
 #: templates/pages/users.tmpl:3
 msgid "Admin"
 msgstr "管理"
@@ -58,6 +63,8 @@ msgstr "影響を受ける Nodes"
 
 #: src/packages.js:169
 #: src/packages.js:26
+#: src/patches.js:290
+#: src/patches.js:45
 #: templates/pages/activity.tmpl:10
 #: templates/pages/activity.tmpl:6
 #: templates/pages/activity.tmpl:7
@@ -67,14 +74,17 @@ msgstr "影響を受ける Nodes"
 #: templates/pages/code.tmpl:47
 #: templates/pages/code.tmpl:48
 #: templates/pages/code.tmpl:52
-#: templates/pages/jobs.tmpl:14
-#: templates/pages/jobs.tmpl:8
-#: templates/pages/node.tmpl:48
-#: templates/pages/nodes.tmpl:13
-#: templates/pages/nodes.tmpl:18
+#: templates/pages/jobs.tmpl:21
+#: templates/pages/jobs.tmpl:29
+#: templates/pages/node.tmpl:67
+#: templates/pages/nodes.tmpl:17
+#: templates/pages/nodes.tmpl:22
 #: templates/pages/packages.tmpl:11
 #: templates/pages/packages.tmpl:13
 #: templates/pages/packages.tmpl:14
+#: templates/pages/patches.tmpl:17
+#: templates/pages/patches.tmpl:19
+#: templates/pages/patches.tmpl:20
 #: templates/pages/report.tmpl:12
 #: templates/pages/vulnerabilities.tmpl:12
 #: templates/pages/vulnerabilities.tmpl:20
@@ -82,15 +92,15 @@ msgstr "影響を受ける Nodes"
 msgid "All"
 msgstr "すべて"
 
-#: templates/pages/roles.tmpl:26
+#: templates/pages/roles.tmpl:40
 msgid "All roles"
 msgstr "すべてのロール"
 
-#: templates/pages/service-tokens.tmpl:28
+#: templates/pages/service-tokens.tmpl:35
 msgid "All service tokens"
 msgstr "すべてのサービストークン"
 
-#: templates/pages/users.tmpl:31
+#: templates/pages/users.tmpl:34
 msgid "All users"
 msgstr "すべてのユーザー"
 
@@ -98,8 +108,21 @@ msgstr "すべてのユーザー"
 msgid "Applies to this browser only. Without a choice here, the console follows your browser's language."
 msgstr "このブラウザーにのみ適用されます。ここで選択しない場合、コンソールはブラウザーの言語に従います。"
 
-#: src/app.js:377
+#: src/agentless.js:307
+#: src/agentless.js:377
+#: src/app.js:456
+#: src/code-plans.js:159
+#: src/roles.js:117
+#: src/roles.js:132
+#: src/run-patch.js:174
+#: src/run-plan.js:34
+#: src/run-puppet.js:110
+#: src/run-task.js:43
+#: src/user-groups.js:87
+#: src/users.js:40
 #: src/vulnerability-providers.js:157
+#: templates/pages/plan-edit.tmpl:42
+#: templates/pages/schedule-edit.tmpl:92
 msgid "Cancel"
 msgstr "キャンセル"
 
@@ -108,84 +131,85 @@ msgstr "キャンセル"
 msgid "Category"
 msgstr "カテゴリ"
 
-#: src/nodes.js:252
-#: templates/pages/nodes.tmpl:17
+#: src/nodes.js:296
+#: templates/pages/nodes.tmpl:21
 msgid "Cert status"
 msgstr "証明書のステータス"
 
 #: templates/pages/preferences.tmpl:37
-#: templates/pages/preferences.tmpl:47
+#: templates/pages/preferences.tmpl:48
 msgid "Change password"
 msgstr "パスワードを変更"
 
 #: src/i18n.js:167
-#: templates/pages/node.tmpl:49
+#: templates/pages/node.tmpl:68
 msgid "Changed"
 msgstr "変更済み"
 
-#: src/groups.js:33
+#: src/groups.js:60
+#: templates/pages/group.tmpl:53
 msgid "Classes"
 msgstr "クラス"
 
-#: templates/pages/group.tmpl:32
-msgid "Classes (JSON)"
-msgstr "クラス (JSON)"
+#: templates/pages/group.tmpl:47
+#~ msgid "Classes (JSON)"
+#~ msgstr "クラス (JSON)"
 
-#: templates/pages/group.tmpl:31
+#: templates/pages/group.tmpl:50
 msgid "Classification"
 msgstr "分類"
 
-#: src/nodes.js:84
+#: src/nodes.js:92
 msgid "Clean"
 msgstr "クリーンアップ"
 
-#: templates/pages/nodes.tmpl:34
+#: templates/pages/nodes.tmpl:39
 msgid "Clear"
 msgstr "選択を解除"
 
-#: src/nodes.js:427
+#: src/nodes.js:466
 msgid "Close"
 msgstr "閉じる"
 
-#: templates/layout.html.tmpl:85
+#: templates/layout.html.tmpl:89
 #: templates/pages/code.tmpl:3
 msgid "Code"
 msgstr "Code"
 
 #: src/i18n.js:172
-#: src/index.js:114
-#: src/nodes.js:42
-#: templates/pages/nodes.tmpl:14
+#: src/index.js:149
+#: src/nodes.js:50
+#: templates/pages/nodes.tmpl:18
 msgid "Connected"
 msgstr "接続済み"
 
-#: src/nodes.js:250
-#: templates/pages/nodes.tmpl:12
+#: src/nodes.js:294
+#: templates/pages/nodes.tmpl:16
 msgid "Connection"
 msgstr "接続"
 
 #: src/i18n.js:171
-#: src/index.js:23
+#: src/index.js:24
 msgid "Corrected"
 msgstr "修正済み"
 
-#: templates/pages/roles.tmpl:21
+#: templates/pages/roles.tmpl:35
 msgid "Create role"
 msgstr "ロールを作成"
 
-#: templates/pages/service-tokens.tmpl:23
+#: templates/pages/service-tokens.tmpl:30
 msgid "Create service token"
 msgstr "サービストークンを作成"
 
-#: templates/pages/users.tmpl:26
+#: templates/pages/users.tmpl:29
 msgid "Create user"
 msgstr "ユーザーを作成"
 
-#: src/service-tokens.js:43
+#: src/service-tokens.js:47
 msgid "Created"
 msgstr "作成日時"
 
-#: src/app.js:632
+#: src/app.js:711
 #: templates/pages/vulnerabilities.tmpl:13
 msgid "Critical"
 msgstr "重大"
@@ -199,12 +223,22 @@ msgstr "現在のパスワード"
 msgid "Dashboard"
 msgstr "Dashboard"
 
-#: src/nodes.js:88
-#: src/roles.js:36
-#: src/service-tokens.js:34
-#: src/users.js:51
+#: src/agentless.js:125
+#: src/agentless.js:212
+#: src/agentless.js:227
+#: src/agentless.js:68
+#: src/nodes.js:96
+#: src/plan.js:61
+#: src/roles.js:136
+#: src/schedule.js:148
+#: src/service-tokens.js:38
+#: src/user-groups.js:119
+#: src/user-groups.js:156
+#: src/users.js:130
 #: src/vulnerability-providers.js:67
-#: templates/pages/group.tmpl:71
+#: templates/pages/group.tmpl:122
+#: templates/pages/plan.tmpl:14
+#: templates/pages/schedule.tmpl:15
 msgid "Delete"
 msgstr "削除"
 
@@ -220,28 +254,35 @@ msgstr "Deploy 履歴"
 msgid "Deploy now"
 msgstr "今すぐ deploy"
 
-#: templates/pages/group.tmpl:13
+#: templates/pages/group.tmpl:20
+#: templates/pages/plan-edit.tmpl:14
+#: templates/pages/schedule-edit.tmpl:15
 msgid "Details"
 msgstr "詳細"
 
-#: src/index.js:114
+#: src/index.js:149
 msgid "Disconnected"
 msgstr "切断済み"
 
+#: src/agentless.js:124
+#: src/agentless.js:67
 #: src/vulnerability-providers.js:66
+#: templates/pages/plan.tmpl:13
+#: templates/pages/schedule.tmpl:14
 msgid "Edit"
 msgstr "編集"
 
-#: templates/pages/group.tmpl:48
+#: templates/pages/group.tmpl:54
+#: templates/pages/group.tmpl:95
 msgid "Edit as JSON"
 msgstr "JSON として編集"
 
-#: src/users.js:60
+#: src/users.js:141
 #: templates/pages/preferences.tmpl:18
 msgid "Email"
 msgstr "メールアドレス"
 
-#: templates/pages/users.tmpl:23
+#: templates/pages/users.tmpl:26
 msgid "Email (optional)"
 msgstr "メールアドレス（任意）"
 
@@ -251,49 +292,55 @@ msgstr "メールアドレス（任意）"
 msgid "Enabled"
 msgstr "有効"
 
-#: src/node.js:469
+#: src/node.js:473
 msgid "Ended"
 msgstr "終了"
 
 #: src/deploys.js:57
-#: src/groups.js:33
+#: src/groups.js:60
+#: src/task-form.js:108
+#: templates/pages/plans.tmpl:26
 msgid "Environment"
 msgstr "Environment"
 
-#: templates/pages/group.tmpl:20
+#: src/run-puppet.js:29
+#: templates/pages/group.tmpl:35
 msgid "Environment (optional)"
 msgstr "Environment（任意）"
 
 #: src/deploys.js:57
-#: src/job.js:53
+#: src/job.js:142
+#: src/run-patch.js:123
 msgid "Error"
 msgstr "エラー"
 
-#: src/job.js:53
+#: src/job.js:142
+#: src/run-patch.js:123
 msgid "Exit code"
 msgstr "終了コード"
 
-#: templates/pages/index.tmpl:23
+#: templates/pages/index.tmpl:27
 msgid "Fact name"
 msgstr "Fact 名"
 
-#: src/group.js:81
+#: src/group.js:245
 msgid "Fact path"
 msgstr "Fact パス"
 
-#: templates/pages/index.tmpl:24
+#: templates/pages/index.tmpl:28
 msgid "Fact value"
 msgstr "Fact の値"
 
-#: templates/pages/node.tmpl:15
+#: templates/pages/node.tmpl:23
 msgid "Facts"
 msgstr "Facts"
 
 #: src/i18n.js:164
-#: src/index.js:22
+#: src/index.js:23
+#: src/plan-common.js:72
 #: templates/pages/code.tmpl:55
-#: templates/pages/jobs.tmpl:17
-#: templates/pages/node.tmpl:51
+#: templates/pages/jobs.tmpl:32
+#: templates/pages/node.tmpl:70
 msgid "Failed"
 msgstr "失敗"
 
@@ -303,20 +350,20 @@ msgstr "障害"
 
 #: templates/pages/activity.tmpl:12
 #: templates/pages/code.tmpl:50
-#: templates/pages/jobs.tmpl:19
+#: templates/pages/jobs.tmpl:34
 msgid "Filter by actor"
 msgstr "実行者で絞り込む"
 
-#: templates/pages/index.tmpl:22
+#: templates/pages/index.tmpl:26
 #: templates/pages/packages.tmpl:8
 msgid "Filter by name"
 msgstr "名前で絞り込む"
 
-#: templates/pages/nodes.tmpl:11
+#: templates/pages/nodes.tmpl:15
 msgid "Filter by name…"
 msgstr "名前で絞り込む…"
 
-#: templates/pages/jobs.tmpl:6
+#: templates/pages/jobs.tmpl:19
 msgid "Filter by node"
 msgstr "Node で絞り込む"
 
@@ -325,7 +372,8 @@ msgid "Filter by version"
 msgstr "バージョンで絞り込む"
 
 #: src/deploys.js:57
-#: src/jobs.js:54
+#: src/jobs.js:82
+#: src/schedule-common.js:90
 msgid "Finished"
 msgstr "完了"
 
@@ -333,16 +381,16 @@ msgstr "完了"
 msgid "First name"
 msgstr "名"
 
-#: templates/pages/users.tmpl:21
+#: templates/pages/users.tmpl:24
 msgid "First name (optional)"
 msgstr "名（任意）"
 
-#: src/node.js:604
+#: src/node.js:825
 #: src/vulnerability.js:54
 msgid "First seen"
 msgstr "初回検出"
 
-#: src/node.js:604
+#: src/node.js:825
 #: src/vulnerabilities.js:95
 #: templates/pages/vulnerabilities.tmpl:19
 msgid "Fix"
@@ -361,22 +409,25 @@ msgid "Fleet status"
 msgstr "フリートの状態"
 
 #: templates/pages/packages.tmpl:13
+#: templates/pages/patches.tmpl:19
 msgid "Group"
 msgstr "グループ"
 
-#: templates/layout.html.tmpl:77
+#: templates/layout.html.tmpl:81
 msgid "Groups"
 msgstr "グループ"
 
-#: src/app.js:633
+#: src/app.js:712
 #: templates/pages/vulnerabilities.tmpl:14
 msgid "High"
 msgstr "高"
 
-#: src/jobs.js:54
+#: src/jobs.js:82
 msgid "ID"
 msgstr "ID"
 
+#: src/node.js:695
+#: src/patches.js:130
 #: src/vulnerability.js:54
 msgid "Installed"
 msgstr "インストール済み"
@@ -385,14 +436,23 @@ msgstr "インストール済み"
 msgid "Interval"
 msgstr "間隔"
 
-#: templates/layout.html.tmpl:81
+#: templates/layout.html.tmpl:85
 #: templates/pages/job.tmpl:4
-#: templates/pages/jobs.tmpl:3
+#: templates/pages/jobs.tmpl:12
+#: templates/pages/jobs.tmpl:4
+#: templates/pages/plan-edit.tmpl:4
+#: templates/pages/plan.tmpl:4
+#: templates/pages/plans.tmpl:4
+#: templates/pages/plans.tmpl:7
+#: templates/pages/schedule-edit.tmpl:4
+#: templates/pages/schedule.tmpl:4
+#: templates/pages/schedules.tmpl:4
+#: templates/pages/schedules.tmpl:7
 msgid "Jobs"
 msgstr "Jobs"
 
-#: src/jobs.js:54
-#: templates/pages/jobs.tmpl:7
+#: src/jobs.js:82
+#: templates/pages/jobs.tmpl:20
 msgid "Kind"
 msgstr "種別"
 
@@ -401,7 +461,7 @@ msgstr "種別"
 msgid "Language"
 msgstr "言語"
 
-#: src/index.js:249
+#: src/index.js:286
 msgid "Last check-in"
 msgstr "最終チェックイン"
 
@@ -409,7 +469,7 @@ msgstr "最終チェックイン"
 msgid "Last name"
 msgstr "姓"
 
-#: templates/pages/users.tmpl:22
+#: templates/pages/users.tmpl:25
 msgid "Last name (optional)"
 msgstr "姓（任意）"
 
@@ -417,7 +477,7 @@ msgstr "姓（任意）"
 msgid "Last sync"
 msgstr "最終同期"
 
-#: templates/layout.html.tmpl:117
+#: templates/layout.html.tmpl:121
 msgid "License (GPL-3.0)"
 msgstr "ライセンス (GPL-3.0)"
 
@@ -433,7 +493,7 @@ msgstr "SSO でログイン"
 msgid "Log out"
 msgstr "ログアウト"
 
-#: src/app.js:635
+#: src/app.js:714
 #: templates/pages/vulnerabilities.tmpl:16
 msgid "Low"
 msgstr "低"
@@ -442,20 +502,20 @@ msgstr "低"
 msgid "Main"
 msgstr "メインナビゲーション"
 
-#: templates/pages/group.tmpl:47
+#: templates/pages/group.tmpl:94
 msgid "Match rule"
 msgstr "一致ルール"
 
-#: templates/pages/group.tmpl:45
+#: templates/pages/group.tmpl:92
 msgid "Matching"
 msgstr "一致"
 
-#: src/groups.js:33
-#: templates/pages/group.tmpl:77
+#: src/groups.js:60
+#: templates/pages/group.tmpl:128
 msgid "Matching nodes"
 msgstr "一致する Nodes"
 
-#: src/app.js:634
+#: src/app.js:713
 #: templates/pages/vulnerabilities.tmpl:15
 msgid "Medium"
 msgstr "中"
@@ -472,16 +532,27 @@ msgstr "影響 Nodes の多い順"
 msgid "Most severe first"
 msgstr "深刻度の高い順"
 
-#: src/groups.js:33
-#: src/jobs.js:54
-#: src/roles.js:45
-#: src/service-tokens.js:43
-#: src/users.js:60
+#: src/agentless.js:131
+#: src/agentless.js:278
+#: src/agentless.js:367
+#: src/agentless.js:95
+#: src/groups.js:60
+#: src/jobs.js:82
+#: src/plans.js:36
+#: src/roles.js:145
+#: src/schedules.js:49
+#: src/service-tokens.js:47
+#: src/user-groups.js:167
+#: src/user-groups.js:84
+#: src/users.js:141
 #: src/vulnerability-providers.js:150
 #: src/vulnerability-providers.js:75
-#: templates/pages/group.tmpl:15
-#: templates/pages/roles.tmpl:15
-#: templates/pages/service-tokens.tmpl:17
+#: templates/pages/group.tmpl:22
+#: templates/pages/plan-edit.tmpl:15
+#: templates/pages/roles.tmpl:17
+#: templates/pages/schedule-edit.tmpl:16
+#: templates/pages/service-tokens.tmpl:19
+#: templates/pages/user-groups.tmpl:21
 msgid "Name"
 msgstr "名前"
 
@@ -492,28 +563,30 @@ msgstr "新規"
 #: templates/pages/group.tmpl:5
 #: templates/pages/group.tmpl:7
 #: templates/pages/groups.tmpl:5
+#: templates/pages/user-groups.tmpl:18
 msgid "New group"
 msgstr "新しいグループ"
 
+#: src/users.js:35
 #: templates/pages/preferences.tmpl:44
 msgid "New password"
 msgstr "新しいパスワード"
 
-#: templates/pages/roles.tmpl:12
+#: templates/pages/roles.tmpl:14
 msgid "New role"
 msgstr "新しいロール"
 
-#: templates/pages/service-tokens.tmpl:14
+#: templates/pages/service-tokens.tmpl:16
 msgid "New service token"
 msgstr "新しいサービストークン"
 
-#: templates/pages/users.tmpl:12
+#: templates/pages/users.tmpl:14
 msgid "New user"
 msgstr "新しいユーザー"
 
 #: templates/pages/activity.tmpl:14
 #: templates/pages/code.tmpl:58
-#: templates/pages/jobs.tmpl:21
+#: templates/pages/jobs.tmpl:36
 msgid "Newest first"
 msgstr "新しい順"
 
@@ -521,7 +594,7 @@ msgstr "新しい順"
 msgid "No activity recorded yet"
 msgstr "まだアクティビティが記録されていません"
 
-#: src/index.js:135
+#: src/index.js:172
 msgid "No activity yet"
 msgstr "まだアクティビティがありません"
 
@@ -541,7 +614,7 @@ msgstr "まだ deploy がありません"
 msgid "No events for this report"
 msgstr "この Report にイベントはありません"
 
-#: src/node.js:339
+#: src/node.js:343
 msgid "No facts reported"
 msgstr "Facts が報告されていません"
 
@@ -549,37 +622,37 @@ msgstr "Facts が報告されていません"
 msgid "No fix released"
 msgstr "修正はまだリリースされていません"
 
-#: src/jobs.js:27
+#: src/jobs.js:55
 msgid "No jobs yet"
 msgstr "まだ Jobs がありません"
 
-#: src/nodes.js:220
+#: src/nodes.js:264
 #: src/packages.js:129
 msgid "No matching nodes"
 msgstr "一致する Node はありません"
 
 #: src/groups.js:10
-msgid "No node groups yet"
-msgstr "まだ Node グループがありません"
+#~ msgid "No node groups yet"
+#~ msgstr "まだ Node グループがありません"
 
-#: src/group.js:255
+#: src/group.js:440
 msgid "No nodes currently match this group"
 msgstr "現在このグループに一致する Node はありません"
 
-#: src/index.js:223
-#: src/nodes.js:225
+#: src/index.js:260
+#: src/nodes.js:269
 msgid "No nodes found"
 msgstr "Node が見つかりません"
 
-#: src/index.js:80
+#: src/index.js:81
 msgid "No nodes yet"
 msgstr "まだ Nodes がありません"
 
-#: src/node.js:581
+#: src/node.js:802
 msgid "No open vulnerabilities"
 msgstr "未対応の脆弱性はありません"
 
-#: src/node.js:398
+#: src/node.js:402
 msgid "No package data reported"
 msgstr "パッケージデータが報告されていません"
 
@@ -591,27 +664,30 @@ msgstr "パッケージがありません"
 msgid "No packages match"
 msgstr "一致するパッケージがありません"
 
-#: src/node.js:448
+#: src/node.js:452
 msgid "No reports yet"
 msgstr "まだ Reports がありません"
 
-#: src/roles.js:23
+#: src/roles.js:95
+#: src/user-groups.js:26
 msgid "No roles yet"
 msgstr "まだロールがありません"
 
-#: src/index.js:175
+#: src/index.js:212
 msgid "No runs yet"
 msgstr "まだ実行がありません"
 
-#: src/service-tokens.js:17
+#: src/service-tokens.js:20
 msgid "No service tokens yet"
 msgstr "まだサービストークンがありません"
 
-#: src/job.js:29
+#: src/job.js:119
+#: src/run-patch.js:96
 msgid "No targets"
 msgstr "対象がありません"
 
-#: src/users.js:33
+#: src/user-groups.js:52
+#: src/users.js:109
 msgid "No users yet"
 msgstr "まだユーザーがいません"
 
@@ -619,31 +695,42 @@ msgstr "まだユーザーがいません"
 msgid "No vulnerability providers"
 msgstr "脆弱性プロバイダーがありません"
 
-#: src/index.js:196
-#: src/index.js:249
-#: src/job.js:53
-#: src/nodes.js:249
+#: src/index.js:233
+#: src/index.js:286
+#: src/job.js:142
+#: src/nodes.js:293
 #: src/packages.js:146
+#: src/patches.js:129
+#: src/patches.js:92
+#: src/run-patch.js:123
 #: src/vulnerability.js:54
 msgid "Node"
 msgstr "Node"
 
+#: src/roles.js:145
 #: templates/pages/group.tmpl:4
 #: templates/pages/groups.tmpl:4
+#: templates/pages/roles.tmpl:24
 msgid "Node groups"
 msgstr "Node グループ"
 
-#: templates/pages/index.tmpl:19
+#: templates/pages/index.tmpl:23
 msgid "Node inventory"
 msgstr "Node インベントリ"
 
-#: templates/pages/index.tmpl:22
-#: templates/pages/nodes.tmpl:11
+#: templates/pages/index.tmpl:26
+#: templates/pages/nodes.tmpl:15
 msgid "Node name"
 msgstr "Node 名"
 
 #: src/packages.js:79
+#: src/patches.js:236
+#: src/patches.js:31
+#: src/schedule.js:66
+#: src/schedules.js:49
+#: src/target-picker.js:52
 #: templates/layout.html.tmpl:65
+#: templates/pages/agentless.tmpl:4
 #: templates/pages/node.tmpl:4
 #: templates/pages/nodes.tmpl:4
 #: templates/pages/report.tmpl:4
@@ -659,18 +746,18 @@ msgid "Nodes not assessed"
 msgstr "未評価の Nodes"
 
 #: src/i18n.js:169
-#: templates/pages/node.tmpl:52
+#: templates/pages/node.tmpl:71
 #: templates/pages/report.tmpl:15
 msgid "Noop"
 msgstr "Noop"
 
 #: src/i18n.js:173
-#: src/nodes.js:43
-#: templates/pages/nodes.tmpl:15
+#: src/nodes.js:51
+#: templates/pages/nodes.tmpl:19
 msgid "Not connected"
 msgstr "未接続"
 
-#: src/node.js:366
+#: src/node.js:370
 msgid "Nothing to summarise"
 msgstr "集計する内容がありません"
 
@@ -680,32 +767,35 @@ msgstr "旧"
 
 #: templates/pages/activity.tmpl:15
 #: templates/pages/code.tmpl:59
-#: templates/pages/jobs.tmpl:22
+#: templates/pages/jobs.tmpl:37
 msgid "Oldest first"
 msgstr "古い順"
 
-#: templates/layout.html.tmpl:112
+#: templates/layout.html.tmpl:116
 #: templates/layout.html.tmpl:38
 #: templates/pages/login.tmpl:3
 msgid "OpenVox Console"
 msgstr "OpenVox Console"
 
-#: templates/layout.html.tmpl:113
+#: templates/layout.html.tmpl:117
 msgid "OpenVox project"
 msgstr "OpenVox プロジェクト"
 
-#: src/group.js:84
+#: src/group.js:248
 msgid "Operator"
 msgstr "演算子"
 
 #: templates/pages/activity.tmpl:13
 #: templates/pages/code.tmpl:57
-#: templates/pages/jobs.tmpl:20
+#: templates/pages/jobs.tmpl:35
 msgid "Order"
 msgstr "並び順"
 
-#: src/node.js:418
+#: src/node.js:422
+#: src/node.js:695
 #: src/packages.js:79
+#: src/patches.js:129
+#: src/run-patch.js:72
 #: src/vulnerability.js:54
 #: templates/pages/vulnerabilities.tmpl:27
 msgid "Package"
@@ -715,20 +805,23 @@ msgstr "パッケージ"
 msgid "Package name"
 msgstr "パッケージ名"
 
-#: src/node.js:604
+#: src/node.js:825
+#: src/run-patch.js:123
+#: src/run-patch.js:153
 #: src/vulnerabilities.js:95
 #: templates/layout.html.tmpl:69
-#: templates/pages/node.tmpl:16
+#: templates/pages/node.tmpl:24
 #: templates/pages/packages.tmpl:3
 msgid "Packages"
 msgstr "パッケージ"
 
-#: src/app.js:548
+#: src/app.js:627
 msgid "Pagination"
 msgstr "ページ送り"
 
+#: src/agentless.js:250
 #: templates/pages/login.tmpl:11
-#: templates/pages/users.tmpl:18
+#: templates/pages/users.tmpl:20
 msgid "Password"
 msgstr "パスワード"
 
@@ -736,21 +829,27 @@ msgstr "パスワード"
 msgid "Pending"
 msgstr "保留中"
 
-#: src/roles.js:45
-#: src/service-tokens.js:43
+#: src/roles.js:145
+#: src/service-tokens.js:47
+#: templates/pages/roles.tmpl:20
 msgid "Permissions"
 msgstr "権限"
 
-#: templates/pages/group.tmpl:62
+#: templates/pages/group.tmpl:112
 msgid "Pinned node certnames (JSON array)"
 msgstr "固定された Node の certname（JSON 配列）"
 
-#: src/groups.js:33
+#: src/groups.js:60
 msgid "Pinned nodes"
 msgstr "固定された Nodes"
 
+#: src/code-plans.js:57
 #: src/i18n.js:200
-#: templates/pages/jobs.tmpl:11
+#: src/plan.js:48
+#: src/schedule-common.js:39
+#: templates/pages/jobs.tmpl:24
+#: templates/pages/plan.tmpl:6
+#: templates/pages/schedule-edit.tmpl:38
 msgid "Plan"
 msgstr "Plan"
 
@@ -759,8 +858,8 @@ msgstr "Plan"
 msgid "Preferences"
 msgstr "設定"
 
-#: src/groups.js:33
-#: templates/pages/group.tmpl:18
+#: src/groups.js:60
+#: templates/pages/group.tmpl:32
 msgid "Priority"
 msgstr "優先度"
 
@@ -772,7 +871,7 @@ msgstr "プロフィール"
 msgid "Property"
 msgstr "プロパティ"
 
-#: src/node.js:418
+#: src/node.js:422
 #: src/packages.js:146
 #: src/vulnerability.js:54
 #: templates/pages/packages.tmpl:10
@@ -780,7 +879,7 @@ msgstr "プロパティ"
 msgid "Provider"
 msgstr "プロバイダー"
 
-#: src/node.js:604
+#: src/node.js:825
 #: src/packages.js:79
 #: src/vulnerabilities.js:95
 #: templates/pages/vulnerability-providers.tmpl:5
@@ -792,18 +891,20 @@ msgid "Providers enabled"
 msgstr "有効なプロバイダー"
 
 #: src/i18n.js:198
+#: src/plan-common.js:31
+#: src/schedule-common.js:44
 msgid "Puppet run"
 msgstr "Puppet run"
 
-#: templates/pages/node.tmpl:22
+#: templates/pages/node.tmpl:31
 msgid "Raw JSON"
 msgstr "生の JSON"
 
-#: templates/pages/index.tmpl:14
+#: templates/pages/index.tmpl:18
 msgid "Recent activity"
 msgstr "最近のアクティビティ"
 
-#: templates/pages/index.tmpl:11
+#: templates/pages/index.tmpl:15
 msgid "Recent runs"
 msgstr "最近の実行"
 
@@ -812,16 +913,19 @@ msgstr "最近の実行"
 msgid "Ref"
 msgstr "Ref"
 
-#: src/group.js:89
+#: src/class-editor.js:232
+#: src/class-editor.js:245
+#: src/group.js:253
+#: src/plan-edit.js:68
 msgid "Remove"
 msgstr "削除"
 
-#: src/job.js:53
+#: src/job.js:142
 #: templates/pages/report.tmpl:6
 msgid "Report"
 msgstr "Report"
 
-#: templates/pages/node.tmpl:30
+#: templates/pages/node.tmpl:39
 msgid "Report installed packages"
 msgstr "インストール済みパッケージを報告"
 
@@ -830,7 +934,7 @@ msgid "Repositories"
 msgstr "リポジトリ"
 
 #: src/i18n.js:175
-#: templates/pages/nodes.tmpl:20
+#: templates/pages/nodes.tmpl:24
 msgid "Requested"
 msgstr "要求済み"
 
@@ -842,54 +946,69 @@ msgstr "リソース"
 msgid "Resource events"
 msgstr "リソースイベント"
 
-#: src/nodes.js:81
+#: src/nodes.js:89
 msgid "Revoke"
 msgstr "失効させる"
 
 #: src/i18n.js:176
-#: templates/pages/nodes.tmpl:21
+#: templates/pages/nodes.tmpl:25
 msgid "Revoked"
 msgstr "失効済み"
 
-#: src/users.js:60
-#: templates/pages/roles.tmpl:5
-#: templates/pages/roles.tmpl:9
-#: templates/pages/service-tokens.tmpl:5
-#: templates/pages/users.tmpl:5
+#: src/user-groups.js:167
+#: src/users.js:141
+#: templates/pages/account-policy.tmpl:6
+#: templates/pages/roles.tmpl:11
+#: templates/pages/roles.tmpl:6
+#: templates/pages/service-tokens.tmpl:6
+#: templates/pages/user-groups.tmpl:6
+#: templates/pages/users.tmpl:6
 msgid "Roles"
 msgstr "ロール"
 
-#: templates/pages/jobs.tmpl:9
+#: src/code-plans.js:160
+#: src/code-plans.js:52
+#: src/plans.js:28
+#: src/run-puppet.js:111
+#: templates/pages/jobs.tmpl:22
+#: templates/pages/plan.tmpl:12
 msgid "Run"
 msgstr "実行"
 
-#: src/nodes.js:340
-#: templates/pages/nodes.tmpl:33
+#: src/plan-edit.js:33
+#: src/run-puppet.js:87
+#: templates/pages/jobs.tmpl:8
+#: templates/pages/nodes.tmpl:37
+#: templates/pages/schedule-edit.tmpl:23
 msgid "Run Puppet"
 msgstr "Puppet を実行"
 
-#: src/nodes.js:341
+#: src/run-puppet.js:96
 msgid "Run Puppet on {count} node?"
 msgid_plural "Run Puppet on {count} nodes?"
 msgstr[0] "{count} 件の Node で Puppet を実行しますか？"
 
-#: templates/pages/group.tmpl:78
-#: templates/pages/node.tmpl:9
+#: templates/pages/group.tmpl:131
+#: templates/pages/node.tmpl:11
 msgid "Run now"
 msgstr "今すぐ実行"
 
 #: src/i18n.js:165
+#: src/plan-common.js:70
 #: templates/pages/code.tmpl:53
-#: templates/pages/jobs.tmpl:15
+#: templates/pages/jobs.tmpl:30
 msgid "Running"
 msgstr "実行中"
 
-#: templates/pages/node.tmpl:18
+#: templates/pages/node.tmpl:27
 msgid "Runs"
 msgstr "実行"
 
+#: src/agentless.js:308
+#: src/agentless.js:378
 #: src/vulnerability-providers.js:156
-#: templates/pages/group.tmpl:70
+#: templates/pages/group.tmpl:121
+#: templates/pages/patches.tmpl:44
 msgid "Save"
 msgstr "保存"
 
@@ -901,29 +1020,31 @@ msgstr "言語を保存"
 msgid "Save profile"
 msgstr "プロフィールを保存"
 
-#: src/service-tokens.js:90
+#: src/service-tokens.js:95
 msgid "Service token created - copy it now, it won't be shown again"
 msgstr "サービストークンを作成しました — 今すぐコピーしてください。再表示されません"
 
-#: templates/pages/roles.tmpl:6
-#: templates/pages/service-tokens.tmpl:6
-#: templates/pages/service-tokens.tmpl:9
-#: templates/pages/users.tmpl:6
+#: templates/pages/account-policy.tmpl:7
+#: templates/pages/roles.tmpl:7
+#: templates/pages/service-tokens.tmpl:11
+#: templates/pages/service-tokens.tmpl:7
+#: templates/pages/user-groups.tmpl:7
+#: templates/pages/users.tmpl:7
 msgid "Service tokens"
 msgstr "サービストークン"
 
-#: src/node.js:604
+#: src/node.js:825
 #: src/vulnerabilities.js:95
 #: src/vulnerability.js:54
 #: templates/pages/vulnerabilities.tmpl:11
 msgid "Severity"
 msgstr "深刻度"
 
-#: templates/pages/node.tmpl:39
+#: templates/pages/node.tmpl:58
 msgid "Show closed"
 msgstr "対応済みを表示"
 
-#: templates/pages/nodes.tmpl:24
+#: templates/pages/nodes.tmpl:28
 msgid "Show infrastructure certs"
 msgstr "インフラ証明書を表示"
 
@@ -931,12 +1052,12 @@ msgstr "インフラ証明書を表示"
 msgid "Showing {shown} of {total} packages"
 msgstr "{total} 件中 {shown} 件のパッケージを表示"
 
-#: src/nodes.js:78
+#: src/nodes.js:86
 msgid "Sign"
 msgstr "署名"
 
 #: src/i18n.js:174
-#: templates/pages/nodes.tmpl:19
+#: templates/pages/nodes.tmpl:23
 msgid "Signed"
 msgstr "署名済み"
 
@@ -945,6 +1066,7 @@ msgstr "署名済み"
 #~ msgstr "ログイン中&hellip;"
 
 #: src/i18n.js:170
+#: src/schedule-common.js:99
 #: templates/pages/report.tmpl:16
 msgid "Skipped"
 msgstr "スキップ"
@@ -963,29 +1085,35 @@ msgid "Source to deploy"
 msgstr "deploy するソース"
 
 #: src/deploys.js:57
-#: src/jobs.js:54
-#: src/node.js:469
+#: src/jobs.js:82
+#: src/node.js:473
+#: src/patches.js:236
+#: src/schedule-common.js:98
 msgid "Started"
 msgstr "開始"
 
+#: src/code-plans.js:273
 #: src/deploys.js:57
-#: src/index.js:249
-#: src/job.js:53
-#: src/jobs.js:54
-#: src/node.js:469
-#: src/node.js:604
+#: src/index.js:286
+#: src/job.js:142
+#: src/jobs.js:82
+#: src/node.js:473
+#: src/node.js:825
+#: src/patches.js:236
 #: src/report.js:48
+#: src/run-patch.js:123
 #: src/vulnerability-providers.js:75
 #: templates/pages/code.tmpl:51
-#: templates/pages/jobs.tmpl:13
-#: templates/pages/node.tmpl:47
+#: templates/pages/jobs.tmpl:28
+#: templates/pages/node.tmpl:66
 #: templates/pages/report.tmpl:11
 msgid "Status"
 msgstr "ステータス"
 
 #: src/i18n.js:163
+#: src/plan-common.js:71
 #: templates/pages/code.tmpl:54
-#: templates/pages/jobs.tmpl:16
+#: templates/pages/jobs.tmpl:31
 msgid "Succeeded"
 msgstr "成功"
 
@@ -1006,28 +1134,32 @@ msgid "Sync now"
 msgstr "今すぐ同期"
 
 #: src/status.js:183
-#: templates/pages/jobs.tmpl:6
+#: templates/pages/jobs.tmpl:19
 msgid "Target"
 msgstr "対象"
 
-#: src/jobs.js:54
+#: src/jobs.js:82
 #: templates/pages/job.tmpl:12
 msgid "Targets"
 msgstr "対象"
 
 #: src/i18n.js:199
-#: templates/pages/jobs.tmpl:10
+#: src/plan-common.js:29
+#: src/schedule-common.js:42
+#: src/task-form.js:143
+#: templates/pages/jobs.tmpl:23
 msgid "Task"
 msgstr "Task"
 
-#: templates/pages/group.tmpl:37
+#: templates/pages/group.tmpl:78
 msgid "Top-scope parameters (JSON)"
 msgstr "トップスコープパラメーター (JSON)"
 
 #: src/deploys.js:57
-#: src/jobs.js:54
+#: src/jobs.js:82
+#: src/patches.js:236
 #: templates/pages/code.tmpl:50
-#: templates/pages/jobs.tmpl:19
+#: templates/pages/jobs.tmpl:34
 msgid "Triggered by"
 msgstr "実行元"
 
@@ -1038,39 +1170,41 @@ msgid "Type"
 msgstr "タイプ"
 
 #: src/i18n.js:168
-#: src/index.js:25
-#: templates/pages/node.tmpl:50
+#: src/index.js:26
+#: templates/pages/node.tmpl:69
 msgid "Unchanged"
 msgstr "変更なし"
 
-#: src/app.js:636
+#: src/app.js:715
 #: src/i18n.js:177
-#: templates/pages/nodes.tmpl:22
+#: templates/pages/nodes.tmpl:26
 #: templates/pages/vulnerabilities.tmpl:17
 msgid "Unknown"
 msgstr "不明"
 
-#: src/users.js:60
+#: src/users.js:141
 #: templates/pages/login.tmpl:8
-#: templates/pages/users.tmpl:15
+#: templates/pages/users.tmpl:17
 msgid "Username"
 msgstr "ユーザー名"
 
+#: templates/pages/account-policy.tmpl:4
 #: templates/pages/roles.tmpl:4
 #: templates/pages/service-tokens.tmpl:4
+#: templates/pages/user-groups.tmpl:4
+#: templates/pages/users.tmpl:11
 #: templates/pages/users.tmpl:4
-#: templates/pages/users.tmpl:9
 msgid "Users"
 msgstr "ユーザー"
 
-#: src/group.js:87
+#: src/group.js:251
 msgid "Value"
 msgstr "値"
 
-#: src/node.js:418
+#: src/node.js:422
 #: src/packages.js:146
 #: src/status.js:136
-#: templates/layout.html.tmpl:118
+#: templates/layout.html.tmpl:122
 #: templates/pages/packages.tmpl:9
 msgid "Version"
 msgstr "バージョン"
@@ -1079,15 +1213,15 @@ msgstr "バージョン"
 msgid "Versions"
 msgstr "バージョン"
 
-#: templates/layout.html.tmpl:73
-#: templates/pages/node.tmpl:17
+#: templates/layout.html.tmpl:77
+#: templates/pages/node.tmpl:26
 #: templates/pages/vulnerabilities.tmpl:4
 #: templates/pages/vulnerability-providers.tmpl:4
 #: templates/pages/vulnerability.tmpl:4
 msgid "Vulnerabilities"
 msgstr "脆弱性"
 
-#: src/node.js:604
+#: src/node.js:825
 #: src/vulnerabilities.js:95
 msgid "Vulnerability"
 msgstr "脆弱性"
@@ -1097,14 +1231,15 @@ msgid "Vulnerability providers"
 msgstr "脆弱性プロバイダー"
 
 #: src/activity.js:39
+#: templates/pages/schedule-edit.tmpl:59
 msgid "When"
 msgstr "日時"
 
-#: templates/pages/index.tmpl:24
+#: templates/pages/index.tmpl:28
 msgid "e.g. Linux"
 msgstr "例: Linux"
 
-#: templates/pages/index.tmpl:23
+#: templates/pages/index.tmpl:27
 msgid "e.g. kernel"
 msgstr "例: kernel"
 
@@ -1117,7 +1252,7 @@ msgid "from {reporting} of {count} node"
 msgid_plural "from {reporting} of {count} nodes"
 msgstr[0] "{count} 件の Node のうち {reporting} 件"
 
-#: src/nodes.js:292
+#: src/nodes.js:340
 msgid "{count} node selected"
 msgid_plural "{count} nodes selected"
 msgstr[0] "{count} 件の Node を選択中"
@@ -1127,11 +1262,14 @@ msgid "{count} node using an environment no repository here has deployed."
 msgid_plural "{count} nodes using an environment no repository here has deployed."
 msgstr[0] "{count} 件の Node が、ここのどのリポジトリも deploy していない Environment を使用しています。"
 
-#: src/preferences.js:95
+#: src/preferences.js:106
 msgid "Automatic"
 msgstr "自動"
 
-#: src/index.js:192
+#: src/code-plans.js:273
+#: src/index.js:229
+#: src/patches.js:236
+#: src/schedule.js:107
 #: templates/pages/job.tmpl:5
 msgid "Job"
 msgstr "Job"
@@ -1144,7 +1282,8 @@ msgstr "プロバイダーを管理"
 msgid "or"
 msgstr "または"
 
-#: src/nodes.js:338
+#: src/run-patch.js:190
+#: src/run-puppet.js:93
 msgid ", and {count} more"
 msgid_plural ", and {count} more"
 msgstr[0] "、ほか {count} 件"
@@ -1154,12 +1293,12 @@ msgid "<strong>Assigned</strong> counts nodes classification sends to a repo's e
 msgstr "<strong>割り当て済み</strong>は、分類がリポジトリの Environments へ送る Nodes の数です。<strong>報告中</strong>は、そのいずれかから最後に実行された Nodes の数です。両者の差こそが有用なシグナルなので、別々に表示しています。"
 
 #: templates/pages/group.tmpl:23
-msgid "A node can match several groups at once. Their classes and parameters are combined; when two groups set the <em>same</em> class parameter, top-scope parameter, or environment, the one with the higher priority wins. Priorities must be unique."
-msgstr "1 つの Node は同時に複数のグループに一致できます。クラスとパラメーターは結合され、 2 つのグループが<em>同じ</em>クラスパラメーター、トップスコープパラメーター、または Environment を設定している場合は、優先度の高い方が優先されます。優先度は一意でなければなりません。"
+#~ msgid "A node can match several groups at once. Their classes and parameters are combined; when two groups set the <em>same</em> class parameter, top-scope parameter, or environment, the one with the higher priority wins. Priorities must be unique."
+#~ msgstr "1 つの Node は同時に複数のグループに一致できます。クラスとパラメーターは結合され、 2 つのグループが<em>同じ</em>クラスパラメーター、トップスコープパラメーター、または Environment を設定している場合は、優先度の高い方が優先されます。優先度は一意でなければなりません。"
 
 #: templates/pages/group.tmpl:50
-msgid "A node joins this group when its facts satisfy <em>every</em> condition below. Fact path is a dotted path into the node's facts, like <code>os.family</code> or <code>networking.fqdn</code> — open a node's page to see the facts it reports. With no conditions and no pinned nodes, the group matches nothing."
-msgstr "Node は、その Facts が下記の<em>すべての</em>条件を満たしたときにこのグループに参加します。Fact パスは Node の Facts へのドット区切りのパスで、例えば <code>os.family</code> や <code>networking.fqdn</code> です — Node のページを開くと報告されている Facts を確認できます。条件も固定された Nodes もない場合、このグループは何にも一致しません。"
+#~ msgid "A node joins this group when its facts satisfy <em>every</em> condition below. Fact path is a dotted path into the node's facts, like <code>os.family</code> or <code>networking.fqdn</code> — open a node's page to see the facts it reports. With no conditions and no pinned nodes, the group matches nothing."
+#~ msgstr "Node は、その Facts が下記の<em>すべての</em>条件を満たしたときにこのグループに参加します。Fact パスは Node の Facts へのドット区切りのパスで、例えば <code>os.family</code> や <code>networking.fqdn</code> です — Node のページを開くと報告されている Facts を確認できます。条件も固定された Nodes もない場合、このグループは何にも一致しません。"
 
 #: src/activity.js:17
 msgid "Actions taken through the console will show up here."
@@ -1170,8 +1309,8 @@ msgid "Assigned, none reporting"
 msgstr "割り当て済み、報告なし"
 
 #: templates/pages/group.tmpl:63
-msgid "Certnames listed here are always in this group, whether or not the match rule matches them."
-msgstr "ここに記載された certname は、一致ルールに合致するかどうかに関わらず常にこのグループに含まれます。"
+#~ msgid "Certnames listed here are always in this group, whether or not the match rule matches them."
+#~ msgstr "ここに記載された certname は、一致ルールに合致するかどうかに関わらず常にこのグループに含まれます。"
 
 #: src/code-repositories.js:109
 msgid "Converging"
@@ -1181,7 +1320,7 @@ msgstr "収束中"
 msgid "Deployed, but no node is classified into or reporting from its environments"
 msgstr "Deploy 済みですが、どの Node もその Environments に分類されておらず、そこから報告もしていません"
 
-#: templates/pages/group.tmpl:18
+#: templates/pages/group.tmpl:32
 msgid "Higher wins a conflict."
 msgstr "競合時は優先度の高い方が優先されます。"
 
@@ -1189,27 +1328,27 @@ msgstr "競合時は優先度の高い方が優先されます。"
 msgid "In use"
 msgstr "使用中"
 
-#: src/nodes.js:101
+#: src/nodes.js:109
 msgid "Infrastructure"
 msgstr "インフラ"
 
-#: src/index.js:24
+#: src/index.js:25
 msgid "Intentional changes"
 msgstr "意図した変更"
 
 #: src/login.js:22
-msgid "Invalid username or password."
-msgstr "ユーザー名またはパスワードが正しくありません。"
+#~ msgid "Invalid username or password."
+#~ msgstr "ユーザー名またはパスワードが正しくありません。"
 
-#: src/nodes.js:251
+#: src/nodes.js:295
 msgid "Last connected"
 msgstr "最終接続"
 
-#: src/job.js:71
+#: src/job.js:235
 msgid "No job specified."
 msgstr "Job が指定されていません。"
 
-#: src/node.js:622
+#: src/node.js:843
 msgid "No node specified."
 msgstr "Node が指定されていません。"
 
@@ -1257,24 +1396,25 @@ msgstr "未分類"
 msgid "Unused"
 msgstr "未使用"
 
-#: templates/pages/group.tmpl:38
+#: templates/pages/group.tmpl:79
 msgid "Variables set for every manifest compiled for these nodes, available as $variable. An object of name/value pairs."
 msgstr "これらの Nodes 向けにコンパイルされるすべての manifest に設定される変数で、$variable として利用できます。名前/値のペアのオブジェクト。"
 
-#: src/job.js:36
+#: src/job.js:125
 msgid "View report"
 msgstr "Report を表示"
 
-#: src/nodes.js:38
-#: src/nodes.js:54
+#: src/nodes.js:46
+#: src/nodes.js:62
 msgid "checking…"
 msgstr "確認中…"
 
-#: src/nodes.js:49
+#: src/nodes.js:147
+#: src/nodes.js:57
 msgid "never"
 msgstr "なし"
 
-#: src/index.js:189
+#: src/index.js:226
 msgid "no targets"
 msgstr "対象なし"
 
@@ -1294,20 +1434,22 @@ msgstr "{assigned} 件の Node が割り当て済みかつ報告中です"
 msgid "{reporting} node(s) report from its environments, but no group assigns any node there"
 msgstr "{reporting} 件の Node がその Environments から報告していますが、そこに Node を割り当てるグループがありません"
 
-#: templates/pages/group.tmpl:20
+#: templates/pages/group.tmpl:38
 msgid "Puppet environment matching nodes compile against. Blank means this group doesn't set one."
 msgstr "一致した Nodes がコンパイルする対象の Puppet Environment。空欄の場合、このグループは設定しません。"
 
-#: src/app.js:493
-#: src/app.js:505
+#: src/app.js:572
+#: src/app.js:584
 msgid ", +{count} more"
 msgid_plural ", +{count} more"
 msgstr[0] "、+{count} 件"
 
-#: templates/pages/group.tmpl:33
-msgid "Puppet classes applied to every node in this group, each with optional parameters. A list of {\"name\", \"parameters\"} objects."
-msgstr "このグループのすべての Node に適用される Puppet クラス。それぞれに任意のパラメーターを指定できます。{\"name\", \"parameters\"} オブジェクトのリスト。"
+#: templates/pages/group.tmpl:48
+#~ msgid "Puppet classes applied to every node in this group, each with optional parameters. A list of {\"name\", \"parameters\"} objects."
+#~ msgstr "このグループのすべての Node に適用される Puppet クラス。それぞれに任意のパラメーターを指定できます。{\"name\", \"parameters\"} オブジェクトのリスト。"
 
+#: src/node.js:695
+#: src/patches.js:130
 #: src/vulnerabilities.js:87
 msgid "Available"
 msgstr "あり"
@@ -1345,7 +1487,9 @@ msgstr "未同期"
 msgid "Syncing"
 msgstr "同期中"
 
-#: src/index.js:151
+#: src/agentless.js:297
+#: src/agentless.js:369
+#: src/index.js:188
 msgid "User"
 msgstr "ユーザー"
 
@@ -1357,6 +1501,8 @@ msgstr "{minutes} 分"
 msgid "Signing in…"
 msgstr "ログイン中&hellip;"
 
+#: src/agentless.js:282
+#: src/agentless.js:95
 #: src/status.js:133
 msgid "Address"
 msgstr "アドレス"
@@ -1427,7 +1573,7 @@ msgstr "時刻のずれ"
 msgid "differs by instance"
 msgstr "インスタンスごとに異なる"
 
-#: templates/layout.html.tmpl:98
+#: templates/layout.html.tmpl:102
 #: templates/pages/status.tmpl:3
 msgid "System"
 msgstr "システム"
@@ -1447,3 +1593,2194 @@ msgstr "未設定"
 #: src/status.js:31
 msgid "Unreachable"
 msgstr "到達不可"
+
+#: src/task-form.js:144
+msgid "Choose a task"
+msgstr "Task を選択"
+
+#: src/code-plans.js:111
+#: src/task-form.js:28
+msgid "Default: {value}"
+msgstr "デフォルト: {value}"
+
+#: src/job.js:53
+msgid "Environment:"
+msgstr "Environment:"
+
+#: src/task-form.js:303
+msgid "Fix these parameters first:"
+msgstr "先にこれらのパラメーターを修正してください:"
+
+#: src/code-plans.js:132
+#: src/task-form.js:51
+msgid "JSON, for example [\"a\", \"b\"]"
+msgstr "JSON（例: [\"a\", \"b\"]）"
+
+#: src/task-form.js:139
+msgid "No tasks in this environment"
+msgstr "この Environment には Task がありません"
+
+#: src/code-plans.js:118
+#: src/code-plans.js:120
+#: src/task-form.js:37
+msgid "Not set"
+msgstr "未設定"
+
+#: src/run-task.js:126
+#~ msgid "On {count} nodes."
+#~ msgstr ""
+
+#: src/run-task.js:31
+msgid "On {node}."
+msgstr "対象: {node}"
+
+#: src/code-plans.js:282
+#: src/code-plans.js:57
+#: src/job.js:99
+#: src/plan-common.js:137
+#: src/schedule.js:23
+#: src/task-form.js:185
+msgid "Parameters"
+msgstr "パラメーター"
+
+#: src/plan-common.js:174
+#: src/task-form.js:282
+msgid "Problem:"
+msgstr "問題:"
+
+#: src/job.js:110
+msgid "Result from {node}"
+msgstr "{node} の結果"
+
+#: src/plan-edit.js:33
+#: src/run-task.js:26
+#: templates/pages/schedule-edit.tmpl:24
+msgid "Run a task"
+msgstr "Task を実行"
+
+#: src/run-task.js:44
+#: templates/pages/group.tmpl:130
+#: templates/pages/jobs.tmpl:7
+#: templates/pages/node.tmpl:10
+#: templates/pages/nodes.tmpl:38
+msgid "Run task"
+msgstr "Task を実行"
+
+#: src/task-form.js:198
+msgid "Stopped if still running after this long. 30 minutes if left empty."
+msgstr "この時間を過ぎても実行中の場合は停止します。空欄の場合は 30 分です。"
+
+#: src/task-form.js:97
+msgid "Tasks are not configured on this console. An administrator sets CONSOLE_PUPPET_SERVER_URL to enable them."
+msgstr "このコンソールでは Task が設定されていません。管理者が CONSOLE_PUPPET_SERVER_URL を設定すると有効になります。"
+
+#: src/task-form.js:318
+msgid "The console refused these parameters:"
+msgstr "コンソールがこれらのパラメーターを拒否しました:"
+
+#: src/task-form.js:186
+msgid "This task declares no parameters, so any JSON object is passed to it as is."
+msgstr "この Task はパラメーターを宣言していないため、任意の JSON オブジェクトがそのまま渡されます。"
+
+#: src/task-form.js:188
+msgid "This task takes no parameters."
+msgstr "この Task はパラメーターを受け取りません。"
+
+#: src/task-form.js:197
+msgid "Timeout (minutes)"
+msgstr "タイムアウト（分）"
+
+#: src/task-form.js:262
+msgid "is not valid JSON"
+msgstr "は有効な JSON ではありません"
+
+#: src/task-form.js:237
+msgid "must be a JSON object"
+msgstr "は JSON オブジェクトである必要があります"
+
+#: src/plan-common.js:174
+#: src/task-form.js:247
+msgid "required"
+msgstr "必須"
+
+#: src/run-task.js:32
+msgid "On {count} node."
+msgid_plural "On {count} nodes."
+msgstr[0] "対象: {count} 件の Node"
+
+#: src/node.js:577
+msgid "Attempt {attempts} of {max}. Next automatic attempt: {time}."
+msgstr "試行 {attempts}/{max}。次回の自動試行: {time}。"
+
+#: src/node.js:575
+msgid "Automatic attempts stopped after {attempts} failures."
+msgstr "{attempts} 回の失敗後、自動試行を停止しました。"
+
+#: src/index.js:131
+msgid "Automatic upgrades are off."
+msgstr "自動アップグレードはオフです。"
+
+#: src/index.js:131
+msgid "Automatic upgrades are on."
+msgstr "自動アップグレードはオンです。"
+
+#: src/nodes.js:130
+msgid "Client out of date"
+msgstr "クライアントが古い"
+
+#: src/index.js:125
+msgid "Clients too old to upgrade themselves: {count}. Re-run the install script on those nodes once; the Nodes page marks them."
+msgstr "自身でアップグレードできない古いクライアント: {count}。該当する nodes でインストールスクリプトを一度再実行してください。Nodes ページに表示されます。"
+
+#: src/node.js:556
+msgid "Current"
+msgstr "最新"
+
+#: src/index.js:120
+msgid "Current: {count}"
+msgstr "最新: {count}"
+
+#: src/index.js:122
+msgid "Failed upgrades: {count}"
+msgstr "失敗したアップグレード: {count}"
+
+#: src/node.js:593
+#: src/node.js:611
+msgid "Node agent"
+msgstr "Node エージェント"
+
+#: src/index.js:129
+msgid "Node agents"
+msgstr "Node エージェント"
+
+#: src/node.js:557
+#: src/node.js:558
+#: src/patches.js:61
+msgid "Out of date"
+msgstr "古い"
+
+#: src/index.js:121
+msgid "Out of date: {count}"
+msgstr "古い: {count}"
+
+#: src/node.js:573
+msgid "The last client upgrade failed: {error}"
+msgstr "前回のクライアントのアップグレードに失敗しました: {error}"
+
+#: src/node.js:571
+msgid "The node has been told to upgrade its client. It restarts onto the new build when the upgrade completes."
+msgstr "Node にクライアントのアップグレードを指示しました。アップグレードが完了すると新しいビルドで再起動します。"
+
+#: src/node.js:562
+msgid "This client is too old to upgrade itself. Re-run the install script on this node once; after that it keeps itself current."
+msgstr "このクライアントは古すぎて自身でアップグレードできません。この node でインストールスクリプトを一度再実行してください。以降は自動的に最新の状態を保ちます。"
+
+#: src/node.js:564
+msgid "This console has no client package for the platform of this node."
+msgstr "このコンソールには、この node のプラットフォーム用のクライアントパッケージがありません。"
+
+#: src/node.js:593
+msgid "This node has not reported its client build yet. It does so the next time it connects."
+msgstr "この node はまだクライアントのビルドを報告していません。次回の接続時に報告されます。"
+
+#: src/node.js:599
+msgid "Unknown build"
+msgstr "不明なビルド"
+
+#: src/node.js:614
+msgid "Upgrade client"
+msgstr "クライアントをアップグレード"
+
+#: src/node.js:563
+msgid "Upgrades are declined in the configuration of this node."
+msgstr "この node の設定でアップグレードが拒否されています。"
+
+#: src/node.js:600
+msgid "Version {version}, built {time}"
+msgstr "バージョン {version}、ビルド日時 {time}"
+
+#: src/node.js:602
+msgid "unknown"
+msgstr "不明"
+
+#: src/node.js:601
+msgid "unversioned"
+msgstr "バージョンなし"
+
+#: templates/pages/group.tmpl:41
+msgid "A node can match several groups at once. Their classes and parameters are combined. When two groups set the <em>same</em> class parameter, top-scope parameter, or environment, a group always wins over the groups above it in the tree; between unrelated groups the one with the higher priority wins. Priorities must be unique."
+msgstr "Node は同時に複数のグループに一致することがあります。それらのクラスとパラメーターは結合されます。2 つのグループが<em>同じ</em>クラスパラメーター、トップスコープのパラメーター、または Environment を設定している場合、グループはツリーで上位にあるグループより常に優先されます。関連のないグループ同士では、優先度の高い方が優先されます。優先度は一意でなければなりません。"
+
+#: templates/pages/group.tmpl:97
+msgid "A node joins this group when it is in the parent group and its facts satisfy the conditions below. Fact path is a dotted path into the node's facts, like <code>os.family</code> or <code>networking.fqdn</code> — open a node's page to see the facts it reports. With no conditions and no pinned nodes, the group matches nothing."
+msgstr "Node は、親グループに属し、その Facts が以下の条件を満たすときにこのグループに入ります。Fact パスは、<code>os.family</code> や <code>networking.fqdn</code> のような、Node の Facts 内のドット区切りパスです。Node が報告する Facts は、その Node のページで確認できます。条件も固定された Node もない場合、グループは何にも一致しません。"
+
+#: templates/pages/group.tmpl:104
+msgid "A node must satisfy"
+msgstr "Node が満たす必要がある条件:"
+
+#: templates/pages/group.tmpl:13
+msgid "All Nodes is the built-in group every node belongs to. Its classes, parameters and environment apply to every node; its name, rule and pinned nodes cannot be changed."
+msgstr "All Nodes は、すべての Node が属する組み込みグループです。そのクラス、パラメーター、Environment はすべての Node に適用されます。名前、ルール、固定された Nodes は変更できません。"
+
+#: templates/pages/group.tmpl:113
+msgid "Certnames listed here are in this group whether or not the match rule matches them, as long as they are also in the parent group."
+msgstr "ここに記載された certname は、親グループにも属している限り、一致ルールに一致するかどうかにかかわらずこのグループに属します。"
+
+#: src/groups.js:35
+msgid "Create a group to start classifying nodes."
+msgstr "Nodes の分類を始めるには、グループを作成してください。"
+
+#: src/group.js:182
+msgid "Groups beneath this one override it despite their lower priority."
+msgstr "このグループの下位グループは、優先度が低くてもこのグループを上書きします。"
+
+#: src/group.js:172
+msgid "Its value is the one used, because a group always wins over the groups above it. Priority alone would have chosen the parent's. This group sets:"
+msgstr "グループは上位のグループより常に優先されるため、このグループの値が使われます。優先度だけで決めた場合は親の値が選ばれていました。このグループが設定しているもの:"
+
+#: src/groups.js:14
+msgid "Overrides priority"
+msgstr "優先度を上書き"
+
+#: src/groups.js:8
+msgid "Overrides {count} value set by a parent with a higher priority"
+msgid_plural "Overrides {count} values set by a parent with a higher priority"
+msgstr[0] "優先度の高い親が設定した {count} 件の値を上書きします"
+
+#: templates/pages/group.tmpl:25
+msgid "Parent group"
+msgstr "親グループ"
+
+#: src/group.js:183
+msgid "Their values are the ones used for their nodes:"
+msgstr "それらの Nodes には、それらのグループの値が使われます:"
+
+#: src/group.js:474
+msgid "These pinned nodes are not currently in this group, because they are not in its parent group (or are not known to the console):"
+msgstr "以下の固定された Nodes は、親グループに属していない(またはコンソールに認識されていない)ため、現在このグループに属していません:"
+
+#: templates/pages/group.tmpl:26
+msgid "This group can only contain nodes that are also in its parent, and it inherits the parent's classes and parameters."
+msgstr "このグループには親にも属する Nodes だけを含めることができ、親のクラスとパラメーターを継承します。"
+
+#: src/group.js:171
+msgid "This group overrides a parent with a higher priority."
+msgstr "このグループは優先度の高い親を上書きします。"
+
+#: src/group.js:457
+msgid "Whether each pinned node is currently in this group is unavailable."
+msgstr "固定された各 Node が現在このグループに属しているかどうかは取得できません。"
+
+#: src/group.js:156
+msgid "a different environment from {ancestor}"
+msgstr "{ancestor} とは異なる Environment"
+
+#: src/group.js:103
+msgid "all of the conditions"
+msgstr "すべての条件"
+
+#: src/group.js:104
+msgid "any one of the conditions"
+msgstr "いずれかの条件"
+
+#: src/group.js:158
+msgid "parameter {key} of class {class}, which {ancestor} sets differently"
+msgstr "クラス {class} のパラメーター {key}({ancestor} は異なる値を設定)"
+
+#: src/group.js:157
+msgid "top-scope parameter {key}, which {ancestor} sets differently"
+msgstr "トップスコープのパラメーター {key}({ancestor} は異なる値を設定)"
+
+#: src/roles.js:111
+#: src/roles.js:124
+#: src/user-groups.js:149
+msgid "Change"
+msgstr "変更"
+
+#: src/roles.js:64
+msgid "No node groups"
+msgstr "Node グループなし"
+
+#: src/roles.js:50
+msgid "Node groups could not be loaded, so the new role will cover all nodes. Viewing node groups needs the classifier:read permission."
+msgstr "Node グループを読み込めなかったため、新しいロールはすべての Nodes を対象にします。Node グループの表示には classifier:read 権限が必要です。"
+
+#: src/roles.js:116
+msgid "Save node groups"
+msgstr "Node グループを保存"
+
+#: templates/pages/roles.tmpl:25
+msgid "The role's permissions apply to the nodes in these groups and in every group beneath them. All Nodes covers the whole fleet."
+msgstr "ロールの権限は、これらのグループとその下位のすべてのグループの Nodes に適用されます。All Nodes はフリート全体を対象にします。"
+
+#: src/group.js:594
+msgid "This group is granted to one or more roles. Remove it from those roles on the Roles page before deleting it."
+msgstr "このグループは 1 つ以上のロールに付与されています。削除する前に、ロールページでそれらのロールから外してください。"
+
+#: src/nodes.js:589
+msgid "You are seeing the nodes in this node group and the groups beneath it: {groups}"
+msgid_plural "You are seeing the nodes in these node groups and the groups beneath them: {groups}"
+msgstr[0] "次の Node グループとその下位グループの Nodes を表示しています: {groups}"
+
+#: src/nodes.js:585
+msgid "Your roles are not granted on any node group, so no nodes are shown. Ask an administrator to add a node group to one of your roles."
+msgstr "あなたのロールはどの Node グループにも付与されていないため、Node は表示されません。管理者に、ロールのいずれかへ Node グループを追加するよう依頼してください。"
+
+#: src/roles.js:67
+msgid "{count} node groups"
+msgstr "{count} 件の Node グループ"
+
+#: src/app.js:291
+msgid "Nothing was done. Your role cannot act on this node, because it is not in your node groups: {nodes}"
+msgid_plural "Nothing was done on any node. Your role cannot act on these nodes, because they are not in your node groups: {nodes}"
+msgstr[0] "どの Node にも何も実行されませんでした。次の Nodes はあなたの Node グループに属していないため、あなたのロールでは操作できません: {nodes}"
+
+#: src/job.js:57
+msgid "Only the nodes in your node groups are shown. This job also ran on other nodes, and its status covers all of them."
+msgstr "あなたの Node グループの Nodes だけが表示されています。この Job は他の Nodes でも実行されており、ステータスはそれらすべてを含みます。"
+
+#: src/app.js:290
+msgid "{nodes} and {count} more"
+msgstr "{nodes} ほか {count} 件"
+
+#: templates/pages/group.tmpl:67
+msgid "Add a class"
+msgstr "クラスを追加"
+
+#: templates/pages/group.tmpl:72
+msgid "Add class"
+msgstr "クラスを追加"
+
+#: src/class-editor.js:257
+msgid "Add parameter"
+msgstr "パラメーターを追加"
+
+#: src/run-puppet.js:32
+msgid "Asks the node to run against this environment. A node whose node groups set an environment runs in that one instead; the job shows which was used."
+msgstr "この Environment で実行するよう Node に要求します。Node グループが Environment を設定している Node は、そちらで実行されます。どちらが使われたかは Job に表示されます。"
+
+#: src/class-editor.js:378
+msgid "Choose or type a class"
+msgstr "クラスを選択または入力"
+
+#: src/class-editor.js:252
+msgid "Choose or type a parameter"
+msgstr "パラメーターを選択または入力"
+
+#: src/class-editor.js:345
+msgid "Choosing from the classes in the {environment} environment, as read at {time}."
+msgstr "{environment} Environment のクラス({time} 時点で読み取り)から選択しています。"
+
+#: src/groups.js:28
+msgid "Class mismatch"
+msgstr "クラスの不一致"
+
+#: src/class-editor.js:378
+msgid "Class name, like profile::base"
+msgstr "クラス名(例: profile::base)"
+
+#: src/class-editor.js:309
+msgid "Class {class} already sets parameter {parameter}."
+msgstr "クラス {class} はすでにパラメーター {parameter} を設定しています。"
+
+#: src/class-editor.js:482
+msgid "Classes must be a JSON list of objects, each with a \"name\" and optional \"parameters\"."
+msgstr "クラスは、それぞれ \"name\" と任意の \"parameters\" を持つオブジェクトの JSON リストでなければなりません。"
+
+#: src/run-puppet.js:161
+msgid "Debug"
+msgstr "デバッグ"
+
+#: src/run-puppet.js:27
+msgid "Debug output"
+msgstr "デバッグ出力"
+
+#: src/class-editor.js:184
+msgid "Default: {default}"
+msgstr "デフォルト: {default}"
+
+#: src/class-editor.js:217
+msgid "Does not fit the type: {detail}"
+msgstr "型に合いません: {detail}"
+
+#: src/class-editor.js:186
+msgid "Entered as JSON"
+msgstr "JSON として入力"
+
+#: src/run-puppet.js:160
+msgid "Environment: {environment}"
+msgstr "Environment: {environment}"
+
+#: src/class-editor.js:477
+msgid "Invalid JSON in the classes: {error}"
+msgstr "クラスの JSON が無効です: {error}"
+
+#: src/class-editor.js:264
+msgid "No classes yet. Nodes in this group get only what their other groups give them."
+msgstr "クラスはまだありません。このグループの Nodes は、他のグループから与えられるものだけを受け取ります。"
+
+#: src/class-editor.js:185
+msgid "No default in the code"
+msgstr "コードにデフォルト値なし"
+
+#: src/class-editor.js:247
+msgid "No parameters set: the code's own defaults and Hiera apply."
+msgstr "パラメーターは設定されていません。コード自体のデフォルト値と Hiera が適用されます。"
+
+#: src/run-puppet.js:26
+msgid "No-op: report what would change, and change nothing"
+msgstr "No-op: 何が変わるかを報告し、何も変更しない"
+
+#: src/class-editor.js:213
+msgid "Not a parameter of this class"
+msgstr "このクラスのパラメーターではありません"
+
+#: src/class-editor.js:242
+msgid "Not defined in {environment}"
+msgstr "{environment} で定義されていません"
+
+#: src/job.js:78
+msgid "Output from {node}"
+msgstr "{node} の出力"
+
+#: src/class-editor.js:252
+msgid "Parameter name"
+msgstr "パラメーター名"
+
+#: src/class-editor.js:172
+msgid "Parameter {parameter} of class {class} is not valid JSON. Text needs double quotes, like \"value\"."
+msgstr "クラス {class} のパラメーター {parameter} は有効な JSON ではありません。テキストには \"value\" のように二重引用符が必要です。"
+
+#: src/class-editor.js:163
+msgid "Parameter {parameter} of class {class} needs a number. Enter one, or remove the parameter to leave it unset."
+msgstr "クラス {class} のパラメーター {parameter} には数値が必要です。数値を入力するか、未設定のままにするにはパラメーターを削除してください。"
+
+#: templates/pages/group.tmpl:56
+msgid "Puppet classes applied to every node in this group. A parameter left unset keeps the value the code or Hiera gives it. A class or parameter that the environment's code does not define can still be saved, and is marked."
+msgstr "このグループのすべての Node に適用される Puppet クラスです。未設定のパラメーターは、コードまたは Hiera が与える値のままになります。Environment のコードで定義されていないクラスやパラメーターも保存でき、その旨が表示されます。"
+
+#: src/job.js:89
+msgid "Ran in {used}, not {requested}"
+msgstr "{requested} ではなく {used} で実行されました"
+
+#: src/class-editor.js:351
+msgid "Refresh classes"
+msgstr "クラスを更新"
+
+#: src/class-editor.js:245
+msgid "Remove class {class}"
+msgstr "クラス {class} を削除"
+
+#: src/class-editor.js:232
+msgid "Remove parameter {parameter}"
+msgstr "パラメーター {parameter} を削除"
+
+#: src/run-puppet.js:95
+msgid "Run Puppet on {node}?"
+msgstr "{node} で Puppet を実行しますか？"
+
+#: src/class-editor.js:250
+msgid "Set a parameter"
+msgstr "パラメーターを設定"
+
+#: src/class-editor.js:361
+msgid "The Puppet server could not be reached just now, so this list of classes may be out of date. Nothing is marked as missing until it can be read again."
+msgstr "現在 Puppet サーバーに接続できなかったため、このクラス一覧は古い可能性があります。再度読み取れるまで、不足として表示されるものはありません。"
+
+#: src/class-editor.js:76
+msgid "The Puppet server has no environment named {environment}, so its classes cannot be listed. Classes and parameters can still be entered by name."
+msgstr "Puppet サーバーに {environment} という名前の Environment がないため、そのクラスを一覧表示できません。クラスとパラメーターは名前で入力できます。"
+
+#: src/job.js:58
+msgid "The environment is a request. A node whose node groups set an environment runs in that one instead, and is marked below once its report arrives."
+msgstr "Environment は要求です。Node グループが Environment を設定している Node はそちらで実行され、Report が届くと下に表示されます。"
+
+#: src/class-editor.js:78
+msgid "The list of classes is unavailable: the Puppet server could not be reached. Classes and parameters can still be entered by name."
+msgstr "クラス一覧を利用できません: Puppet サーバーに接続できませんでした。クラスとパラメーターは名前で入力できます。"
+
+#: src/class-editor.js:74
+msgid "The list of classes is unavailable: the Puppet server does not allow the console to read classes. An administrator adds a rule for /puppet/v3/environment_classes to the server's auth.conf - see the installation guide. Classes and parameters can still be entered by name."
+msgstr "クラス一覧を利用できません: Puppet サーバーがコンソールによるクラスの読み取りを許可していません。管理者がサーバーの auth.conf に /puppet/v3/environment_classes のルールを追加します。インストールガイドを参照してください。クラスとパラメーターは名前で入力できます。"
+
+#: src/class-editor.js:72
+msgid "The list of classes is unavailable: this console has no connection to the Puppet server. An administrator sets CONSOLE_PUPPET_SERVER_URL to enable it. Classes and parameters can still be entered by name."
+msgstr "クラス一覧を利用できません: このコンソールには Puppet サーバーへの接続がありません。有効にするには、管理者が CONSOLE_PUPPET_SERVER_URL を設定します。クラスとパラメーターは名前で入力できます。"
+
+#: src/class-editor.js:367
+msgid "These manifests could not be parsed, so their classes are not in the list, and no class is marked as undefined:"
+msgstr "以下のマニフェストを解析できなかったため、それらのクラスは一覧になく、未定義として表示されるクラスもありません:"
+
+#: src/class-editor.js:419
+msgid "This group already has class {class}."
+msgstr "このグループにはすでにクラス {class} があります。"
+
+#: src/job.js:90
+msgid "This node's node groups set its environment, which takes precedence over the one a run asks for."
+msgstr "この Node の Node グループが Environment を設定しており、実行で要求された Environment より優先されます。"
+
+#: src/class-editor.js:396
+msgid "{count} class or parameter below does not match the code in the {environment} environment. It is saved and applied as it is; a node whose catalog needs it will fail to compile until the code or the group is changed."
+msgid_plural "{count} classes or parameters below do not match the code in the {environment} environment. They are saved and applied as they are; a node whose catalog needs them will fail to compile until the code or the group is changed."
+msgstr[0] "以下の {count} 件のクラスまたはパラメーターが {environment} Environment のコードと一致しません。そのまま保存され適用されます。カタログでそれらを必要とする Node は、コードまたはグループが変更されるまでコンパイルに失敗します。"
+
+#: src/groups.js:22
+msgid "{count} class or parameter does not match the code in {environment}"
+msgid_plural "{count} classes or parameters do not match the code in {environment}"
+msgstr[0] "{count} 件のクラスまたはパラメーターが {environment} のコードと一致しません"
+
+#: templates/pages/schedule-edit.tmpl:51
+msgid "A query or a node group is worked out again each time the schedule starts, so it follows the nodes as they change. The preview shows what it would run on now."
+msgstr "クエリまたは Node グループはスケジュールが開始するたびに評価し直されるため、Nodes の変化に追従します。プレビューには、今実行した場合の対象が表示されます。"
+
+#: src/target-picker.js:61
+msgid "A query that returns certname. It is run when the job starts, and the job runs on the matching nodes in your node groups."
+msgstr "certname を返すクエリです。Job の開始時に実行され、Job はあなたの Node グループ内の一致する Nodes で実行されます。"
+
+#: templates/pages/schedule-edit.tmpl:82
+msgid "A repeat is a fixed length of time from the start: a day is 24 hours. Where the clocks change, a daily schedule moves by an hour on the local clock. It cannot repeat more often than every 5 minutes."
+msgstr "繰り返しは開始からの固定の間隔です。1 日は 24 時間です。時計が切り替わる地域では、毎日のスケジュールが現地時刻で 1 時間ずれます。5 分より短い間隔では繰り返せません。"
+
+#: templates/pages/schedules.tmpl:12
+#~ msgid "A scheduled job starts a Puppet run or a task later, once or repeatedly. Its nodes are worked out each time it starts, and it runs with its owner's access as it is at that moment."
+#~ msgstr ""
+
+#: src/plan-common.js:124
+#: src/task-form.js:29
+msgid "A value is stored. Leave this empty to keep it."
+msgstr "値が保存されています。そのまま使うには空のままにしてください。"
+
+#: src/schedule-common.js:88
+msgid "Active"
+msgstr "有効"
+
+#: src/schedule.js:60
+msgid "All {count} nodes"
+msgstr "全 {count} 件の Nodes"
+
+#: src/target-picker.js:184
+msgid "Choose a node group"
+msgstr "Node グループを選択"
+
+#: src/target-picker.js:165
+msgid "Choose a node group first."
+msgstr "先に Node グループを選択してください。"
+
+#: src/task-form.js:297
+msgid "Choose a task first."
+msgstr "先に Task を選択してください。"
+
+#: src/target-picker.js:46
+msgid "Choose nodes by"
+msgstr "Nodes の選び方"
+
+#: src/schedule-edit.js:182
+msgid "Choose when it starts."
+msgstr "開始日時を選択してください。"
+
+#: src/schedule.js:146
+msgid "Delete this schedule?"
+msgstr "このスケジュールを削除しますか？"
+
+#: src/schedule.js:107
+msgid "Due"
+msgstr "実行予定"
+
+#: src/schedule.js:75
+msgid "Each time it starts, it runs on the nodes its owner's role can act on at that moment. If the owner can no longer run jobs, nothing is started."
+msgstr "開始するたびに、その時点で所有者のロールが操作できる Nodes で実行されます。所有者が Job を実行できなくなった場合は、何も開始されません。"
+
+#: src/schedule-edit.js:219
+#: src/schedule-edit.js:220
+msgid "Edit schedule"
+msgstr "スケジュールを編集"
+
+#: templates/pages/schedule-edit.tmpl:73
+msgid "Every"
+msgstr "間隔"
+
+#: src/schedule-common.js:56
+#: src/target-picker.js:195
+#: src/target-picker.js:263
+msgid "Group {id}"
+msgstr "グループ {id}"
+
+#: src/target-picker.js:191
+msgid "Group {id} (deleted)"
+msgstr "グループ {id}(削除済み)"
+
+#: src/schedule-edit.js:143
+msgid "In your local time."
+msgstr "あなたの現地時刻です。"
+
+#: src/schedule-edit.js:142
+msgid "In your time zone, {zone}."
+msgstr "あなたのタイムゾーン({zone})です。"
+
+#: src/schedule.js:89
+msgid "It has not come due yet"
+msgstr "まだ実行時刻になっていません"
+
+#: src/schedule.js:147
+msgid "It will not start again. The jobs it has already started stay in the job history."
+msgstr "今後は開始されません。すでに開始した Jobs は Job 履歴に残ります。"
+
+#: src/code-plans.js:267
+#: src/job.js:66
+#: src/node.js:738
+#: src/patches.js:227
+#: src/schedule.js:98
+#: src/schedules.js:15
+msgid "Job #{id}"
+msgstr "Job #{id}"
+
+#: templates/pages/jobs.tmpl:13
+#: templates/pages/plans.tmpl:8
+#: templates/pages/schedules.tmpl:8
+msgid "Job history"
+msgstr "Job 履歴"
+
+#: src/schedules.js:49
+msgid "Last time"
+msgstr "前回"
+
+#: src/target-picker.js:167
+msgid "List at least one node first."
+msgstr "先に Node を 1 つ以上指定してください。"
+
+#: src/target-picker.js:47
+msgid "List of nodes"
+msgstr "Nodes の一覧"
+
+#: src/jobs.js:42
+msgid "Matched by"
+msgstr "一致条件"
+
+#: templates/pages/schedule-edit.tmpl:6
+#: templates/pages/schedule-edit.tmpl:8
+#: templates/pages/schedules.tmpl:5
+msgid "New schedule"
+msgstr "新しいスケジュール"
+
+#: src/schedule.js:69
+#: src/schedules.js:49
+msgid "Next start"
+msgstr "次回の開始"
+
+#: src/target-picker.js:143
+msgid "No nodes match at the moment."
+msgstr "現在一致する Node はありません。"
+
+#: src/schedule.js:162
+msgid "No schedule specified."
+msgstr "スケジュールが指定されていません。"
+
+#: src/schedules.js:23
+msgid "No scheduled jobs"
+msgstr "スケジュールされた Job はありません"
+
+#: src/jobs.js:42
+#: src/schedule-common.js:57
+#: src/target-picker.js:49
+#: src/target-picker.js:65
+msgid "Node group"
+msgstr "Node グループ"
+
+#: src/job.js:30
+msgid "Node group:"
+msgstr "Node グループ:"
+
+#: src/target-picker.js:197
+msgid "Node groups cannot be listed: your role needs to be able to read them."
+msgstr "Node グループを一覧表示できません。あなたのロールに読み取り権限が必要です。"
+
+#: src/job.js:30
+msgid "Nodes matched by:"
+msgstr "Nodes の一致条件:"
+
+#: src/schedule-common.js:53
+msgid "Nodes matching"
+msgstr "一致する Nodes"
+
+#: src/schedules.js:13
+msgid "Not yet"
+msgstr "まだありません"
+
+#: src/schedule.js:51
+msgid "Nothing further: it does not repeat, and its time has passed."
+msgstr "これ以上はありません。繰り返しはなく、時刻は過ぎています。"
+
+#: src/schedule-common.js:67
+msgid "Once"
+msgstr "1 回"
+
+#: src/target-picker.js:54
+msgid "One certname per line. If any is outside your node groups, nothing is run on any of them."
+msgstr "1 行に 1 つの certname。1 つでもあなたの Node グループ外のものがあれば、どれにも何も実行されません。"
+
+#: src/schedule.js:107
+msgid "Outcome"
+msgstr "結果"
+
+#: src/target-picker.js:58
+msgid "PQL query"
+msgstr "PQL クエリ"
+
+#: templates/pages/schedule.tmpl:12
+msgid "Pause"
+msgstr "一時停止"
+
+#: src/schedule-common.js:89
+msgid "Paused"
+msgstr "一時停止中"
+
+#: src/schedule.js:50
+msgid "Paused: it will not start until it is resumed."
+msgstr "一時停止中: 再開されるまで開始されません。"
+
+#: src/target-picker.js:69
+msgid "Preview nodes"
+msgstr "Nodes をプレビュー"
+
+#: src/target-picker.js:48
+msgid "Query"
+msgstr "クエリ"
+
+#: src/schedule.js:107
+msgid "Reason"
+msgstr "理由"
+
+#: templates/pages/schedule-edit.tmpl:69
+msgid "Repeat"
+msgstr "繰り返し"
+
+#: src/schedule.js:68
+#: src/schedules.js:49
+msgid "Repeats"
+msgstr "繰り返し"
+
+#: templates/pages/schedule.tmpl:13
+msgid "Resume"
+msgstr "再開"
+
+#: src/jobs.js:57
+msgid "Run Puppet or a task, here or from a node or a node group, to see it here."
+msgstr "ここ、または Node や Node グループから Puppet か Task を実行すると、ここに表示されます。"
+
+#: src/schedule.js:70
+#: src/schedules.js:49
+msgid "Runs as"
+msgstr "実行ユーザー"
+
+#: templates/pages/schedule-edit.tmpl:91
+msgid "Save schedule"
+msgstr "スケジュールを保存"
+
+#: src/schedule.js:125
+#: templates/pages/schedule.tmpl:6
+msgid "Schedule"
+msgstr "スケジュール"
+
+#: src/schedules.js:25
+#~ msgid "Schedule a Puppet run or a task to start later, once or repeatedly."
+#~ msgstr ""
+
+#: src/run-plan.js:33
+#: src/run-puppet.js:109
+#: src/run-task.js:42
+msgid "Schedule instead"
+msgstr "代わりにスケジュール"
+
+#: src/jobs.js:47
+msgid "Scheduled"
+msgstr "スケジュール済み"
+
+#: templates/pages/jobs.tmpl:14
+#: templates/pages/plans.tmpl:9
+#: templates/pages/schedule-edit.tmpl:5
+#: templates/pages/schedule.tmpl:5
+#: templates/pages/schedules.tmpl:9
+msgid "Scheduled jobs"
+msgstr "スケジュールされた Jobs"
+
+#: src/schedule.js:67
+#: templates/pages/schedule-edit.tmpl:62
+msgid "Start"
+msgstr "開始"
+
+#: src/job.js:38
+msgid "Started by schedule:"
+msgstr "スケジュールにより開始:"
+
+#: src/schedule.js:64
+#: src/schedules.js:49
+msgid "State"
+msgstr "状態"
+
+#: src/target-picker.js:66
+msgid "The nodes in the group when the job starts."
+msgstr "Job の開始時にグループに属している Nodes。"
+
+#: src/task-form.js:157
+msgid "The task {task} is no longer in the {environment} environment. Choose another."
+msgstr "Task {task} は {environment} Environment にもうありません。別のものを選択してください。"
+
+#: src/target-picker.js:235
+msgid "These are the nodes the job will run on. Check them, then start it."
+msgstr "Job はこれらの Nodes で実行されます。確認してから開始してください。"
+
+#: src/schedule-edit.js:230
+msgid "This schedule runs as {owner}. If you save it, it will run as you from then on, with your access. Any sensitive task values must be entered again."
+msgstr "このスケジュールは {owner} として実行されます。保存すると、以後はあなたのアクセス権で、あなたとして実行されます。Task の機密値はすべて入力し直す必要があります。"
+
+#: src/schedule.js:76
+#: src/schedules.js:54
+msgid "Times are shown in your time zone, {zone}."
+msgstr "時刻はあなたのタイムゾーン({zone})で表示されます。"
+
+#: src/target-picker.js:163
+msgid "Type a query first."
+msgstr "先にクエリを入力してください。"
+
+#: templates/pages/schedule-edit.tmpl:74
+msgid "Unit"
+msgstr "単位"
+
+#: templates/pages/schedule.tmpl:23
+msgid "What happened each time it came due"
+msgstr "実行時刻になるたびに起きたこと"
+
+#: templates/pages/schedule-edit.tmpl:21
+msgid "What to run"
+msgstr "実行する内容"
+
+#: templates/pages/schedule-edit.tmpl:50
+msgid "Which nodes"
+msgstr "対象の Nodes"
+
+#: src/target-picker.js:268
+msgid "a query"
+msgstr "クエリ"
+
+#: src/schedule-common.js:61
+msgid "and {count} more"
+msgid_plural "and {count} more"
+msgstr[0] "ほか {count} 件"
+
+#: templates/pages/schedule-edit.tmpl:77
+msgid "days"
+msgstr "日"
+
+#: templates/pages/schedule-edit.tmpl:76
+msgid "hours"
+msgstr "時間"
+
+#: templates/pages/schedule-edit.tmpl:75
+msgid "minutes"
+msgstr "分"
+
+#: src/schedule.js:70
+msgid "service token"
+msgstr "サービストークン"
+
+#: src/job.js:37
+msgid "since deleted"
+msgstr "その後削除済み"
+
+#: templates/pages/schedule-edit.tmpl:78
+msgid "weeks"
+msgstr "週間"
+
+#: src/patches.js:229
+#: src/run-patch.js:46
+#: src/target-picker.js:144
+msgid "{count} node"
+msgid_plural "{count} nodes"
+msgstr[0] "{count} 件の Node"
+
+#: src/schedule-common.js:77
+msgid "Every {count} day"
+msgid_plural "Every {count} days"
+msgstr[0] "{count} 日ごと"
+
+#: src/schedule-common.js:75
+msgid "Every {count} hour"
+msgid_plural "Every {count} hours"
+msgstr[0] "{count} 時間ごと"
+
+#: src/schedule-common.js:73
+msgid "Every {count} minute"
+msgid_plural "Every {count} minutes"
+msgstr[0] "{count} 分ごと"
+
+#: src/schedule-common.js:79
+msgid "Every {count} week"
+msgid_plural "Every {count} weeks"
+msgstr[0] "{count} 週間ごと"
+
+#: src/schedule-common.js:101
+msgid "Interrupted"
+msgstr "中断"
+
+#: src/schedule-common.js:100
+msgid "Missed"
+msgstr "未実行"
+
+#: src/schedule-common.js:102
+msgid "Starting"
+msgstr "開始中"
+
+#: src/password-rules.js:20
+#: templates/pages/account-policy.tmpl:29
+msgid "A digit"
+msgstr "数字"
+
+#: templates/pages/account-policy.tmpl:56
+msgid "A locked account cannot log in with its password until the time has passed, or until an administrator unlocks it on the Users page. Sessions that are already open carry on. The login page never says whether an account is locked, so that it does not reveal which usernames exist."
+msgstr "ロックされたアカウントは、時間が経過するか、管理者がユーザーページでロックを解除するまで、パスワードでログインできません。すでに開いているセッションは継続します。どのユーザー名が存在するかを明かさないよう、ログインページはアカウントがロックされているかどうかを表示しません。"
+
+#: src/password-rules.js:16
+#: templates/pages/account-policy.tmpl:27
+msgid "A lowercase letter"
+msgstr "小文字"
+
+#: templates/pages/account-policy.tmpl:32
+msgid "A password is checked when it is set. Existing passwords keep working, and are checked the next time they are changed. A password can never be the account's username, or longer than 72 bytes."
+msgstr "パスワードは設定時にチェックされます。既存のパスワードは引き続き使用でき、次に変更するときにチェックされます。パスワードをアカウントのユーザー名と同じにしたり、72 バイトより長くしたりすることはできません。"
+
+#: templates/pages/account-policy.tmpl:25
+msgid "A password must also contain:"
+msgstr "パスワードには次のものも含める必要があります:"
+
+#: templates/pages/plan-edit.tmpl:37
+msgid "A plan can have at most 20 steps."
+msgstr "Plan に含められるステップは最大 20 個です。"
+
+#: templates/pages/plans.tmpl:13
+msgid "A plan is a list of Puppet runs and tasks carried out in order on the same nodes. Everyone who can run jobs can change a plan; which nodes it runs on is chosen each time it is run."
+msgstr "Plan は、同じ Nodes に対して順番に実行する Puppet 実行と Tasks の一覧です。Job を実行できる人は誰でも Plan を変更できます。実行する Nodes は実行のたびに選択します。"
+
+#: src/plans.js:16
+msgid "A plan is a list of Puppet runs and tasks to carry out in order on the same nodes."
+msgstr "Plan は、同じ Nodes に対して順番に実行する Puppet 実行と Tasks の一覧です。"
+
+#: templates/pages/schedules.tmpl:13
+msgid "A scheduled job starts a Puppet run, a task or a plan later, once or repeatedly. Its nodes are worked out each time it starts, and it runs with its owner's access as it is at that moment."
+msgstr "スケジュールされた Job は、Puppet 実行、Task、または Plan を後で 1 回または繰り返し開始します。対象の Nodes は開始のたびに決定され、その時点の所有者のアクセス権で実行されます。"
+
+#: src/task-form.js:21
+msgid "A sensitive value. It is not kept in the plan, and is asked for each time the plan is run."
+msgstr "機密値です。Plan には保存されず、Plan を実行するたびに入力を求められます。"
+
+#: src/plan-common.js:125
+msgid "A sensitive value: it is sent to the nodes and never shown again."
+msgstr "機密値: Nodes に送信され、二度と表示されません。"
+
+#: templates/pages/account-policy.tmpl:30
+msgid "A symbol"
+msgstr "記号"
+
+#: src/password-rules.js:22
+msgid "A symbol, such as ! or #"
+msgstr "記号(! や # など)"
+
+#: templates/pages/account-policy.tmpl:11
+#: templates/pages/account-policy.tmpl:8
+#: templates/pages/roles.tmpl:8
+#: templates/pages/service-tokens.tmpl:8
+#: templates/pages/user-groups.tmpl:8
+#: templates/pages/users.tmpl:8
+msgid "Account policy"
+msgstr "アカウントポリシー"
+
+#: templates/pages/plan-edit.tmpl:34
+msgid "Add a Puppet run step"
+msgstr "Puppet 実行ステップを追加"
+
+#: templates/pages/plan-edit.tmpl:35
+msgid "Add a task step"
+msgstr "Task ステップを追加"
+
+#: src/plan-edit.js:148
+msgid "Add at least one step."
+msgstr "ステップを 1 つ以上追加してください。"
+
+#: src/password-rules.js:18
+#: templates/pages/account-policy.tmpl:28
+msgid "An uppercase letter"
+msgstr "大文字"
+
+#: src/plan.js:27
+msgid "Asked for when the plan is run:"
+msgstr "Plan の実行時に入力を求められるもの:"
+
+#: src/password-rules.js:14
+msgid "At least {count} character"
+msgid_plural "At least {count} characters"
+msgstr[0] "{count} 文字以上"
+
+#: templates/pages/account-policy.tmpl:50
+msgid "Between 1 and 1,440 (a day)."
+msgstr "1 〜 1,440(1 日)。"
+
+#: templates/pages/account-policy.tmpl:46
+msgid "Between 3 and 100."
+msgstr "3 〜 100。"
+
+#: templates/pages/account-policy.tmpl:23
+msgid "Between 8 and 72 characters."
+msgstr "8 〜 72 文字。"
+
+#: src/schedule-edit.js:58
+msgid "Choose a plan"
+msgstr "Plan を選択"
+
+#: src/schedule-edit.js:167
+msgid "Choose the plan to run."
+msgstr "実行する Plan を選択してください。"
+
+#: src/preferences.js:65
+msgid "Current and new password are both required."
+msgstr "現在のパスワードと新しいパスワードの両方が必要です。"
+
+#: src/plan.js:59
+msgid "Delete this plan?"
+msgstr "この Plan を削除しますか？"
+
+#: src/code-plans.js:57
+#: src/plans.js:36
+msgid "Description"
+msgstr "説明"
+
+#: templates/pages/plan-edit.tmpl:18
+msgid "Description (optional)"
+msgstr "説明(任意)"
+
+#: src/plan.js:38
+#: src/run-plan.js:27
+msgid "Each step runs on every node, in this order. If a step fails on any node, the plan stops and the steps after it are not run."
+msgstr "各ステップは、この順序ですべての Node で実行されます。いずれかの Node でステップが失敗すると Plan は停止し、以降のステップは実行されません。"
+
+#: src/plan-edit.js:175
+#: src/plan-edit.js:176
+msgid "Edit plan"
+msgstr "Plan を編集"
+
+#: templates/pages/account-policy.tmpl:45
+msgid "Failed logins in a row"
+msgstr "連続ログイン失敗回数"
+
+#: src/job.js:164
+msgid "Finished {when}"
+msgstr "終了: {when}"
+
+#: src/plan-edit.js:144
+msgid "Give the plan a name."
+msgstr "Plan に名前を付けてください。"
+
+#: src/users.js:37
+msgid "If the account is locked, this unlocks it. Sessions the user already has open carry on."
+msgstr "アカウントがロックされている場合は、ロックが解除されます。ユーザーがすでに開いているセッションは継続します。"
+
+#: src/login.js:27
+msgid "Invalid username or password. After several failed attempts in a row, an account is locked for a while: wait, or ask an administrator to unlock it."
+msgstr "ユーザー名またはパスワードが無効です。連続して何度か失敗すると、アカウントはしばらくロックされます。お待ちいただくか、管理者にロック解除を依頼してください。"
+
+#: src/plan.js:60
+msgid "Jobs it has started stay in the job history, and schedules made from it keep their own copy of its steps."
+msgstr "この Plan が開始した Jobs は Job 履歴に残り、この Plan から作成されたスケジュールはステップの独自のコピーを保持します。"
+
+#: src/schedule-edit.js:58
+msgid "Keep the steps shown below"
+msgstr "下に表示されているステップを維持"
+
+#: src/plans.js:36
+msgid "Last changed by"
+msgstr "最終変更者"
+
+#: src/account-policy.js:39
+#: src/plan.js:37
+msgid "Last changed by {user} on {when}."
+msgstr "{user} が {when} に最終変更しました。"
+
+#: templates/pages/account-policy.tmpl:41
+msgid "Lock an account after repeated failed logins"
+msgstr "ログイン失敗が繰り返されたらアカウントをロックする"
+
+#: templates/pages/account-policy.tmpl:49
+msgid "Locked for (minutes)"
+msgstr "ロック時間(分)"
+
+#: src/users.js:20
+msgid "Locked until {when}"
+msgstr "{when} までロック中"
+
+#: templates/pages/account-policy.tmpl:40
+msgid "Login lockout"
+msgstr "ログインロックアウト"
+
+#: templates/pages/account-policy.tmpl:22
+msgid "Minimum length"
+msgstr "最小文字数"
+
+#: src/plan-edit.js:67
+msgid "Move down"
+msgstr "下へ移動"
+
+#: src/plan-edit.js:66
+msgid "Move up"
+msgstr "上へ移動"
+
+#: templates/pages/plan-edit.tmpl:6
+#: templates/pages/plan-edit.tmpl:8
+#: templates/pages/plans.tmpl:5
+msgid "New plan"
+msgstr "新しい Plan"
+
+#: src/password-rules.js:24
+msgid "No longer than 72 bytes"
+msgstr "72 バイト以下"
+
+#: src/plan.js:75
+msgid "No plan specified."
+msgstr "Plan が指定されていません。"
+
+#: src/plans.js:14
+msgid "No plans yet"
+msgstr "Plan はまだありません"
+
+#: src/job.js:172
+msgid "No steps to show"
+msgstr "表示するステップはありません"
+
+#: templates/pages/plan-edit.tmpl:30
+msgid "No steps yet. Add the first one below."
+msgstr "ステップはまだありません。下から最初のステップを追加してください。"
+
+#: src/password-rules.js:70
+msgid "Not met:"
+msgstr "満たしていない項目:"
+
+#: src/code-plans.js:10
+#: src/plan-common.js:73
+msgid "Not run"
+msgstr "未実行"
+
+#: src/job.js:156
+msgid "Not run, because an earlier step failed. Nothing was sent to any node for this step."
+msgstr "前のステップが失敗したため実行されませんでした。このステップではどの Node にも何も送信されていません。"
+
+#: src/password-rules.js:26
+msgid "Not the same as the username"
+msgstr "ユーザー名と同じでないこと"
+
+#: src/preferences.js:72
+msgid "Password changed."
+msgstr "パスワードを変更しました。"
+
+#: src/password-rules.js:66
+msgid "Password rules"
+msgstr "パスワードルール"
+
+#: templates/pages/account-policy.tmpl:21
+msgid "Passwords"
+msgstr "パスワード"
+
+#: templates/pages/jobs.tmpl:15
+#: templates/pages/plan-edit.tmpl:5
+#: templates/pages/plan.tmpl:5
+#: templates/pages/plans.tmpl:10
+#: templates/pages/schedules.tmpl:10
+msgid "Plans"
+msgstr "Plans"
+
+#: templates/pages/account-policy.tmpl:12
+msgid "Rules for accounts that log in with a username and password. They do not apply to people who sign in through your identity provider, or to service tokens."
+msgstr "ユーザー名とパスワードでログインするアカウントのルールです。ID プロバイダー経由でサインインするユーザーやサービストークンには適用されません。"
+
+#: templates/pages/schedule-edit.tmpl:25
+msgid "Run a plan"
+msgstr "Plan を実行"
+
+#: src/run-plan.js:35
+msgid "Run plan"
+msgstr "Plan を実行"
+
+#: src/run-plan.js:20
+msgid "Run plan: {name}"
+msgstr "Plan を実行: {name}"
+
+#: templates/pages/plan-edit.tmpl:41
+msgid "Save plan"
+msgstr "Plan を保存"
+
+#: templates/pages/account-policy.tmpl:66
+msgid "Save policy"
+msgstr "ポリシーを保存"
+
+#: src/account-policy.js:64
+msgid "Saved. The policy is in force now, on every console instance."
+msgstr "保存しました。ポリシーは、すべてのコンソールインスタンスでただちに有効です。"
+
+#: src/schedules.js:25
+msgid "Schedule a Puppet run, a task or a plan to start later, once or repeatedly."
+msgstr "Puppet 実行、Task、または Plan を、後で 1 回または繰り返し開始するようスケジュールします。"
+
+#: src/users.js:32
+msgid "Set a password for {user}"
+msgstr "{user} のパスワードを設定"
+
+#: src/users.js:129
+#: src/users.js:41
+msgid "Set password"
+msgstr "パスワードを設定"
+
+#: src/job.js:163
+msgid "Started {when}"
+msgstr "開始: {when}"
+
+#: src/job.js:153
+msgid "Starts when the step before it has finished on every node."
+msgstr "前のステップがすべての Node で終了すると開始します。"
+
+#: src/plan-common.js:17
+msgid "Step {number}"
+msgstr "ステップ {number}"
+
+#: src/job.js:62
+#~ msgid "Step {number} of {count}"
+#~ msgstr ""
+
+#: src/job.js:199
+#: src/job.js:202
+#: src/plans.js:36
+#: src/run-plan.js:25
+#: src/schedule.js:42
+#: templates/pages/plan-edit.tmpl:24
+#: templates/pages/plan.tmpl:22
+msgid "Steps"
+msgstr "ステップ"
+
+#: templates/pages/plan-edit.tmpl:25
+msgid "Steps run in this order, each on every node the plan is run on. If a step fails on any node, the plan stops there. A sensitive task value is never kept in a plan: it is asked for each time the plan is run."
+msgstr "ステップはこの順序で、それぞれ Plan を実行するすべての Node で実行されます。いずれかの Node でステップが失敗すると、Plan はそこで停止します。Task の機密値が Plan に保存されることはなく、Plan を実行するたびに入力を求められます。"
+
+#: src/users.js:62
+msgid "That password does not meet the rules above."
+msgstr "そのパスワードは上記のルールを満たしていません。"
+
+#: src/preferences.js:78
+#: src/users.js:251
+msgid "That password does not meet the rules shown under it."
+msgstr "そのパスワードは下に表示されているルールを満たしていません。"
+
+#: templates/pages/schedule-edit.tmpl:39
+msgid "The schedule keeps its own copy of these steps. Changing or deleting the saved plan later does not change what the schedule runs; to pick up a change, choose the plan here again and save."
+msgstr "スケジュールはこれらのステップの独自のコピーを保持します。保存済みの Plan を後から変更または削除しても、スケジュールが実行する内容は変わりません。変更を反映するには、ここで Plan を選択し直して保存してください。"
+
+#: src/schedule-edit.js:64
+msgid "There are no saved plans yet. Create one on the Plans page first."
+msgstr "保存済みの Plan はまだありません。先に Plans ページで作成してください。"
+
+#: src/account-policy.js:40
+msgid "These are the defaults: the policy has not been changed."
+msgstr "これらはデフォルト値です。ポリシーは変更されていません。"
+
+#: src/run-plan.js:52
+msgid "This plan has a step that can no longer run. Edit the plan before running it."
+msgstr "この Plan には実行できなくなったステップがあります。実行する前に Plan を編集してください。"
+
+#: src/schedule.js:44
+msgid "This schedule keeps its own copy of the steps, taken when it was saved. Changing or deleting the saved plan does not change what the schedule runs."
+msgstr "このスケジュールは、保存時に取得したステップの独自のコピーを保持します。保存済みの Plan を変更または削除しても、スケジュールが実行する内容は変わりません。"
+
+#: src/plan-common.js:45
+msgid "This step can no longer run as saved: {problem}"
+msgstr "このステップは保存された内容では実行できなくなりました: {problem}"
+
+#: src/plan-common.js:57
+msgid "Timeout: {count} minute"
+msgid_plural "Timeout: {count} minutes"
+msgstr[0] "タイムアウト: {count} 分"
+
+#: src/users.js:52
+msgid "Type the new password."
+msgstr "新しいパスワードを入力してください。"
+
+#: src/users.js:24
+msgid "Unlock"
+msgstr "ロック解除"
+
+#: src/users.js:229
+msgid "Username and password are required."
+msgstr "ユーザー名とパスワードが必要です。"
+
+#: src/plan-common.js:69
+msgid "Waiting"
+msgstr "待機中"
+
+#: src/job.js:64
+#~ msgid "of plan"
+#~ msgstr ""
+
+#: src/plan.js:19
+msgid "optional"
+msgstr "任意"
+
+#: src/code-plans.js:154
+#: src/plan-common.js:64
+msgid "{count} step"
+msgid_plural "{count} steps"
+msgstr[0] "{count} ステップ"
+
+#: src/job.js:65
+msgid "Step {number} of {count} in the plan"
+msgstr "Plan の {count} ステップ中 {number} 番目"
+
+#: src/task-patterns.js:15
+msgid "Every task"
+msgstr "すべての Task"
+
+#: src/roles.js:131
+msgid "Save tasks"
+msgstr "Task を保存"
+
+#: src/roles.js:145
+#: src/service-tokens.js:47
+#: templates/pages/roles.tmpl:29
+msgid "Tasks"
+msgstr "Tasks"
+
+#: src/roles.js:127
+#: templates/pages/roles.tmpl:30
+#: templates/pages/service-tokens.tmpl:25
+msgid "Tasks it may run"
+msgstr "実行できる Task"
+
+#: src/run-plan.js:51
+msgid "You cannot run this plan: a step uses a task your roles do not allow."
+msgstr "この Plan は実行できません。あるステップが、あなたのロールで許可されていない Task を使用しています。"
+
+#: src/plan-common.js:42
+msgid "Your roles do not allow the task {task}, so you cannot run this step."
+msgstr "あなたのロールでは Task {task} が許可されていないため、このステップは実行できません。"
+
+#: templates/pages/service-tokens.tmpl:25
+msgid "One per line: a task name such as package::install, a module such as patch::*, or * for every task. Leave it empty to allow every task. Fixed when the token is created."
+msgstr "1 行に 1 つ: package::install のような Task 名、patch::* のようなモジュール、またはすべての Task を表す * を入力します。空のままにすると、すべての Task を許可します。トークンの作成時に固定されます。"
+
+#: src/roles.js:128
+#: templates/pages/roles.tmpl:30
+msgid "One per line: a task name such as package::install, a module such as patch::*, or * for every task. Leave it empty to allow every task. This limits orchestrator:run; the role's node groups still decide which nodes."
+msgstr "1 行に 1 つ: package::install のような Task 名、patch::* のようなモジュール、またはすべての Task を表す * を入力します。空のままにすると、すべての Task を許可します。これは orchestrator:run を制限します。対象の Nodes は引き続きロールの Node グループで決まります。"
+
+#: templates/pages/user-groups.tmpl:12
+msgid "A group gives its members the roles granted to it, in addition to any roles they hold themselves. Each role keeps its own node groups and task limits."
+msgstr "グループは、メンバーが個別に持つロールに加えて、グループに付与されたロールをメンバーに与えます。各ロールは、それぞれのノードグループとタスクの制限を保ちます。"
+
+#: templates/pages/user-groups.tmpl:29
+msgid "All groups"
+msgstr "すべてのグループ"
+
+#: src/user-groups.js:137
+msgid "Create a group above, then add members and grant it roles."
+msgstr "上でグループを作成し、メンバーを追加してロールを付与してください。"
+
+#: templates/pages/user-groups.tmpl:24
+msgid "Create group"
+msgstr "グループを作成"
+
+#: src/user-groups.js:112
+msgid "Delete {group}?"
+msgstr "{group} を削除しますか?"
+
+#: src/user-groups.js:56
+msgid "Done"
+msgstr "完了"
+
+#: src/user-groups.js:211
+msgid "Give the group a name."
+msgstr "グループ名を入力してください。"
+
+#: src/roles.js:89
+msgid "Granted to groups:"
+msgstr "付与先のグループ:"
+
+#: src/users.js:101
+msgid "In groups:"
+msgstr "所属グループ:"
+
+#: src/user-groups.js:167
+msgid "Members"
+msgstr "メンバー"
+
+#: src/user-groups.js:46
+msgid "Members of {group}"
+msgstr "{group} のメンバー"
+
+#: src/user-groups.js:135
+msgid "No groups yet"
+msgstr "グループはまだありません"
+
+#: src/user-groups.js:19
+msgid "No members"
+msgstr "メンバーなし"
+
+#: src/user-groups.js:155
+#: src/user-groups.js:88
+msgid "Rename"
+msgstr "名前を変更"
+
+#: src/user-groups.js:81
+msgid "Rename {group}"
+msgstr "{group} の名前を変更"
+
+#: templates/pages/account-policy.tmpl:5
+#: templates/pages/roles.tmpl:5
+#: templates/pages/service-tokens.tmpl:5
+#: templates/pages/user-groups.tmpl:11
+#: templates/pages/user-groups.tmpl:5
+#: templates/pages/users.tmpl:5
+msgid "User groups"
+msgstr "ユーザーグループ"
+
+#: src/user-groups.js:21
+msgid "{count} member"
+msgid_plural "{count} members"
+msgstr[0] "{count} 人のメンバー"
+
+#: src/user-groups.js:113
+msgid "{count} person will lose the roles this group gives them."
+msgid_plural "{count} people will lose the roles this group gives them."
+msgstr[0] "{count} 人が、このグループから付与されているロールを失います。"
+
+#: src/users.js:94
+msgid "{role} via {groups}"
+msgstr "{role}({groups} 経由)"
+
+#: templates/pages/group.tmpl:83
+msgid "Configuration data (JSON)"
+msgstr "設定データ(JSON)"
+
+#: src/group.js:195
+msgid "Configuration data must be a JSON object: key/value pairs inside { }."
+msgstr "設定データは JSON オブジェクト({ } 内のキーと値のペア)である必要があります。"
+
+#: templates/pages/group.tmpl:84
+msgid "Data that code reads with lookup(), consulted before the Hiera data in your control repo, so a key set here wins. An object of key/value pairs; a value can be any JSON. It is shown to everyone who can see node groups, so do not put secrets here."
+msgstr "コードが lookup() で読み取るデータです。コントロールリポジトリの Hiera データより先に参照されるため、ここで設定したキーが優先されます。キーと値のペアからなるオブジェクトで、値は任意の JSON です。ノードグループを表示できるすべての人に見えるため、秘密情報は入れないでください。"
+
+#: templates/pages/patches.tmpl:35
+msgid "Automatic scanning"
+msgstr "自動スキャン"
+
+#: templates/pages/patches.tmpl:47
+msgid "Between 15 minutes and 7 days (10080 minutes)."
+msgstr "15分から7日の間(10080分)。"
+
+#: src/patches.js:53
+msgid "Cannot report"
+msgstr "報告不可"
+
+#: templates/pages/patches.tmpl:25
+msgid "Choose a group to scan all of its nodes now."
+msgstr "グループを選ぶと、そのノードすべてを今すぐスキャンします。"
+
+#: templates/pages/patches.tmpl:15
+msgid "Filter by package name"
+msgstr "パッケージ名で絞り込み"
+
+#: templates/pages/patches.tmpl:43
+msgid "Interval in minutes"
+msgstr "間隔(分)"
+
+#: src/patches.js:62
+msgid "Last scan failed"
+msgstr "前回のスキャンに失敗"
+
+#: src/patches.js:94
+msgid "Last scanned"
+msgstr "最終スキャン"
+
+#: src/node.js:661
+msgid "Last scanned {when} with {manager}."
+msgstr "最終スキャン: {when}({manager})。"
+
+#: src/patches.js:34
+msgid "Need a reboot"
+msgstr "再起動が必要"
+
+#: src/patches.js:85
+msgid "No"
+msgstr "いいえ"
+
+#: src/patches.js:111
+msgid "No node has that update pending"
+msgstr "その更新が保留中のノードはありません"
+
+#: src/patches.js:73
+msgid "No nodes match"
+msgstr "一致するノードがありません"
+
+#: src/patches.js:113
+msgid "No scanned node has an update pending for a package matching \"{name}\"."
+msgstr "「{name}」に一致するパッケージの更新が保留中のスキャン済みノードはありません。"
+
+#: src/patches.js:35
+#: src/patches.js:57
+msgid "Not scanned"
+msgstr "未スキャン"
+
+#: src/node.js:682
+msgid "Nothing is pending"
+msgstr "保留中のものはありません"
+
+#: src/patches.js:92
+#: templates/pages/patches.tmpl:16
+msgid "Operating system"
+msgstr "オペレーティングシステム"
+
+#: src/patches.js:36
+msgid "Out of date scans"
+msgstr "古いスキャン"
+
+#: templates/pages/node.tmpl:25
+msgid "Patches"
+msgstr "パッチ"
+
+#: templates/layout.html.tmpl:73
+#: templates/pages/patches.tmpl:3
+msgid "Patching"
+msgstr "パッチ適用"
+
+#: templates/pages/patches.tmpl:15
+msgid "Pending package"
+msgstr "保留中のパッケージ"
+
+#: src/patches.js:94
+msgid "Reboot needed"
+msgstr "再起動の要否"
+
+#: templates/pages/patches.tmpl:42
+msgid "Scan automatically"
+msgstr "自動でスキャンする"
+
+#: src/patches.js:56
+msgid "Scan failed"
+msgstr "スキャンに失敗"
+
+#: templates/pages/node.tmpl:48
+msgid "Scan now"
+msgstr "今すぐスキャン"
+
+#: templates/pages/patches.tmpl:22
+msgid "Scan this group now"
+msgstr "このグループを今すぐスキャン"
+
+#: src/node.js:749
+#: src/patches.js:197
+msgid "Scanning. Refreshing package lists can take a while on a slow mirror."
+msgstr "スキャン中です。ミラーが遅いと、パッケージリストの更新に時間がかかることがあります。"
+
+#: src/node.js:690
+#: src/node.js:695
+#: src/patches.js:123
+#: src/patches.js:130
+#: src/patches.js:93
+#: src/run-patch.js:64
+msgid "Security"
+msgstr "セキュリティ"
+
+#: src/node.js:699
+#: src/patches.js:99
+msgid "Security is what the node's package manager marks as a security update. A system without that information shows none."
+msgstr "ノードのパッケージマネージャーがセキュリティ更新と示したものがセキュリティ扱いになります。その情報がないシステムでは何も表示されません。"
+
+#: templates/pages/patches.tmpl:36
+msgid "The console scans every connected node on this interval. A node that is offline is scanned once it reconnects."
+msgstr "コンソールは、接続中のすべてのノードをこの間隔でスキャンします。オフラインのノードは再接続後にスキャンされます。"
+
+#: src/node.js:667
+msgid "The last attempt to scan failed: {error}"
+msgstr "前回のスキャン試行に失敗しました: {error}"
+
+#: src/node.js:682
+msgid "The last scan found no updates waiting for this node."
+msgstr "前回のスキャンでは、このノードで待機中の更新は見つかりませんでした。"
+
+#: src/node.js:667
+msgid "The updates below are from the last scan that worked."
+msgstr "以下の更新は、成功した直近のスキャンのものです。"
+
+#: templates/pages/patches.tmpl:4
+#~ msgid "The updates each node is missing, as its own package manager reports them. This page only looks: nothing here installs or changes a package."
+#~ msgstr "各ノードに不足している更新を、そのノード自身のパッケージマネージャーが報告するとおりに表示します。このページは確認のみで、パッケージのインストールや変更は行いません。"
+
+#: src/node.js:670
+msgid "This node already needs a reboot."
+msgstr "このノードはすでに再起動が必要です。"
+
+#: src/node.js:654
+msgid "This node has not been scanned yet, so it is not known whether it is missing updates."
+msgstr "このノードはまだスキャンされていないため、更新が不足しているかどうかは不明です。"
+
+#: src/node.js:755
+msgid "This node is offline, so it could not be scanned. It will be scanned when it reconnects."
+msgstr "このノードはオフラインのためスキャンできませんでした。再接続時にスキャンされます。"
+
+#: src/node.js:664
+msgid "This scan is out of date. Scan again to see what is pending now."
+msgstr "このスキャンは古くなっています。現在の保留状況を見るには、もう一度スキャンしてください。"
+
+#: src/patches.js:75
+msgid "Try a different package, operating system or group."
+msgstr "別のパッケージ、オペレーティングシステム、またはグループをお試しください。"
+
+#: src/patches.js:93
+msgid "Updates"
+msgstr "更新"
+
+#: src/patches.js:32
+msgid "With pending updates"
+msgstr "保留中の更新あり"
+
+#: src/patches.js:33
+msgid "With security updates"
+msgstr "セキュリティ更新あり"
+
+#: src/patches.js:85
+msgid "Yes"
+msgstr "はい"
+
+#: src/patches.js:183
+msgid "{count} failed"
+msgid_plural "{count} failed"
+msgstr[0] "{count}件が失敗"
+
+#: src/patches.js:184
+msgid "{count} left out: not in your node groups"
+msgid_plural "{count} left out: not in your node groups"
+msgstr[0] "{count}件を除外: あなたのノードグループに含まれていません"
+
+#: src/patches.js:181
+msgid "{count} node scanned"
+msgid_plural "{count} nodes scanned"
+msgstr[0] "{count}ノードをスキャン"
+
+#: src/patches.js:182
+msgid "{count} offline"
+msgid_plural "{count} offline"
+msgstr[0] "{count}件がオフライン"
+
+#: src/run-patch.js:149
+msgid "All pending updates"
+msgstr "保留中のすべての更新"
+
+#: src/run-patch.js:29
+msgid "All updates"
+msgstr "すべての更新"
+
+#: src/run-patch.js:123
+msgid "Batch"
+msgstr "バッチ"
+
+#: src/run-patch.js:102
+msgid "Details for {node}"
+msgstr "{node} の詳細"
+
+#: src/run-patch.js:31
+msgid "Dry run"
+msgstr "ドライラン"
+
+#: src/run-patch.js:157
+msgid "Dry run: report what would be upgraded, and change nothing"
+msgstr "ドライラン: 更新される内容を報告し、何も変更しない"
+
+#: src/run-patch.js:199
+msgid "Finding the nodes in {group}…"
+msgstr "{group} のノードを検索しています…"
+
+#: src/run-patch.js:72
+msgid "From"
+msgstr "変更前"
+
+#: src/node.js:734
+msgid "Last patch run"
+msgstr "最後のパッチ実行"
+
+#: src/run-patch.js:150
+msgid "Named packages"
+msgstr "指定したパッケージ"
+
+#: src/run-patch.js:203
+msgid "No node is in this group, so there is nothing to patch."
+msgstr "このグループにはノードがないため、パッチを適用する対象がありません。"
+
+#: src/run-patch.js:60
+msgid "No package was selected."
+msgstr "パッケージが選択されていません。"
+
+#: src/run-patch.js:170
+msgid "Nodes are patched a batch at a time. When this many nodes have failed, no further batch is started. 0 never stops."
+msgstr "ノードはバッチごとにパッチが適用されます。この数のノードが失敗すると、以降のバッチは開始されません。0 は停止しません。"
+
+#: src/run-patch.js:162
+msgid "Nodes at a time"
+msgstr "同時に処理するノード数"
+
+#: src/i18n.js:466
+msgid "Not upgraded"
+msgstr "更新されず"
+
+#: src/i18n.js:467
+msgid "Nothing to apply"
+msgstr "適用するものなし"
+
+#: src/run-patch.js:30
+msgid "Packages: {names}"
+msgstr "パッケージ: {names}"
+
+#: src/run-patch.js:175
+msgid "Patch"
+msgstr "パッチ適用"
+
+#: src/run-patch.js:142
+msgid "Patch nodes"
+msgstr "ノードにパッチを適用"
+
+#: templates/pages/node.tmpl:49
+msgid "Patch now…"
+msgstr "今すぐパッチ適用…"
+
+#: src/i18n.js:201
+#: templates/pages/jobs.tmpl:25
+msgid "Patch run"
+msgstr "パッチ実行"
+
+#: templates/pages/patches.tmpl:23
+msgid "Patch this group…"
+msgstr "このグループにパッチを適用…"
+
+#: src/run-patch.js:193
+msgid "Patch {count} node?"
+msgid_plural "Patch {count} nodes?"
+msgstr[0] "{count} 台のノードにパッチを適用しますか?"
+
+#: src/run-patch.js:192
+msgid "Patch {node}?"
+msgstr "{node} にパッチを適用しますか?"
+
+#: src/run-patch.js:158
+msgid "Reboot a node that needs it once it is patched"
+msgstr "再起動が必要なノードは、パッチ適用後に再起動する"
+
+#: src/run-patch.js:32
+msgid "Reboots if required"
+msgstr "必要なら再起動"
+
+#: templates/pages/patches.tmpl:30
+msgid "Recent patch runs"
+msgstr "最近のパッチ実行"
+
+#: src/run-patch.js:72
+msgid "Result"
+msgstr "結果"
+
+#: src/run-patch.js:28
+msgid "Security updates"
+msgstr "セキュリティ更新"
+
+#: src/run-patch.js:148
+msgid "Security updates only"
+msgstr "セキュリティ更新のみ"
+
+#: src/run-patch.js:155
+msgid "Separate package names with spaces or commas. Only those with an update pending are upgraded."
+msgstr "パッケージ名は空白またはカンマで区切ります。更新が保留中のものだけが更新されます。"
+
+#: src/run-patch.js:166
+msgid "Stop after failed nodes"
+msgstr "失敗したノードの数で停止"
+
+#: templates/pages/patches.tmpl:4
+msgid "The updates each node is missing, as its own package manager reports them. Scanning only looks. A patch run, started for a node group, installs the updates in batches."
+msgstr "各ノードに足りない更新を、そのノード自身のパッケージマネージャーの報告に基づいて表示します。スキャンは確認するだけです。ノードグループに対して開始したパッチ実行は、更新をバッチで適用します。"
+
+#: src/run-patch.js:72
+msgid "To"
+msgstr "変更後"
+
+#: src/run-patch.js:147
+msgid "Updates to apply"
+msgstr "適用する更新"
+
+#: src/i18n.js:464
+msgid "Upgraded"
+msgstr "更新済み"
+
+#: src/i18n.js:465
+msgid "Would upgrade"
+msgstr "更新される"
+
+#: src/run-patch.js:153
+msgid "curl openssl"
+msgstr "curl openssl"
+
+#: src/run-patch.js:47
+msgid "in {count} batch of up to {size}"
+msgid_plural "in {count} batches of up to {size}"
+msgstr[0] "最大 {size} 台ずつ {count} バッチ"
+
+#: src/run-patch.js:86
+msgid "needs a reboot"
+msgstr "再起動が必要"
+
+#: src/run-patch.js:51
+msgid "never stops for failures"
+msgstr "失敗しても停止しない"
+
+#: src/run-patch.js:85
+msgid "rebooted"
+msgstr "再起動済み"
+
+#: src/run-patch.js:50
+msgid "stops after {count} failed node"
+msgid_plural "stops after {count} failed nodes"
+msgstr[0] "ノード {count} 台の失敗で停止"
+
+#: src/run-patch.js:84
+msgid "{count} not upgraded"
+msgid_plural "{count} not upgraded"
+msgstr[0] "{count} 件が未更新"
+
+#: src/run-patch.js:82
+msgid "{count} upgraded"
+msgid_plural "{count} upgraded"
+msgstr[0] "{count} 件を更新"
+
+#: src/run-patch.js:83
+msgid "{count} would be upgraded"
+msgid_plural "{count} would be upgraded"
+msgstr[0] "{count} 件が更新される"
+
+#: src/run-patch.js:48
+msgid "{done} finished"
+msgstr "{done} 件完了"
+
+#: src/agentless.js:287
+msgid "A login of its own"
+msgstr "専用のログイン"
+
+#: src/agentless.js:288
+msgid "A shared credential"
+msgstr "共有認証情報"
+
+#: src/agentless.js:78
+msgid "Add a host to run tasks on it over SSH."
+msgstr "SSH でタスクを実行するホストを追加します。"
+
+#: src/agentless.js:363
+msgid "Add a shared credential"
+msgstr "共有認証情報を追加"
+
+#: src/agentless.js:274
+msgid "Add an agentless target"
+msgstr "エージェントレスのターゲットを追加"
+
+#: src/agentless.js:378
+#: templates/pages/agentless.tmpl:23
+msgid "Add shared credential"
+msgstr "共有認証情報を追加"
+
+#: src/agentless.js:308
+#: templates/pages/agentless.tmpl:9
+msgid "Add target"
+msgstr "ターゲットを追加"
+
+#: src/nodes.js:145
+msgid "Agentless"
+msgstr "エージェントレス"
+
+#: templates/pages/agentless.tmpl:5
+#: templates/pages/agentless.tmpl:8
+#: templates/pages/nodes.tmpl:6
+msgid "Agentless targets"
+msgstr "エージェントレスターゲット"
+
+#: src/agentless.js:63
+msgid "Check"
+msgstr "確認"
+
+#: src/agentless.js:58
+#: src/nodes.js:141
+msgid "Check failed"
+msgstr "確認に失敗"
+
+#: src/agentless.js:166
+msgid "Checking {name}…"
+msgstr "{name} を確認しています…"
+
+#: src/agentless.js:225
+msgid "Delete this shared credential?"
+msgstr "この共有認証情報を削除しますか?"
+
+#: src/agentless.js:210
+msgid "Delete this target?"
+msgstr "このターゲットを削除しますか?"
+
+#: src/agentless.js:274
+#: src/agentless.js:363
+msgid "Edit {name}"
+msgstr "{name} を編集"
+
+#: src/agentless.js:96
+msgid "Host key"
+msgstr "ホストキー"
+
+#: src/agentless.js:42
+msgid "Host key changed"
+msgstr "ホストキーが変更されました"
+
+#: templates/pages/agentless.tmpl:11
+msgid "Hosts the console reaches over SSH instead of a node agent. Tasks can run on them; Puppet runs and patch runs need the agent. Logins are stored sealed and are never shown again."
+msgstr "ノードエージェントではなく SSH でコンソールが接続するホストです。タスクは実行できますが、Puppet 実行とパッチ実行にはエージェントが必要です。ログイン情報は暗号化して保存され、再表示されません。"
+
+#: src/agentless.js:279
+msgid "How the target is named in jobs and node groups. It cannot be the name of a node that exists."
+msgstr "ジョブやノードグループでのターゲットの名前です。既存のノード名と同じにはできません。"
+
+#: src/agentless.js:192
+msgid "Key it presents now"
+msgstr "現在提示しているキー"
+
+#: src/agentless.js:248
+msgid "Key passphrase (if it has one)"
+msgstr "キーのパスフレーズ (ある場合)"
+
+#: src/agentless.js:96
+msgid "Last check"
+msgstr "最後の確認"
+
+#: src/agentless.js:243
+msgid "Leave blank to keep the stored one."
+msgstr "空欄のままにすると保存済みのものを保持します。"
+
+#: src/agentless.js:131
+#: src/agentless.js:286
+#: src/agentless.js:95
+msgid "Login"
+msgstr "ログイン"
+
+#: src/agentless.js:76
+msgid "No agentless targets"
+msgstr "エージェントレスターゲットはありません"
+
+#: src/agentless.js:115
+msgid "No shared credentials."
+msgstr "共有認証情報はありません。"
+
+#: src/agentless.js:55
+#: src/nodes.js:138
+msgid "Not checked"
+msgstr "未確認"
+
+#: src/agentless.js:50
+msgid "Not seen yet"
+msgstr "まだ確認されていません"
+
+#: templates/pages/agentless.tmpl:25
+msgid "One login several targets can use. Replacing its key or password changes it for all of them."
+msgstr "複数のターゲットが使えるログインです。キーまたはパスワードを置き換えると、すべてに反映されます。"
+
+#: src/agentless.js:246
+msgid "Paste a PEM or OpenSSH private key."
+msgstr "PEM または OpenSSH 形式の秘密鍵を貼り付けます。"
+
+#: src/agentless.js:192
+msgid "Pinned key"
+msgstr "固定されたキー"
+
+#: src/agentless.js:283
+msgid "Port"
+msgstr "ポート"
+
+#: src/agentless.js:245
+msgid "Private key"
+msgstr "秘密鍵"
+
+#: src/nodes.js:345
+msgid "Puppet runs need the node agent, and a selected node is agentless. Run a task instead."
+msgstr "Puppet 実行にはノードエージェントが必要ですが、選択したノードにエージェントレスのものがあります。代わりにタスクを実行してください。"
+
+#: src/agentless.js:57
+#: src/nodes.js:140
+msgid "Reachable"
+msgstr "到達可能"
+
+#: src/agentless.js:197
+msgid "Replace pinned key"
+msgstr "固定されたキーを置き換える"
+
+#: src/agentless.js:196
+msgid "Replace the pinned host key?"
+msgstr "固定されたホストキーを置き換えますか?"
+
+#: src/agentless.js:65
+#: src/agentless.js:66
+msgid "Review host key"
+msgstr "ホストキーを確認"
+
+#: src/agentless.js:299
+#: src/agentless.js:371
+msgid "Run tasks as (optional)"
+msgstr "タスクの実行ユーザー (任意)"
+
+#: src/agentless.js:352
+msgid "Saved {name}. Check it to see its host key and confirm the login works."
+msgstr "{name} を保存しました。確認して、ホストキーを見てログインが機能することを確かめてください。"
+
+#: src/agentless.js:131
+msgid "Secret"
+msgstr "シークレット"
+
+#: src/agentless.js:291
+msgid "Shared credential"
+msgstr "共有認証情報"
+
+#: src/agentless.js:32
+msgid "Shared credential: {name}"
+msgstr "共有認証情報: {name}"
+
+#: templates/pages/agentless.tmpl:22
+msgid "Shared credentials"
+msgstr "共有認証情報"
+
+#: src/agentless.js:300
+msgid "Tasks run through sudo as this user. sudo must not ask for a password."
+msgstr "タスクはこのユーザーとして sudo 経由で実行されます。sudo はパスワードを要求してはいけません。"
+
+#: src/agentless.js:196
+msgid "Trust this host key?"
+msgstr "このホストキーを信頼しますか?"
+
+#: src/agentless.js:197
+msgid "Trust this key"
+msgstr "このキーを信頼する"
+
+#: src/agentless.js:45
+msgid "Trusted"
+msgstr "信頼済み"
+
+#: src/agentless.js:251
+msgid "Used when there is no key, or as well."
+msgstr "キーがない場合、またはキーに加えて使用されます。"
+
+#: src/agentless.js:48
+msgid "Waiting to be trusted"
+msgstr "信頼待ち"
+
+#: src/agentless.js:170
+msgid "and as {user}"
+msgstr "および {user} として"
+
+#: src/agentless.js:122
+#: src/agentless.js:34
+msgid "key"
+msgstr "キー"
+
+#: src/agentless.js:122
+#: src/agentless.js:34
+msgid "password"
+msgstr "パスワード"
+
+#: src/agentless.js:121
+#: src/agentless.js:35
+msgid "runs as {user}"
+msgstr "{user} として実行"
+
+#: src/agentless.js:173
+msgid "{name} failed at {stage}: {reason}"
+msgstr "{name} は {stage} で失敗しました: {reason}"
+
+#: src/agentless.js:191
+msgid "{name} is presenting a different host key from the one pinned. Nothing was sent to it. Replace the pin only if you know the host was rebuilt or its key rotated."
+msgstr "{name} は固定されたものと異なるホストキーを提示しています。何も送信していません。ホストが再構築された、またはキーが更新されたと分かっている場合にのみ固定を置き換えてください。"
+
+#: src/agentless.js:171
+msgid "{name} is reachable. Logged in as {user}{as}."
+msgstr "{name} に到達できます。{user}{as} としてログインしました。"
+
+#: src/agentless.js:193
+msgid "{name} presented this host key. Compare it with the host's own (ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub) before trusting it."
+msgstr "{name} がこのホストキーを提示しました。信頼する前に、ホスト自身のもの (ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub) と照合してください。"
+
+#: src/agentless.js:226
+msgid "{name} will be deleted. A credential still used by a target cannot be deleted."
+msgstr "{name} を削除します。ターゲットがまだ使っている認証情報は削除できません。"
+
+#: src/agentless.js:211
+msgid "{name} will no longer be reachable from the console. Its stored login is deleted."
+msgstr "{name} はコンソールから到達できなくなります。保存されたログイン情報は削除されます。"
+
+#: src/code-plans.js:50
+msgid "Cannot be run"
+msgstr "実行できません"
+
+#: src/i18n.js:202
+#: templates/pages/jobs.tmpl:26
+msgid "Code plan"
+msgstr "コードプラン"
+
+#: src/code-plans.js:37
+msgid "Code plans are not available on this console instance: it does not hold the deployed code. Use an instance that does."
+msgstr "このコンソールインスタンスではコードプランを利用できません。デプロイ済みのコードを保持していません。保持しているインスタンスを使用してください。"
+
+#: src/code-plans.js:41
+msgid "No plans in the modules of {environment}."
+msgstr "{environment} のモジュールにプランはありません。"
+
+#: src/code-plans.js:260
+msgid "No steps yet"
+msgstr "まだステップがありません"
+
+#: src/code-plans.js:273
+msgid "Output"
+msgstr "出力"
+
+#: templates/pages/plans.tmpl:20
+msgid "Plans in code"
+msgstr "コード内のプラン"
+
+#: src/code-plans.js:279
+msgid "Returned value"
+msgstr "返された値"
+
+#: src/code-plans.js:145
+msgid "Run {plan}"
+msgstr "{plan} を実行"
+
+#: src/code-plans.js:273
+msgid "Step"
+msgstr "ステップ"
+
+#: src/code-plans.js:257
+msgid "This plan also ran on nodes outside your node groups, so what it printed and returned is not shown."
+msgstr "このプランはあなたのノードグループ外のノードでも実行されたため、出力内容と戻り値は表示されません。"
+
+#: src/code-plans.js:155
+msgid "This plan takes no parameters."
+msgstr "このプランにはパラメーターがありません。"
+
+#: templates/pages/plans.tmpl:21
+msgid "YAML plans in the modules of an environment's deployed code. Each task step is checked against your node groups and task permissions as it is reached."
+msgstr "環境のデプロイ済みコードのモジュールにある YAML プランです。各タスクステップは、到達した時点であなたのノードグループとタスク権限に照らして確認されます。"
+
+#: src/code-plans.js:148
+#: src/code-plans.js:247
+msgid "message"
+msgstr "メッセージ"
+
+#: src/code-plans.js:205
+msgid "{name} is not valid JSON."
+msgstr "{name} は有効な JSON ではありません。"

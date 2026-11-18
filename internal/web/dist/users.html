@@ -63,6 +63,10 @@
             <vox-icon slot="icon" name="collection"></vox-icon>
             <span data-i18n>Packages</span>
           </vox-sidenav-item>
+          <vox-sidenav-item href="/patches.html">
+            <vox-icon slot="icon" name="refresh"></vox-icon>
+            <span data-i18n>Patching</span>
+          </vox-sidenav-item>
           <vox-sidenav-item href="/vulnerabilities.html" id="nav-vulnerabilities-link" style="display: none">
             <vox-icon slot="icon" name="vulnerability"></vox-icon>
             <span data-i18n>Vulnerabilities</span>
@@ -98,8 +102,10 @@
         <main class="vox-container vox-p-y-xl">
       <vox-subnav label="Admin" class="vox-m-bottom-lg" data-i18n-attr="label">
         <a href="/users.html" aria-current="page" data-i18n>Users</a>
+        <a href="/user-groups.html" data-i18n>User groups</a>
         <a href="/roles.html" data-i18n>Roles</a>
         <a href="/service-tokens.html" data-i18n>Service tokens</a>
+        <a href="/account-policy.html" data-i18n>Account policy</a>
       </vox-subnav>
 
       <h1 class="vox-ts-xl vox-m-bottom-md" data-i18n>Users</h1>
@@ -111,7 +117,8 @@
           <vox-input id="new-username" label="Username" required data-i18n-attr="label"></vox-input>
         </div>
         <div class="vox-m-bottom-md">
-          <vox-input id="new-password" label="Password" type="password" required data-i18n-attr="label"></vox-input>
+          <vox-input id="new-password" label="Password" type="password" autocomplete="new-password" required data-i18n-attr="label"></vox-input>
+          <div id="new-password-rules"></div>
         </div>
         <div class="vox-display-flex vox-gap-md vox-flex-wrap vox-m-bottom-md">
           <vox-input id="new-first-name" label="First name (optional)" data-i18n-attr="label"></vox-input>

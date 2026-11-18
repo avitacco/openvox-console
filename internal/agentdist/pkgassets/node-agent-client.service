@@ -5,6 +5,10 @@ Wants=network-online.target
 
 [Service]
 EnvironmentFile=/etc/node-agent-client/environment
+# Optional settings an administrator adds on this node, such as
+# NODE_AGENT_ACCEPT_UPGRADES=false. Never written by the package, so
+# they survive upgrades; read second, so they win.
+EnvironmentFile=-/etc/node-agent-client/local.env
 ExecStart=/usr/bin/node-agent-client
 Restart=always
 RestartSec=5

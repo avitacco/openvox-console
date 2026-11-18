@@ -23,10 +23,14 @@ import (
 
 	"github.com/voxpupuli/enterprise-console/internal/activity"
 	"github.com/voxpupuli/enterprise-console/internal/agentdist"
+	"github.com/voxpupuli/enterprise-console/internal/agentless"
+	"github.com/voxpupuli/enterprise-console/internal/agentupgrade"
 	"github.com/voxpupuli/enterprise-console/internal/auditlog"
 	"github.com/voxpupuli/enterprise-console/internal/certstatus"
+	"github.com/voxpupuli/enterprise-console/internal/classcatalog"
 	"github.com/voxpupuli/enterprise-console/internal/classifier"
 	"github.com/voxpupuli/enterprise-console/internal/codemanager"
+	"github.com/voxpupuli/enterprise-console/internal/codeplans"
 	"github.com/voxpupuli/enterprise-console/internal/encapi"
 	"github.com/voxpupuli/enterprise-console/internal/groupnodes"
 	"github.com/voxpupuli/enterprise-console/internal/infracert"
@@ -35,16 +39,21 @@ import (
 	"github.com/voxpupuli/enterprise-console/internal/leases"
 	"github.com/voxpupuli/enterprise-console/internal/messaging"
 	"github.com/voxpupuli/enterprise-console/internal/nodeconnectivity"
+	"github.com/voxpupuli/enterprise-console/internal/nodescope"
 	"github.com/voxpupuli/enterprise-console/internal/nodetransport"
 	"github.com/voxpupuli/enterprise-console/internal/openvoxdb"
 	"github.com/voxpupuli/enterprise-console/internal/orchestrator"
 	"github.com/voxpupuli/enterprise-console/internal/packageinventory"
+	"github.com/voxpupuli/enterprise-console/internal/patchinventory"
 	"github.com/voxpupuli/enterprise-console/internal/persistence"
+	"github.com/voxpupuli/enterprise-console/internal/plans"
 	"github.com/voxpupuli/enterprise-console/internal/rbac"
 	"github.com/voxpupuli/enterprise-console/internal/reporting"
 	"github.com/voxpupuli/enterprise-console/internal/runtime"
+	"github.com/voxpupuli/enterprise-console/internal/scheduler"
 	"github.com/voxpupuli/enterprise-console/internal/sealer"
 	"github.com/voxpupuli/enterprise-console/internal/stackstatus"
+	"github.com/voxpupuli/enterprise-console/internal/taskcatalog"
 	"github.com/voxpupuli/enterprise-console/internal/vulnerability"
 	"github.com/voxpupuli/enterprise-console/internal/vulnerability/osv"
 	"github.com/voxpupuli/enterprise-console/internal/vulnerability/tenable"
@@ -53,7 +62,7 @@ import (
 
 // allPermissions is granted to the bootstrap admin role - see
 // bootstrapAdmin. Every other role is configured by an admin afterward.
-var allPermissions = []string{"nodes:read", "nodes:certs:manage", "nodes:manage", "classifier:read", "classifier:write", "enc:read", "rbac:admin", "activity:read", "status:read", "code:deploy", "code:read", "orchestrator:read", "orchestrator:run", "vulnerabilities:read", "vulnerabilities:manage"}
+var allPermissions = []string{"nodes:read", "nodes:certs:manage", "nodes:manage", "classifier:read", "classifier:write", "enc:read", "rbac:admin", "activity:read", "status:read", "code:deploy", "code:read", "orchestrator:read", "orchestrator:run", "vulnerabilities:read", "vulnerabilities:manage", "agentless:manage"}
 
 // Run builds and starts the subsystems the configured run mode calls
 // for, and blocks until ctx is canceled or a subsystem fails.
@@ -101,6 +110,32 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 		logger.Warn("CONSOLE_CA_CLIENT_URL not set; certificate status reporting is disabled")
 	}
 
+	// The task catalogue. A nil client is its "off" state - every
+	// catalogue request and task run answers "not configured" - so, as
+	// with certificate status above, a bad credential degrades tasks
+	// rather than taking the console down.
+	var taskCatalog *taskcatalog.Client
+	if cfg.PuppetServerURL != "" {
+		client, err := taskcatalog.New(taskcatalog.Config{
+			URL:      cfg.PuppetServerURL,
+			CertFile: cfg.PuppetServerCertFile,
+			KeyFile:  cfg.PuppetServerKeyFile,
+			CAFile:   cfg.PuppetServerCAFile,
+		})
+		if err != nil {
+			logger.Error("failed to initialize the task catalogue client; tasks are disabled", "error", err)
+		} else {
+			taskCatalog = client
+		}
+	} else {
+		logger.Warn("CONSOLE_PUPPET_SERVER_URL not set; tasks and class discovery are disabled")
+	}
+
+	// The classes each environment's code defines, read over the same
+	// connection. With no connection every request answers "not
+	// configured" and node groups fall back to typed class names.
+	classCatalog := classcatalog.New(taskCatalog)
+
 	// The initial-run trigger needs the dispatcher, the dispatcher needs
 	// the bus, and the node listener - where connect notifications come
 	// from - has to exist before the bus does, since nats-server fixes
@@ -110,6 +145,9 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 	// node that connects inside that window misses its automatic run,
 	// which the design already tolerates (see design.md's Risks).
 	var initialRunTrigger atomic.Pointer[initialrun.Trigger]
+	// The same arrangement, for the same reason: the coordinator that
+	// reads each connecting node's client build needs the dispatcher.
+	var agentUpgradeNotify atomic.Pointer[agentupgrade.Coordinator]
 
 	// nodeListener is nil when this mode terminates no node connections,
 	// or CONSOLE_NODE_TRANSPORT_ADDR is unset. Dispatch still works
@@ -130,6 +168,9 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 				OnNodeConnect: func(certname string) {
 					if t := initialRunTrigger.Load(); t != nil {
 						t.Notify(certname)
+					}
+					if c := agentUpgradeNotify.Load(); c != nil {
+						c.Notify(certname)
 					}
 				},
 				Logger: logger,
@@ -176,6 +217,15 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 		return fmt.Errorf("failed to start embedded NATS server: %w", err)
 	}
 	defer bus.Close()
+
+	// A deploy can add, remove or change classes, so every instance
+	// forgets how fresh its classes are when one completes. Fan-out, not
+	// a queue group: each instance holds its own copy.
+	if _, err := codemanager.SubscribeDeployed(bus, func(codemanager.DeployedEvent) {
+		classCatalog.ExpireAll()
+	}); err != nil {
+		return fmt.Errorf("failed to subscribe class discovery to code deploys: %w", err)
+	}
 	if cfg.Clustered() {
 		logger.Info("cluster joined",
 			"mode", cfg.EffectiveClusterMode(), "listen", bus.ClusterAddr(),
@@ -339,6 +389,9 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 	if surface.HasRoute(routeRBAC) {
 		issuer := rbac.NewIssuer(signingKey, cfg.RBACSigningKeyID)
 		authService := rbac.NewAuthService(rbacStore, issuer, verifier, revoker, auditWriteAuthNoRequest)
+		authService.SetActivityRecorder(func(action, actor, summary string) {
+			rbacActivityPublisher.Publish(action, actor, summary)
+		})
 		oidcService := rbac.NewOIDCService(context.Background(), logger, rbacStore, issuer, rbac.OIDCConfig{
 			Issuer:        cfg.OIDCIssuer,
 			ClientID:      cfg.OIDCClientID,
@@ -388,14 +441,45 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 	defer dispatcherTransport.Close()
 	var transport orchestrator.Transport = dispatcherTransport
 
+	// The secrets key seals stored credentials: vulnerability providers'
+	// and, since add-agentless-ssh-targets, SSH logins. Read here because
+	// the orchestrator below routes to agentless targets.
+	var secretsSealer *sealer.Sealer
+	if cfg.SecretsKey != nil {
+		secretsSealer, err = sealer.New(cfg.SecretsKey)
+		if err != nil {
+			return fmt.Errorf("invalid CONSOLE_SECRETS_KEY_FILE: %w", err)
+		}
+	}
+
+	// Agentless SSH targets (add-agentless-ssh-targets): a host with no
+	// node agent is reached over SSH. The orchestrator's dispatcher sends a
+	// task to the executor for such a target and to the node transport for
+	// every other node, so nothing else need know the difference.
+	agentlessStore := agentless.NewStore(db.Pool, secretsSealer)
+	agentlessDirectory := agentless.NewDirectory(agentlessStore, logger)
+	agentlessExecutor := agentless.NewExecutor(agentlessStore, taskCatalog)
+	routedTransport := orchestrator.NewRoutedTransport(transport, agentlessExecutor, agentlessDirectory.Has)
+
 	orchestratorActivityPublisher := activity.NewPublisher(activityStore, logger, "orchestrator")
-	dispatcher := orchestrator.NewDispatcher(orchestratorStore, transport, logger)
+	dispatcher := orchestrator.NewDispatcher(orchestratorStore, routedTransport, logger)
 	dispatcher.SetReportCorrelator(orchestrator.NewReportCorrelator(orchestratorStore, openvoxdbClient, logger))
 	dispatcher.SetActivityRecorder(func(action, actor, summary string) {
 		orchestratorActivityPublisher.Publish(action, actor, summary)
 	})
 	dispatcher.SetAuditRecorder(auditWriteNoRequest(auditlog.CategoryOrchestrator))
+	patchCoordinator := orchestrator.NewPatchCoordinator(orchestratorStore, transport, logger)
+	patchCoordinator.SetActivityRecorder(func(action, actor, summary string) {
+		orchestratorActivityPublisher.Publish(action, actor, summary)
+	})
+	patchCoordinator.SetAuditRecorder(auditWriteNoRequest(auditlog.CategoryOrchestrator))
 	orchestratorHandlers := orchestrator.NewHandlers(orchestratorStore, dispatcher, actorFromRequest, auditRead(auditlog.CategoryOrchestrator))
+	orchestratorHandlers.SetTaskCatalog(taskCatalog)
+	orchestratorHandlers.SetAgentless(agentlessDirectory.Among)
+	if taskCatalog != nil {
+		orchestratorHandlers.SetEnvironments(taskCatalog)
+	}
+	orchestratorHandlers.SetReportEnvironments(openvoxdbClient.ReportEnvironments)
 
 	// A node that enrolls and connects has nothing in openvoxdb until it
 	// runs, so the console would show it as an empty row until its own
@@ -439,6 +523,51 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 		initialRunTrigger.Store(initialRunTriggerImpl)
 	}
 
+	// Records which node-agent-client build each node runs and upgrades
+	// the ones older than the build this console embeds. Built on every
+	// instance, because any instance can serve the node list and an
+	// operator's upgrade request (dispatch reaches nodes wherever they
+	// are connected); the automatic side only runs where the worker
+	// does, which is where the node connections are.
+	agentCatalog := agentdist.LoadCatalog()
+	var connectedNodes func() []string
+	if nodeListener != nil {
+		registry := nodeListener.Registry()
+		connectedNodes = func() []string {
+			known := registry.KnownCertnames()
+			connected := known[:0]
+			for _, certname := range known {
+				if registry.Lookup(certname) {
+					connected = append(connected, certname)
+				}
+			}
+			return connected
+		}
+	}
+	agentUpgrades := agentupgrade.NewCoordinator(agentupgrade.Config{
+		Store:       agentupgrade.NewStore(db.Pool),
+		Transport:   dispatcherTransport,
+		Catalog:     agentCatalog,
+		Connected:   connectedNodes,
+		BaseURL:     cfg.ConsoleBaseURL,
+		AutoUpgrade: cfg.AgentAutoUpgrade,
+		Logger:      logger,
+	})
+	agentUpgradeHandlers := agentupgrade.NewHandlers(agentUpgrades, auditWrite(auditlog.CategoryNodes), logger)
+	// Its table comes from migrations; without them every connect would
+	// only log a failure.
+	runAgentUpgrades := nodeListener != nil && migrationsOK && surface.HasWorker(workerAgentUpgrade)
+	if runAgentUpgrades {
+		if !agentCatalog.Stamped() {
+			// A development build: clients built with a plain `go build`
+			// carry no build time, so newer cannot be told from older.
+			logger.Warn("this console's node-agent-client builds carry no build time; node client builds are recorded but no node will be upgraded automatically (build with `make agent-packages`)")
+		}
+		// Notifications are queued from now and handled once the
+		// workers start below.
+		agentUpgradeNotify.Store(agentUpgrades)
+	}
+
 	agentDistHandlers := agentdist.NewHandlers(agentdist.Config{
 		ConsoleBaseURL:   cfg.ConsoleBaseURL,
 		TransportAddr:    cfg.NodeTransportPublicAddr,
@@ -452,6 +581,18 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 	var connRegistry nodeconnectivity.Registry
 	if nodeListener != nil {
 		connRegistry = nodeListener.Registry()
+	} else if surface.HasRoute(routeNodeConnect) {
+		// An instance that serves the connectivity routes but holds no
+		// node connections (`web`) follows the cluster's instead.
+		// Without this it would report every node as not connected.
+		// Unclustered there is nothing to follow, and the registry is
+		// simply empty.
+		registry, stopRegistry, err := nodetransport.StartRegistry(bus)
+		if err != nil {
+			return fmt.Errorf("failed to start node connection registry: %w", err)
+		}
+		defer stopRegistry()
+		connRegistry = registry
 	}
 
 	// infraCerts is derived entirely from cert files/URLs already
@@ -505,6 +646,9 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 	addPeerCertname("openvoxserver", cfg.CAClientURL, cfg.CAClientCertFile, cfg.CAClientKeyFile, cfg.CAClientCAFile)
 
 	nodeConnectivityHandlers := nodeconnectivity.NewHandlers(connRegistry, caClient, infraCerts, auditWrite(auditlog.CategoryNodes), auditRead(auditlog.CategoryNodes), logger)
+	if migrationsOK {
+		nodeConnectivityHandlers.SetAgentBuilds(agentUpgrades)
+	}
 
 	if migrationsOK {
 		bootstrapAdmin(context.Background(), logger, rbacStore, cfg)
@@ -531,13 +675,6 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 	// configured at runtime. Credential fields need
 	// CONSOLE_SECRETS_KEY_FILE - without it, providers without credentials
 	// (OSV) still work and the rest are refused at configuration time.
-	var secretsSealer *sealer.Sealer
-	if cfg.SecretsKey != nil {
-		secretsSealer, err = sealer.New(cfg.SecretsKey)
-		if err != nil {
-			return fmt.Errorf("invalid CONSOLE_SECRETS_KEY_FILE: %w", err)
-		}
-	}
 	// One Leases per instance, shared by every singleton it runs: each
 	// unit of work takes its own named lease, so one instance can hold
 	// the vulnerability sync while another holds a code deploy.
@@ -560,12 +697,132 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 	// to the mux's own not-found - see the run-modes capability's
 	// "Mode-determined service surface".
 	groupResolver := groupnodes.NewResolver(classifierStore, openvoxdbClient)
+
+	// Node group scope (add-group-scoped-node-access). A role's
+	// permissions apply to the node groups it names; the token carries,
+	// per permission, which groups those are; and every route is
+	// registered through authorize below, which hands the handler the
+	// groups for the permission that gated the request. Handlers that
+	// return node data resolve those groups to nodes with nodeScope and
+	// show the caller nothing else.
+	//
+	// One rule, applied here rather than per handler: an endpoint is
+	// scoped by the permission that gates it. A handler set that is not
+	// given nodeScope shows everything, so each one returning node data
+	// has a SetScope call below - and the route sweep test fails for
+	// any route that leaks a node outside a narrow scope.
+	scopeResolver := nodescope.NewResolver(groupResolver.NodesInGroups)
+	nodeScope := nodescope.Func(scopeResolver.FromRequest)
+	authorize := func(permission string, next http.HandlerFunc) http.HandlerFunc {
+		return verifier.Authorize(permission, func(w http.ResponseWriter, r *http.Request) {
+			groups, fleetWide := []int64(nil), false
+			if claims, ok := rbac.ClaimsFromContext(r.Context()); ok {
+				groups, fleetWide = claims.NodeGroupsFor(permission)
+			}
+			next(w, r.WithContext(nodescope.WithGrant(r.Context(), groups, fleetWide)))
+		})
+	}
 	packageHandlers := packageinventory.NewHandlers(openvoxdbClient, transport, auditWrite(auditlog.CategoryNodes), auditRead(auditlog.CategoryNodes))
 	// The package catalogue's group filter needs the classifier, which
 	// packageinventory deliberately doesn't import. It also has to
 	// enforce classifier:read itself: the catalogue route is gated on
 	// nodes:read, and filtering packages by group would otherwise tell
 	// a caller without it which nodes are in that group.
+	packageHandlers.SetScope(nodeScope)
+	// Pending updates (add-patch-inventory). A scan is a short dispatch,
+	// so it goes through the same transport an orchestrator job does.
+	patchStore := patchinventory.NewStore(db.Pool)
+	patchScanner := patchinventory.NewScanner(dispatcherTransport, patchStore)
+	patchScheduler := patchinventory.NewScheduler(patchStore, patchScanner, singletonLeases, openvoxdbClient, logger)
+	patchHandlers := patchinventory.NewHandlers(patchStore, patchScanner, openvoxdbClient, auditWrite(auditlog.CategoryNodes))
+	patchHandlers.SetScope(nodeScope)
+	agentlessHandlers := agentless.NewHandlers(agentlessStore, agentlessExecutor, auditWrite(auditlog.CategoryNodes), actorFromRequest)
+	agentlessHandlers.SetScope(nodeScope)
+	agentlessHandlers.SetChanged(agentlessDirectory.Invalidate)
+	var caStatuses agentless.CertificateStatuses
+	if caClient != nil {
+		caStatuses = caClient
+	}
+	agentlessHandlers.SetNodeKnown(agentless.NodeKnown(openvoxdbClient, caStatuses))
+	patchCoordinator.SetInventory(patchRunInventory{store: patchStore, scanner: patchScanner, now: time.Now})
+	orchestratorHandlers.SetPatches(patchCoordinator)
+	orchestratorHandlers.SetScope(nodeScope)
+	// Which tasks a caller may run is a second limit on the same
+	// permission: orchestrator:run on a set of nodes, for a set of tasks.
+	// Every handler set that starts, saves or lists tasks is given it,
+	// and TestTaskPermissions_EveryTaskHandlerIsLimitedOnEveryInstance fails for one that is not.
+	taskScope := taskScopeFunc(scopeResolver)
+	orchestratorHandlers.SetTaskScope(taskScope)
+
+	// Plans from environment code (add-code-plans). They are read from the
+	// code directory this instance deploys to, and run by this instance.
+	codePlanLoader := codeplans.NewLoader(cfg.CodeDirPath)
+	codePlanCoordinator := codeplans.NewCoordinator(codePlanLoader, orchestratorHandlers.Starter(), orchestratorStore, logger)
+	codePlanCoordinator.SetActivityRecorder(func(action, actor, summary string) {
+		orchestratorActivityPublisher.Publish(action, actor, summary)
+	})
+	codePlanCoordinator.SetAuditRecorder(auditWriteNoRequest(auditlog.CategoryOrchestrator))
+	codePlanHandlers := codeplans.NewHandlers(codePlanLoader, codePlanCoordinator, actorFromRequest)
+	codePlanHandlers.SetScope(nodeScope)
+	codePlanHandlers.SetTaskScope(taskScope)
+	orchestratorHandlers.SetAuditWrite(auditWrite(auditlog.CategoryOrchestrator))
+	// A job's targets can be a PQL query or a node group as well as a
+	// list of nodes; the orchestrator resolves either through these,
+	// and narrows the answer to the caller's node scope itself.
+	orchestratorHandlers.SetTargetSources(openvoxdbClient.Query, func(ctx context.Context, id int64) (string, []string, error) {
+		group, err := classifierStore.GetGroup(ctx, id)
+		if errors.Is(err, classifier.ErrNotFound) {
+			return "", nil, orchestrator.ErrGroupNotFound
+		}
+		if err != nil {
+			return "", nil, err
+		}
+		certnames, err := groupResolver.GroupCertnames(ctx, id)
+		if errors.Is(err, classifier.ErrNotFound) {
+			return "", nil, orchestrator.ErrGroupNotFound
+		}
+		return group.Name, certnames, err
+	})
+	agentUpgradeHandlers.SetScope(nodeScope)
+	nodeConnectivityHandlers.SetScope(nodeScope)
+	codemanagerHandlers.SetScope(nodeScope)
+	// Scheduled jobs (add-pql-targeting-and-scheduled-jobs). A schedule
+	// is started through the same Starter as an on-demand request, with
+	// its owner's permissions and node scope as they are when it fires.
+	schedules := scheduler.NewService(scheduler.NewStore(db.Pool), orchestratorHandlers.Starter(),
+		scheduleAuthority(rbacStore, scopeResolver), secretsSealer, logger)
+	schedules.SetRecorders(func(action, actor, summary string) {
+		orchestratorActivityPublisher.Publish(action, actor, summary)
+	}, auditWriteNoRequest(auditlog.CategoryOrchestrator))
+	scheduleHandlers := scheduler.NewHandlers(schedules, func(r *http.Request) scheduler.Owner {
+		owner := scheduler.Owner{Name: actorFromRequest(r), Kind: scheduler.OwnerUser}
+		if claims, ok := rbac.ClaimsFromContext(r.Context()); ok && claims.Type == rbac.TokenTypeService {
+			owner.Kind = scheduler.OwnerServiceToken
+		}
+		return owner
+	}, auditRead(auditlog.CategoryOrchestrator))
+	scheduleHandlers.SetScope(nodeScope)
+	scheduleHandlers.SetTaskScope(taskScope)
+
+	// Saved plans (add-plans-ui-and-account-policy): templates checked
+	// through the same Starter that runs them. They name no nodes, so
+	// they are not limited by node scope; running one is.
+	savedPlans := plans.NewService(plans.NewStore(db.Pool), orchestratorHandlers.Starter())
+	savedPlans.SetRecorders(func(action, actor, summary string) {
+		orchestratorActivityPublisher.Publish(action, actor, summary)
+	}, auditWriteNoRequest(auditlog.CategoryOrchestrator))
+	savedPlanHandlers := plans.NewHandlers(savedPlans, actorFromRequest, auditRead(auditlog.CategoryOrchestrator))
+	savedPlanHandlers.SetTaskScope(taskScope)
+	taskCatalogHandlers := taskcatalog.NewHandlers(taskCatalog)
+	taskCatalogHandlers.SetTaskScope(taskScope)
+
+	patchHandlers.SetGroupResolver(func(r *http.Request, groupID int64) ([]string, error) {
+		claims, ok := rbac.ClaimsFromContext(r.Context())
+		if !ok || !claims.HasPermission("classifier:read") {
+			return nil, patchinventory.ErrGroupForbidden
+		}
+		return groupResolver.GroupCertnames(r.Context(), groupID)
+	})
 	packageHandlers.SetGroupResolver(func(r *http.Request, groupID int64) ([]string, error) {
 		claims, ok := rbac.ClaimsFromContext(r.Context())
 		if !ok || !claims.HasPermission("classifier:read") {
@@ -671,47 +928,65 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 			rbacHandlers.Register(mux)
 		},
 		routeInventory: func(mux *http.ServeMux) {
-			inventory.NewHandlers(openvoxdbClient, caClient, auditWrite(auditlog.CategoryNodes), auditRead(auditlog.CategoryNodes)).Register(mux, verifier.Authorize)
+			inventoryHandlers := inventory.NewHandlers(openvoxdbClient, caClient, auditWrite(auditlog.CategoryNodes), auditRead(auditlog.CategoryNodes))
+			inventoryHandlers.SetScope(nodeScope)
+			inventoryHandlers.Register(mux, authorize)
+			agentlessHandlers.Register(mux, authorize)
 		},
 		routeNodeConnect: func(mux *http.ServeMux) {
-			nodeConnectivityHandlers.Register(mux, verifier.Authorize)
+			nodeConnectivityHandlers.Register(mux, authorize)
+			agentUpgradeHandlers.Register(mux, authorize)
 		},
 		routePackages: func(mux *http.ServeMux) {
-			packageHandlers.Register(mux, verifier.Authorize)
+			packageHandlers.Register(mux, authorize)
+			patchHandlers.Register(mux, authorize)
 		},
 		routeReporting: func(mux *http.ServeMux) {
-			reporting.NewHandlers(openvoxdbClient, auditRead(auditlog.CategoryNodes)).Register(mux, verifier.Authorize)
+			reportingHandlers := reporting.NewHandlers(openvoxdbClient, auditRead(auditlog.CategoryNodes))
+			reportingHandlers.SetScope(nodeScope)
+			reportingHandlers.Register(mux, authorize)
 		},
 		routeClassifier: func(mux *http.ServeMux) {
-			classifier.NewHandlers(
+			classifierHandlers := classifier.NewHandlers(
 				classifierStore, recordActivity(classifierActivityPublisher),
 				auditWrite(auditlog.CategoryClassifier), auditRead(auditlog.CategoryClassifier),
-			).Register(mux, verifier.Authorize)
+			)
+			classifierHandlers.SetClassChecker(checkGroupClasses(classCatalog))
+			classifierHandlers.Register(mux, authorize)
+			classcatalog.NewHandlers(classCatalog).Register(mux, authorize)
 		},
 		routeENC: func(mux *http.ServeMux) {
-			encapi.NewHandlers(classifierStore, openvoxdbClient).Register(mux, verifier.Authorize)
+			encapi.NewHandlers(classifierStore, openvoxdbClient).Register(mux, authorize)
 		},
 		routeGroupNodes: func(mux *http.ServeMux) {
-			groupnodes.NewHandlers(classifierStore, openvoxdbClient, auditRead(auditlog.CategoryClassifier)).Register(mux, verifier.Authorize)
+			groupNodesHandlers := groupnodes.NewHandlers(classifierStore, openvoxdbClient, auditRead(auditlog.CategoryClassifier))
+			groupNodesHandlers.SetScope(nodeScope)
+			groupNodesHandlers.Register(mux, authorize)
 		},
 		routeVulnerability: func(mux *http.ServeMux) {
-			vulnerability.NewHandlers(vulnStore, vulnEngine, vulnScheduler, openvoxdbClient,
-				auditWrite(auditlog.CategoryVulnerabilities), auditRead(auditlog.CategoryVulnerabilities)).Register(mux, verifier.Authorize)
+			vulnHandlers := vulnerability.NewHandlers(vulnStore, vulnEngine, vulnScheduler, openvoxdbClient,
+				auditWrite(auditlog.CategoryVulnerabilities), auditRead(auditlog.CategoryVulnerabilities))
+			vulnHandlers.SetScope(nodeScope)
+			vulnHandlers.Register(mux, authorize)
 		},
 		routeActivity: func(mux *http.ServeMux) {
-			activity.NewHandlers(activityStore).Register(mux, verifier.Authorize)
+			activity.NewHandlers(activityStore).Register(mux, authorize)
 		},
 		routeCodeManager: func(mux *http.ServeMux) {
-			codemanagerHandlers.Register(mux, verifier.Authorize)
+			codemanagerHandlers.Register(mux, authorize)
 		},
 		routeOrchestrator: func(mux *http.ServeMux) {
-			orchestratorHandlers.Register(mux, verifier.Authorize)
+			orchestratorHandlers.Register(mux, authorize)
+			codePlanHandlers.Register(mux, authorize)
+			scheduleHandlers.Register(mux, authorize)
+			savedPlanHandlers.Register(mux, authorize)
+			taskCatalogHandlers.Register(mux, authorize)
 		},
 		routeAgentDist: func(mux *http.ServeMux) {
 			agentDistHandlers.Register(mux)
 		},
 		routeStatus: func(mux *http.ServeMux) {
-			stackstatus.NewHandlers(bus, statusReporter).Register(mux, verifier.Authorize)
+			stackstatus.NewHandlers(bus, statusReporter).Register(mux, authorize)
 		},
 		routeWebUI: func(mux *http.ServeMux) {
 			mux.Handle("/", webHandler)
@@ -748,6 +1023,8 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 	}
 	if surface.HasWorker(workerDispatcher) {
 		go dispatcher.Run(ctx)
+		go patchCoordinator.Run(ctx)
+		go codePlanCoordinator.Run(ctx)
 	}
 
 	// Workers start only now: see the construction comment above.
@@ -755,11 +1032,18 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 		initialRunTriggerImpl.Start(ctx)
 		defer initialRunTriggerImpl.Stop()
 	}
+	if runAgentUpgrades {
+		agentUpgrades.Start(ctx)
+		defer agentUpgrades.Stop()
+	}
 	// The scheduler's tables come from migrations; with them unapplied it
 	// would only log failures every tick. Syncs stop when ctx is canceled
 	// (their leases simply expire if the process exits first).
 	if migrationsOK && surface.HasWorker(workerVulnScheduler) {
 		go vulnScheduler.Run(ctx)
+	}
+	if migrationsOK && surface.HasWorker(workerPatchScanner) {
+		go patchScheduler.Run(ctx)
 	}
 	// Fails jobs left running by an instance that stopped before its
 	// dispatches finished. Leased, so exactly one instance reaps even
@@ -783,6 +1067,13 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 				}
 			}
 		}()
+	}
+
+	// Fires scheduled jobs. Not leased: every instance running it looks
+	// for due schedules, and each due time is claimed by exactly one of
+	// them (see internal/scheduler). Its tables come from migrations.
+	if migrationsOK && surface.HasWorker(workerScheduler) {
+		go schedules.Run(ctx)
 	}
 
 	if surface.HasWorker(workerStatusResponder) {
@@ -865,6 +1156,20 @@ func bootstrapAdmin(ctx context.Context, logger *slog.Logger, store *rbac.Store,
 	}
 	if cfg.BootstrapAdminUsername == "" || cfg.BootstrapAdminPassword == "" {
 		logger.Warn("no users exist yet and CONSOLE_BOOTSTRAP_ADMIN_USERNAME/PASSWORD are not set; nobody can log in until a user is created")
+		return
+	}
+
+	// The first administrator's password meets the account policy like
+	// any other. Nothing is created otherwise: an administrator with a
+	// password that would be refused anywhere else is not a start worth
+	// making, and the message says exactly what to change.
+	policy, err := store.AccountPolicy(ctx)
+	if err != nil {
+		policy = rbac.DefaultAccountPolicy()
+	}
+	if failed := rbac.CheckPassword(policy, cfg.BootstrapAdminUsername, cfg.BootstrapAdminPassword); len(failed) > 0 {
+		logger.Error("CONSOLE_BOOTSTRAP_ADMIN_PASSWORD does not meet the account policy, so no administrator was created; set a password that does and start again",
+			"problem", (&rbac.PasswordRuleError{Rules: failed, Policy: policy}).Error(), "rules", failed)
 		return
 	}
 

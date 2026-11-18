@@ -61,15 +61,32 @@ func seedGroups(ctx context.Context, client *consoleClient) error {
 	for _, group := range demodata.Groups {
 		body := groupBody(group)
 
+		// Groups are listed parent-first, so a parent created earlier in
+		// this loop is already in byName.
+		if group.Parent != "" {
+			parentID, ok := byName[group.Parent]
+			if !ok {
+				return fmt.Errorf("group %q names parent %q, which does not exist and is not listed before it", group.Name, group.Parent)
+			}
+			body["parentId"] = parentID
+		}
+
 		if id, ok := byName[group.Name]; ok {
 			if err := client.do(ctx, http.MethodPut, fmt.Sprintf("/api/v1/groups/%d", id), body, nil); err != nil {
 				return fmt.Errorf("updating group %q: %w", group.Name, err)
 			}
 			continue
 		}
-		if err := client.do(ctx, http.MethodPost, "/api/v1/groups", body, nil); err != nil {
+		if group.Name == demodata.RootGroupName {
+			return fmt.Errorf("the console has no built-in %q group to configure - has its database been migrated?", group.Name)
+		}
+		var created struct {
+			ID int64 `json:"id"`
+		}
+		if err := client.do(ctx, http.MethodPost, "/api/v1/groups", body, &created); err != nil {
 			return fmt.Errorf("creating group %q: %w", group.Name, err)
 		}
+		byName[group.Name] = created.ID
 	}
 
 	fmt.Printf("    %d node groups\n", len(demodata.Groups))
@@ -127,8 +144,38 @@ func seedRoles(ctx context.Context, client *consoleClient) (map[string]int64, er
 		ids[r.Name] = r.ID
 	}
 
+	// A role names its node groups; the API takes their ids. Groups are
+	// seeded before roles, so every name here resolves.
+	var groups struct {
+		Items []struct {
+			ID   int64  `json:"id"`
+			Name string `json:"name"`
+		} `json:"items"`
+	}
+	if err := client.do(ctx, http.MethodGet, "/api/v1/groups?all=true", nil, &groups); err != nil {
+		return nil, fmt.Errorf("listing groups for role scope: %w", err)
+	}
+	groupIDs := map[string]int64{}
+	for _, g := range groups.Items {
+		groupIDs[g.Name] = g.ID
+	}
+
 	for _, role := range demodata.Roles {
-		body := map[string]any{"name": role.Name, "permissions": role.Permissions}
+		// Always sent, so a demo role someone narrowed or widened by
+		// hand converges back to its defined scope.
+		names := role.NodeGroups
+		if len(names) == 0 {
+			names = []string{demodata.RootGroupName}
+		}
+		nodeGroups := make([]int64, 0, len(names))
+		for _, name := range names {
+			id, ok := groupIDs[name]
+			if !ok {
+				return nil, fmt.Errorf("role %q is granted on node group %q, which does not exist", role.Name, name)
+			}
+			nodeGroups = append(nodeGroups, id)
+		}
+		body := map[string]any{"name": role.Name, "permissions": role.Permissions, "nodeGroups": nodeGroups}
 
 		if id, ok := ids[role.Name]; ok {
 			if err := client.do(ctx, http.MethodPut, fmt.Sprintf("/api/v1/roles/%d", id), body, nil); err != nil {

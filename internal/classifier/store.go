@@ -18,7 +18,97 @@ var (
 	ErrNotFound          = errors.New("group not found")
 	ErrDuplicateName     = errors.New("a group with this name already exists")
 	ErrDuplicatePriority = errors.New("a group with this priority already exists")
+
+	// Hierarchy errors. Each says what to do about it, since the
+	// handlers pass the message straight to the user.
+	ErrParentNotFound = errors.New("the parent group does not exist")
+	ErrHierarchyLoop  = errors.New("a group cannot be moved under itself or one of its own descendants: that would create a loop")
+	ErrHasChildren    = errors.New("this group has child groups: move or delete them first")
+	// ErrGroupGranted: a role's permissions apply to this group's
+	// nodes (add-group-scoped-node-access). Deleting it would silently
+	// take that access away, so the grant has to be removed first.
+	ErrGroupGranted     = errors.New("this group is granted to one or more roles: remove it from those roles first")
+	ErrRootImmutable    = errors.New("the All Nodes group cannot be deleted, renamed, moved, or given a rule or pinned nodes")
+	ErrInvalidRuleMatch = errors.New(`rule match mode must be "all" or "any"`)
 )
+
+// hierarchyLockKey is the advisory lock every group write takes for the
+// length of its transaction. Two concurrent moves can each pass a loop
+// check and together form a loop; group writes are rare and
+// human-paced, so serialising all of them is simpler to reason about
+// than locking rows up a chain of ancestors.
+const hierarchyLockKey = 0x6e6f646567727073 // "nodegrps"
+
+func lockHierarchy(ctx context.Context, q queryer) error {
+	if _, err := q.Exec(ctx, `SELECT pg_advisory_xact_lock($1)`, int64(hierarchyLockKey)); err != nil {
+		return fmt.Errorf("lock group hierarchy: %w", err)
+	}
+	return nil
+}
+
+// rootID returns the id of the built-in root group.
+func rootID(ctx context.Context, q queryer) (int64, error) {
+	var id int64
+	if err := q.QueryRow(ctx, `SELECT id FROM node_groups WHERE is_root`).Scan(&id); err != nil {
+		return 0, fmt.Errorf("find root group: %w", err)
+	}
+	return id, nil
+}
+
+// normaliseRuleMatch defaults an unset mode to "all" and rejects
+// anything else that is not a known mode.
+func normaliseRuleMatch(mode string) (string, error) {
+	switch mode {
+	case "", RuleMatchAll:
+		return RuleMatchAll, nil
+	case RuleMatchAny:
+		return RuleMatchAny, nil
+	default:
+		return "", ErrInvalidRuleMatch
+	}
+}
+
+// resolveParent returns the parent a non-root group should be stored
+// with: the one asked for, or the root when none was. It refuses a
+// parent that does not exist and, for an existing group (id != 0), one
+// that is the group itself or sits beneath it.
+func resolveParent(ctx context.Context, q queryer, id int64, parent *int64) (int64, error) {
+	if parent == nil {
+		return rootID(ctx, q)
+	}
+	if id != 0 && *parent == id {
+		return 0, ErrHierarchyLoop
+	}
+
+	// Walk up from the proposed parent. Reaching the group being moved
+	// means the parent is one of its descendants. The walk is bounded
+	// by the number of groups, so a loop already in the data (which
+	// the constraints and this check should make impossible) cannot
+	// spin here.
+	var total int
+	if err := q.QueryRow(ctx, `SELECT count(*) FROM node_groups`).Scan(&total); err != nil {
+		return 0, fmt.Errorf("count groups: %w", err)
+	}
+	cur := *parent
+	for steps := 0; steps <= total; steps++ {
+		var next *int64
+		err := q.QueryRow(ctx, `SELECT parent_id FROM node_groups WHERE id = $1`, cur).Scan(&next)
+		if errors.Is(err, pgx.ErrNoRows) {
+			return 0, ErrParentNotFound
+		}
+		if err != nil {
+			return 0, fmt.Errorf("resolve parent: %w", err)
+		}
+		if next == nil {
+			return *parent, nil
+		}
+		if id != 0 && *next == id {
+			return 0, ErrHierarchyLoop
+		}
+		cur = *next
+	}
+	return 0, ErrHierarchyLoop
+}
 
 // queryer abstracts over *pgxpool.Pool and pgx.Tx, so the same read/write
 // helpers work whether or not they're running inside a transaction.
@@ -38,18 +128,39 @@ func NewStore(pool *pgxpool.Pool) *Store {
 	return &Store{pool: pool}
 }
 
-// CreateGroup inserts g and returns it with its assigned ID.
+// CreateGroup inserts g and returns it with its assigned ID, its parent
+// (the root, if g named none) and its rule match mode filled in. A
+// request cannot create a second root: IsRoot is ignored.
 func (s *Store) CreateGroup(ctx context.Context, g Group) (Group, error) {
+	mode, err := normaliseRuleMatch(g.RuleMatch)
+	if err != nil {
+		return Group{}, err
+	}
+	g.RuleMatch = mode
+	g.IsRoot = false
+	if err := ValidateConfigData(g.ConfigData); err != nil {
+		return Group{}, err
+	}
+
 	tx, err := s.pool.Begin(ctx)
 	if err != nil {
 		return Group{}, fmt.Errorf("begin transaction: %w", err)
 	}
 	defer tx.Rollback(ctx)
 
+	if err := lockHierarchy(ctx, tx); err != nil {
+		return Group{}, err
+	}
+	parent, err := resolveParent(ctx, tx, 0, g.ParentID)
+	if err != nil {
+		return Group{}, err
+	}
+	g.ParentID = &parent
+
 	var id int64
 	err = tx.QueryRow(ctx,
-		`INSERT INTO node_groups (name, environment, priority) VALUES ($1, $2, $3) RETURNING id`,
-		g.Name, g.Environment, g.Priority,
+		`INSERT INTO node_groups (name, environment, priority, parent_id, rule_match) VALUES ($1, $2, $3, $4, $5) RETURNING id`,
+		g.Name, g.Environment, g.Priority, parent, g.RuleMatch,
 	).Scan(&id)
 	if err != nil {
 		return Group{}, translateError(err)
@@ -62,6 +173,9 @@ func (s *Store) CreateGroup(ctx context.Context, g Group) (Group, error) {
 	if err := insertParameters(ctx, tx, "node_group_parameters", "group_id", id, g.Parameters); err != nil {
 		return Group{}, err
 	}
+	if err := insertConfigData(ctx, tx, id, g.ConfigData); err != nil {
+		return Group{}, err
+	}
 	if err := insertRule(ctx, tx, id, g.Rule); err != nil {
 		return Group{}, err
 	}
@@ -71,6 +185,9 @@ func (s *Store) CreateGroup(ctx context.Context, g Group) (Group, error) {
 
 	if err := tx.Commit(ctx); err != nil {
 		return Group{}, fmt.Errorf("commit: %w", err)
+	}
+	if g.ConfigData == nil {
+		g.ConfigData = map[string]any{}
 	}
 	return g, nil
 }
@@ -88,7 +205,9 @@ func (s *Store) ListGroups(ctx context.Context, page, pageSize int) ([]Group, in
 		return nil, 0, fmt.Errorf("count groups: %w", err)
 	}
 
-	ids, err := groupIDs(ctx, s.pool, `SELECT id FROM node_groups ORDER BY priority LIMIT $1 OFFSET $2`, pageSize, (page-1)*pageSize)
+	// The root has no priority; it is listed first rather than wherever
+	// NULL happens to sort.
+	ids, err := groupIDs(ctx, s.pool, `SELECT id FROM node_groups ORDER BY is_root DESC, priority LIMIT $1 OFFSET $2`, pageSize, (page-1)*pageSize)
 	if err != nil {
 		return nil, 0, err
 	}
@@ -100,11 +219,12 @@ func (s *Store) ListGroups(ctx context.Context, page, pageSize int) ([]Group, in
 	return groups, total, nil
 }
 
-// ListAllGroups returns every node group, unpaginated. For the ENC
-// classifier (internal/encapi), which must evaluate every group's rule
-// against a node - there's no "page" of groups to classify against.
+// ListAllGroups returns every node group, unpaginated, root first. For
+// anything that needs the whole tree: the ENC classifier
+// (internal/encapi), which must evaluate every group against a node,
+// and the groups page, which cannot draw a tree from one page of it.
 func (s *Store) ListAllGroups(ctx context.Context) ([]Group, error) {
-	ids, err := groupIDs(ctx, s.pool, `SELECT id FROM node_groups ORDER BY priority`)
+	ids, err := groupIDs(ctx, s.pool, `SELECT id FROM node_groups ORDER BY is_root DESC, priority`)
 	if err != nil {
 		return nil, err
 	}
@@ -145,22 +265,61 @@ func hydrateGroups(ctx context.Context, q queryer, ids []int64) ([]Group, error)
 }
 
 // UpdateGroup replaces the stored group matching g.ID with g in full.
+// Omitting g's parent moves it directly under the root.
+//
+// The root accepts changes to its classes, parameters and environment
+// only: a request that names a different name, a parent, a rule or pins
+// for it is refused rather than partly applied.
 func (s *Store) UpdateGroup(ctx context.Context, g Group) error {
+	mode, err := normaliseRuleMatch(g.RuleMatch)
+	if err != nil {
+		return err
+	}
+	if err := ValidateConfigData(g.ConfigData); err != nil {
+		return err
+	}
+
 	tx, err := s.pool.Begin(ctx)
 	if err != nil {
 		return fmt.Errorf("begin transaction: %w", err)
 	}
 	defer tx.Rollback(ctx)
 
-	tag, err := tx.Exec(ctx,
-		`UPDATE node_groups SET name = $1, environment = $2, priority = $3, updated_at = now() WHERE id = $4`,
-		g.Name, g.Environment, g.Priority, g.ID,
-	)
-	if err != nil {
-		return translateError(err)
+	if err := lockHierarchy(ctx, tx); err != nil {
+		return err
 	}
-	if tag.RowsAffected() == 0 {
+
+	var isRoot bool
+	var name string
+	err = tx.QueryRow(ctx, `SELECT is_root, name FROM node_groups WHERE id = $1`, g.ID).Scan(&isRoot, &name)
+	if errors.Is(err, pgx.ErrNoRows) {
 		return ErrNotFound
+	}
+	if err != nil {
+		return fmt.Errorf("get group: %w", err)
+	}
+
+	if isRoot {
+		if (g.Name != "" && g.Name != name) || g.ParentID != nil || len(g.Rule) > 0 || len(g.Pins) > 0 {
+			return ErrRootImmutable
+		}
+		if _, err := tx.Exec(ctx,
+			`UPDATE node_groups SET environment = $1, updated_at = now() WHERE id = $2`,
+			g.Environment, g.ID,
+		); err != nil {
+			return translateError(err)
+		}
+	} else {
+		parent, err := resolveParent(ctx, tx, g.ID, g.ParentID)
+		if err != nil {
+			return err
+		}
+		if _, err := tx.Exec(ctx,
+			`UPDATE node_groups SET name = $1, environment = $2, priority = $3, parent_id = $4, rule_match = $5, updated_at = now() WHERE id = $6`,
+			g.Name, g.Environment, g.Priority, parent, mode, g.ID,
+		); err != nil {
+			return translateError(err)
+		}
 	}
 
 	for _, stmt := range []string{
@@ -180,6 +339,17 @@ func (s *Store) UpdateGroup(ctx context.Context, g Group) error {
 	if err := insertParameters(ctx, tx, "node_group_parameters", "group_id", g.ID, g.Parameters); err != nil {
 		return err
 	}
+	// Configuration data is replaced only when the request sent it: an
+	// update from a client that does not know of it must not wipe what it
+	// cannot see.
+	if g.ConfigData != nil {
+		if _, err := tx.Exec(ctx, `DELETE FROM node_group_config_data WHERE group_id = $1`, g.ID); err != nil {
+			return fmt.Errorf("clear config data: %w", err)
+		}
+		if err := insertConfigData(ctx, tx, g.ID, g.ConfigData); err != nil {
+			return err
+		}
+	}
 	if err := insertRule(ctx, tx, g.ID, g.Rule); err != nil {
 		return err
 	}
@@ -193,22 +363,64 @@ func (s *Store) UpdateGroup(ctx context.Context, g Group) error {
 	return nil
 }
 
-// DeleteGroup removes the group identified by id.
+// DeleteGroup removes the group identified by id. The root cannot be
+// deleted, and nor can a group that still has children: deleting it
+// would leave them with no parent to be narrowed by.
 func (s *Store) DeleteGroup(ctx context.Context, id int64) error {
-	tag, err := s.pool.Exec(ctx, `DELETE FROM node_groups WHERE id = $1`, id)
+	tx, err := s.pool.Begin(ctx)
+	if err != nil {
+		return fmt.Errorf("begin transaction: %w", err)
+	}
+	defer tx.Rollback(ctx)
+
+	if err := lockHierarchy(ctx, tx); err != nil {
+		return err
+	}
+
+	var isRoot, hasChildren, granted bool
+	err = tx.QueryRow(ctx,
+		`SELECT is_root,
+		        EXISTS (SELECT 1 FROM node_groups c WHERE c.parent_id = g.id),
+		        EXISTS (SELECT 1 FROM role_node_groups rng WHERE rng.group_id = g.id)
+		   FROM node_groups g WHERE g.id = $1`,
+		id,
+	).Scan(&isRoot, &hasChildren, &granted)
+	if errors.Is(err, pgx.ErrNoRows) {
+		return ErrNotFound
+	}
 	if err != nil {
 		return fmt.Errorf("delete group: %w", err)
 	}
-	if tag.RowsAffected() == 0 {
-		return ErrNotFound
+	if isRoot {
+		return ErrRootImmutable
+	}
+	if hasChildren {
+		return ErrHasChildren
+	}
+	if granted {
+		return ErrGroupGranted
+	}
+
+	if _, err := tx.Exec(ctx, `DELETE FROM node_groups WHERE id = $1`, id); err != nil {
+		// A role granted on the group between the check above and here:
+		// the foreign key refuses the delete, which is the same answer.
+		var pgErr *pgconn.PgError
+		if errors.As(err, &pgErr) && pgErr.Code == "23503" && pgErr.TableName == "role_node_groups" {
+			return ErrGroupGranted
+		}
+		return fmt.Errorf("delete group: %w", err)
+	}
+	if err := tx.Commit(ctx); err != nil {
+		return fmt.Errorf("commit: %w", err)
 	}
 	return nil
 }
 
 func getGroup(ctx context.Context, q queryer, id int64) (Group, error) {
 	var g Group
-	err := q.QueryRow(ctx, `SELECT id, name, environment, priority FROM node_groups WHERE id = $1`, id).
-		Scan(&g.ID, &g.Name, &g.Environment, &g.Priority)
+	err := q.QueryRow(ctx,
+		`SELECT id, name, environment, COALESCE(priority, 0), parent_id, is_root, rule_match FROM node_groups WHERE id = $1`, id).
+		Scan(&g.ID, &g.Name, &g.Environment, &g.Priority, &g.ParentID, &g.IsRoot, &g.RuleMatch)
 	if errors.Is(err, pgx.ErrNoRows) {
 		return Group{}, ErrNotFound
 	}
@@ -227,6 +439,12 @@ func getGroup(ctx context.Context, q queryer, id int64) (Group, error) {
 		return Group{}, err
 	}
 	g.Parameters = params
+
+	configData, err := loadConfigData(ctx, q, id)
+	if err != nil {
+		return Group{}, err
+	}
+	g.ConfigData = configData
 
 	rule, err := loadRule(ctx, q, id)
 	if err != nil {

@@ -25,21 +25,51 @@ type User struct {
 	LastName     *string   `json:"lastName,omitempty"`
 	Email        *string   `json:"email,omitempty"`
 	CreatedAt    time.Time `json:"createdAt,omitempty"`
+
+	// FailedLogins is the number of consecutive failed password logins
+	// counted against the account. LockedUntil is set only while the
+	// account is locked: a lock that has passed reads as nil. See
+	// AccountPolicy.
+	FailedLogins int        `json:"-"`
+	LockedUntil  *time.Time `json:"-"`
 }
 
+// Locked reports whether password login is refused for the account at
+// the moment it was read.
+func (u User) Locked() bool { return u.LockedUntil != nil }
+
 // Role grants a set of permissions to whichever users it's assigned to.
+//
+// NodeGroups are the node groups those permissions apply to: the nodes
+// in each named group and, by inheritance, in every descendant of it. A
+// role on the root group is fleet-wide; a role with none covers no
+// nodes. The field is a pointer-free slice on purpose, so a role read
+// from the store always serializes a list (possibly empty).
 type Role struct {
 	ID          int64    `json:"id,omitempty"`
 	Name        string   `json:"name"`
 	Permissions []string `json:"permissions"`
+	NodeGroups  []int64  `json:"nodeGroups"`
+	// TaskPatterns limits which tasks the role's orchestrator:run lets
+	// its holders start: task names, "module::*" and "*" (see
+	// internal/taskscope). Empty means every task. Like NodeGroups it
+	// always serializes a list.
+	TaskPatterns []string `json:"taskPatterns"`
+	// Via says how a user holds the role when it comes from
+	// ListUserRoles: "direct" and/or the name of each group granting it.
+	// Empty (and omitted) everywhere else.
+	Via []string `json:"via,omitempty"`
 }
 
 // ServiceToken is an admin-issued, non-interactive credential for machine
 // clients (e.g. enc-bridge) that have no user to log in as.
 type ServiceToken struct {
-	ID          int64     `json:"id,omitempty"`
-	Name        string    `json:"name"`
-	JTI         string    `json:"jti"`
-	Permissions []string  `json:"permissions"`
-	CreatedAt   time.Time `json:"createdAt,omitempty"`
+	ID          int64    `json:"id,omitempty"`
+	Name        string   `json:"name"`
+	JTI         string   `json:"jti"`
+	Permissions []string `json:"permissions"`
+	// TaskPatterns limits which tasks the token may run, as a role's
+	// does. Empty means every task. Fixed for the token's life.
+	TaskPatterns []string  `json:"taskPatterns"`
+	CreatedAt    time.Time `json:"createdAt,omitempty"`
 }

@@ -153,6 +153,7 @@
     <vox-card heading="Add nodes" href="../guides/add.html"><p>Enroll a node with one script on Linux, macOS or Windows, sign its certificate, and see it connect and run.</p></vox-card>
     <vox-card heading="Manage node certificates" href="../guides/certificates.html"><p>Sign, revoke and clean node certificates from the console, and what each does to a connected node.</p></vox-card>
     <vox-card heading="Remove a node" href="../guides/remove.html"><p>Delete a node from the console, what that does in openvoxdb and the CA, and what it keeps.</p></vox-card>
+    <vox-card heading="Keep node agents current" href="../guides/agent-upgrades.html"><p>How the console upgrades the node agent on your nodes by itself, how to see which nodes are behind, and the one-time step for nodes installed before this existed.</p></vox-card>
     </vox-grid>
 </section>
 <section class="site-section" id="scale">
@@ -165,11 +166,16 @@
 <section class="site-section" id="use">
   <h2 class="vox-ts-xxl">Use</h2>
   <vox-grid min="16rem">
-    <vox-card heading="Classify nodes" href="../guides/classify.html"><p>Decide which classes, parameters and environment each node gets, with node groups matched by facts or pinned by name.</p></vox-card>
+    <vox-card heading="Classify nodes" href="../guides/classify.html"><p>Decide which classes, parameters and environment each node gets, with a tree of node groups matched by facts or pinned by name.</p></vox-card>
     <vox-card heading="Deploy code" href="../guides/deploy-code.html"><p>Deploy Puppet code from one or more control repositories into the environments openvoxserver compiles from.</p></vox-card>
-    <vox-card heading="Run jobs" href="../guides/run-jobs.html"><p>Run Puppet on demand on one node, a selection, or every node a group matches, and see what each node did.</p></vox-card>
+    <vox-card heading="Run jobs" href="../guides/run-jobs.html"><p>Run Puppet or a Puppet task on demand on one node, a selection, the nodes a query matches, or a node group, and see what each node did.</p></vox-card>
+    <vox-card heading="Run plans" href="../guides/run-plans.html"><p>Build a plan - a list of Puppet runs and tasks carried out in order - keep it, run it on the nodes you choose, and watch each step.</p></vox-card>
+    <vox-card heading="Schedule jobs" href="../guides/schedule-jobs.html"><p>Save a Puppet run, a task or a plan to start later, once or repeatedly, on nodes that are worked out each time it starts.</p></vox-card>
     <vox-card heading="Users, roles and tokens" href="../guides/access.html"><p>Give people access through roles and permissions, sign in with your identity provider, and issue tokens for programs.</p></vox-card>
     <vox-card heading="Track vulnerabilities" href="../guides/vulnerabilities.html"><p>Set up vulnerability providers, read the findings for the fleet, and know what each provider can and cannot see.</p></vox-card>
+    <vox-card heading="Find and apply missing updates" href="../guides/patching.html"><p>Scan Linux nodes for pending package updates, then patch them in batches with a dry run, a stop threshold and an optional reboot.</p></vox-card>
+    <vox-card heading="Run tasks on hosts without an agent" href="../guides/agentless.html"><p>Register hosts the console reaches over SSH, pin their host keys, check them, and run tasks on them like any other node.</p></vox-card>
+    <vox-card heading="Run plans from your code" href="../guides/code-plans.html"><p>Run YAML plans that live in your modules, with typed parameters, results passed between steps, and every task checked against your node groups.</p></vox-card>
     </vox-grid>
 </section>
 <section class="site-section" id="operate">

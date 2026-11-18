@@ -25,7 +25,9 @@ const (
 
 	// ModeWeb serves the console UI and the REST API, including code
 	// deployment endpoints and webhooks. It terminates no node
-	// connections and runs no background workers.
+	// connections and runs no scheduled background work. It does follow
+	// the jobs started through its API to their end, reaching the
+	// nodes over the cluster.
 	ModeWeb Mode = "web"
 
 	// ModeENC serves only the ENC classification endpoint, plus the

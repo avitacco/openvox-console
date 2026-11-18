@@ -63,6 +63,10 @@
             <vox-icon slot="icon" name="collection"></vox-icon>
             <span data-i18n>Packages</span>
           </vox-sidenav-item>
+          <vox-sidenav-item href="/patches.html">
+            <vox-icon slot="icon" name="refresh"></vox-icon>
+            <span data-i18n>Patching</span>
+          </vox-sidenav-item>
           <vox-sidenav-item href="/vulnerabilities.html" id="nav-vulnerabilities-link" style="display: none">
             <vox-icon slot="icon" name="vulnerability"></vox-icon>
             <span data-i18n>Vulnerabilities</span>
@@ -96,7 +100,20 @@
       </div>
       <div style="flex: 1 1 auto; min-width: 0;">
         <main class="vox-container vox-p-y-xl">
-      <h1 class="vox-ts-xl vox-m-bottom-md" data-i18n>Jobs</h1>
+      <div class="vox-display-flex vox-justify-between vox-items-center vox-gap-md vox-flex-wrap vox-m-bottom-md">
+        <h1 class="vox-ts-xl vox-m-y-none" data-i18n>Jobs</h1>
+        <div id="start-actions" style="display: none">
+          <div class="vox-display-flex vox-gap-sm">
+            <vox-button id="run-task" variant="alt" data-i18n>Run task</vox-button>
+            <vox-button id="run-puppet" variant="brand" data-i18n>Run Puppet</vox-button>
+          </div>
+        </div>
+      </div>
+      <vox-subnav label="Jobs" class="vox-m-bottom-lg" data-i18n-attr="label">
+        <a href="/jobs.html" aria-current="page" data-i18n>Job history</a>
+        <a href="/schedules.html" data-i18n>Scheduled jobs</a>
+        <a href="/plans.html" data-i18n>Plans</a>
+      </vox-subnav>
 
       <div class="filters vox-display-flex vox-items-end vox-gap-md vox-flex-wrap vox-m-bottom-lg">
         <vox-input id="target-filter" label="Target" placeholder="Filter by node" data-i18n-attr="label,placeholder"></vox-input>
@@ -105,6 +122,8 @@
           <option value="run" data-i18n>Run</option>
           <option value="task" data-i18n>Task</option>
           <option value="plan" data-i18n>Plan</option>
+          <option value="patch" data-i18n>Patch run</option>
+          <option value="codeplan" data-i18n>Code plan</option>
         </vox-select>
         <vox-select id="status-filter" label="Status" data-i18n-attr="label">
           <option value="" data-i18n>All</option>

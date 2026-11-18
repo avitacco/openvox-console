@@ -16,7 +16,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
-	"strings"
+	"time"
 
 	"github.com/goreleaser/nfpm/v2"
 	"github.com/goreleaser/nfpm/v2/files"
@@ -33,6 +33,9 @@ type manifestEntry struct {
 	Format   string `json:"format"` // "deb" or "rpm"
 	Arch     string `json:"arch"`   // package-format-native arch name (amd64/arm64 for deb, x86_64/aarch64 for rpm)
 	Version  string `json:"version"`
+	Epoch    string `json:"epoch,omitempty"`   // rpm only
+	Release  string `json:"release,omitempty"` // rpm only
+	GoArch   string `json:"goarch"`            // the GOARCH of the client inside
 	Filename string `json:"filename"`
 	SHA256   string `json:"sha256"`
 	Size     int64  `json:"size"`
@@ -56,12 +59,37 @@ var linuxArches = []struct {
 	{goarch: "arm64", debArch: "arm64", rpmArch: "aarch64"},
 }
 
+// buildInfo is one platform's entry in bin/builds.json, written by
+// cmd/build-agent-binaries.
+type buildInfo struct {
+	BuildTime string `json:"buildTime"`
+}
+
+// clientBuildTime reads the build time the client binaries were stamped
+// with. Packages are versioned by it, so the package and the client
+// inside it always agree on when they were built.
+func clientBuildTime() (time.Time, error) {
+	data, err := os.ReadFile(filepath.Join(binDir, "builds.json"))
+	if err != nil {
+		return time.Time{}, fmt.Errorf("%s/builds.json not found - run `make agent-binaries` first: %w", binDir, err)
+	}
+	var builds map[string]buildInfo
+	if err := json.Unmarshal(data, &builds); err != nil {
+		return time.Time{}, fmt.Errorf("parsing builds.json: %w", err)
+	}
+	return time.Parse(time.RFC3339, builds["linux/amd64"].BuildTime)
+}
+
 func main() {
 	if len(os.Args) != 2 {
 		fmt.Fprintln(os.Stderr, "usage: build-agent-packages <version>")
 		os.Exit(1)
 	}
-	debVersion, rpmVersion := sanitizeVersions(os.Args[1])
+	buildTime, err := clientBuildTime()
+	if err != nil {
+		fatal(err)
+	}
+	debVersion, rpmVersion, rpmRelease := packageVersions(os.Args[1], buildTime)
 
 	// Cleared first, not just overwritten: package filenames embed the
 	// version, so a stale build from a different version would
@@ -81,13 +109,13 @@ func main() {
 			fatal(fmt.Errorf("%s not found - run `make agent-binaries` first: %w", binPath, err))
 		}
 
-		entry, err := buildPackage("deb", a.debArch, debVersion, binPath)
+		entry, err := buildPackage("deb", a.debArch, a.goarch, debVersion, "", "", binPath)
 		if err != nil {
 			fatal(fmt.Errorf("building deb for %s: %w", a.goarch, err))
 		}
 		manifest = append(manifest, entry)
 
-		entry, err = buildPackage("rpm", a.rpmArch, rpmVersion, binPath)
+		entry, err = buildPackage("rpm", a.rpmArch, a.goarch, rpmVersion, rpmEpoch, rpmRelease, binPath)
 		if err != nil {
 			fatal(fmt.Errorf("building rpm for %s: %w", a.goarch, err))
 		}
@@ -104,12 +132,42 @@ func main() {
 	fmt.Println("wrote", filepath.Join(outDir, "manifest.json"))
 }
 
-func buildPackage(format, arch, version, binPath string) (manifestEntry, error) {
+// packageScripts and rpmScripts decide when the install script
+// (postinst.sh: write the environment file, enable and restart the
+// service) runs.
+//
+// A deb runs it as postinst. An rpm runs it as %posttrans, not %post,
+// because of the order rpm upgrades in: the new package's %post, then
+// the OLD package's %postun. Packages shipped before postrm.sh learned
+// to tell an upgrade from a removal stop the service, disable it and
+// delete its environment file in that %postun - after a %post here
+// would already have restarted it - so an upgrade from one of them left
+// the node with no client running. %posttrans runs once at the very end
+// of the transaction, after every %postun, so it repairs that and is
+// also the only restart a clean upgrade needs.
+func packageScripts(format string) nfpm.Scripts {
+	scripts := nfpm.Scripts{PostRemove: filepath.Join(assetsDir, "postrm.sh")}
+	if format != "rpm" {
+		scripts.PostInstall = filepath.Join(assetsDir, "postinst.sh")
+	}
+	return scripts
+}
+
+func rpmScripts(format string) nfpm.RPMScripts {
+	if format != "rpm" {
+		return nfpm.RPMScripts{}
+	}
+	return nfpm.RPMScripts{PostTrans: filepath.Join(assetsDir, "postinst.sh")}
+}
+
+func buildPackage(format, arch, goarch, version, epoch, release, binPath string) (manifestEntry, error) {
 	info := &nfpm.Info{
 		Name:        "node-agent-client",
 		Arch:        arch,
 		Platform:    "linux",
 		Version:     version,
+		Epoch:       epoch,
+		Release:     release,
 		Maintainer:  "OpenVox Console",
 		Description: "OpenVox Console node-agent-client - connects a node to its console over the NATS-based node transport.",
 		Homepage:    "https://github.com/voxpupuli/enterprise-console",
@@ -127,10 +185,13 @@ func buildPackage(format, arch, version, binPath string) (manifestEntry, error) 
 					FileInfo:    &files.ContentFileInfo{Mode: 0o644},
 				},
 			},
-			Scripts: nfpm.Scripts{
-				PostInstall: filepath.Join(assetsDir, "postinst.sh"),
-				PostRemove:  filepath.Join(assetsDir, "postrm.sh"),
-			},
+			Scripts: packageScripts(format),
+			// Pinned rather than left to nfpm's default: a running
+			// client unpacks the package it is about to install to
+			// check the binary inside (internal/nodeagent/pkgextract.go)
+			// and reads gzip only.
+			Deb: nfpm.Deb{Compression: "gzip"},
+			RPM: nfpm.RPM{Compression: "gzip", Scripts: rpmScripts(format)},
 		},
 	}
 
@@ -164,6 +225,9 @@ func buildPackage(format, arch, version, binPath string) (manifestEntry, error) 
 		Format:   format,
 		Arch:     arch,
 		Version:  version,
+		Epoch:    epoch,
+		Release:  release,
+		GoArch:   goarch,
 		Filename: filename,
 		SHA256:   sum,
 		Size:     size,
@@ -183,24 +247,6 @@ func sha256File(path string) (sum string, size int64, err error) {
 		return "", 0, err
 	}
 	return hex.EncodeToString(h.Sum(nil)), n, nil
-}
-
-// sanitizeVersions turns the project-wide VERSION string (from `git
-// describe`, e.g. "v0.3.2-14-g1a2b3c4-dirty", or the "dev" fallback -
-// see internal/runtime.Version) into a version safe for each package
-// format. Debian tolerates hyphens in the upstream version portion but
-// requires it start with a digit (confirmed live: dpkg rejected a
-// literal "dev" build with "version number does not start with digit"
-// - the "dev" fallback hits this whenever this repo has no tags yet);
-// RPM's Version field rejects hyphens outright, so those become
-// underscores there.
-func sanitizeVersions(v string) (debVersion, rpmVersion string) {
-	v = strings.TrimPrefix(v, "v")
-	debVersion = v
-	if len(debVersion) == 0 || debVersion[0] < '0' || debVersion[0] > '9' {
-		debVersion = "0.0.0+" + debVersion
-	}
-	return debVersion, strings.ReplaceAll(v, "-", "_")
 }
 
 func fatal(err error) {

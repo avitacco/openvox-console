@@ -19,6 +19,17 @@ curl -fsS https://console.example.com/health
 The reply lists each dependency as `ok`. Then open the console's base URL,
 log in as the bootstrap admin, and change its password straight away.
 
+The bootstrap admin's password must have at least 12 characters and
+must not be the same as its username. If it does not, no admin is
+created and nobody can log in. The log says so:
+
+```text
+CONSOLE_BOOTSTRAP_ADMIN_PASSWORD does not meet the account policy, so no administrator was created
+```
+
+Set a longer password and start the console again. See
+[Passwords and lockout](access.html#passwords-and-lockout).
+
 > [!NOTE]
 > Once you have logged in and changed the password, remove the bootstrap
 > admin settings from the console's configuration. They are only read

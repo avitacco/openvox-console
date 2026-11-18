@@ -1,5 +1,6 @@
 // Package groupnodes exposes, for a given node group, the set of nodes
-// currently matching its rule/pins - the "group -> nodes" direction
+// currently in it - matching its rule/pins and every one of its
+// ancestors - the "group -> nodes" direction
 // internal/classifier itself doesn't provide (it only resolves a single
 // node's matching groups). Kept separate from internal/classifier for the
 // same reason internal/encapi is: composing classifier with openvoxdb
@@ -15,13 +16,30 @@ import (
 
 	"github.com/voxpupuli/enterprise-console/internal/auditlog"
 	"github.com/voxpupuli/enterprise-console/internal/classifier"
+	"github.com/voxpupuli/enterprise-console/internal/nodescope"
 	"github.com/voxpupuli/enterprise-console/internal/openvoxdb"
 )
 
 // groupGetter is the subset of classifier.Store this package needs.
+// Only the whole set: whether a node is in a group depends on the
+// group's ancestors, so one group fetched alone cannot answer it.
 type groupGetter interface {
-	GetGroup(ctx context.Context, id int64) (classifier.Group, error)
 	ListAllGroups(ctx context.Context) ([]classifier.Group, error)
+}
+
+// groupTree loads every group and arranges them, returning the group
+// identified by id alongside, or classifier.ErrNotFound.
+func groupTree(ctx context.Context, groups groupGetter, id int64) (*classifier.Tree, classifier.Group, error) {
+	all, err := groups.ListAllGroups(ctx)
+	if err != nil {
+		return nil, classifier.Group{}, err
+	}
+	tree := classifier.NewTree(all)
+	group, ok := tree.Group(id)
+	if !ok {
+		return nil, classifier.Group{}, classifier.ErrNotFound
+	}
+	return tree, group, nil
 }
 
 // inventory is the subset of *openvoxdb.Client this package needs.
@@ -36,13 +54,18 @@ type Handlers struct {
 	groups          groupGetter
 	nodes           inventory
 	recordAuditRead func(r *http.Request, event auditlog.Event)
+	scope           nodescope.Func
 }
+
+// SetScope makes the handlers show each caller only the nodes in their
+// node group scope - see internal/nodescope.
+func (h *Handlers) SetScope(scope nodescope.Func) { h.scope = scope }
 
 // NewHandlers builds Handlers backed by groups and nodes. recordAuditRead
 // is bound to the classifier category - see design.md in the
 // configurable-audit-logging change for why this is an injected function.
 func NewHandlers(groups groupGetter, nodes inventory, recordAuditRead func(r *http.Request, event auditlog.Event)) *Handlers {
-	return &Handlers{groups: groups, nodes: nodes, recordAuditRead: recordAuditRead}
+	return &Handlers{groups: groups, nodes: nodes, recordAuditRead: recordAuditRead, scope: nodescope.Unscoped}
 }
 
 // Register wires this package's route onto mux, requiring classifier:read
@@ -67,11 +90,11 @@ func NewResolver(groups groupGetter, nodes inventory) *Resolver {
 	return &Resolver{groups: groups, nodes: nodes}
 }
 
-// GroupCertnames returns the certnames currently matching the group, or
-// classifier.ErrNotFound if no such group exists. One fleet-wide fact
-// query, not one per node.
+// GroupCertnames returns the certnames currently in the group - matching
+// it and all of its ancestors - or classifier.ErrNotFound if no such
+// group exists. One fleet-wide fact query, not one per node.
 func (r *Resolver) GroupCertnames(ctx context.Context, id int64) ([]string, error) {
-	group, err := r.groups.GetGroup(ctx, id)
+	tree, _, err := groupTree(ctx, r.groups, id)
 	if err != nil {
 		return nil, err
 	}
@@ -81,11 +104,75 @@ func (r *Resolver) GroupCertnames(ctx context.Context, id int64) ([]string, erro
 	}
 	certnames := make([]string, 0)
 	for _, node := range fleet {
-		if classifier.Matches(group, node.Certname, node.Facts) {
+		if tree.Contains(id, node.Certname, node.Facts) {
 			certnames = append(certnames, node.Certname)
 		}
 	}
 	return certnames, nil
+}
+
+// NodesInGroups answers which nodes are in any of the groups identified
+// by ids - and so, since a child group only ever holds nodes its parent
+// holds, in any of their descendants too. It is the membership question
+// behind node group scope (internal/nodescope).
+//
+// fleetWide is true when ids include the root group, which every node
+// is in; nothing else is then looked up and certnames is nil. Ids that
+// name no group contribute nothing, so a grant on a since-deleted group
+// fails closed.
+//
+// Besides every node openvoxdb has facts for, pinned certnames are
+// considered: a node pinned into a granted group is in scope before it
+// has ever reported, provided the group's ancestors hold it too.
+func (r *Resolver) NodesInGroups(ctx context.Context, ids []int64) (fleetWide bool, certnames []string, err error) {
+	groups, err := r.groups.ListAllGroups(ctx)
+	if err != nil {
+		return false, nil, err
+	}
+	tree := classifier.NewTree(groups)
+
+	granted := make([]int64, 0, len(ids))
+	for _, id := range ids {
+		group, ok := tree.Group(id)
+		if !ok {
+			continue
+		}
+		if group.IsRoot {
+			return true, nil, nil
+		}
+		granted = append(granted, id)
+	}
+	certnames = make([]string, 0)
+	if len(granted) == 0 {
+		return false, certnames, nil
+	}
+
+	fleet, err := r.nodes.FleetFacts(ctx)
+	if err != nil {
+		return false, nil, err
+	}
+	seen := make(map[string]bool, len(fleet))
+	consider := func(certname string, facts map[string]any) {
+		if seen[certname] {
+			return
+		}
+		seen[certname] = true
+		for _, id := range granted {
+			if tree.Contains(id, certname, facts) {
+				certnames = append(certnames, certname)
+				return
+			}
+		}
+	}
+	for _, node := range fleet {
+		consider(node.Certname, node.Facts)
+	}
+	for _, group := range groups {
+		for _, pinned := range group.Pins {
+			consider(pinned, nil)
+		}
+	}
+	return false, certnames, nil
 }
 
 // NodeCount is how many nodes currently match one group.
@@ -110,6 +197,12 @@ type CountsResponse struct {
 func (h *Handlers) nodeCounts(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
+	scope, err := h.scope(r)
+	if err != nil {
+		writeError(w, http.StatusBadGateway, err)
+		return
+	}
+
 	groups, err := h.groups.ListAllGroups(ctx)
 	if err != nil {
 		writeError(w, http.StatusBadGateway, err)
@@ -121,15 +214,25 @@ func (h *Handlers) nodeCounts(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// One walk of the tree per node finds every group it is in, and
+	// skips any subtree whose top it fails - so a child is never
+	// counted for a node its parent does not match.
+	//
+	// Only nodes in the caller's scope are counted, so a count never
+	// reveals how many nodes a caller cannot see.
+	tree := classifier.NewTree(groups)
+	matched := make(map[int64]int, len(groups))
+	for _, node := range fleet {
+		if !scope.Allows(node.Certname) {
+			continue
+		}
+		for _, g := range tree.Matching(node.Certname, node.Facts) {
+			matched[g.ID]++
+		}
+	}
 	counts := make([]NodeCount, 0, len(groups))
 	for _, g := range groups {
-		matched := 0
-		for _, node := range fleet {
-			if classifier.Matches(g, node.Certname, node.Facts) {
-				matched++
-			}
-		}
-		counts = append(counts, NodeCount{GroupID: g.ID, Nodes: matched})
+		counts = append(counts, NodeCount{GroupID: g.ID, Nodes: matched[g.ID]})
 	}
 
 	h.recordAuditRead(r, auditlog.Event{Action: "group.nodecounts.viewed", ResourceType: "group"})
@@ -139,6 +242,13 @@ func (h *Handlers) nodeCounts(w http.ResponseWriter, r *http.Request) {
 // Response is the group-nodes endpoint's JSON shape.
 type Response struct {
 	Certnames []string `json:"certnames"`
+
+	// PinsOutsideGroup lists the group's pinned nodes that are not
+	// currently in it. A pin overrides the group's own rule but not
+	// its ancestors, so a node pinned here that falls outside the
+	// parent is not in the group - which would otherwise be silent.
+	// Includes a pinned certname the inventory does not know at all.
+	PinsOutsideGroup []string `json:"pinsOutsideGroup"`
 }
 
 func (h *Handlers) matchingNodes(w http.ResponseWriter, r *http.Request) {
@@ -148,7 +258,13 @@ func (h *Handlers) matchingNodes(w http.ResponseWriter, r *http.Request) {
 	}
 	ctx := r.Context()
 
-	group, err := h.groups.GetGroup(ctx, id)
+	scope, err := h.scope(r)
+	if err != nil {
+		writeError(w, http.StatusBadGateway, err)
+		return
+	}
+
+	tree, group, err := groupTree(ctx, h.groups, id)
 	if err != nil {
 		if errors.Is(err, classifier.ErrNotFound) {
 			writeError(w, http.StatusNotFound, err)
@@ -166,18 +282,36 @@ func (h *Handlers) matchingNodes(w http.ResponseWriter, r *http.Request) {
 
 	certnames := make([]string, 0)
 	for _, n := range nodes {
+		// The caller's scope applies on top of the group: they see the
+		// nodes that are in both.
+		if !scope.Allows(n.Certname) {
+			continue
+		}
 		facts, err := h.nodes.Facts(ctx, n.Certname)
 		if err != nil {
 			writeError(w, http.StatusBadGateway, err)
 			return
 		}
-		if classifier.Matches(group, n.Certname, factsMap(facts)) {
+		if tree.Contains(id, n.Certname, factsMap(facts)) {
 			certnames = append(certnames, n.Certname)
 		}
 	}
 
+	inGroup := make(map[string]bool, len(certnames))
+	for _, c := range certnames {
+		inGroup[c] = true
+	}
+	outside := make([]string, 0)
+	for _, pinned := range group.Pins {
+		// A pin names a node; one outside the caller's scope is not
+		// theirs to be told about.
+		if !inGroup[pinned] && scope.Allows(pinned) {
+			outside = append(outside, pinned)
+		}
+	}
+
 	h.recordAuditRead(r, auditlog.Event{Action: "group.nodes.viewed", ResourceType: "group", ResourceID: group.Name})
-	writeJSON(w, http.StatusOK, Response{Certnames: certnames})
+	writeJSON(w, http.StatusOK, Response{Certnames: certnames, PinsOutsideGroup: outside})
 }
 
 func factsMap(facts []openvoxdb.Fact) map[string]any {
@@ -222,8 +356,8 @@ type NodeEnvironment struct {
 // AssignedEnvironments resolves every node's effective classification
 // environment in one pass.
 //
-// Effective, not per-group: classifier.Classify merges every matching
-// group by priority, so a node matching three groups that name
+// Effective, not per-group: the classifier merges every matching group
+// by hierarchy and priority, so a node matching three groups that name
 // different environments yields the single environment it would
 // actually be sent to. Counting per matching group instead would count
 // such a node several times and attribute it to environments it will
@@ -241,9 +375,10 @@ func (r *Resolver) AssignedEnvironments(ctx context.Context) ([]NodeEnvironment,
 		return nil, err
 	}
 
+	tree := classifier.NewTree(groups)
 	assigned := make([]NodeEnvironment, 0, len(fleet))
 	for _, node := range fleet {
-		classification := classifier.Classify(groups, node.Certname, node.Facts)
+		classification := tree.Classify(node.Certname, node.Facts)
 		assigned = append(assigned, NodeEnvironment{
 			Certname:    node.Certname,
 			Environment: classification.Environment,

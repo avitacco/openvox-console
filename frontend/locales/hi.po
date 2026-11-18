@@ -14,7 +14,10 @@ msgid "Account menu"
 msgstr "खाता मेनू"
 
 #: src/activity.js:39
+#: src/schedule.js:65
+#: src/schedules.js:49
 #: templates/pages/activity.tmpl:9
+#: templates/pages/schedule-edit.tmpl:22
 msgid "Action"
 msgstr "क्रिया"
 
@@ -22,7 +25,7 @@ msgstr "क्रिया"
 msgid "Actions"
 msgstr "क्रियाएँ"
 
-#: templates/layout.html.tmpl:89
+#: templates/layout.html.tmpl:93
 #: templates/pages/activity.tmpl:3
 msgid "Activity"
 msgstr "गतिविधि"
@@ -32,11 +35,11 @@ msgstr "गतिविधि"
 msgid "Actor"
 msgstr "कर्ता"
 
-#: templates/pages/group.tmpl:57
+#: templates/pages/group.tmpl:107
 msgid "Add condition"
 msgstr "शर्त जोड़ें"
 
-#: templates/pages/nodes.tmpl:5
+#: templates/pages/nodes.tmpl:7
 msgid "Add node"
 msgstr "Node जोड़ें"
 
@@ -44,9 +47,11 @@ msgstr "Node जोड़ें"
 msgid "Add provider"
 msgstr "प्रदाता जोड़ें"
 
-#: templates/layout.html.tmpl:102
+#: templates/layout.html.tmpl:106
+#: templates/pages/account-policy.tmpl:3
 #: templates/pages/roles.tmpl:3
 #: templates/pages/service-tokens.tmpl:3
+#: templates/pages/user-groups.tmpl:3
 #: templates/pages/users.tmpl:3
 msgid "Admin"
 msgstr "प्रशासन"
@@ -58,6 +63,8 @@ msgstr "प्रभावित Nodes"
 
 #: src/packages.js:169
 #: src/packages.js:26
+#: src/patches.js:290
+#: src/patches.js:45
 #: templates/pages/activity.tmpl:10
 #: templates/pages/activity.tmpl:6
 #: templates/pages/activity.tmpl:7
@@ -67,14 +74,17 @@ msgstr "प्रभावित Nodes"
 #: templates/pages/code.tmpl:47
 #: templates/pages/code.tmpl:48
 #: templates/pages/code.tmpl:52
-#: templates/pages/jobs.tmpl:14
-#: templates/pages/jobs.tmpl:8
-#: templates/pages/node.tmpl:48
-#: templates/pages/nodes.tmpl:13
-#: templates/pages/nodes.tmpl:18
+#: templates/pages/jobs.tmpl:21
+#: templates/pages/jobs.tmpl:29
+#: templates/pages/node.tmpl:67
+#: templates/pages/nodes.tmpl:17
+#: templates/pages/nodes.tmpl:22
 #: templates/pages/packages.tmpl:11
 #: templates/pages/packages.tmpl:13
 #: templates/pages/packages.tmpl:14
+#: templates/pages/patches.tmpl:17
+#: templates/pages/patches.tmpl:19
+#: templates/pages/patches.tmpl:20
 #: templates/pages/report.tmpl:12
 #: templates/pages/vulnerabilities.tmpl:12
 #: templates/pages/vulnerabilities.tmpl:20
@@ -82,15 +92,15 @@ msgstr "प्रभावित Nodes"
 msgid "All"
 msgstr "सभी"
 
-#: templates/pages/roles.tmpl:26
+#: templates/pages/roles.tmpl:40
 msgid "All roles"
 msgstr "सभी भूमिकाएँ"
 
-#: templates/pages/service-tokens.tmpl:28
+#: templates/pages/service-tokens.tmpl:35
 msgid "All service tokens"
 msgstr "सभी सेवा टोकन"
 
-#: templates/pages/users.tmpl:31
+#: templates/pages/users.tmpl:34
 msgid "All users"
 msgstr "सभी उपयोगकर्ता"
 
@@ -98,8 +108,21 @@ msgstr "सभी उपयोगकर्ता"
 msgid "Applies to this browser only. Without a choice here, the console follows your browser's language."
 msgstr "केवल इस ब्राउज़र पर लागू होता है। यहाँ चयन न होने पर कंसोल आपके ब्राउज़र की भाषा का अनुसरण करता है।"
 
-#: src/app.js:377
+#: src/agentless.js:307
+#: src/agentless.js:377
+#: src/app.js:456
+#: src/code-plans.js:159
+#: src/roles.js:117
+#: src/roles.js:132
+#: src/run-patch.js:174
+#: src/run-plan.js:34
+#: src/run-puppet.js:110
+#: src/run-task.js:43
+#: src/user-groups.js:87
+#: src/users.js:40
 #: src/vulnerability-providers.js:157
+#: templates/pages/plan-edit.tmpl:42
+#: templates/pages/schedule-edit.tmpl:92
 msgid "Cancel"
 msgstr "रद्द करें"
 
@@ -108,84 +131,85 @@ msgstr "रद्द करें"
 msgid "Category"
 msgstr "श्रेणी"
 
-#: src/nodes.js:252
-#: templates/pages/nodes.tmpl:17
+#: src/nodes.js:296
+#: templates/pages/nodes.tmpl:21
 msgid "Cert status"
 msgstr "प्रमाणपत्र स्थिति"
 
 #: templates/pages/preferences.tmpl:37
-#: templates/pages/preferences.tmpl:47
+#: templates/pages/preferences.tmpl:48
 msgid "Change password"
 msgstr "पासवर्ड बदलें"
 
 #: src/i18n.js:167
-#: templates/pages/node.tmpl:49
+#: templates/pages/node.tmpl:68
 msgid "Changed"
 msgstr "बदला गया"
 
-#: src/groups.js:33
+#: src/groups.js:60
+#: templates/pages/group.tmpl:53
 msgid "Classes"
 msgstr "क्लासेज़"
 
-#: templates/pages/group.tmpl:32
-msgid "Classes (JSON)"
-msgstr "क्लासेज़ (JSON)"
+#: templates/pages/group.tmpl:47
+#~ msgid "Classes (JSON)"
+#~ msgstr "क्लासेज़ (JSON)"
 
-#: templates/pages/group.tmpl:31
+#: templates/pages/group.tmpl:50
 msgid "Classification"
 msgstr "वर्गीकरण"
 
-#: src/nodes.js:84
+#: src/nodes.js:92
 msgid "Clean"
 msgstr "साफ़ करें"
 
-#: templates/pages/nodes.tmpl:34
+#: templates/pages/nodes.tmpl:39
 msgid "Clear"
 msgstr "चयन हटाएँ"
 
-#: src/nodes.js:427
+#: src/nodes.js:466
 msgid "Close"
 msgstr "बंद करें"
 
-#: templates/layout.html.tmpl:85
+#: templates/layout.html.tmpl:89
 #: templates/pages/code.tmpl:3
 msgid "Code"
 msgstr "Code"
 
 #: src/i18n.js:172
-#: src/index.js:114
-#: src/nodes.js:42
-#: templates/pages/nodes.tmpl:14
+#: src/index.js:149
+#: src/nodes.js:50
+#: templates/pages/nodes.tmpl:18
 msgid "Connected"
 msgstr "कनेक्टेड"
 
-#: src/nodes.js:250
-#: templates/pages/nodes.tmpl:12
+#: src/nodes.js:294
+#: templates/pages/nodes.tmpl:16
 msgid "Connection"
 msgstr "कनेक्शन"
 
 #: src/i18n.js:171
-#: src/index.js:23
+#: src/index.js:24
 msgid "Corrected"
 msgstr "सुधारा गया"
 
-#: templates/pages/roles.tmpl:21
+#: templates/pages/roles.tmpl:35
 msgid "Create role"
 msgstr "भूमिका बनाएँ"
 
-#: templates/pages/service-tokens.tmpl:23
+#: templates/pages/service-tokens.tmpl:30
 msgid "Create service token"
 msgstr "सेवा टोकन बनाएँ"
 
-#: templates/pages/users.tmpl:26
+#: templates/pages/users.tmpl:29
 msgid "Create user"
 msgstr "उपयोगकर्ता बनाएँ"
 
-#: src/service-tokens.js:43
+#: src/service-tokens.js:47
 msgid "Created"
 msgstr "बनाया गया"
 
-#: src/app.js:632
+#: src/app.js:711
 #: templates/pages/vulnerabilities.tmpl:13
 msgid "Critical"
 msgstr "गंभीर"
@@ -199,12 +223,22 @@ msgstr "वर्तमान पासवर्ड"
 msgid "Dashboard"
 msgstr "Dashboard"
 
-#: src/nodes.js:88
-#: src/roles.js:36
-#: src/service-tokens.js:34
-#: src/users.js:51
+#: src/agentless.js:125
+#: src/agentless.js:212
+#: src/agentless.js:227
+#: src/agentless.js:68
+#: src/nodes.js:96
+#: src/plan.js:61
+#: src/roles.js:136
+#: src/schedule.js:148
+#: src/service-tokens.js:38
+#: src/user-groups.js:119
+#: src/user-groups.js:156
+#: src/users.js:130
 #: src/vulnerability-providers.js:67
-#: templates/pages/group.tmpl:71
+#: templates/pages/group.tmpl:122
+#: templates/pages/plan.tmpl:14
+#: templates/pages/schedule.tmpl:15
 msgid "Delete"
 msgstr "हटाएँ"
 
@@ -220,28 +254,35 @@ msgstr "Deploy इतिहास"
 msgid "Deploy now"
 msgstr "अभी deploy करें"
 
-#: templates/pages/group.tmpl:13
+#: templates/pages/group.tmpl:20
+#: templates/pages/plan-edit.tmpl:14
+#: templates/pages/schedule-edit.tmpl:15
 msgid "Details"
 msgstr "विवरण"
 
-#: src/index.js:114
+#: src/index.js:149
 msgid "Disconnected"
 msgstr "डिस्कनेक्टेड"
 
+#: src/agentless.js:124
+#: src/agentless.js:67
 #: src/vulnerability-providers.js:66
+#: templates/pages/plan.tmpl:13
+#: templates/pages/schedule.tmpl:14
 msgid "Edit"
 msgstr "संपादित करें"
 
-#: templates/pages/group.tmpl:48
+#: templates/pages/group.tmpl:54
+#: templates/pages/group.tmpl:95
 msgid "Edit as JSON"
 msgstr "JSON के रूप में संपादित करें"
 
-#: src/users.js:60
+#: src/users.js:141
 #: templates/pages/preferences.tmpl:18
 msgid "Email"
 msgstr "ईमेल"
 
-#: templates/pages/users.tmpl:23
+#: templates/pages/users.tmpl:26
 msgid "Email (optional)"
 msgstr "ईमेल (वैकल्पिक)"
 
@@ -251,49 +292,55 @@ msgstr "ईमेल (वैकल्पिक)"
 msgid "Enabled"
 msgstr "सक्षम"
 
-#: src/node.js:469
+#: src/node.js:473
 msgid "Ended"
 msgstr "समाप्त"
 
 #: src/deploys.js:57
-#: src/groups.js:33
+#: src/groups.js:60
+#: src/task-form.js:108
+#: templates/pages/plans.tmpl:26
 msgid "Environment"
 msgstr "Environment"
 
-#: templates/pages/group.tmpl:20
+#: src/run-puppet.js:29
+#: templates/pages/group.tmpl:35
 msgid "Environment (optional)"
 msgstr "Environment (वैकल्पिक)"
 
 #: src/deploys.js:57
-#: src/job.js:53
+#: src/job.js:142
+#: src/run-patch.js:123
 msgid "Error"
 msgstr "त्रुटि"
 
-#: src/job.js:53
+#: src/job.js:142
+#: src/run-patch.js:123
 msgid "Exit code"
 msgstr "एग्ज़िट कोड"
 
-#: templates/pages/index.tmpl:23
+#: templates/pages/index.tmpl:27
 msgid "Fact name"
 msgstr "Fact नाम"
 
-#: src/group.js:81
+#: src/group.js:245
 msgid "Fact path"
 msgstr "Fact पथ"
 
-#: templates/pages/index.tmpl:24
+#: templates/pages/index.tmpl:28
 msgid "Fact value"
 msgstr "Fact मान"
 
-#: templates/pages/node.tmpl:15
+#: templates/pages/node.tmpl:23
 msgid "Facts"
 msgstr "Facts"
 
 #: src/i18n.js:164
-#: src/index.js:22
+#: src/index.js:23
+#: src/plan-common.js:72
 #: templates/pages/code.tmpl:55
-#: templates/pages/jobs.tmpl:17
-#: templates/pages/node.tmpl:51
+#: templates/pages/jobs.tmpl:32
+#: templates/pages/node.tmpl:70
 msgid "Failed"
 msgstr "विफल"
 
@@ -303,20 +350,20 @@ msgstr "विफलता"
 
 #: templates/pages/activity.tmpl:12
 #: templates/pages/code.tmpl:50
-#: templates/pages/jobs.tmpl:19
+#: templates/pages/jobs.tmpl:34
 msgid "Filter by actor"
 msgstr "कर्ता से फ़िल्टर करें"
 
-#: templates/pages/index.tmpl:22
+#: templates/pages/index.tmpl:26
 #: templates/pages/packages.tmpl:8
 msgid "Filter by name"
 msgstr "नाम से फ़िल्टर करें"
 
-#: templates/pages/nodes.tmpl:11
+#: templates/pages/nodes.tmpl:15
 msgid "Filter by name…"
 msgstr "नाम से फ़िल्टर करें…"
 
-#: templates/pages/jobs.tmpl:6
+#: templates/pages/jobs.tmpl:19
 msgid "Filter by node"
 msgstr "Node से फ़िल्टर करें"
 
@@ -325,7 +372,8 @@ msgid "Filter by version"
 msgstr "संस्करण से फ़िल्टर करें"
 
 #: src/deploys.js:57
-#: src/jobs.js:54
+#: src/jobs.js:82
+#: src/schedule-common.js:90
 msgid "Finished"
 msgstr "पूर्ण"
 
@@ -333,16 +381,16 @@ msgstr "पूर्ण"
 msgid "First name"
 msgstr "पहला नाम"
 
-#: templates/pages/users.tmpl:21
+#: templates/pages/users.tmpl:24
 msgid "First name (optional)"
 msgstr "पहला नाम (वैकल्पिक)"
 
-#: src/node.js:604
+#: src/node.js:825
 #: src/vulnerability.js:54
 msgid "First seen"
 msgstr "पहली बार देखा गया"
 
-#: src/node.js:604
+#: src/node.js:825
 #: src/vulnerabilities.js:95
 #: templates/pages/vulnerabilities.tmpl:19
 msgid "Fix"
@@ -361,22 +409,25 @@ msgid "Fleet status"
 msgstr "फ़्लीट स्थिति"
 
 #: templates/pages/packages.tmpl:13
+#: templates/pages/patches.tmpl:19
 msgid "Group"
 msgstr "समूह"
 
-#: templates/layout.html.tmpl:77
+#: templates/layout.html.tmpl:81
 msgid "Groups"
 msgstr "समूह"
 
-#: src/app.js:633
+#: src/app.js:712
 #: templates/pages/vulnerabilities.tmpl:14
 msgid "High"
 msgstr "उच्च"
 
-#: src/jobs.js:54
+#: src/jobs.js:82
 msgid "ID"
 msgstr "ID"
 
+#: src/node.js:695
+#: src/patches.js:130
 #: src/vulnerability.js:54
 msgid "Installed"
 msgstr "स्थापित"
@@ -385,14 +436,23 @@ msgstr "स्थापित"
 msgid "Interval"
 msgstr "अंतराल"
 
-#: templates/layout.html.tmpl:81
+#: templates/layout.html.tmpl:85
 #: templates/pages/job.tmpl:4
-#: templates/pages/jobs.tmpl:3
+#: templates/pages/jobs.tmpl:12
+#: templates/pages/jobs.tmpl:4
+#: templates/pages/plan-edit.tmpl:4
+#: templates/pages/plan.tmpl:4
+#: templates/pages/plans.tmpl:4
+#: templates/pages/plans.tmpl:7
+#: templates/pages/schedule-edit.tmpl:4
+#: templates/pages/schedule.tmpl:4
+#: templates/pages/schedules.tmpl:4
+#: templates/pages/schedules.tmpl:7
 msgid "Jobs"
 msgstr "Jobs"
 
-#: src/jobs.js:54
-#: templates/pages/jobs.tmpl:7
+#: src/jobs.js:82
+#: templates/pages/jobs.tmpl:20
 msgid "Kind"
 msgstr "प्रकार"
 
@@ -401,7 +461,7 @@ msgstr "प्रकार"
 msgid "Language"
 msgstr "भाषा"
 
-#: src/index.js:249
+#: src/index.js:286
 msgid "Last check-in"
 msgstr "अंतिम संपर्क"
 
@@ -409,7 +469,7 @@ msgstr "अंतिम संपर्क"
 msgid "Last name"
 msgstr "अंतिम नाम"
 
-#: templates/pages/users.tmpl:22
+#: templates/pages/users.tmpl:25
 msgid "Last name (optional)"
 msgstr "अंतिम नाम (वैकल्पिक)"
 
@@ -417,7 +477,7 @@ msgstr "अंतिम नाम (वैकल्पिक)"
 msgid "Last sync"
 msgstr "अंतिम सिंक"
 
-#: templates/layout.html.tmpl:117
+#: templates/layout.html.tmpl:121
 msgid "License (GPL-3.0)"
 msgstr "लाइसेंस (GPL-3.0)"
 
@@ -433,7 +493,7 @@ msgstr "SSO से लॉग इन करें"
 msgid "Log out"
 msgstr "लॉग आउट करें"
 
-#: src/app.js:635
+#: src/app.js:714
 #: templates/pages/vulnerabilities.tmpl:16
 msgid "Low"
 msgstr "निम्न"
@@ -442,20 +502,20 @@ msgstr "निम्न"
 msgid "Main"
 msgstr "मुख्य नेविगेशन"
 
-#: templates/pages/group.tmpl:47
+#: templates/pages/group.tmpl:94
 msgid "Match rule"
 msgstr "मिलान नियम"
 
-#: templates/pages/group.tmpl:45
+#: templates/pages/group.tmpl:92
 msgid "Matching"
 msgstr "मिलान"
 
-#: src/groups.js:33
-#: templates/pages/group.tmpl:77
+#: src/groups.js:60
+#: templates/pages/group.tmpl:128
 msgid "Matching nodes"
 msgstr "मिलते Nodes"
 
-#: src/app.js:634
+#: src/app.js:713
 #: templates/pages/vulnerabilities.tmpl:15
 msgid "Medium"
 msgstr "मध्यम"
@@ -472,16 +532,27 @@ msgstr "सर्वाधिक प्रभावित Nodes पहले"
 msgid "Most severe first"
 msgstr "सर्वाधिक गंभीर पहले"
 
-#: src/groups.js:33
-#: src/jobs.js:54
-#: src/roles.js:45
-#: src/service-tokens.js:43
-#: src/users.js:60
+#: src/agentless.js:131
+#: src/agentless.js:278
+#: src/agentless.js:367
+#: src/agentless.js:95
+#: src/groups.js:60
+#: src/jobs.js:82
+#: src/plans.js:36
+#: src/roles.js:145
+#: src/schedules.js:49
+#: src/service-tokens.js:47
+#: src/user-groups.js:167
+#: src/user-groups.js:84
+#: src/users.js:141
 #: src/vulnerability-providers.js:150
 #: src/vulnerability-providers.js:75
-#: templates/pages/group.tmpl:15
-#: templates/pages/roles.tmpl:15
-#: templates/pages/service-tokens.tmpl:17
+#: templates/pages/group.tmpl:22
+#: templates/pages/plan-edit.tmpl:15
+#: templates/pages/roles.tmpl:17
+#: templates/pages/schedule-edit.tmpl:16
+#: templates/pages/service-tokens.tmpl:19
+#: templates/pages/user-groups.tmpl:21
 msgid "Name"
 msgstr "नाम"
 
@@ -492,28 +563,30 @@ msgstr "नया"
 #: templates/pages/group.tmpl:5
 #: templates/pages/group.tmpl:7
 #: templates/pages/groups.tmpl:5
+#: templates/pages/user-groups.tmpl:18
 msgid "New group"
 msgstr "नया समूह"
 
+#: src/users.js:35
 #: templates/pages/preferences.tmpl:44
 msgid "New password"
 msgstr "नया पासवर्ड"
 
-#: templates/pages/roles.tmpl:12
+#: templates/pages/roles.tmpl:14
 msgid "New role"
 msgstr "नई भूमिका"
 
-#: templates/pages/service-tokens.tmpl:14
+#: templates/pages/service-tokens.tmpl:16
 msgid "New service token"
 msgstr "नया सेवा टोकन"
 
-#: templates/pages/users.tmpl:12
+#: templates/pages/users.tmpl:14
 msgid "New user"
 msgstr "नया उपयोगकर्ता"
 
 #: templates/pages/activity.tmpl:14
 #: templates/pages/code.tmpl:58
-#: templates/pages/jobs.tmpl:21
+#: templates/pages/jobs.tmpl:36
 msgid "Newest first"
 msgstr "नवीनतम पहले"
 
@@ -521,7 +594,7 @@ msgstr "नवीनतम पहले"
 msgid "No activity recorded yet"
 msgstr "अभी तक कोई गतिविधि दर्ज नहीं"
 
-#: src/index.js:135
+#: src/index.js:172
 msgid "No activity yet"
 msgstr "अभी तक कोई गतिविधि नहीं"
 
@@ -541,7 +614,7 @@ msgstr "अभी तक कोई deploy नहीं"
 msgid "No events for this report"
 msgstr "इस Report के लिए कोई घटना नहीं"
 
-#: src/node.js:339
+#: src/node.js:343
 msgid "No facts reported"
 msgstr "कोई Facts रिपोर्ट नहीं किए गए"
 
@@ -549,37 +622,37 @@ msgstr "कोई Facts रिपोर्ट नहीं किए गए"
 msgid "No fix released"
 msgstr "कोई समाधान जारी नहीं"
 
-#: src/jobs.js:27
+#: src/jobs.js:55
 msgid "No jobs yet"
 msgstr "अभी तक कोई Jobs नहीं"
 
-#: src/nodes.js:220
+#: src/nodes.js:264
 #: src/packages.js:129
 msgid "No matching nodes"
 msgstr "कोई मिलता Node नहीं"
 
 #: src/groups.js:10
-msgid "No node groups yet"
-msgstr "अभी तक कोई Node समूह नहीं"
+#~ msgid "No node groups yet"
+#~ msgstr "अभी तक कोई Node समूह नहीं"
 
-#: src/group.js:255
+#: src/group.js:440
 msgid "No nodes currently match this group"
 msgstr "वर्तमान में कोई Node इस समूह से मेल नहीं खाता"
 
-#: src/index.js:223
-#: src/nodes.js:225
+#: src/index.js:260
+#: src/nodes.js:269
 msgid "No nodes found"
 msgstr "कोई Node नहीं मिला"
 
-#: src/index.js:80
+#: src/index.js:81
 msgid "No nodes yet"
 msgstr "अभी तक कोई Nodes नहीं"
 
-#: src/node.js:581
+#: src/node.js:802
 msgid "No open vulnerabilities"
 msgstr "कोई खुली भेद्यता नहीं"
 
-#: src/node.js:398
+#: src/node.js:402
 msgid "No package data reported"
 msgstr "कोई पैकेज डेटा रिपोर्ट नहीं"
 
@@ -591,27 +664,30 @@ msgstr "कोई पैकेज नहीं"
 msgid "No packages match"
 msgstr "कोई पैकेज मेल नहीं खाता"
 
-#: src/node.js:448
+#: src/node.js:452
 msgid "No reports yet"
 msgstr "अभी तक कोई Reports नहीं"
 
-#: src/roles.js:23
+#: src/roles.js:95
+#: src/user-groups.js:26
 msgid "No roles yet"
 msgstr "अभी तक कोई भूमिका नहीं"
 
-#: src/index.js:175
+#: src/index.js:212
 msgid "No runs yet"
 msgstr "अभी तक कोई रन नहीं"
 
-#: src/service-tokens.js:17
+#: src/service-tokens.js:20
 msgid "No service tokens yet"
 msgstr "अभी तक कोई सेवा टोकन नहीं"
 
-#: src/job.js:29
+#: src/job.js:119
+#: src/run-patch.js:96
 msgid "No targets"
 msgstr "कोई लक्ष्य नहीं"
 
-#: src/users.js:33
+#: src/user-groups.js:52
+#: src/users.js:109
 msgid "No users yet"
 msgstr "अभी तक कोई उपयोगकर्ता नहीं"
 
@@ -619,31 +695,42 @@ msgstr "अभी तक कोई उपयोगकर्ता नहीं"
 msgid "No vulnerability providers"
 msgstr "कोई भेद्यता प्रदाता नहीं"
 
-#: src/index.js:196
-#: src/index.js:249
-#: src/job.js:53
-#: src/nodes.js:249
+#: src/index.js:233
+#: src/index.js:286
+#: src/job.js:142
+#: src/nodes.js:293
 #: src/packages.js:146
+#: src/patches.js:129
+#: src/patches.js:92
+#: src/run-patch.js:123
 #: src/vulnerability.js:54
 msgid "Node"
 msgstr "Node"
 
+#: src/roles.js:145
 #: templates/pages/group.tmpl:4
 #: templates/pages/groups.tmpl:4
+#: templates/pages/roles.tmpl:24
 msgid "Node groups"
 msgstr "Node समूह"
 
-#: templates/pages/index.tmpl:19
+#: templates/pages/index.tmpl:23
 msgid "Node inventory"
 msgstr "Node सूची"
 
-#: templates/pages/index.tmpl:22
-#: templates/pages/nodes.tmpl:11
+#: templates/pages/index.tmpl:26
+#: templates/pages/nodes.tmpl:15
 msgid "Node name"
 msgstr "Node नाम"
 
 #: src/packages.js:79
+#: src/patches.js:236
+#: src/patches.js:31
+#: src/schedule.js:66
+#: src/schedules.js:49
+#: src/target-picker.js:52
 #: templates/layout.html.tmpl:65
+#: templates/pages/agentless.tmpl:4
 #: templates/pages/node.tmpl:4
 #: templates/pages/nodes.tmpl:4
 #: templates/pages/report.tmpl:4
@@ -659,18 +746,18 @@ msgid "Nodes not assessed"
 msgstr "अमूल्यांकित Nodes"
 
 #: src/i18n.js:169
-#: templates/pages/node.tmpl:52
+#: templates/pages/node.tmpl:71
 #: templates/pages/report.tmpl:15
 msgid "Noop"
 msgstr "Noop"
 
 #: src/i18n.js:173
-#: src/nodes.js:43
-#: templates/pages/nodes.tmpl:15
+#: src/nodes.js:51
+#: templates/pages/nodes.tmpl:19
 msgid "Not connected"
 msgstr "कनेक्टेड नहीं"
 
-#: src/node.js:366
+#: src/node.js:370
 msgid "Nothing to summarise"
 msgstr "सारांश के लिए कुछ नहीं"
 
@@ -680,32 +767,35 @@ msgstr "पुराना"
 
 #: templates/pages/activity.tmpl:15
 #: templates/pages/code.tmpl:59
-#: templates/pages/jobs.tmpl:22
+#: templates/pages/jobs.tmpl:37
 msgid "Oldest first"
 msgstr "सबसे पुराना पहले"
 
-#: templates/layout.html.tmpl:112
+#: templates/layout.html.tmpl:116
 #: templates/layout.html.tmpl:38
 #: templates/pages/login.tmpl:3
 msgid "OpenVox Console"
 msgstr "OpenVox Console"
 
-#: templates/layout.html.tmpl:113
+#: templates/layout.html.tmpl:117
 msgid "OpenVox project"
 msgstr "OpenVox परियोजना"
 
-#: src/group.js:84
+#: src/group.js:248
 msgid "Operator"
 msgstr "ऑपरेटर"
 
 #: templates/pages/activity.tmpl:13
 #: templates/pages/code.tmpl:57
-#: templates/pages/jobs.tmpl:20
+#: templates/pages/jobs.tmpl:35
 msgid "Order"
 msgstr "क्रम"
 
-#: src/node.js:418
+#: src/node.js:422
+#: src/node.js:695
 #: src/packages.js:79
+#: src/patches.js:129
+#: src/run-patch.js:72
 #: src/vulnerability.js:54
 #: templates/pages/vulnerabilities.tmpl:27
 msgid "Package"
@@ -715,20 +805,23 @@ msgstr "पैकेज"
 msgid "Package name"
 msgstr "पैकेज नाम"
 
-#: src/node.js:604
+#: src/node.js:825
+#: src/run-patch.js:123
+#: src/run-patch.js:153
 #: src/vulnerabilities.js:95
 #: templates/layout.html.tmpl:69
-#: templates/pages/node.tmpl:16
+#: templates/pages/node.tmpl:24
 #: templates/pages/packages.tmpl:3
 msgid "Packages"
 msgstr "पैकेज"
 
-#: src/app.js:548
+#: src/app.js:627
 msgid "Pagination"
 msgstr "पृष्ठ क्रमांकन"
 
+#: src/agentless.js:250
 #: templates/pages/login.tmpl:11
-#: templates/pages/users.tmpl:18
+#: templates/pages/users.tmpl:20
 msgid "Password"
 msgstr "पासवर्ड"
 
@@ -736,21 +829,27 @@ msgstr "पासवर्ड"
 msgid "Pending"
 msgstr "लंबित"
 
-#: src/roles.js:45
-#: src/service-tokens.js:43
+#: src/roles.js:145
+#: src/service-tokens.js:47
+#: templates/pages/roles.tmpl:20
 msgid "Permissions"
 msgstr "अनुमतियाँ"
 
-#: templates/pages/group.tmpl:62
+#: templates/pages/group.tmpl:112
 msgid "Pinned node certnames (JSON array)"
 msgstr "पिन किए गए Node certname (JSON सरणी)"
 
-#: src/groups.js:33
+#: src/groups.js:60
 msgid "Pinned nodes"
 msgstr "पिन किए गए Nodes"
 
+#: src/code-plans.js:57
 #: src/i18n.js:200
-#: templates/pages/jobs.tmpl:11
+#: src/plan.js:48
+#: src/schedule-common.js:39
+#: templates/pages/jobs.tmpl:24
+#: templates/pages/plan.tmpl:6
+#: templates/pages/schedule-edit.tmpl:38
 msgid "Plan"
 msgstr "Plan"
 
@@ -759,8 +858,8 @@ msgstr "Plan"
 msgid "Preferences"
 msgstr "प्राथमिकताएँ"
 
-#: src/groups.js:33
-#: templates/pages/group.tmpl:18
+#: src/groups.js:60
+#: templates/pages/group.tmpl:32
 msgid "Priority"
 msgstr "प्राथमिकता"
 
@@ -772,7 +871,7 @@ msgstr "प्रोफ़ाइल"
 msgid "Property"
 msgstr "गुण"
 
-#: src/node.js:418
+#: src/node.js:422
 #: src/packages.js:146
 #: src/vulnerability.js:54
 #: templates/pages/packages.tmpl:10
@@ -780,7 +879,7 @@ msgstr "गुण"
 msgid "Provider"
 msgstr "प्रदाता"
 
-#: src/node.js:604
+#: src/node.js:825
 #: src/packages.js:79
 #: src/vulnerabilities.js:95
 #: templates/pages/vulnerability-providers.tmpl:5
@@ -792,18 +891,20 @@ msgid "Providers enabled"
 msgstr "सक्षम प्रदाता"
 
 #: src/i18n.js:198
+#: src/plan-common.js:31
+#: src/schedule-common.js:44
 msgid "Puppet run"
 msgstr "Puppet run"
 
-#: templates/pages/node.tmpl:22
+#: templates/pages/node.tmpl:31
 msgid "Raw JSON"
 msgstr "कच्चा JSON"
 
-#: templates/pages/index.tmpl:14
+#: templates/pages/index.tmpl:18
 msgid "Recent activity"
 msgstr "हालिया गतिविधि"
 
-#: templates/pages/index.tmpl:11
+#: templates/pages/index.tmpl:15
 msgid "Recent runs"
 msgstr "हालिया रन"
 
@@ -812,16 +913,19 @@ msgstr "हालिया रन"
 msgid "Ref"
 msgstr "Ref"
 
-#: src/group.js:89
+#: src/class-editor.js:232
+#: src/class-editor.js:245
+#: src/group.js:253
+#: src/plan-edit.js:68
 msgid "Remove"
 msgstr "हटाएँ"
 
-#: src/job.js:53
+#: src/job.js:142
 #: templates/pages/report.tmpl:6
 msgid "Report"
 msgstr "Report"
 
-#: templates/pages/node.tmpl:30
+#: templates/pages/node.tmpl:39
 msgid "Report installed packages"
 msgstr "स्थापित पैकेज रिपोर्ट करें"
 
@@ -830,7 +934,7 @@ msgid "Repositories"
 msgstr "रिपॉज़िटरी"
 
 #: src/i18n.js:175
-#: templates/pages/nodes.tmpl:20
+#: templates/pages/nodes.tmpl:24
 msgid "Requested"
 msgstr "अनुरोधित"
 
@@ -842,55 +946,70 @@ msgstr "संसाधन"
 msgid "Resource events"
 msgstr "संसाधन घटनाएँ"
 
-#: src/nodes.js:81
+#: src/nodes.js:89
 msgid "Revoke"
 msgstr "निरस्त करें"
 
 #: src/i18n.js:176
-#: templates/pages/nodes.tmpl:21
+#: templates/pages/nodes.tmpl:25
 msgid "Revoked"
 msgstr "निरस्त"
 
-#: src/users.js:60
-#: templates/pages/roles.tmpl:5
-#: templates/pages/roles.tmpl:9
-#: templates/pages/service-tokens.tmpl:5
-#: templates/pages/users.tmpl:5
+#: src/user-groups.js:167
+#: src/users.js:141
+#: templates/pages/account-policy.tmpl:6
+#: templates/pages/roles.tmpl:11
+#: templates/pages/roles.tmpl:6
+#: templates/pages/service-tokens.tmpl:6
+#: templates/pages/user-groups.tmpl:6
+#: templates/pages/users.tmpl:6
 msgid "Roles"
 msgstr "भूमिकाएँ"
 
-#: templates/pages/jobs.tmpl:9
+#: src/code-plans.js:160
+#: src/code-plans.js:52
+#: src/plans.js:28
+#: src/run-puppet.js:111
+#: templates/pages/jobs.tmpl:22
+#: templates/pages/plan.tmpl:12
 msgid "Run"
 msgstr "चलाएँ"
 
-#: src/nodes.js:340
-#: templates/pages/nodes.tmpl:33
+#: src/plan-edit.js:33
+#: src/run-puppet.js:87
+#: templates/pages/jobs.tmpl:8
+#: templates/pages/nodes.tmpl:37
+#: templates/pages/schedule-edit.tmpl:23
 msgid "Run Puppet"
 msgstr "Puppet चलाएँ"
 
-#: src/nodes.js:341
+#: src/run-puppet.js:96
 msgid "Run Puppet on {count} node?"
 msgid_plural "Run Puppet on {count} nodes?"
 msgstr[0] "{count} Node पर Puppet चलाएँ?"
 msgstr[1] "{count} Nodes पर Puppet चलाएँ?"
 
-#: templates/pages/group.tmpl:78
-#: templates/pages/node.tmpl:9
+#: templates/pages/group.tmpl:131
+#: templates/pages/node.tmpl:11
 msgid "Run now"
 msgstr "अभी चलाएँ"
 
 #: src/i18n.js:165
+#: src/plan-common.js:70
 #: templates/pages/code.tmpl:53
-#: templates/pages/jobs.tmpl:15
+#: templates/pages/jobs.tmpl:30
 msgid "Running"
 msgstr "चल रहा है"
 
-#: templates/pages/node.tmpl:18
+#: templates/pages/node.tmpl:27
 msgid "Runs"
 msgstr "रन"
 
+#: src/agentless.js:308
+#: src/agentless.js:378
 #: src/vulnerability-providers.js:156
-#: templates/pages/group.tmpl:70
+#: templates/pages/group.tmpl:121
+#: templates/pages/patches.tmpl:44
 msgid "Save"
 msgstr "सहेजें"
 
@@ -902,29 +1021,31 @@ msgstr "भाषा सहेजें"
 msgid "Save profile"
 msgstr "प्रोफ़ाइल सहेजें"
 
-#: src/service-tokens.js:90
+#: src/service-tokens.js:95
 msgid "Service token created - copy it now, it won't be shown again"
 msgstr "सेवा टोकन बनाया गया — इसे अभी कॉपी करें, यह दोबारा नहीं दिखाया जाएगा"
 
-#: templates/pages/roles.tmpl:6
-#: templates/pages/service-tokens.tmpl:6
-#: templates/pages/service-tokens.tmpl:9
-#: templates/pages/users.tmpl:6
+#: templates/pages/account-policy.tmpl:7
+#: templates/pages/roles.tmpl:7
+#: templates/pages/service-tokens.tmpl:11
+#: templates/pages/service-tokens.tmpl:7
+#: templates/pages/user-groups.tmpl:7
+#: templates/pages/users.tmpl:7
 msgid "Service tokens"
 msgstr "सेवा टोकन"
 
-#: src/node.js:604
+#: src/node.js:825
 #: src/vulnerabilities.js:95
 #: src/vulnerability.js:54
 #: templates/pages/vulnerabilities.tmpl:11
 msgid "Severity"
 msgstr "गंभीरता"
 
-#: templates/pages/node.tmpl:39
+#: templates/pages/node.tmpl:58
 msgid "Show closed"
 msgstr "बंद दिखाएँ"
 
-#: templates/pages/nodes.tmpl:24
+#: templates/pages/nodes.tmpl:28
 msgid "Show infrastructure certs"
 msgstr "अवसंरचना प्रमाणपत्र दिखाएँ"
 
@@ -932,12 +1053,12 @@ msgstr "अवसंरचना प्रमाणपत्र दिखाए�
 msgid "Showing {shown} of {total} packages"
 msgstr "{total} में से {shown} पैकेज दिखाए जा रहे हैं"
 
-#: src/nodes.js:78
+#: src/nodes.js:86
 msgid "Sign"
 msgstr "हस्ताक्षर करें"
 
 #: src/i18n.js:174
-#: templates/pages/nodes.tmpl:19
+#: templates/pages/nodes.tmpl:23
 msgid "Signed"
 msgstr "हस्ताक्षरित"
 
@@ -946,6 +1067,7 @@ msgstr "हस्ताक्षरित"
 #~ msgstr "साइन इन हो रहा है&hellip;"
 
 #: src/i18n.js:170
+#: src/schedule-common.js:99
 #: templates/pages/report.tmpl:16
 msgid "Skipped"
 msgstr "छोड़ा गया"
@@ -964,29 +1086,35 @@ msgid "Source to deploy"
 msgstr "Deploy करने का स्रोत"
 
 #: src/deploys.js:57
-#: src/jobs.js:54
-#: src/node.js:469
+#: src/jobs.js:82
+#: src/node.js:473
+#: src/patches.js:236
+#: src/schedule-common.js:98
 msgid "Started"
 msgstr "प्रारंभ"
 
+#: src/code-plans.js:273
 #: src/deploys.js:57
-#: src/index.js:249
-#: src/job.js:53
-#: src/jobs.js:54
-#: src/node.js:469
-#: src/node.js:604
+#: src/index.js:286
+#: src/job.js:142
+#: src/jobs.js:82
+#: src/node.js:473
+#: src/node.js:825
+#: src/patches.js:236
 #: src/report.js:48
+#: src/run-patch.js:123
 #: src/vulnerability-providers.js:75
 #: templates/pages/code.tmpl:51
-#: templates/pages/jobs.tmpl:13
-#: templates/pages/node.tmpl:47
+#: templates/pages/jobs.tmpl:28
+#: templates/pages/node.tmpl:66
 #: templates/pages/report.tmpl:11
 msgid "Status"
 msgstr "स्थिति"
 
 #: src/i18n.js:163
+#: src/plan-common.js:71
 #: templates/pages/code.tmpl:54
-#: templates/pages/jobs.tmpl:16
+#: templates/pages/jobs.tmpl:31
 msgid "Succeeded"
 msgstr "सफल"
 
@@ -1007,28 +1135,32 @@ msgid "Sync now"
 msgstr "अभी सिंक करें"
 
 #: src/status.js:183
-#: templates/pages/jobs.tmpl:6
+#: templates/pages/jobs.tmpl:19
 msgid "Target"
 msgstr "लक्ष्य"
 
-#: src/jobs.js:54
+#: src/jobs.js:82
 #: templates/pages/job.tmpl:12
 msgid "Targets"
 msgstr "लक्ष्य"
 
 #: src/i18n.js:199
-#: templates/pages/jobs.tmpl:10
+#: src/plan-common.js:29
+#: src/schedule-common.js:42
+#: src/task-form.js:143
+#: templates/pages/jobs.tmpl:23
 msgid "Task"
 msgstr "Task"
 
-#: templates/pages/group.tmpl:37
+#: templates/pages/group.tmpl:78
 msgid "Top-scope parameters (JSON)"
 msgstr "टॉप-स्कोप पैरामीटर (JSON)"
 
 #: src/deploys.js:57
-#: src/jobs.js:54
+#: src/jobs.js:82
+#: src/patches.js:236
 #: templates/pages/code.tmpl:50
-#: templates/pages/jobs.tmpl:19
+#: templates/pages/jobs.tmpl:34
 msgid "Triggered by"
 msgstr "द्वारा ट्रिगर"
 
@@ -1039,39 +1171,41 @@ msgid "Type"
 msgstr "प्रकार"
 
 #: src/i18n.js:168
-#: src/index.js:25
-#: templates/pages/node.tmpl:50
+#: src/index.js:26
+#: templates/pages/node.tmpl:69
 msgid "Unchanged"
 msgstr "अपरिवर्तित"
 
-#: src/app.js:636
+#: src/app.js:715
 #: src/i18n.js:177
-#: templates/pages/nodes.tmpl:22
+#: templates/pages/nodes.tmpl:26
 #: templates/pages/vulnerabilities.tmpl:17
 msgid "Unknown"
 msgstr "अज्ञात"
 
-#: src/users.js:60
+#: src/users.js:141
 #: templates/pages/login.tmpl:8
-#: templates/pages/users.tmpl:15
+#: templates/pages/users.tmpl:17
 msgid "Username"
 msgstr "उपयोगकर्ता नाम"
 
+#: templates/pages/account-policy.tmpl:4
 #: templates/pages/roles.tmpl:4
 #: templates/pages/service-tokens.tmpl:4
+#: templates/pages/user-groups.tmpl:4
+#: templates/pages/users.tmpl:11
 #: templates/pages/users.tmpl:4
-#: templates/pages/users.tmpl:9
 msgid "Users"
 msgstr "उपयोगकर्ता"
 
-#: src/group.js:87
+#: src/group.js:251
 msgid "Value"
 msgstr "मान"
 
-#: src/node.js:418
+#: src/node.js:422
 #: src/packages.js:146
 #: src/status.js:136
-#: templates/layout.html.tmpl:118
+#: templates/layout.html.tmpl:122
 #: templates/pages/packages.tmpl:9
 msgid "Version"
 msgstr "संस्करण"
@@ -1080,15 +1214,15 @@ msgstr "संस्करण"
 msgid "Versions"
 msgstr "संस्करण"
 
-#: templates/layout.html.tmpl:73
-#: templates/pages/node.tmpl:17
+#: templates/layout.html.tmpl:77
+#: templates/pages/node.tmpl:26
 #: templates/pages/vulnerabilities.tmpl:4
 #: templates/pages/vulnerability-providers.tmpl:4
 #: templates/pages/vulnerability.tmpl:4
 msgid "Vulnerabilities"
 msgstr "भेद्यताएँ"
 
-#: src/node.js:604
+#: src/node.js:825
 #: src/vulnerabilities.js:95
 msgid "Vulnerability"
 msgstr "भेद्यता"
@@ -1098,14 +1232,15 @@ msgid "Vulnerability providers"
 msgstr "भेद्यता प्रदाता"
 
 #: src/activity.js:39
+#: templates/pages/schedule-edit.tmpl:59
 msgid "When"
 msgstr "कब"
 
-#: templates/pages/index.tmpl:24
+#: templates/pages/index.tmpl:28
 msgid "e.g. Linux"
 msgstr "उदा. Linux"
 
-#: templates/pages/index.tmpl:23
+#: templates/pages/index.tmpl:27
 msgid "e.g. kernel"
 msgstr "उदा. kernel"
 
@@ -1119,7 +1254,7 @@ msgid_plural "from {reporting} of {count} nodes"
 msgstr[0] "{count} Node में से {reporting}"
 msgstr[1] "{count} Nodes में से {reporting}"
 
-#: src/nodes.js:292
+#: src/nodes.js:340
 msgid "{count} node selected"
 msgid_plural "{count} nodes selected"
 msgstr[0] "{count} Node चयनित"
@@ -1131,11 +1266,14 @@ msgid_plural "{count} nodes using an environment no repository here has deployed
 msgstr[0] "{count} Node ऐसा Environment उपयोग कर रहा है जिसे यहाँ किसी रिपॉज़िटरी ने deploy नहीं किया।"
 msgstr[1] "{count} Nodes ऐसा Environment उपयोग कर रहे हैं जिसे यहाँ किसी रिपॉज़िटरी ने deploy नहीं किया।"
 
-#: src/preferences.js:95
+#: src/preferences.js:106
 msgid "Automatic"
 msgstr "स्वचालित"
 
-#: src/index.js:192
+#: src/code-plans.js:273
+#: src/index.js:229
+#: src/patches.js:236
+#: src/schedule.js:107
 #: templates/pages/job.tmpl:5
 msgid "Job"
 msgstr "Job"
@@ -1148,7 +1286,8 @@ msgstr "प्रदाता प्रबंधित करें"
 msgid "or"
 msgstr "या"
 
-#: src/nodes.js:338
+#: src/run-patch.js:190
+#: src/run-puppet.js:93
 msgid ", and {count} more"
 msgid_plural ", and {count} more"
 msgstr[0] ", और {count} अन्य"
@@ -1159,12 +1298,12 @@ msgid "<strong>Assigned</strong> counts nodes classification sends to a repo's e
 msgstr "<strong>आवंटित</strong> उन Nodes की गिनती करता है जिन्हें वर्गीकरण किसी रिपॉजिटरी के Environments में भेजता है; <strong>रिपोर्ट करने वाले</strong> उन Nodes की गिनती करता है जो अंतिम बार उनमें से किसी एक से चले। इन्हें अलग-अलग दिखाया जाता है क्योंकि इनके बीच का अंतर ही उपयोगी संकेत है।"
 
 #: templates/pages/group.tmpl:23
-msgid "A node can match several groups at once. Their classes and parameters are combined; when two groups set the <em>same</em> class parameter, top-scope parameter, or environment, the one with the higher priority wins. Priorities must be unique."
-msgstr "एक Node एक साथ कई समूहों से मेल खा सकता है। उनकी क्लासें और पैरामीटर जोड़े जाते हैं; जब दो समूह <em>एक ही</em> क्लास पैरामीटर, टॉप-स्कोप पैरामीटर या Environment सेट करते हैं, तो उच्च प्राथमिकता वाला जीतता है। प्राथमिकताएँ अनन्य होनी चाहिए।"
+#~ msgid "A node can match several groups at once. Their classes and parameters are combined; when two groups set the <em>same</em> class parameter, top-scope parameter, or environment, the one with the higher priority wins. Priorities must be unique."
+#~ msgstr "एक Node एक साथ कई समूहों से मेल खा सकता है। उनकी क्लासें और पैरामीटर जोड़े जाते हैं; जब दो समूह <em>एक ही</em> क्लास पैरामीटर, टॉप-स्कोप पैरामीटर या Environment सेट करते हैं, तो उच्च प्राथमिकता वाला जीतता है। प्राथमिकताएँ अनन्य होनी चाहिए।"
 
 #: templates/pages/group.tmpl:50
-msgid "A node joins this group when its facts satisfy <em>every</em> condition below. Fact path is a dotted path into the node's facts, like <code>os.family</code> or <code>networking.fqdn</code> — open a node's page to see the facts it reports. With no conditions and no pinned nodes, the group matches nothing."
-msgstr "एक Node इस समूह में तब शामिल होता है जब उसके Facts नीचे दी गई <em>हर</em> शर्त को पूरा करते हैं। Fact पाथ Node के Facts में एक डॉटवाला पाथ है, जैसे <code>os.family</code> या <code>networking.fqdn</code> — किसी Node का पृष्ठ खोलकर उसके द्वारा रिपोर्ट किए गए Facts देखें। बिना शर्तों और बिना पिन किए गए Nodes के, समूह किसी से मेल नहीं खाता।"
+#~ msgid "A node joins this group when its facts satisfy <em>every</em> condition below. Fact path is a dotted path into the node's facts, like <code>os.family</code> or <code>networking.fqdn</code> — open a node's page to see the facts it reports. With no conditions and no pinned nodes, the group matches nothing."
+#~ msgstr "एक Node इस समूह में तब शामिल होता है जब उसके Facts नीचे दी गई <em>हर</em> शर्त को पूरा करते हैं। Fact पाथ Node के Facts में एक डॉटवाला पाथ है, जैसे <code>os.family</code> या <code>networking.fqdn</code> — किसी Node का पृष्ठ खोलकर उसके द्वारा रिपोर्ट किए गए Facts देखें। बिना शर्तों और बिना पिन किए गए Nodes के, समूह किसी से मेल नहीं खाता।"
 
 #: src/activity.js:17
 msgid "Actions taken through the console will show up here."
@@ -1175,8 +1314,8 @@ msgid "Assigned, none reporting"
 msgstr "आवंटित, कोई रिपोर्ट नहीं कर रहा"
 
 #: templates/pages/group.tmpl:63
-msgid "Certnames listed here are always in this group, whether or not the match rule matches them."
-msgstr "यहाँ सूचीबद्ध certname हमेशा इस समूह में रहते हैं, चाहे मिलान नियम उनसे मेल खाए या नहीं।"
+#~ msgid "Certnames listed here are always in this group, whether or not the match rule matches them."
+#~ msgstr "यहाँ सूचीबद्ध certname हमेशा इस समूह में रहते हैं, चाहे मिलान नियम उनसे मेल खाए या नहीं।"
 
 #: src/code-repositories.js:109
 msgid "Converging"
@@ -1186,7 +1325,7 @@ msgstr "अभिसरण हो रहा है"
 msgid "Deployed, but no node is classified into or reporting from its environments"
 msgstr "Deploy किया गया, परंतु कोई भी Node इसके Environments में वर्गीकृत नहीं है और न ही वहाँ से रिपोर्ट कर रहा है"
 
-#: templates/pages/group.tmpl:18
+#: templates/pages/group.tmpl:32
 msgid "Higher wins a conflict."
 msgstr "टकराव होने पर उच्च प्राथमिकता जीतती है।"
 
@@ -1194,27 +1333,27 @@ msgstr "टकराव होने पर उच्च प्राथमि�
 msgid "In use"
 msgstr "उपयोग में"
 
-#: src/nodes.js:101
+#: src/nodes.js:109
 msgid "Infrastructure"
 msgstr "इन्फ्रास्ट्रक्चर"
 
-#: src/index.js:24
+#: src/index.js:25
 msgid "Intentional changes"
 msgstr "इरादतन किए गए परिवर्तन"
 
 #: src/login.js:22
-msgid "Invalid username or password."
-msgstr "उपयोगकर्ता नाम या पासवर्ड अमान्य है।"
+#~ msgid "Invalid username or password."
+#~ msgstr "उपयोगकर्ता नाम या पासवर्ड अमान्य है।"
 
-#: src/nodes.js:251
+#: src/nodes.js:295
 msgid "Last connected"
 msgstr "अंतिम कनेक्शन"
 
-#: src/job.js:71
+#: src/job.js:235
 msgid "No job specified."
 msgstr "कोई Job निर्दिष्ट नहीं।"
 
-#: src/node.js:622
+#: src/node.js:843
 msgid "No node specified."
 msgstr "कोई Node निर्दिष्ट नहीं।"
 
@@ -1262,24 +1401,25 @@ msgstr "अवर्गीकृत"
 msgid "Unused"
 msgstr "अप्रयुक्त"
 
-#: templates/pages/group.tmpl:38
+#: templates/pages/group.tmpl:79
 msgid "Variables set for every manifest compiled for these nodes, available as $variable. An object of name/value pairs."
 msgstr "इन Nodes के लिए कंपाइल किए गए प्रत्येक manifest के लिए सेट किए गए चर, $variable के रूप में उपलब्ध। नाम/मान युग्मों का एक ऑब्जेक्ट।"
 
-#: src/job.js:36
+#: src/job.js:125
 msgid "View report"
 msgstr "Report देखें"
 
-#: src/nodes.js:38
-#: src/nodes.js:54
+#: src/nodes.js:46
+#: src/nodes.js:62
 msgid "checking…"
 msgstr "जाँच हो रही है…"
 
-#: src/nodes.js:49
+#: src/nodes.js:147
+#: src/nodes.js:57
 msgid "never"
 msgstr "कभी नहीं"
 
-#: src/index.js:189
+#: src/index.js:226
 msgid "no targets"
 msgstr "कोई लक्ष्य नहीं"
 
@@ -1299,21 +1439,23 @@ msgstr "{assigned} Node(s) आवंटित और रिपोर्ट क�
 msgid "{reporting} node(s) report from its environments, but no group assigns any node there"
 msgstr "{reporting} Node(s) इसके Environments से रिपोर्ट करते हैं, परंतु कोई समूह वहाँ Node आवंटित नहीं करता"
 
-#: templates/pages/group.tmpl:20
+#: templates/pages/group.tmpl:38
 msgid "Puppet environment matching nodes compile against. Blank means this group doesn't set one."
 msgstr "Puppet Environment जिसके सापेक्ष मेल खाने वाले Nodes कंपाइल करते हैं। रिक्त का अर्थ है कि यह समूह कोई सेट नहीं करता।"
 
-#: src/app.js:493
-#: src/app.js:505
+#: src/app.js:572
+#: src/app.js:584
 msgid ", +{count} more"
 msgid_plural ", +{count} more"
 msgstr[0] ", +{count} और"
 msgstr[1] ", +{count} और"
 
-#: templates/pages/group.tmpl:33
-msgid "Puppet classes applied to every node in this group, each with optional parameters. A list of {\"name\", \"parameters\"} objects."
-msgstr "इस समूह के प्रत्येक Node पर लागू Puppet क्लासें, प्रत्येक वैकल्पिक पैरामीटरों के साथ। {\"name\", \"parameters\"} ऑब्जेक्ट्स की एक सूची।"
+#: templates/pages/group.tmpl:48
+#~ msgid "Puppet classes applied to every node in this group, each with optional parameters. A list of {\"name\", \"parameters\"} objects."
+#~ msgstr "इस समूह के प्रत्येक Node पर लागू Puppet क्लासें, प्रत्येक वैकल्पिक पैरामीटरों के साथ। {\"name\", \"parameters\"} ऑब्जेक्ट्स की एक सूची।"
 
+#: src/node.js:695
+#: src/patches.js:130
 #: src/vulnerabilities.js:87
 msgid "Available"
 msgstr "उपलब्ध"
@@ -1351,7 +1493,9 @@ msgstr "अभी तक सिंक नहीं"
 msgid "Syncing"
 msgstr "सिंक हो रहा है"
 
-#: src/index.js:151
+#: src/agentless.js:297
+#: src/agentless.js:369
+#: src/index.js:188
 msgid "User"
 msgstr "उपयोगकर्ता"
 
@@ -1363,6 +1507,8 @@ msgstr "{minutes} मिनट"
 msgid "Signing in…"
 msgstr "साइन इन हो रहा है&hellip;"
 
+#: src/agentless.js:282
+#: src/agentless.js:95
 #: src/status.js:133
 msgid "Address"
 msgstr "पता"
@@ -1433,7 +1579,7 @@ msgstr "घड़ी का अंतर"
 msgid "differs by instance"
 msgstr "इंस्टेंस के अनुसार भिन्न"
 
-#: templates/layout.html.tmpl:98
+#: templates/layout.html.tmpl:102
 #: templates/pages/status.tmpl:3
 msgid "System"
 msgstr "सिस्टम"
@@ -1453,3 +1599,2221 @@ msgstr "कॉन्फ़िगर नहीं किया गया"
 #: src/status.js:31
 msgid "Unreachable"
 msgstr "अगम्य"
+
+#: src/task-form.js:144
+msgid "Choose a task"
+msgstr "एक Task चुनें"
+
+#: src/code-plans.js:111
+#: src/task-form.js:28
+msgid "Default: {value}"
+msgstr "डिफ़ॉल्ट: {value}"
+
+#: src/job.js:53
+msgid "Environment:"
+msgstr "Environment:"
+
+#: src/task-form.js:303
+msgid "Fix these parameters first:"
+msgstr "पहले इन पैरामीटर को ठीक करें:"
+
+#: src/code-plans.js:132
+#: src/task-form.js:51
+msgid "JSON, for example [\"a\", \"b\"]"
+msgstr "JSON, उदाहरण के लिए [\"a\", \"b\"]"
+
+#: src/task-form.js:139
+msgid "No tasks in this environment"
+msgstr "इस Environment में कोई Task नहीं है"
+
+#: src/code-plans.js:118
+#: src/code-plans.js:120
+#: src/task-form.js:37
+msgid "Not set"
+msgstr "सेट नहीं"
+
+#: src/run-task.js:126
+#~ msgid "On {count} nodes."
+#~ msgstr ""
+
+#: src/run-task.js:31
+msgid "On {node}."
+msgstr "{node} पर।"
+
+#: src/code-plans.js:282
+#: src/code-plans.js:57
+#: src/job.js:99
+#: src/plan-common.js:137
+#: src/schedule.js:23
+#: src/task-form.js:185
+msgid "Parameters"
+msgstr "पैरामीटर"
+
+#: src/plan-common.js:174
+#: src/task-form.js:282
+msgid "Problem:"
+msgstr "समस्या:"
+
+#: src/job.js:110
+msgid "Result from {node}"
+msgstr "{node} का परिणाम"
+
+#: src/plan-edit.js:33
+#: src/run-task.js:26
+#: templates/pages/schedule-edit.tmpl:24
+msgid "Run a task"
+msgstr "एक Task चलाएँ"
+
+#: src/run-task.js:44
+#: templates/pages/group.tmpl:130
+#: templates/pages/jobs.tmpl:7
+#: templates/pages/node.tmpl:10
+#: templates/pages/nodes.tmpl:38
+msgid "Run task"
+msgstr "Task चलाएँ"
+
+#: src/task-form.js:198
+msgid "Stopped if still running after this long. 30 minutes if left empty."
+msgstr "इतने समय के बाद भी चलता रहा तो रोक दिया जाएगा। खाली छोड़ने पर 30 मिनट।"
+
+#: src/task-form.js:97
+msgid "Tasks are not configured on this console. An administrator sets CONSOLE_PUPPET_SERVER_URL to enable them."
+msgstr "इस कंसोल पर Tasks कॉन्फ़िगर नहीं हैं। कोई व्यवस्थापक CONSOLE_PUPPET_SERVER_URL सेट करके इन्हें चालू करता है।"
+
+#: src/task-form.js:318
+msgid "The console refused these parameters:"
+msgstr "कंसोल ने ये पैरामीटर अस्वीकार कर दिए:"
+
+#: src/task-form.js:186
+msgid "This task declares no parameters, so any JSON object is passed to it as is."
+msgstr "यह Task कोई पैरामीटर घोषित नहीं करता, इसलिए कोई भी JSON ऑब्जेक्ट जैसा है वैसा ही इसे दिया जाता है।"
+
+#: src/task-form.js:188
+msgid "This task takes no parameters."
+msgstr "यह Task कोई पैरामीटर नहीं लेता।"
+
+#: src/task-form.js:197
+msgid "Timeout (minutes)"
+msgstr "टाइमआउट (मिनट)"
+
+#: src/task-form.js:262
+msgid "is not valid JSON"
+msgstr "मान्य JSON नहीं है"
+
+#: src/task-form.js:237
+msgid "must be a JSON object"
+msgstr "JSON ऑब्जेक्ट होना चाहिए"
+
+#: src/plan-common.js:174
+#: src/task-form.js:247
+msgid "required"
+msgstr "आवश्यक"
+
+#: src/run-task.js:32
+msgid "On {count} node."
+msgid_plural "On {count} nodes."
+msgstr[0] "{count} Node पर।"
+msgstr[1] "{count} Nodes पर।"
+
+#: src/node.js:577
+msgid "Attempt {attempts} of {max}. Next automatic attempt: {time}."
+msgstr "प्रयास {attempts} / {max}। अगला स्वचालित प्रयास: {time}।"
+
+#: src/node.js:575
+msgid "Automatic attempts stopped after {attempts} failures."
+msgstr "{attempts} विफलताओं के बाद स्वचालित प्रयास रोक दिए गए।"
+
+#: src/index.js:131
+msgid "Automatic upgrades are off."
+msgstr "स्वचालित अपग्रेड बंद हैं।"
+
+#: src/index.js:131
+msgid "Automatic upgrades are on."
+msgstr "स्वचालित अपग्रेड चालू हैं।"
+
+#: src/nodes.js:130
+msgid "Client out of date"
+msgstr "क्लाइंट पुराना है"
+
+#: src/index.js:125
+msgid "Clients too old to upgrade themselves: {count}. Re-run the install script on those nodes once; the Nodes page marks them."
+msgstr "स्वयं अपग्रेड करने के लिए बहुत पुराने क्लाइंट: {count}। उन nodes पर इंस्टॉल स्क्रिप्ट एक बार फिर चलाएँ; Nodes पृष्ठ उन्हें चिह्नित करता है।"
+
+#: src/node.js:556
+msgid "Current"
+msgstr "अद्यतित"
+
+#: src/index.js:120
+msgid "Current: {count}"
+msgstr "अद्यतित: {count}"
+
+#: src/index.js:122
+msgid "Failed upgrades: {count}"
+msgstr "विफल अपग्रेड: {count}"
+
+#: src/node.js:593
+#: src/node.js:611
+msgid "Node agent"
+msgstr "Node एजेंट"
+
+#: src/index.js:129
+msgid "Node agents"
+msgstr "Node एजेंट"
+
+#: src/node.js:557
+#: src/node.js:558
+#: src/patches.js:61
+msgid "Out of date"
+msgstr "पुराना"
+
+#: src/index.js:121
+msgid "Out of date: {count}"
+msgstr "पुराने: {count}"
+
+#: src/node.js:573
+msgid "The last client upgrade failed: {error}"
+msgstr "पिछला क्लाइंट अपग्रेड विफल रहा: {error}"
+
+#: src/node.js:571
+msgid "The node has been told to upgrade its client. It restarts onto the new build when the upgrade completes."
+msgstr "Node को अपना क्लाइंट अपग्रेड करने के लिए कहा गया है। अपग्रेड पूरा होने पर यह नए बिल्ड के साथ फिर शुरू होगा।"
+
+#: src/node.js:562
+msgid "This client is too old to upgrade itself. Re-run the install script on this node once; after that it keeps itself current."
+msgstr "यह क्लाइंट स्वयं अपग्रेड करने के लिए बहुत पुराना है। इस node पर इंस्टॉल स्क्रिप्ट एक बार फिर चलाएँ; उसके बाद यह स्वयं को अद्यतित रखेगा।"
+
+#: src/node.js:564
+msgid "This console has no client package for the platform of this node."
+msgstr "इस कंसोल में इस node के प्लेटफ़ॉर्म के लिए कोई क्लाइंट पैकेज नहीं है।"
+
+#: src/node.js:593
+msgid "This node has not reported its client build yet. It does so the next time it connects."
+msgstr "इस node ने अभी तक अपने क्लाइंट का बिल्ड रिपोर्ट नहीं किया है। अगली बार कनेक्ट होने पर यह करेगा।"
+
+#: src/node.js:599
+msgid "Unknown build"
+msgstr "अज्ञात बिल्ड"
+
+#: src/node.js:614
+msgid "Upgrade client"
+msgstr "क्लाइंट अपग्रेड करें"
+
+#: src/node.js:563
+msgid "Upgrades are declined in the configuration of this node."
+msgstr "इस node के कॉन्फ़िगरेशन में अपग्रेड अस्वीकृत हैं।"
+
+#: src/node.js:600
+msgid "Version {version}, built {time}"
+msgstr "संस्करण {version}, निर्मित {time}"
+
+#: src/node.js:602
+msgid "unknown"
+msgstr "अज्ञात"
+
+#: src/node.js:601
+msgid "unversioned"
+msgstr "संस्करण रहित"
+
+#: templates/pages/group.tmpl:41
+msgid "A node can match several groups at once. Their classes and parameters are combined. When two groups set the <em>same</em> class parameter, top-scope parameter, or environment, a group always wins over the groups above it in the tree; between unrelated groups the one with the higher priority wins. Priorities must be unique."
+msgstr "एक Node एक साथ कई समूहों से मेल खा सकता है। उनकी क्लासेज़ और पैरामीटर मिला दिए जाते हैं। जब दो समूह <em>एक ही</em> क्लास पैरामीटर, टॉप-स्कोप पैरामीटर या Environment सेट करते हैं, तो कोई समूह ट्री में अपने ऊपर के समूहों पर हमेशा भारी पड़ता है; असंबंधित समूहों में अधिक प्राथमिकता वाला समूह जीतता है। प्राथमिकताएँ अद्वितीय होनी चाहिए।"
+
+#: templates/pages/group.tmpl:97
+msgid "A node joins this group when it is in the parent group and its facts satisfy the conditions below. Fact path is a dotted path into the node's facts, like <code>os.family</code> or <code>networking.fqdn</code> — open a node's page to see the facts it reports. With no conditions and no pinned nodes, the group matches nothing."
+msgstr "कोई Node इस समूह में तब शामिल होता है जब वह पैरेंट समूह में हो और उसके Facts नीचे दी गई शर्तों को पूरा करें। Fact पथ, Node के Facts के भीतर बिंदुओं से अलग किया गया पथ है, जैसे <code>os.family</code> या <code>networking.fqdn</code> — किसी Node द्वारा रिपोर्ट किए गए Facts देखने के लिए उसका पेज खोलें। बिना शर्तों और बिना पिन किए गए Nodes के, समूह किसी से मेल नहीं खाता।"
+
+#: templates/pages/group.tmpl:104
+msgid "A node must satisfy"
+msgstr "Node को पूरा करना होगा"
+
+#: templates/pages/group.tmpl:13
+msgid "All Nodes is the built-in group every node belongs to. Its classes, parameters and environment apply to every node; its name, rule and pinned nodes cannot be changed."
+msgstr "All Nodes वह अंतर्निहित समूह है जिसमें हर Node शामिल है। इसकी क्लासेज़, पैरामीटर और Environment हर Node पर लागू होते हैं; इसका नाम, नियम और पिन किए गए Nodes बदले नहीं जा सकते।"
+
+#: templates/pages/group.tmpl:113
+msgid "Certnames listed here are in this group whether or not the match rule matches them, as long as they are also in the parent group."
+msgstr "यहाँ सूचीबद्ध certname इस समूह में रहते हैं, चाहे मिलान नियम उनसे मेल खाए या नहीं, बशर्ते वे पैरेंट समूह में भी हों।"
+
+#: src/groups.js:35
+msgid "Create a group to start classifying nodes."
+msgstr "Nodes को वर्गीकृत करना शुरू करने के लिए एक समूह बनाएँ।"
+
+#: src/group.js:182
+msgid "Groups beneath this one override it despite their lower priority."
+msgstr "इस समूह के नीचे के समूह अपनी कम प्राथमिकता के बावजूद इसे ओवरराइड करते हैं।"
+
+#: src/group.js:172
+msgid "Its value is the one used, because a group always wins over the groups above it. Priority alone would have chosen the parent's. This group sets:"
+msgstr "इसी का मान उपयोग होता है, क्योंकि कोई समूह अपने ऊपर के समूहों पर हमेशा भारी पड़ता है। केवल प्राथमिकता से पैरेंट का मान चुना जाता। यह समूह सेट करता है:"
+
+#: src/groups.js:14
+msgid "Overrides priority"
+msgstr "प्राथमिकता को ओवरराइड करता है"
+
+#: src/groups.js:8
+msgid "Overrides {count} value set by a parent with a higher priority"
+msgid_plural "Overrides {count} values set by a parent with a higher priority"
+msgstr[0] "अधिक प्राथमिकता वाले पैरेंट द्वारा सेट किए गए {count} मान को ओवरराइड करता है"
+msgstr[1] "अधिक प्राथमिकता वाले पैरेंट द्वारा सेट किए गए {count} मानों को ओवरराइड करता है"
+
+#: templates/pages/group.tmpl:25
+msgid "Parent group"
+msgstr "पैरेंट समूह"
+
+#: src/group.js:183
+msgid "Their values are the ones used for their nodes:"
+msgstr "उनके Nodes के लिए उन्हीं के मान उपयोग होते हैं:"
+
+#: src/group.js:474
+msgid "These pinned nodes are not currently in this group, because they are not in its parent group (or are not known to the console):"
+msgstr "ये पिन किए गए Nodes अभी इस समूह में नहीं हैं, क्योंकि वे इसके पैरेंट समूह में नहीं हैं (या कंसोल उन्हें नहीं जानता):"
+
+#: templates/pages/group.tmpl:26
+msgid "This group can only contain nodes that are also in its parent, and it inherits the parent's classes and parameters."
+msgstr "इस समूह में केवल वही Nodes हो सकते हैं जो इसके पैरेंट में भी हों, और यह पैरेंट की क्लासेज़ और पैरामीटर इनहेरिट करता है।"
+
+#: src/group.js:171
+msgid "This group overrides a parent with a higher priority."
+msgstr "यह समूह अधिक प्राथमिकता वाले पैरेंट को ओवरराइड करता है।"
+
+#: src/group.js:457
+msgid "Whether each pinned node is currently in this group is unavailable."
+msgstr "यह जानकारी उपलब्ध नहीं है कि हर पिन किया गया Node अभी इस समूह में है या नहीं।"
+
+#: src/group.js:156
+msgid "a different environment from {ancestor}"
+msgstr "{ancestor} से अलग Environment"
+
+#: src/group.js:103
+msgid "all of the conditions"
+msgstr "सभी शर्तें"
+
+#: src/group.js:104
+msgid "any one of the conditions"
+msgstr "शर्तों में से कोई एक"
+
+#: src/group.js:158
+msgid "parameter {key} of class {class}, which {ancestor} sets differently"
+msgstr "क्लास {class} का पैरामीटर {key}, जिसे {ancestor} अलग तरह से सेट करता है"
+
+#: src/group.js:157
+msgid "top-scope parameter {key}, which {ancestor} sets differently"
+msgstr "टॉप-स्कोप पैरामीटर {key}, जिसे {ancestor} अलग तरह से सेट करता है"
+
+#: src/roles.js:111
+#: src/roles.js:124
+#: src/user-groups.js:149
+msgid "Change"
+msgstr "बदलें"
+
+#: src/roles.js:64
+msgid "No node groups"
+msgstr "कोई Node समूह नहीं"
+
+#: src/roles.js:50
+msgid "Node groups could not be loaded, so the new role will cover all nodes. Viewing node groups needs the classifier:read permission."
+msgstr "Node समूह लोड नहीं हो सके, इसलिए नई भूमिका सभी Nodes को कवर करेगी। Node समूह देखने के लिए classifier:read अनुमति चाहिए।"
+
+#: src/roles.js:116
+msgid "Save node groups"
+msgstr "Node समूह सहेजें"
+
+#: templates/pages/roles.tmpl:25
+msgid "The role's permissions apply to the nodes in these groups and in every group beneath them. All Nodes covers the whole fleet."
+msgstr "भूमिका की अनुमतियाँ इन समूहों और इनके नीचे के हर समूह के Nodes पर लागू होती हैं। All Nodes पूरे फ़्लीट को कवर करता है।"
+
+#: src/group.js:594
+msgid "This group is granted to one or more roles. Remove it from those roles on the Roles page before deleting it."
+msgstr "यह समूह एक या अधिक भूमिकाओं को दिया गया है। इसे हटाने से पहले भूमिकाएँ पेज पर उन भूमिकाओं से निकालें।"
+
+#: src/nodes.js:589
+msgid "You are seeing the nodes in this node group and the groups beneath it: {groups}"
+msgid_plural "You are seeing the nodes in these node groups and the groups beneath them: {groups}"
+msgstr[0] "आप इस Node समूह और इसके नीचे के समूहों के Nodes देख रहे हैं: {groups}"
+msgstr[1] "आप इन Node समूहों और इनके नीचे के समूहों के Nodes देख रहे हैं: {groups}"
+
+#: src/nodes.js:585
+msgid "Your roles are not granted on any node group, so no nodes are shown. Ask an administrator to add a node group to one of your roles."
+msgstr "आपकी भूमिकाएँ किसी भी Node समूह पर नहीं दी गई हैं, इसलिए कोई Node नहीं दिखाया गया है। किसी व्यवस्थापक से अपनी किसी भूमिका में Node समूह जोड़ने को कहें।"
+
+#: src/roles.js:67
+msgid "{count} node groups"
+msgstr "{count} Node समूह"
+
+#: src/app.js:291
+msgid "Nothing was done. Your role cannot act on this node, because it is not in your node groups: {nodes}"
+msgid_plural "Nothing was done on any node. Your role cannot act on these nodes, because they are not in your node groups: {nodes}"
+msgstr[0] "कुछ नहीं किया गया। आपकी भूमिका इस Node पर कार्रवाई नहीं कर सकती, क्योंकि यह आपके Node समूहों में नहीं है: {nodes}"
+msgstr[1] "किसी भी Node पर कुछ नहीं किया गया। आपकी भूमिका इन Nodes पर कार्रवाई नहीं कर सकती, क्योंकि ये आपके Node समूहों में नहीं हैं: {nodes}"
+
+#: src/job.js:57
+msgid "Only the nodes in your node groups are shown. This job also ran on other nodes, and its status covers all of them."
+msgstr "केवल आपके Node समूहों के Nodes दिखाए गए हैं। यह Job अन्य Nodes पर भी चला था, और इसकी स्थिति उन सभी को शामिल करती है।"
+
+#: src/app.js:290
+msgid "{nodes} and {count} more"
+msgstr "{nodes} और {count} अन्य"
+
+#: templates/pages/group.tmpl:67
+msgid "Add a class"
+msgstr "क्लास जोड़ें"
+
+#: templates/pages/group.tmpl:72
+msgid "Add class"
+msgstr "क्लास जोड़ें"
+
+#: src/class-editor.js:257
+msgid "Add parameter"
+msgstr "पैरामीटर जोड़ें"
+
+#: src/run-puppet.js:32
+msgid "Asks the node to run against this environment. A node whose node groups set an environment runs in that one instead; the job shows which was used."
+msgstr "Node से इस Environment में चलने को कहता है। जिस Node के Node समूह कोई Environment सेट करते हैं, वह उसी में चलता है; Job दिखाता है कि कौन-सा उपयोग हुआ।"
+
+#: src/class-editor.js:378
+msgid "Choose or type a class"
+msgstr "क्लास चुनें या लिखें"
+
+#: src/class-editor.js:252
+msgid "Choose or type a parameter"
+msgstr "पैरामीटर चुनें या लिखें"
+
+#: src/class-editor.js:345
+msgid "Choosing from the classes in the {environment} environment, as read at {time}."
+msgstr "{environment} Environment की क्लासेज़ में से चुन रहे हैं, जो {time} पर पढ़ी गई थीं।"
+
+#: src/groups.js:28
+msgid "Class mismatch"
+msgstr "क्लास बेमेल"
+
+#: src/class-editor.js:378
+msgid "Class name, like profile::base"
+msgstr "क्लास का नाम, जैसे profile::base"
+
+#: src/class-editor.js:309
+msgid "Class {class} already sets parameter {parameter}."
+msgstr "क्लास {class} पहले से पैरामीटर {parameter} सेट करती है।"
+
+#: src/class-editor.js:482
+msgid "Classes must be a JSON list of objects, each with a \"name\" and optional \"parameters\"."
+msgstr "क्लासेज़ ऑब्जेक्ट्स की JSON सूची होनी चाहिए, जिनमें से हर एक में \"name\" और वैकल्पिक \"parameters\" हों।"
+
+#: src/run-puppet.js:161
+msgid "Debug"
+msgstr "डीबग"
+
+#: src/run-puppet.js:27
+msgid "Debug output"
+msgstr "डीबग आउटपुट"
+
+#: src/class-editor.js:184
+msgid "Default: {default}"
+msgstr "डिफ़ॉल्ट: {default}"
+
+#: src/class-editor.js:217
+msgid "Does not fit the type: {detail}"
+msgstr "प्रकार से मेल नहीं खाता: {detail}"
+
+#: src/class-editor.js:186
+msgid "Entered as JSON"
+msgstr "JSON के रूप में दर्ज"
+
+#: src/run-puppet.js:160
+msgid "Environment: {environment}"
+msgstr "Environment: {environment}"
+
+#: src/class-editor.js:477
+msgid "Invalid JSON in the classes: {error}"
+msgstr "क्लासेज़ में अमान्य JSON: {error}"
+
+#: src/class-editor.js:264
+msgid "No classes yet. Nodes in this group get only what their other groups give them."
+msgstr "अभी कोई क्लास नहीं है। इस समूह के Nodes को केवल वही मिलता है जो उनके अन्य समूह देते हैं।"
+
+#: src/class-editor.js:185
+msgid "No default in the code"
+msgstr "कोड में कोई डिफ़ॉल्ट नहीं"
+
+#: src/class-editor.js:247
+msgid "No parameters set: the code's own defaults and Hiera apply."
+msgstr "कोई पैरामीटर सेट नहीं है: कोड के अपने डिफ़ॉल्ट और Hiera लागू होते हैं।"
+
+#: src/run-puppet.js:26
+msgid "No-op: report what would change, and change nothing"
+msgstr "No-op: बताएँ कि क्या बदलेगा, और कुछ न बदलें"
+
+#: src/class-editor.js:213
+msgid "Not a parameter of this class"
+msgstr "इस क्लास का पैरामीटर नहीं है"
+
+#: src/class-editor.js:242
+msgid "Not defined in {environment}"
+msgstr "{environment} में परिभाषित नहीं"
+
+#: src/job.js:78
+msgid "Output from {node}"
+msgstr "{node} का आउटपुट"
+
+#: src/class-editor.js:252
+msgid "Parameter name"
+msgstr "पैरामीटर का नाम"
+
+#: src/class-editor.js:172
+msgid "Parameter {parameter} of class {class} is not valid JSON. Text needs double quotes, like \"value\"."
+msgstr "क्लास {class} का पैरामीटर {parameter} मान्य JSON नहीं है। टेक्स्ट को दोहरे उद्धरण चिह्न चाहिए, जैसे \"value\"।"
+
+#: src/class-editor.js:163
+msgid "Parameter {parameter} of class {class} needs a number. Enter one, or remove the parameter to leave it unset."
+msgstr "क्लास {class} के पैरामीटर {parameter} को एक संख्या चाहिए। संख्या दर्ज करें, या इसे अनसेट छोड़ने के लिए पैरामीटर हटाएँ।"
+
+#: templates/pages/group.tmpl:56
+msgid "Puppet classes applied to every node in this group. A parameter left unset keeps the value the code or Hiera gives it. A class or parameter that the environment's code does not define can still be saved, and is marked."
+msgstr "इस समूह के हर Node पर लागू Puppet क्लासेज़। अनसेट छोड़ा गया पैरामीटर वही मान रखता है जो कोड या Hiera उसे देता है। जिस क्लास या पैरामीटर को Environment का कोड परिभाषित नहीं करता, उसे फिर भी सहेजा जा सकता है, और उसे चिह्नित किया जाता है।"
+
+#: src/job.js:89
+msgid "Ran in {used}, not {requested}"
+msgstr "{requested} में नहीं, {used} में चला"
+
+#: src/class-editor.js:351
+msgid "Refresh classes"
+msgstr "क्लासेज़ रीफ़्रेश करें"
+
+#: src/class-editor.js:245
+msgid "Remove class {class}"
+msgstr "क्लास {class} हटाएँ"
+
+#: src/class-editor.js:232
+msgid "Remove parameter {parameter}"
+msgstr "पैरामीटर {parameter} हटाएँ"
+
+#: src/run-puppet.js:95
+msgid "Run Puppet on {node}?"
+msgstr "{node} पर Puppet चलाएँ?"
+
+#: src/class-editor.js:250
+msgid "Set a parameter"
+msgstr "पैरामीटर सेट करें"
+
+#: src/class-editor.js:361
+msgid "The Puppet server could not be reached just now, so this list of classes may be out of date. Nothing is marked as missing until it can be read again."
+msgstr "अभी Puppet सर्वर तक नहीं पहुँचा जा सका, इसलिए क्लासेज़ की यह सूची पुरानी हो सकती है। जब तक इसे फिर से पढ़ा न जा सके, किसी चीज़ को अनुपलब्ध के रूप में चिह्नित नहीं किया जाता।"
+
+#: src/class-editor.js:76
+msgid "The Puppet server has no environment named {environment}, so its classes cannot be listed. Classes and parameters can still be entered by name."
+msgstr "Puppet सर्वर पर {environment} नाम का कोई Environment नहीं है, इसलिए उसकी क्लासेज़ सूचीबद्ध नहीं की जा सकतीं। क्लासेज़ और पैरामीटर फिर भी नाम से दर्ज किए जा सकते हैं।"
+
+#: src/job.js:58
+msgid "The environment is a request. A node whose node groups set an environment runs in that one instead, and is marked below once its report arrives."
+msgstr "Environment एक अनुरोध है। जिस Node के Node समूह कोई Environment सेट करते हैं, वह उसी में चलता है, और उसकी Report आने पर नीचे चिह्नित किया जाता है।"
+
+#: src/class-editor.js:78
+msgid "The list of classes is unavailable: the Puppet server could not be reached. Classes and parameters can still be entered by name."
+msgstr "क्लासेज़ की सूची उपलब्ध नहीं है: Puppet सर्वर तक नहीं पहुँचा जा सका। क्लासेज़ और पैरामीटर फिर भी नाम से दर्ज किए जा सकते हैं।"
+
+#: src/class-editor.js:74
+msgid "The list of classes is unavailable: the Puppet server does not allow the console to read classes. An administrator adds a rule for /puppet/v3/environment_classes to the server's auth.conf - see the installation guide. Classes and parameters can still be entered by name."
+msgstr "क्लासेज़ की सूची उपलब्ध नहीं है: Puppet सर्वर कंसोल को क्लासेज़ पढ़ने की अनुमति नहीं देता। कोई व्यवस्थापक सर्वर के auth.conf में /puppet/v3/environment_classes के लिए नियम जोड़ता है - इंस्टॉलेशन गाइड देखें। क्लासेज़ और पैरामीटर फिर भी नाम से दर्ज किए जा सकते हैं।"
+
+#: src/class-editor.js:72
+msgid "The list of classes is unavailable: this console has no connection to the Puppet server. An administrator sets CONSOLE_PUPPET_SERVER_URL to enable it. Classes and parameters can still be entered by name."
+msgstr "क्लासेज़ की सूची उपलब्ध नहीं है: इस कंसोल का Puppet सर्वर से कोई कनेक्शन नहीं है। इसे सक्षम करने के लिए कोई व्यवस्थापक CONSOLE_PUPPET_SERVER_URL सेट करता है। क्लासेज़ और पैरामीटर फिर भी नाम से दर्ज किए जा सकते हैं।"
+
+#: src/class-editor.js:367
+msgid "These manifests could not be parsed, so their classes are not in the list, and no class is marked as undefined:"
+msgstr "ये मैनिफ़ेस्ट पार्स नहीं हो सके, इसलिए इनकी क्लासेज़ सूची में नहीं हैं, और किसी क्लास को अपरिभाषित के रूप में चिह्नित नहीं किया गया है:"
+
+#: src/class-editor.js:419
+msgid "This group already has class {class}."
+msgstr "इस समूह में क्लास {class} पहले से है।"
+
+#: src/job.js:90
+msgid "This node's node groups set its environment, which takes precedence over the one a run asks for."
+msgstr "इस Node के Node समूह इसका Environment सेट करते हैं, जिसे किसी रन द्वारा माँगे गए Environment पर वरीयता मिलती है।"
+
+#: src/class-editor.js:396
+msgid "{count} class or parameter below does not match the code in the {environment} environment. It is saved and applied as it is; a node whose catalog needs it will fail to compile until the code or the group is changed."
+msgid_plural "{count} classes or parameters below do not match the code in the {environment} environment. They are saved and applied as they are; a node whose catalog needs them will fail to compile until the code or the group is changed."
+msgstr[0] "नीचे {count} क्लास या पैरामीटर {environment} Environment के कोड से मेल नहीं खाता। इसे जैसा है वैसा ही सहेजा और लागू किया जाता है; जिस Node के कैटलॉग को इसकी ज़रूरत है, वह कोड या समूह बदले जाने तक कंपाइल नहीं होगा।"
+msgstr[1] "नीचे {count} क्लासेज़ या पैरामीटर {environment} Environment के कोड से मेल नहीं खाते। इन्हें जैसे हैं वैसे ही सहेजा और लागू किया जाता है; जिस Node के कैटलॉग को इनकी ज़रूरत है, वह कोड या समूह बदले जाने तक कंपाइल नहीं होगा।"
+
+#: src/groups.js:22
+msgid "{count} class or parameter does not match the code in {environment}"
+msgid_plural "{count} classes or parameters do not match the code in {environment}"
+msgstr[0] "{count} क्लास या पैरामीटर {environment} के कोड से मेल नहीं खाता"
+msgstr[1] "{count} क्लासेज़ या पैरामीटर {environment} के कोड से मेल नहीं खाते"
+
+#: templates/pages/schedule-edit.tmpl:51
+msgid "A query or a node group is worked out again each time the schedule starts, so it follows the nodes as they change. The preview shows what it would run on now."
+msgstr "क्वेरी या Node समूह की गणना शेड्यूल के हर बार शुरू होने पर फिर से की जाती है, इसलिए वह Nodes के बदलने के साथ चलता है। पूर्वावलोकन दिखाता है कि वह अभी किन पर चलता।"
+
+#: src/target-picker.js:61
+msgid "A query that returns certname. It is run when the job starts, and the job runs on the matching nodes in your node groups."
+msgstr "ऐसी क्वेरी जो certname लौटाती है। यह Job के शुरू होने पर चलाई जाती है, और Job आपके Node समूहों के मेल खाने वाले Nodes पर चलता है।"
+
+#: templates/pages/schedule-edit.tmpl:82
+msgid "A repeat is a fixed length of time from the start: a day is 24 hours. Where the clocks change, a daily schedule moves by an hour on the local clock. It cannot repeat more often than every 5 minutes."
+msgstr "दोहराव शुरुआत से एक निश्चित अवधि है: एक दिन 24 घंटे का होता है। जहाँ घड़ियाँ बदलती हैं, वहाँ दैनिक शेड्यूल स्थानीय घड़ी पर एक घंटा खिसक जाता है। यह हर 5 मिनट से अधिक बार नहीं दोहराया जा सकता।"
+
+#: templates/pages/schedules.tmpl:12
+#~ msgid "A scheduled job starts a Puppet run or a task later, once or repeatedly. Its nodes are worked out each time it starts, and it runs with its owner's access as it is at that moment."
+#~ msgstr ""
+
+#: src/plan-common.js:124
+#: src/task-form.js:29
+msgid "A value is stored. Leave this empty to keep it."
+msgstr "एक मान संग्रहीत है। उसे रखने के लिए इसे खाली छोड़ें।"
+
+#: src/schedule-common.js:88
+msgid "Active"
+msgstr "सक्रिय"
+
+#: src/schedule.js:60
+msgid "All {count} nodes"
+msgstr "सभी {count} Nodes"
+
+#: src/target-picker.js:184
+msgid "Choose a node group"
+msgstr "Node समूह चुनें"
+
+#: src/target-picker.js:165
+msgid "Choose a node group first."
+msgstr "पहले Node समूह चुनें।"
+
+#: src/task-form.js:297
+msgid "Choose a task first."
+msgstr "पहले Task चुनें।"
+
+#: src/target-picker.js:46
+msgid "Choose nodes by"
+msgstr "Nodes चुनने का तरीका"
+
+#: src/schedule-edit.js:182
+msgid "Choose when it starts."
+msgstr "चुनें कि यह कब शुरू हो।"
+
+#: src/schedule.js:146
+msgid "Delete this schedule?"
+msgstr "यह शेड्यूल हटाएँ?"
+
+#: src/schedule.js:107
+msgid "Due"
+msgstr "नियत"
+
+#: src/schedule.js:75
+msgid "Each time it starts, it runs on the nodes its owner's role can act on at that moment. If the owner can no longer run jobs, nothing is started."
+msgstr "हर बार शुरू होने पर यह उन Nodes पर चलता है जिन पर उस समय इसके स्वामी की भूमिका कार्रवाई कर सकती है। यदि स्वामी अब Jobs नहीं चला सकता, तो कुछ भी शुरू नहीं होता।"
+
+#: src/schedule-edit.js:219
+#: src/schedule-edit.js:220
+msgid "Edit schedule"
+msgstr "शेड्यूल संपादित करें"
+
+#: templates/pages/schedule-edit.tmpl:73
+msgid "Every"
+msgstr "हर"
+
+#: src/schedule-common.js:56
+#: src/target-picker.js:195
+#: src/target-picker.js:263
+msgid "Group {id}"
+msgstr "समूह {id}"
+
+#: src/target-picker.js:191
+msgid "Group {id} (deleted)"
+msgstr "समूह {id} (हटाया गया)"
+
+#: src/schedule-edit.js:143
+msgid "In your local time."
+msgstr "आपके स्थानीय समय में।"
+
+#: src/schedule-edit.js:142
+msgid "In your time zone, {zone}."
+msgstr "आपके समय क्षेत्र {zone} में।"
+
+#: src/schedule.js:89
+msgid "It has not come due yet"
+msgstr "इसका समय अभी नहीं आया है"
+
+#: src/schedule.js:147
+msgid "It will not start again. The jobs it has already started stay in the job history."
+msgstr "यह फिर से शुरू नहीं होगा। इसके द्वारा पहले शुरू किए गए Jobs, Job इतिहास में बने रहते हैं।"
+
+#: src/code-plans.js:267
+#: src/job.js:66
+#: src/node.js:738
+#: src/patches.js:227
+#: src/schedule.js:98
+#: src/schedules.js:15
+msgid "Job #{id}"
+msgstr "Job #{id}"
+
+#: templates/pages/jobs.tmpl:13
+#: templates/pages/plans.tmpl:8
+#: templates/pages/schedules.tmpl:8
+msgid "Job history"
+msgstr "Job इतिहास"
+
+#: src/schedules.js:49
+msgid "Last time"
+msgstr "पिछली बार"
+
+#: src/target-picker.js:167
+msgid "List at least one node first."
+msgstr "पहले कम से कम एक Node सूचीबद्ध करें।"
+
+#: src/target-picker.js:47
+msgid "List of nodes"
+msgstr "Nodes की सूची"
+
+#: src/jobs.js:42
+msgid "Matched by"
+msgstr "मिलान का आधार"
+
+#: templates/pages/schedule-edit.tmpl:6
+#: templates/pages/schedule-edit.tmpl:8
+#: templates/pages/schedules.tmpl:5
+msgid "New schedule"
+msgstr "नया शेड्यूल"
+
+#: src/schedule.js:69
+#: src/schedules.js:49
+msgid "Next start"
+msgstr "अगली शुरुआत"
+
+#: src/target-picker.js:143
+msgid "No nodes match at the moment."
+msgstr "अभी कोई Node मेल नहीं खाता।"
+
+#: src/schedule.js:162
+msgid "No schedule specified."
+msgstr "कोई शेड्यूल निर्दिष्ट नहीं है।"
+
+#: src/schedules.js:23
+msgid "No scheduled jobs"
+msgstr "कोई शेड्यूल किया गया Job नहीं"
+
+#: src/jobs.js:42
+#: src/schedule-common.js:57
+#: src/target-picker.js:49
+#: src/target-picker.js:65
+msgid "Node group"
+msgstr "Node समूह"
+
+#: src/job.js:30
+msgid "Node group:"
+msgstr "Node समूह:"
+
+#: src/target-picker.js:197
+msgid "Node groups cannot be listed: your role needs to be able to read them."
+msgstr "Node समूह सूचीबद्ध नहीं किए जा सकते: आपकी भूमिका को उन्हें पढ़ने की अनुमति चाहिए।"
+
+#: src/job.js:30
+msgid "Nodes matched by:"
+msgstr "Nodes के मिलान का आधार:"
+
+#: src/schedule-common.js:53
+msgid "Nodes matching"
+msgstr "मेल खाने वाले Nodes"
+
+#: src/schedules.js:13
+msgid "Not yet"
+msgstr "अभी नहीं"
+
+#: src/schedule.js:51
+msgid "Nothing further: it does not repeat, and its time has passed."
+msgstr "आगे कुछ नहीं: यह दोहराया नहीं जाता, और इसका समय बीत चुका है।"
+
+#: src/schedule-common.js:67
+msgid "Once"
+msgstr "एक बार"
+
+#: src/target-picker.js:54
+msgid "One certname per line. If any is outside your node groups, nothing is run on any of them."
+msgstr "प्रति पंक्ति एक certname। यदि कोई भी आपके Node समूहों से बाहर है, तो किसी पर कुछ नहीं चलाया जाता।"
+
+#: src/schedule.js:107
+msgid "Outcome"
+msgstr "परिणाम"
+
+#: src/target-picker.js:58
+msgid "PQL query"
+msgstr "PQL क्वेरी"
+
+#: templates/pages/schedule.tmpl:12
+msgid "Pause"
+msgstr "रोकें"
+
+#: src/schedule-common.js:89
+msgid "Paused"
+msgstr "रुका हुआ"
+
+#: src/schedule.js:50
+msgid "Paused: it will not start until it is resumed."
+msgstr "रुका हुआ: फिर से चालू किए जाने तक यह शुरू नहीं होगा।"
+
+#: src/target-picker.js:69
+msgid "Preview nodes"
+msgstr "Nodes का पूर्वावलोकन"
+
+#: src/target-picker.js:48
+msgid "Query"
+msgstr "क्वेरी"
+
+#: src/schedule.js:107
+msgid "Reason"
+msgstr "कारण"
+
+#: templates/pages/schedule-edit.tmpl:69
+msgid "Repeat"
+msgstr "दोहराएँ"
+
+#: src/schedule.js:68
+#: src/schedules.js:49
+msgid "Repeats"
+msgstr "दोहराव"
+
+#: templates/pages/schedule.tmpl:13
+msgid "Resume"
+msgstr "फिर से चालू करें"
+
+#: src/jobs.js:57
+msgid "Run Puppet or a task, here or from a node or a node group, to see it here."
+msgstr "इसे यहाँ देखने के लिए, यहाँ से या किसी Node या Node समूह से Puppet या कोई Task चलाएँ।"
+
+#: src/schedule.js:70
+#: src/schedules.js:49
+msgid "Runs as"
+msgstr "इसके रूप में चलता है"
+
+#: templates/pages/schedule-edit.tmpl:91
+msgid "Save schedule"
+msgstr "शेड्यूल सहेजें"
+
+#: src/schedule.js:125
+#: templates/pages/schedule.tmpl:6
+msgid "Schedule"
+msgstr "शेड्यूल"
+
+#: src/schedules.js:25
+#~ msgid "Schedule a Puppet run or a task to start later, once or repeatedly."
+#~ msgstr ""
+
+#: src/run-plan.js:33
+#: src/run-puppet.js:109
+#: src/run-task.js:42
+msgid "Schedule instead"
+msgstr "इसके बजाय शेड्यूल करें"
+
+#: src/jobs.js:47
+msgid "Scheduled"
+msgstr "शेड्यूल किया गया"
+
+#: templates/pages/jobs.tmpl:14
+#: templates/pages/plans.tmpl:9
+#: templates/pages/schedule-edit.tmpl:5
+#: templates/pages/schedule.tmpl:5
+#: templates/pages/schedules.tmpl:9
+msgid "Scheduled jobs"
+msgstr "शेड्यूल किए गए Jobs"
+
+#: src/schedule.js:67
+#: templates/pages/schedule-edit.tmpl:62
+msgid "Start"
+msgstr "शुरू करें"
+
+#: src/job.js:38
+msgid "Started by schedule:"
+msgstr "शेड्यूल द्वारा शुरू किया गया:"
+
+#: src/schedule.js:64
+#: src/schedules.js:49
+msgid "State"
+msgstr "अवस्था"
+
+#: src/target-picker.js:66
+msgid "The nodes in the group when the job starts."
+msgstr "Job के शुरू होने के समय समूह में मौजूद Nodes।"
+
+#: src/task-form.js:157
+msgid "The task {task} is no longer in the {environment} environment. Choose another."
+msgstr "Task {task} अब {environment} Environment में नहीं है। कोई दूसरा चुनें।"
+
+#: src/target-picker.js:235
+msgid "These are the nodes the job will run on. Check them, then start it."
+msgstr "Job इन्हीं Nodes पर चलेगा। इन्हें जाँचें, फिर इसे शुरू करें।"
+
+#: src/schedule-edit.js:230
+msgid "This schedule runs as {owner}. If you save it, it will run as you from then on, with your access. Any sensitive task values must be entered again."
+msgstr "यह शेड्यूल {owner} के रूप में चलता है। यदि आप इसे सहेजते हैं, तो इसके बाद यह आपके रूप में, आपकी पहुँच के साथ चलेगा। Task के सभी संवेदनशील मान फिर से दर्ज करने होंगे।"
+
+#: src/schedule.js:76
+#: src/schedules.js:54
+msgid "Times are shown in your time zone, {zone}."
+msgstr "समय आपके समय क्षेत्र {zone} में दिखाए गए हैं।"
+
+#: src/target-picker.js:163
+msgid "Type a query first."
+msgstr "पहले एक क्वेरी लिखें।"
+
+#: templates/pages/schedule-edit.tmpl:74
+msgid "Unit"
+msgstr "इकाई"
+
+#: templates/pages/schedule.tmpl:23
+msgid "What happened each time it came due"
+msgstr "हर बार समय आने पर क्या हुआ"
+
+#: templates/pages/schedule-edit.tmpl:21
+msgid "What to run"
+msgstr "क्या चलाना है"
+
+#: templates/pages/schedule-edit.tmpl:50
+msgid "Which nodes"
+msgstr "कौन-से Nodes"
+
+#: src/target-picker.js:268
+msgid "a query"
+msgstr "एक क्वेरी"
+
+#: src/schedule-common.js:61
+msgid "and {count} more"
+msgid_plural "and {count} more"
+msgstr[0] "और {count} अन्य"
+msgstr[1] "और {count} अन्य"
+
+#: templates/pages/schedule-edit.tmpl:77
+msgid "days"
+msgstr "दिन"
+
+#: templates/pages/schedule-edit.tmpl:76
+msgid "hours"
+msgstr "घंटे"
+
+#: templates/pages/schedule-edit.tmpl:75
+msgid "minutes"
+msgstr "मिनट"
+
+#: src/schedule.js:70
+msgid "service token"
+msgstr "सेवा टोकन"
+
+#: src/job.js:37
+msgid "since deleted"
+msgstr "बाद में हटाया गया"
+
+#: templates/pages/schedule-edit.tmpl:78
+msgid "weeks"
+msgstr "सप्ताह"
+
+#: src/patches.js:229
+#: src/run-patch.js:46
+#: src/target-picker.js:144
+msgid "{count} node"
+msgid_plural "{count} nodes"
+msgstr[0] "{count} Node"
+msgstr[1] "{count} Nodes"
+
+#: src/schedule-common.js:77
+msgid "Every {count} day"
+msgid_plural "Every {count} days"
+msgstr[0] "हर {count} दिन"
+msgstr[1] "हर {count} दिन"
+
+#: src/schedule-common.js:75
+msgid "Every {count} hour"
+msgid_plural "Every {count} hours"
+msgstr[0] "हर {count} घंटे"
+msgstr[1] "हर {count} घंटे"
+
+#: src/schedule-common.js:73
+msgid "Every {count} minute"
+msgid_plural "Every {count} minutes"
+msgstr[0] "हर {count} मिनट"
+msgstr[1] "हर {count} मिनट"
+
+#: src/schedule-common.js:79
+msgid "Every {count} week"
+msgid_plural "Every {count} weeks"
+msgstr[0] "हर {count} सप्ताह"
+msgstr[1] "हर {count} सप्ताह"
+
+#: src/schedule-common.js:101
+msgid "Interrupted"
+msgstr "बाधित"
+
+#: src/schedule-common.js:100
+msgid "Missed"
+msgstr "छूट गया"
+
+#: src/schedule-common.js:102
+msgid "Starting"
+msgstr "शुरू हो रहा है"
+
+#: src/password-rules.js:20
+#: templates/pages/account-policy.tmpl:29
+msgid "A digit"
+msgstr "एक अंक"
+
+#: templates/pages/account-policy.tmpl:56
+msgid "A locked account cannot log in with its password until the time has passed, or until an administrator unlocks it on the Users page. Sessions that are already open carry on. The login page never says whether an account is locked, so that it does not reveal which usernames exist."
+msgstr "लॉक किया गया खाता अपने पासवर्ड से तब तक लॉग इन नहीं कर सकता जब तक समय बीत न जाए, या कोई व्यवस्थापक उपयोगकर्ता पेज पर उसे अनलॉक न कर दे। पहले से खुले सत्र चलते रहते हैं। लॉगिन पेज कभी नहीं बताता कि कोई खाता लॉक है या नहीं, ताकि यह पता न चले कि कौन-से उपयोगकर्ता नाम मौजूद हैं।"
+
+#: src/password-rules.js:16
+#: templates/pages/account-policy.tmpl:27
+msgid "A lowercase letter"
+msgstr "एक छोटा अक्षर"
+
+#: templates/pages/account-policy.tmpl:32
+msgid "A password is checked when it is set. Existing passwords keep working, and are checked the next time they are changed. A password can never be the account's username, or longer than 72 bytes."
+msgstr "पासवर्ड सेट किए जाते समय जाँचा जाता है। मौजूदा पासवर्ड काम करते रहते हैं, और अगली बार बदले जाने पर जाँचे जाते हैं। पासवर्ड कभी भी खाते का उपयोगकर्ता नाम नहीं हो सकता, और 72 बाइट से लंबा नहीं हो सकता।"
+
+#: templates/pages/account-policy.tmpl:25
+msgid "A password must also contain:"
+msgstr "पासवर्ड में ये भी होने चाहिए:"
+
+#: templates/pages/plan-edit.tmpl:37
+msgid "A plan can have at most 20 steps."
+msgstr "एक Plan में अधिकतम 20 चरण हो सकते हैं।"
+
+#: templates/pages/plans.tmpl:13
+msgid "A plan is a list of Puppet runs and tasks carried out in order on the same nodes. Everyone who can run jobs can change a plan; which nodes it runs on is chosen each time it is run."
+msgstr "Plan उन Puppet रन और Tasks की सूची है जो एक ही Nodes पर क्रम से चलाए जाते हैं। जो कोई भी Jobs चला सकता है, वह Plan बदल सकता है; यह किन Nodes पर चलेगा, यह हर बार चलाते समय चुना जाता है।"
+
+#: src/plans.js:16
+msgid "A plan is a list of Puppet runs and tasks to carry out in order on the same nodes."
+msgstr "Plan उन Puppet रन और Tasks की सूची है जिन्हें एक ही Nodes पर क्रम से चलाना है।"
+
+#: templates/pages/schedules.tmpl:13
+msgid "A scheduled job starts a Puppet run, a task or a plan later, once or repeatedly. Its nodes are worked out each time it starts, and it runs with its owner's access as it is at that moment."
+msgstr "शेड्यूल किया गया Job बाद में, एक बार या बार-बार, कोई Puppet रन, Task या Plan शुरू करता है। इसके Nodes हर बार शुरू होने पर तय किए जाते हैं, और यह अपने स्वामी की उस समय की पहुँच के साथ चलता है।"
+
+#: src/task-form.js:21
+msgid "A sensitive value. It is not kept in the plan, and is asked for each time the plan is run."
+msgstr "एक संवेदनशील मान। इसे Plan में नहीं रखा जाता, और Plan के हर बार चलने पर माँगा जाता है।"
+
+#: src/plan-common.js:125
+msgid "A sensitive value: it is sent to the nodes and never shown again."
+msgstr "एक संवेदनशील मान: इसे Nodes को भेजा जाता है और फिर कभी नहीं दिखाया जाता।"
+
+#: templates/pages/account-policy.tmpl:30
+msgid "A symbol"
+msgstr "एक प्रतीक"
+
+#: src/password-rules.js:22
+msgid "A symbol, such as ! or #"
+msgstr "एक प्रतीक, जैसे ! या #"
+
+#: templates/pages/account-policy.tmpl:11
+#: templates/pages/account-policy.tmpl:8
+#: templates/pages/roles.tmpl:8
+#: templates/pages/service-tokens.tmpl:8
+#: templates/pages/user-groups.tmpl:8
+#: templates/pages/users.tmpl:8
+msgid "Account policy"
+msgstr "खाता नीति"
+
+#: templates/pages/plan-edit.tmpl:34
+msgid "Add a Puppet run step"
+msgstr "Puppet रन चरण जोड़ें"
+
+#: templates/pages/plan-edit.tmpl:35
+msgid "Add a task step"
+msgstr "Task चरण जोड़ें"
+
+#: src/plan-edit.js:148
+msgid "Add at least one step."
+msgstr "कम से कम एक चरण जोड़ें।"
+
+#: src/password-rules.js:18
+#: templates/pages/account-policy.tmpl:28
+msgid "An uppercase letter"
+msgstr "एक बड़ा अक्षर"
+
+#: src/plan.js:27
+msgid "Asked for when the plan is run:"
+msgstr "Plan चलाते समय माँगा जाएगा:"
+
+#: src/password-rules.js:14
+msgid "At least {count} character"
+msgid_plural "At least {count} characters"
+msgstr[0] "कम से कम {count} वर्ण"
+msgstr[1] "कम से कम {count} वर्ण"
+
+#: templates/pages/account-policy.tmpl:50
+msgid "Between 1 and 1,440 (a day)."
+msgstr "1 और 1,440 (एक दिन) के बीच।"
+
+#: templates/pages/account-policy.tmpl:46
+msgid "Between 3 and 100."
+msgstr "3 और 100 के बीच।"
+
+#: templates/pages/account-policy.tmpl:23
+msgid "Between 8 and 72 characters."
+msgstr "8 और 72 वर्णों के बीच।"
+
+#: src/schedule-edit.js:58
+msgid "Choose a plan"
+msgstr "Plan चुनें"
+
+#: src/schedule-edit.js:167
+msgid "Choose the plan to run."
+msgstr "चलाने के लिए Plan चुनें।"
+
+#: src/preferences.js:65
+msgid "Current and new password are both required."
+msgstr "वर्तमान और नया पासवर्ड दोनों आवश्यक हैं।"
+
+#: src/plan.js:59
+msgid "Delete this plan?"
+msgstr "यह Plan हटाएँ?"
+
+#: src/code-plans.js:57
+#: src/plans.js:36
+msgid "Description"
+msgstr "विवरण"
+
+#: templates/pages/plan-edit.tmpl:18
+msgid "Description (optional)"
+msgstr "विवरण (वैकल्पिक)"
+
+#: src/plan.js:38
+#: src/run-plan.js:27
+msgid "Each step runs on every node, in this order. If a step fails on any node, the plan stops and the steps after it are not run."
+msgstr "हर चरण इसी क्रम में हर Node पर चलता है। यदि कोई चरण किसी भी Node पर विफल होता है, तो Plan रुक जाता है और उसके बाद के चरण नहीं चलाए जाते।"
+
+#: src/plan-edit.js:175
+#: src/plan-edit.js:176
+msgid "Edit plan"
+msgstr "Plan संपादित करें"
+
+#: templates/pages/account-policy.tmpl:45
+msgid "Failed logins in a row"
+msgstr "लगातार विफल लॉगिन"
+
+#: src/job.js:164
+msgid "Finished {when}"
+msgstr "समाप्त: {when}"
+
+#: src/plan-edit.js:144
+msgid "Give the plan a name."
+msgstr "Plan को एक नाम दें।"
+
+#: src/users.js:37
+msgid "If the account is locked, this unlocks it. Sessions the user already has open carry on."
+msgstr "यदि खाता लॉक है, तो यह उसे अनलॉक कर देता है। उपयोगकर्ता के पहले से खुले सत्र चलते रहते हैं।"
+
+#: src/login.js:27
+msgid "Invalid username or password. After several failed attempts in a row, an account is locked for a while: wait, or ask an administrator to unlock it."
+msgstr "अमान्य उपयोगकर्ता नाम या पासवर्ड। लगातार कई विफल प्रयासों के बाद खाता कुछ समय के लिए लॉक हो जाता है: प्रतीक्षा करें, या किसी व्यवस्थापक से उसे अनलॉक करने को कहें।"
+
+#: src/plan.js:60
+msgid "Jobs it has started stay in the job history, and schedules made from it keep their own copy of its steps."
+msgstr "इसके द्वारा शुरू किए गए Jobs, Job इतिहास में बने रहते हैं, और इससे बनाए गए शेड्यूल इसके चरणों की अपनी प्रति रखते हैं।"
+
+#: src/schedule-edit.js:58
+msgid "Keep the steps shown below"
+msgstr "नीचे दिखाए गए चरण रखें"
+
+#: src/plans.js:36
+msgid "Last changed by"
+msgstr "अंतिम बार बदलने वाला"
+
+#: src/account-policy.js:39
+#: src/plan.js:37
+msgid "Last changed by {user} on {when}."
+msgstr "अंतिम बार {user} ने {when} को बदला।"
+
+#: templates/pages/account-policy.tmpl:41
+msgid "Lock an account after repeated failed logins"
+msgstr "बार-बार विफल लॉगिन के बाद खाता लॉक करें"
+
+#: templates/pages/account-policy.tmpl:49
+msgid "Locked for (minutes)"
+msgstr "लॉक की अवधि (मिनट)"
+
+#: src/users.js:20
+msgid "Locked until {when}"
+msgstr "{when} तक लॉक"
+
+#: templates/pages/account-policy.tmpl:40
+msgid "Login lockout"
+msgstr "लॉगिन लॉकआउट"
+
+#: templates/pages/account-policy.tmpl:22
+msgid "Minimum length"
+msgstr "न्यूनतम लंबाई"
+
+#: src/plan-edit.js:67
+msgid "Move down"
+msgstr "नीचे ले जाएँ"
+
+#: src/plan-edit.js:66
+msgid "Move up"
+msgstr "ऊपर ले जाएँ"
+
+#: templates/pages/plan-edit.tmpl:6
+#: templates/pages/plan-edit.tmpl:8
+#: templates/pages/plans.tmpl:5
+msgid "New plan"
+msgstr "नया Plan"
+
+#: src/password-rules.js:24
+msgid "No longer than 72 bytes"
+msgstr "72 बाइट से अधिक लंबा नहीं"
+
+#: src/plan.js:75
+msgid "No plan specified."
+msgstr "कोई Plan निर्दिष्ट नहीं है।"
+
+#: src/plans.js:14
+msgid "No plans yet"
+msgstr "अभी कोई Plan नहीं है"
+
+#: src/job.js:172
+msgid "No steps to show"
+msgstr "दिखाने के लिए कोई चरण नहीं"
+
+#: templates/pages/plan-edit.tmpl:30
+msgid "No steps yet. Add the first one below."
+msgstr "अभी कोई चरण नहीं है। नीचे पहला चरण जोड़ें।"
+
+#: src/password-rules.js:70
+msgid "Not met:"
+msgstr "पूरा नहीं हुआ:"
+
+#: src/code-plans.js:10
+#: src/plan-common.js:73
+msgid "Not run"
+msgstr "नहीं चला"
+
+#: src/job.js:156
+msgid "Not run, because an earlier step failed. Nothing was sent to any node for this step."
+msgstr "नहीं चला, क्योंकि पहले का एक चरण विफल हो गया। इस चरण के लिए किसी भी Node को कुछ नहीं भेजा गया।"
+
+#: src/password-rules.js:26
+msgid "Not the same as the username"
+msgstr "उपयोगकर्ता नाम जैसा नहीं"
+
+#: src/preferences.js:72
+msgid "Password changed."
+msgstr "पासवर्ड बदल दिया गया।"
+
+#: src/password-rules.js:66
+msgid "Password rules"
+msgstr "पासवर्ड नियम"
+
+#: templates/pages/account-policy.tmpl:21
+msgid "Passwords"
+msgstr "पासवर्ड"
+
+#: templates/pages/jobs.tmpl:15
+#: templates/pages/plan-edit.tmpl:5
+#: templates/pages/plan.tmpl:5
+#: templates/pages/plans.tmpl:10
+#: templates/pages/schedules.tmpl:10
+msgid "Plans"
+msgstr "Plans"
+
+#: templates/pages/account-policy.tmpl:12
+msgid "Rules for accounts that log in with a username and password. They do not apply to people who sign in through your identity provider, or to service tokens."
+msgstr "उन खातों के लिए नियम जो उपयोगकर्ता नाम और पासवर्ड से लॉग इन करते हैं। ये उन लोगों पर लागू नहीं होते जो आपके पहचान प्रदाता के ज़रिए साइन इन करते हैं, और न ही सेवा टोकन पर।"
+
+#: templates/pages/schedule-edit.tmpl:25
+msgid "Run a plan"
+msgstr "Plan चलाएँ"
+
+#: src/run-plan.js:35
+msgid "Run plan"
+msgstr "Plan चलाएँ"
+
+#: src/run-plan.js:20
+msgid "Run plan: {name}"
+msgstr "Plan चलाएँ: {name}"
+
+#: templates/pages/plan-edit.tmpl:41
+msgid "Save plan"
+msgstr "Plan सहेजें"
+
+#: templates/pages/account-policy.tmpl:66
+msgid "Save policy"
+msgstr "नीति सहेजें"
+
+#: src/account-policy.js:64
+msgid "Saved. The policy is in force now, on every console instance."
+msgstr "सहेजा गया। नीति अब हर कंसोल इंस्टेंस पर लागू है।"
+
+#: src/schedules.js:25
+msgid "Schedule a Puppet run, a task or a plan to start later, once or repeatedly."
+msgstr "किसी Puppet रन, Task या Plan को बाद में, एक बार या बार-बार शुरू होने के लिए शेड्यूल करें।"
+
+#: src/users.js:32
+msgid "Set a password for {user}"
+msgstr "{user} के लिए पासवर्ड सेट करें"
+
+#: src/users.js:129
+#: src/users.js:41
+msgid "Set password"
+msgstr "पासवर्ड सेट करें"
+
+#: src/job.js:163
+msgid "Started {when}"
+msgstr "शुरू: {when}"
+
+#: src/job.js:153
+msgid "Starts when the step before it has finished on every node."
+msgstr "तब शुरू होता है जब इससे पहले का चरण हर Node पर पूरा हो जाए।"
+
+#: src/plan-common.js:17
+msgid "Step {number}"
+msgstr "चरण {number}"
+
+#: src/job.js:62
+#~ msgid "Step {number} of {count}"
+#~ msgstr ""
+
+#: src/job.js:199
+#: src/job.js:202
+#: src/plans.js:36
+#: src/run-plan.js:25
+#: src/schedule.js:42
+#: templates/pages/plan-edit.tmpl:24
+#: templates/pages/plan.tmpl:22
+msgid "Steps"
+msgstr "चरण"
+
+#: templates/pages/plan-edit.tmpl:25
+msgid "Steps run in this order, each on every node the plan is run on. If a step fails on any node, the plan stops there. A sensitive task value is never kept in a plan: it is asked for each time the plan is run."
+msgstr "चरण इसी क्रम में चलते हैं, हर एक उन सभी Nodes पर जिन पर Plan चलाया जाता है। यदि कोई चरण किसी भी Node पर विफल होता है, तो Plan वहीं रुक जाता है। Task का संवेदनशील मान कभी Plan में नहीं रखा जाता: उसे Plan के हर बार चलने पर माँगा जाता है।"
+
+#: src/users.js:62
+msgid "That password does not meet the rules above."
+msgstr "वह पासवर्ड ऊपर दिए गए नियमों को पूरा नहीं करता।"
+
+#: src/preferences.js:78
+#: src/users.js:251
+msgid "That password does not meet the rules shown under it."
+msgstr "वह पासवर्ड उसके नीचे दिखाए गए नियमों को पूरा नहीं करता।"
+
+#: templates/pages/schedule-edit.tmpl:39
+msgid "The schedule keeps its own copy of these steps. Changing or deleting the saved plan later does not change what the schedule runs; to pick up a change, choose the plan here again and save."
+msgstr "शेड्यूल इन चरणों की अपनी प्रति रखता है। सहेजे गए Plan को बाद में बदलने या हटाने से यह नहीं बदलता कि शेड्यूल क्या चलाता है; कोई बदलाव लेने के लिए यहाँ Plan फिर से चुनें और सहेजें।"
+
+#: src/schedule-edit.js:64
+msgid "There are no saved plans yet. Create one on the Plans page first."
+msgstr "अभी कोई सहेजा गया Plan नहीं है। पहले Plans पेज पर एक बनाएँ।"
+
+#: src/account-policy.js:40
+msgid "These are the defaults: the policy has not been changed."
+msgstr "ये डिफ़ॉल्ट हैं: नीति बदली नहीं गई है।"
+
+#: src/run-plan.js:52
+msgid "This plan has a step that can no longer run. Edit the plan before running it."
+msgstr "इस Plan में एक चरण है जो अब नहीं चल सकता। चलाने से पहले Plan संपादित करें।"
+
+#: src/schedule.js:44
+msgid "This schedule keeps its own copy of the steps, taken when it was saved. Changing or deleting the saved plan does not change what the schedule runs."
+msgstr "यह शेड्यूल चरणों की अपनी प्रति रखता है, जो इसे सहेजते समय ली गई थी। सहेजे गए Plan को बदलने या हटाने से यह नहीं बदलता कि शेड्यूल क्या चलाता है।"
+
+#: src/plan-common.js:45
+msgid "This step can no longer run as saved: {problem}"
+msgstr "यह चरण अब सहेजे गए रूप में नहीं चल सकता: {problem}"
+
+#: src/plan-common.js:57
+msgid "Timeout: {count} minute"
+msgid_plural "Timeout: {count} minutes"
+msgstr[0] "समय सीमा: {count} मिनट"
+msgstr[1] "समय सीमा: {count} मिनट"
+
+#: src/users.js:52
+msgid "Type the new password."
+msgstr "नया पासवर्ड लिखें।"
+
+#: src/users.js:24
+msgid "Unlock"
+msgstr "अनलॉक करें"
+
+#: src/users.js:229
+msgid "Username and password are required."
+msgstr "उपयोगकर्ता नाम और पासवर्ड आवश्यक हैं।"
+
+#: src/plan-common.js:69
+msgid "Waiting"
+msgstr "प्रतीक्षा में"
+
+#: src/job.js:64
+#~ msgid "of plan"
+#~ msgstr ""
+
+#: src/plan.js:19
+msgid "optional"
+msgstr "वैकल्पिक"
+
+#: src/code-plans.js:154
+#: src/plan-common.js:64
+msgid "{count} step"
+msgid_plural "{count} steps"
+msgstr[0] "{count} चरण"
+msgstr[1] "{count} चरण"
+
+#: src/job.js:65
+msgid "Step {number} of {count} in the plan"
+msgstr "Plan में {count} में से चरण {number}"
+
+#: src/task-patterns.js:15
+msgid "Every task"
+msgstr "हर Task"
+
+#: src/roles.js:131
+msgid "Save tasks"
+msgstr "Tasks सहेजें"
+
+#: src/roles.js:145
+#: src/service-tokens.js:47
+#: templates/pages/roles.tmpl:29
+msgid "Tasks"
+msgstr "Tasks"
+
+#: src/roles.js:127
+#: templates/pages/roles.tmpl:30
+#: templates/pages/service-tokens.tmpl:25
+msgid "Tasks it may run"
+msgstr "चला सकने वाले Tasks"
+
+#: src/run-plan.js:51
+msgid "You cannot run this plan: a step uses a task your roles do not allow."
+msgstr "आप यह Plan नहीं चला सकते: एक चरण ऐसा Task इस्तेमाल करता है जिसकी अनुमति आपकी भूमिकाओं में नहीं है।"
+
+#: src/plan-common.js:42
+msgid "Your roles do not allow the task {task}, so you cannot run this step."
+msgstr "आपकी भूमिकाएँ Task {task} की अनुमति नहीं देतीं, इसलिए आप यह चरण नहीं चला सकते।"
+
+#: templates/pages/service-tokens.tmpl:25
+msgid "One per line: a task name such as package::install, a module such as patch::*, or * for every task. Leave it empty to allow every task. Fixed when the token is created."
+msgstr "प्रति पंक्ति एक: package::install जैसा Task नाम, patch::* जैसा मॉड्यूल, या हर Task के लिए *। हर Task की अनुमति देने के लिए इसे खाली छोड़ें। टोकन बनाते समय तय हो जाता है।"
+
+#: src/roles.js:128
+#: templates/pages/roles.tmpl:30
+msgid "One per line: a task name such as package::install, a module such as patch::*, or * for every task. Leave it empty to allow every task. This limits orchestrator:run; the role's node groups still decide which nodes."
+msgstr "प्रति पंक्ति एक: package::install जैसा Task नाम, patch::* जैसा मॉड्यूल, या हर Task के लिए *। हर Task की अनुमति देने के लिए इसे खाली छोड़ें। यह orchestrator:run को सीमित करता है; कौन-से Nodes, यह फिर भी भूमिका के Node समूह तय करते हैं।"
+
+#: templates/pages/user-groups.tmpl:12
+msgid "A group gives its members the roles granted to it, in addition to any roles they hold themselves. Each role keeps its own node groups and task limits."
+msgstr "समूह अपने सदस्यों को वे भूमिकाएँ देता है जो उसे दी गई हैं, उन भूमिकाओं के अतिरिक्त जो सदस्यों के पास अपनी हैं। हर भूमिका अपने नोड समूह और कार्य सीमाएँ बनाए रखती है।"
+
+#: templates/pages/user-groups.tmpl:29
+msgid "All groups"
+msgstr "सभी समूह"
+
+#: src/user-groups.js:137
+msgid "Create a group above, then add members and grant it roles."
+msgstr "ऊपर एक समूह बनाएँ, फिर सदस्य जोड़ें और उसे भूमिकाएँ दें।"
+
+#: templates/pages/user-groups.tmpl:24
+msgid "Create group"
+msgstr "समूह बनाएँ"
+
+#: src/user-groups.js:112
+msgid "Delete {group}?"
+msgstr "{group} हटाएँ?"
+
+#: src/user-groups.js:56
+msgid "Done"
+msgstr "हो गया"
+
+#: src/user-groups.js:211
+msgid "Give the group a name."
+msgstr "समूह को एक नाम दें।"
+
+#: src/roles.js:89
+msgid "Granted to groups:"
+msgstr "इन समूहों को दी गई:"
+
+#: src/users.js:101
+msgid "In groups:"
+msgstr "समूहों में:"
+
+#: src/user-groups.js:167
+msgid "Members"
+msgstr "सदस्य"
+
+#: src/user-groups.js:46
+msgid "Members of {group}"
+msgstr "{group} के सदस्य"
+
+#: src/user-groups.js:135
+msgid "No groups yet"
+msgstr "अभी कोई समूह नहीं"
+
+#: src/user-groups.js:19
+msgid "No members"
+msgstr "कोई सदस्य नहीं"
+
+#: src/user-groups.js:155
+#: src/user-groups.js:88
+msgid "Rename"
+msgstr "नाम बदलें"
+
+#: src/user-groups.js:81
+msgid "Rename {group}"
+msgstr "{group} का नाम बदलें"
+
+#: templates/pages/account-policy.tmpl:5
+#: templates/pages/roles.tmpl:5
+#: templates/pages/service-tokens.tmpl:5
+#: templates/pages/user-groups.tmpl:11
+#: templates/pages/user-groups.tmpl:5
+#: templates/pages/users.tmpl:5
+msgid "User groups"
+msgstr "उपयोगकर्ता समूह"
+
+#: src/user-groups.js:21
+msgid "{count} member"
+msgid_plural "{count} members"
+msgstr[0] "{count} सदस्य"
+msgstr[1] "{count} सदस्य"
+
+#: src/user-groups.js:113
+msgid "{count} person will lose the roles this group gives them."
+msgid_plural "{count} people will lose the roles this group gives them."
+msgstr[0] "{count} व्यक्ति इस समूह से मिली भूमिकाएँ खो देगा।"
+msgstr[1] "{count} व्यक्ति इस समूह से मिली भूमिकाएँ खो देंगे।"
+
+#: src/users.js:94
+msgid "{role} via {groups}"
+msgstr "{role}, {groups} के माध्यम से"
+
+#: templates/pages/group.tmpl:83
+msgid "Configuration data (JSON)"
+msgstr "कॉन्फ़िगरेशन डेटा (JSON)"
+
+#: src/group.js:195
+msgid "Configuration data must be a JSON object: key/value pairs inside { }."
+msgstr "कॉन्फ़िगरेशन डेटा एक JSON ऑब्जेक्ट होना चाहिए: { } के भीतर कुंजी/मान जोड़े।"
+
+#: templates/pages/group.tmpl:84
+msgid "Data that code reads with lookup(), consulted before the Hiera data in your control repo, so a key set here wins. An object of key/value pairs; a value can be any JSON. It is shown to everyone who can see node groups, so do not put secrets here."
+msgstr "वह डेटा जिसे कोड lookup() से पढ़ता है, आपके कंट्रोल रिपॉज़िटरी के Hiera डेटा से पहले देखा जाता है, इसलिए यहाँ सेट की गई कुंजी को प्राथमिकता मिलती है। कुंजी/मान जोड़ों का एक ऑब्जेक्ट; मान कोई भी JSON हो सकता है। यह उन सभी को दिखता है जो नोड समूह देख सकते हैं, इसलिए यहाँ गोपनीय जानकारी न रखें।"
+
+#: templates/pages/patches.tmpl:35
+msgid "Automatic scanning"
+msgstr "स्वचालित स्कैन"
+
+#: templates/pages/patches.tmpl:47
+msgid "Between 15 minutes and 7 days (10080 minutes)."
+msgstr "15 मिनट से 7 दिन के बीच (10080 मिनट)।"
+
+#: src/patches.js:53
+msgid "Cannot report"
+msgstr "रिपोर्ट नहीं कर सकता"
+
+#: templates/pages/patches.tmpl:25
+msgid "Choose a group to scan all of its nodes now."
+msgstr "किसी समूह को चुनें, ताकि उसके सभी नोड अभी स्कैन हों।"
+
+#: templates/pages/patches.tmpl:15
+msgid "Filter by package name"
+msgstr "पैकेज के नाम से फ़िल्टर करें"
+
+#: templates/pages/patches.tmpl:43
+msgid "Interval in minutes"
+msgstr "अंतराल (मिनटों में)"
+
+#: src/patches.js:62
+msgid "Last scan failed"
+msgstr "पिछला स्कैन विफल रहा"
+
+#: src/patches.js:94
+msgid "Last scanned"
+msgstr "पिछला स्कैन"
+
+#: src/node.js:661
+msgid "Last scanned {when} with {manager}."
+msgstr "पिछला स्कैन {when} को {manager} के साथ।"
+
+#: src/patches.js:34
+msgid "Need a reboot"
+msgstr "रीबूट ज़रूरी"
+
+#: src/patches.js:85
+msgid "No"
+msgstr "नहीं"
+
+#: src/patches.js:111
+msgid "No node has that update pending"
+msgstr "किसी नोड पर वह अपडेट लंबित नहीं है"
+
+#: src/patches.js:73
+msgid "No nodes match"
+msgstr "कोई नोड मेल नहीं खाता"
+
+#: src/patches.js:113
+msgid "No scanned node has an update pending for a package matching \"{name}\"."
+msgstr "स्कैन किए गए किसी भी नोड पर \"{name}\" से मेल खाने वाले पैकेज का अपडेट लंबित नहीं है।"
+
+#: src/patches.js:35
+#: src/patches.js:57
+msgid "Not scanned"
+msgstr "स्कैन नहीं हुआ"
+
+#: src/node.js:682
+msgid "Nothing is pending"
+msgstr "कुछ भी लंबित नहीं है"
+
+#: src/patches.js:92
+#: templates/pages/patches.tmpl:16
+msgid "Operating system"
+msgstr "ऑपरेटिंग सिस्टम"
+
+#: src/patches.js:36
+msgid "Out of date scans"
+msgstr "पुराने स्कैन"
+
+#: templates/pages/node.tmpl:25
+msgid "Patches"
+msgstr "पैच"
+
+#: templates/layout.html.tmpl:73
+#: templates/pages/patches.tmpl:3
+msgid "Patching"
+msgstr "पैचिंग"
+
+#: templates/pages/patches.tmpl:15
+msgid "Pending package"
+msgstr "लंबित पैकेज"
+
+#: src/patches.js:94
+msgid "Reboot needed"
+msgstr "रीबूट की ज़रूरत"
+
+#: templates/pages/patches.tmpl:42
+msgid "Scan automatically"
+msgstr "अपने-आप स्कैन करें"
+
+#: src/patches.js:56
+msgid "Scan failed"
+msgstr "स्कैन विफल रहा"
+
+#: templates/pages/node.tmpl:48
+msgid "Scan now"
+msgstr "अभी स्कैन करें"
+
+#: templates/pages/patches.tmpl:22
+msgid "Scan this group now"
+msgstr "इस समूह को अभी स्कैन करें"
+
+#: src/node.js:749
+#: src/patches.js:197
+msgid "Scanning. Refreshing package lists can take a while on a slow mirror."
+msgstr "स्कैन हो रहा है। धीमे मिरर पर पैकेज सूचियाँ ताज़ा करने में कुछ समय लग सकता है।"
+
+#: src/node.js:690
+#: src/node.js:695
+#: src/patches.js:123
+#: src/patches.js:130
+#: src/patches.js:93
+#: src/run-patch.js:64
+msgid "Security"
+msgstr "सुरक्षा"
+
+#: src/node.js:699
+#: src/patches.js:99
+msgid "Security is what the node's package manager marks as a security update. A system without that information shows none."
+msgstr "सुरक्षा वही है जिसे नोड का पैकेज मैनेजर सुरक्षा अपडेट के रूप में चिह्नित करता है। जिस सिस्टम में यह जानकारी नहीं होती, वहाँ कुछ नहीं दिखता।"
+
+#: templates/pages/patches.tmpl:36
+msgid "The console scans every connected node on this interval. A node that is offline is scanned once it reconnects."
+msgstr "कंसोल हर जुड़े हुए नोड को इस अंतराल पर स्कैन करता है। ऑफ़लाइन नोड दोबारा जुड़ने पर स्कैन किया जाता है।"
+
+#: src/node.js:667
+msgid "The last attempt to scan failed: {error}"
+msgstr "पिछला स्कैन प्रयास विफल रहा: {error}"
+
+#: src/node.js:682
+msgid "The last scan found no updates waiting for this node."
+msgstr "पिछले स्कैन में इस नोड के लिए कोई अपडेट प्रतीक्षा में नहीं मिला।"
+
+#: src/node.js:667
+msgid "The updates below are from the last scan that worked."
+msgstr "नीचे दिए गए अपडेट उस पिछले स्कैन के हैं जो सफल रहा।"
+
+#: templates/pages/patches.tmpl:4
+#~ msgid "The updates each node is missing, as its own package manager reports them. This page only looks: nothing here installs or changes a package."
+#~ msgstr "हर नोड में कौन-से अपडेट नहीं हैं, जैसा उसका अपना पैकेज मैनेजर बताता है। यह पृष्ठ केवल देखता है: यहाँ से कोई पैकेज इंस्टॉल या बदला नहीं जाता।"
+
+#: src/node.js:670
+msgid "This node already needs a reboot."
+msgstr "इस नोड को पहले से रीबूट की ज़रूरत है।"
+
+#: src/node.js:654
+msgid "This node has not been scanned yet, so it is not known whether it is missing updates."
+msgstr "इस नोड को अभी स्कैन नहीं किया गया है, इसलिए पता नहीं कि इसमें अपडेट कम हैं या नहीं।"
+
+#: src/node.js:755
+msgid "This node is offline, so it could not be scanned. It will be scanned when it reconnects."
+msgstr "यह नोड ऑफ़लाइन है, इसलिए इसे स्कैन नहीं किया जा सका। दोबारा जुड़ने पर इसे स्कैन किया जाएगा।"
+
+#: src/node.js:664
+msgid "This scan is out of date. Scan again to see what is pending now."
+msgstr "यह स्कैन पुराना है। अभी क्या लंबित है, यह देखने के लिए फिर से स्कैन करें।"
+
+#: src/patches.js:75
+msgid "Try a different package, operating system or group."
+msgstr "कोई दूसरा पैकेज, ऑपरेटिंग सिस्टम या समूह आज़माएँ।"
+
+#: src/patches.js:93
+msgid "Updates"
+msgstr "अपडेट"
+
+#: src/patches.js:32
+msgid "With pending updates"
+msgstr "लंबित अपडेट वाले"
+
+#: src/patches.js:33
+msgid "With security updates"
+msgstr "सुरक्षा अपडेट वाले"
+
+#: src/patches.js:85
+msgid "Yes"
+msgstr "हाँ"
+
+#: src/patches.js:183
+msgid "{count} failed"
+msgid_plural "{count} failed"
+msgstr[0] "{count} विफल"
+msgstr[1] "{count} विफल"
+
+#: src/patches.js:184
+msgid "{count} left out: not in your node groups"
+msgid_plural "{count} left out: not in your node groups"
+msgstr[0] "{count} छोड़ा गया: आपके नोड समूहों में नहीं है"
+msgstr[1] "{count} छोड़े गए: आपके नोड समूहों में नहीं हैं"
+
+#: src/patches.js:181
+msgid "{count} node scanned"
+msgid_plural "{count} nodes scanned"
+msgstr[0] "{count} नोड स्कैन हुआ"
+msgstr[1] "{count} नोड स्कैन हुए"
+
+#: src/patches.js:182
+msgid "{count} offline"
+msgid_plural "{count} offline"
+msgstr[0] "{count} ऑफ़लाइन"
+msgstr[1] "{count} ऑफ़लाइन"
+
+#: src/run-patch.js:149
+msgid "All pending updates"
+msgstr "सभी लंबित अपडेट"
+
+#: src/run-patch.js:29
+msgid "All updates"
+msgstr "सभी अपडेट"
+
+#: src/run-patch.js:123
+msgid "Batch"
+msgstr "बैच"
+
+#: src/run-patch.js:102
+msgid "Details for {node}"
+msgstr "{node} का विवरण"
+
+#: src/run-patch.js:31
+msgid "Dry run"
+msgstr "ड्राई रन"
+
+#: src/run-patch.js:157
+msgid "Dry run: report what would be upgraded, and change nothing"
+msgstr "ड्राई रन: बताएँ कि क्या अपग्रेड होगा, और कुछ न बदलें"
+
+#: src/run-patch.js:199
+msgid "Finding the nodes in {group}…"
+msgstr "{group} के नोड खोजे जा रहे हैं…"
+
+#: src/run-patch.js:72
+msgid "From"
+msgstr "से"
+
+#: src/node.js:734
+msgid "Last patch run"
+msgstr "पिछला पैच रन"
+
+#: src/run-patch.js:150
+msgid "Named packages"
+msgstr "नाम से चुने गए पैकेज"
+
+#: src/run-patch.js:203
+msgid "No node is in this group, so there is nothing to patch."
+msgstr "इस समूह में कोई नोड नहीं है, इसलिए पैच करने को कुछ नहीं है।"
+
+#: src/run-patch.js:60
+msgid "No package was selected."
+msgstr "कोई पैकेज चुना नहीं गया।"
+
+#: src/run-patch.js:170
+msgid "Nodes are patched a batch at a time. When this many nodes have failed, no further batch is started. 0 never stops."
+msgstr "नोड एक बार में एक बैच पैच किए जाते हैं। इतने नोड विफल होने पर कोई और बैच शुरू नहीं होता। 0 का अर्थ है कभी न रुकना।"
+
+#: src/run-patch.js:162
+msgid "Nodes at a time"
+msgstr "एक बार में नोड"
+
+#: src/i18n.js:466
+msgid "Not upgraded"
+msgstr "अपग्रेड नहीं हुआ"
+
+#: src/i18n.js:467
+msgid "Nothing to apply"
+msgstr "लागू करने को कुछ नहीं"
+
+#: src/run-patch.js:30
+msgid "Packages: {names}"
+msgstr "पैकेज: {names}"
+
+#: src/run-patch.js:175
+msgid "Patch"
+msgstr "पैच करें"
+
+#: src/run-patch.js:142
+msgid "Patch nodes"
+msgstr "नोड पैच करें"
+
+#: templates/pages/node.tmpl:49
+msgid "Patch now…"
+msgstr "अभी पैच करें…"
+
+#: src/i18n.js:201
+#: templates/pages/jobs.tmpl:25
+msgid "Patch run"
+msgstr "पैच रन"
+
+#: templates/pages/patches.tmpl:23
+msgid "Patch this group…"
+msgstr "इस समूह को पैच करें…"
+
+#: src/run-patch.js:193
+msgid "Patch {count} node?"
+msgid_plural "Patch {count} nodes?"
+msgstr[0] "{count} नोड पैच करें?"
+msgstr[1] "{count} नोड पैच करें?"
+
+#: src/run-patch.js:192
+msgid "Patch {node}?"
+msgstr "{node} को पैच करें?"
+
+#: src/run-patch.js:158
+msgid "Reboot a node that needs it once it is patched"
+msgstr "जिस नोड को ज़रूरत हो, पैच होने के बाद उसे रीबूट करें"
+
+#: src/run-patch.js:32
+msgid "Reboots if required"
+msgstr "ज़रूरत हो तो रीबूट करता है"
+
+#: templates/pages/patches.tmpl:30
+msgid "Recent patch runs"
+msgstr "हाल के पैच रन"
+
+#: src/run-patch.js:72
+msgid "Result"
+msgstr "परिणाम"
+
+#: src/run-patch.js:28
+msgid "Security updates"
+msgstr "सुरक्षा अपडेट"
+
+#: src/run-patch.js:148
+msgid "Security updates only"
+msgstr "केवल सुरक्षा अपडेट"
+
+#: src/run-patch.js:155
+msgid "Separate package names with spaces or commas. Only those with an update pending are upgraded."
+msgstr "पैकेज के नाम स्पेस या कॉमा से अलग करें। केवल वही पैकेज अपग्रेड होते हैं जिनका अपडेट लंबित है।"
+
+#: src/run-patch.js:166
+msgid "Stop after failed nodes"
+msgstr "इतने नोड विफल होने पर रुकें"
+
+#: templates/pages/patches.tmpl:4
+msgid "The updates each node is missing, as its own package manager reports them. Scanning only looks. A patch run, started for a node group, installs the updates in batches."
+msgstr "हर नोड में कौन-से अपडेट नहीं हैं, जैसा उसका अपना पैकेज मैनेजर बताता है। स्कैन केवल देखता है। नोड समूह के लिए शुरू किया गया पैच रन अपडेट को बैच में इंस्टॉल करता है।"
+
+#: src/run-patch.js:72
+msgid "To"
+msgstr "तक"
+
+#: src/run-patch.js:147
+msgid "Updates to apply"
+msgstr "लागू करने वाले अपडेट"
+
+#: src/i18n.js:464
+msgid "Upgraded"
+msgstr "अपग्रेड हुआ"
+
+#: src/i18n.js:465
+msgid "Would upgrade"
+msgstr "अपग्रेड होगा"
+
+#: src/run-patch.js:153
+msgid "curl openssl"
+msgstr "curl openssl"
+
+#: src/run-patch.js:47
+msgid "in {count} batch of up to {size}"
+msgid_plural "in {count} batches of up to {size}"
+msgstr[0] "{size} तक के {count} बैच में"
+msgstr[1] "{size} तक के {count} बैच में"
+
+#: src/run-patch.js:86
+msgid "needs a reboot"
+msgstr "रीबूट की ज़रूरत है"
+
+#: src/run-patch.js:51
+msgid "never stops for failures"
+msgstr "विफलता पर कभी नहीं रुकता"
+
+#: src/run-patch.js:85
+msgid "rebooted"
+msgstr "रीबूट हुआ"
+
+#: src/run-patch.js:50
+msgid "stops after {count} failed node"
+msgid_plural "stops after {count} failed nodes"
+msgstr[0] "{count} नोड विफल होने के बाद रुकता है"
+msgstr[1] "{count} नोड विफल होने के बाद रुकता है"
+
+#: src/run-patch.js:84
+msgid "{count} not upgraded"
+msgid_plural "{count} not upgraded"
+msgstr[0] "{count} अपग्रेड नहीं हुआ"
+msgstr[1] "{count} अपग्रेड नहीं हुए"
+
+#: src/run-patch.js:82
+msgid "{count} upgraded"
+msgid_plural "{count} upgraded"
+msgstr[0] "{count} अपग्रेड हुआ"
+msgstr[1] "{count} अपग्रेड हुए"
+
+#: src/run-patch.js:83
+msgid "{count} would be upgraded"
+msgid_plural "{count} would be upgraded"
+msgstr[0] "{count} अपग्रेड होगा"
+msgstr[1] "{count} अपग्रेड होंगे"
+
+#: src/run-patch.js:48
+msgid "{done} finished"
+msgstr "{done} पूरे हुए"
+
+#: src/agentless.js:287
+msgid "A login of its own"
+msgstr "अपना लॉगिन"
+
+#: src/agentless.js:288
+msgid "A shared credential"
+msgstr "साझा क्रेडेंशियल"
+
+#: src/agentless.js:78
+msgid "Add a host to run tasks on it over SSH."
+msgstr "SSH से उस पर टास्क चलाने के लिए एक होस्ट जोड़ें।"
+
+#: src/agentless.js:363
+msgid "Add a shared credential"
+msgstr "साझा क्रेडेंशियल जोड़ें"
+
+#: src/agentless.js:274
+msgid "Add an agentless target"
+msgstr "एजेंट-रहित टारगेट जोड़ें"
+
+#: src/agentless.js:378
+#: templates/pages/agentless.tmpl:23
+msgid "Add shared credential"
+msgstr "साझा क्रेडेंशियल जोड़ें"
+
+#: src/agentless.js:308
+#: templates/pages/agentless.tmpl:9
+msgid "Add target"
+msgstr "टारगेट जोड़ें"
+
+#: src/nodes.js:145
+msgid "Agentless"
+msgstr "एजेंट-रहित"
+
+#: templates/pages/agentless.tmpl:5
+#: templates/pages/agentless.tmpl:8
+#: templates/pages/nodes.tmpl:6
+msgid "Agentless targets"
+msgstr "एजेंट-रहित टारगेट"
+
+#: src/agentless.js:63
+msgid "Check"
+msgstr "जाँचें"
+
+#: src/agentless.js:58
+#: src/nodes.js:141
+msgid "Check failed"
+msgstr "जाँच विफल"
+
+#: src/agentless.js:166
+msgid "Checking {name}…"
+msgstr "{name} की जाँच हो रही है…"
+
+#: src/agentless.js:225
+msgid "Delete this shared credential?"
+msgstr "यह साझा क्रेडेंशियल हटाएँ?"
+
+#: src/agentless.js:210
+msgid "Delete this target?"
+msgstr "यह टारगेट हटाएँ?"
+
+#: src/agentless.js:274
+#: src/agentless.js:363
+msgid "Edit {name}"
+msgstr "{name} संपादित करें"
+
+#: src/agentless.js:96
+msgid "Host key"
+msgstr "होस्ट कुंजी"
+
+#: src/agentless.js:42
+msgid "Host key changed"
+msgstr "होस्ट कुंजी बदल गई"
+
+#: templates/pages/agentless.tmpl:11
+msgid "Hosts the console reaches over SSH instead of a node agent. Tasks can run on them; Puppet runs and patch runs need the agent. Logins are stored sealed and are never shown again."
+msgstr "ऐसे होस्ट जिन तक कंसोल नोड एजेंट के बजाय SSH से पहुँचता है। इन पर टास्क चल सकते हैं; Puppet रन और पैच रन के लिए एजेंट चाहिए। लॉगिन एन्क्रिप्टेड सहेजे जाते हैं और दोबारा नहीं दिखाए जाते।"
+
+#: src/agentless.js:279
+msgid "How the target is named in jobs and node groups. It cannot be the name of a node that exists."
+msgstr "जॉब और नोड समूहों में टारगेट का नाम। यह किसी मौजूदा नोड का नाम नहीं हो सकता।"
+
+#: src/agentless.js:192
+msgid "Key it presents now"
+msgstr "जो कुंजी वह अभी दिखा रहा है"
+
+#: src/agentless.js:248
+msgid "Key passphrase (if it has one)"
+msgstr "कुंजी का पासफ़्रेज़ (यदि है)"
+
+#: src/agentless.js:96
+msgid "Last check"
+msgstr "पिछली जाँच"
+
+#: src/agentless.js:243
+msgid "Leave blank to keep the stored one."
+msgstr "सहेजी हुई को रखने के लिए खाली छोड़ें।"
+
+#: src/agentless.js:131
+#: src/agentless.js:286
+#: src/agentless.js:95
+msgid "Login"
+msgstr "लॉगिन"
+
+#: src/agentless.js:76
+msgid "No agentless targets"
+msgstr "कोई एजेंट-रहित टारगेट नहीं"
+
+#: src/agentless.js:115
+msgid "No shared credentials."
+msgstr "कोई साझा क्रेडेंशियल नहीं।"
+
+#: src/agentless.js:55
+#: src/nodes.js:138
+msgid "Not checked"
+msgstr "जाँचा नहीं गया"
+
+#: src/agentless.js:50
+msgid "Not seen yet"
+msgstr "अभी तक देखा नहीं गया"
+
+#: templates/pages/agentless.tmpl:25
+msgid "One login several targets can use. Replacing its key or password changes it for all of them."
+msgstr "एक लॉगिन जिसे कई टारगेट उपयोग कर सकते हैं। उसकी कुंजी या पासवर्ड बदलने से वह सभी के लिए बदल जाता है।"
+
+#: src/agentless.js:246
+msgid "Paste a PEM or OpenSSH private key."
+msgstr "PEM या OpenSSH निजी कुंजी चिपकाएँ।"
+
+#: src/agentless.js:192
+msgid "Pinned key"
+msgstr "पिन की गई कुंजी"
+
+#: src/agentless.js:283
+msgid "Port"
+msgstr "पोर्ट"
+
+#: src/agentless.js:245
+msgid "Private key"
+msgstr "निजी कुंजी"
+
+#: src/nodes.js:345
+msgid "Puppet runs need the node agent, and a selected node is agentless. Run a task instead."
+msgstr "Puppet रन के लिए नोड एजेंट चाहिए, और चुना गया एक नोड एजेंट-रहित है। इसके बजाय टास्क चलाएँ।"
+
+#: src/agentless.js:57
+#: src/nodes.js:140
+msgid "Reachable"
+msgstr "पहुँच योग्य"
+
+#: src/agentless.js:197
+msgid "Replace pinned key"
+msgstr "पिन की गई कुंजी बदलें"
+
+#: src/agentless.js:196
+msgid "Replace the pinned host key?"
+msgstr "पिन की गई होस्ट कुंजी बदलें?"
+
+#: src/agentless.js:65
+#: src/agentless.js:66
+msgid "Review host key"
+msgstr "होस्ट कुंजी देखें"
+
+#: src/agentless.js:299
+#: src/agentless.js:371
+msgid "Run tasks as (optional)"
+msgstr "टास्क इस उपयोगकर्ता के रूप में चलाएँ (वैकल्पिक)"
+
+#: src/agentless.js:352
+msgid "Saved {name}. Check it to see its host key and confirm the login works."
+msgstr "{name} सहेजा गया। इसकी होस्ट कुंजी देखने और लॉगिन काम करने की पुष्टि के लिए इसे जाँचें।"
+
+#: src/agentless.js:131
+msgid "Secret"
+msgstr "गोपनीय मान"
+
+#: src/agentless.js:291
+msgid "Shared credential"
+msgstr "साझा क्रेडेंशियल"
+
+#: src/agentless.js:32
+msgid "Shared credential: {name}"
+msgstr "साझा क्रेडेंशियल: {name}"
+
+#: templates/pages/agentless.tmpl:22
+msgid "Shared credentials"
+msgstr "साझा क्रेडेंशियल"
+
+#: src/agentless.js:300
+msgid "Tasks run through sudo as this user. sudo must not ask for a password."
+msgstr "टास्क इस उपयोगकर्ता के रूप में sudo से चलते हैं। sudo को पासवर्ड नहीं माँगना चाहिए।"
+
+#: src/agentless.js:196
+msgid "Trust this host key?"
+msgstr "इस होस्ट कुंजी पर भरोसा करें?"
+
+#: src/agentless.js:197
+msgid "Trust this key"
+msgstr "इस कुंजी पर भरोसा करें"
+
+#: src/agentless.js:45
+msgid "Trusted"
+msgstr "भरोसेमंद"
+
+#: src/agentless.js:251
+msgid "Used when there is no key, or as well."
+msgstr "कुंजी न होने पर, या उसके साथ, उपयोग होता है।"
+
+#: src/agentless.js:48
+msgid "Waiting to be trusted"
+msgstr "भरोसे की प्रतीक्षा में"
+
+#: src/agentless.js:170
+msgid "and as {user}"
+msgstr "और {user} के रूप में"
+
+#: src/agentless.js:122
+#: src/agentless.js:34
+msgid "key"
+msgstr "कुंजी"
+
+#: src/agentless.js:122
+#: src/agentless.js:34
+msgid "password"
+msgstr "पासवर्ड"
+
+#: src/agentless.js:121
+#: src/agentless.js:35
+msgid "runs as {user}"
+msgstr "{user} के रूप में चलता है"
+
+#: src/agentless.js:173
+msgid "{name} failed at {stage}: {reason}"
+msgstr "{name} {stage} पर विफल हुआ: {reason}"
+
+#: src/agentless.js:191
+msgid "{name} is presenting a different host key from the one pinned. Nothing was sent to it. Replace the pin only if you know the host was rebuilt or its key rotated."
+msgstr "{name} पिन की गई कुंजी से अलग होस्ट कुंजी दिखा रहा है। उसे कुछ नहीं भेजा गया। पिन तभी बदलें जब आप जानते हों कि होस्ट दोबारा बनाया गया या उसकी कुंजी बदली गई।"
+
+#: src/agentless.js:171
+msgid "{name} is reachable. Logged in as {user}{as}."
+msgstr "{name} पहुँच योग्य है। {user}{as} के रूप में लॉग इन किया।"
+
+#: src/agentless.js:193
+msgid "{name} presented this host key. Compare it with the host's own (ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub) before trusting it."
+msgstr "{name} ने यह होस्ट कुंजी दिखाई। भरोसा करने से पहले इसे होस्ट की अपनी कुंजी (ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub) से मिलाएँ।"
+
+#: src/agentless.js:226
+msgid "{name} will be deleted. A credential still used by a target cannot be deleted."
+msgstr "{name} हटाया जाएगा। जिस क्रेडेंशियल का कोई टारगेट अब भी उपयोग करता है, उसे हटाया नहीं जा सकता।"
+
+#: src/agentless.js:211
+msgid "{name} will no longer be reachable from the console. Its stored login is deleted."
+msgstr "{name} कंसोल से अब पहुँच योग्य नहीं रहेगा। उसका सहेजा हुआ लॉगिन हटा दिया जाता है।"
+
+#: src/code-plans.js:50
+msgid "Cannot be run"
+msgstr "चलाया नहीं जा सकता"
+
+#: src/i18n.js:202
+#: templates/pages/jobs.tmpl:26
+msgid "Code plan"
+msgstr "कोड प्लान"
+
+#: src/code-plans.js:37
+msgid "Code plans are not available on this console instance: it does not hold the deployed code. Use an instance that does."
+msgstr "इस कंसोल इंस्टेंस पर कोड प्लान उपलब्ध नहीं हैं: इसमें तैनात किया गया कोड नहीं है। जिस इंस्टेंस में वह है, उसका उपयोग करें।"
+
+#: src/code-plans.js:41
+msgid "No plans in the modules of {environment}."
+msgstr "{environment} के मॉड्यूल में कोई प्लान नहीं है।"
+
+#: src/code-plans.js:260
+msgid "No steps yet"
+msgstr "अभी कोई चरण नहीं"
+
+#: src/code-plans.js:273
+msgid "Output"
+msgstr "आउटपुट"
+
+#: templates/pages/plans.tmpl:20
+msgid "Plans in code"
+msgstr "कोड में प्लान"
+
+#: src/code-plans.js:279
+msgid "Returned value"
+msgstr "लौटाया गया मान"
+
+#: src/code-plans.js:145
+msgid "Run {plan}"
+msgstr "{plan} चलाएँ"
+
+#: src/code-plans.js:273
+msgid "Step"
+msgstr "चरण"
+
+#: src/code-plans.js:257
+msgid "This plan also ran on nodes outside your node groups, so what it printed and returned is not shown."
+msgstr "यह प्लान आपके नोड समूहों के बाहर के नोड पर भी चला, इसलिए उसने जो प्रिंट किया और लौटाया वह नहीं दिखाया जाता।"
+
+#: src/code-plans.js:155
+msgid "This plan takes no parameters."
+msgstr "इस प्लान में कोई पैरामीटर नहीं है।"
+
+#: templates/pages/plans.tmpl:21
+msgid "YAML plans in the modules of an environment's deployed code. Each task step is checked against your node groups and task permissions as it is reached."
+msgstr "किसी एनवायरनमेंट के तैनात कोड के मॉड्यूल में YAML प्लान। हर टास्क चरण की जाँच, उस तक पहुँचने पर, आपके नोड समूहों और टास्क अनुमतियों के अनुसार होती है।"
+
+#: src/code-plans.js:148
+#: src/code-plans.js:247
+msgid "message"
+msgstr "संदेश"
+
+#: src/code-plans.js:205
+msgid "{name} is not valid JSON."
+msgstr "{name} मान्य JSON नहीं है।"

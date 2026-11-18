@@ -413,3 +413,59 @@ func TestDeployer_Run_MeasuresDeployedSize(t *testing.T) {
 		t.Error("SizeBytes = 0 for a deploy that produced real content")
 	}
 }
+
+// fakeG10K writes a g10k that prints output and exits 0, as the real one
+// does when it cannot reach a repository.
+func fakeG10K(t *testing.T, output string) string {
+	t.Helper()
+	path := filepath.Join(t.TempDir(), "g10k")
+	script := "#!/bin/sh\ncat <<'EOT'\n" + output + "\nEOT\nexit 0\n"
+	if err := os.WriteFile(path, []byte(script), 0o755); err != nil {
+		t.Fatal(err)
+	}
+	return path
+}
+
+func TestDeployer_Run_AnUnreachableRepositoryFailsTheDeploy(t *testing.T) {
+	bin := fakeG10K(t, `Executing ssh-agent bash -c 'ssh-add /k; git clone --mirror git@example.com:o/r.git /c' took 0.004s
+WARN: git repository git@example.com:o/r.git does not exist or is unreachable at this moment! Error: exit status 1 bash: No such file or directory
+
+WARNING: Could not resolve git repository in source 'control' (git@example.com:o/r.git)
+Synced x with branch production with 0 git repositories and 0 Forge modules in 0.0s`)
+	d := NewDeployer(Config{G10KBinPath: bin, Sources: singleSource("git@example.com:o/r.git"), CodeDirPath: t.TempDir()})
+
+	_, err := d.Run(context.Background(), DefaultSourceName, "production")
+	if err == nil {
+		t.Fatal("a g10k that cloned nothing was reported as a successful deploy")
+	}
+	for _, want := range []string{"could not use the repository", "git@example.com:o/r.git", "does not exist or is unreachable", "bash: No such file or directory"} {
+		if !strings.Contains(err.Error(), want) {
+			t.Errorf("error = %q, want it to contain %q", err, want)
+		}
+	}
+}
+
+func TestDeployer_Run_ABranchThatDoesNotExistSaysSoAndShowsG10K(t *testing.T) {
+	bin := fakeG10K(t, "Synced x with branch production with 0 git repositories and 0 Forge modules in 0.0s")
+	d := NewDeployer(Config{G10KBinPath: bin, Sources: singleSource("git@example.com:o/r.git"), CodeDirPath: t.TempDir()})
+
+	_, err := d.Run(context.Background(), DefaultSourceName, "production")
+	if err == nil {
+		t.Fatal("a deploy that created no environment succeeded")
+	}
+	for _, want := range []string{`did not create environment "production"`, `a branch named "production"`, "g10k said:", "0 git repositories"} {
+		if !strings.Contains(err.Error(), want) {
+			t.Errorf("error = %q, want it to contain %q", err, want)
+		}
+	}
+}
+
+func TestUnresolvedWarnings(t *testing.T) {
+	got := unresolvedWarnings("fine\n  WARN: git repository u does not exist or is unreachable at this moment! Error: x\nWARNING: Could not resolve git repository in source 's' (u)\nok")
+	if len(got) != 2 || !strings.HasPrefix(got[0], "WARN: git repository u") {
+		t.Errorf("warnings = %q", got)
+	}
+	if unresolvedWarnings("Synced with 3 git repositories") != nil {
+		t.Error("a clean run produced warnings")
+	}
+}

@@ -19,7 +19,7 @@ type page struct {
 	Title      string
 	Script     string // page JS entry, without the .js extension
 	ShowHeader bool
-	ActiveNav  string // "nodes" | "node-connectivity" | "packages" | "vulnerabilities" | "groups" | "admin" | "activity" | "system" | "code" | "jobs" | "" (preferences.html deliberately has none - it's reached from the header's user menu, not the sidenav)
+	ActiveNav  string // "nodes" | "node-connectivity" | "packages" | "patches" | "vulnerabilities" | "groups" | "admin" | "activity" | "system" | "code" | "jobs" | "" (preferences.html deliberately has none - it's reached from the header's user menu, not the sidenav)
 }
 
 var pages = []page{
@@ -28,12 +28,15 @@ var pages = []page{
 	{Name: "report.html", Title: "Report - OpenVox Console", Script: "report", ShowHeader: true, ActiveNav: "nodes"},
 	{Name: "nodes.html", Title: "Nodes - OpenVox Console", Script: "nodes", ShowHeader: true, ActiveNav: "node-connectivity"},
 	{Name: "packages.html", Title: "Packages - OpenVox Console", Script: "packages", ShowHeader: true, ActiveNav: "packages"},
+	{Name: "agentless.html", Title: "Agentless targets - OpenVox Console", Script: "agentless", ShowHeader: true, ActiveNav: "node-connectivity"},
+	{Name: "patches.html", Title: "Patching - OpenVox Console", Script: "patches", ShowHeader: true, ActiveNav: "patches"},
 	{Name: "vulnerabilities.html", Title: "Vulnerabilities - OpenVox Console", Script: "vulnerabilities", ShowHeader: true, ActiveNav: "vulnerabilities"},
 	{Name: "vulnerability.html", Title: "Vulnerability - OpenVox Console", Script: "vulnerability", ShowHeader: true, ActiveNav: "vulnerabilities"},
 	{Name: "vulnerability-providers.html", Title: "Vulnerability Providers - OpenVox Console", Script: "vulnerability-providers", ShowHeader: true, ActiveNav: "vulnerabilities"},
 	{Name: "group.html", Title: "Node Group - OpenVox Console", Script: "group", ShowHeader: true, ActiveNav: "groups"},
 	{Name: "groups.html", Title: "Node Groups - OpenVox Console", Script: "groups", ShowHeader: true, ActiveNav: "groups"},
 	{Name: "users.html", Title: "Users - OpenVox Console", Script: "users", ShowHeader: true, ActiveNav: "admin"},
+	{Name: "user-groups.html", Title: "User groups - OpenVox Console", Script: "user-groups", ShowHeader: true, ActiveNav: "admin"},
 	{Name: "roles.html", Title: "Roles - OpenVox Console", Script: "roles", ShowHeader: true, ActiveNav: "admin"},
 	{Name: "service-tokens.html", Title: "Service Tokens - OpenVox Console", Script: "service-tokens", ShowHeader: true, ActiveNav: "admin"},
 	{Name: "activity.html", Title: "Activity - OpenVox Console", Script: "activity", ShowHeader: true, ActiveNav: "activity"},
@@ -45,6 +48,13 @@ var pages = []page{
 	{Name: "deploys.html", Title: "Deploys - OpenVox Console", Script: "deploys-redirect", ShowHeader: true, ActiveNav: "code"},
 	{Name: "jobs.html", Title: "Jobs - OpenVox Console", Script: "jobs", ShowHeader: true, ActiveNav: "jobs"},
 	{Name: "job.html", Title: "Job - OpenVox Console", Script: "job", ShowHeader: true, ActiveNav: "jobs"},
+	{Name: "schedules.html", Title: "Scheduled jobs - OpenVox Console", Script: "schedules", ShowHeader: true, ActiveNav: "jobs"},
+	{Name: "schedule.html", Title: "Schedule - OpenVox Console", Script: "schedule", ShowHeader: true, ActiveNav: "jobs"},
+	{Name: "schedule-edit.html", Title: "Edit schedule - OpenVox Console", Script: "schedule-edit", ShowHeader: true, ActiveNav: "jobs"},
+	{Name: "plans.html", Title: "Plans - OpenVox Console", Script: "plans", ShowHeader: true, ActiveNav: "jobs"},
+	{Name: "plan.html", Title: "Plan - OpenVox Console", Script: "plan", ShowHeader: true, ActiveNav: "jobs"},
+	{Name: "plan-edit.html", Title: "Edit plan - OpenVox Console", Script: "plan-edit", ShowHeader: true, ActiveNav: "jobs"},
+	{Name: "account-policy.html", Title: "Account policy - OpenVox Console", Script: "account-policy", ShowHeader: true, ActiveNav: "admin"},
 	{Name: "preferences.html", Title: "Preferences - OpenVox Console", Script: "preferences", ShowHeader: true},
 	{Name: "login.html", Title: "Log in - OpenVox Console", Script: "login", ShowHeader: false},
 	{Name: "oidc-callback.html", Title: "Signing in - OpenVox Console", Script: "oidc-callback", ShowHeader: false},

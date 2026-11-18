@@ -1,0 +1,122 @@
+# Multi-instance fixture: two clustered console instances sharing one
+# Postgres, for exercising the behavior that only appears with more than
+# one instance running.
+#
+#   docker compose -f docker-compose.yml -f docker-compose.cluster.yml up
+#
+# What this is for, concretely: revoke a token against one instance and
+# confirm the other rejects it; trigger a run through one instance
+# against a node connected to the other; confirm an activity event
+# produces one row rather than two. See operations.md's "Multi-instance
+# topology".
+#
+# Both instances run `all` mode, which is step 2 of operations.md's
+# migration path - clustering exercised before any role split. To try a
+# split topology, set CONSOLE_RUN_MODE per service (see the commented
+# block at the end).
+#
+# Not a production layout: it shares one certificate set and one
+# bootstrap credential between instances, and publishes both instances'
+# ports directly rather than putting a load balancer in front. Sharing
+# the certificate is also what lets the two instances verify each other
+# by name without CONSOLE_CLUSTER_ADVERTISE; with more instances, each
+# with its own certificate, see operations.md.
+
+services:
+  console:
+    environment:
+      # This instance listens for peers, and separately for any
+      # enc-mode instance attaching as a leaf. The leaf address is
+      # configured explicitly rather than derived from the route port -
+      # see operations.md. The node transport rides the same cluster, in
+      # its own NATS account, so there is nothing separate to configure
+      # for it.
+      #
+      # Peer connections are mutual TLS with the console's own
+      # certificate (CONSOLE_OPENVOXDB_CERT_FILE, certname "console"), so
+      # a peer must dial this instance as "console".
+      CONSOLE_CLUSTER_ADDR: ":6222"
+      CONSOLE_CLUSTER_LEAF_ADDR: ":6223"
+      CONSOLE_CLUSTER_SECRET: ${CONSOLE_CLUSTER_SECRET:-local-dev-cluster-secret}
+      # Held by enc instances; must differ from the cluster secret.
+      CONSOLE_CLUSTER_LEAF_SECRET: ${CONSOLE_CLUSTER_LEAF_SECRET:-local-dev-leaf-secret}
+
+  console-2:
+    image: ${CONSOLE_IMAGE:-ghcr.io/avitacco/openvox-console}:${CONSOLE_IMAGE_TAG:-main}
+    hostname: console-2
+    restart: unless-stopped
+    environment:
+      CONSOLE_HTTP_ADDR: ":8080"
+      CONSOLE_BASE_URL: ${CONSOLE_BASE_URL:?set CONSOLE_BASE_URL to this console's externally-reachable URL}
+      CONSOLE_OPENVOXDB_URL: https://openvoxdb:8081
+
+      CONSOLE_OPENVOXDB_CERT_FILE: /etc/openvox-console/console-cert.pem
+      CONSOLE_OPENVOXDB_KEY_FILE: /etc/openvox-console/console-key.pem
+      CONSOLE_OPENVOXDB_CA_FILE: /etc/openvox-console/ca.pem
+
+      # The same signing key as the first instance. Instances must agree
+      # on signing/verification material, or a token issued by one would
+      # not verify on the other and the load balancer would log people
+      # out at random.
+      CONSOLE_RBAC_SIGNING_KEY_FILE: /etc/openvox-console/rbac-signing-key.pem
+
+      CONSOLE_POSTGRES_DSN_FILE: /run/secrets/console_postgres_dsn
+
+      # Deliberately no bootstrap admin here: the first instance creates
+      # it, and both share a database. Two instances racing to bootstrap
+      # the same account would be a pointless conflict.
+
+      # Dials the first instance. Only one side needs to name the other;
+      # NATS meshes the cluster from there - node transport included, so
+      # a node connected to either instance is dispatchable from both.
+      CONSOLE_CLUSTER_PEERS: console:6222
+      CONSOLE_CLUSTER_ADDR: ":6222"
+      CONSOLE_CLUSTER_SECRET: ${CONSOLE_CLUSTER_SECRET:-local-dev-cluster-secret}
+
+      # Its own node listener.
+      CONSOLE_NODE_TRANSPORT_ADDR: ":8142"
+      CONSOLE_NODE_TRANSPORT_PUBLIC_ADDR: ${CONSOLE_NODE_TRANSPORT_PUBLIC_ADDR:?set the address nodes dial for the node transport}
+      CONSOLE_NODE_TRANSPORT_CERT_FILE: /etc/openvox-console/node-transport-cert.pem
+      CONSOLE_NODE_TRANSPORT_KEY_FILE: /etc/openvox-console/node-transport-key.pem
+      CONSOLE_NODE_TRANSPORT_CA_FILE: /etc/openvox-console/ca.pem
+
+      CONSOLE_PUPPET_SERVER_PUBLIC_ADDR: ${CONSOLE_PUPPET_SERVER_PUBLIC_ADDR:-}
+
+      # Whether the console upgrades out-of-date node agents by itself.
+      # On unless set to false; see the "Keep node agents current" guide.
+      CONSOLE_AGENT_AUTO_UPGRADE: ${CONSOLE_AGENT_AUTO_UPGRADE:-true}
+
+      CONSOLE_CA_CLIENT_URL: ${CONSOLE_CA_CLIENT_URL:-}
+      CONSOLE_CA_CLIENT_CERT_FILE: /etc/openvox-console/ca-client-cert.pem
+      CONSOLE_CA_CLIENT_KEY_FILE: /etc/openvox-console/ca-client-key.pem
+      CONSOLE_CA_CLIENT_CA_FILE: /etc/openvox-console/ca.pem
+    ports:
+      # Published so a test can address this instance directly rather
+      # than through a load balancer - the whole point is telling the
+      # two apart.
+      - "${CONSOLE_2_HTTP_PORT:-8090}:8080"
+    volumes:
+      - ${CONSOLE_CERTS_DIR:-./certs}:/etc/openvox-console:ro
+    secrets:
+      - console_postgres_dsn
+    depends_on:
+      - console-postgres
+    healthcheck:
+      test: ["CMD", "/console", "--health-check"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+# To exercise a split topology instead of two `all` instances, add
+# CONSOLE_RUN_MODE to each service:
+#
+#   console:    CONSOLE_RUN_MODE: web
+#   console-2:  CONSOLE_RUN_MODE: orchestrator
+#
+# and add a third for `worker`. An `enc` instance would attach as a leaf
+# (CONSOLE_CLUSTER_MODE: leaf, CONSOLE_CLUSTER_PEERS: console:6223,
+# CONSOLE_CLUSTER_LEAF_SECRET only). Note that `orchestrator` refuses to start
+# without CONSOLE_NODE_TRANSPORT_ADDR, and that any mode other than
+# `all`/`web` needs CONSOLE_RBAC_VERIFICATION_KEYS_DIR rather than
+# CONSOLE_RBAC_SIGNING_KEY_FILE - it verifies tokens but never issues
+# them, so it must not hold the private key.

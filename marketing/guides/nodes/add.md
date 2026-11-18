@@ -101,6 +101,12 @@ the **Jobs** page like any other, recorded as started by
 `system:initial-run`. Once it finishes, the node's page shows its facts,
 its reports and the classes applied to it.
 
+## After that, the node agent looks after itself
+
+You do not run the script again to upgrade the node agent. When you
+upgrade the console, it upgrades the node agent on each connected node
+for you; see [Keep node agents current](agent-upgrades.html).
+
 ## Report the node's packages (optional)
 
 Package inventory is off for each node until you turn it on. On the

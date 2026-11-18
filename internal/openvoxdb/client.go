@@ -76,7 +76,7 @@ func (c *Client) Query(ctx context.Context, pql string) ([]map[string]any, error
 // a pointer to a slice.
 func (c *Client) query(ctx context.Context, pql string, out any) error {
 	if err := validatePQL(pql); err != nil {
-		return err
+		return &InvalidQueryError{Message: err.Error()}
 	}
 
 	body, err := json.Marshal(map[string]string{"query": pql})
@@ -101,6 +101,12 @@ func (c *Client) query(ctx context.Context, pql string, out any) error {
 		return fmt.Errorf("openvoxdb unreachable: read response: %w", err)
 	}
 
+	if resp.StatusCode >= 400 && resp.StatusCode < 500 {
+		// openvoxdb read the query and refused it: the query is what is
+		// wrong, which a caller relaying a user's query must be able to
+		// tell from openvoxdb being down.
+		return &InvalidQueryError{Message: describeError(respBody)}
+	}
 	if resp.StatusCode != http.StatusOK {
 		return fmt.Errorf("openvoxdb query failed (status %d): %s", resp.StatusCode, describeError(respBody))
 	}

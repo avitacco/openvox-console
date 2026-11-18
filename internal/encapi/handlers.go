@@ -42,6 +42,7 @@ func NewHandlers(groups groupLister, facts factFetcher) *Handlers {
 // for what authorize does.
 func (h *Handlers) Register(mux *http.ServeMux, authorize func(permission string, next http.HandlerFunc) http.HandlerFunc) {
 	mux.HandleFunc("GET /api/v1/enc/{certname}", authorize("enc:read", h.classify))
+	mux.HandleFunc("GET /api/v1/enc/{certname}/data", authorize("enc:read", h.configData))
 }
 
 // Response is the ENC endpoint's JSON shape - what cmd/enc-bridge
@@ -52,28 +53,55 @@ type Response struct {
 	Environment *string                   `json:"environment,omitempty"`
 }
 
-func (h *Handlers) classify(w http.ResponseWriter, r *http.Request) {
-	certname := r.PathValue("certname")
-	ctx := r.Context()
-
+// classification evaluates every group against the node, from its
+// current facts. Both routes use it, so a node's classes and its
+// configuration data always come from the same groups.
+func (h *Handlers) classification(ctx context.Context, certname string) (classifier.Classification, error) {
 	groups, err := h.groups.ListAllGroups(ctx)
 	if err != nil {
-		writeError(w, err)
-		return
+		return classifier.Classification{}, err
 	}
 
 	factRows, err := h.facts.Facts(ctx, certname)
 	if err != nil {
+		return classifier.Classification{}, err
+	}
+
+	// Override warnings (a child winning over a higher-priority
+	// ancestor) are deliberately not part of this response: openvoxserver's
+	// exec terminus expects classes, parameters and environment only.
+	// They are reported on the groups themselves.
+	return classifier.Classify(groups, certname, factsMap(factRows)), nil
+}
+
+func (h *Handlers) classify(w http.ResponseWriter, r *http.Request) {
+	result, err := h.classification(r.Context(), r.PathValue("certname"))
+	if err != nil {
 		writeError(w, err)
 		return
 	}
-
-	result := classifier.Classify(groups, certname, factsMap(factRows))
 	writeJSON(w, Response{
 		Classes:     result.Classes,
 		Parameters:  result.Parameters,
 		Environment: result.Environment,
 	})
+}
+
+// configData answers with the node's merged configuration data as one
+// JSON object, `{}` when there is none. It is what openvoxserver's
+// console_config_data Hiera function asks for on every compile (see
+// openvoxserver-init), so it carries nothing else.
+func (h *Handlers) configData(w http.ResponseWriter, r *http.Request) {
+	result, err := h.classification(r.Context(), r.PathValue("certname"))
+	if err != nil {
+		writeError(w, err)
+		return
+	}
+	data := result.ConfigData
+	if data == nil {
+		data = map[string]any{}
+	}
+	writeJSON(w, data)
 }
 
 func factsMap(facts []openvoxdb.Fact) map[string]any {

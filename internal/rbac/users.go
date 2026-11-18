@@ -81,9 +81,9 @@ func (s *Store) GetUserByUsername(ctx context.Context, username string) (User, e
 func (s *Store) getUser(ctx context.Context, where string, arg any) (User, error) {
 	var u User
 	err := s.pool.QueryRow(ctx,
-		`SELECT id, username, password_hash, oidc_subject, first_name, last_name, email, created_at FROM users WHERE `+where,
+		`SELECT id, username, password_hash, oidc_subject, first_name, last_name, email, created_at, failed_logins, CASE WHEN locked_until > now() THEN locked_until END FROM users WHERE `+where,
 		arg,
-	).Scan(&u.ID, &u.Username, &u.PasswordHash, &u.OIDCSubject, &u.FirstName, &u.LastName, &u.Email, &u.CreatedAt)
+	).Scan(&u.ID, &u.Username, &u.PasswordHash, &u.OIDCSubject, &u.FirstName, &u.LastName, &u.Email, &u.CreatedAt, &u.FailedLogins, &u.LockedUntil)
 	if errors.Is(err, pgx.ErrNoRows) {
 		return User{}, ErrNotFound
 	}
@@ -128,7 +128,7 @@ func (s *Store) CreateOIDCUser(ctx context.Context, subject, username string) (U
 
 // ListUsers returns every user.
 func (s *Store) ListUsers(ctx context.Context) ([]User, error) {
-	rows, err := s.pool.Query(ctx, `SELECT id, username, password_hash, oidc_subject, first_name, last_name, email, created_at FROM users ORDER BY id`)
+	rows, err := s.pool.Query(ctx, `SELECT id, username, password_hash, oidc_subject, first_name, last_name, email, created_at, failed_logins, CASE WHEN locked_until > now() THEN locked_until END FROM users ORDER BY id`)
 	if err != nil {
 		return nil, fmt.Errorf("list users: %w", err)
 	}
@@ -137,7 +137,7 @@ func (s *Store) ListUsers(ctx context.Context) ([]User, error) {
 	users := make([]User, 0)
 	for rows.Next() {
 		var u User
-		if err := rows.Scan(&u.ID, &u.Username, &u.PasswordHash, &u.OIDCSubject, &u.FirstName, &u.LastName, &u.Email, &u.CreatedAt); err != nil {
+		if err := rows.Scan(&u.ID, &u.Username, &u.PasswordHash, &u.OIDCSubject, &u.FirstName, &u.LastName, &u.Email, &u.CreatedAt, &u.FailedLogins, &u.LockedUntil); err != nil {
 			return nil, fmt.Errorf("list users: %w", err)
 		}
 		users = append(users, u)

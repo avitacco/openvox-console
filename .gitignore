@@ -4,6 +4,8 @@
 # voxblocks from frontend/'s lockfile, so the two cannot drift.
 /marketing/node_modules/
 /bin/
+# A bare `go build ./cmd/...` drops its binary in the repo root.
+/*.exe
 /.env
 /certs/
 /.dev/

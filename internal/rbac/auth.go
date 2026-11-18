@@ -4,10 +4,12 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"time"
 
 	"golang.org/x/crypto/bcrypt"
 
 	"github.com/voxpupuli/enterprise-console/internal/auditlog"
+	"github.com/voxpupuli/enterprise-console/internal/taskscope"
 )
 
 // ErrInvalidCredentials is returned for any login/refresh failure whose
@@ -20,6 +22,13 @@ var ErrInvalidCredentials = errors.New("invalid credentials")
 type authStore interface {
 	GetUserByUsername(ctx context.Context, username string) (User, error)
 	UserPermissions(ctx context.Context, userID int64) ([]string, error)
+	UserNodeScopes(ctx context.Context, userID int64) (map[string][]int64, error)
+	UserTaskGrants(ctx context.Context, userID int64) ([]taskscope.Grant, error)
+
+	// The account policy's lockout - see policy.go.
+	AccountPolicy(ctx context.Context) (AccountPolicy, error)
+	RecordFailedLogin(ctx context.Context, id int64, threshold int, period time.Duration) (bool, *time.Time, error)
+	ResetFailedLogins(ctx context.Context, id int64) (bool, error)
 }
 
 // AuthService implements password login and refresh-token rotation.
@@ -29,6 +38,15 @@ type AuthService struct {
 	verifier    *Verifier
 	revoker     *Revoker
 	recordAudit func(auditlog.Event)
+	// recordActivity is told when an account is locked. Optional - see
+	// SetActivityRecorder.
+	recordActivity func(action, actor, summary string)
+}
+
+// SetActivityRecorder has an account being locked written to the
+// activity log, where an administrator will see it.
+func (a *AuthService) SetActivityRecorder(record func(action, actor, summary string)) {
+	a.recordActivity = record
 }
 
 // NewAuthService builds an AuthService. recordAudit is called for every
@@ -61,9 +79,25 @@ func (a *AuthService) Login(ctx context.Context, username, password string) (Tok
 		return TokenPair{}, fmt.Errorf("lookup user: %w", err)
 	}
 
-	if err := bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(password)); err != nil {
-		a.recordLoginFailure(username)
+	// The comparison is made whether or not the account is locked, so
+	// that how long a refusal takes says nothing about the lock - and
+	// every refusal below is the same ErrInvalidCredentials, so that
+	// nothing else does either: saying "locked" would say the account
+	// exists.
+	wrong := bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(password)) != nil
+	if user.Locked() {
+		a.recordAudit(auditlog.Event{Action: "user.login.locked", Actor: username, ResourceType: "user", ResourceID: user.Username})
 		return TokenPair{}, ErrInvalidCredentials
+	}
+	if wrong {
+		a.recordLoginFailure(username)
+		a.CountFailedPassword(ctx, user)
+		return TokenPair{}, ErrInvalidCredentials
+	}
+	if user.FailedLogins > 0 {
+		if _, err := a.store.ResetFailedLogins(ctx, user.ID); err != nil {
+			return TokenPair{}, fmt.Errorf("reset failed logins: %w", err)
+		}
 	}
 
 	perms, err := a.store.UserPermissions(ctx, user.ID)
@@ -71,12 +105,47 @@ func (a *AuthService) Login(ctx context.Context, username, password string) (Tok
 		return TokenPair{}, fmt.Errorf("load permissions: %w", err)
 	}
 
-	pair, err := issuePair(a.issuer, user.Username, perms)
+	scopes, err := a.store.UserNodeScopes(ctx, user.ID)
+	if err != nil {
+		return TokenPair{}, fmt.Errorf("load node scopes: %w", err)
+	}
+
+	tasks, err := a.store.UserTaskGrants(ctx, user.ID)
+	if err != nil {
+		return TokenPair{}, fmt.Errorf("load task grants: %w", err)
+	}
+
+	pair, err := issuePair(a.issuer, user.Username, perms, scopes, tasks)
 	if err != nil {
 		return TokenPair{}, err
 	}
 	a.recordAudit(auditlog.Event{Action: "user.login.success", Actor: user.Username, ResourceType: "user", ResourceID: user.Username})
 	return pair, nil
+}
+
+// CountFailedPassword counts a wrong password against user under the
+// account policy, locking the account when the count reaches the
+// policy's threshold. It is used for a failed login and for a wrong
+// current password given to a password change, which would otherwise
+// let a stolen session guess without limit.
+//
+// A failure to count is not reported to the caller, who is being
+// refused either way; the attempt itself is already in the audit log.
+func (a *AuthService) CountFailedPassword(ctx context.Context, user User) {
+	policy, err := a.store.AccountPolicy(ctx)
+	if err != nil {
+		policy = DefaultAccountPolicy()
+	}
+	locked, until, err := a.store.RecordFailedLogin(ctx, user.ID, policy.LockoutThreshold, policy.LockoutPeriod())
+	if err != nil || !locked {
+		return
+	}
+	a.recordAudit(auditlog.Event{Action: "user.locked", Actor: user.Username, ResourceType: "user", ResourceID: user.Username,
+		After: map[string]any{"lockedUntil": until.UTC().Format(time.RFC3339), "failedLogins": policy.LockoutThreshold}})
+	if a.recordActivity != nil {
+		a.recordActivity("user.locked", user.Username, fmt.Sprintf("account %s was locked for %d minutes after %d failed logins",
+			user.Username, policy.LockoutMinutes, policy.LockoutThreshold))
+	}
 }
 
 // recordLoginFailure audits a failed login attempt, recording the
@@ -111,23 +180,33 @@ func (a *AuthService) Refresh(ctx context.Context, refreshToken string) (TokenPa
 		return TokenPair{}, fmt.Errorf("load permissions: %w", err)
 	}
 
+	scopes, err := a.store.UserNodeScopes(ctx, user.ID)
+	if err != nil {
+		return TokenPair{}, fmt.Errorf("load node scopes: %w", err)
+	}
+
+	tasks, err := a.store.UserTaskGrants(ctx, user.ID)
+	if err != nil {
+		return TokenPair{}, fmt.Errorf("load task grants: %w", err)
+	}
+
 	expiresAt := claims.ExpiresAt.Time
 	if err := a.revoker.Revoke(ctx, claims.ID, expiresAt); err != nil {
 		return TokenPair{}, fmt.Errorf("revoke used refresh token: %w", err)
 	}
 
-	return issuePair(a.issuer, user.Username, perms)
+	return issuePair(a.issuer, user.Username, perms, scopes, tasks)
 }
 
 // issuePair issues an access/refresh token pair for subject carrying
-// permissions. Shared by password login/refresh (AuthService) and OIDC
+// permissions and the node groups each applies to. Shared by password login/refresh (AuthService) and OIDC
 // login (OIDCService), so every login path produces tokens the same way.
-func issuePair(issuer *Issuer, subject string, permissions []string) (TokenPair, error) {
-	access, _, err := issuer.IssueToken(subject, TokenTypeAccess, permissions, AccessTokenTTL)
+func issuePair(issuer *Issuer, subject string, permissions []string, nodeScopes map[string][]int64, taskGrants []taskscope.Grant) (TokenPair, error) {
+	access, _, err := issuer.IssueUserTokenWithTasks(subject, TokenTypeAccess, permissions, nodeScopes, taskGrants, AccessTokenTTL)
 	if err != nil {
 		return TokenPair{}, fmt.Errorf("issue access token: %w", err)
 	}
-	refresh, _, err := issuer.IssueToken(subject, TokenTypeRefresh, permissions, RefreshTokenTTL)
+	refresh, _, err := issuer.IssueUserTokenWithTasks(subject, TokenTypeRefresh, permissions, nodeScopes, taskGrants, RefreshTokenTTL)
 	if err != nil {
 		return TokenPair{}, fmt.Errorf("issue refresh token: %w", err)
 	}

@@ -166,11 +166,23 @@ $QuotedBinaryPath = '"' + $BinaryPath + '"'
 
 if ($ExistingService) {
     Write-Host "node-agent-client service already registered, starting it with the updated binary..."
-    Start-Service -Name $ServiceName
 } else {
     New-Service -Name $ServiceName -BinaryPathName $QuotedBinaryPath -DisplayName "OpenVox Console node-agent-client" -StartupType Automatic
-    Start-Service -Name $ServiceName
 }
+
+# Restart the service whenever its process ends without the Service
+# Control Manager having asked it to stop. A crash is one such case; the
+# other is the client upgrading itself, which swaps its own executable
+# and then exits on purpose so that this restart starts the new one (see
+# design.md in add-agent-auto-upgrade). Set on every run, so a service
+# registered by an earlier version of this script gains it too. The
+# space after each "=" is sc.exe's own syntax.
+& sc.exe failure $ServiceName reset= 86400 actions= restart/5000/restart/5000/restart/60000 | Out-Null
+if ($LASTEXITCODE -ne 0) {
+    Write-Warning "Could not set the node-agent-client service's restart-on-failure actions; the client will not restart itself after an automatic upgrade."
+}
+
+Start-Service -Name $ServiceName
 
 Write-Host "node-agent-client installed and started."
 `

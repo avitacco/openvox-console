@@ -18,6 +18,13 @@ func ClaimsFromContext(ctx context.Context) (*Claims, bool) {
 	return claims, ok
 }
 
+// WithClaims returns ctx carrying claims, as Authenticate leaves it. It
+// exists for code that has to act as a caller it did not authenticate: a
+// test building a request for a given set of claims.
+func WithClaims(ctx context.Context, claims *Claims) context.Context {
+	return context.WithValue(ctx, claimsContextKey, claims)
+}
+
 // Authenticate wraps h so it only runs for requests carrying a valid,
 // unexpired, unrevoked token - without requiring any specific permission.
 // Use this for endpoints any logged-in identity may call (e.g. logout);

@@ -59,6 +59,10 @@ services:
       # console's own view of the CA).
       CONSOLE_PUPPET_SERVER_PUBLIC_ADDR: ${CONSOLE_PUPPET_SERVER_PUBLIC_ADDR:-}
 
+      # Whether the console upgrades out-of-date node agents by itself.
+      # On unless set to false; see the "Keep node agents current" guide.
+      CONSOLE_AGENT_AUTO_UPGRADE: ${CONSOLE_AGENT_AUTO_UPGRADE:-true}
+
       # Optional: certificate management from the Nodes page. Unset, the
       # page can only show nodes that have connected or reported - a node
       # whose certificate is still awaiting signature never appears,
@@ -72,6 +76,13 @@ services:
       CONSOLE_CA_CLIENT_CERT_FILE: /etc/openvox-console/ca-client-cert.pem
       CONSOLE_CA_CLIENT_KEY_FILE: /etc/openvox-console/ca-client-key.pem
       CONSOLE_CA_CLIENT_CA_FILE: /etc/openvox-console/ca.pem
+
+      # Puppet tasks: the console reads which tasks exist, and their
+      # parameters, from openvoxserver - always in this stack, so on by
+      # default. It authenticates with the openvoxdb client certificate
+      # above, which openvoxserver lets read tasks; no new credential.
+      # Set CONSOLE_PUPPET_SERVER_URL= (empty) in .env to turn tasks off.
+      CONSOLE_PUPPET_SERVER_URL: ${CONSOLE_PUPPET_SERVER_URL-https://openvoxserver:8140}
 
       # Optional OIDC login. Inactive while CONSOLE_OIDC_ISSUER is unset,
       # and it never replaces local login or service tokens. The callback
@@ -183,6 +194,12 @@ services:
       # environment of a process spawned per classification request.
       ENC_BRIDGE_URL: ${ENC_BRIDGE_URL:-http://console:8080}
       ENC_BRIDGE_TOKEN_FILE: /run/secrets/enc_bridge_token
+      # The certificate allowed to read each environment's classes
+      # (/puppet/v3/environment_classes), which fills the class picker
+      # on a node group's page. It is the console's own - the openvoxdb
+      # client certificate, named "console" in the install guide. Only
+      # change this if you issued that certificate under another name.
+      CLASS_DISCOVERY_CERTNAME: ${CLASS_DISCOVERY_CERTNAME:-console}
     secrets:
       - enc_bridge_token
     configs:

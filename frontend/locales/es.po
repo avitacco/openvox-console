@@ -14,7 +14,10 @@ msgid "Account menu"
 msgstr "Menú de cuenta"
 
 #: src/activity.js:39
+#: src/schedule.js:65
+#: src/schedules.js:49
 #: templates/pages/activity.tmpl:9
+#: templates/pages/schedule-edit.tmpl:22
 msgid "Action"
 msgstr "Acción"
 
@@ -22,7 +25,7 @@ msgstr "Acción"
 msgid "Actions"
 msgstr "Acciones"
 
-#: templates/layout.html.tmpl:89
+#: templates/layout.html.tmpl:93
 #: templates/pages/activity.tmpl:3
 msgid "Activity"
 msgstr "Actividad"
@@ -32,11 +35,11 @@ msgstr "Actividad"
 msgid "Actor"
 msgstr "Actor"
 
-#: templates/pages/group.tmpl:57
+#: templates/pages/group.tmpl:107
 msgid "Add condition"
 msgstr "Añadir condición"
 
-#: templates/pages/nodes.tmpl:5
+#: templates/pages/nodes.tmpl:7
 msgid "Add node"
 msgstr "Añadir Node"
 
@@ -44,9 +47,11 @@ msgstr "Añadir Node"
 msgid "Add provider"
 msgstr "Añadir proveedor"
 
-#: templates/layout.html.tmpl:102
+#: templates/layout.html.tmpl:106
+#: templates/pages/account-policy.tmpl:3
 #: templates/pages/roles.tmpl:3
 #: templates/pages/service-tokens.tmpl:3
+#: templates/pages/user-groups.tmpl:3
 #: templates/pages/users.tmpl:3
 msgid "Admin"
 msgstr "Administración"
@@ -58,6 +63,8 @@ msgstr "Nodes afectados"
 
 #: src/packages.js:169
 #: src/packages.js:26
+#: src/patches.js:290
+#: src/patches.js:45
 #: templates/pages/activity.tmpl:10
 #: templates/pages/activity.tmpl:6
 #: templates/pages/activity.tmpl:7
@@ -67,14 +74,17 @@ msgstr "Nodes afectados"
 #: templates/pages/code.tmpl:47
 #: templates/pages/code.tmpl:48
 #: templates/pages/code.tmpl:52
-#: templates/pages/jobs.tmpl:14
-#: templates/pages/jobs.tmpl:8
-#: templates/pages/node.tmpl:48
-#: templates/pages/nodes.tmpl:13
-#: templates/pages/nodes.tmpl:18
+#: templates/pages/jobs.tmpl:21
+#: templates/pages/jobs.tmpl:29
+#: templates/pages/node.tmpl:67
+#: templates/pages/nodes.tmpl:17
+#: templates/pages/nodes.tmpl:22
 #: templates/pages/packages.tmpl:11
 #: templates/pages/packages.tmpl:13
 #: templates/pages/packages.tmpl:14
+#: templates/pages/patches.tmpl:17
+#: templates/pages/patches.tmpl:19
+#: templates/pages/patches.tmpl:20
 #: templates/pages/report.tmpl:12
 #: templates/pages/vulnerabilities.tmpl:12
 #: templates/pages/vulnerabilities.tmpl:20
@@ -82,15 +92,15 @@ msgstr "Nodes afectados"
 msgid "All"
 msgstr "Todos"
 
-#: templates/pages/roles.tmpl:26
+#: templates/pages/roles.tmpl:40
 msgid "All roles"
 msgstr "Todos los roles"
 
-#: templates/pages/service-tokens.tmpl:28
+#: templates/pages/service-tokens.tmpl:35
 msgid "All service tokens"
 msgstr "Todos los tokens de servicio"
 
-#: templates/pages/users.tmpl:31
+#: templates/pages/users.tmpl:34
 msgid "All users"
 msgstr "Todos los usuarios"
 
@@ -98,8 +108,21 @@ msgstr "Todos los usuarios"
 msgid "Applies to this browser only. Without a choice here, the console follows your browser's language."
 msgstr "Solo se aplica a este navegador. Sin una elección aquí, la consola sigue el idioma de su navegador."
 
-#: src/app.js:377
+#: src/agentless.js:307
+#: src/agentless.js:377
+#: src/app.js:456
+#: src/code-plans.js:159
+#: src/roles.js:117
+#: src/roles.js:132
+#: src/run-patch.js:174
+#: src/run-plan.js:34
+#: src/run-puppet.js:110
+#: src/run-task.js:43
+#: src/user-groups.js:87
+#: src/users.js:40
 #: src/vulnerability-providers.js:157
+#: templates/pages/plan-edit.tmpl:42
+#: templates/pages/schedule-edit.tmpl:92
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -108,84 +131,85 @@ msgstr "Cancelar"
 msgid "Category"
 msgstr "Categoría"
 
-#: src/nodes.js:252
-#: templates/pages/nodes.tmpl:17
+#: src/nodes.js:296
+#: templates/pages/nodes.tmpl:21
 msgid "Cert status"
 msgstr "Estado del certificado"
 
 #: templates/pages/preferences.tmpl:37
-#: templates/pages/preferences.tmpl:47
+#: templates/pages/preferences.tmpl:48
 msgid "Change password"
 msgstr "Cambiar contraseña"
 
 #: src/i18n.js:167
-#: templates/pages/node.tmpl:49
+#: templates/pages/node.tmpl:68
 msgid "Changed"
 msgstr "Modificado"
 
-#: src/groups.js:33
+#: src/groups.js:60
+#: templates/pages/group.tmpl:53
 msgid "Classes"
 msgstr "Clases"
 
-#: templates/pages/group.tmpl:32
-msgid "Classes (JSON)"
-msgstr "Clases (JSON)"
+#: templates/pages/group.tmpl:47
+#~ msgid "Classes (JSON)"
+#~ msgstr "Clases (JSON)"
 
-#: templates/pages/group.tmpl:31
+#: templates/pages/group.tmpl:50
 msgid "Classification"
 msgstr "Clasificación"
 
-#: src/nodes.js:84
+#: src/nodes.js:92
 msgid "Clean"
 msgstr "Limpiar"
 
-#: templates/pages/nodes.tmpl:34
+#: templates/pages/nodes.tmpl:39
 msgid "Clear"
 msgstr "Borrar"
 
-#: src/nodes.js:427
+#: src/nodes.js:466
 msgid "Close"
 msgstr "Cerrar"
 
-#: templates/layout.html.tmpl:85
+#: templates/layout.html.tmpl:89
 #: templates/pages/code.tmpl:3
 msgid "Code"
 msgstr "Code"
 
 #: src/i18n.js:172
-#: src/index.js:114
-#: src/nodes.js:42
-#: templates/pages/nodes.tmpl:14
+#: src/index.js:149
+#: src/nodes.js:50
+#: templates/pages/nodes.tmpl:18
 msgid "Connected"
 msgstr "Conectado"
 
-#: src/nodes.js:250
-#: templates/pages/nodes.tmpl:12
+#: src/nodes.js:294
+#: templates/pages/nodes.tmpl:16
 msgid "Connection"
 msgstr "Conexión"
 
 #: src/i18n.js:171
-#: src/index.js:23
+#: src/index.js:24
 msgid "Corrected"
 msgstr "Corregido"
 
-#: templates/pages/roles.tmpl:21
+#: templates/pages/roles.tmpl:35
 msgid "Create role"
 msgstr "Crear rol"
 
-#: templates/pages/service-tokens.tmpl:23
+#: templates/pages/service-tokens.tmpl:30
 msgid "Create service token"
 msgstr "Crear token de servicio"
 
-#: templates/pages/users.tmpl:26
+#: templates/pages/users.tmpl:29
 msgid "Create user"
 msgstr "Crear usuario"
 
-#: src/service-tokens.js:43
+#: src/service-tokens.js:47
 msgid "Created"
 msgstr "Creado"
 
-#: src/app.js:632
+#: src/app.js:711
 #: templates/pages/vulnerabilities.tmpl:13
 msgid "Critical"
 msgstr "Crítica"
@@ -199,12 +223,22 @@ msgstr "Contraseña actual"
 msgid "Dashboard"
 msgstr "Dashboard"
 
-#: src/nodes.js:88
-#: src/roles.js:36
-#: src/service-tokens.js:34
-#: src/users.js:51
+#: src/agentless.js:125
+#: src/agentless.js:212
+#: src/agentless.js:227
+#: src/agentless.js:68
+#: src/nodes.js:96
+#: src/plan.js:61
+#: src/roles.js:136
+#: src/schedule.js:148
+#: src/service-tokens.js:38
+#: src/user-groups.js:119
+#: src/user-groups.js:156
+#: src/users.js:130
 #: src/vulnerability-providers.js:67
-#: templates/pages/group.tmpl:71
+#: templates/pages/group.tmpl:122
+#: templates/pages/plan.tmpl:14
+#: templates/pages/schedule.tmpl:15
 msgid "Delete"
 msgstr "Eliminar"
 
@@ -220,28 +254,35 @@ msgstr "Historial de deploys"
 msgid "Deploy now"
 msgstr "Desplegar ahora"
 
-#: templates/pages/group.tmpl:13
+#: templates/pages/group.tmpl:20
+#: templates/pages/plan-edit.tmpl:14
+#: templates/pages/schedule-edit.tmpl:15
 msgid "Details"
 msgstr "Detalles"
 
-#: src/index.js:114
+#: src/index.js:149
 msgid "Disconnected"
 msgstr "Desconectado"
 
+#: src/agentless.js:124
+#: src/agentless.js:67
 #: src/vulnerability-providers.js:66
+#: templates/pages/plan.tmpl:13
+#: templates/pages/schedule.tmpl:14
 msgid "Edit"
 msgstr "Editar"
 
-#: templates/pages/group.tmpl:48
+#: templates/pages/group.tmpl:54
+#: templates/pages/group.tmpl:95
 msgid "Edit as JSON"
 msgstr "Editar como JSON"
 
-#: src/users.js:60
+#: src/users.js:141
 #: templates/pages/preferences.tmpl:18
 msgid "Email"
 msgstr "Correo electrónico"
 
-#: templates/pages/users.tmpl:23
+#: templates/pages/users.tmpl:26
 msgid "Email (optional)"
 msgstr "Correo electrónico (opcional)"
 
@@ -251,49 +292,55 @@ msgstr "Correo electrónico (opcional)"
 msgid "Enabled"
 msgstr "Activado"
 
-#: src/node.js:469
+#: src/node.js:473
 msgid "Ended"
 msgstr "Terminado"
 
 #: src/deploys.js:57
-#: src/groups.js:33
+#: src/groups.js:60
+#: src/task-form.js:108
+#: templates/pages/plans.tmpl:26
 msgid "Environment"
 msgstr "Environment"
 
-#: templates/pages/group.tmpl:20
+#: src/run-puppet.js:29
+#: templates/pages/group.tmpl:35
 msgid "Environment (optional)"
 msgstr "Environment (opcional)"
 
 #: src/deploys.js:57
-#: src/job.js:53
+#: src/job.js:142
+#: src/run-patch.js:123
 msgid "Error"
 msgstr "Error"
 
-#: src/job.js:53
+#: src/job.js:142
+#: src/run-patch.js:123
 msgid "Exit code"
 msgstr "Código de salida"
 
-#: templates/pages/index.tmpl:23
+#: templates/pages/index.tmpl:27
 msgid "Fact name"
 msgstr "Nombre del Fact"
 
-#: src/group.js:81
+#: src/group.js:245
 msgid "Fact path"
 msgstr "Ruta del Fact"
 
-#: templates/pages/index.tmpl:24
+#: templates/pages/index.tmpl:28
 msgid "Fact value"
 msgstr "Valor del Fact"
 
-#: templates/pages/node.tmpl:15
+#: templates/pages/node.tmpl:23
 msgid "Facts"
 msgstr "Facts"
 
 #: src/i18n.js:164
-#: src/index.js:22
+#: src/index.js:23
+#: src/plan-common.js:72
 #: templates/pages/code.tmpl:55
-#: templates/pages/jobs.tmpl:17
-#: templates/pages/node.tmpl:51
+#: templates/pages/jobs.tmpl:32
+#: templates/pages/node.tmpl:70
 msgid "Failed"
 msgstr "Fallido"
 
@@ -303,20 +350,20 @@ msgstr "Fallo"
 
 #: templates/pages/activity.tmpl:12
 #: templates/pages/code.tmpl:50
-#: templates/pages/jobs.tmpl:19
+#: templates/pages/jobs.tmpl:34
 msgid "Filter by actor"
 msgstr "Filtrar por actor"
 
-#: templates/pages/index.tmpl:22
+#: templates/pages/index.tmpl:26
 #: templates/pages/packages.tmpl:8
 msgid "Filter by name"
 msgstr "Filtrar por nombre"
 
-#: templates/pages/nodes.tmpl:11
+#: templates/pages/nodes.tmpl:15
 msgid "Filter by name…"
 msgstr "Filtrar por nombre…"
 
-#: templates/pages/jobs.tmpl:6
+#: templates/pages/jobs.tmpl:19
 msgid "Filter by node"
 msgstr "Filtrar por Node"
 
@@ -325,7 +372,8 @@ msgid "Filter by version"
 msgstr "Filtrar por versión"
 
 #: src/deploys.js:57
-#: src/jobs.js:54
+#: src/jobs.js:82
+#: src/schedule-common.js:90
 msgid "Finished"
 msgstr "Finalizado"
 
@@ -333,16 +381,16 @@ msgstr "Finalizado"
 msgid "First name"
 msgstr "Nombre"
 
-#: templates/pages/users.tmpl:21
+#: templates/pages/users.tmpl:24
 msgid "First name (optional)"
 msgstr "Nombre (opcional)"
 
-#: src/node.js:604
+#: src/node.js:825
 #: src/vulnerability.js:54
 msgid "First seen"
 msgstr "Visto por primera vez"
 
-#: src/node.js:604
+#: src/node.js:825
 #: src/vulnerabilities.js:95
 #: templates/pages/vulnerabilities.tmpl:19
 msgid "Fix"
@@ -361,22 +409,25 @@ msgid "Fleet status"
 msgstr "Estado de la flota"
 
 #: templates/pages/packages.tmpl:13
+#: templates/pages/patches.tmpl:19
 msgid "Group"
 msgstr "Grupo"
 
-#: templates/layout.html.tmpl:77
+#: templates/layout.html.tmpl:81
 msgid "Groups"
 msgstr "Grupos"
 
-#: src/app.js:633
+#: src/app.js:712
 #: templates/pages/vulnerabilities.tmpl:14
 msgid "High"
 msgstr "Alta"
 
-#: src/jobs.js:54
+#: src/jobs.js:82
 msgid "ID"
 msgstr "ID"
 
+#: src/node.js:695
+#: src/patches.js:130
 #: src/vulnerability.js:54
 msgid "Installed"
 msgstr "Instalado"
@@ -385,14 +436,23 @@ msgstr "Instalado"
 msgid "Interval"
 msgstr "Intervalo"
 
-#: templates/layout.html.tmpl:81
+#: templates/layout.html.tmpl:85
 #: templates/pages/job.tmpl:4
-#: templates/pages/jobs.tmpl:3
+#: templates/pages/jobs.tmpl:12
+#: templates/pages/jobs.tmpl:4
+#: templates/pages/plan-edit.tmpl:4
+#: templates/pages/plan.tmpl:4
+#: templates/pages/plans.tmpl:4
+#: templates/pages/plans.tmpl:7
+#: templates/pages/schedule-edit.tmpl:4
+#: templates/pages/schedule.tmpl:4
+#: templates/pages/schedules.tmpl:4
+#: templates/pages/schedules.tmpl:7
 msgid "Jobs"
 msgstr "Jobs"
 
-#: src/jobs.js:54
-#: templates/pages/jobs.tmpl:7
+#: src/jobs.js:82
+#: templates/pages/jobs.tmpl:20
 msgid "Kind"
 msgstr "Tipo"
 
@@ -401,7 +461,7 @@ msgstr "Tipo"
 msgid "Language"
 msgstr "Idioma"
 
-#: src/index.js:249
+#: src/index.js:286
 msgid "Last check-in"
 msgstr "Último registro"
 
@@ -409,7 +469,7 @@ msgstr "Último registro"
 msgid "Last name"
 msgstr "Apellidos"
 
-#: templates/pages/users.tmpl:22
+#: templates/pages/users.tmpl:25
 msgid "Last name (optional)"
 msgstr "Apellidos (opcional)"
 
@@ -417,7 +477,7 @@ msgstr "Apellidos (opcional)"
 msgid "Last sync"
 msgstr "Última sincronización"
 
-#: templates/layout.html.tmpl:117
+#: templates/layout.html.tmpl:121
 msgid "License (GPL-3.0)"
 msgstr "Licencia (GPL-3.0)"
 
@@ -433,7 +493,7 @@ msgstr "Iniciar sesión con SSO"
 msgid "Log out"
 msgstr "Cerrar sesión"
 
-#: src/app.js:635
+#: src/app.js:714
 #: templates/pages/vulnerabilities.tmpl:16
 msgid "Low"
 msgstr "Baja"
@@ -442,20 +502,20 @@ msgstr "Baja"
 msgid "Main"
 msgstr "Navegación principal"
 
-#: templates/pages/group.tmpl:47
+#: templates/pages/group.tmpl:94
 msgid "Match rule"
 msgstr "Regla de coincidencia"
 
-#: templates/pages/group.tmpl:45
+#: templates/pages/group.tmpl:92
 msgid "Matching"
 msgstr "Coincidencia"
 
-#: src/groups.js:33
-#: templates/pages/group.tmpl:77
+#: src/groups.js:60
+#: templates/pages/group.tmpl:128
 msgid "Matching nodes"
 msgstr "Nodes coincidentes"
 
-#: src/app.js:634
+#: src/app.js:713
 #: templates/pages/vulnerabilities.tmpl:15
 msgid "Medium"
 msgstr "Media"
@@ -472,16 +532,27 @@ msgstr "Más Nodes afectados primero"
 msgid "Most severe first"
 msgstr "Más graves primero"
 
-#: src/groups.js:33
-#: src/jobs.js:54
-#: src/roles.js:45
-#: src/service-tokens.js:43
-#: src/users.js:60
+#: src/agentless.js:131
+#: src/agentless.js:278
+#: src/agentless.js:367
+#: src/agentless.js:95
+#: src/groups.js:60
+#: src/jobs.js:82
+#: src/plans.js:36
+#: src/roles.js:145
+#: src/schedules.js:49
+#: src/service-tokens.js:47
+#: src/user-groups.js:167
+#: src/user-groups.js:84
+#: src/users.js:141
 #: src/vulnerability-providers.js:150
 #: src/vulnerability-providers.js:75
-#: templates/pages/group.tmpl:15
-#: templates/pages/roles.tmpl:15
-#: templates/pages/service-tokens.tmpl:17
+#: templates/pages/group.tmpl:22
+#: templates/pages/plan-edit.tmpl:15
+#: templates/pages/roles.tmpl:17
+#: templates/pages/schedule-edit.tmpl:16
+#: templates/pages/service-tokens.tmpl:19
+#: templates/pages/user-groups.tmpl:21
 msgid "Name"
 msgstr "Nombre"
 
@@ -492,28 +563,30 @@ msgstr "Nuevo"
 #: templates/pages/group.tmpl:5
 #: templates/pages/group.tmpl:7
 #: templates/pages/groups.tmpl:5
+#: templates/pages/user-groups.tmpl:18
 msgid "New group"
 msgstr "Nuevo grupo"
 
+#: src/users.js:35
 #: templates/pages/preferences.tmpl:44
 msgid "New password"
 msgstr "Nueva contraseña"
 
-#: templates/pages/roles.tmpl:12
+#: templates/pages/roles.tmpl:14
 msgid "New role"
 msgstr "Nuevo rol"
 
-#: templates/pages/service-tokens.tmpl:14
+#: templates/pages/service-tokens.tmpl:16
 msgid "New service token"
 msgstr "Nuevo token de servicio"
 
-#: templates/pages/users.tmpl:12
+#: templates/pages/users.tmpl:14
 msgid "New user"
 msgstr "Nuevo usuario"
 
 #: templates/pages/activity.tmpl:14
 #: templates/pages/code.tmpl:58
-#: templates/pages/jobs.tmpl:21
+#: templates/pages/jobs.tmpl:36
 msgid "Newest first"
 msgstr "Más recientes primero"
 
@@ -521,7 +594,7 @@ msgstr "Más recientes primero"
 msgid "No activity recorded yet"
 msgstr "Aún no se ha registrado actividad"
 
-#: src/index.js:135
+#: src/index.js:172
 msgid "No activity yet"
 msgstr "Aún no hay actividad"
 
@@ -541,7 +614,7 @@ msgstr "Aún no hay deploys"
 msgid "No events for this report"
 msgstr "No hay eventos para este Report"
 
-#: src/node.js:339
+#: src/node.js:343
 msgid "No facts reported"
 msgstr "No se han reportado Facts"
 
@@ -549,37 +622,37 @@ msgstr "No se han reportado Facts"
 msgid "No fix released"
 msgstr "No se ha publicado ninguna corrección"
 
-#: src/jobs.js:27
+#: src/jobs.js:55
 msgid "No jobs yet"
 msgstr "Aún no hay Jobs"
 
-#: src/nodes.js:220
+#: src/nodes.js:264
 #: src/packages.js:129
 msgid "No matching nodes"
 msgstr "No hay Nodes coincidentes"
 
 #: src/groups.js:10
-msgid "No node groups yet"
-msgstr "Aún no hay grupos de Nodes"
+#~ msgid "No node groups yet"
+#~ msgstr "Aún no hay grupos de Nodes"
 
-#: src/group.js:255
+#: src/group.js:440
 msgid "No nodes currently match this group"
 msgstr "Actualmente ningún Node coincide con este grupo"
 
-#: src/index.js:223
-#: src/nodes.js:225
+#: src/index.js:260
+#: src/nodes.js:269
 msgid "No nodes found"
 msgstr "No se han encontrado Nodes"
 
-#: src/index.js:80
+#: src/index.js:81
 msgid "No nodes yet"
 msgstr "Aún no hay Nodes"
 
-#: src/node.js:581
+#: src/node.js:802
 msgid "No open vulnerabilities"
 msgstr "No hay vulnerabilidades abiertas"
 
-#: src/node.js:398
+#: src/node.js:402
 msgid "No package data reported"
 msgstr "No se han reportado datos de paquetes"
 
@@ -591,27 +664,30 @@ msgstr "No hay paquetes"
 msgid "No packages match"
 msgstr "No hay paquetes coincidentes"
 
-#: src/node.js:448
+#: src/node.js:452
 msgid "No reports yet"
 msgstr "Aún no hay Reports"
 
-#: src/roles.js:23
+#: src/roles.js:95
+#: src/user-groups.js:26
 msgid "No roles yet"
 msgstr "Aún no hay roles"
 
-#: src/index.js:175
+#: src/index.js:212
 msgid "No runs yet"
 msgstr "Aún no hay ejecuciones"
 
-#: src/service-tokens.js:17
+#: src/service-tokens.js:20
 msgid "No service tokens yet"
 msgstr "Aún no hay tokens de servicio"
 
-#: src/job.js:29
+#: src/job.js:119
+#: src/run-patch.js:96
 msgid "No targets"
 msgstr "Sin destinos"
 
-#: src/users.js:33
+#: src/user-groups.js:52
+#: src/users.js:109
 msgid "No users yet"
 msgstr "Aún no hay usuarios"
 
@@ -619,31 +695,42 @@ msgstr "Aún no hay usuarios"
 msgid "No vulnerability providers"
 msgstr "No hay proveedores de vulnerabilidades"
 
-#: src/index.js:196
-#: src/index.js:249
-#: src/job.js:53
-#: src/nodes.js:249
+#: src/index.js:233
+#: src/index.js:286
+#: src/job.js:142
+#: src/nodes.js:293
 #: src/packages.js:146
+#: src/patches.js:129
+#: src/patches.js:92
+#: src/run-patch.js:123
 #: src/vulnerability.js:54
 msgid "Node"
 msgstr "Node"
 
+#: src/roles.js:145
 #: templates/pages/group.tmpl:4
 #: templates/pages/groups.tmpl:4
+#: templates/pages/roles.tmpl:24
 msgid "Node groups"
 msgstr "Grupos de Nodes"
 
-#: templates/pages/index.tmpl:19
+#: templates/pages/index.tmpl:23
 msgid "Node inventory"
 msgstr "Inventario de Nodes"
 
-#: templates/pages/index.tmpl:22
-#: templates/pages/nodes.tmpl:11
+#: templates/pages/index.tmpl:26
+#: templates/pages/nodes.tmpl:15
 msgid "Node name"
 msgstr "Nombre del Node"
 
 #: src/packages.js:79
+#: src/patches.js:236
+#: src/patches.js:31
+#: src/schedule.js:66
+#: src/schedules.js:49
+#: src/target-picker.js:52
 #: templates/layout.html.tmpl:65
+#: templates/pages/agentless.tmpl:4
 #: templates/pages/node.tmpl:4
 #: templates/pages/nodes.tmpl:4
 #: templates/pages/report.tmpl:4
@@ -659,18 +746,18 @@ msgid "Nodes not assessed"
 msgstr "Nodes no evaluados"
 
 #: src/i18n.js:169
-#: templates/pages/node.tmpl:52
+#: templates/pages/node.tmpl:71
 #: templates/pages/report.tmpl:15
 msgid "Noop"
 msgstr "Noop"
 
 #: src/i18n.js:173
-#: src/nodes.js:43
-#: templates/pages/nodes.tmpl:15
+#: src/nodes.js:51
+#: templates/pages/nodes.tmpl:19
 msgid "Not connected"
 msgstr "No conectado"
 
-#: src/node.js:366
+#: src/node.js:370
 msgid "Nothing to summarise"
 msgstr "Nada que resumir"
 
@@ -680,32 +767,35 @@ msgstr "Antiguo"
 
 #: templates/pages/activity.tmpl:15
 #: templates/pages/code.tmpl:59
-#: templates/pages/jobs.tmpl:22
+#: templates/pages/jobs.tmpl:37
 msgid "Oldest first"
 msgstr "Más antiguos primero"
 
-#: templates/layout.html.tmpl:112
+#: templates/layout.html.tmpl:116
 #: templates/layout.html.tmpl:38
 #: templates/pages/login.tmpl:3
 msgid "OpenVox Console"
 msgstr "OpenVox Console"
 
-#: templates/layout.html.tmpl:113
+#: templates/layout.html.tmpl:117
 msgid "OpenVox project"
 msgstr "Proyecto OpenVox"
 
-#: src/group.js:84
+#: src/group.js:248
 msgid "Operator"
 msgstr "Operador"
 
 #: templates/pages/activity.tmpl:13
 #: templates/pages/code.tmpl:57
-#: templates/pages/jobs.tmpl:20
+#: templates/pages/jobs.tmpl:35
 msgid "Order"
 msgstr "Orden"
 
-#: src/node.js:418
+#: src/node.js:422
+#: src/node.js:695
 #: src/packages.js:79
+#: src/patches.js:129
+#: src/run-patch.js:72
 #: src/vulnerability.js:54
 #: templates/pages/vulnerabilities.tmpl:27
 msgid "Package"
@@ -715,20 +805,23 @@ msgstr "Paquete"
 msgid "Package name"
 msgstr "Nombre del paquete"
 
-#: src/node.js:604
+#: src/node.js:825
+#: src/run-patch.js:123
+#: src/run-patch.js:153
 #: src/vulnerabilities.js:95
 #: templates/layout.html.tmpl:69
-#: templates/pages/node.tmpl:16
+#: templates/pages/node.tmpl:24
 #: templates/pages/packages.tmpl:3
 msgid "Packages"
 msgstr "Paquetes"
 
-#: src/app.js:548
+#: src/app.js:627
 msgid "Pagination"
 msgstr "Paginación"
 
+#: src/agentless.js:250
 #: templates/pages/login.tmpl:11
-#: templates/pages/users.tmpl:18
+#: templates/pages/users.tmpl:20
 msgid "Password"
 msgstr "Contraseña"
 
@@ -736,21 +829,27 @@ msgstr "Contraseña"
 msgid "Pending"
 msgstr "Pendiente"
 
-#: src/roles.js:45
-#: src/service-tokens.js:43
+#: src/roles.js:145
+#: src/service-tokens.js:47
+#: templates/pages/roles.tmpl:20
 msgid "Permissions"
 msgstr "Permisos"
 
-#: templates/pages/group.tmpl:62
+#: templates/pages/group.tmpl:112
 msgid "Pinned node certnames (JSON array)"
 msgstr "Certnames de Nodes fijados (array JSON)"
 
-#: src/groups.js:33
+#: src/groups.js:60
 msgid "Pinned nodes"
 msgstr "Nodes fijados"
 
+#: src/code-plans.js:57
 #: src/i18n.js:200
-#: templates/pages/jobs.tmpl:11
+#: src/plan.js:48
+#: src/schedule-common.js:39
+#: templates/pages/jobs.tmpl:24
+#: templates/pages/plan.tmpl:6
+#: templates/pages/schedule-edit.tmpl:38
 msgid "Plan"
 msgstr "Plan"
 
@@ -759,8 +858,8 @@ msgstr "Plan"
 msgid "Preferences"
 msgstr "Preferencias"
 
-#: src/groups.js:33
-#: templates/pages/group.tmpl:18
+#: src/groups.js:60
+#: templates/pages/group.tmpl:32
 msgid "Priority"
 msgstr "Prioridad"
 
@@ -772,7 +871,7 @@ msgstr "Perfil"
 msgid "Property"
 msgstr "Propiedad"
 
-#: src/node.js:418
+#: src/node.js:422
 #: src/packages.js:146
 #: src/vulnerability.js:54
 #: templates/pages/packages.tmpl:10
@@ -780,7 +879,7 @@ msgstr "Propiedad"
 msgid "Provider"
 msgstr "Proveedor"
 
-#: src/node.js:604
+#: src/node.js:825
 #: src/packages.js:79
 #: src/vulnerabilities.js:95
 #: templates/pages/vulnerability-providers.tmpl:5
@@ -792,18 +891,20 @@ msgid "Providers enabled"
 msgstr "Proveedores activados"
 
 #: src/i18n.js:198
+#: src/plan-common.js:31
+#: src/schedule-common.js:44
 msgid "Puppet run"
 msgstr "Puppet run"
 
-#: templates/pages/node.tmpl:22
+#: templates/pages/node.tmpl:31
 msgid "Raw JSON"
 msgstr "JSON sin procesar"
 
-#: templates/pages/index.tmpl:14
+#: templates/pages/index.tmpl:18
 msgid "Recent activity"
 msgstr "Actividad reciente"
 
-#: templates/pages/index.tmpl:11
+#: templates/pages/index.tmpl:15
 msgid "Recent runs"
 msgstr "Ejecuciones recientes"
 
@@ -812,16 +913,19 @@ msgstr "Ejecuciones recientes"
 msgid "Ref"
 msgstr "Ref"
 
-#: src/group.js:89
+#: src/class-editor.js:232
+#: src/class-editor.js:245
+#: src/group.js:253
+#: src/plan-edit.js:68
 msgid "Remove"
 msgstr "Quitar"
 
-#: src/job.js:53
+#: src/job.js:142
 #: templates/pages/report.tmpl:6
 msgid "Report"
 msgstr "Report"
 
-#: templates/pages/node.tmpl:30
+#: templates/pages/node.tmpl:39
 msgid "Report installed packages"
 msgstr "Reportar paquetes instalados"
 
@@ -830,7 +934,7 @@ msgid "Repositories"
 msgstr "Repositorios"
 
 #: src/i18n.js:175
-#: templates/pages/nodes.tmpl:20
+#: templates/pages/nodes.tmpl:24
 msgid "Requested"
 msgstr "Solicitado"
 
@@ -842,55 +946,70 @@ msgstr "Recurso"
 msgid "Resource events"
 msgstr "Eventos de recursos"
 
-#: src/nodes.js:81
+#: src/nodes.js:89
 msgid "Revoke"
 msgstr "Revocar"
 
 #: src/i18n.js:176
-#: templates/pages/nodes.tmpl:21
+#: templates/pages/nodes.tmpl:25
 msgid "Revoked"
 msgstr "Revocado"
 
-#: src/users.js:60
-#: templates/pages/roles.tmpl:5
-#: templates/pages/roles.tmpl:9
-#: templates/pages/service-tokens.tmpl:5
-#: templates/pages/users.tmpl:5
+#: src/user-groups.js:167
+#: src/users.js:141
+#: templates/pages/account-policy.tmpl:6
+#: templates/pages/roles.tmpl:11
+#: templates/pages/roles.tmpl:6
+#: templates/pages/service-tokens.tmpl:6
+#: templates/pages/user-groups.tmpl:6
+#: templates/pages/users.tmpl:6
 msgid "Roles"
 msgstr "Roles"
 
-#: templates/pages/jobs.tmpl:9
+#: src/code-plans.js:160
+#: src/code-plans.js:52
+#: src/plans.js:28
+#: src/run-puppet.js:111
+#: templates/pages/jobs.tmpl:22
+#: templates/pages/plan.tmpl:12
 msgid "Run"
 msgstr "Ejecutar"
 
-#: src/nodes.js:340
-#: templates/pages/nodes.tmpl:33
+#: src/plan-edit.js:33
+#: src/run-puppet.js:87
+#: templates/pages/jobs.tmpl:8
+#: templates/pages/nodes.tmpl:37
+#: templates/pages/schedule-edit.tmpl:23
 msgid "Run Puppet"
 msgstr "Ejecutar Puppet"
 
-#: src/nodes.js:341
+#: src/run-puppet.js:96
 msgid "Run Puppet on {count} node?"
 msgid_plural "Run Puppet on {count} nodes?"
 msgstr[0] "¿Ejecutar Puppet en {count} Node?"
 msgstr[1] "¿Ejecutar Puppet en {count} Nodes?"
 
-#: templates/pages/group.tmpl:78
-#: templates/pages/node.tmpl:9
+#: templates/pages/group.tmpl:131
+#: templates/pages/node.tmpl:11
 msgid "Run now"
 msgstr "Ejecutar ahora"
 
 #: src/i18n.js:165
+#: src/plan-common.js:70
 #: templates/pages/code.tmpl:53
-#: templates/pages/jobs.tmpl:15
+#: templates/pages/jobs.tmpl:30
 msgid "Running"
 msgstr "En ejecución"
 
-#: templates/pages/node.tmpl:18
+#: templates/pages/node.tmpl:27
 msgid "Runs"
 msgstr "Ejecuciones"
 
+#: src/agentless.js:308
+#: src/agentless.js:378
 #: src/vulnerability-providers.js:156
-#: templates/pages/group.tmpl:70
+#: templates/pages/group.tmpl:121
+#: templates/pages/patches.tmpl:44
 msgid "Save"
 msgstr "Guardar"
 
@@ -902,29 +1021,31 @@ msgstr "Guardar idioma"
 msgid "Save profile"
 msgstr "Guardar perfil"
 
-#: src/service-tokens.js:90
+#: src/service-tokens.js:95
 msgid "Service token created - copy it now, it won't be shown again"
 msgstr "Token de servicio creado: cópielo ahora, no se volverá a mostrar"
 
-#: templates/pages/roles.tmpl:6
-#: templates/pages/service-tokens.tmpl:6
-#: templates/pages/service-tokens.tmpl:9
-#: templates/pages/users.tmpl:6
+#: templates/pages/account-policy.tmpl:7
+#: templates/pages/roles.tmpl:7
+#: templates/pages/service-tokens.tmpl:11
+#: templates/pages/service-tokens.tmpl:7
+#: templates/pages/user-groups.tmpl:7
+#: templates/pages/users.tmpl:7
 msgid "Service tokens"
 msgstr "Tokens de servicio"
 
-#: src/node.js:604
+#: src/node.js:825
 #: src/vulnerabilities.js:95
 #: src/vulnerability.js:54
 #: templates/pages/vulnerabilities.tmpl:11
 msgid "Severity"
 msgstr "Gravedad"
 
-#: templates/pages/node.tmpl:39
+#: templates/pages/node.tmpl:58
 msgid "Show closed"
 msgstr "Mostrar cerradas"
 
-#: templates/pages/nodes.tmpl:24
+#: templates/pages/nodes.tmpl:28
 msgid "Show infrastructure certs"
 msgstr "Mostrar certificados de infraestructura"
 
@@ -932,12 +1053,12 @@ msgstr "Mostrar certificados de infraestructura"
 msgid "Showing {shown} of {total} packages"
 msgstr "Mostrando {shown} de {total} paquetes"
 
-#: src/nodes.js:78
+#: src/nodes.js:86
 msgid "Sign"
 msgstr "Firmar"
 
 #: src/i18n.js:174
-#: templates/pages/nodes.tmpl:19
+#: templates/pages/nodes.tmpl:23
 msgid "Signed"
 msgstr "Firmado"
 
@@ -946,6 +1067,7 @@ msgstr "Firmado"
 #~ msgstr "Iniciando sesión&hellip;"
 
 #: src/i18n.js:170
+#: src/schedule-common.js:99
 #: templates/pages/report.tmpl:16
 msgid "Skipped"
 msgstr "Omitido"
@@ -964,29 +1086,35 @@ msgid "Source to deploy"
 msgstr "Origen a desplegar"
 
 #: src/deploys.js:57
-#: src/jobs.js:54
-#: src/node.js:469
+#: src/jobs.js:82
+#: src/node.js:473
+#: src/patches.js:236
+#: src/schedule-common.js:98
 msgid "Started"
 msgstr "Iniciado"
 
+#: src/code-plans.js:273
 #: src/deploys.js:57
-#: src/index.js:249
-#: src/job.js:53
-#: src/jobs.js:54
-#: src/node.js:469
-#: src/node.js:604
+#: src/index.js:286
+#: src/job.js:142
+#: src/jobs.js:82
+#: src/node.js:473
+#: src/node.js:825
+#: src/patches.js:236
 #: src/report.js:48
+#: src/run-patch.js:123
 #: src/vulnerability-providers.js:75
 #: templates/pages/code.tmpl:51
-#: templates/pages/jobs.tmpl:13
-#: templates/pages/node.tmpl:47
+#: templates/pages/jobs.tmpl:28
+#: templates/pages/node.tmpl:66
 #: templates/pages/report.tmpl:11
 msgid "Status"
 msgstr "Estado"
 
 #: src/i18n.js:163
+#: src/plan-common.js:71
 #: templates/pages/code.tmpl:54
-#: templates/pages/jobs.tmpl:16
+#: templates/pages/jobs.tmpl:31
 msgid "Succeeded"
 msgstr "Correcto"
 
@@ -1007,28 +1135,32 @@ msgid "Sync now"
 msgstr "Sincronizar ahora"
 
 #: src/status.js:183
-#: templates/pages/jobs.tmpl:6
+#: templates/pages/jobs.tmpl:19
 msgid "Target"
 msgstr "Destino"
 
-#: src/jobs.js:54
+#: src/jobs.js:82
 #: templates/pages/job.tmpl:12
 msgid "Targets"
 msgstr "Destinos"
 
 #: src/i18n.js:199
-#: templates/pages/jobs.tmpl:10
+#: src/plan-common.js:29
+#: src/schedule-common.js:42
+#: src/task-form.js:143
+#: templates/pages/jobs.tmpl:23
 msgid "Task"
 msgstr "Task"
 
-#: templates/pages/group.tmpl:37
+#: templates/pages/group.tmpl:78
 msgid "Top-scope parameters (JSON)"
 msgstr "Parámetros de ámbito superior (JSON)"
 
 #: src/deploys.js:57
-#: src/jobs.js:54
+#: src/jobs.js:82
+#: src/patches.js:236
 #: templates/pages/code.tmpl:50
-#: templates/pages/jobs.tmpl:19
+#: templates/pages/jobs.tmpl:34
 msgid "Triggered by"
 msgstr "Activado por"
 
@@ -1039,39 +1171,41 @@ msgid "Type"
 msgstr "Tipo"
 
 #: src/i18n.js:168
-#: src/index.js:25
-#: templates/pages/node.tmpl:50
+#: src/index.js:26
+#: templates/pages/node.tmpl:69
 msgid "Unchanged"
 msgstr "Sin cambios"
 
-#: src/app.js:636
+#: src/app.js:715
 #: src/i18n.js:177
-#: templates/pages/nodes.tmpl:22
+#: templates/pages/nodes.tmpl:26
 #: templates/pages/vulnerabilities.tmpl:17
 msgid "Unknown"
 msgstr "Desconocido"
 
-#: src/users.js:60
+#: src/users.js:141
 #: templates/pages/login.tmpl:8
-#: templates/pages/users.tmpl:15
+#: templates/pages/users.tmpl:17
 msgid "Username"
 msgstr "Nombre de usuario"
 
+#: templates/pages/account-policy.tmpl:4
 #: templates/pages/roles.tmpl:4
 #: templates/pages/service-tokens.tmpl:4
+#: templates/pages/user-groups.tmpl:4
+#: templates/pages/users.tmpl:11
 #: templates/pages/users.tmpl:4
-#: templates/pages/users.tmpl:9
 msgid "Users"
 msgstr "Usuarios"
 
-#: src/group.js:87
+#: src/group.js:251
 msgid "Value"
 msgstr "Valor"
 
-#: src/node.js:418
+#: src/node.js:422
 #: src/packages.js:146
 #: src/status.js:136
-#: templates/layout.html.tmpl:118
+#: templates/layout.html.tmpl:122
 #: templates/pages/packages.tmpl:9
 msgid "Version"
 msgstr "Versión"
@@ -1080,15 +1214,15 @@ msgstr "Versión"
 msgid "Versions"
 msgstr "Versiones"
 
-#: templates/layout.html.tmpl:73
-#: templates/pages/node.tmpl:17
+#: templates/layout.html.tmpl:77
+#: templates/pages/node.tmpl:26
 #: templates/pages/vulnerabilities.tmpl:4
 #: templates/pages/vulnerability-providers.tmpl:4
 #: templates/pages/vulnerability.tmpl:4
 msgid "Vulnerabilities"
 msgstr "Vulnerabilidades"
 
-#: src/node.js:604
+#: src/node.js:825
 #: src/vulnerabilities.js:95
 msgid "Vulnerability"
 msgstr "Vulnerabilidad"
@@ -1098,14 +1232,15 @@ msgid "Vulnerability providers"
 msgstr "Proveedores de vulnerabilidades"
 
 #: src/activity.js:39
+#: templates/pages/schedule-edit.tmpl:59
 msgid "When"
 msgstr "Cuándo"
 
-#: templates/pages/index.tmpl:24
+#: templates/pages/index.tmpl:28
 msgid "e.g. Linux"
 msgstr "p. ej. Linux"
 
-#: templates/pages/index.tmpl:23
+#: templates/pages/index.tmpl:27
 msgid "e.g. kernel"
 msgstr "p. ej. kernel"
 
@@ -1119,7 +1254,7 @@ msgid_plural "from {reporting} of {count} nodes"
 msgstr[0] "de {reporting} de {count} Node"
 msgstr[1] "de {reporting} de {count} Nodes"
 
-#: src/nodes.js:292
+#: src/nodes.js:340
 msgid "{count} node selected"
 msgid_plural "{count} nodes selected"
 msgstr[0] "{count} Node seleccionado"
@@ -1131,11 +1266,14 @@ msgid_plural "{count} nodes using an environment no repository here has deployed
 msgstr[0] "{count} Node usa un Environment que ningún repositorio aquí ha desplegado."
 msgstr[1] "{count} Nodes usan un Environment que ningún repositorio aquí ha desplegado."
 
-#: src/preferences.js:95
+#: src/preferences.js:106
 msgid "Automatic"
 msgstr "Automático"
 
-#: src/index.js:192
+#: src/code-plans.js:273
+#: src/index.js:229
+#: src/patches.js:236
+#: src/schedule.js:107
 #: templates/pages/job.tmpl:5
 msgid "Job"
 msgstr "Job"
@@ -1148,7 +1286,8 @@ msgstr "Gestionar proveedores"
 msgid "or"
 msgstr "o"
 
-#: src/nodes.js:338
+#: src/run-patch.js:190
+#: src/run-puppet.js:93
 msgid ", and {count} more"
 msgid_plural ", and {count} more"
 msgstr[0] ", y {count} más"
@@ -1159,12 +1298,12 @@ msgid "<strong>Assigned</strong> counts nodes classification sends to a repo's e
 msgstr "<strong>Asignados</strong> cuenta los Nodes que la clasificación envía a los Environments de un repositorio; <strong>reportando</strong> cuenta los Nodes que se ejecutaron por última vez desde uno. Se muestran por separado porque la diferencia entre ambos es la señal útil."
 
 #: templates/pages/group.tmpl:23
-msgid "A node can match several groups at once. Their classes and parameters are combined; when two groups set the <em>same</em> class parameter, top-scope parameter, or environment, the one with the higher priority wins. Priorities must be unique."
-msgstr "Un Node puede coincidir con varios grupos a la vez. Sus clases y parámetros se combinan; cuando dos grupos definen el <em>mismo</em> parámetro de clase, parámetro de ámbito superior o Environment, gana el de mayor prioridad. Las prioridades deben ser únicas."
+#~ msgid "A node can match several groups at once. Their classes and parameters are combined; when two groups set the <em>same</em> class parameter, top-scope parameter, or environment, the one with the higher priority wins. Priorities must be unique."
+#~ msgstr "Un Node puede coincidir con varios grupos a la vez. Sus clases y parámetros se combinan; cuando dos grupos definen el <em>mismo</em> parámetro de clase, parámetro de ámbito superior o Environment, gana el de mayor prioridad. Las prioridades deben ser únicas."
 
 #: templates/pages/group.tmpl:50
-msgid "A node joins this group when its facts satisfy <em>every</em> condition below. Fact path is a dotted path into the node's facts, like <code>os.family</code> or <code>networking.fqdn</code> — open a node's page to see the facts it reports. With no conditions and no pinned nodes, the group matches nothing."
-msgstr "Un Node se une a este grupo cuando sus Facts cumplen <em>todas</em> las condiciones siguientes. La ruta del Fact es una ruta con puntos dentro de los Facts del Node, como <code>os.family</code> o <code>networking.fqdn</code> — abra la página de un Node para ver los Facts que reporta. Sin condiciones y sin Nodes fijados, el grupo no coincide con nada."
+#~ msgid "A node joins this group when its facts satisfy <em>every</em> condition below. Fact path is a dotted path into the node's facts, like <code>os.family</code> or <code>networking.fqdn</code> — open a node's page to see the facts it reports. With no conditions and no pinned nodes, the group matches nothing."
+#~ msgstr "Un Node se une a este grupo cuando sus Facts cumplen <em>todas</em> las condiciones siguientes. La ruta del Fact es una ruta con puntos dentro de los Facts del Node, como <code>os.family</code> o <code>networking.fqdn</code> — abra la página de un Node para ver los Facts que reporta. Sin condiciones y sin Nodes fijados, el grupo no coincide con nada."
 
 #: src/activity.js:17
 msgid "Actions taken through the console will show up here."
@@ -1175,8 +1314,8 @@ msgid "Assigned, none reporting"
 msgstr "Asignados, ninguno reportando"
 
 #: templates/pages/group.tmpl:63
-msgid "Certnames listed here are always in this group, whether or not the match rule matches them."
-msgstr "Los certnames indicados aquí siempre pertenecen a este grupo, coincidan o no con la regla."
+#~ msgid "Certnames listed here are always in this group, whether or not the match rule matches them."
+#~ msgstr "Los certnames indicados aquí siempre pertenecen a este grupo, coincidan o no con la regla."
 
 #: src/code-repositories.js:109
 msgid "Converging"
@@ -1186,7 +1325,7 @@ msgstr "Convergiendo"
 msgid "Deployed, but no node is classified into or reporting from its environments"
 msgstr "Desplegado, pero ningún Node está clasificado en sus Environments ni reporta desde ellos"
 
-#: templates/pages/group.tmpl:18
+#: templates/pages/group.tmpl:32
 msgid "Higher wins a conflict."
 msgstr "La prioridad más alta gana un conflicto."
 
@@ -1194,27 +1333,27 @@ msgstr "La prioridad más alta gana un conflicto."
 msgid "In use"
 msgstr "En uso"
 
-#: src/nodes.js:101
+#: src/nodes.js:109
 msgid "Infrastructure"
 msgstr "Infraestructura"
 
-#: src/index.js:24
+#: src/index.js:25
 msgid "Intentional changes"
 msgstr "Cambios intencionados"
 
 #: src/login.js:22
-msgid "Invalid username or password."
-msgstr "Nombre de usuario o contraseña no válidos."
+#~ msgid "Invalid username or password."
+#~ msgstr "Nombre de usuario o contraseña no válidos."
 
-#: src/nodes.js:251
+#: src/nodes.js:295
 msgid "Last connected"
 msgstr "Última conexión"
 
-#: src/job.js:71
+#: src/job.js:235
 msgid "No job specified."
 msgstr "No se ha indicado ningún Job."
 
-#: src/node.js:622
+#: src/node.js:843
 msgid "No node specified."
 msgstr "No se ha indicado ningún Node."
 
@@ -1262,24 +1401,25 @@ msgstr "Sin clasificar"
 msgid "Unused"
 msgstr "Sin uso"
 
-#: templates/pages/group.tmpl:38
+#: templates/pages/group.tmpl:79
 msgid "Variables set for every manifest compiled for these nodes, available as $variable. An object of name/value pairs."
 msgstr "Variables definidas para cada manifiesto compilado para estos Nodes, disponibles como $variable. Un objeto de pares nombre/valor."
 
-#: src/job.js:36
+#: src/job.js:125
 msgid "View report"
 msgstr "Ver Report"
 
-#: src/nodes.js:38
-#: src/nodes.js:54
+#: src/nodes.js:46
+#: src/nodes.js:62
 msgid "checking…"
 msgstr "comprobando…"
 
-#: src/nodes.js:49
+#: src/nodes.js:147
+#: src/nodes.js:57
 msgid "never"
 msgstr "nunca"
 
-#: src/index.js:189
+#: src/index.js:226
 msgid "no targets"
 msgstr "sin destinos"
 
@@ -1299,21 +1439,23 @@ msgstr "{assigned} Node(s) asignados y reportando"
 msgid "{reporting} node(s) report from its environments, but no group assigns any node there"
 msgstr "{reporting} Node(s) reportan desde sus Environments, pero ningún grupo asigna Nodes allí"
 
-#: templates/pages/group.tmpl:20
+#: templates/pages/group.tmpl:38
 msgid "Puppet environment matching nodes compile against. Blank means this group doesn't set one."
 msgstr "Environment de Puppet contra el que compilan los Nodes coincidentes. En blanco significa que este grupo no define ninguno."
 
-#: src/app.js:493
-#: src/app.js:505
+#: src/app.js:572
+#: src/app.js:584
 msgid ", +{count} more"
 msgid_plural ", +{count} more"
 msgstr[0] ", +{count} más"
 msgstr[1] ", +{count} más"
 
-#: templates/pages/group.tmpl:33
-msgid "Puppet classes applied to every node in this group, each with optional parameters. A list of {\"name\", \"parameters\"} objects."
-msgstr "Clases de Puppet aplicadas a cada Node de este grupo, cada una con parámetros opcionales. Una lista de objetos {\"name\", \"parameters\"}."
+#: templates/pages/group.tmpl:48
+#~ msgid "Puppet classes applied to every node in this group, each with optional parameters. A list of {\"name\", \"parameters\"} objects."
+#~ msgstr "Clases de Puppet aplicadas a cada Node de este grupo, cada una con parámetros opcionales. Una lista de objetos {\"name\", \"parameters\"}."
 
+#: src/node.js:695
+#: src/patches.js:130
 #: src/vulnerabilities.js:87
 msgid "Available"
 msgstr "Disponible"
@@ -1351,7 +1493,9 @@ msgstr "Aún sin sincronizar"
 msgid "Syncing"
 msgstr "Sincronizando"
 
-#: src/index.js:151
+#: src/agentless.js:297
+#: src/agentless.js:369
+#: src/index.js:188
 msgid "User"
 msgstr "Usuario"
 
@@ -1363,6 +1507,8 @@ msgstr "{minutes} min"
 msgid "Signing in…"
 msgstr "Iniciando sesión&hellip;"
 
+#: src/agentless.js:282
+#: src/agentless.js:95
 #: src/status.js:133
 msgid "Address"
 msgstr "Dirección"
@@ -1433,7 +1579,7 @@ msgstr "desfase de reloj"
 msgid "differs by instance"
 msgstr "difiere según la instancia"
 
-#: templates/layout.html.tmpl:98
+#: templates/layout.html.tmpl:102
 #: templates/pages/status.tmpl:3
 msgid "System"
 msgstr "Sistema"
@@ -1453,3 +1599,2221 @@ msgstr "Sin configurar"
 #: src/status.js:31
 msgid "Unreachable"
 msgstr "Inaccesible"
+
+#: src/task-form.js:144
+msgid "Choose a task"
+msgstr "Elige un Task"
+
+#: src/code-plans.js:111
+#: src/task-form.js:28
+msgid "Default: {value}"
+msgstr "Predeterminado: {value}"
+
+#: src/job.js:53
+msgid "Environment:"
+msgstr "Environment:"
+
+#: src/task-form.js:303
+msgid "Fix these parameters first:"
+msgstr "Corrige primero estos parámetros:"
+
+#: src/code-plans.js:132
+#: src/task-form.js:51
+msgid "JSON, for example [\"a\", \"b\"]"
+msgstr "JSON, por ejemplo [\"a\", \"b\"]"
+
+#: src/task-form.js:139
+msgid "No tasks in this environment"
+msgstr "No hay Tasks en este Environment"
+
+#: src/code-plans.js:118
+#: src/code-plans.js:120
+#: src/task-form.js:37
+msgid "Not set"
+msgstr "Sin definir"
+
+#: src/run-task.js:126
+#~ msgid "On {count} nodes."
+#~ msgstr ""
+
+#: src/run-task.js:31
+msgid "On {node}."
+msgstr "En {node}."
+
+#: src/code-plans.js:282
+#: src/code-plans.js:57
+#: src/job.js:99
+#: src/plan-common.js:137
+#: src/schedule.js:23
+#: src/task-form.js:185
+msgid "Parameters"
+msgstr "Parámetros"
+
+#: src/plan-common.js:174
+#: src/task-form.js:282
+msgid "Problem:"
+msgstr "Problema:"
+
+#: src/job.js:110
+msgid "Result from {node}"
+msgstr "Resultado de {node}"
+
+#: src/plan-edit.js:33
+#: src/run-task.js:26
+#: templates/pages/schedule-edit.tmpl:24
+msgid "Run a task"
+msgstr "Ejecutar un Task"
+
+#: src/run-task.js:44
+#: templates/pages/group.tmpl:130
+#: templates/pages/jobs.tmpl:7
+#: templates/pages/node.tmpl:10
+#: templates/pages/nodes.tmpl:38
+msgid "Run task"
+msgstr "Ejecutar Task"
+
+#: src/task-form.js:198
+msgid "Stopped if still running after this long. 30 minutes if left empty."
+msgstr "Se detiene si sigue en ejecución pasado este tiempo. 30 minutos si se deja vacío."
+
+#: src/task-form.js:97
+msgid "Tasks are not configured on this console. An administrator sets CONSOLE_PUPPET_SERVER_URL to enable them."
+msgstr "Los Tasks no están configurados en esta consola. Un administrador los activa con CONSOLE_PUPPET_SERVER_URL."
+
+#: src/task-form.js:318
+msgid "The console refused these parameters:"
+msgstr "La consola rechazó estos parámetros:"
+
+#: src/task-form.js:186
+msgid "This task declares no parameters, so any JSON object is passed to it as is."
+msgstr "Este Task no declara parámetros, así que cualquier objeto JSON se le pasa tal cual."
+
+#: src/task-form.js:188
+msgid "This task takes no parameters."
+msgstr "Este Task no admite parámetros."
+
+#: src/task-form.js:197
+msgid "Timeout (minutes)"
+msgstr "Tiempo límite (minutos)"
+
+#: src/task-form.js:262
+msgid "is not valid JSON"
+msgstr "no es JSON válido"
+
+#: src/task-form.js:237
+msgid "must be a JSON object"
+msgstr "debe ser un objeto JSON"
+
+#: src/plan-common.js:174
+#: src/task-form.js:247
+msgid "required"
+msgstr "obligatorio"
+
+#: src/run-task.js:32
+msgid "On {count} node."
+msgid_plural "On {count} nodes."
+msgstr[0] "En {count} Node."
+msgstr[1] "En {count} Nodes."
+
+#: src/node.js:577
+msgid "Attempt {attempts} of {max}. Next automatic attempt: {time}."
+msgstr "Intento {attempts} de {max}. Próximo intento automático: {time}."
+
+#: src/node.js:575
+msgid "Automatic attempts stopped after {attempts} failures."
+msgstr "Los intentos automáticos se detuvieron tras {attempts} fallos."
+
+#: src/index.js:131
+msgid "Automatic upgrades are off."
+msgstr "Las actualizaciones automáticas están desactivadas."
+
+#: src/index.js:131
+msgid "Automatic upgrades are on."
+msgstr "Las actualizaciones automáticas están activadas."
+
+#: src/nodes.js:130
+msgid "Client out of date"
+msgstr "Cliente desactualizado"
+
+#: src/index.js:125
+msgid "Clients too old to upgrade themselves: {count}. Re-run the install script on those nodes once; the Nodes page marks them."
+msgstr "Clientes demasiado antiguos para actualizarse por sí mismos: {count}. Vuelva a ejecutar el script de instalación en esos nodes una vez; la página Nodes los señala."
+
+#: src/node.js:556
+msgid "Current"
+msgstr "Al día"
+
+#: src/index.js:120
+msgid "Current: {count}"
+msgstr "Al día: {count}"
+
+#: src/index.js:122
+msgid "Failed upgrades: {count}"
+msgstr "Actualizaciones fallidas: {count}"
+
+#: src/node.js:593
+#: src/node.js:611
+msgid "Node agent"
+msgstr "Agente del node"
+
+#: src/index.js:129
+msgid "Node agents"
+msgstr "Agentes de los nodes"
+
+#: src/node.js:557
+#: src/node.js:558
+#: src/patches.js:61
+msgid "Out of date"
+msgstr "Desactualizado"
+
+#: src/index.js:121
+msgid "Out of date: {count}"
+msgstr "Desactualizados: {count}"
+
+#: src/node.js:573
+msgid "The last client upgrade failed: {error}"
+msgstr "La última actualización del cliente falló: {error}"
+
+#: src/node.js:571
+msgid "The node has been told to upgrade its client. It restarts onto the new build when the upgrade completes."
+msgstr "Se ha indicado al node que actualice su cliente. Se reiniciará con la nueva compilación cuando termine la actualización."
+
+#: src/node.js:562
+msgid "This client is too old to upgrade itself. Re-run the install script on this node once; after that it keeps itself current."
+msgstr "Este cliente es demasiado antiguo para actualizarse por sí mismo. Vuelva a ejecutar el script de instalación en este node una vez; después se mantendrá al día por sí solo."
+
+#: src/node.js:564
+msgid "This console has no client package for the platform of this node."
+msgstr "Esta consola no tiene un paquete de cliente para la plataforma de este node."
+
+#: src/node.js:593
+msgid "This node has not reported its client build yet. It does so the next time it connects."
+msgstr "Este node aún no ha informado de la compilación de su cliente. Lo hará la próxima vez que se conecte."
+
+#: src/node.js:599
+msgid "Unknown build"
+msgstr "Compilación desconocida"
+
+#: src/node.js:614
+msgid "Upgrade client"
+msgstr "Actualizar cliente"
+
+#: src/node.js:563
+msgid "Upgrades are declined in the configuration of this node."
+msgstr "Las actualizaciones están rechazadas en la configuración de este node."
+
+#: src/node.js:600
+msgid "Version {version}, built {time}"
+msgstr "Versión {version}, compilada el {time}"
+
+#: src/node.js:602
+msgid "unknown"
+msgstr "desconocido"
+
+#: src/node.js:601
+msgid "unversioned"
+msgstr "sin versión"
+
+#: templates/pages/group.tmpl:41
+msgid "A node can match several groups at once. Their classes and parameters are combined. When two groups set the <em>same</em> class parameter, top-scope parameter, or environment, a group always wins over the groups above it in the tree; between unrelated groups the one with the higher priority wins. Priorities must be unique."
+msgstr "Un Node puede coincidir con varios grupos a la vez. Sus clases y parámetros se combinan. Cuando dos grupos definen el <em>mismo</em> parámetro de clase, parámetro global o Environment, un grupo siempre prevalece sobre los grupos que están por encima de él en el árbol; entre grupos no relacionados prevalece el de mayor prioridad. Las prioridades deben ser únicas."
+
+#: templates/pages/group.tmpl:97
+msgid "A node joins this group when it is in the parent group and its facts satisfy the conditions below. Fact path is a dotted path into the node's facts, like <code>os.family</code> or <code>networking.fqdn</code> — open a node's page to see the facts it reports. With no conditions and no pinned nodes, the group matches nothing."
+msgstr "Un Node entra en este grupo cuando está en el grupo padre y sus Facts cumplen las condiciones siguientes. La ruta del Fact es una ruta con puntos dentro de los Facts del Node, como <code>os.family</code> o <code>networking.fqdn</code>; abra la página de un Node para ver los Facts que informa. Sin condiciones ni Nodes fijados, el grupo no coincide con nada."
+
+#: templates/pages/group.tmpl:104
+msgid "A node must satisfy"
+msgstr "Un Node debe cumplir"
+
+#: templates/pages/group.tmpl:13
+msgid "All Nodes is the built-in group every node belongs to. Its classes, parameters and environment apply to every node; its name, rule and pinned nodes cannot be changed."
+msgstr "All Nodes es el grupo integrado al que pertenece todo Node. Sus clases, parámetros y Environment se aplican a todos los Nodes; su nombre, su regla y sus Nodes fijados no se pueden cambiar."
+
+#: templates/pages/group.tmpl:113
+msgid "Certnames listed here are in this group whether or not the match rule matches them, as long as they are also in the parent group."
+msgstr "Los certnames indicados aquí están en este grupo tanto si la regla de coincidencia los selecciona como si no, siempre que también estén en el grupo padre."
+
+#: src/groups.js:35
+msgid "Create a group to start classifying nodes."
+msgstr "Cree un grupo para empezar a clasificar Nodes."
+
+#: src/group.js:182
+msgid "Groups beneath this one override it despite their lower priority."
+msgstr "Los grupos situados debajo de este prevalecen sobre él a pesar de su prioridad más baja."
+
+#: src/group.js:172
+msgid "Its value is the one used, because a group always wins over the groups above it. Priority alone would have chosen the parent's. This group sets:"
+msgstr "Se usa su valor, porque un grupo siempre prevalece sobre los grupos que están por encima de él. La prioridad por sí sola habría elegido el del padre. Este grupo define:"
+
+#: src/groups.js:14
+msgid "Overrides priority"
+msgstr "Prevalece sobre la prioridad"
+
+#: src/groups.js:8
+msgid "Overrides {count} value set by a parent with a higher priority"
+msgid_plural "Overrides {count} values set by a parent with a higher priority"
+msgstr[0] "Sustituye {count} valor definido por un padre con mayor prioridad"
+msgstr[1] "Sustituye {count} valores definidos por un padre con mayor prioridad"
+
+#: templates/pages/group.tmpl:25
+msgid "Parent group"
+msgstr "Grupo padre"
+
+#: src/group.js:183
+msgid "Their values are the ones used for their nodes:"
+msgstr "Sus valores son los que se usan para sus Nodes:"
+
+#: src/group.js:474
+msgid "These pinned nodes are not currently in this group, because they are not in its parent group (or are not known to the console):"
+msgstr "Estos Nodes fijados no están actualmente en este grupo, porque no están en su grupo padre (o la consola no los conoce):"
+
+#: templates/pages/group.tmpl:26
+msgid "This group can only contain nodes that are also in its parent, and it inherits the parent's classes and parameters."
+msgstr "Este grupo solo puede contener Nodes que también estén en su padre, y hereda las clases y los parámetros del padre."
+
+#: src/group.js:171
+msgid "This group overrides a parent with a higher priority."
+msgstr "Este grupo prevalece sobre un padre con mayor prioridad."
+
+#: src/group.js:457
+msgid "Whether each pinned node is currently in this group is unavailable."
+msgstr "No se puede saber si cada Node fijado está actualmente en este grupo."
+
+#: src/group.js:156
+msgid "a different environment from {ancestor}"
+msgstr "un Environment distinto del de {ancestor}"
+
+#: src/group.js:103
+msgid "all of the conditions"
+msgstr "todas las condiciones"
+
+#: src/group.js:104
+msgid "any one of the conditions"
+msgstr "cualquiera de las condiciones"
+
+#: src/group.js:158
+msgid "parameter {key} of class {class}, which {ancestor} sets differently"
+msgstr "el parámetro {key} de la clase {class}, que {ancestor} define de otra forma"
+
+#: src/group.js:157
+msgid "top-scope parameter {key}, which {ancestor} sets differently"
+msgstr "el parámetro global {key}, que {ancestor} define de otra forma"
+
+#: src/roles.js:111
+#: src/roles.js:124
+#: src/user-groups.js:149
+msgid "Change"
+msgstr "Cambiar"
+
+#: src/roles.js:64
+msgid "No node groups"
+msgstr "Sin grupos de Nodes"
+
+#: src/roles.js:50
+msgid "Node groups could not be loaded, so the new role will cover all nodes. Viewing node groups needs the classifier:read permission."
+msgstr "No se pudieron cargar los grupos de Nodes, así que el nuevo rol cubrirá todos los Nodes. Ver los grupos de Nodes requiere el permiso classifier:read."
+
+#: src/roles.js:116
+msgid "Save node groups"
+msgstr "Guardar grupos de Nodes"
+
+#: templates/pages/roles.tmpl:25
+msgid "The role's permissions apply to the nodes in these groups and in every group beneath them. All Nodes covers the whole fleet."
+msgstr "Los permisos del rol se aplican a los Nodes de estos grupos y de todos los grupos situados debajo. All Nodes cubre toda la flota."
+
+#: src/group.js:594
+msgid "This group is granted to one or more roles. Remove it from those roles on the Roles page before deleting it."
+msgstr "Este grupo está concedido a uno o más roles. Quítelo de esos roles en la página Roles antes de eliminarlo."
+
+#: src/nodes.js:589
+msgid "You are seeing the nodes in this node group and the groups beneath it: {groups}"
+msgid_plural "You are seeing the nodes in these node groups and the groups beneath them: {groups}"
+msgstr[0] "Está viendo los Nodes de este grupo de Nodes y de los grupos situados debajo: {groups}"
+msgstr[1] "Está viendo los Nodes de estos grupos de Nodes y de los grupos situados debajo: {groups}"
+
+#: src/nodes.js:585
+msgid "Your roles are not granted on any node group, so no nodes are shown. Ask an administrator to add a node group to one of your roles."
+msgstr "Sus roles no están concedidos sobre ningún grupo de Nodes, así que no se muestra ningún Node. Pida a un administrador que añada un grupo de Nodes a uno de sus roles."
+
+#: src/roles.js:67
+msgid "{count} node groups"
+msgstr "{count} grupos de Nodes"
+
+#: src/app.js:291
+msgid "Nothing was done. Your role cannot act on this node, because it is not in your node groups: {nodes}"
+msgid_plural "Nothing was done on any node. Your role cannot act on these nodes, because they are not in your node groups: {nodes}"
+msgstr[0] "No se hizo nada. Su rol no puede actuar sobre este Node, porque no está en sus grupos de Nodes: {nodes}"
+msgstr[1] "No se hizo nada en ningún Node. Su rol no puede actuar sobre estos Nodes, porque no están en sus grupos de Nodes: {nodes}"
+
+#: src/job.js:57
+msgid "Only the nodes in your node groups are shown. This job also ran on other nodes, and its status covers all of them."
+msgstr "Solo se muestran los Nodes de sus grupos de Nodes. Este Job también se ejecutó en otros Nodes, y su estado los abarca a todos."
+
+#: src/app.js:290
+msgid "{nodes} and {count} more"
+msgstr "{nodes} y {count} más"
+
+#: templates/pages/group.tmpl:67
+msgid "Add a class"
+msgstr "Añadir una clase"
+
+#: templates/pages/group.tmpl:72
+msgid "Add class"
+msgstr "Añadir clase"
+
+#: src/class-editor.js:257
+msgid "Add parameter"
+msgstr "Añadir parámetro"
+
+#: src/run-puppet.js:32
+msgid "Asks the node to run against this environment. A node whose node groups set an environment runs in that one instead; the job shows which was used."
+msgstr "Pide al Node que se ejecute en este Environment. Un Node cuyos grupos de Nodes definen un Environment se ejecuta en ese; el Job muestra cuál se usó."
+
+#: src/class-editor.js:378
+msgid "Choose or type a class"
+msgstr "Elija o escriba una clase"
+
+#: src/class-editor.js:252
+msgid "Choose or type a parameter"
+msgstr "Elija o escriba un parámetro"
+
+#: src/class-editor.js:345
+msgid "Choosing from the classes in the {environment} environment, as read at {time}."
+msgstr "Eligiendo entre las clases del Environment {environment}, leídas a las {time}."
+
+#: src/groups.js:28
+msgid "Class mismatch"
+msgstr "Clase no coincidente"
+
+#: src/class-editor.js:378
+msgid "Class name, like profile::base"
+msgstr "Nombre de clase, como profile::base"
+
+#: src/class-editor.js:309
+msgid "Class {class} already sets parameter {parameter}."
+msgstr "La clase {class} ya define el parámetro {parameter}."
+
+#: src/class-editor.js:482
+msgid "Classes must be a JSON list of objects, each with a \"name\" and optional \"parameters\"."
+msgstr "Las clases deben ser una lista JSON de objetos, cada uno con un \"name\" y unos \"parameters\" opcionales."
+
+#: src/run-puppet.js:161
+msgid "Debug"
+msgstr "Depuración"
+
+#: src/run-puppet.js:27
+msgid "Debug output"
+msgstr "Salida de depuración"
+
+#: src/class-editor.js:184
+msgid "Default: {default}"
+msgstr "Valor predeterminado: {default}"
+
+#: src/class-editor.js:217
+msgid "Does not fit the type: {detail}"
+msgstr "No se ajusta al tipo: {detail}"
+
+#: src/class-editor.js:186
+msgid "Entered as JSON"
+msgstr "Introducido como JSON"
+
+#: src/run-puppet.js:160
+msgid "Environment: {environment}"
+msgstr "Environment: {environment}"
+
+#: src/class-editor.js:477
+msgid "Invalid JSON in the classes: {error}"
+msgstr "JSON no válido en las clases: {error}"
+
+#: src/class-editor.js:264
+msgid "No classes yet. Nodes in this group get only what their other groups give them."
+msgstr "Aún no hay clases. Los Nodes de este grupo solo reciben lo que les dan sus otros grupos."
+
+#: src/class-editor.js:185
+msgid "No default in the code"
+msgstr "Sin valor predeterminado en el código"
+
+#: src/class-editor.js:247
+msgid "No parameters set: the code's own defaults and Hiera apply."
+msgstr "No hay parámetros definidos: se aplican los valores predeterminados del código y Hiera."
+
+#: src/run-puppet.js:26
+msgid "No-op: report what would change, and change nothing"
+msgstr "No-op: informar de lo que cambiaría, sin cambiar nada"
+
+#: src/class-editor.js:213
+msgid "Not a parameter of this class"
+msgstr "No es un parámetro de esta clase"
+
+#: src/class-editor.js:242
+msgid "Not defined in {environment}"
+msgstr "No definido en {environment}"
+
+#: src/job.js:78
+msgid "Output from {node}"
+msgstr "Salida de {node}"
+
+#: src/class-editor.js:252
+msgid "Parameter name"
+msgstr "Nombre del parámetro"
+
+#: src/class-editor.js:172
+msgid "Parameter {parameter} of class {class} is not valid JSON. Text needs double quotes, like \"value\"."
+msgstr "El parámetro {parameter} de la clase {class} no es JSON válido. El texto necesita comillas dobles, como \"value\"."
+
+#: src/class-editor.js:163
+msgid "Parameter {parameter} of class {class} needs a number. Enter one, or remove the parameter to leave it unset."
+msgstr "El parámetro {parameter} de la clase {class} necesita un número. Introduzca uno, o quite el parámetro para dejarlo sin definir."
+
+#: templates/pages/group.tmpl:56
+msgid "Puppet classes applied to every node in this group. A parameter left unset keeps the value the code or Hiera gives it. A class or parameter that the environment's code does not define can still be saved, and is marked."
+msgstr "Clases de Puppet aplicadas a cada Node de este grupo. Un parámetro sin definir conserva el valor que le dan el código o Hiera. Una clase o un parámetro que el código del Environment no define se puede guardar igualmente, y queda marcado."
+
+#: src/job.js:89
+msgid "Ran in {used}, not {requested}"
+msgstr "Se ejecutó en {used}, no en {requested}"
+
+#: src/class-editor.js:351
+msgid "Refresh classes"
+msgstr "Actualizar clases"
+
+#: src/class-editor.js:245
+msgid "Remove class {class}"
+msgstr "Quitar la clase {class}"
+
+#: src/class-editor.js:232
+msgid "Remove parameter {parameter}"
+msgstr "Quitar el parámetro {parameter}"
+
+#: src/run-puppet.js:95
+msgid "Run Puppet on {node}?"
+msgstr "¿Ejecutar Puppet en {node}?"
+
+#: src/class-editor.js:250
+msgid "Set a parameter"
+msgstr "Definir un parámetro"
+
+#: src/class-editor.js:361
+msgid "The Puppet server could not be reached just now, so this list of classes may be out of date. Nothing is marked as missing until it can be read again."
+msgstr "No se pudo contactar con el servidor Puppet en este momento, así que esta lista de clases puede estar desactualizada. No se marca nada como ausente hasta que se pueda volver a leer."
+
+#: src/class-editor.js:76
+msgid "The Puppet server has no environment named {environment}, so its classes cannot be listed. Classes and parameters can still be entered by name."
+msgstr "El servidor Puppet no tiene ningún Environment llamado {environment}, así que no se pueden listar sus clases. Las clases y los parámetros se pueden seguir introduciendo por nombre."
+
+#: src/job.js:58
+msgid "The environment is a request. A node whose node groups set an environment runs in that one instead, and is marked below once its report arrives."
+msgstr "El Environment es una petición. Un Node cuyos grupos de Nodes definen un Environment se ejecuta en ese, y se marca más abajo cuando llega su Report."
+
+#: src/class-editor.js:78
+msgid "The list of classes is unavailable: the Puppet server could not be reached. Classes and parameters can still be entered by name."
+msgstr "La lista de clases no está disponible: no se pudo contactar con el servidor Puppet. Las clases y los parámetros se pueden seguir introduciendo por nombre."
+
+#: src/class-editor.js:74
+msgid "The list of classes is unavailable: the Puppet server does not allow the console to read classes. An administrator adds a rule for /puppet/v3/environment_classes to the server's auth.conf - see the installation guide. Classes and parameters can still be entered by name."
+msgstr "La lista de clases no está disponible: el servidor Puppet no permite que la consola lea las clases. Un administrador añade una regla para /puppet/v3/environment_classes en el auth.conf del servidor; consulte la guía de instalación. Las clases y los parámetros se pueden seguir introduciendo por nombre."
+
+#: src/class-editor.js:72
+msgid "The list of classes is unavailable: this console has no connection to the Puppet server. An administrator sets CONSOLE_PUPPET_SERVER_URL to enable it. Classes and parameters can still be entered by name."
+msgstr "La lista de clases no está disponible: esta consola no tiene conexión con el servidor Puppet. Un administrador define CONSOLE_PUPPET_SERVER_URL para activarla. Las clases y los parámetros se pueden seguir introduciendo por nombre."
+
+#: src/class-editor.js:367
+msgid "These manifests could not be parsed, so their classes are not in the list, and no class is marked as undefined:"
+msgstr "Estos manifiestos no se pudieron analizar, así que sus clases no están en la lista y ninguna clase se marca como no definida:"
+
+#: src/class-editor.js:419
+msgid "This group already has class {class}."
+msgstr "Este grupo ya tiene la clase {class}."
+
+#: src/job.js:90
+msgid "This node's node groups set its environment, which takes precedence over the one a run asks for."
+msgstr "Los grupos de Nodes de este Node definen su Environment, que tiene prioridad sobre el que pide una ejecución."
+
+#: src/class-editor.js:396
+msgid "{count} class or parameter below does not match the code in the {environment} environment. It is saved and applied as it is; a node whose catalog needs it will fail to compile until the code or the group is changed."
+msgid_plural "{count} classes or parameters below do not match the code in the {environment} environment. They are saved and applied as they are; a node whose catalog needs them will fail to compile until the code or the group is changed."
+msgstr[0] "{count} clase o parámetro de abajo no coincide con el código del Environment {environment}. Se guarda y se aplica tal cual; un Node cuyo catálogo lo necesite no se podrá compilar hasta que se cambie el código o el grupo."
+msgstr[1] "{count} clases o parámetros de abajo no coinciden con el código del Environment {environment}. Se guardan y se aplican tal cual; un Node cuyo catálogo los necesite no se podrá compilar hasta que se cambie el código o el grupo."
+
+#: src/groups.js:22
+msgid "{count} class or parameter does not match the code in {environment}"
+msgid_plural "{count} classes or parameters do not match the code in {environment}"
+msgstr[0] "{count} clase o parámetro no coincide con el código de {environment}"
+msgstr[1] "{count} clases o parámetros no coinciden con el código de {environment}"
+
+#: templates/pages/schedule-edit.tmpl:51
+msgid "A query or a node group is worked out again each time the schedule starts, so it follows the nodes as they change. The preview shows what it would run on now."
+msgstr "Una consulta o un grupo de Nodes se vuelve a evaluar cada vez que se inicia la programación, así que sigue a los Nodes a medida que cambian. La vista previa muestra dónde se ejecutaría ahora."
+
+#: src/target-picker.js:61
+msgid "A query that returns certname. It is run when the job starts, and the job runs on the matching nodes in your node groups."
+msgstr "Una consulta que devuelve certname. Se ejecuta cuando se inicia el Job, y el Job se ejecuta en los Nodes coincidentes de sus grupos de Nodes."
+
+#: templates/pages/schedule-edit.tmpl:82
+msgid "A repeat is a fixed length of time from the start: a day is 24 hours. Where the clocks change, a daily schedule moves by an hour on the local clock. It cannot repeat more often than every 5 minutes."
+msgstr "Una repetición es un período fijo desde el inicio: un día son 24 horas. Cuando cambia la hora, una programación diaria se desplaza una hora en el reloj local. No puede repetirse con más frecuencia que cada 5 minutos."
+
+#: templates/pages/schedules.tmpl:12
+#~ msgid "A scheduled job starts a Puppet run or a task later, once or repeatedly. Its nodes are worked out each time it starts, and it runs with its owner's access as it is at that moment."
+#~ msgstr ""
+
+#: src/plan-common.js:124
+#: src/task-form.js:29
+msgid "A value is stored. Leave this empty to keep it."
+msgstr "Hay un valor guardado. Deje esto vacío para conservarlo."
+
+#: src/schedule-common.js:88
+msgid "Active"
+msgstr "Activa"
+
+#: src/schedule.js:60
+msgid "All {count} nodes"
+msgstr "Los {count} Nodes"
+
+#: src/target-picker.js:184
+msgid "Choose a node group"
+msgstr "Elija un grupo de Nodes"
+
+#: src/target-picker.js:165
+msgid "Choose a node group first."
+msgstr "Elija primero un grupo de Nodes."
+
+#: src/task-form.js:297
+msgid "Choose a task first."
+msgstr "Elija primero un Task."
+
+#: src/target-picker.js:46
+msgid "Choose nodes by"
+msgstr "Elegir Nodes por"
+
+#: src/schedule-edit.js:182
+msgid "Choose when it starts."
+msgstr "Elija cuándo se inicia."
+
+#: src/schedule.js:146
+msgid "Delete this schedule?"
+msgstr "¿Eliminar esta programación?"
+
+#: src/schedule.js:107
+msgid "Due"
+msgstr "Pendiente"
+
+#: src/schedule.js:75
+msgid "Each time it starts, it runs on the nodes its owner's role can act on at that moment. If the owner can no longer run jobs, nothing is started."
+msgstr "Cada vez que se inicia, se ejecuta en los Nodes sobre los que el rol de su propietario puede actuar en ese momento. Si el propietario ya no puede ejecutar Jobs, no se inicia nada."
+
+#: src/schedule-edit.js:219
+#: src/schedule-edit.js:220
+msgid "Edit schedule"
+msgstr "Editar programación"
+
+#: templates/pages/schedule-edit.tmpl:73
+msgid "Every"
+msgstr "Cada"
+
+#: src/schedule-common.js:56
+#: src/target-picker.js:195
+#: src/target-picker.js:263
+msgid "Group {id}"
+msgstr "Grupo {id}"
+
+#: src/target-picker.js:191
+msgid "Group {id} (deleted)"
+msgstr "Grupo {id} (eliminado)"
+
+#: src/schedule-edit.js:143
+msgid "In your local time."
+msgstr "En su hora local."
+
+#: src/schedule-edit.js:142
+msgid "In your time zone, {zone}."
+msgstr "En su zona horaria, {zone}."
+
+#: src/schedule.js:89
+msgid "It has not come due yet"
+msgstr "Aún no le ha llegado la hora"
+
+#: src/schedule.js:147
+msgid "It will not start again. The jobs it has already started stay in the job history."
+msgstr "No volverá a iniciarse. Los Jobs que ya ha iniciado permanecen en el historial de Jobs."
+
+#: src/code-plans.js:267
+#: src/job.js:66
+#: src/node.js:738
+#: src/patches.js:227
+#: src/schedule.js:98
+#: src/schedules.js:15
+msgid "Job #{id}"
+msgstr "Job n.º {id}"
+
+#: templates/pages/jobs.tmpl:13
+#: templates/pages/plans.tmpl:8
+#: templates/pages/schedules.tmpl:8
+msgid "Job history"
+msgstr "Historial de Jobs"
+
+#: src/schedules.js:49
+msgid "Last time"
+msgstr "Última vez"
+
+#: src/target-picker.js:167
+msgid "List at least one node first."
+msgstr "Indique primero al menos un Node."
+
+#: src/target-picker.js:47
+msgid "List of nodes"
+msgstr "Lista de Nodes"
+
+#: src/jobs.js:42
+msgid "Matched by"
+msgstr "Seleccionados por"
+
+#: templates/pages/schedule-edit.tmpl:6
+#: templates/pages/schedule-edit.tmpl:8
+#: templates/pages/schedules.tmpl:5
+msgid "New schedule"
+msgstr "Nueva programación"
+
+#: src/schedule.js:69
+#: src/schedules.js:49
+msgid "Next start"
+msgstr "Próximo inicio"
+
+#: src/target-picker.js:143
+msgid "No nodes match at the moment."
+msgstr "Ningún Node coincide en este momento."
+
+#: src/schedule.js:162
+msgid "No schedule specified."
+msgstr "No se ha indicado ninguna programación."
+
+#: src/schedules.js:23
+msgid "No scheduled jobs"
+msgstr "No hay Jobs programados"
+
+#: src/jobs.js:42
+#: src/schedule-common.js:57
+#: src/target-picker.js:49
+#: src/target-picker.js:65
+msgid "Node group"
+msgstr "Grupo de Nodes"
+
+#: src/job.js:30
+msgid "Node group:"
+msgstr "Grupo de Nodes:"
+
+#: src/target-picker.js:197
+msgid "Node groups cannot be listed: your role needs to be able to read them."
+msgstr "No se pueden listar los grupos de Nodes: su rol debe poder leerlos."
+
+#: src/job.js:30
+msgid "Nodes matched by:"
+msgstr "Nodes seleccionados por:"
+
+#: src/schedule-common.js:53
+msgid "Nodes matching"
+msgstr "Nodes coincidentes"
+
+#: src/schedules.js:13
+msgid "Not yet"
+msgstr "Todavía no"
+
+#: src/schedule.js:51
+msgid "Nothing further: it does not repeat, and its time has passed."
+msgstr "Nada más: no se repite y su hora ya ha pasado."
+
+#: src/schedule-common.js:67
+msgid "Once"
+msgstr "Una vez"
+
+#: src/target-picker.js:54
+msgid "One certname per line. If any is outside your node groups, nothing is run on any of them."
+msgstr "Un certname por línea. Si alguno está fuera de sus grupos de Nodes, no se ejecuta nada en ninguno."
+
+#: src/schedule.js:107
+msgid "Outcome"
+msgstr "Resultado"
+
+#: src/target-picker.js:58
+msgid "PQL query"
+msgstr "Consulta PQL"
+
+#: templates/pages/schedule.tmpl:12
+msgid "Pause"
+msgstr "Pausar"
+
+#: src/schedule-common.js:89
+msgid "Paused"
+msgstr "En pausa"
+
+#: src/schedule.js:50
+msgid "Paused: it will not start until it is resumed."
+msgstr "En pausa: no se iniciará hasta que se reanude."
+
+#: src/target-picker.js:69
+msgid "Preview nodes"
+msgstr "Vista previa de Nodes"
+
+#: src/target-picker.js:48
+msgid "Query"
+msgstr "Consulta"
+
+#: src/schedule.js:107
+msgid "Reason"
+msgstr "Motivo"
+
+#: templates/pages/schedule-edit.tmpl:69
+msgid "Repeat"
+msgstr "Repetir"
+
+#: src/schedule.js:68
+#: src/schedules.js:49
+msgid "Repeats"
+msgstr "Repetición"
+
+#: templates/pages/schedule.tmpl:13
+msgid "Resume"
+msgstr "Reanudar"
+
+#: src/jobs.js:57
+msgid "Run Puppet or a task, here or from a node or a node group, to see it here."
+msgstr "Ejecute Puppet o un Task, aquí o desde un Node o un grupo de Nodes, para verlo aquí."
+
+#: src/schedule.js:70
+#: src/schedules.js:49
+msgid "Runs as"
+msgstr "Se ejecuta como"
+
+#: templates/pages/schedule-edit.tmpl:91
+msgid "Save schedule"
+msgstr "Guardar programación"
+
+#: src/schedule.js:125
+#: templates/pages/schedule.tmpl:6
+msgid "Schedule"
+msgstr "Programación"
+
+#: src/schedules.js:25
+#~ msgid "Schedule a Puppet run or a task to start later, once or repeatedly."
+#~ msgstr ""
+
+#: src/run-plan.js:33
+#: src/run-puppet.js:109
+#: src/run-task.js:42
+msgid "Schedule instead"
+msgstr "Programar en su lugar"
+
+#: src/jobs.js:47
+msgid "Scheduled"
+msgstr "Programado"
+
+#: templates/pages/jobs.tmpl:14
+#: templates/pages/plans.tmpl:9
+#: templates/pages/schedule-edit.tmpl:5
+#: templates/pages/schedule.tmpl:5
+#: templates/pages/schedules.tmpl:9
+msgid "Scheduled jobs"
+msgstr "Jobs programados"
+
+#: src/schedule.js:67
+#: templates/pages/schedule-edit.tmpl:62
+msgid "Start"
+msgstr "Iniciar"
+
+#: src/job.js:38
+msgid "Started by schedule:"
+msgstr "Iniciado por la programación:"
+
+#: src/schedule.js:64
+#: src/schedules.js:49
+msgid "State"
+msgstr "Estado"
+
+#: src/target-picker.js:66
+msgid "The nodes in the group when the job starts."
+msgstr "Los Nodes del grupo cuando se inicia el Job."
+
+#: src/task-form.js:157
+msgid "The task {task} is no longer in the {environment} environment. Choose another."
+msgstr "El Task {task} ya no está en el Environment {environment}. Elija otro."
+
+#: src/target-picker.js:235
+msgid "These are the nodes the job will run on. Check them, then start it."
+msgstr "Estos son los Nodes en los que se ejecutará el Job. Revíselos y luego inícielo."
+
+#: src/schedule-edit.js:230
+msgid "This schedule runs as {owner}. If you save it, it will run as you from then on, with your access. Any sensitive task values must be entered again."
+msgstr "Esta programación se ejecuta como {owner}. Si la guarda, a partir de entonces se ejecutará en su nombre, con sus accesos. Los valores sensibles de Task deben introducirse de nuevo."
+
+#: src/schedule.js:76
+#: src/schedules.js:54
+msgid "Times are shown in your time zone, {zone}."
+msgstr "Las horas se muestran en su zona horaria, {zone}."
+
+#: src/target-picker.js:163
+msgid "Type a query first."
+msgstr "Escriba primero una consulta."
+
+#: templates/pages/schedule-edit.tmpl:74
+msgid "Unit"
+msgstr "Unidad"
+
+#: templates/pages/schedule.tmpl:23
+msgid "What happened each time it came due"
+msgstr "Qué ocurrió cada vez que le llegó la hora"
+
+#: templates/pages/schedule-edit.tmpl:21
+msgid "What to run"
+msgstr "Qué ejecutar"
+
+#: templates/pages/schedule-edit.tmpl:50
+msgid "Which nodes"
+msgstr "Qué Nodes"
+
+#: src/target-picker.js:268
+msgid "a query"
+msgstr "una consulta"
+
+#: src/schedule-common.js:61
+msgid "and {count} more"
+msgid_plural "and {count} more"
+msgstr[0] "y {count} más"
+msgstr[1] "y {count} más"
+
+#: templates/pages/schedule-edit.tmpl:77
+msgid "days"
+msgstr "días"
+
+#: templates/pages/schedule-edit.tmpl:76
+msgid "hours"
+msgstr "horas"
+
+#: templates/pages/schedule-edit.tmpl:75
+msgid "minutes"
+msgstr "minutos"
+
+#: src/schedule.js:70
+msgid "service token"
+msgstr "token de servicio"
+
+#: src/job.js:37
+msgid "since deleted"
+msgstr "eliminado desde entonces"
+
+#: templates/pages/schedule-edit.tmpl:78
+msgid "weeks"
+msgstr "semanas"
+
+#: src/patches.js:229
+#: src/run-patch.js:46
+#: src/target-picker.js:144
+msgid "{count} node"
+msgid_plural "{count} nodes"
+msgstr[0] "{count} Node"
+msgstr[1] "{count} Nodes"
+
+#: src/schedule-common.js:77
+msgid "Every {count} day"
+msgid_plural "Every {count} days"
+msgstr[0] "Cada {count} día"
+msgstr[1] "Cada {count} días"
+
+#: src/schedule-common.js:75
+msgid "Every {count} hour"
+msgid_plural "Every {count} hours"
+msgstr[0] "Cada {count} hora"
+msgstr[1] "Cada {count} horas"
+
+#: src/schedule-common.js:73
+msgid "Every {count} minute"
+msgid_plural "Every {count} minutes"
+msgstr[0] "Cada {count} minuto"
+msgstr[1] "Cada {count} minutos"
+
+#: src/schedule-common.js:79
+msgid "Every {count} week"
+msgid_plural "Every {count} weeks"
+msgstr[0] "Cada {count} semana"
+msgstr[1] "Cada {count} semanas"
+
+#: src/schedule-common.js:101
+msgid "Interrupted"
+msgstr "Interrumpido"
+
+#: src/schedule-common.js:100
+msgid "Missed"
+msgstr "Omitido"
+
+#: src/schedule-common.js:102
+msgid "Starting"
+msgstr "Iniciando"
+
+#: src/password-rules.js:20
+#: templates/pages/account-policy.tmpl:29
+msgid "A digit"
+msgstr "Un dígito"
+
+#: templates/pages/account-policy.tmpl:56
+msgid "A locked account cannot log in with its password until the time has passed, or until an administrator unlocks it on the Users page. Sessions that are already open carry on. The login page never says whether an account is locked, so that it does not reveal which usernames exist."
+msgstr "Una cuenta bloqueada no puede iniciar sesión con su contraseña hasta que haya pasado el tiempo o hasta que un administrador la desbloquee en la página Usuarios. Las sesiones ya abiertas continúan. La página de inicio de sesión nunca indica si una cuenta está bloqueada, para no revelar qué nombres de usuario existen."
+
+#: src/password-rules.js:16
+#: templates/pages/account-policy.tmpl:27
+msgid "A lowercase letter"
+msgstr "Una letra minúscula"
+
+#: templates/pages/account-policy.tmpl:32
+msgid "A password is checked when it is set. Existing passwords keep working, and are checked the next time they are changed. A password can never be the account's username, or longer than 72 bytes."
+msgstr "Una contraseña se comprueba cuando se establece. Las contraseñas existentes siguen funcionando y se comprueban la próxima vez que se cambien. Una contraseña nunca puede ser el nombre de usuario de la cuenta ni superar los 72 bytes."
+
+#: templates/pages/account-policy.tmpl:25
+msgid "A password must also contain:"
+msgstr "Una contraseña también debe contener:"
+
+#: templates/pages/plan-edit.tmpl:37
+msgid "A plan can have at most 20 steps."
+msgstr "Un Plan puede tener como máximo 20 pasos."
+
+#: templates/pages/plans.tmpl:13
+msgid "A plan is a list of Puppet runs and tasks carried out in order on the same nodes. Everyone who can run jobs can change a plan; which nodes it runs on is chosen each time it is run."
+msgstr "Un Plan es una lista de ejecuciones de Puppet y Tasks que se realizan en orden en los mismos Nodes. Cualquiera que pueda ejecutar Jobs puede cambiar un Plan; los Nodes en los que se ejecuta se eligen cada vez que se ejecuta."
+
+#: src/plans.js:16
+msgid "A plan is a list of Puppet runs and tasks to carry out in order on the same nodes."
+msgstr "Un Plan es una lista de ejecuciones de Puppet y Tasks que se realizan en orden en los mismos Nodes."
+
+#: templates/pages/schedules.tmpl:13
+msgid "A scheduled job starts a Puppet run, a task or a plan later, once or repeatedly. Its nodes are worked out each time it starts, and it runs with its owner's access as it is at that moment."
+msgstr "Un Job programado inicia una ejecución de Puppet, un Task o un Plan más tarde, una vez o de forma repetida. Sus Nodes se determinan cada vez que se inicia, y se ejecuta con los accesos de su propietario tal como son en ese momento."
+
+#: src/task-form.js:21
+msgid "A sensitive value. It is not kept in the plan, and is asked for each time the plan is run."
+msgstr "Un valor sensible. No se conserva en el Plan y se pide cada vez que se ejecuta el Plan."
+
+#: src/plan-common.js:125
+msgid "A sensitive value: it is sent to the nodes and never shown again."
+msgstr "Un valor sensible: se envía a los Nodes y no se vuelve a mostrar."
+
+#: templates/pages/account-policy.tmpl:30
+msgid "A symbol"
+msgstr "Un símbolo"
+
+#: src/password-rules.js:22
+msgid "A symbol, such as ! or #"
+msgstr "Un símbolo, como ! o #"
+
+#: templates/pages/account-policy.tmpl:11
+#: templates/pages/account-policy.tmpl:8
+#: templates/pages/roles.tmpl:8
+#: templates/pages/service-tokens.tmpl:8
+#: templates/pages/user-groups.tmpl:8
+#: templates/pages/users.tmpl:8
+msgid "Account policy"
+msgstr "Política de cuentas"
+
+#: templates/pages/plan-edit.tmpl:34
+msgid "Add a Puppet run step"
+msgstr "Añadir un paso de ejecución de Puppet"
+
+#: templates/pages/plan-edit.tmpl:35
+msgid "Add a task step"
+msgstr "Añadir un paso de Task"
+
+#: src/plan-edit.js:148
+msgid "Add at least one step."
+msgstr "Añada al menos un paso."
+
+#: src/password-rules.js:18
+#: templates/pages/account-policy.tmpl:28
+msgid "An uppercase letter"
+msgstr "Una letra mayúscula"
+
+#: src/plan.js:27
+msgid "Asked for when the plan is run:"
+msgstr "Se pide al ejecutar el Plan:"
+
+#: src/password-rules.js:14
+msgid "At least {count} character"
+msgid_plural "At least {count} characters"
+msgstr[0] "Al menos {count} carácter"
+msgstr[1] "Al menos {count} caracteres"
+
+#: templates/pages/account-policy.tmpl:50
+msgid "Between 1 and 1,440 (a day)."
+msgstr "Entre 1 y 1440 (un día)."
+
+#: templates/pages/account-policy.tmpl:46
+msgid "Between 3 and 100."
+msgstr "Entre 3 y 100."
+
+#: templates/pages/account-policy.tmpl:23
+msgid "Between 8 and 72 characters."
+msgstr "Entre 8 y 72 caracteres."
+
+#: src/schedule-edit.js:58
+msgid "Choose a plan"
+msgstr "Elija un Plan"
+
+#: src/schedule-edit.js:167
+msgid "Choose the plan to run."
+msgstr "Elija el Plan que se va a ejecutar."
+
+#: src/preferences.js:65
+msgid "Current and new password are both required."
+msgstr "Se requieren tanto la contraseña actual como la nueva."
+
+#: src/plan.js:59
+msgid "Delete this plan?"
+msgstr "¿Eliminar este Plan?"
+
+#: src/code-plans.js:57
+#: src/plans.js:36
+msgid "Description"
+msgstr "Descripción"
+
+#: templates/pages/plan-edit.tmpl:18
+msgid "Description (optional)"
+msgstr "Descripción (opcional)"
+
+#: src/plan.js:38
+#: src/run-plan.js:27
+msgid "Each step runs on every node, in this order. If a step fails on any node, the plan stops and the steps after it are not run."
+msgstr "Cada paso se ejecuta en todos los Nodes, en este orden. Si un paso falla en algún Node, el Plan se detiene y los pasos posteriores no se ejecutan."
+
+#: src/plan-edit.js:175
+#: src/plan-edit.js:176
+msgid "Edit plan"
+msgstr "Editar Plan"
+
+#: templates/pages/account-policy.tmpl:45
+msgid "Failed logins in a row"
+msgstr "Inicios de sesión fallidos seguidos"
+
+#: src/job.js:164
+msgid "Finished {when}"
+msgstr "Finalizó {when}"
+
+#: src/plan-edit.js:144
+msgid "Give the plan a name."
+msgstr "Dé un nombre al Plan."
+
+#: src/users.js:37
+msgid "If the account is locked, this unlocks it. Sessions the user already has open carry on."
+msgstr "Si la cuenta está bloqueada, esto la desbloquea. Las sesiones que el usuario ya tiene abiertas continúan."
+
+#: src/login.js:27
+msgid "Invalid username or password. After several failed attempts in a row, an account is locked for a while: wait, or ask an administrator to unlock it."
+msgstr "Nombre de usuario o contraseña no válidos. Tras varios intentos fallidos seguidos, una cuenta se bloquea durante un tiempo: espere, o pida a un administrador que la desbloquee."
+
+#: src/plan.js:60
+msgid "Jobs it has started stay in the job history, and schedules made from it keep their own copy of its steps."
+msgstr "Los Jobs que ha iniciado permanecen en el historial de Jobs, y las programaciones creadas a partir de él conservan su propia copia de sus pasos."
+
+#: src/schedule-edit.js:58
+msgid "Keep the steps shown below"
+msgstr "Conservar los pasos que se muestran abajo"
+
+#: src/plans.js:36
+msgid "Last changed by"
+msgstr "Último cambio por"
+
+#: src/account-policy.js:39
+#: src/plan.js:37
+msgid "Last changed by {user} on {when}."
+msgstr "Último cambio por {user} el {when}."
+
+#: templates/pages/account-policy.tmpl:41
+msgid "Lock an account after repeated failed logins"
+msgstr "Bloquear una cuenta tras repetidos inicios de sesión fallidos"
+
+#: templates/pages/account-policy.tmpl:49
+msgid "Locked for (minutes)"
+msgstr "Bloqueada durante (minutos)"
+
+#: src/users.js:20
+msgid "Locked until {when}"
+msgstr "Bloqueada hasta {when}"
+
+#: templates/pages/account-policy.tmpl:40
+msgid "Login lockout"
+msgstr "Bloqueo de inicio de sesión"
+
+#: templates/pages/account-policy.tmpl:22
+msgid "Minimum length"
+msgstr "Longitud mínima"
+
+#: src/plan-edit.js:67
+msgid "Move down"
+msgstr "Bajar"
+
+#: src/plan-edit.js:66
+msgid "Move up"
+msgstr "Subir"
+
+#: templates/pages/plan-edit.tmpl:6
+#: templates/pages/plan-edit.tmpl:8
+#: templates/pages/plans.tmpl:5
+msgid "New plan"
+msgstr "Nuevo Plan"
+
+#: src/password-rules.js:24
+msgid "No longer than 72 bytes"
+msgstr "No más de 72 bytes"
+
+#: src/plan.js:75
+msgid "No plan specified."
+msgstr "No se ha indicado ningún Plan."
+
+#: src/plans.js:14
+msgid "No plans yet"
+msgstr "Aún no hay Plans"
+
+#: src/job.js:172
+msgid "No steps to show"
+msgstr "No hay pasos que mostrar"
+
+#: templates/pages/plan-edit.tmpl:30
+msgid "No steps yet. Add the first one below."
+msgstr "Aún no hay pasos. Añada el primero abajo."
+
+#: src/password-rules.js:70
+msgid "Not met:"
+msgstr "No se cumple:"
+
+#: src/code-plans.js:10
+#: src/plan-common.js:73
+msgid "Not run"
+msgstr "No ejecutado"
+
+#: src/job.js:156
+msgid "Not run, because an earlier step failed. Nothing was sent to any node for this step."
+msgstr "No ejecutado, porque un paso anterior falló. No se envió nada a ningún Node para este paso."
+
+#: src/password-rules.js:26
+msgid "Not the same as the username"
+msgstr "Distinta del nombre de usuario"
+
+#: src/preferences.js:72
+msgid "Password changed."
+msgstr "Contraseña cambiada."
+
+#: src/password-rules.js:66
+msgid "Password rules"
+msgstr "Reglas de contraseña"
+
+#: templates/pages/account-policy.tmpl:21
+msgid "Passwords"
+msgstr "Contraseñas"
+
+#: templates/pages/jobs.tmpl:15
+#: templates/pages/plan-edit.tmpl:5
+#: templates/pages/plan.tmpl:5
+#: templates/pages/plans.tmpl:10
+#: templates/pages/schedules.tmpl:10
+msgid "Plans"
+msgstr "Plans"
+
+#: templates/pages/account-policy.tmpl:12
+msgid "Rules for accounts that log in with a username and password. They do not apply to people who sign in through your identity provider, or to service tokens."
+msgstr "Reglas para las cuentas que inician sesión con nombre de usuario y contraseña. No se aplican a quienes inician sesión mediante su proveedor de identidad ni a los tokens de servicio."
+
+#: templates/pages/schedule-edit.tmpl:25
+msgid "Run a plan"
+msgstr "Ejecutar un Plan"
+
+#: src/run-plan.js:35
+msgid "Run plan"
+msgstr "Ejecutar Plan"
+
+#: src/run-plan.js:20
+msgid "Run plan: {name}"
+msgstr "Ejecutar Plan: {name}"
+
+#: templates/pages/plan-edit.tmpl:41
+msgid "Save plan"
+msgstr "Guardar Plan"
+
+#: templates/pages/account-policy.tmpl:66
+msgid "Save policy"
+msgstr "Guardar política"
+
+#: src/account-policy.js:64
+msgid "Saved. The policy is in force now, on every console instance."
+msgstr "Guardado. La política está en vigor desde ahora, en todas las instancias de la consola."
+
+#: src/schedules.js:25
+msgid "Schedule a Puppet run, a task or a plan to start later, once or repeatedly."
+msgstr "Programe una ejecución de Puppet, un Task o un Plan para que se inicie más tarde, una vez o de forma repetida."
+
+#: src/users.js:32
+msgid "Set a password for {user}"
+msgstr "Establecer una contraseña para {user}"
+
+#: src/users.js:129
+#: src/users.js:41
+msgid "Set password"
+msgstr "Establecer contraseña"
+
+#: src/job.js:163
+msgid "Started {when}"
+msgstr "Inició {when}"
+
+#: src/job.js:153
+msgid "Starts when the step before it has finished on every node."
+msgstr "Se inicia cuando el paso anterior ha terminado en todos los Nodes."
+
+#: src/plan-common.js:17
+msgid "Step {number}"
+msgstr "Paso {number}"
+
+#: src/job.js:62
+#~ msgid "Step {number} of {count}"
+#~ msgstr ""
+
+#: src/job.js:199
+#: src/job.js:202
+#: src/plans.js:36
+#: src/run-plan.js:25
+#: src/schedule.js:42
+#: templates/pages/plan-edit.tmpl:24
+#: templates/pages/plan.tmpl:22
+msgid "Steps"
+msgstr "Pasos"
+
+#: templates/pages/plan-edit.tmpl:25
+msgid "Steps run in this order, each on every node the plan is run on. If a step fails on any node, the plan stops there. A sensitive task value is never kept in a plan: it is asked for each time the plan is run."
+msgstr "Los pasos se ejecutan en este orden, cada uno en todos los Nodes en los que se ejecuta el Plan. Si un paso falla en algún Node, el Plan se detiene ahí. Un valor sensible de Task nunca se conserva en un Plan: se pide cada vez que se ejecuta el Plan."
+
+#: src/users.js:62
+msgid "That password does not meet the rules above."
+msgstr "Esa contraseña no cumple las reglas anteriores."
+
+#: src/preferences.js:78
+#: src/users.js:251
+msgid "That password does not meet the rules shown under it."
+msgstr "Esa contraseña no cumple las reglas que se muestran debajo."
+
+#: templates/pages/schedule-edit.tmpl:39
+msgid "The schedule keeps its own copy of these steps. Changing or deleting the saved plan later does not change what the schedule runs; to pick up a change, choose the plan here again and save."
+msgstr "La programación conserva su propia copia de estos pasos. Cambiar o eliminar más adelante el Plan guardado no cambia lo que ejecuta la programación; para recoger un cambio, vuelva a elegir el Plan aquí y guarde."
+
+#: src/schedule-edit.js:64
+msgid "There are no saved plans yet. Create one on the Plans page first."
+msgstr "Aún no hay Plans guardados. Cree uno primero en la página Plans."
+
+#: src/account-policy.js:40
+msgid "These are the defaults: the policy has not been changed."
+msgstr "Estos son los valores predeterminados: la política no se ha cambiado."
+
+#: src/run-plan.js:52
+msgid "This plan has a step that can no longer run. Edit the plan before running it."
+msgstr "Este Plan tiene un paso que ya no se puede ejecutar. Edite el Plan antes de ejecutarlo."
+
+#: src/schedule.js:44
+msgid "This schedule keeps its own copy of the steps, taken when it was saved. Changing or deleting the saved plan does not change what the schedule runs."
+msgstr "Esta programación conserva su propia copia de los pasos, tomada cuando se guardó. Cambiar o eliminar el Plan guardado no cambia lo que ejecuta la programación."
+
+#: src/plan-common.js:45
+msgid "This step can no longer run as saved: {problem}"
+msgstr "Este paso ya no se puede ejecutar tal como se guardó: {problem}"
+
+#: src/plan-common.js:57
+msgid "Timeout: {count} minute"
+msgid_plural "Timeout: {count} minutes"
+msgstr[0] "Tiempo límite: {count} minuto"
+msgstr[1] "Tiempo límite: {count} minutos"
+
+#: src/users.js:52
+msgid "Type the new password."
+msgstr "Escriba la nueva contraseña."
+
+#: src/users.js:24
+msgid "Unlock"
+msgstr "Desbloquear"
+
+#: src/users.js:229
+msgid "Username and password are required."
+msgstr "Se requieren el nombre de usuario y la contraseña."
+
+#: src/plan-common.js:69
+msgid "Waiting"
+msgstr "En espera"
+
+#: src/job.js:64
+#~ msgid "of plan"
+#~ msgstr ""
+
+#: src/plan.js:19
+msgid "optional"
+msgstr "opcional"
+
+#: src/code-plans.js:154
+#: src/plan-common.js:64
+msgid "{count} step"
+msgid_plural "{count} steps"
+msgstr[0] "{count} paso"
+msgstr[1] "{count} pasos"
+
+#: src/job.js:65
+msgid "Step {number} of {count} in the plan"
+msgstr "Paso {number} de {count} del Plan"
+
+#: src/task-patterns.js:15
+msgid "Every task"
+msgstr "Todos los Tasks"
+
+#: src/roles.js:131
+msgid "Save tasks"
+msgstr "Guardar Tasks"
+
+#: src/roles.js:145
+#: src/service-tokens.js:47
+#: templates/pages/roles.tmpl:29
+msgid "Tasks"
+msgstr "Tasks"
+
+#: src/roles.js:127
+#: templates/pages/roles.tmpl:30
+#: templates/pages/service-tokens.tmpl:25
+msgid "Tasks it may run"
+msgstr "Tasks que puede ejecutar"
+
+#: src/run-plan.js:51
+msgid "You cannot run this plan: a step uses a task your roles do not allow."
+msgstr "No puede ejecutar este Plan: un paso usa un Task que sus roles no permiten."
+
+#: src/plan-common.js:42
+msgid "Your roles do not allow the task {task}, so you cannot run this step."
+msgstr "Sus roles no permiten el Task {task}, así que no puede ejecutar este paso."
+
+#: templates/pages/service-tokens.tmpl:25
+msgid "One per line: a task name such as package::install, a module such as patch::*, or * for every task. Leave it empty to allow every task. Fixed when the token is created."
+msgstr "Uno por línea: un nombre de Task como package::install, un módulo como patch::*, o * para todos los Tasks. Déjelo vacío para permitir todos los Tasks. Se fija al crear el token."
+
+#: src/roles.js:128
+#: templates/pages/roles.tmpl:30
+msgid "One per line: a task name such as package::install, a module such as patch::*, or * for every task. Leave it empty to allow every task. This limits orchestrator:run; the role's node groups still decide which nodes."
+msgstr "Uno por línea: un nombre de Task como package::install, un módulo como patch::*, o * para todos los Tasks. Déjelo vacío para permitir todos los Tasks. Esto limita orchestrator:run; los grupos de Nodes del rol siguen decidiendo en qué Nodes."
+
+#: templates/pages/user-groups.tmpl:12
+msgid "A group gives its members the roles granted to it, in addition to any roles they hold themselves. Each role keeps its own node groups and task limits."
+msgstr "Un grupo da a sus miembros los roles que se le conceden, además de los roles que ya tengan. Cada rol conserva sus propios grupos de nodos y límites de tareas."
+
+#: templates/pages/user-groups.tmpl:29
+msgid "All groups"
+msgstr "Todos los grupos"
+
+#: src/user-groups.js:137
+msgid "Create a group above, then add members and grant it roles."
+msgstr "Cree un grupo arriba y después añada miembros y concédale roles."
+
+#: templates/pages/user-groups.tmpl:24
+msgid "Create group"
+msgstr "Crear grupo"
+
+#: src/user-groups.js:112
+msgid "Delete {group}?"
+msgstr "¿Eliminar {group}?"
+
+#: src/user-groups.js:56
+msgid "Done"
+msgstr "Hecho"
+
+#: src/user-groups.js:211
+msgid "Give the group a name."
+msgstr "Dé un nombre al grupo."
+
+#: src/roles.js:89
+msgid "Granted to groups:"
+msgstr "Concedido a los grupos:"
+
+#: src/users.js:101
+msgid "In groups:"
+msgstr "En los grupos:"
+
+#: src/user-groups.js:167
+msgid "Members"
+msgstr "Miembros"
+
+#: src/user-groups.js:46
+msgid "Members of {group}"
+msgstr "Miembros de {group}"
+
+#: src/user-groups.js:135
+msgid "No groups yet"
+msgstr "Aún no hay grupos"
+
+#: src/user-groups.js:19
+msgid "No members"
+msgstr "Sin miembros"
+
+#: src/user-groups.js:155
+#: src/user-groups.js:88
+msgid "Rename"
+msgstr "Cambiar nombre"
+
+#: src/user-groups.js:81
+msgid "Rename {group}"
+msgstr "Cambiar el nombre de {group}"
+
+#: templates/pages/account-policy.tmpl:5
+#: templates/pages/roles.tmpl:5
+#: templates/pages/service-tokens.tmpl:5
+#: templates/pages/user-groups.tmpl:11
+#: templates/pages/user-groups.tmpl:5
+#: templates/pages/users.tmpl:5
+msgid "User groups"
+msgstr "Grupos de usuarios"
+
+#: src/user-groups.js:21
+msgid "{count} member"
+msgid_plural "{count} members"
+msgstr[0] "{count} miembro"
+msgstr[1] "{count} miembros"
+
+#: src/user-groups.js:113
+msgid "{count} person will lose the roles this group gives them."
+msgid_plural "{count} people will lose the roles this group gives them."
+msgstr[0] "{count} persona perderá los roles que le da este grupo."
+msgstr[1] "{count} personas perderán los roles que les da este grupo."
+
+#: src/users.js:94
+msgid "{role} via {groups}"
+msgstr "{role} mediante {groups}"
+
+#: templates/pages/group.tmpl:83
+msgid "Configuration data (JSON)"
+msgstr "Datos de configuración (JSON)"
+
+#: src/group.js:195
+msgid "Configuration data must be a JSON object: key/value pairs inside { }."
+msgstr "Los datos de configuración deben ser un objeto JSON: pares clave/valor dentro de { }."
+
+#: templates/pages/group.tmpl:84
+msgid "Data that code reads with lookup(), consulted before the Hiera data in your control repo, so a key set here wins. An object of key/value pairs; a value can be any JSON. It is shown to everyone who can see node groups, so do not put secrets here."
+msgstr "Datos que el código lee con lookup(), consultados antes que los datos de Hiera de su repositorio de control, de modo que una clave definida aquí prevalece. Un objeto de pares clave/valor; un valor puede ser cualquier JSON. Lo ve cualquiera que pueda ver los grupos de nodos, así que no ponga secretos aquí."
+
+#: templates/pages/patches.tmpl:35
+msgid "Automatic scanning"
+msgstr "Análisis automático"
+
+#: templates/pages/patches.tmpl:47
+msgid "Between 15 minutes and 7 days (10080 minutes)."
+msgstr "Entre 15 minutos y 7 días (10080 minutos)."
+
+#: src/patches.js:53
+msgid "Cannot report"
+msgstr "No puede informar"
+
+#: templates/pages/patches.tmpl:25
+msgid "Choose a group to scan all of its nodes now."
+msgstr "Elija un grupo para analizar ahora todos sus nodos."
+
+#: templates/pages/patches.tmpl:15
+msgid "Filter by package name"
+msgstr "Filtrar por nombre de paquete"
+
+#: templates/pages/patches.tmpl:43
+msgid "Interval in minutes"
+msgstr "Intervalo en minutos"
+
+#: src/patches.js:62
+msgid "Last scan failed"
+msgstr "Falló el último análisis"
+
+#: src/patches.js:94
+msgid "Last scanned"
+msgstr "Último análisis"
+
+#: src/node.js:661
+msgid "Last scanned {when} with {manager}."
+msgstr "Último análisis el {when} con {manager}."
+
+#: src/patches.js:34
+msgid "Need a reboot"
+msgstr "Requieren reinicio"
+
+#: src/patches.js:85
+msgid "No"
+msgstr "No"
+
+#: src/patches.js:111
+msgid "No node has that update pending"
+msgstr "Ningún nodo tiene esa actualización pendiente"
+
+#: src/patches.js:73
+msgid "No nodes match"
+msgstr "Ningún nodo coincide"
+
+#: src/patches.js:113
+msgid "No scanned node has an update pending for a package matching \"{name}\"."
+msgstr "Ningún nodo analizado tiene una actualización pendiente de un paquete que coincida con «{name}»."
+
+#: src/patches.js:35
+#: src/patches.js:57
+msgid "Not scanned"
+msgstr "Sin analizar"
+
+#: src/node.js:682
+msgid "Nothing is pending"
+msgstr "Nada pendiente"
+
+#: src/patches.js:92
+#: templates/pages/patches.tmpl:16
+msgid "Operating system"
+msgstr "Sistema operativo"
+
+#: src/patches.js:36
+msgid "Out of date scans"
+msgstr "Análisis desactualizados"
+
+#: templates/pages/node.tmpl:25
+msgid "Patches"
+msgstr "Parches"
+
+#: templates/layout.html.tmpl:73
+#: templates/pages/patches.tmpl:3
+msgid "Patching"
+msgstr "Aplicación de parches"
+
+#: templates/pages/patches.tmpl:15
+msgid "Pending package"
+msgstr "Paquete pendiente"
+
+#: src/patches.js:94
+msgid "Reboot needed"
+msgstr "Reinicio necesario"
+
+#: templates/pages/patches.tmpl:42
+msgid "Scan automatically"
+msgstr "Analizar automáticamente"
+
+#: src/patches.js:56
+msgid "Scan failed"
+msgstr "Falló el análisis"
+
+#: templates/pages/node.tmpl:48
+msgid "Scan now"
+msgstr "Analizar ahora"
+
+#: templates/pages/patches.tmpl:22
+msgid "Scan this group now"
+msgstr "Analizar este grupo ahora"
+
+#: src/node.js:749
+#: src/patches.js:197
+msgid "Scanning. Refreshing package lists can take a while on a slow mirror."
+msgstr "Analizando. Actualizar las listas de paquetes puede tardar con un espejo lento."
+
+#: src/node.js:690
+#: src/node.js:695
+#: src/patches.js:123
+#: src/patches.js:130
+#: src/patches.js:93
+#: src/run-patch.js:64
+msgid "Security"
+msgstr "Seguridad"
+
+#: src/node.js:699
+#: src/patches.js:99
+msgid "Security is what the node's package manager marks as a security update. A system without that information shows none."
+msgstr "Se considera de seguridad lo que el gestor de paquetes del nodo marca como actualización de seguridad. Un sistema sin esa información no muestra ninguna."
+
+#: templates/pages/patches.tmpl:36
+msgid "The console scans every connected node on this interval. A node that is offline is scanned once it reconnects."
+msgstr "La consola analiza cada nodo conectado con este intervalo. Un nodo sin conexión se analiza cuando vuelve a conectarse."
+
+#: src/node.js:667
+msgid "The last attempt to scan failed: {error}"
+msgstr "Falló el último intento de análisis: {error}"
+
+#: src/node.js:682
+msgid "The last scan found no updates waiting for this node."
+msgstr "El último análisis no encontró actualizaciones pendientes para este nodo."
+
+#: src/node.js:667
+msgid "The updates below are from the last scan that worked."
+msgstr "Las actualizaciones de abajo son del último análisis que funcionó."
+
+#: templates/pages/patches.tmpl:4
+#~ msgid "The updates each node is missing, as its own package manager reports them. This page only looks: nothing here installs or changes a package."
+#~ msgstr "Las actualizaciones que le faltan a cada nodo, tal como las informa su propio gestor de paquetes. Esta página solo mira: nada aquí instala ni modifica un paquete."
+
+#: src/node.js:670
+msgid "This node already needs a reboot."
+msgstr "Este nodo ya necesita un reinicio."
+
+#: src/node.js:654
+msgid "This node has not been scanned yet, so it is not known whether it is missing updates."
+msgstr "Este nodo todavía no se ha analizado, por lo que no se sabe si le faltan actualizaciones."
+
+#: src/node.js:755
+msgid "This node is offline, so it could not be scanned. It will be scanned when it reconnects."
+msgstr "Este nodo está sin conexión y no se pudo analizar. Se analizará cuando vuelva a conectarse."
+
+#: src/node.js:664
+msgid "This scan is out of date. Scan again to see what is pending now."
+msgstr "Este análisis está desactualizado. Analice de nuevo para ver qué hay pendiente ahora."
+
+#: src/patches.js:75
+msgid "Try a different package, operating system or group."
+msgstr "Pruebe con otro paquete, sistema operativo o grupo."
+
+#: src/patches.js:93
+msgid "Updates"
+msgstr "Actualizaciones"
+
+#: src/patches.js:32
+msgid "With pending updates"
+msgstr "Con actualizaciones pendientes"
+
+#: src/patches.js:33
+msgid "With security updates"
+msgstr "Con actualizaciones de seguridad"
+
+#: src/patches.js:85
+msgid "Yes"
+msgstr "Sí"
+
+#: src/patches.js:183
+msgid "{count} failed"
+msgid_plural "{count} failed"
+msgstr[0] "{count} fallido"
+msgstr[1] "{count} fallidos"
+
+#: src/patches.js:184
+msgid "{count} left out: not in your node groups"
+msgid_plural "{count} left out: not in your node groups"
+msgstr[0] "{count} excluido: no está en sus grupos de nodos"
+msgstr[1] "{count} excluidos: no están en sus grupos de nodos"
+
+#: src/patches.js:181
+msgid "{count} node scanned"
+msgid_plural "{count} nodes scanned"
+msgstr[0] "{count} nodo analizado"
+msgstr[1] "{count} nodos analizados"
+
+#: src/patches.js:182
+msgid "{count} offline"
+msgid_plural "{count} offline"
+msgstr[0] "{count} sin conexión"
+msgstr[1] "{count} sin conexión"
+
+#: src/run-patch.js:149
+msgid "All pending updates"
+msgstr "Todas las actualizaciones pendientes"
+
+#: src/run-patch.js:29
+msgid "All updates"
+msgstr "Todas las actualizaciones"
+
+#: src/run-patch.js:123
+msgid "Batch"
+msgstr "Lote"
+
+#: src/run-patch.js:102
+msgid "Details for {node}"
+msgstr "Detalles de {node}"
+
+#: src/run-patch.js:31
+msgid "Dry run"
+msgstr "Simulacro"
+
+#: src/run-patch.js:157
+msgid "Dry run: report what would be upgraded, and change nothing"
+msgstr "Simulacro: informar de lo que se actualizaría y no cambiar nada"
+
+#: src/run-patch.js:199
+msgid "Finding the nodes in {group}…"
+msgstr "Buscando los nodos de {group}…"
+
+#: src/run-patch.js:72
+msgid "From"
+msgstr "De"
+
+#: src/node.js:734
+msgid "Last patch run"
+msgstr "Última ejecución de parches"
+
+#: src/run-patch.js:150
+msgid "Named packages"
+msgstr "Paquetes concretos"
+
+#: src/run-patch.js:203
+msgid "No node is in this group, so there is nothing to patch."
+msgstr "Ningún nodo pertenece a este grupo, así que no hay nada que parchear."
+
+#: src/run-patch.js:60
+msgid "No package was selected."
+msgstr "No se seleccionó ningún paquete."
+
+#: src/run-patch.js:170
+msgid "Nodes are patched a batch at a time. When this many nodes have failed, no further batch is started. 0 never stops."
+msgstr "Los nodos se parchean por lotes. Cuando fallan tantos nodos, no se inicia ningún lote más. 0 nunca se detiene."
+
+#: src/run-patch.js:162
+msgid "Nodes at a time"
+msgstr "Nodos a la vez"
+
+#: src/i18n.js:466
+msgid "Not upgraded"
+msgstr "No actualizado"
+
+#: src/i18n.js:467
+msgid "Nothing to apply"
+msgstr "Nada que aplicar"
+
+#: src/run-patch.js:30
+msgid "Packages: {names}"
+msgstr "Paquetes: {names}"
+
+#: src/run-patch.js:175
+msgid "Patch"
+msgstr "Parchear"
+
+#: src/run-patch.js:142
+msgid "Patch nodes"
+msgstr "Parchear nodos"
+
+#: templates/pages/node.tmpl:49
+msgid "Patch now…"
+msgstr "Parchear ahora…"
+
+#: src/i18n.js:201
+#: templates/pages/jobs.tmpl:25
+msgid "Patch run"
+msgstr "Ejecución de parches"
+
+#: templates/pages/patches.tmpl:23
+msgid "Patch this group…"
+msgstr "Parchear este grupo…"
+
+#: src/run-patch.js:193
+msgid "Patch {count} node?"
+msgid_plural "Patch {count} nodes?"
+msgstr[0] "¿Parchear {count} nodo?"
+msgstr[1] "¿Parchear {count} nodos?"
+
+#: src/run-patch.js:192
+msgid "Patch {node}?"
+msgstr "¿Parchear {node}?"
+
+#: src/run-patch.js:158
+msgid "Reboot a node that needs it once it is patched"
+msgstr "Reiniciar un nodo que lo necesite una vez parcheado"
+
+#: src/run-patch.js:32
+msgid "Reboots if required"
+msgstr "Reinicia si es necesario"
+
+#: templates/pages/patches.tmpl:30
+msgid "Recent patch runs"
+msgstr "Ejecuciones de parches recientes"
+
+#: src/run-patch.js:72
+msgid "Result"
+msgstr "Resultado"
+
+#: src/run-patch.js:28
+msgid "Security updates"
+msgstr "Actualizaciones de seguridad"
+
+#: src/run-patch.js:148
+msgid "Security updates only"
+msgstr "Solo actualizaciones de seguridad"
+
+#: src/run-patch.js:155
+msgid "Separate package names with spaces or commas. Only those with an update pending are upgraded."
+msgstr "Separe los nombres de paquete con espacios o comas. Solo se actualizan los que tienen una actualización pendiente."
+
+#: src/run-patch.js:166
+msgid "Stop after failed nodes"
+msgstr "Detenerse tras nodos fallidos"
+
+#: templates/pages/patches.tmpl:4
+msgid "The updates each node is missing, as its own package manager reports them. Scanning only looks. A patch run, started for a node group, installs the updates in batches."
+msgstr "Las actualizaciones que le faltan a cada nodo, según informa su propio gestor de paquetes. Un análisis solo mira. Una ejecución de parches, iniciada para un grupo de nodos, instala las actualizaciones por lotes."
+
+#: src/run-patch.js:72
+msgid "To"
+msgstr "A"
+
+#: src/run-patch.js:147
+msgid "Updates to apply"
+msgstr "Actualizaciones que aplicar"
+
+#: src/i18n.js:464
+msgid "Upgraded"
+msgstr "Actualizado"
+
+#: src/i18n.js:465
+msgid "Would upgrade"
+msgstr "Se actualizaría"
+
+#: src/run-patch.js:153
+msgid "curl openssl"
+msgstr "curl openssl"
+
+#: src/run-patch.js:47
+msgid "in {count} batch of up to {size}"
+msgid_plural "in {count} batches of up to {size}"
+msgstr[0] "en {count} lote de hasta {size}"
+msgstr[1] "en {count} lotes de hasta {size}"
+
+#: src/run-patch.js:86
+msgid "needs a reboot"
+msgstr "necesita reiniciar"
+
+#: src/run-patch.js:51
+msgid "never stops for failures"
+msgstr "nunca se detiene por fallos"
+
+#: src/run-patch.js:85
+msgid "rebooted"
+msgstr "reiniciado"
+
+#: src/run-patch.js:50
+msgid "stops after {count} failed node"
+msgid_plural "stops after {count} failed nodes"
+msgstr[0] "se detiene tras {count} nodo fallido"
+msgstr[1] "se detiene tras {count} nodos fallidos"
+
+#: src/run-patch.js:84
+msgid "{count} not upgraded"
+msgid_plural "{count} not upgraded"
+msgstr[0] "{count} no actualizado"
+msgstr[1] "{count} no actualizados"
+
+#: src/run-patch.js:82
+msgid "{count} upgraded"
+msgid_plural "{count} upgraded"
+msgstr[0] "{count} actualizado"
+msgstr[1] "{count} actualizados"
+
+#: src/run-patch.js:83
+msgid "{count} would be upgraded"
+msgid_plural "{count} would be upgraded"
+msgstr[0] "{count} se actualizaría"
+msgstr[1] "{count} se actualizarían"
+
+#: src/run-patch.js:48
+msgid "{done} finished"
+msgstr "{done} terminados"
+
+#: src/agentless.js:287
+msgid "A login of its own"
+msgstr "Un acceso propio"
+
+#: src/agentless.js:288
+msgid "A shared credential"
+msgstr "Una credencial compartida"
+
+#: src/agentless.js:78
+msgid "Add a host to run tasks on it over SSH."
+msgstr "Añada un host para ejecutar tareas en él por SSH."
+
+#: src/agentless.js:363
+msgid "Add a shared credential"
+msgstr "Añadir una credencial compartida"
+
+#: src/agentless.js:274
+msgid "Add an agentless target"
+msgstr "Añadir un destino sin agente"
+
+#: src/agentless.js:378
+#: templates/pages/agentless.tmpl:23
+msgid "Add shared credential"
+msgstr "Añadir credencial compartida"
+
+#: src/agentless.js:308
+#: templates/pages/agentless.tmpl:9
+msgid "Add target"
+msgstr "Añadir destino"
+
+#: src/nodes.js:145
+msgid "Agentless"
+msgstr "Sin agente"
+
+#: templates/pages/agentless.tmpl:5
+#: templates/pages/agentless.tmpl:8
+#: templates/pages/nodes.tmpl:6
+msgid "Agentless targets"
+msgstr "Destinos sin agente"
+
+#: src/agentless.js:63
+msgid "Check"
+msgstr "Comprobar"
+
+#: src/agentless.js:58
+#: src/nodes.js:141
+msgid "Check failed"
+msgstr "Comprobación fallida"
+
+#: src/agentless.js:166
+msgid "Checking {name}…"
+msgstr "Comprobando {name}…"
+
+#: src/agentless.js:225
+msgid "Delete this shared credential?"
+msgstr "¿Eliminar esta credencial compartida?"
+
+#: src/agentless.js:210
+msgid "Delete this target?"
+msgstr "¿Eliminar este destino?"
+
+#: src/agentless.js:274
+#: src/agentless.js:363
+msgid "Edit {name}"
+msgstr "Editar {name}"
+
+#: src/agentless.js:96
+msgid "Host key"
+msgstr "Clave de host"
+
+#: src/agentless.js:42
+msgid "Host key changed"
+msgstr "Clave de host cambiada"
+
+#: templates/pages/agentless.tmpl:11
+msgid "Hosts the console reaches over SSH instead of a node agent. Tasks can run on them; Puppet runs and patch runs need the agent. Logins are stored sealed and are never shown again."
+msgstr "Hosts a los que la consola llega por SSH en lugar de por un agente de nodo. Se pueden ejecutar tareas en ellos; las ejecuciones de Puppet y de parches necesitan el agente. Los accesos se guardan cifrados y no se vuelven a mostrar."
+
+#: src/agentless.js:279
+msgid "How the target is named in jobs and node groups. It cannot be the name of a node that exists."
+msgstr "Cómo se llama el destino en los trabajos y grupos de nodos. No puede ser el nombre de un nodo existente."
+
+#: src/agentless.js:192
+msgid "Key it presents now"
+msgstr "Clave que presenta ahora"
+
+#: src/agentless.js:248
+msgid "Key passphrase (if it has one)"
+msgstr "Frase de contraseña de la clave (si la tiene)"
+
+#: src/agentless.js:96
+msgid "Last check"
+msgstr "Última comprobación"
+
+#: src/agentless.js:243
+msgid "Leave blank to keep the stored one."
+msgstr "Déjelo en blanco para conservar el guardado."
+
+#: src/agentless.js:131
+#: src/agentless.js:286
+#: src/agentless.js:95
+msgid "Login"
+msgstr "Acceso"
+
+#: src/agentless.js:76
+msgid "No agentless targets"
+msgstr "No hay destinos sin agente"
+
+#: src/agentless.js:115
+msgid "No shared credentials."
+msgstr "No hay credenciales compartidas."
+
+#: src/agentless.js:55
+#: src/nodes.js:138
+msgid "Not checked"
+msgstr "Sin comprobar"
+
+#: src/agentless.js:50
+msgid "Not seen yet"
+msgstr "Aún no visto"
+
+#: templates/pages/agentless.tmpl:25
+msgid "One login several targets can use. Replacing its key or password changes it for all of them."
+msgstr "Un acceso que pueden usar varios destinos. Sustituir su clave o contraseña lo cambia para todos."
+
+#: src/agentless.js:246
+msgid "Paste a PEM or OpenSSH private key."
+msgstr "Pegue una clave privada PEM u OpenSSH."
+
+#: src/agentless.js:192
+msgid "Pinned key"
+msgstr "Clave fijada"
+
+#: src/agentless.js:283
+msgid "Port"
+msgstr "Puerto"
+
+#: src/agentless.js:245
+msgid "Private key"
+msgstr "Clave privada"
+
+#: src/nodes.js:345
+msgid "Puppet runs need the node agent, and a selected node is agentless. Run a task instead."
+msgstr "Las ejecuciones de Puppet necesitan el agente de nodo y un nodo seleccionado no tiene agente. Ejecute una tarea en su lugar."
+
+#: src/agentless.js:57
+#: src/nodes.js:140
+msgid "Reachable"
+msgstr "Accesible"
+
+#: src/agentless.js:197
+msgid "Replace pinned key"
+msgstr "Sustituir la clave fijada"
+
+#: src/agentless.js:196
+msgid "Replace the pinned host key?"
+msgstr "¿Sustituir la clave de host fijada?"
+
+#: src/agentless.js:65
+#: src/agentless.js:66
+msgid "Review host key"
+msgstr "Revisar clave de host"
+
+#: src/agentless.js:299
+#: src/agentless.js:371
+msgid "Run tasks as (optional)"
+msgstr "Ejecutar tareas como (opcional)"
+
+#: src/agentless.js:352
+msgid "Saved {name}. Check it to see its host key and confirm the login works."
+msgstr "{name} guardado. Compruébelo para ver su clave de host y confirmar que el acceso funciona."
+
+#: src/agentless.js:131
+msgid "Secret"
+msgstr "Secreto"
+
+#: src/agentless.js:291
+msgid "Shared credential"
+msgstr "Credencial compartida"
+
+#: src/agentless.js:32
+msgid "Shared credential: {name}"
+msgstr "Credencial compartida: {name}"
+
+#: templates/pages/agentless.tmpl:22
+msgid "Shared credentials"
+msgstr "Credenciales compartidas"
+
+#: src/agentless.js:300
+msgid "Tasks run through sudo as this user. sudo must not ask for a password."
+msgstr "Las tareas se ejecutan con sudo como este usuario. sudo no debe pedir contraseña."
+
+#: src/agentless.js:196
+msgid "Trust this host key?"
+msgstr "¿Confiar en esta clave de host?"
+
+#: src/agentless.js:197
+msgid "Trust this key"
+msgstr "Confiar en esta clave"
+
+#: src/agentless.js:45
+msgid "Trusted"
+msgstr "De confianza"
+
+#: src/agentless.js:251
+msgid "Used when there is no key, or as well."
+msgstr "Se usa cuando no hay clave, o además de ella."
+
+#: src/agentless.js:48
+msgid "Waiting to be trusted"
+msgstr "Pendiente de confianza"
+
+#: src/agentless.js:170
+msgid "and as {user}"
+msgstr "y como {user}"
+
+#: src/agentless.js:122
+#: src/agentless.js:34
+msgid "key"
+msgstr "clave"
+
+#: src/agentless.js:122
+#: src/agentless.js:34
+msgid "password"
+msgstr "contraseña"
+
+#: src/agentless.js:121
+#: src/agentless.js:35
+msgid "runs as {user}"
+msgstr "se ejecuta como {user}"
+
+#: src/agentless.js:173
+msgid "{name} failed at {stage}: {reason}"
+msgstr "{name} falló en {stage}: {reason}"
+
+#: src/agentless.js:191
+msgid "{name} is presenting a different host key from the one pinned. Nothing was sent to it. Replace the pin only if you know the host was rebuilt or its key rotated."
+msgstr "{name} presenta una clave de host distinta de la fijada. No se le envió nada. Sustituya la fijación solo si sabe que el host se reconstruyó o rotó su clave."
+
+#: src/agentless.js:171
+msgid "{name} is reachable. Logged in as {user}{as}."
+msgstr "{name} es accesible. Sesión iniciada como {user}{as}."
+
+#: src/agentless.js:193
+msgid "{name} presented this host key. Compare it with the host's own (ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub) before trusting it."
+msgstr "{name} presentó esta clave de host. Compárela con la del propio host (ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub) antes de confiar en ella."
+
+#: src/agentless.js:226
+msgid "{name} will be deleted. A credential still used by a target cannot be deleted."
+msgstr "Se eliminará {name}. Una credencial que aún usa un destino no se puede eliminar."
+
+#: src/agentless.js:211
+msgid "{name} will no longer be reachable from the console. Its stored login is deleted."
+msgstr "{name} dejará de ser accesible desde la consola. Su acceso guardado se elimina."
+
+#: src/code-plans.js:50
+msgid "Cannot be run"
+msgstr "No se puede ejecutar"
+
+#: src/i18n.js:202
+#: templates/pages/jobs.tmpl:26
+msgid "Code plan"
+msgstr "Plan de código"
+
+#: src/code-plans.js:37
+msgid "Code plans are not available on this console instance: it does not hold the deployed code. Use an instance that does."
+msgstr "Los planes de código no están disponibles en esta instancia de la consola: no contiene el código desplegado. Use una instancia que lo contenga."
+
+#: src/code-plans.js:41
+msgid "No plans in the modules of {environment}."
+msgstr "No hay planes en los módulos de {environment}."
+
+#: src/code-plans.js:260
+msgid "No steps yet"
+msgstr "Aún no hay pasos"
+
+#: src/code-plans.js:273
+msgid "Output"
+msgstr "Salida"
+
+#: templates/pages/plans.tmpl:20
+msgid "Plans in code"
+msgstr "Planes en el código"
+
+#: src/code-plans.js:279
+msgid "Returned value"
+msgstr "Valor devuelto"
+
+#: src/code-plans.js:145
+msgid "Run {plan}"
+msgstr "Ejecutar {plan}"
+
+#: src/code-plans.js:273
+msgid "Step"
+msgstr "Paso"
+
+#: src/code-plans.js:257
+msgid "This plan also ran on nodes outside your node groups, so what it printed and returned is not shown."
+msgstr "Este plan también se ejecutó en nodos fuera de sus grupos de nodos, por lo que no se muestra lo que imprimió ni lo que devolvió."
+
+#: src/code-plans.js:155
+msgid "This plan takes no parameters."
+msgstr "Este plan no tiene parámetros."
+
+#: templates/pages/plans.tmpl:21
+msgid "YAML plans in the modules of an environment's deployed code. Each task step is checked against your node groups and task permissions as it is reached."
+msgstr "Planes YAML en los módulos del código desplegado de un entorno. Cada paso de tarea se comprueba, al llegar a él, con sus grupos de nodos y permisos de tareas."
+
+#: src/code-plans.js:148
+#: src/code-plans.js:247
+msgid "message"
+msgstr "mensaje"
+
+#: src/code-plans.js:205
+msgid "{name} is not valid JSON."
+msgstr "{name} no es JSON válido."

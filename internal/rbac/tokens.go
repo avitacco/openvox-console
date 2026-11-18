@@ -8,6 +8,8 @@ import (
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
+
+	"github.com/voxpupuli/enterprise-console/internal/taskscope"
 )
 
 // Token kinds, carried in Claims.Type.
@@ -38,10 +40,40 @@ const (
 // (up to AccessTokenTTL later) after an edit via PUT /api/v1/me. The
 // frontend now fetches GET /api/v1/me directly for this instead of
 // trusting the token, which is always current.
+//
+// NodeScopes says which node groups each permission applies to
+// (permission -> group ids; see add-group-scoped-node-access). Group
+// ids, not node names, because membership follows facts and must not be
+// frozen into a token. It deliberately has no omitempty: a user token
+// always states its scope, even an empty one, and only a token with no
+// scope at all - a service token, or an access token issued before this
+// field existed - is fleet-wide.
+//
+// TaskGrants limits which tasks the token's orchestrator:run may start,
+// as grants pairing task patterns with node groups (see
+// internal/taskscope). Absent means no limit: that is what a service
+// token without an allowlist, a user none of whose roles has one, and a
+// token issued before task permissions existed all state. It therefore
+// must never be written as an empty list, which JSON would drop and so
+// turn "may run nothing" into "may run everything"; IssueUserToken and
+// IssueTokenWithTasks refuse to.
 type Claims struct {
 	jwt.RegisteredClaims
-	Type        string   `json:"type"`
-	Permissions []string `json:"permissions"`
+	Type        string             `json:"type"`
+	Permissions []string           `json:"permissions"`
+	NodeScopes  map[string][]int64 `json:"nodeScopes"`
+	TaskGrants  []taskscope.Grant  `json:"taskGrants,omitempty"`
+}
+
+// NodeGroupsFor returns the node groups permission applies to for this
+// token. fleetWide is true when the token states no scope at all, in
+// which case groups is nil and every node is covered. Otherwise groups
+// are exactly the ones granted - none, if the permission has no entry.
+func (c *Claims) NodeGroupsFor(permission string) (groups []int64, fleetWide bool) {
+	if c.NodeScopes == nil {
+		return nil, true
+	}
+	return c.NodeScopes[permission], false
 }
 
 // HasPermission reports whether these claims carry permission.
@@ -71,8 +103,45 @@ func NewIssuer(key *ecdsa.PrivateKey, kid string) *Issuer {
 }
 
 // IssueToken signs a new JWT of tokenType for subject, carrying
-// permissions, expiring after ttl.
+// permissions, expiring after ttl. The token states no node scope and is
+// therefore fleet-wide: this is the path for service tokens. Tokens for
+// users go through IssueUserToken.
 func (i *Issuer) IssueToken(subject, tokenType string, permissions []string, ttl time.Duration) (string, *Claims, error) {
+	return i.issue(subject, tokenType, permissions, nil, nil, ttl)
+}
+
+// IssueTokenWithTasks is IssueToken for a service token with a task
+// allowlist: taskGrants states which tasks it may run (see Claims).
+func (i *Issuer) IssueTokenWithTasks(subject, tokenType string, permissions []string, taskGrants []taskscope.Grant, ttl time.Duration) (string, *Claims, error) {
+	if taskGrants != nil && len(taskGrants) == 0 {
+		return "", nil, errEmptyTaskGrants
+	}
+	return i.issue(subject, tokenType, permissions, nil, taskGrants, ttl)
+}
+
+var errEmptyTaskGrants = errors.New("an empty list of task grants cannot be written to a token: it would read as no limit")
+
+// IssueUserToken is IssueToken for a user's token, which always states
+// its node scope. A nil nodeScopes is written as an empty scope (no
+// nodes), never left out: leaving it out would read as fleet-wide.
+func (i *Issuer) IssueUserToken(subject, tokenType string, permissions []string, nodeScopes map[string][]int64, ttl time.Duration) (string, *Claims, error) {
+	return i.IssueUserTokenWithTasks(subject, tokenType, permissions, nodeScopes, nil, ttl)
+}
+
+// IssueUserTokenWithTasks is IssueUserToken for a user whose roles limit
+// the tasks they may run: taskGrants states how (see Claims), and nil
+// states no limit.
+func (i *Issuer) IssueUserTokenWithTasks(subject, tokenType string, permissions []string, nodeScopes map[string][]int64, taskGrants []taskscope.Grant, ttl time.Duration) (string, *Claims, error) {
+	if nodeScopes == nil {
+		nodeScopes = map[string][]int64{}
+	}
+	if taskGrants != nil && len(taskGrants) == 0 {
+		return "", nil, errEmptyTaskGrants
+	}
+	return i.issue(subject, tokenType, permissions, nodeScopes, taskGrants, ttl)
+}
+
+func (i *Issuer) issue(subject, tokenType string, permissions []string, nodeScopes map[string][]int64, taskGrants []taskscope.Grant, ttl time.Duration) (string, *Claims, error) {
 	now := time.Now()
 	claims := &Claims{
 		RegisteredClaims: jwt.RegisteredClaims{
@@ -83,6 +152,8 @@ func (i *Issuer) IssueToken(subject, tokenType string, permissions []string, ttl
 		},
 		Type:        tokenType,
 		Permissions: permissions,
+		NodeScopes:  nodeScopes,
+		TaskGrants:  taskGrants,
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodES256, claims)

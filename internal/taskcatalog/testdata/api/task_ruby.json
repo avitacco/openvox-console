@@ -1,0 +1,38 @@
+{
+    "metadata": {
+        "description": "A Ruby task using a helper from lib",
+        "files": [
+            "task_fixture/lib/task_fixture/helper.rb"
+        ],
+        "parameters": {
+            "word": {
+                "type": "String"
+            }
+        }
+    },
+    "name": "task_fixture::ruby",
+    "files": [
+        {
+            "filename": "ruby.rb",
+            "sha256": "7b99c1b42d97d1c4ef8d81b1cef08e256754ab6abdb98d25e84e9f916ce649da",
+            "size_bytes": 237,
+            "uri": {
+                "path": "/puppet/v3/file_content/tasks/task_fixture/ruby.rb",
+                "params": {
+                    "environment": "production"
+                }
+            }
+        },
+        {
+            "filename": "task_fixture/lib/task_fixture/helper.rb",
+            "sha256": "08d1362e61f0e2534b824685cae3223a020b2f66d355c247ad40babf1e5ee8a9",
+            "size_bytes": 68,
+            "uri": {
+                "path": "/puppet/v3/file_content/plugins/task_fixture/helper.rb",
+                "params": {
+                    "environment": "production"
+                }
+            }
+        }
+    ]
+}

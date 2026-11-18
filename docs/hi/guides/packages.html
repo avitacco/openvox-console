@@ -123,6 +123,7 @@
       <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Scale">
       <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
@@ -132,8 +133,13 @@
       <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Operate">
       <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
@@ -423,7 +429,8 @@ rather than blocking startup. For a real deployment, add:</p>
 CONSOLE_HTTP_ADDR=:8080
 CONSOLE_BASE_URL=https://console.example.com
 
-# The first admin user, created only while there are no users.
+# The first admin user, created only while there are no users. The
+# password needs at least 12 characters.
 CONSOLE_BOOTSTRAP_ADMIN_USERNAME=admin
 CONSOLE_BOOTSTRAP_ADMIN_PASSWORD=&lt;a strong password&gt;
 
@@ -444,7 +451,51 @@ CONSOLE_CA_CLIENT_URL=https://puppet.example.com:8140
 CONSOLE_CA_CLIENT_CERT_FILE=/etc/openvox-console/ca-client-cert.pem
 CONSOLE_CA_CLIENT_KEY_FILE=/etc/openvox-console/ca-client-key.pem
 CONSOLE_CA_CLIENT_CA_FILE=/etc/openvox-console/ca.pem
+
+# Puppet tasks: where the console asks which tasks your deployed code
+# contains. Uses the openvoxdb client certificate above unless you name
+# another with CONSOLE_PUPPET_SERVER_CERT_FILE, _KEY_FILE and _CA_FILE.
+CONSOLE_PUPPET_SERVER_URL=https://puppet.example.com:8140
 </code></vox-code-block>
+<p>Tasks need no certificate of their own: openvoxserver lets any
+certificate from its CA read tasks, so the openvoxdb client certificate
+serves. Do not point them at the certificate-admin credential, which can
+do far more than reading tasks needs. See <a href="run-jobs.html">Run jobs</a>
+for running them.</p>
+<h3 id="let-the-console-read-the-class-list">Let the console read the class list</h3>
+<p>A node group&#39;s page offers the classes your deployed code defines, with
+their parameters, so they are picked rather than typed. The console
+reads them from openvoxserver over the same connection as tasks, but
+openvoxserver lets no certificate read classes until a rule says so.</p>
+<p>On openvoxserver&#39;s host, add this rule to the <code>rules</code> list in
+<code>/etc/puppetlabs/puppetserver/conf.d/auth.conf</code>, above the final
+<code>puppetlabs deny all</code> rule. <code>console</code> is the name of the openvoxdb
+client certificate you issued above:</p>
+<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>{
+    match-request: {
+        path: &#34;/puppet/v3/environment_classes&#34;
+        type: path
+        method: get
+    }
+    allow: &#34;console&#34;
+    sort-order: 500
+    name: &#34;openvox console class discovery&#34;
+},
+</code></vox-code-block>
+<p>Then reload openvoxserver:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo systemctl reload puppetserver
+</code></vox-code-block>
+<p>Check it from the console&#39;s host. <code>HTTP 200</code> means the list can be read:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo curl -sS -o /dev/null -w &#39;HTTP %{http_code}\n&#39; \
+  --cert /etc/openvox-console/console-cert.pem \
+  --key /etc/openvox-console/console-key.pem \
+  --cacert /etc/openvox-console/ca.pem \
+  &#39;https://puppet.example.com:8140/puppet/v3/environment_classes?environment=production&#39;
+</code></vox-code-block>
+<p><code>HTTP 403</code> means the rule is missing or names another certificate.
+Nothing else depends on this step: without it the group page says the
+list is unavailable, and classes are entered by name. See
+<a href="classify.html">Classify nodes</a>.</p>
 <h3 id="keep-secrets-in-files">Keep secrets in files</h3>
 <p>Any setting can be read from a file instead: name the file in the
 setting&#39;s name followed by <code>_FILE</code>. That keeps passwords out of the
@@ -494,6 +545,13 @@ console ready          addr=:8080
 </code></vox-code-block>
 <p>The reply lists each dependency as <code>ok</code>. Then open the console&#39;s base URL,
 log in as the bootstrap admin, and change its password straight away.</p>
+<p>The bootstrap admin&#39;s password must have at least 12 characters and
+must not be the same as its username. If it does not, no admin is
+created and nobody can log in. The log says so:</p>
+<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CONSOLE_BOOTSTRAP_ADMIN_PASSWORD does not meet the account policy, so no administrator was created
+</code></vox-code-block>
+<p>Set a longer password and start the console again. See
+<a href="access.html#passwords-and-lockout">Passwords and lockout</a>.</p>
 <vox-callout variant="info" heading="Note"><p>Once you have logged in and changed the password, remove the bootstrap
 admin settings from the console&#39;s configuration. They are only read
 while the users table is empty, but there is no reason to keep a
@@ -543,6 +601,36 @@ external_nodes = /usr/local/bin/enc-bridge
 </code></vox-code-block>
 <vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo systemctl restart puppetserver
 </code></vox-code-block>
+<h3 id="let-nodes-read-configuration-data">Let nodes read configuration data</h3>
+<p>Optional. This lets nodes read the <strong>configuration data</strong> set on node
+groups with <code>lookup()</code>, ahead of your control repo&#39;s Hiera data. The
+function runs <code>enc-bridge --data</code>, so it uses the same console address and
+token as classification and needs nothing more configured. It needs an
+enc-bridge built from this version.</p>
+<p>The function has to be installed in the openvox gem&#39;s own function
+directory, the only place openvoxserver loads a global Hiera function
+from. The directory carries the gem&#39;s version, so find it:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>FUNCTIONS=$(ls -d /opt/puppetlabs/server/data/puppetserver/jruby-gems/gems/openvox-[0-9]*/lib/puppet/functions | tail -n 1)
+sudo install -m 0644 openvoxserver-init/console_config_data.rb &#34;$FUNCTIONS/console_config_data.rb&#34;
+</code></vox-code-block>
+<p>Then add it to the <strong>global</strong> Hiera configuration,
+<code>/etc/puppetlabs/puppet/hiera.yaml</code>, first in the hierarchy so that
+console data wins. If the file does not exist, this is all of it:</p>
+<vox-code-block language="yaml" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>---
+version: 5
+hierarchy:
+  - name: &#34;Console configuration data&#34;
+    data_hash: console_config_data
+</code></vox-code-block>
+<p>If you already have a global <code>hiera.yaml</code>, add the entry to it and keep
+your own entries after it.</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo systemctl restart puppetserver
+</code></vox-code-block>
+<p>Do this again after upgrading the openvox gem: the new version has its own
+directory. If a node&#39;s run fails with &#34;Unable to find &#39;data_hash&#39;
+function named &#39;console_config_data&#39;&#34;, the function is not in the
+directory of the gem that is running. The container image does all of
+this itself on every start.</p>
 <h3 id="check-classification">Check classification</h3>
 <p>Run enc-bridge the way openvoxserver does: as its user, with the same
 settings. This checks the program, the token, the file permissions and
@@ -647,6 +735,7 @@ sudo systemctl restart openvox-console
       <vox-toc-item href="#build-the-console"><span>Build the console</span>
       </vox-toc-item>
       <vox-toc-item href="#configure-the-console"><span>Configure the console</span>
+        <vox-toc-item slot="children" href="#let-the-console-read-the-class-list"><span>Let the console read the class list</span></vox-toc-item>
         <vox-toc-item slot="children" href="#keep-secrets-in-files"><span>Keep secrets in files</span></vox-toc-item>
       </vox-toc-item>
       <vox-toc-item href="#run-it-under-systemd"><span>Run it under systemd</span>
@@ -656,6 +745,7 @@ sudo systemctl restart openvox-console
       <vox-toc-item href="#connect-classification"><span>Connect classification</span>
         <vox-toc-item slot="children" href="#issue-enc-bridge-a-token"><span>Issue enc-bridge a token</span></vox-toc-item>
         <vox-toc-item slot="children" href="#install-enc-bridge-on-openvoxserver-s-host"><span>Install enc-bridge on openvoxserver&#39;s host</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#let-nodes-read-configuration-data"><span>Let nodes read configuration data</span></vox-toc-item>
         <vox-toc-item slot="children" href="#check-classification"><span>Check classification</span></vox-toc-item>
       </vox-toc-item>
       <vox-toc-item href="#upgrade-later"><span>Upgrade later</span>

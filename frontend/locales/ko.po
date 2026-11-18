@@ -14,7 +14,10 @@ msgid "Account menu"
 msgstr "계정 메뉴"
 
 #: src/activity.js:39
+#: src/schedule.js:65
+#: src/schedules.js:49
 #: templates/pages/activity.tmpl:9
+#: templates/pages/schedule-edit.tmpl:22
 msgid "Action"
 msgstr "작업"
 
@@ -22,7 +25,7 @@ msgstr "작업"
 msgid "Actions"
 msgstr "작업"
 
-#: templates/layout.html.tmpl:89
+#: templates/layout.html.tmpl:93
 #: templates/pages/activity.tmpl:3
 msgid "Activity"
 msgstr "활동"
@@ -32,11 +35,11 @@ msgstr "활동"
 msgid "Actor"
 msgstr "실행자"
 
-#: templates/pages/group.tmpl:57
+#: templates/pages/group.tmpl:107
 msgid "Add condition"
 msgstr "조건 추가"
 
-#: templates/pages/nodes.tmpl:5
+#: templates/pages/nodes.tmpl:7
 msgid "Add node"
 msgstr "Node 추가"
 
@@ -44,9 +47,11 @@ msgstr "Node 추가"
 msgid "Add provider"
 msgstr "공급자 추가"
 
-#: templates/layout.html.tmpl:102
+#: templates/layout.html.tmpl:106
+#: templates/pages/account-policy.tmpl:3
 #: templates/pages/roles.tmpl:3
 #: templates/pages/service-tokens.tmpl:3
+#: templates/pages/user-groups.tmpl:3
 #: templates/pages/users.tmpl:3
 msgid "Admin"
 msgstr "관리"
@@ -58,6 +63,8 @@ msgstr "영향받는 Nodes"
 
 #: src/packages.js:169
 #: src/packages.js:26
+#: src/patches.js:290
+#: src/patches.js:45
 #: templates/pages/activity.tmpl:10
 #: templates/pages/activity.tmpl:6
 #: templates/pages/activity.tmpl:7
@@ -67,14 +74,17 @@ msgstr "영향받는 Nodes"
 #: templates/pages/code.tmpl:47
 #: templates/pages/code.tmpl:48
 #: templates/pages/code.tmpl:52
-#: templates/pages/jobs.tmpl:14
-#: templates/pages/jobs.tmpl:8
-#: templates/pages/node.tmpl:48
-#: templates/pages/nodes.tmpl:13
-#: templates/pages/nodes.tmpl:18
+#: templates/pages/jobs.tmpl:21
+#: templates/pages/jobs.tmpl:29
+#: templates/pages/node.tmpl:67
+#: templates/pages/nodes.tmpl:17
+#: templates/pages/nodes.tmpl:22
 #: templates/pages/packages.tmpl:11
 #: templates/pages/packages.tmpl:13
 #: templates/pages/packages.tmpl:14
+#: templates/pages/patches.tmpl:17
+#: templates/pages/patches.tmpl:19
+#: templates/pages/patches.tmpl:20
 #: templates/pages/report.tmpl:12
 #: templates/pages/vulnerabilities.tmpl:12
 #: templates/pages/vulnerabilities.tmpl:20
@@ -82,15 +92,15 @@ msgstr "영향받는 Nodes"
 msgid "All"
 msgstr "전체"
 
-#: templates/pages/roles.tmpl:26
+#: templates/pages/roles.tmpl:40
 msgid "All roles"
 msgstr "모든 역할"
 
-#: templates/pages/service-tokens.tmpl:28
+#: templates/pages/service-tokens.tmpl:35
 msgid "All service tokens"
 msgstr "모든 서비스 토큰"
 
-#: templates/pages/users.tmpl:31
+#: templates/pages/users.tmpl:34
 msgid "All users"
 msgstr "모든 사용자"
 
@@ -98,8 +108,21 @@ msgstr "모든 사용자"
 msgid "Applies to this browser only. Without a choice here, the console follows your browser's language."
 msgstr "이 브라우저에만 적용됩니다. 여기서 선택하지 않으면 콘솔은 브라우저 언어를 따릅니다."
 
-#: src/app.js:377
+#: src/agentless.js:307
+#: src/agentless.js:377
+#: src/app.js:456
+#: src/code-plans.js:159
+#: src/roles.js:117
+#: src/roles.js:132
+#: src/run-patch.js:174
+#: src/run-plan.js:34
+#: src/run-puppet.js:110
+#: src/run-task.js:43
+#: src/user-groups.js:87
+#: src/users.js:40
 #: src/vulnerability-providers.js:157
+#: templates/pages/plan-edit.tmpl:42
+#: templates/pages/schedule-edit.tmpl:92
 msgid "Cancel"
 msgstr "취소"
 
@@ -108,84 +131,85 @@ msgstr "취소"
 msgid "Category"
 msgstr "범주"
 
-#: src/nodes.js:252
-#: templates/pages/nodes.tmpl:17
+#: src/nodes.js:296
+#: templates/pages/nodes.tmpl:21
 msgid "Cert status"
 msgstr "인증서 상태"
 
 #: templates/pages/preferences.tmpl:37
-#: templates/pages/preferences.tmpl:47
+#: templates/pages/preferences.tmpl:48
 msgid "Change password"
 msgstr "비밀번호 변경"
 
 #: src/i18n.js:167
-#: templates/pages/node.tmpl:49
+#: templates/pages/node.tmpl:68
 msgid "Changed"
 msgstr "변경됨"
 
-#: src/groups.js:33
+#: src/groups.js:60
+#: templates/pages/group.tmpl:53
 msgid "Classes"
 msgstr "클래스"
 
-#: templates/pages/group.tmpl:32
-msgid "Classes (JSON)"
-msgstr "클래스 (JSON)"
+#: templates/pages/group.tmpl:47
+#~ msgid "Classes (JSON)"
+#~ msgstr "클래스 (JSON)"
 
-#: templates/pages/group.tmpl:31
+#: templates/pages/group.tmpl:50
 msgid "Classification"
 msgstr "분류"
 
-#: src/nodes.js:84
+#: src/nodes.js:92
 msgid "Clean"
 msgstr "정리"
 
-#: templates/pages/nodes.tmpl:34
+#: templates/pages/nodes.tmpl:39
 msgid "Clear"
 msgstr "선택 해제"
 
-#: src/nodes.js:427
+#: src/nodes.js:466
 msgid "Close"
 msgstr "닫기"
 
-#: templates/layout.html.tmpl:85
+#: templates/layout.html.tmpl:89
 #: templates/pages/code.tmpl:3
 msgid "Code"
 msgstr "Code"
 
 #: src/i18n.js:172
-#: src/index.js:114
-#: src/nodes.js:42
-#: templates/pages/nodes.tmpl:14
+#: src/index.js:149
+#: src/nodes.js:50
+#: templates/pages/nodes.tmpl:18
 msgid "Connected"
 msgstr "연결됨"
 
-#: src/nodes.js:250
-#: templates/pages/nodes.tmpl:12
+#: src/nodes.js:294
+#: templates/pages/nodes.tmpl:16
 msgid "Connection"
 msgstr "연결"
 
 #: src/i18n.js:171
-#: src/index.js:23
+#: src/index.js:24
 msgid "Corrected"
 msgstr "수정됨"
 
-#: templates/pages/roles.tmpl:21
+#: templates/pages/roles.tmpl:35
 msgid "Create role"
 msgstr "역할 생성"
 
-#: templates/pages/service-tokens.tmpl:23
+#: templates/pages/service-tokens.tmpl:30
 msgid "Create service token"
 msgstr "서비스 토큰 생성"
 
-#: templates/pages/users.tmpl:26
+#: templates/pages/users.tmpl:29
 msgid "Create user"
 msgstr "사용자 생성"
 
-#: src/service-tokens.js:43
+#: src/service-tokens.js:47
 msgid "Created"
 msgstr "생성일"
 
-#: src/app.js:632
+#: src/app.js:711
 #: templates/pages/vulnerabilities.tmpl:13
 msgid "Critical"
 msgstr "심각"
@@ -199,12 +223,22 @@ msgstr "현재 비밀번호"
 msgid "Dashboard"
 msgstr "Dashboard"
 
-#: src/nodes.js:88
-#: src/roles.js:36
-#: src/service-tokens.js:34
-#: src/users.js:51
+#: src/agentless.js:125
+#: src/agentless.js:212
+#: src/agentless.js:227
+#: src/agentless.js:68
+#: src/nodes.js:96
+#: src/plan.js:61
+#: src/roles.js:136
+#: src/schedule.js:148
+#: src/service-tokens.js:38
+#: src/user-groups.js:119
+#: src/user-groups.js:156
+#: src/users.js:130
 #: src/vulnerability-providers.js:67
-#: templates/pages/group.tmpl:71
+#: templates/pages/group.tmpl:122
+#: templates/pages/plan.tmpl:14
+#: templates/pages/schedule.tmpl:15
 msgid "Delete"
 msgstr "삭제"
 
@@ -220,28 +254,35 @@ msgstr "Deploy 기록"
 msgid "Deploy now"
 msgstr "지금 deploy"
 
-#: templates/pages/group.tmpl:13
+#: templates/pages/group.tmpl:20
+#: templates/pages/plan-edit.tmpl:14
+#: templates/pages/schedule-edit.tmpl:15
 msgid "Details"
 msgstr "세부 정보"
 
-#: src/index.js:114
+#: src/index.js:149
 msgid "Disconnected"
 msgstr "연결 끊김"
 
+#: src/agentless.js:124
+#: src/agentless.js:67
 #: src/vulnerability-providers.js:66
+#: templates/pages/plan.tmpl:13
+#: templates/pages/schedule.tmpl:14
 msgid "Edit"
 msgstr "편집"
 
-#: templates/pages/group.tmpl:48
+#: templates/pages/group.tmpl:54
+#: templates/pages/group.tmpl:95
 msgid "Edit as JSON"
 msgstr "JSON으로 편집"
 
-#: src/users.js:60
+#: src/users.js:141
 #: templates/pages/preferences.tmpl:18
 msgid "Email"
 msgstr "이메일"
 
-#: templates/pages/users.tmpl:23
+#: templates/pages/users.tmpl:26
 msgid "Email (optional)"
 msgstr "이메일(선택)"
 
@@ -251,49 +292,55 @@ msgstr "이메일(선택)"
 msgid "Enabled"
 msgstr "사용 중"
 
-#: src/node.js:469
+#: src/node.js:473
 msgid "Ended"
 msgstr "종료"
 
 #: src/deploys.js:57
-#: src/groups.js:33
+#: src/groups.js:60
+#: src/task-form.js:108
+#: templates/pages/plans.tmpl:26
 msgid "Environment"
 msgstr "Environment"
 
-#: templates/pages/group.tmpl:20
+#: src/run-puppet.js:29
+#: templates/pages/group.tmpl:35
 msgid "Environment (optional)"
 msgstr "Environment(선택)"
 
 #: src/deploys.js:57
-#: src/job.js:53
+#: src/job.js:142
+#: src/run-patch.js:123
 msgid "Error"
 msgstr "오류"
 
-#: src/job.js:53
+#: src/job.js:142
+#: src/run-patch.js:123
 msgid "Exit code"
 msgstr "종료 코드"
 
-#: templates/pages/index.tmpl:23
+#: templates/pages/index.tmpl:27
 msgid "Fact name"
 msgstr "Fact 이름"
 
-#: src/group.js:81
+#: src/group.js:245
 msgid "Fact path"
 msgstr "Fact 경로"
 
-#: templates/pages/index.tmpl:24
+#: templates/pages/index.tmpl:28
 msgid "Fact value"
 msgstr "Fact 값"
 
-#: templates/pages/node.tmpl:15
+#: templates/pages/node.tmpl:23
 msgid "Facts"
 msgstr "Facts"
 
 #: src/i18n.js:164
-#: src/index.js:22
+#: src/index.js:23
+#: src/plan-common.js:72
 #: templates/pages/code.tmpl:55
-#: templates/pages/jobs.tmpl:17
-#: templates/pages/node.tmpl:51
+#: templates/pages/jobs.tmpl:32
+#: templates/pages/node.tmpl:70
 msgid "Failed"
 msgstr "실패"
 
@@ -303,20 +350,20 @@ msgstr "장애"
 
 #: templates/pages/activity.tmpl:12
 #: templates/pages/code.tmpl:50
-#: templates/pages/jobs.tmpl:19
+#: templates/pages/jobs.tmpl:34
 msgid "Filter by actor"
 msgstr "실행자로 필터"
 
-#: templates/pages/index.tmpl:22
+#: templates/pages/index.tmpl:26
 #: templates/pages/packages.tmpl:8
 msgid "Filter by name"
 msgstr "이름으로 필터"
 
-#: templates/pages/nodes.tmpl:11
+#: templates/pages/nodes.tmpl:15
 msgid "Filter by name…"
 msgstr "이름으로 필터…"
 
-#: templates/pages/jobs.tmpl:6
+#: templates/pages/jobs.tmpl:19
 msgid "Filter by node"
 msgstr "Node로 필터"
 
@@ -325,7 +372,8 @@ msgid "Filter by version"
 msgstr "버전으로 필터"
 
 #: src/deploys.js:57
-#: src/jobs.js:54
+#: src/jobs.js:82
+#: src/schedule-common.js:90
 msgid "Finished"
 msgstr "완료"
 
@@ -333,16 +381,16 @@ msgstr "완료"
 msgid "First name"
 msgstr "이름"
 
-#: templates/pages/users.tmpl:21
+#: templates/pages/users.tmpl:24
 msgid "First name (optional)"
 msgstr "이름(선택)"
 
-#: src/node.js:604
+#: src/node.js:825
 #: src/vulnerability.js:54
 msgid "First seen"
 msgstr "최초 발견"
 
-#: src/node.js:604
+#: src/node.js:825
 #: src/vulnerabilities.js:95
 #: templates/pages/vulnerabilities.tmpl:19
 msgid "Fix"
@@ -361,22 +409,25 @@ msgid "Fleet status"
 msgstr "플릿 상태"
 
 #: templates/pages/packages.tmpl:13
+#: templates/pages/patches.tmpl:19
 msgid "Group"
 msgstr "그룹"
 
-#: templates/layout.html.tmpl:77
+#: templates/layout.html.tmpl:81
 msgid "Groups"
 msgstr "그룹"
 
-#: src/app.js:633
+#: src/app.js:712
 #: templates/pages/vulnerabilities.tmpl:14
 msgid "High"
 msgstr "높음"
 
-#: src/jobs.js:54
+#: src/jobs.js:82
 msgid "ID"
 msgstr "ID"
 
+#: src/node.js:695
+#: src/patches.js:130
 #: src/vulnerability.js:54
 msgid "Installed"
 msgstr "설치됨"
@@ -385,14 +436,23 @@ msgstr "설치됨"
 msgid "Interval"
 msgstr "간격"
 
-#: templates/layout.html.tmpl:81
+#: templates/layout.html.tmpl:85
 #: templates/pages/job.tmpl:4
-#: templates/pages/jobs.tmpl:3
+#: templates/pages/jobs.tmpl:12
+#: templates/pages/jobs.tmpl:4
+#: templates/pages/plan-edit.tmpl:4
+#: templates/pages/plan.tmpl:4
+#: templates/pages/plans.tmpl:4
+#: templates/pages/plans.tmpl:7
+#: templates/pages/schedule-edit.tmpl:4
+#: templates/pages/schedule.tmpl:4
+#: templates/pages/schedules.tmpl:4
+#: templates/pages/schedules.tmpl:7
 msgid "Jobs"
 msgstr "Jobs"
 
-#: src/jobs.js:54
-#: templates/pages/jobs.tmpl:7
+#: src/jobs.js:82
+#: templates/pages/jobs.tmpl:20
 msgid "Kind"
 msgstr "종류"
 
@@ -401,7 +461,7 @@ msgstr "종류"
 msgid "Language"
 msgstr "언어"
 
-#: src/index.js:249
+#: src/index.js:286
 msgid "Last check-in"
 msgstr "마지막 체크인"
 
@@ -409,7 +469,7 @@ msgstr "마지막 체크인"
 msgid "Last name"
 msgstr "성"
 
-#: templates/pages/users.tmpl:22
+#: templates/pages/users.tmpl:25
 msgid "Last name (optional)"
 msgstr "성(선택)"
 
@@ -417,7 +477,7 @@ msgstr "성(선택)"
 msgid "Last sync"
 msgstr "마지막 동기화"
 
-#: templates/layout.html.tmpl:117
+#: templates/layout.html.tmpl:121
 msgid "License (GPL-3.0)"
 msgstr "라이선스 (GPL-3.0)"
 
@@ -433,7 +493,7 @@ msgstr "SSO로 로그인"
 msgid "Log out"
 msgstr "로그아웃"
 
-#: src/app.js:635
+#: src/app.js:714
 #: templates/pages/vulnerabilities.tmpl:16
 msgid "Low"
 msgstr "낮음"
@@ -442,20 +502,20 @@ msgstr "낮음"
 msgid "Main"
 msgstr "기본 탐색"
 
-#: templates/pages/group.tmpl:47
+#: templates/pages/group.tmpl:94
 msgid "Match rule"
 msgstr "일치 규칙"
 
-#: templates/pages/group.tmpl:45
+#: templates/pages/group.tmpl:92
 msgid "Matching"
 msgstr "일치"
 
-#: src/groups.js:33
-#: templates/pages/group.tmpl:77
+#: src/groups.js:60
+#: templates/pages/group.tmpl:128
 msgid "Matching nodes"
 msgstr "일치하는 Nodes"
 
-#: src/app.js:634
+#: src/app.js:713
 #: templates/pages/vulnerabilities.tmpl:15
 msgid "Medium"
 msgstr "보통"
@@ -472,16 +532,27 @@ msgstr "영향받는 Nodes 많은 순"
 msgid "Most severe first"
 msgstr "심각도 높은 순"
 
-#: src/groups.js:33
-#: src/jobs.js:54
-#: src/roles.js:45
-#: src/service-tokens.js:43
-#: src/users.js:60
+#: src/agentless.js:131
+#: src/agentless.js:278
+#: src/agentless.js:367
+#: src/agentless.js:95
+#: src/groups.js:60
+#: src/jobs.js:82
+#: src/plans.js:36
+#: src/roles.js:145
+#: src/schedules.js:49
+#: src/service-tokens.js:47
+#: src/user-groups.js:167
+#: src/user-groups.js:84
+#: src/users.js:141
 #: src/vulnerability-providers.js:150
 #: src/vulnerability-providers.js:75
-#: templates/pages/group.tmpl:15
-#: templates/pages/roles.tmpl:15
-#: templates/pages/service-tokens.tmpl:17
+#: templates/pages/group.tmpl:22
+#: templates/pages/plan-edit.tmpl:15
+#: templates/pages/roles.tmpl:17
+#: templates/pages/schedule-edit.tmpl:16
+#: templates/pages/service-tokens.tmpl:19
+#: templates/pages/user-groups.tmpl:21
 msgid "Name"
 msgstr "이름"
 
@@ -492,28 +563,30 @@ msgstr "신규"
 #: templates/pages/group.tmpl:5
 #: templates/pages/group.tmpl:7
 #: templates/pages/groups.tmpl:5
+#: templates/pages/user-groups.tmpl:18
 msgid "New group"
 msgstr "새 그룹"
 
+#: src/users.js:35
 #: templates/pages/preferences.tmpl:44
 msgid "New password"
 msgstr "새 비밀번호"
 
-#: templates/pages/roles.tmpl:12
+#: templates/pages/roles.tmpl:14
 msgid "New role"
 msgstr "새 역할"
 
-#: templates/pages/service-tokens.tmpl:14
+#: templates/pages/service-tokens.tmpl:16
 msgid "New service token"
 msgstr "새 서비스 토큰"
 
-#: templates/pages/users.tmpl:12
+#: templates/pages/users.tmpl:14
 msgid "New user"
 msgstr "새 사용자"
 
 #: templates/pages/activity.tmpl:14
 #: templates/pages/code.tmpl:58
-#: templates/pages/jobs.tmpl:21
+#: templates/pages/jobs.tmpl:36
 msgid "Newest first"
 msgstr "최신순"
 
@@ -521,7 +594,7 @@ msgstr "최신순"
 msgid "No activity recorded yet"
 msgstr "아직 기록된 활동이 없습니다"
 
-#: src/index.js:135
+#: src/index.js:172
 msgid "No activity yet"
 msgstr "아직 활동이 없습니다"
 
@@ -541,7 +614,7 @@ msgstr "아직 deploy가 없습니다"
 msgid "No events for this report"
 msgstr "이 Report에 이벤트가 없습니다"
 
-#: src/node.js:339
+#: src/node.js:343
 msgid "No facts reported"
 msgstr "보고된 Facts가 없습니다"
 
@@ -549,37 +622,37 @@ msgstr "보고된 Facts가 없습니다"
 msgid "No fix released"
 msgstr "출시된 수정이 없습니다"
 
-#: src/jobs.js:27
+#: src/jobs.js:55
 msgid "No jobs yet"
 msgstr "아직 Jobs가 없습니다"
 
-#: src/nodes.js:220
+#: src/nodes.js:264
 #: src/packages.js:129
 msgid "No matching nodes"
 msgstr "일치하는 Node 없음"
 
 #: src/groups.js:10
-msgid "No node groups yet"
-msgstr "아직 Node 그룹이 없습니다"
+#~ msgid "No node groups yet"
+#~ msgstr "아직 Node 그룹이 없습니다"
 
-#: src/group.js:255
+#: src/group.js:440
 msgid "No nodes currently match this group"
 msgstr "현재 이 그룹과 일치하는 Node가 없습니다"
 
-#: src/index.js:223
-#: src/nodes.js:225
+#: src/index.js:260
+#: src/nodes.js:269
 msgid "No nodes found"
 msgstr "Node를 찾을 수 없습니다"
 
-#: src/index.js:80
+#: src/index.js:81
 msgid "No nodes yet"
 msgstr "아직 Nodes가 없습니다"
 
-#: src/node.js:581
+#: src/node.js:802
 msgid "No open vulnerabilities"
 msgstr "미해결 취약점이 없습니다"
 
-#: src/node.js:398
+#: src/node.js:402
 msgid "No package data reported"
 msgstr "보고된 패키지 데이터가 없습니다"
 
@@ -591,27 +664,30 @@ msgstr "패키지 없음"
 msgid "No packages match"
 msgstr "일치하는 패키지가 없습니다"
 
-#: src/node.js:448
+#: src/node.js:452
 msgid "No reports yet"
 msgstr "아직 Reports가 없습니다"
 
-#: src/roles.js:23
+#: src/roles.js:95
+#: src/user-groups.js:26
 msgid "No roles yet"
 msgstr "아직 역할이 없습니다"
 
-#: src/index.js:175
+#: src/index.js:212
 msgid "No runs yet"
 msgstr "아직 실행이 없습니다"
 
-#: src/service-tokens.js:17
+#: src/service-tokens.js:20
 msgid "No service tokens yet"
 msgstr "아직 서비스 토큰이 없습니다"
 
-#: src/job.js:29
+#: src/job.js:119
+#: src/run-patch.js:96
 msgid "No targets"
 msgstr "대상 없음"
 
-#: src/users.js:33
+#: src/user-groups.js:52
+#: src/users.js:109
 msgid "No users yet"
 msgstr "아직 사용자가 없습니다"
 
@@ -619,31 +695,42 @@ msgstr "아직 사용자가 없습니다"
 msgid "No vulnerability providers"
 msgstr "취약점 공급자가 없습니다"
 
-#: src/index.js:196
-#: src/index.js:249
-#: src/job.js:53
-#: src/nodes.js:249
+#: src/index.js:233
+#: src/index.js:286
+#: src/job.js:142
+#: src/nodes.js:293
 #: src/packages.js:146
+#: src/patches.js:129
+#: src/patches.js:92
+#: src/run-patch.js:123
 #: src/vulnerability.js:54
 msgid "Node"
 msgstr "Node"
 
+#: src/roles.js:145
 #: templates/pages/group.tmpl:4
 #: templates/pages/groups.tmpl:4
+#: templates/pages/roles.tmpl:24
 msgid "Node groups"
 msgstr "Node 그룹"
 
-#: templates/pages/index.tmpl:19
+#: templates/pages/index.tmpl:23
 msgid "Node inventory"
 msgstr "Node 인벤토리"
 
-#: templates/pages/index.tmpl:22
-#: templates/pages/nodes.tmpl:11
+#: templates/pages/index.tmpl:26
+#: templates/pages/nodes.tmpl:15
 msgid "Node name"
 msgstr "Node 이름"
 
 #: src/packages.js:79
+#: src/patches.js:236
+#: src/patches.js:31
+#: src/schedule.js:66
+#: src/schedules.js:49
+#: src/target-picker.js:52
 #: templates/layout.html.tmpl:65
+#: templates/pages/agentless.tmpl:4
 #: templates/pages/node.tmpl:4
 #: templates/pages/nodes.tmpl:4
 #: templates/pages/report.tmpl:4
@@ -659,18 +746,18 @@ msgid "Nodes not assessed"
 msgstr "평가되지 않은 Nodes"
 
 #: src/i18n.js:169
-#: templates/pages/node.tmpl:52
+#: templates/pages/node.tmpl:71
 #: templates/pages/report.tmpl:15
 msgid "Noop"
 msgstr "Noop"
 
 #: src/i18n.js:173
-#: src/nodes.js:43
-#: templates/pages/nodes.tmpl:15
+#: src/nodes.js:51
+#: templates/pages/nodes.tmpl:19
 msgid "Not connected"
 msgstr "연결되지 않음"
 
-#: src/node.js:366
+#: src/node.js:370
 msgid "Nothing to summarise"
 msgstr "요약할 내용이 없습니다"
 
@@ -680,32 +767,35 @@ msgstr "이전"
 
 #: templates/pages/activity.tmpl:15
 #: templates/pages/code.tmpl:59
-#: templates/pages/jobs.tmpl:22
+#: templates/pages/jobs.tmpl:37
 msgid "Oldest first"
 msgstr "오래된순"
 
-#: templates/layout.html.tmpl:112
+#: templates/layout.html.tmpl:116
 #: templates/layout.html.tmpl:38
 #: templates/pages/login.tmpl:3
 msgid "OpenVox Console"
 msgstr "OpenVox Console"
 
-#: templates/layout.html.tmpl:113
+#: templates/layout.html.tmpl:117
 msgid "OpenVox project"
 msgstr "OpenVox 프로젝트"
 
-#: src/group.js:84
+#: src/group.js:248
 msgid "Operator"
 msgstr "연산자"
 
 #: templates/pages/activity.tmpl:13
 #: templates/pages/code.tmpl:57
-#: templates/pages/jobs.tmpl:20
+#: templates/pages/jobs.tmpl:35
 msgid "Order"
 msgstr "정렬 순서"
 
-#: src/node.js:418
+#: src/node.js:422
+#: src/node.js:695
 #: src/packages.js:79
+#: src/patches.js:129
+#: src/run-patch.js:72
 #: src/vulnerability.js:54
 #: templates/pages/vulnerabilities.tmpl:27
 msgid "Package"
@@ -715,20 +805,23 @@ msgstr "패키지"
 msgid "Package name"
 msgstr "패키지 이름"
 
-#: src/node.js:604
+#: src/node.js:825
+#: src/run-patch.js:123
+#: src/run-patch.js:153
 #: src/vulnerabilities.js:95
 #: templates/layout.html.tmpl:69
-#: templates/pages/node.tmpl:16
+#: templates/pages/node.tmpl:24
 #: templates/pages/packages.tmpl:3
 msgid "Packages"
 msgstr "패키지"
 
-#: src/app.js:548
+#: src/app.js:627
 msgid "Pagination"
 msgstr "페이지 나누기"
 
+#: src/agentless.js:250
 #: templates/pages/login.tmpl:11
-#: templates/pages/users.tmpl:18
+#: templates/pages/users.tmpl:20
 msgid "Password"
 msgstr "비밀번호"
 
@@ -736,21 +829,27 @@ msgstr "비밀번호"
 msgid "Pending"
 msgstr "대기 중"
 
-#: src/roles.js:45
-#: src/service-tokens.js:43
+#: src/roles.js:145
+#: src/service-tokens.js:47
+#: templates/pages/roles.tmpl:20
 msgid "Permissions"
 msgstr "권한"
 
-#: templates/pages/group.tmpl:62
+#: templates/pages/group.tmpl:112
 msgid "Pinned node certnames (JSON array)"
 msgstr "고정된 Node certname (JSON 배열)"
 
-#: src/groups.js:33
+#: src/groups.js:60
 msgid "Pinned nodes"
 msgstr "고정된 Nodes"
 
+#: src/code-plans.js:57
 #: src/i18n.js:200
-#: templates/pages/jobs.tmpl:11
+#: src/plan.js:48
+#: src/schedule-common.js:39
+#: templates/pages/jobs.tmpl:24
+#: templates/pages/plan.tmpl:6
+#: templates/pages/schedule-edit.tmpl:38
 msgid "Plan"
 msgstr "Plan"
 
@@ -759,8 +858,8 @@ msgstr "Plan"
 msgid "Preferences"
 msgstr "환경설정"
 
-#: src/groups.js:33
-#: templates/pages/group.tmpl:18
+#: src/groups.js:60
+#: templates/pages/group.tmpl:32
 msgid "Priority"
 msgstr "우선순위"
 
@@ -772,7 +871,7 @@ msgstr "프로필"
 msgid "Property"
 msgstr "속성"
 
-#: src/node.js:418
+#: src/node.js:422
 #: src/packages.js:146
 #: src/vulnerability.js:54
 #: templates/pages/packages.tmpl:10
@@ -780,7 +879,7 @@ msgstr "속성"
 msgid "Provider"
 msgstr "공급자"
 
-#: src/node.js:604
+#: src/node.js:825
 #: src/packages.js:79
 #: src/vulnerabilities.js:95
 #: templates/pages/vulnerability-providers.tmpl:5
@@ -792,18 +891,20 @@ msgid "Providers enabled"
 msgstr "사용 중인 공급자"
 
 #: src/i18n.js:198
+#: src/plan-common.js:31
+#: src/schedule-common.js:44
 msgid "Puppet run"
 msgstr "Puppet run"
 
-#: templates/pages/node.tmpl:22
+#: templates/pages/node.tmpl:31
 msgid "Raw JSON"
 msgstr "원시 JSON"
 
-#: templates/pages/index.tmpl:14
+#: templates/pages/index.tmpl:18
 msgid "Recent activity"
 msgstr "최근 활동"
 
-#: templates/pages/index.tmpl:11
+#: templates/pages/index.tmpl:15
 msgid "Recent runs"
 msgstr "최근 실행"
 
@@ -812,16 +913,19 @@ msgstr "최근 실행"
 msgid "Ref"
 msgstr "Ref"
 
-#: src/group.js:89
+#: src/class-editor.js:232
+#: src/class-editor.js:245
+#: src/group.js:253
+#: src/plan-edit.js:68
 msgid "Remove"
 msgstr "제거"
 
-#: src/job.js:53
+#: src/job.js:142
 #: templates/pages/report.tmpl:6
 msgid "Report"
 msgstr "Report"
 
-#: templates/pages/node.tmpl:30
+#: templates/pages/node.tmpl:39
 msgid "Report installed packages"
 msgstr "설치된 패키지 보고"
 
@@ -830,7 +934,7 @@ msgid "Repositories"
 msgstr "저장소"
 
 #: src/i18n.js:175
-#: templates/pages/nodes.tmpl:20
+#: templates/pages/nodes.tmpl:24
 msgid "Requested"
 msgstr "요청됨"
 
@@ -842,54 +946,69 @@ msgstr "리소스"
 msgid "Resource events"
 msgstr "리소스 이벤트"
 
-#: src/nodes.js:81
+#: src/nodes.js:89
 msgid "Revoke"
 msgstr "해지"
 
 #: src/i18n.js:176
-#: templates/pages/nodes.tmpl:21
+#: templates/pages/nodes.tmpl:25
 msgid "Revoked"
 msgstr "해지됨"
 
-#: src/users.js:60
-#: templates/pages/roles.tmpl:5
-#: templates/pages/roles.tmpl:9
-#: templates/pages/service-tokens.tmpl:5
-#: templates/pages/users.tmpl:5
+#: src/user-groups.js:167
+#: src/users.js:141
+#: templates/pages/account-policy.tmpl:6
+#: templates/pages/roles.tmpl:11
+#: templates/pages/roles.tmpl:6
+#: templates/pages/service-tokens.tmpl:6
+#: templates/pages/user-groups.tmpl:6
+#: templates/pages/users.tmpl:6
 msgid "Roles"
 msgstr "역할"
 
-#: templates/pages/jobs.tmpl:9
+#: src/code-plans.js:160
+#: src/code-plans.js:52
+#: src/plans.js:28
+#: src/run-puppet.js:111
+#: templates/pages/jobs.tmpl:22
+#: templates/pages/plan.tmpl:12
 msgid "Run"
 msgstr "실행"
 
-#: src/nodes.js:340
-#: templates/pages/nodes.tmpl:33
+#: src/plan-edit.js:33
+#: src/run-puppet.js:87
+#: templates/pages/jobs.tmpl:8
+#: templates/pages/nodes.tmpl:37
+#: templates/pages/schedule-edit.tmpl:23
 msgid "Run Puppet"
 msgstr "Puppet 실행"
 
-#: src/nodes.js:341
+#: src/run-puppet.js:96
 msgid "Run Puppet on {count} node?"
 msgid_plural "Run Puppet on {count} nodes?"
 msgstr[0] "{count}개 Node에서 Puppet을 실행할까요?"
 
-#: templates/pages/group.tmpl:78
-#: templates/pages/node.tmpl:9
+#: templates/pages/group.tmpl:131
+#: templates/pages/node.tmpl:11
 msgid "Run now"
 msgstr "지금 실행"
 
 #: src/i18n.js:165
+#: src/plan-common.js:70
 #: templates/pages/code.tmpl:53
-#: templates/pages/jobs.tmpl:15
+#: templates/pages/jobs.tmpl:30
 msgid "Running"
 msgstr "실행 중"
 
-#: templates/pages/node.tmpl:18
+#: templates/pages/node.tmpl:27
 msgid "Runs"
 msgstr "실행"
 
+#: src/agentless.js:308
+#: src/agentless.js:378
 #: src/vulnerability-providers.js:156
-#: templates/pages/group.tmpl:70
+#: templates/pages/group.tmpl:121
+#: templates/pages/patches.tmpl:44
 msgid "Save"
 msgstr "저장"
 
@@ -901,29 +1020,31 @@ msgstr "언어 저장"
 msgid "Save profile"
 msgstr "프로필 저장"
 
-#: src/service-tokens.js:90
+#: src/service-tokens.js:95
 msgid "Service token created - copy it now, it won't be shown again"
 msgstr "서비스 토큰이 생성되었습니다 — 지금 복사하세요. 다시 표시되지 않습니다"
 
-#: templates/pages/roles.tmpl:6
-#: templates/pages/service-tokens.tmpl:6
-#: templates/pages/service-tokens.tmpl:9
-#: templates/pages/users.tmpl:6
+#: templates/pages/account-policy.tmpl:7
+#: templates/pages/roles.tmpl:7
+#: templates/pages/service-tokens.tmpl:11
+#: templates/pages/service-tokens.tmpl:7
+#: templates/pages/user-groups.tmpl:7
+#: templates/pages/users.tmpl:7
 msgid "Service tokens"
 msgstr "서비스 토큰"
 
-#: src/node.js:604
+#: src/node.js:825
 #: src/vulnerabilities.js:95
 #: src/vulnerability.js:54
 #: templates/pages/vulnerabilities.tmpl:11
 msgid "Severity"
 msgstr "심각도"
 
-#: templates/pages/node.tmpl:39
+#: templates/pages/node.tmpl:58
 msgid "Show closed"
 msgstr "해결됨 표시"
 
-#: templates/pages/nodes.tmpl:24
+#: templates/pages/nodes.tmpl:28
 msgid "Show infrastructure certs"
 msgstr "인프라 인증서 표시"
 
@@ -931,12 +1052,12 @@ msgstr "인프라 인증서 표시"
 msgid "Showing {shown} of {total} packages"
 msgstr "전체 {total}개 패키지 중 {shown}개 표시"
 
-#: src/nodes.js:78
+#: src/nodes.js:86
 msgid "Sign"
 msgstr "서명"
 
 #: src/i18n.js:174
-#: templates/pages/nodes.tmpl:19
+#: templates/pages/nodes.tmpl:23
 msgid "Signed"
 msgstr "서명됨"
 
@@ -945,6 +1066,7 @@ msgstr "서명됨"
 #~ msgstr "로그인 중&hellip;"
 
 #: src/i18n.js:170
+#: src/schedule-common.js:99
 #: templates/pages/report.tmpl:16
 msgid "Skipped"
 msgstr "건너뜀"
@@ -963,29 +1085,35 @@ msgid "Source to deploy"
 msgstr "deploy할 소스"
 
 #: src/deploys.js:57
-#: src/jobs.js:54
-#: src/node.js:469
+#: src/jobs.js:82
+#: src/node.js:473
+#: src/patches.js:236
+#: src/schedule-common.js:98
 msgid "Started"
 msgstr "시작"
 
+#: src/code-plans.js:273
 #: src/deploys.js:57
-#: src/index.js:249
-#: src/job.js:53
-#: src/jobs.js:54
-#: src/node.js:469
-#: src/node.js:604
+#: src/index.js:286
+#: src/job.js:142
+#: src/jobs.js:82
+#: src/node.js:473
+#: src/node.js:825
+#: src/patches.js:236
 #: src/report.js:48
+#: src/run-patch.js:123
 #: src/vulnerability-providers.js:75
 #: templates/pages/code.tmpl:51
-#: templates/pages/jobs.tmpl:13
-#: templates/pages/node.tmpl:47
+#: templates/pages/jobs.tmpl:28
+#: templates/pages/node.tmpl:66
 #: templates/pages/report.tmpl:11
 msgid "Status"
 msgstr "상태"
 
 #: src/i18n.js:163
+#: src/plan-common.js:71
 #: templates/pages/code.tmpl:54
-#: templates/pages/jobs.tmpl:16
+#: templates/pages/jobs.tmpl:31
 msgid "Succeeded"
 msgstr "성공"
 
@@ -1006,28 +1134,32 @@ msgid "Sync now"
 msgstr "지금 동기화"
 
 #: src/status.js:183
-#: templates/pages/jobs.tmpl:6
+#: templates/pages/jobs.tmpl:19
 msgid "Target"
 msgstr "대상"
 
-#: src/jobs.js:54
+#: src/jobs.js:82
 #: templates/pages/job.tmpl:12
 msgid "Targets"
 msgstr "대상"
 
 #: src/i18n.js:199
-#: templates/pages/jobs.tmpl:10
+#: src/plan-common.js:29
+#: src/schedule-common.js:42
+#: src/task-form.js:143
+#: templates/pages/jobs.tmpl:23
 msgid "Task"
 msgstr "Task"
 
-#: templates/pages/group.tmpl:37
+#: templates/pages/group.tmpl:78
 msgid "Top-scope parameters (JSON)"
 msgstr "최상위 범위 매개변수 (JSON)"
 
 #: src/deploys.js:57
-#: src/jobs.js:54
+#: src/jobs.js:82
+#: src/patches.js:236
 #: templates/pages/code.tmpl:50
-#: templates/pages/jobs.tmpl:19
+#: templates/pages/jobs.tmpl:34
 msgid "Triggered by"
 msgstr "실행 주체"
 
@@ -1038,39 +1170,41 @@ msgid "Type"
 msgstr "유형"
 
 #: src/i18n.js:168
-#: src/index.js:25
-#: templates/pages/node.tmpl:50
+#: src/index.js:26
+#: templates/pages/node.tmpl:69
 msgid "Unchanged"
 msgstr "변경 없음"
 
-#: src/app.js:636
+#: src/app.js:715
 #: src/i18n.js:177
-#: templates/pages/nodes.tmpl:22
+#: templates/pages/nodes.tmpl:26
 #: templates/pages/vulnerabilities.tmpl:17
 msgid "Unknown"
 msgstr "알 수 없음"
 
-#: src/users.js:60
+#: src/users.js:141
 #: templates/pages/login.tmpl:8
-#: templates/pages/users.tmpl:15
+#: templates/pages/users.tmpl:17
 msgid "Username"
 msgstr "사용자 이름"
 
+#: templates/pages/account-policy.tmpl:4
 #: templates/pages/roles.tmpl:4
 #: templates/pages/service-tokens.tmpl:4
+#: templates/pages/user-groups.tmpl:4
+#: templates/pages/users.tmpl:11
 #: templates/pages/users.tmpl:4
-#: templates/pages/users.tmpl:9
 msgid "Users"
 msgstr "사용자"
 
-#: src/group.js:87
+#: src/group.js:251
 msgid "Value"
 msgstr "값"
 
-#: src/node.js:418
+#: src/node.js:422
 #: src/packages.js:146
 #: src/status.js:136
-#: templates/layout.html.tmpl:118
+#: templates/layout.html.tmpl:122
 #: templates/pages/packages.tmpl:9
 msgid "Version"
 msgstr "버전"
@@ -1079,15 +1213,15 @@ msgstr "버전"
 msgid "Versions"
 msgstr "버전"
 
-#: templates/layout.html.tmpl:73
-#: templates/pages/node.tmpl:17
+#: templates/layout.html.tmpl:77
+#: templates/pages/node.tmpl:26
 #: templates/pages/vulnerabilities.tmpl:4
 #: templates/pages/vulnerability-providers.tmpl:4
 #: templates/pages/vulnerability.tmpl:4
 msgid "Vulnerabilities"
 msgstr "취약점"
 
-#: src/node.js:604
+#: src/node.js:825
 #: src/vulnerabilities.js:95
 msgid "Vulnerability"
 msgstr "취약점"
@@ -1097,14 +1231,15 @@ msgid "Vulnerability providers"
 msgstr "취약점 공급자"
 
 #: src/activity.js:39
+#: templates/pages/schedule-edit.tmpl:59
 msgid "When"
 msgstr "시점"
 
-#: templates/pages/index.tmpl:24
+#: templates/pages/index.tmpl:28
 msgid "e.g. Linux"
 msgstr "예: Linux"
 
-#: templates/pages/index.tmpl:23
+#: templates/pages/index.tmpl:27
 msgid "e.g. kernel"
 msgstr "예: kernel"
 
@@ -1117,7 +1252,7 @@ msgid "from {reporting} of {count} node"
 msgid_plural "from {reporting} of {count} nodes"
 msgstr[0] "{count}개 Node 중 {reporting}개"
 
-#: src/nodes.js:292
+#: src/nodes.js:340
 msgid "{count} node selected"
 msgid_plural "{count} nodes selected"
 msgstr[0] "{count}개 Node 선택됨"
@@ -1127,11 +1262,14 @@ msgid "{count} node using an environment no repository here has deployed."
 msgid_plural "{count} nodes using an environment no repository here has deployed."
 msgstr[0] "{count}개 Node가 여기의 어떤 저장소도 deploy하지 않은 Environment를 사용 중입니다."
 
-#: src/preferences.js:95
+#: src/preferences.js:106
 msgid "Automatic"
 msgstr "자동"
 
-#: src/index.js:192
+#: src/code-plans.js:273
+#: src/index.js:229
+#: src/patches.js:236
+#: src/schedule.js:107
 #: templates/pages/job.tmpl:5
 msgid "Job"
 msgstr "Job"
@@ -1144,7 +1282,8 @@ msgstr "공급자 관리"
 msgid "or"
 msgstr "또는"
 
-#: src/nodes.js:338
+#: src/run-patch.js:190
+#: src/run-puppet.js:93
 msgid ", and {count} more"
 msgid_plural ", and {count} more"
 msgstr[0] "、{count}개 더"
@@ -1154,12 +1293,12 @@ msgid "<strong>Assigned</strong> counts nodes classification sends to a repo's e
 msgstr "<strong>할당됨</strong>은 분류가 저장소의 Environments로 보내는 Nodes 수입니다. <strong>보고 중</strong>은 그중 하나에서 마지막으로 실행된 Nodes 수입니다. 둘 사이의 차이가 유용한 신호이기 때문에 따로 표시합니다."
 
 #: templates/pages/group.tmpl:23
-msgid "A node can match several groups at once. Their classes and parameters are combined; when two groups set the <em>same</em> class parameter, top-scope parameter, or environment, the one with the higher priority wins. Priorities must be unique."
-msgstr "하나의 Node는 동시에 여러 그룹에 일치할 수 있습니다. 해당 클래스와 매개변수는 결합되며, 두 그룹이 <em>같은</em> 클래스 매개변수, 최상위 범위 매개변수 또는 Environment를 설정하면 우선순위가 높은 쪽이 적용됩니다. 우선순위는 고유해야 합니다."
+#~ msgid "A node can match several groups at once. Their classes and parameters are combined; when two groups set the <em>same</em> class parameter, top-scope parameter, or environment, the one with the higher priority wins. Priorities must be unique."
+#~ msgstr "하나의 Node는 동시에 여러 그룹에 일치할 수 있습니다. 해당 클래스와 매개변수는 결합되며, 두 그룹이 <em>같은</em> 클래스 매개변수, 최상위 범위 매개변수 또는 Environment를 설정하면 우선순위가 높은 쪽이 적용됩니다. 우선순위는 고유해야 합니다."
 
 #: templates/pages/group.tmpl:50
-msgid "A node joins this group when its facts satisfy <em>every</em> condition below. Fact path is a dotted path into the node's facts, like <code>os.family</code> or <code>networking.fqdn</code> — open a node's page to see the facts it reports. With no conditions and no pinned nodes, the group matches nothing."
-msgstr "Node는 그 Facts가 아래의 <em>모든</em> 조건을 충족할 때 이 그룹에 포함됩니다. Fact 경로는 Node의 Facts로 들어가는 점으로 구분된 경로로, 예를 들어 <code>os.family</code> 또는 <code>networking.fqdn</code>입니다 — Node 페이지를 열면 보고된 Facts를 확인할 수 있습니다. 조건도 고정된 Nodes도 없으면 이 그룹은 아무것과도 일치하지 않습니다."
+#~ msgid "A node joins this group when its facts satisfy <em>every</em> condition below. Fact path is a dotted path into the node's facts, like <code>os.family</code> or <code>networking.fqdn</code> — open a node's page to see the facts it reports. With no conditions and no pinned nodes, the group matches nothing."
+#~ msgstr "Node는 그 Facts가 아래의 <em>모든</em> 조건을 충족할 때 이 그룹에 포함됩니다. Fact 경로는 Node의 Facts로 들어가는 점으로 구분된 경로로, 예를 들어 <code>os.family</code> 또는 <code>networking.fqdn</code>입니다 — Node 페이지를 열면 보고된 Facts를 확인할 수 있습니다. 조건도 고정된 Nodes도 없으면 이 그룹은 아무것과도 일치하지 않습니다."
 
 #: src/activity.js:17
 msgid "Actions taken through the console will show up here."
@@ -1170,8 +1309,8 @@ msgid "Assigned, none reporting"
 msgstr "할당됨, 보고 없음"
 
 #: templates/pages/group.tmpl:63
-msgid "Certnames listed here are always in this group, whether or not the match rule matches them."
-msgstr "여기에 나열된 certname은 일치 규칙과의 일치 여부와 관계없이 항상 이 그룹에 속합니다."
+#~ msgid "Certnames listed here are always in this group, whether or not the match rule matches them."
+#~ msgstr "여기에 나열된 certname은 일치 규칙과의 일치 여부와 관계없이 항상 이 그룹에 속합니다."
 
 #: src/code-repositories.js:109
 msgid "Converging"
@@ -1181,7 +1320,7 @@ msgstr "수렴 중"
 msgid "Deployed, but no node is classified into or reporting from its environments"
 msgstr "Deploy되었지만 어느 Node도 해당 Environments로 분류되지 않았고 거기에서 보고하지도 않습니다"
 
-#: templates/pages/group.tmpl:18
+#: templates/pages/group.tmpl:32
 msgid "Higher wins a conflict."
 msgstr "충돌 시 우선순위가 높은 쪽이 적용됩니다."
 
@@ -1189,27 +1328,27 @@ msgstr "충돌 시 우선순위가 높은 쪽이 적용됩니다."
 msgid "In use"
 msgstr "사용 중"
 
-#: src/nodes.js:101
+#: src/nodes.js:109
 msgid "Infrastructure"
 msgstr "인프라"
 
-#: src/index.js:24
+#: src/index.js:25
 msgid "Intentional changes"
 msgstr "의도된 변경"
 
 #: src/login.js:22
-msgid "Invalid username or password."
-msgstr "사용자 이름 또는 비밀번호가 올바르지 않습니다."
+#~ msgid "Invalid username or password."
+#~ msgstr "사용자 이름 또는 비밀번호가 올바르지 않습니다."
 
-#: src/nodes.js:251
+#: src/nodes.js:295
 msgid "Last connected"
 msgstr "마지막 연결"
 
-#: src/job.js:71
+#: src/job.js:235
 msgid "No job specified."
 msgstr "Job이 지정되지 않았습니다."
 
-#: src/node.js:622
+#: src/node.js:843
 msgid "No node specified."
 msgstr "Node가 지정되지 않았습니다."
 
@@ -1257,24 +1396,25 @@ msgstr "미분류"
 msgid "Unused"
 msgstr "미사용"
 
-#: templates/pages/group.tmpl:38
+#: templates/pages/group.tmpl:79
 msgid "Variables set for every manifest compiled for these nodes, available as $variable. An object of name/value pairs."
 msgstr "이 Nodes를 위해 컴파일되는 모든 manifest에 설정되는 변수로, $variable로 사용합니다. 이름/값 쌍의 객체입니다."
 
-#: src/job.js:36
+#: src/job.js:125
 msgid "View report"
 msgstr "Report 보기"
 
-#: src/nodes.js:38
-#: src/nodes.js:54
+#: src/nodes.js:46
+#: src/nodes.js:62
 msgid "checking…"
 msgstr "확인 중…"
 
-#: src/nodes.js:49
+#: src/nodes.js:147
+#: src/nodes.js:57
 msgid "never"
 msgstr "없음"
 
-#: src/index.js:189
+#: src/index.js:226
 msgid "no targets"
 msgstr "대상 없음"
 
@@ -1294,20 +1434,22 @@ msgstr "{assigned}개 Node가 할당되어 보고 중입니다"
 msgid "{reporting} node(s) report from its environments, but no group assigns any node there"
 msgstr "{reporting}개 Node가 해당 Environments에서 보고하지만 그곳에 Node를 할당하는 그룹이 없습니다"
 
-#: templates/pages/group.tmpl:20
+#: templates/pages/group.tmpl:38
 msgid "Puppet environment matching nodes compile against. Blank means this group doesn't set one."
 msgstr "일치하는 Nodes가 컴파일할 대상 Puppet Environment입니다. 비워 두면 이 그룹은 설정하지 않습니다."
 
-#: src/app.js:493
-#: src/app.js:505
+#: src/app.js:572
+#: src/app.js:584
 msgid ", +{count} more"
 msgid_plural ", +{count} more"
 msgstr[0] ", +{count}개 더"
 
-#: templates/pages/group.tmpl:33
-msgid "Puppet classes applied to every node in this group, each with optional parameters. A list of {\"name\", \"parameters\"} objects."
-msgstr "이 그룹의 모든 Node에 적용되는 Puppet 클래스입니다. 각각 선택적 매개변수를 가질 수 있습니다. {\"name\", \"parameters\"} 객체의 목록입니다."
+#: templates/pages/group.tmpl:48
+#~ msgid "Puppet classes applied to every node in this group, each with optional parameters. A list of {\"name\", \"parameters\"} objects."
+#~ msgstr "이 그룹의 모든 Node에 적용되는 Puppet 클래스입니다. 각각 선택적 매개변수를 가질 수 있습니다. {\"name\", \"parameters\"} 객체의 목록입니다."
 
+#: src/node.js:695
+#: src/patches.js:130
 #: src/vulnerabilities.js:87
 msgid "Available"
 msgstr "있음"
@@ -1345,7 +1487,9 @@ msgstr "아직 동기화되지 않음"
 msgid "Syncing"
 msgstr "동기화 중"
 
-#: src/index.js:151
+#: src/agentless.js:297
+#: src/agentless.js:369
+#: src/index.js:188
 msgid "User"
 msgstr "사용자"
 
@@ -1357,6 +1501,8 @@ msgstr "{minutes}분"
 msgid "Signing in…"
 msgstr "로그인 중&hellip;"
 
+#: src/agentless.js:282
+#: src/agentless.js:95
 #: src/status.js:133
 msgid "Address"
 msgstr "주소"
@@ -1427,7 +1573,7 @@ msgstr "시계 오차"
 msgid "differs by instance"
 msgstr "인스턴스마다 다름"
 
-#: templates/layout.html.tmpl:98
+#: templates/layout.html.tmpl:102
 #: templates/pages/status.tmpl:3
 msgid "System"
 msgstr "시스템"
@@ -1447,3 +1593,2194 @@ msgstr "구성되지 않음"
 #: src/status.js:31
 msgid "Unreachable"
 msgstr "연결할 수 없음"
+
+#: src/task-form.js:144
+msgid "Choose a task"
+msgstr "Task 선택"
+
+#: src/code-plans.js:111
+#: src/task-form.js:28
+msgid "Default: {value}"
+msgstr "기본값: {value}"
+
+#: src/job.js:53
+msgid "Environment:"
+msgstr "Environment:"
+
+#: src/task-form.js:303
+msgid "Fix these parameters first:"
+msgstr "먼저 다음 매개변수를 수정하세요:"
+
+#: src/code-plans.js:132
+#: src/task-form.js:51
+msgid "JSON, for example [\"a\", \"b\"]"
+msgstr "JSON, 예: [\"a\", \"b\"]"
+
+#: src/task-form.js:139
+msgid "No tasks in this environment"
+msgstr "이 Environment에 Task가 없습니다"
+
+#: src/code-plans.js:118
+#: src/code-plans.js:120
+#: src/task-form.js:37
+msgid "Not set"
+msgstr "설정 안 됨"
+
+#: src/run-task.js:126
+#~ msgid "On {count} nodes."
+#~ msgstr ""
+
+#: src/run-task.js:31
+msgid "On {node}."
+msgstr "대상: {node}"
+
+#: src/code-plans.js:282
+#: src/code-plans.js:57
+#: src/job.js:99
+#: src/plan-common.js:137
+#: src/schedule.js:23
+#: src/task-form.js:185
+msgid "Parameters"
+msgstr "매개변수"
+
+#: src/plan-common.js:174
+#: src/task-form.js:282
+msgid "Problem:"
+msgstr "문제:"
+
+#: src/job.js:110
+msgid "Result from {node}"
+msgstr "{node}의 결과"
+
+#: src/plan-edit.js:33
+#: src/run-task.js:26
+#: templates/pages/schedule-edit.tmpl:24
+msgid "Run a task"
+msgstr "Task 실행"
+
+#: src/run-task.js:44
+#: templates/pages/group.tmpl:130
+#: templates/pages/jobs.tmpl:7
+#: templates/pages/node.tmpl:10
+#: templates/pages/nodes.tmpl:38
+msgid "Run task"
+msgstr "Task 실행"
+
+#: src/task-form.js:198
+msgid "Stopped if still running after this long. 30 minutes if left empty."
+msgstr "이 시간이 지나도 실행 중이면 중지됩니다. 비워 두면 30분입니다."
+
+#: src/task-form.js:97
+msgid "Tasks are not configured on this console. An administrator sets CONSOLE_PUPPET_SERVER_URL to enable them."
+msgstr "이 콘솔에는 Task가 구성되어 있지 않습니다. 관리자가 CONSOLE_PUPPET_SERVER_URL을 설정하면 사용할 수 있습니다."
+
+#: src/task-form.js:318
+msgid "The console refused these parameters:"
+msgstr "콘솔이 다음 매개변수를 거부했습니다:"
+
+#: src/task-form.js:186
+msgid "This task declares no parameters, so any JSON object is passed to it as is."
+msgstr "이 Task는 매개변수를 선언하지 않으므로 모든 JSON 객체가 그대로 전달됩니다."
+
+#: src/task-form.js:188
+msgid "This task takes no parameters."
+msgstr "이 Task는 매개변수를 받지 않습니다."
+
+#: src/task-form.js:197
+msgid "Timeout (minutes)"
+msgstr "시간 제한(분)"
+
+#: src/task-form.js:262
+msgid "is not valid JSON"
+msgstr "올바른 JSON이 아닙니다"
+
+#: src/task-form.js:237
+msgid "must be a JSON object"
+msgstr "JSON 객체여야 합니다"
+
+#: src/plan-common.js:174
+#: src/task-form.js:247
+msgid "required"
+msgstr "필수"
+
+#: src/run-task.js:32
+msgid "On {count} node."
+msgid_plural "On {count} nodes."
+msgstr[0] "대상: {count}개 Node"
+
+#: src/node.js:577
+msgid "Attempt {attempts} of {max}. Next automatic attempt: {time}."
+msgstr "시도 {attempts}/{max}. 다음 자동 시도: {time}."
+
+#: src/node.js:575
+msgid "Automatic attempts stopped after {attempts} failures."
+msgstr "{attempts}회 실패 후 자동 시도가 중단되었습니다."
+
+#: src/index.js:131
+msgid "Automatic upgrades are off."
+msgstr "자동 업그레이드가 꺼져 있습니다."
+
+#: src/index.js:131
+msgid "Automatic upgrades are on."
+msgstr "자동 업그레이드가 켜져 있습니다."
+
+#: src/nodes.js:130
+msgid "Client out of date"
+msgstr "클라이언트가 오래됨"
+
+#: src/index.js:125
+msgid "Clients too old to upgrade themselves: {count}. Re-run the install script on those nodes once; the Nodes page marks them."
+msgstr "스스로 업그레이드하기에는 너무 오래된 클라이언트: {count}. 해당 nodes에서 설치 스크립트를 한 번 다시 실행하세요. Nodes 페이지에 표시됩니다."
+
+#: src/node.js:556
+msgid "Current"
+msgstr "최신"
+
+#: src/index.js:120
+msgid "Current: {count}"
+msgstr "최신: {count}"
+
+#: src/index.js:122
+msgid "Failed upgrades: {count}"
+msgstr "실패한 업그레이드: {count}"
+
+#: src/node.js:593
+#: src/node.js:611
+msgid "Node agent"
+msgstr "Node 에이전트"
+
+#: src/index.js:129
+msgid "Node agents"
+msgstr "Node 에이전트"
+
+#: src/node.js:557
+#: src/node.js:558
+#: src/patches.js:61
+msgid "Out of date"
+msgstr "오래됨"
+
+#: src/index.js:121
+msgid "Out of date: {count}"
+msgstr "오래됨: {count}"
+
+#: src/node.js:573
+msgid "The last client upgrade failed: {error}"
+msgstr "마지막 클라이언트 업그레이드에 실패했습니다: {error}"
+
+#: src/node.js:571
+msgid "The node has been told to upgrade its client. It restarts onto the new build when the upgrade completes."
+msgstr "Node에 클라이언트를 업그레이드하도록 지시했습니다. 업그레이드가 완료되면 새 빌드로 다시 시작됩니다."
+
+#: src/node.js:562
+msgid "This client is too old to upgrade itself. Re-run the install script on this node once; after that it keeps itself current."
+msgstr "이 클라이언트는 너무 오래되어 스스로 업그레이드할 수 없습니다. 이 node에서 설치 스크립트를 한 번 다시 실행하세요. 그 이후에는 스스로 최신 상태를 유지합니다."
+
+#: src/node.js:564
+msgid "This console has no client package for the platform of this node."
+msgstr "이 콘솔에는 이 node의 플랫폼용 클라이언트 패키지가 없습니다."
+
+#: src/node.js:593
+msgid "This node has not reported its client build yet. It does so the next time it connects."
+msgstr "이 node는 아직 클라이언트 빌드를 보고하지 않았습니다. 다음에 연결될 때 보고합니다."
+
+#: src/node.js:599
+msgid "Unknown build"
+msgstr "알 수 없는 빌드"
+
+#: src/node.js:614
+msgid "Upgrade client"
+msgstr "클라이언트 업그레이드"
+
+#: src/node.js:563
+msgid "Upgrades are declined in the configuration of this node."
+msgstr "이 node의 구성에서 업그레이드가 거부되어 있습니다."
+
+#: src/node.js:600
+msgid "Version {version}, built {time}"
+msgstr "버전 {version}, 빌드 시각 {time}"
+
+#: src/node.js:602
+msgid "unknown"
+msgstr "알 수 없음"
+
+#: src/node.js:601
+msgid "unversioned"
+msgstr "버전 없음"
+
+#: templates/pages/group.tmpl:41
+msgid "A node can match several groups at once. Their classes and parameters are combined. When two groups set the <em>same</em> class parameter, top-scope parameter, or environment, a group always wins over the groups above it in the tree; between unrelated groups the one with the higher priority wins. Priorities must be unique."
+msgstr "Node는 동시에 여러 그룹과 일치할 수 있습니다. 해당 그룹들의 클래스와 매개변수는 합쳐집니다. 두 그룹이 <em>같은</em> 클래스 매개변수, 최상위 범위 매개변수 또는 Environment를 설정하면, 그룹은 트리에서 자신보다 위에 있는 그룹보다 항상 우선합니다. 서로 관련 없는 그룹 사이에서는 우선순위가 높은 쪽이 우선합니다. 우선순위는 고유해야 합니다."
+
+#: templates/pages/group.tmpl:97
+msgid "A node joins this group when it is in the parent group and its facts satisfy the conditions below. Fact path is a dotted path into the node's facts, like <code>os.family</code> or <code>networking.fqdn</code> — open a node's page to see the facts it reports. With no conditions and no pinned nodes, the group matches nothing."
+msgstr "Node는 상위 그룹에 속하고 그 Facts가 아래 조건을 만족할 때 이 그룹에 들어옵니다. Fact 경로는 <code>os.family</code>나 <code>networking.fqdn</code>처럼 Node의 Facts 안을 가리키는 점 구분 경로입니다. Node가 보고하는 Facts는 해당 Node 페이지에서 볼 수 있습니다. 조건도 고정된 Node도 없으면 그룹은 아무것과도 일치하지 않습니다."
+
+#: templates/pages/group.tmpl:104
+msgid "A node must satisfy"
+msgstr "Node가 만족해야 하는 조건:"
+
+#: templates/pages/group.tmpl:13
+msgid "All Nodes is the built-in group every node belongs to. Its classes, parameters and environment apply to every node; its name, rule and pinned nodes cannot be changed."
+msgstr "All Nodes는 모든 Node가 속하는 기본 제공 그룹입니다. 이 그룹의 클래스, 매개변수, Environment는 모든 Node에 적용됩니다. 이름, 규칙, 고정된 Nodes는 변경할 수 없습니다."
+
+#: templates/pages/group.tmpl:113
+msgid "Certnames listed here are in this group whether or not the match rule matches them, as long as they are also in the parent group."
+msgstr "여기에 나열된 certname은 상위 그룹에도 속해 있는 한, 일치 규칙에 일치하는지와 관계없이 이 그룹에 속합니다."
+
+#: src/groups.js:35
+msgid "Create a group to start classifying nodes."
+msgstr "Nodes 분류를 시작하려면 그룹을 만드세요."
+
+#: src/group.js:182
+msgid "Groups beneath this one override it despite their lower priority."
+msgstr "이 그룹 아래의 그룹들은 우선순위가 더 낮아도 이 그룹을 재정의합니다."
+
+#: src/group.js:172
+msgid "Its value is the one used, because a group always wins over the groups above it. Priority alone would have chosen the parent's. This group sets:"
+msgstr "그룹은 항상 위에 있는 그룹보다 우선하므로 이 그룹의 값이 사용됩니다. 우선순위만 따졌다면 상위 그룹의 값이 선택되었을 것입니다. 이 그룹이 설정하는 항목:"
+
+#: src/groups.js:14
+msgid "Overrides priority"
+msgstr "우선순위를 재정의함"
+
+#: src/groups.js:8
+msgid "Overrides {count} value set by a parent with a higher priority"
+msgid_plural "Overrides {count} values set by a parent with a higher priority"
+msgstr[0] "우선순위가 더 높은 상위 그룹이 설정한 값 {count}개를 재정의합니다"
+
+#: templates/pages/group.tmpl:25
+msgid "Parent group"
+msgstr "상위 그룹"
+
+#: src/group.js:183
+msgid "Their values are the ones used for their nodes:"
+msgstr "해당 Nodes에는 그 그룹들의 값이 사용됩니다:"
+
+#: src/group.js:474
+msgid "These pinned nodes are not currently in this group, because they are not in its parent group (or are not known to the console):"
+msgstr "다음 고정된 Nodes는 상위 그룹에 속하지 않거나 콘솔이 알지 못하기 때문에 현재 이 그룹에 속하지 않습니다:"
+
+#: templates/pages/group.tmpl:26
+msgid "This group can only contain nodes that are also in its parent, and it inherits the parent's classes and parameters."
+msgstr "이 그룹은 상위 그룹에도 속하는 Nodes만 포함할 수 있으며, 상위 그룹의 클래스와 매개변수를 상속합니다."
+
+#: src/group.js:171
+msgid "This group overrides a parent with a higher priority."
+msgstr "이 그룹은 우선순위가 더 높은 상위 그룹을 재정의합니다."
+
+#: src/group.js:457
+msgid "Whether each pinned node is currently in this group is unavailable."
+msgstr "고정된 각 Node가 현재 이 그룹에 속하는지 여부를 확인할 수 없습니다."
+
+#: src/group.js:156
+msgid "a different environment from {ancestor}"
+msgstr "{ancestor}과(와) 다른 Environment"
+
+#: src/group.js:103
+msgid "all of the conditions"
+msgstr "모든 조건"
+
+#: src/group.js:104
+msgid "any one of the conditions"
+msgstr "조건 중 하나"
+
+#: src/group.js:158
+msgid "parameter {key} of class {class}, which {ancestor} sets differently"
+msgstr "{ancestor}이(가) 다르게 설정한, 클래스 {class}의 매개변수 {key}"
+
+#: src/group.js:157
+msgid "top-scope parameter {key}, which {ancestor} sets differently"
+msgstr "{ancestor}이(가) 다르게 설정한 최상위 범위 매개변수 {key}"
+
+#: src/roles.js:111
+#: src/roles.js:124
+#: src/user-groups.js:149
+msgid "Change"
+msgstr "변경"
+
+#: src/roles.js:64
+msgid "No node groups"
+msgstr "Node 그룹 없음"
+
+#: src/roles.js:50
+msgid "Node groups could not be loaded, so the new role will cover all nodes. Viewing node groups needs the classifier:read permission."
+msgstr "Node 그룹을 불러오지 못해 새 역할은 모든 Nodes에 적용됩니다. Node 그룹을 보려면 classifier:read 권한이 필요합니다."
+
+#: src/roles.js:116
+msgid "Save node groups"
+msgstr "Node 그룹 저장"
+
+#: templates/pages/roles.tmpl:25
+msgid "The role's permissions apply to the nodes in these groups and in every group beneath them. All Nodes covers the whole fleet."
+msgstr "역할의 권한은 이 그룹들과 그 아래 모든 그룹의 Nodes에 적용됩니다. All Nodes는 전체 플릿에 해당합니다."
+
+#: src/group.js:594
+msgid "This group is granted to one or more roles. Remove it from those roles on the Roles page before deleting it."
+msgstr "이 그룹은 하나 이상의 역할에 부여되어 있습니다. 삭제하기 전에 역할 페이지에서 해당 역할에서 제거하세요."
+
+#: src/nodes.js:589
+msgid "You are seeing the nodes in this node group and the groups beneath it: {groups}"
+msgid_plural "You are seeing the nodes in these node groups and the groups beneath them: {groups}"
+msgstr[0] "다음 Node 그룹과 그 아래 그룹의 Nodes를 보고 있습니다: {groups}"
+
+#: src/nodes.js:585
+msgid "Your roles are not granted on any node group, so no nodes are shown. Ask an administrator to add a node group to one of your roles."
+msgstr "역할이 어떤 Node 그룹에도 부여되어 있지 않아 Node가 표시되지 않습니다. 관리자에게 역할 중 하나에 Node 그룹을 추가해 달라고 요청하세요."
+
+#: src/roles.js:67
+msgid "{count} node groups"
+msgstr "Node 그룹 {count}개"
+
+#: src/app.js:291
+msgid "Nothing was done. Your role cannot act on this node, because it is not in your node groups: {nodes}"
+msgid_plural "Nothing was done on any node. Your role cannot act on these nodes, because they are not in your node groups: {nodes}"
+msgstr[0] "어떤 Node에도 아무 작업도 수행되지 않았습니다. 다음 Nodes는 Node 그룹에 속하지 않아 역할로 작업할 수 없습니다: {nodes}"
+
+#: src/job.js:57
+msgid "Only the nodes in your node groups are shown. This job also ran on other nodes, and its status covers all of them."
+msgstr "내 Node 그룹의 Nodes만 표시됩니다. 이 Job은 다른 Nodes에서도 실행되었으며, 상태는 그 모두를 포함합니다."
+
+#: src/app.js:290
+msgid "{nodes} and {count} more"
+msgstr "{nodes} 외 {count}개"
+
+#: templates/pages/group.tmpl:67
+msgid "Add a class"
+msgstr "클래스 추가"
+
+#: templates/pages/group.tmpl:72
+msgid "Add class"
+msgstr "클래스 추가"
+
+#: src/class-editor.js:257
+msgid "Add parameter"
+msgstr "매개변수 추가"
+
+#: src/run-puppet.js:32
+msgid "Asks the node to run against this environment. A node whose node groups set an environment runs in that one instead; the job shows which was used."
+msgstr "Node에 이 Environment로 실행하도록 요청합니다. Node 그룹이 Environment를 설정한 Node는 그 Environment에서 실행되며, 어느 것이 사용되었는지는 Job에 표시됩니다."
+
+#: src/class-editor.js:378
+msgid "Choose or type a class"
+msgstr "클래스를 선택하거나 입력"
+
+#: src/class-editor.js:252
+msgid "Choose or type a parameter"
+msgstr "매개변수를 선택하거나 입력"
+
+#: src/class-editor.js:345
+msgid "Choosing from the classes in the {environment} environment, as read at {time}."
+msgstr "{time}에 읽은 {environment} Environment의 클래스 중에서 선택합니다."
+
+#: src/groups.js:28
+msgid "Class mismatch"
+msgstr "클래스 불일치"
+
+#: src/class-editor.js:378
+msgid "Class name, like profile::base"
+msgstr "클래스 이름(예: profile::base)"
+
+#: src/class-editor.js:309
+msgid "Class {class} already sets parameter {parameter}."
+msgstr "클래스 {class}은(는) 이미 매개변수 {parameter}을(를) 설정하고 있습니다."
+
+#: src/class-editor.js:482
+msgid "Classes must be a JSON list of objects, each with a \"name\" and optional \"parameters\"."
+msgstr "클래스는 각각 \"name\"과 선택 사항인 \"parameters\"를 가진 객체의 JSON 목록이어야 합니다."
+
+#: src/run-puppet.js:161
+msgid "Debug"
+msgstr "디버그"
+
+#: src/run-puppet.js:27
+msgid "Debug output"
+msgstr "디버그 출력"
+
+#: src/class-editor.js:184
+msgid "Default: {default}"
+msgstr "기본값: {default}"
+
+#: src/class-editor.js:217
+msgid "Does not fit the type: {detail}"
+msgstr "유형에 맞지 않습니다: {detail}"
+
+#: src/class-editor.js:186
+msgid "Entered as JSON"
+msgstr "JSON으로 입력됨"
+
+#: src/run-puppet.js:160
+msgid "Environment: {environment}"
+msgstr "Environment: {environment}"
+
+#: src/class-editor.js:477
+msgid "Invalid JSON in the classes: {error}"
+msgstr "클래스의 JSON이 잘못되었습니다: {error}"
+
+#: src/class-editor.js:264
+msgid "No classes yet. Nodes in this group get only what their other groups give them."
+msgstr "아직 클래스가 없습니다. 이 그룹의 Nodes는 다른 그룹이 주는 것만 받습니다."
+
+#: src/class-editor.js:185
+msgid "No default in the code"
+msgstr "코드에 기본값 없음"
+
+#: src/class-editor.js:247
+msgid "No parameters set: the code's own defaults and Hiera apply."
+msgstr "설정된 매개변수가 없습니다. 코드 자체의 기본값과 Hiera가 적용됩니다."
+
+#: src/run-puppet.js:26
+msgid "No-op: report what would change, and change nothing"
+msgstr "No-op: 무엇이 바뀔지 보고만 하고 아무것도 변경하지 않음"
+
+#: src/class-editor.js:213
+msgid "Not a parameter of this class"
+msgstr "이 클래스의 매개변수가 아닙니다"
+
+#: src/class-editor.js:242
+msgid "Not defined in {environment}"
+msgstr "{environment}에 정의되어 있지 않음"
+
+#: src/job.js:78
+msgid "Output from {node}"
+msgstr "{node}의 출력"
+
+#: src/class-editor.js:252
+msgid "Parameter name"
+msgstr "매개변수 이름"
+
+#: src/class-editor.js:172
+msgid "Parameter {parameter} of class {class} is not valid JSON. Text needs double quotes, like \"value\"."
+msgstr "클래스 {class}의 매개변수 {parameter}이(가) 올바른 JSON이 아닙니다. 텍스트는 \"value\"처럼 큰따옴표가 필요합니다."
+
+#: src/class-editor.js:163
+msgid "Parameter {parameter} of class {class} needs a number. Enter one, or remove the parameter to leave it unset."
+msgstr "클래스 {class}의 매개변수 {parameter}에는 숫자가 필요합니다. 숫자를 입력하거나, 설정하지 않으려면 매개변수를 제거하세요."
+
+#: templates/pages/group.tmpl:56
+msgid "Puppet classes applied to every node in this group. A parameter left unset keeps the value the code or Hiera gives it. A class or parameter that the environment's code does not define can still be saved, and is marked."
+msgstr "이 그룹의 모든 Node에 적용되는 Puppet 클래스입니다. 설정하지 않은 매개변수는 코드나 Hiera가 주는 값을 유지합니다. Environment의 코드에 정의되지 않은 클래스나 매개변수도 저장할 수 있으며, 표시가 붙습니다."
+
+#: src/job.js:89
+msgid "Ran in {used}, not {requested}"
+msgstr "{requested}이(가) 아닌 {used}에서 실행됨"
+
+#: src/class-editor.js:351
+msgid "Refresh classes"
+msgstr "클래스 새로 고침"
+
+#: src/class-editor.js:245
+msgid "Remove class {class}"
+msgstr "클래스 {class} 제거"
+
+#: src/class-editor.js:232
+msgid "Remove parameter {parameter}"
+msgstr "매개변수 {parameter} 제거"
+
+#: src/run-puppet.js:95
+msgid "Run Puppet on {node}?"
+msgstr "{node}에서 Puppet을 실행할까요?"
+
+#: src/class-editor.js:250
+msgid "Set a parameter"
+msgstr "매개변수 설정"
+
+#: src/class-editor.js:361
+msgid "The Puppet server could not be reached just now, so this list of classes may be out of date. Nothing is marked as missing until it can be read again."
+msgstr "방금 Puppet 서버에 연결할 수 없어 이 클래스 목록이 최신이 아닐 수 있습니다. 다시 읽을 수 있을 때까지는 아무것도 누락으로 표시되지 않습니다."
+
+#: src/class-editor.js:76
+msgid "The Puppet server has no environment named {environment}, so its classes cannot be listed. Classes and parameters can still be entered by name."
+msgstr "Puppet 서버에 {environment}(이)라는 Environment가 없어 클래스를 나열할 수 없습니다. 클래스와 매개변수는 여전히 이름으로 입력할 수 있습니다."
+
+#: src/job.js:58
+msgid "The environment is a request. A node whose node groups set an environment runs in that one instead, and is marked below once its report arrives."
+msgstr "Environment는 요청입니다. Node 그룹이 Environment를 설정한 Node는 그 Environment에서 실행되며, Report가 도착하면 아래에 표시됩니다."
+
+#: src/class-editor.js:78
+msgid "The list of classes is unavailable: the Puppet server could not be reached. Classes and parameters can still be entered by name."
+msgstr "클래스 목록을 사용할 수 없습니다: Puppet 서버에 연결할 수 없습니다. 클래스와 매개변수는 여전히 이름으로 입력할 수 있습니다."
+
+#: src/class-editor.js:74
+msgid "The list of classes is unavailable: the Puppet server does not allow the console to read classes. An administrator adds a rule for /puppet/v3/environment_classes to the server's auth.conf - see the installation guide. Classes and parameters can still be entered by name."
+msgstr "클래스 목록을 사용할 수 없습니다: Puppet 서버가 콘솔의 클래스 읽기를 허용하지 않습니다. 관리자가 서버의 auth.conf에 /puppet/v3/environment_classes 규칙을 추가해야 합니다. 설치 가이드를 참고하세요. 클래스와 매개변수는 여전히 이름으로 입력할 수 있습니다."
+
+#: src/class-editor.js:72
+msgid "The list of classes is unavailable: this console has no connection to the Puppet server. An administrator sets CONSOLE_PUPPET_SERVER_URL to enable it. Classes and parameters can still be entered by name."
+msgstr "클래스 목록을 사용할 수 없습니다: 이 콘솔은 Puppet 서버에 연결되어 있지 않습니다. 사용하려면 관리자가 CONSOLE_PUPPET_SERVER_URL을 설정해야 합니다. 클래스와 매개변수는 여전히 이름으로 입력할 수 있습니다."
+
+#: src/class-editor.js:367
+msgid "These manifests could not be parsed, so their classes are not in the list, and no class is marked as undefined:"
+msgstr "다음 매니페스트를 구문 분석할 수 없어 해당 클래스가 목록에 없으며, 어떤 클래스도 정의되지 않음으로 표시되지 않습니다:"
+
+#: src/class-editor.js:419
+msgid "This group already has class {class}."
+msgstr "이 그룹에는 이미 클래스 {class}이(가) 있습니다."
+
+#: src/job.js:90
+msgid "This node's node groups set its environment, which takes precedence over the one a run asks for."
+msgstr "이 Node의 Node 그룹이 Environment를 설정하며, 이는 실행이 요청한 Environment보다 우선합니다."
+
+#: src/class-editor.js:396
+msgid "{count} class or parameter below does not match the code in the {environment} environment. It is saved and applied as it is; a node whose catalog needs it will fail to compile until the code or the group is changed."
+msgid_plural "{count} classes or parameters below do not match the code in the {environment} environment. They are saved and applied as they are; a node whose catalog needs them will fail to compile until the code or the group is changed."
+msgstr[0] "아래의 클래스 또는 매개변수 {count}개가 {environment} Environment의 코드와 일치하지 않습니다. 그대로 저장되고 적용됩니다. 카탈로그에 이것이 필요한 Node는 코드나 그룹이 변경될 때까지 컴파일에 실패합니다."
+
+#: src/groups.js:22
+msgid "{count} class or parameter does not match the code in {environment}"
+msgid_plural "{count} classes or parameters do not match the code in {environment}"
+msgstr[0] "클래스 또는 매개변수 {count}개가 {environment}의 코드와 일치하지 않습니다"
+
+#: templates/pages/schedule-edit.tmpl:51
+msgid "A query or a node group is worked out again each time the schedule starts, so it follows the nodes as they change. The preview shows what it would run on now."
+msgstr "쿼리나 Node 그룹은 일정이 시작될 때마다 다시 계산되므로 Nodes의 변화를 따라갑니다. 미리 보기는 지금 실행된다면 대상이 될 Nodes를 보여 줍니다."
+
+#: src/target-picker.js:61
+msgid "A query that returns certname. It is run when the job starts, and the job runs on the matching nodes in your node groups."
+msgstr "certname을 반환하는 쿼리입니다. Job이 시작될 때 실행되며, Job은 내 Node 그룹에서 일치하는 Nodes에서 실행됩니다."
+
+#: templates/pages/schedule-edit.tmpl:82
+msgid "A repeat is a fixed length of time from the start: a day is 24 hours. Where the clocks change, a daily schedule moves by an hour on the local clock. It cannot repeat more often than every 5 minutes."
+msgstr "반복은 시작 시점부터의 고정된 시간 간격입니다. 하루는 24시간입니다. 시계가 바뀌는 지역에서는 매일 반복되는 일정이 현지 시간 기준으로 한 시간 이동합니다. 5분보다 자주 반복할 수 없습니다."
+
+#: templates/pages/schedules.tmpl:12
+#~ msgid "A scheduled job starts a Puppet run or a task later, once or repeatedly. Its nodes are worked out each time it starts, and it runs with its owner's access as it is at that moment."
+#~ msgstr ""
+
+#: src/plan-common.js:124
+#: src/task-form.js:29
+msgid "A value is stored. Leave this empty to keep it."
+msgstr "값이 저장되어 있습니다. 유지하려면 비워 두세요."
+
+#: src/schedule-common.js:88
+msgid "Active"
+msgstr "활성"
+
+#: src/schedule.js:60
+msgid "All {count} nodes"
+msgstr "Nodes {count}개 전체"
+
+#: src/target-picker.js:184
+msgid "Choose a node group"
+msgstr "Node 그룹 선택"
+
+#: src/target-picker.js:165
+msgid "Choose a node group first."
+msgstr "먼저 Node 그룹을 선택하세요."
+
+#: src/task-form.js:297
+msgid "Choose a task first."
+msgstr "먼저 Task를 선택하세요."
+
+#: src/target-picker.js:46
+msgid "Choose nodes by"
+msgstr "Nodes 선택 방법"
+
+#: src/schedule-edit.js:182
+msgid "Choose when it starts."
+msgstr "시작 시점을 선택하세요."
+
+#: src/schedule.js:146
+msgid "Delete this schedule?"
+msgstr "이 일정을 삭제할까요?"
+
+#: src/schedule.js:107
+msgid "Due"
+msgstr "실행 예정"
+
+#: src/schedule.js:75
+msgid "Each time it starts, it runs on the nodes its owner's role can act on at that moment. If the owner can no longer run jobs, nothing is started."
+msgstr "시작될 때마다 그 시점에 소유자의 역할이 작업할 수 있는 Nodes에서 실행됩니다. 소유자가 더 이상 Job을 실행할 수 없으면 아무것도 시작되지 않습니다."
+
+#: src/schedule-edit.js:219
+#: src/schedule-edit.js:220
+msgid "Edit schedule"
+msgstr "일정 편집"
+
+#: templates/pages/schedule-edit.tmpl:73
+msgid "Every"
+msgstr "간격"
+
+#: src/schedule-common.js:56
+#: src/target-picker.js:195
+#: src/target-picker.js:263
+msgid "Group {id}"
+msgstr "그룹 {id}"
+
+#: src/target-picker.js:191
+msgid "Group {id} (deleted)"
+msgstr "그룹 {id}(삭제됨)"
+
+#: src/schedule-edit.js:143
+msgid "In your local time."
+msgstr "현지 시간 기준입니다."
+
+#: src/schedule-edit.js:142
+msgid "In your time zone, {zone}."
+msgstr "내 시간대({zone}) 기준입니다."
+
+#: src/schedule.js:89
+msgid "It has not come due yet"
+msgstr "아직 실행 시점이 되지 않았습니다"
+
+#: src/schedule.js:147
+msgid "It will not start again. The jobs it has already started stay in the job history."
+msgstr "다시 시작되지 않습니다. 이미 시작한 Jobs는 Job 기록에 남습니다."
+
+#: src/code-plans.js:267
+#: src/job.js:66
+#: src/node.js:738
+#: src/patches.js:227
+#: src/schedule.js:98
+#: src/schedules.js:15
+msgid "Job #{id}"
+msgstr "Job #{id}"
+
+#: templates/pages/jobs.tmpl:13
+#: templates/pages/plans.tmpl:8
+#: templates/pages/schedules.tmpl:8
+msgid "Job history"
+msgstr "Job 기록"
+
+#: src/schedules.js:49
+msgid "Last time"
+msgstr "지난번"
+
+#: src/target-picker.js:167
+msgid "List at least one node first."
+msgstr "먼저 Node를 하나 이상 나열하세요."
+
+#: src/target-picker.js:47
+msgid "List of nodes"
+msgstr "Nodes 목록"
+
+#: src/jobs.js:42
+msgid "Matched by"
+msgstr "일치 기준"
+
+#: templates/pages/schedule-edit.tmpl:6
+#: templates/pages/schedule-edit.tmpl:8
+#: templates/pages/schedules.tmpl:5
+msgid "New schedule"
+msgstr "새 일정"
+
+#: src/schedule.js:69
+#: src/schedules.js:49
+msgid "Next start"
+msgstr "다음 시작"
+
+#: src/target-picker.js:143
+msgid "No nodes match at the moment."
+msgstr "현재 일치하는 Node가 없습니다."
+
+#: src/schedule.js:162
+msgid "No schedule specified."
+msgstr "지정된 일정이 없습니다."
+
+#: src/schedules.js:23
+msgid "No scheduled jobs"
+msgstr "예약된 Job 없음"
+
+#: src/jobs.js:42
+#: src/schedule-common.js:57
+#: src/target-picker.js:49
+#: src/target-picker.js:65
+msgid "Node group"
+msgstr "Node 그룹"
+
+#: src/job.js:30
+msgid "Node group:"
+msgstr "Node 그룹:"
+
+#: src/target-picker.js:197
+msgid "Node groups cannot be listed: your role needs to be able to read them."
+msgstr "Node 그룹을 나열할 수 없습니다. 역할에 읽기 권한이 있어야 합니다."
+
+#: src/job.js:30
+msgid "Nodes matched by:"
+msgstr "Nodes 일치 기준:"
+
+#: src/schedule-common.js:53
+msgid "Nodes matching"
+msgstr "일치하는 Nodes"
+
+#: src/schedules.js:13
+msgid "Not yet"
+msgstr "아직 없음"
+
+#: src/schedule.js:51
+msgid "Nothing further: it does not repeat, and its time has passed."
+msgstr "더 이상 없음: 반복되지 않으며 시간이 지났습니다."
+
+#: src/schedule-common.js:67
+msgid "Once"
+msgstr "한 번"
+
+#: src/target-picker.js:54
+msgid "One certname per line. If any is outside your node groups, nothing is run on any of them."
+msgstr "한 줄에 certname 하나. 하나라도 내 Node 그룹 밖에 있으면 어디에도 아무것도 실행되지 않습니다."
+
+#: src/schedule.js:107
+msgid "Outcome"
+msgstr "결과"
+
+#: src/target-picker.js:58
+msgid "PQL query"
+msgstr "PQL 쿼리"
+
+#: templates/pages/schedule.tmpl:12
+msgid "Pause"
+msgstr "일시 중지"
+
+#: src/schedule-common.js:89
+msgid "Paused"
+msgstr "일시 중지됨"
+
+#: src/schedule.js:50
+msgid "Paused: it will not start until it is resumed."
+msgstr "일시 중지됨: 다시 시작할 때까지 시작되지 않습니다."
+
+#: src/target-picker.js:69
+msgid "Preview nodes"
+msgstr "Nodes 미리 보기"
+
+#: src/target-picker.js:48
+msgid "Query"
+msgstr "쿼리"
+
+#: src/schedule.js:107
+msgid "Reason"
+msgstr "사유"
+
+#: templates/pages/schedule-edit.tmpl:69
+msgid "Repeat"
+msgstr "반복"
+
+#: src/schedule.js:68
+#: src/schedules.js:49
+msgid "Repeats"
+msgstr "반복"
+
+#: templates/pages/schedule.tmpl:13
+msgid "Resume"
+msgstr "다시 시작"
+
+#: src/jobs.js:57
+msgid "Run Puppet or a task, here or from a node or a node group, to see it here."
+msgstr "여기에서, 또는 Node나 Node 그룹에서 Puppet이나 Task를 실행하면 여기에 표시됩니다."
+
+#: src/schedule.js:70
+#: src/schedules.js:49
+msgid "Runs as"
+msgstr "실행 계정"
+
+#: templates/pages/schedule-edit.tmpl:91
+msgid "Save schedule"
+msgstr "일정 저장"
+
+#: src/schedule.js:125
+#: templates/pages/schedule.tmpl:6
+msgid "Schedule"
+msgstr "일정"
+
+#: src/schedules.js:25
+#~ msgid "Schedule a Puppet run or a task to start later, once or repeatedly."
+#~ msgstr ""
+
+#: src/run-plan.js:33
+#: src/run-puppet.js:109
+#: src/run-task.js:42
+msgid "Schedule instead"
+msgstr "대신 예약"
+
+#: src/jobs.js:47
+msgid "Scheduled"
+msgstr "예약됨"
+
+#: templates/pages/jobs.tmpl:14
+#: templates/pages/plans.tmpl:9
+#: templates/pages/schedule-edit.tmpl:5
+#: templates/pages/schedule.tmpl:5
+#: templates/pages/schedules.tmpl:9
+msgid "Scheduled jobs"
+msgstr "예약된 Jobs"
+
+#: src/schedule.js:67
+#: templates/pages/schedule-edit.tmpl:62
+msgid "Start"
+msgstr "시작"
+
+#: src/job.js:38
+msgid "Started by schedule:"
+msgstr "일정에 의해 시작됨:"
+
+#: src/schedule.js:64
+#: src/schedules.js:49
+msgid "State"
+msgstr "상태"
+
+#: src/target-picker.js:66
+msgid "The nodes in the group when the job starts."
+msgstr "Job이 시작될 때 그룹에 있는 Nodes."
+
+#: src/task-form.js:157
+msgid "The task {task} is no longer in the {environment} environment. Choose another."
+msgstr "Task {task}은(는) 더 이상 {environment} Environment에 없습니다. 다른 것을 선택하세요."
+
+#: src/target-picker.js:235
+msgid "These are the nodes the job will run on. Check them, then start it."
+msgstr "Job이 실행될 Nodes입니다. 확인한 다음 시작하세요."
+
+#: src/schedule-edit.js:230
+msgid "This schedule runs as {owner}. If you save it, it will run as you from then on, with your access. Any sensitive task values must be entered again."
+msgstr "이 일정은 {owner}(으)로 실행됩니다. 저장하면 그때부터 내 액세스 권한으로, 내 계정으로 실행됩니다. Task의 민감한 값은 모두 다시 입력해야 합니다."
+
+#: src/schedule.js:76
+#: src/schedules.js:54
+msgid "Times are shown in your time zone, {zone}."
+msgstr "시간은 내 시간대({zone})로 표시됩니다."
+
+#: src/target-picker.js:163
+msgid "Type a query first."
+msgstr "먼저 쿼리를 입력하세요."
+
+#: templates/pages/schedule-edit.tmpl:74
+msgid "Unit"
+msgstr "단위"
+
+#: templates/pages/schedule.tmpl:23
+msgid "What happened each time it came due"
+msgstr "실행 시점이 될 때마다 일어난 일"
+
+#: templates/pages/schedule-edit.tmpl:21
+msgid "What to run"
+msgstr "실행할 항목"
+
+#: templates/pages/schedule-edit.tmpl:50
+msgid "Which nodes"
+msgstr "대상 Nodes"
+
+#: src/target-picker.js:268
+msgid "a query"
+msgstr "쿼리"
+
+#: src/schedule-common.js:61
+msgid "and {count} more"
+msgid_plural "and {count} more"
+msgstr[0] "외 {count}개"
+
+#: templates/pages/schedule-edit.tmpl:77
+msgid "days"
+msgstr "일"
+
+#: templates/pages/schedule-edit.tmpl:76
+msgid "hours"
+msgstr "시간"
+
+#: templates/pages/schedule-edit.tmpl:75
+msgid "minutes"
+msgstr "분"
+
+#: src/schedule.js:70
+msgid "service token"
+msgstr "서비스 토큰"
+
+#: src/job.js:37
+msgid "since deleted"
+msgstr "이후 삭제됨"
+
+#: templates/pages/schedule-edit.tmpl:78
+msgid "weeks"
+msgstr "주"
+
+#: src/patches.js:229
+#: src/run-patch.js:46
+#: src/target-picker.js:144
+msgid "{count} node"
+msgid_plural "{count} nodes"
+msgstr[0] "Node {count}개"
+
+#: src/schedule-common.js:77
+msgid "Every {count} day"
+msgid_plural "Every {count} days"
+msgstr[0] "{count}일마다"
+
+#: src/schedule-common.js:75
+msgid "Every {count} hour"
+msgid_plural "Every {count} hours"
+msgstr[0] "{count}시간마다"
+
+#: src/schedule-common.js:73
+msgid "Every {count} minute"
+msgid_plural "Every {count} minutes"
+msgstr[0] "{count}분마다"
+
+#: src/schedule-common.js:79
+msgid "Every {count} week"
+msgid_plural "Every {count} weeks"
+msgstr[0] "{count}주마다"
+
+#: src/schedule-common.js:101
+msgid "Interrupted"
+msgstr "중단됨"
+
+#: src/schedule-common.js:100
+msgid "Missed"
+msgstr "놓침"
+
+#: src/schedule-common.js:102
+msgid "Starting"
+msgstr "시작 중"
+
+#: src/password-rules.js:20
+#: templates/pages/account-policy.tmpl:29
+msgid "A digit"
+msgstr "숫자"
+
+#: templates/pages/account-policy.tmpl:56
+msgid "A locked account cannot log in with its password until the time has passed, or until an administrator unlocks it on the Users page. Sessions that are already open carry on. The login page never says whether an account is locked, so that it does not reveal which usernames exist."
+msgstr "잠긴 계정은 시간이 지나거나 관리자가 사용자 페이지에서 잠금을 해제할 때까지 비밀번호로 로그인할 수 없습니다. 이미 열려 있는 세션은 계속됩니다. 어떤 사용자 이름이 존재하는지 드러내지 않도록, 로그인 페이지는 계정이 잠겼는지 여부를 알려 주지 않습니다."
+
+#: src/password-rules.js:16
+#: templates/pages/account-policy.tmpl:27
+msgid "A lowercase letter"
+msgstr "소문자"
+
+#: templates/pages/account-policy.tmpl:32
+msgid "A password is checked when it is set. Existing passwords keep working, and are checked the next time they are changed. A password can never be the account's username, or longer than 72 bytes."
+msgstr "비밀번호는 설정할 때 검사됩니다. 기존 비밀번호는 계속 사용할 수 있으며 다음에 변경할 때 검사됩니다. 비밀번호는 계정의 사용자 이름과 같을 수 없고 72바이트보다 길 수 없습니다."
+
+#: templates/pages/account-policy.tmpl:25
+msgid "A password must also contain:"
+msgstr "비밀번호에는 다음도 포함되어야 합니다:"
+
+#: templates/pages/plan-edit.tmpl:37
+msgid "A plan can have at most 20 steps."
+msgstr "Plan에는 단계를 최대 20개까지 둘 수 있습니다."
+
+#: templates/pages/plans.tmpl:13
+msgid "A plan is a list of Puppet runs and tasks carried out in order on the same nodes. Everyone who can run jobs can change a plan; which nodes it runs on is chosen each time it is run."
+msgstr "Plan은 같은 Nodes에서 순서대로 수행되는 Puppet 실행과 Tasks의 목록입니다. Job을 실행할 수 있는 사람은 누구나 Plan을 변경할 수 있으며, 실행할 Nodes는 실행할 때마다 선택합니다."
+
+#: src/plans.js:16
+msgid "A plan is a list of Puppet runs and tasks to carry out in order on the same nodes."
+msgstr "Plan은 같은 Nodes에서 순서대로 수행할 Puppet 실행과 Tasks의 목록입니다."
+
+#: templates/pages/schedules.tmpl:13
+msgid "A scheduled job starts a Puppet run, a task or a plan later, once or repeatedly. Its nodes are worked out each time it starts, and it runs with its owner's access as it is at that moment."
+msgstr "예약된 Job은 Puppet 실행, Task 또는 Plan을 나중에 한 번 또는 반복해서 시작합니다. 대상 Nodes는 시작될 때마다 결정되며, 그 시점의 소유자 액세스 권한으로 실행됩니다."
+
+#: src/task-form.js:21
+msgid "A sensitive value. It is not kept in the plan, and is asked for each time the plan is run."
+msgstr "민감한 값입니다. Plan에 보관되지 않으며 Plan을 실행할 때마다 입력을 요청합니다."
+
+#: src/plan-common.js:125
+msgid "A sensitive value: it is sent to the nodes and never shown again."
+msgstr "민감한 값: Nodes로 전송되며 다시는 표시되지 않습니다."
+
+#: templates/pages/account-policy.tmpl:30
+msgid "A symbol"
+msgstr "기호"
+
+#: src/password-rules.js:22
+msgid "A symbol, such as ! or #"
+msgstr "! 또는 # 같은 기호"
+
+#: templates/pages/account-policy.tmpl:11
+#: templates/pages/account-policy.tmpl:8
+#: templates/pages/roles.tmpl:8
+#: templates/pages/service-tokens.tmpl:8
+#: templates/pages/user-groups.tmpl:8
+#: templates/pages/users.tmpl:8
+msgid "Account policy"
+msgstr "계정 정책"
+
+#: templates/pages/plan-edit.tmpl:34
+msgid "Add a Puppet run step"
+msgstr "Puppet 실행 단계 추가"
+
+#: templates/pages/plan-edit.tmpl:35
+msgid "Add a task step"
+msgstr "Task 단계 추가"
+
+#: src/plan-edit.js:148
+msgid "Add at least one step."
+msgstr "단계를 하나 이상 추가하세요."
+
+#: src/password-rules.js:18
+#: templates/pages/account-policy.tmpl:28
+msgid "An uppercase letter"
+msgstr "대문자"
+
+#: src/plan.js:27
+msgid "Asked for when the plan is run:"
+msgstr "Plan 실행 시 입력 요청:"
+
+#: src/password-rules.js:14
+msgid "At least {count} character"
+msgid_plural "At least {count} characters"
+msgstr[0] "{count}자 이상"
+
+#: templates/pages/account-policy.tmpl:50
+msgid "Between 1 and 1,440 (a day)."
+msgstr "1에서 1,440(하루) 사이."
+
+#: templates/pages/account-policy.tmpl:46
+msgid "Between 3 and 100."
+msgstr "3에서 100 사이."
+
+#: templates/pages/account-policy.tmpl:23
+msgid "Between 8 and 72 characters."
+msgstr "8자에서 72자 사이."
+
+#: src/schedule-edit.js:58
+msgid "Choose a plan"
+msgstr "Plan 선택"
+
+#: src/schedule-edit.js:167
+msgid "Choose the plan to run."
+msgstr "실행할 Plan을 선택하세요."
+
+#: src/preferences.js:65
+msgid "Current and new password are both required."
+msgstr "현재 비밀번호와 새 비밀번호가 모두 필요합니다."
+
+#: src/plan.js:59
+msgid "Delete this plan?"
+msgstr "이 Plan을 삭제할까요?"
+
+#: src/code-plans.js:57
+#: src/plans.js:36
+msgid "Description"
+msgstr "설명"
+
+#: templates/pages/plan-edit.tmpl:18
+msgid "Description (optional)"
+msgstr "설명(선택 사항)"
+
+#: src/plan.js:38
+#: src/run-plan.js:27
+msgid "Each step runs on every node, in this order. If a step fails on any node, the plan stops and the steps after it are not run."
+msgstr "각 단계는 이 순서대로 모든 Node에서 실행됩니다. 어느 Node에서든 단계가 실패하면 Plan이 중지되고 이후 단계는 실행되지 않습니다."
+
+#: src/plan-edit.js:175
+#: src/plan-edit.js:176
+msgid "Edit plan"
+msgstr "Plan 편집"
+
+#: templates/pages/account-policy.tmpl:45
+msgid "Failed logins in a row"
+msgstr "연속 로그인 실패 횟수"
+
+#: src/job.js:164
+msgid "Finished {when}"
+msgstr "완료: {when}"
+
+#: src/plan-edit.js:144
+msgid "Give the plan a name."
+msgstr "Plan에 이름을 지정하세요."
+
+#: src/users.js:37
+msgid "If the account is locked, this unlocks it. Sessions the user already has open carry on."
+msgstr "계정이 잠겨 있으면 잠금이 해제됩니다. 사용자가 이미 열어 둔 세션은 계속됩니다."
+
+#: src/login.js:27
+msgid "Invalid username or password. After several failed attempts in a row, an account is locked for a while: wait, or ask an administrator to unlock it."
+msgstr "사용자 이름 또는 비밀번호가 잘못되었습니다. 연속으로 여러 번 실패하면 계정이 일정 시간 잠깁니다. 기다리거나 관리자에게 잠금 해제를 요청하세요."
+
+#: src/plan.js:60
+msgid "Jobs it has started stay in the job history, and schedules made from it keep their own copy of its steps."
+msgstr "이 Plan이 시작한 Jobs는 Job 기록에 남으며, 이 Plan으로 만든 일정은 단계의 자체 사본을 유지합니다."
+
+#: src/schedule-edit.js:58
+msgid "Keep the steps shown below"
+msgstr "아래에 표시된 단계 유지"
+
+#: src/plans.js:36
+msgid "Last changed by"
+msgstr "마지막 변경자"
+
+#: src/account-policy.js:39
+#: src/plan.js:37
+msgid "Last changed by {user} on {when}."
+msgstr "{user}이(가) {when}에 마지막으로 변경했습니다."
+
+#: templates/pages/account-policy.tmpl:41
+msgid "Lock an account after repeated failed logins"
+msgstr "로그인 실패가 반복되면 계정 잠금"
+
+#: templates/pages/account-policy.tmpl:49
+msgid "Locked for (minutes)"
+msgstr "잠금 시간(분)"
+
+#: src/users.js:20
+msgid "Locked until {when}"
+msgstr "{when}까지 잠김"
+
+#: templates/pages/account-policy.tmpl:40
+msgid "Login lockout"
+msgstr "로그인 잠금"
+
+#: templates/pages/account-policy.tmpl:22
+msgid "Minimum length"
+msgstr "최소 길이"
+
+#: src/plan-edit.js:67
+msgid "Move down"
+msgstr "아래로 이동"
+
+#: src/plan-edit.js:66
+msgid "Move up"
+msgstr "위로 이동"
+
+#: templates/pages/plan-edit.tmpl:6
+#: templates/pages/plan-edit.tmpl:8
+#: templates/pages/plans.tmpl:5
+msgid "New plan"
+msgstr "새 Plan"
+
+#: src/password-rules.js:24
+msgid "No longer than 72 bytes"
+msgstr "72바이트 이하"
+
+#: src/plan.js:75
+msgid "No plan specified."
+msgstr "지정된 Plan이 없습니다."
+
+#: src/plans.js:14
+msgid "No plans yet"
+msgstr "아직 Plan이 없습니다"
+
+#: src/job.js:172
+msgid "No steps to show"
+msgstr "표시할 단계가 없습니다"
+
+#: templates/pages/plan-edit.tmpl:30
+msgid "No steps yet. Add the first one below."
+msgstr "아직 단계가 없습니다. 아래에서 첫 단계를 추가하세요."
+
+#: src/password-rules.js:70
+msgid "Not met:"
+msgstr "충족되지 않음:"
+
+#: src/code-plans.js:10
+#: src/plan-common.js:73
+msgid "Not run"
+msgstr "실행 안 됨"
+
+#: src/job.js:156
+msgid "Not run, because an earlier step failed. Nothing was sent to any node for this step."
+msgstr "이전 단계가 실패하여 실행되지 않았습니다. 이 단계에서는 어떤 Node에도 아무것도 전송되지 않았습니다."
+
+#: src/password-rules.js:26
+msgid "Not the same as the username"
+msgstr "사용자 이름과 같지 않음"
+
+#: src/preferences.js:72
+msgid "Password changed."
+msgstr "비밀번호가 변경되었습니다."
+
+#: src/password-rules.js:66
+msgid "Password rules"
+msgstr "비밀번호 규칙"
+
+#: templates/pages/account-policy.tmpl:21
+msgid "Passwords"
+msgstr "비밀번호"
+
+#: templates/pages/jobs.tmpl:15
+#: templates/pages/plan-edit.tmpl:5
+#: templates/pages/plan.tmpl:5
+#: templates/pages/plans.tmpl:10
+#: templates/pages/schedules.tmpl:10
+msgid "Plans"
+msgstr "Plans"
+
+#: templates/pages/account-policy.tmpl:12
+msgid "Rules for accounts that log in with a username and password. They do not apply to people who sign in through your identity provider, or to service tokens."
+msgstr "사용자 이름과 비밀번호로 로그인하는 계정에 적용되는 규칙입니다. ID 공급자를 통해 로그인하는 사람이나 서비스 토큰에는 적용되지 않습니다."
+
+#: templates/pages/schedule-edit.tmpl:25
+msgid "Run a plan"
+msgstr "Plan 실행"
+
+#: src/run-plan.js:35
+msgid "Run plan"
+msgstr "Plan 실행"
+
+#: src/run-plan.js:20
+msgid "Run plan: {name}"
+msgstr "Plan 실행: {name}"
+
+#: templates/pages/plan-edit.tmpl:41
+msgid "Save plan"
+msgstr "Plan 저장"
+
+#: templates/pages/account-policy.tmpl:66
+msgid "Save policy"
+msgstr "정책 저장"
+
+#: src/account-policy.js:64
+msgid "Saved. The policy is in force now, on every console instance."
+msgstr "저장되었습니다. 정책은 지금부터 모든 콘솔 인스턴스에서 적용됩니다."
+
+#: src/schedules.js:25
+msgid "Schedule a Puppet run, a task or a plan to start later, once or repeatedly."
+msgstr "Puppet 실행, Task 또는 Plan을 나중에 한 번 또는 반복해서 시작하도록 예약합니다."
+
+#: src/users.js:32
+msgid "Set a password for {user}"
+msgstr "{user}의 비밀번호 설정"
+
+#: src/users.js:129
+#: src/users.js:41
+msgid "Set password"
+msgstr "비밀번호 설정"
+
+#: src/job.js:163
+msgid "Started {when}"
+msgstr "시작: {when}"
+
+#: src/job.js:153
+msgid "Starts when the step before it has finished on every node."
+msgstr "이전 단계가 모든 Node에서 끝나면 시작합니다."
+
+#: src/plan-common.js:17
+msgid "Step {number}"
+msgstr "단계 {number}"
+
+#: src/job.js:62
+#~ msgid "Step {number} of {count}"
+#~ msgstr ""
+
+#: src/job.js:199
+#: src/job.js:202
+#: src/plans.js:36
+#: src/run-plan.js:25
+#: src/schedule.js:42
+#: templates/pages/plan-edit.tmpl:24
+#: templates/pages/plan.tmpl:22
+msgid "Steps"
+msgstr "단계"
+
+#: templates/pages/plan-edit.tmpl:25
+msgid "Steps run in this order, each on every node the plan is run on. If a step fails on any node, the plan stops there. A sensitive task value is never kept in a plan: it is asked for each time the plan is run."
+msgstr "단계는 이 순서대로, 각각 Plan이 실행되는 모든 Node에서 실행됩니다. 어느 Node에서든 단계가 실패하면 Plan은 거기서 중지됩니다. Task의 민감한 값은 Plan에 보관되지 않으며, Plan을 실행할 때마다 입력을 요청합니다."
+
+#: src/users.js:62
+msgid "That password does not meet the rules above."
+msgstr "해당 비밀번호는 위의 규칙을 충족하지 않습니다."
+
+#: src/preferences.js:78
+#: src/users.js:251
+msgid "That password does not meet the rules shown under it."
+msgstr "해당 비밀번호는 아래에 표시된 규칙을 충족하지 않습니다."
+
+#: templates/pages/schedule-edit.tmpl:39
+msgid "The schedule keeps its own copy of these steps. Changing or deleting the saved plan later does not change what the schedule runs; to pick up a change, choose the plan here again and save."
+msgstr "일정은 이 단계들의 자체 사본을 유지합니다. 저장된 Plan을 나중에 변경하거나 삭제해도 일정이 실행하는 내용은 바뀌지 않습니다. 변경 사항을 반영하려면 여기에서 Plan을 다시 선택하고 저장하세요."
+
+#: src/schedule-edit.js:64
+msgid "There are no saved plans yet. Create one on the Plans page first."
+msgstr "아직 저장된 Plan이 없습니다. 먼저 Plans 페이지에서 만드세요."
+
+#: src/account-policy.js:40
+msgid "These are the defaults: the policy has not been changed."
+msgstr "기본값입니다. 정책이 변경되지 않았습니다."
+
+#: src/run-plan.js:52
+msgid "This plan has a step that can no longer run. Edit the plan before running it."
+msgstr "이 Plan에는 더 이상 실행할 수 없는 단계가 있습니다. 실행하기 전에 Plan을 편집하세요."
+
+#: src/schedule.js:44
+msgid "This schedule keeps its own copy of the steps, taken when it was saved. Changing or deleting the saved plan does not change what the schedule runs."
+msgstr "이 일정은 저장될 때 가져온 단계의 자체 사본을 유지합니다. 저장된 Plan을 변경하거나 삭제해도 일정이 실행하는 내용은 바뀌지 않습니다."
+
+#: src/plan-common.js:45
+msgid "This step can no longer run as saved: {problem}"
+msgstr "이 단계는 저장된 상태로는 더 이상 실행할 수 없습니다: {problem}"
+
+#: src/plan-common.js:57
+msgid "Timeout: {count} minute"
+msgid_plural "Timeout: {count} minutes"
+msgstr[0] "제한 시간: {count}분"
+
+#: src/users.js:52
+msgid "Type the new password."
+msgstr "새 비밀번호를 입력하세요."
+
+#: src/users.js:24
+msgid "Unlock"
+msgstr "잠금 해제"
+
+#: src/users.js:229
+msgid "Username and password are required."
+msgstr "사용자 이름과 비밀번호가 필요합니다."
+
+#: src/plan-common.js:69
+msgid "Waiting"
+msgstr "대기 중"
+
+#: src/job.js:64
+#~ msgid "of plan"
+#~ msgstr ""
+
+#: src/plan.js:19
+msgid "optional"
+msgstr "선택 사항"
+
+#: src/code-plans.js:154
+#: src/plan-common.js:64
+msgid "{count} step"
+msgid_plural "{count} steps"
+msgstr[0] "단계 {count}개"
+
+#: src/job.js:65
+msgid "Step {number} of {count} in the plan"
+msgstr "Plan의 {count}단계 중 {number}단계"
+
+#: src/task-patterns.js:15
+msgid "Every task"
+msgstr "모든 Task"
+
+#: src/roles.js:131
+msgid "Save tasks"
+msgstr "Task 저장"
+
+#: src/roles.js:145
+#: src/service-tokens.js:47
+#: templates/pages/roles.tmpl:29
+msgid "Tasks"
+msgstr "Tasks"
+
+#: src/roles.js:127
+#: templates/pages/roles.tmpl:30
+#: templates/pages/service-tokens.tmpl:25
+msgid "Tasks it may run"
+msgstr "실행할 수 있는 Task"
+
+#: src/run-plan.js:51
+msgid "You cannot run this plan: a step uses a task your roles do not allow."
+msgstr "이 Plan은 실행할 수 없습니다. 한 단계가 역할에서 허용하지 않는 Task를 사용합니다."
+
+#: src/plan-common.js:42
+msgid "Your roles do not allow the task {task}, so you cannot run this step."
+msgstr "역할에서 Task {task}을(를) 허용하지 않으므로 이 단계는 실행할 수 없습니다."
+
+#: templates/pages/service-tokens.tmpl:25
+msgid "One per line: a task name such as package::install, a module such as patch::*, or * for every task. Leave it empty to allow every task. Fixed when the token is created."
+msgstr "한 줄에 하나씩: package::install 같은 Task 이름, patch::* 같은 모듈, 또는 모든 Task를 뜻하는 *. 비워 두면 모든 Task를 허용합니다. 토큰을 만들 때 고정됩니다."
+
+#: src/roles.js:128
+#: templates/pages/roles.tmpl:30
+msgid "One per line: a task name such as package::install, a module such as patch::*, or * for every task. Leave it empty to allow every task. This limits orchestrator:run; the role's node groups still decide which nodes."
+msgstr "한 줄에 하나씩: package::install 같은 Task 이름, patch::* 같은 모듈, 또는 모든 Task를 뜻하는 *. 비워 두면 모든 Task를 허용합니다. 이는 orchestrator:run을 제한하며, 어떤 Nodes인지는 여전히 역할의 Node 그룹이 결정합니다."
+
+#: templates/pages/user-groups.tmpl:12
+msgid "A group gives its members the roles granted to it, in addition to any roles they hold themselves. Each role keeps its own node groups and task limits."
+msgstr "그룹은 구성원이 직접 가진 역할에 더해, 그룹에 부여된 역할을 구성원에게 줍니다. 각 역할은 자신의 노드 그룹과 작업 제한을 그대로 유지합니다."
+
+#: templates/pages/user-groups.tmpl:29
+msgid "All groups"
+msgstr "모든 그룹"
+
+#: src/user-groups.js:137
+msgid "Create a group above, then add members and grant it roles."
+msgstr "위에서 그룹을 만든 다음 구성원을 추가하고 역할을 부여하세요."
+
+#: templates/pages/user-groups.tmpl:24
+msgid "Create group"
+msgstr "그룹 만들기"
+
+#: src/user-groups.js:112
+msgid "Delete {group}?"
+msgstr "{group}을(를) 삭제하시겠습니까?"
+
+#: src/user-groups.js:56
+msgid "Done"
+msgstr "완료"
+
+#: src/user-groups.js:211
+msgid "Give the group a name."
+msgstr "그룹 이름을 입력하세요."
+
+#: src/roles.js:89
+msgid "Granted to groups:"
+msgstr "부여된 그룹:"
+
+#: src/users.js:101
+msgid "In groups:"
+msgstr "소속 그룹:"
+
+#: src/user-groups.js:167
+msgid "Members"
+msgstr "구성원"
+
+#: src/user-groups.js:46
+msgid "Members of {group}"
+msgstr "{group}의 구성원"
+
+#: src/user-groups.js:135
+msgid "No groups yet"
+msgstr "아직 그룹이 없습니다"
+
+#: src/user-groups.js:19
+msgid "No members"
+msgstr "구성원 없음"
+
+#: src/user-groups.js:155
+#: src/user-groups.js:88
+msgid "Rename"
+msgstr "이름 바꾸기"
+
+#: src/user-groups.js:81
+msgid "Rename {group}"
+msgstr "{group} 이름 바꾸기"
+
+#: templates/pages/account-policy.tmpl:5
+#: templates/pages/roles.tmpl:5
+#: templates/pages/service-tokens.tmpl:5
+#: templates/pages/user-groups.tmpl:11
+#: templates/pages/user-groups.tmpl:5
+#: templates/pages/users.tmpl:5
+msgid "User groups"
+msgstr "사용자 그룹"
+
+#: src/user-groups.js:21
+msgid "{count} member"
+msgid_plural "{count} members"
+msgstr[0] "구성원 {count}명"
+
+#: src/user-groups.js:113
+msgid "{count} person will lose the roles this group gives them."
+msgid_plural "{count} people will lose the roles this group gives them."
+msgstr[0] "{count}명이 이 그룹에서 받은 역할을 잃게 됩니다."
+
+#: src/users.js:94
+msgid "{role} via {groups}"
+msgstr "{role}({groups} 경유)"
+
+#: templates/pages/group.tmpl:83
+msgid "Configuration data (JSON)"
+msgstr "구성 데이터(JSON)"
+
+#: src/group.js:195
+msgid "Configuration data must be a JSON object: key/value pairs inside { }."
+msgstr "구성 데이터는 JSON 객체여야 합니다. { } 안의 키/값 쌍입니다."
+
+#: templates/pages/group.tmpl:84
+msgid "Data that code reads with lookup(), consulted before the Hiera data in your control repo, so a key set here wins. An object of key/value pairs; a value can be any JSON. It is shown to everyone who can see node groups, so do not put secrets here."
+msgstr "코드가 lookup()으로 읽는 데이터입니다. 제어 저장소의 Hiera 데이터보다 먼저 조회되므로 여기서 설정한 키가 우선합니다. 키/값 쌍으로 이루어진 객체이며 값은 어떤 JSON이든 될 수 있습니다. 노드 그룹을 볼 수 있는 모든 사람에게 표시되므로 비밀 정보를 넣지 마세요."
+
+#: templates/pages/patches.tmpl:35
+msgid "Automatic scanning"
+msgstr "자동 스캔"
+
+#: templates/pages/patches.tmpl:47
+msgid "Between 15 minutes and 7 days (10080 minutes)."
+msgstr "15분에서 7일 사이(10080분)입니다."
+
+#: src/patches.js:53
+msgid "Cannot report"
+msgstr "보고 불가"
+
+#: templates/pages/patches.tmpl:25
+msgid "Choose a group to scan all of its nodes now."
+msgstr "그룹을 선택하면 해당 그룹의 모든 노드를 지금 스캔합니다."
+
+#: templates/pages/patches.tmpl:15
+msgid "Filter by package name"
+msgstr "패키지 이름으로 필터"
+
+#: templates/pages/patches.tmpl:43
+msgid "Interval in minutes"
+msgstr "간격(분)"
+
+#: src/patches.js:62
+msgid "Last scan failed"
+msgstr "마지막 스캔 실패"
+
+#: src/patches.js:94
+msgid "Last scanned"
+msgstr "마지막 스캔"
+
+#: src/node.js:661
+msgid "Last scanned {when} with {manager}."
+msgstr "마지막 스캔: {when}, {manager} 사용."
+
+#: src/patches.js:34
+msgid "Need a reboot"
+msgstr "재부팅 필요"
+
+#: src/patches.js:85
+msgid "No"
+msgstr "아니요"
+
+#: src/patches.js:111
+msgid "No node has that update pending"
+msgstr "해당 업데이트가 대기 중인 노드가 없습니다"
+
+#: src/patches.js:73
+msgid "No nodes match"
+msgstr "일치하는 노드가 없습니다"
+
+#: src/patches.js:113
+msgid "No scanned node has an update pending for a package matching \"{name}\"."
+msgstr "\"{name}\"과(와) 일치하는 패키지의 업데이트가 대기 중인 스캔된 노드가 없습니다."
+
+#: src/patches.js:35
+#: src/patches.js:57
+msgid "Not scanned"
+msgstr "스캔되지 않음"
+
+#: src/node.js:682
+msgid "Nothing is pending"
+msgstr "대기 중인 항목이 없습니다"
+
+#: src/patches.js:92
+#: templates/pages/patches.tmpl:16
+msgid "Operating system"
+msgstr "운영 체제"
+
+#: src/patches.js:36
+msgid "Out of date scans"
+msgstr "오래된 스캔"
+
+#: templates/pages/node.tmpl:25
+msgid "Patches"
+msgstr "패치"
+
+#: templates/layout.html.tmpl:73
+#: templates/pages/patches.tmpl:3
+msgid "Patching"
+msgstr "패치 적용"
+
+#: templates/pages/patches.tmpl:15
+msgid "Pending package"
+msgstr "대기 중인 패키지"
+
+#: src/patches.js:94
+msgid "Reboot needed"
+msgstr "재부팅 필요 여부"
+
+#: templates/pages/patches.tmpl:42
+msgid "Scan automatically"
+msgstr "자동으로 스캔"
+
+#: src/patches.js:56
+msgid "Scan failed"
+msgstr "스캔 실패"
+
+#: templates/pages/node.tmpl:48
+msgid "Scan now"
+msgstr "지금 스캔"
+
+#: templates/pages/patches.tmpl:22
+msgid "Scan this group now"
+msgstr "이 그룹 지금 스캔"
+
+#: src/node.js:749
+#: src/patches.js:197
+msgid "Scanning. Refreshing package lists can take a while on a slow mirror."
+msgstr "스캔 중입니다. 미러가 느리면 패키지 목록을 새로 고치는 데 시간이 걸릴 수 있습니다."
+
+#: src/node.js:690
+#: src/node.js:695
+#: src/patches.js:123
+#: src/patches.js:130
+#: src/patches.js:93
+#: src/run-patch.js:64
+msgid "Security"
+msgstr "보안"
+
+#: src/node.js:699
+#: src/patches.js:99
+msgid "Security is what the node's package manager marks as a security update. A system without that information shows none."
+msgstr "노드의 패키지 관리자가 보안 업데이트로 표시한 것이 보안으로 분류됩니다. 해당 정보가 없는 시스템에는 아무것도 표시되지 않습니다."
+
+#: templates/pages/patches.tmpl:36
+msgid "The console scans every connected node on this interval. A node that is offline is scanned once it reconnects."
+msgstr "콘솔은 연결된 모든 노드를 이 간격으로 스캔합니다. 오프라인인 노드는 다시 연결되면 스캔됩니다."
+
+#: src/node.js:667
+msgid "The last attempt to scan failed: {error}"
+msgstr "마지막 스캔 시도가 실패했습니다: {error}"
+
+#: src/node.js:682
+msgid "The last scan found no updates waiting for this node."
+msgstr "마지막 스캔에서 이 노드에 대기 중인 업데이트를 찾지 못했습니다."
+
+#: src/node.js:667
+msgid "The updates below are from the last scan that worked."
+msgstr "아래 업데이트는 성공한 마지막 스캔의 결과입니다."
+
+#: templates/pages/patches.tmpl:4
+#~ msgid "The updates each node is missing, as its own package manager reports them. This page only looks: nothing here installs or changes a package."
+#~ msgstr "각 노드에 없는 업데이트를 해당 노드의 패키지 관리자가 보고하는 대로 보여 줍니다. 이 페이지는 확인만 하며, 여기서는 어떤 패키지도 설치하거나 변경하지 않습니다."
+
+#: src/node.js:670
+msgid "This node already needs a reboot."
+msgstr "이 노드는 이미 재부팅이 필요합니다."
+
+#: src/node.js:654
+msgid "This node has not been scanned yet, so it is not known whether it is missing updates."
+msgstr "이 노드는 아직 스캔되지 않아 업데이트가 누락되었는지 알 수 없습니다."
+
+#: src/node.js:755
+msgid "This node is offline, so it could not be scanned. It will be scanned when it reconnects."
+msgstr "이 노드는 오프라인이라 스캔할 수 없었습니다. 다시 연결되면 스캔됩니다."
+
+#: src/node.js:664
+msgid "This scan is out of date. Scan again to see what is pending now."
+msgstr "이 스캔은 오래되었습니다. 지금 무엇이 대기 중인지 보려면 다시 스캔하세요."
+
+#: src/patches.js:75
+msgid "Try a different package, operating system or group."
+msgstr "다른 패키지, 운영 체제 또는 그룹을 시도해 보세요."
+
+#: src/patches.js:93
+msgid "Updates"
+msgstr "업데이트"
+
+#: src/patches.js:32
+msgid "With pending updates"
+msgstr "대기 중인 업데이트 있음"
+
+#: src/patches.js:33
+msgid "With security updates"
+msgstr "보안 업데이트 있음"
+
+#: src/patches.js:85
+msgid "Yes"
+msgstr "예"
+
+#: src/patches.js:183
+msgid "{count} failed"
+msgid_plural "{count} failed"
+msgstr[0] "{count}개 실패"
+
+#: src/patches.js:184
+msgid "{count} left out: not in your node groups"
+msgid_plural "{count} left out: not in your node groups"
+msgstr[0] "{count}개 제외됨: 내 노드 그룹에 없음"
+
+#: src/patches.js:181
+msgid "{count} node scanned"
+msgid_plural "{count} nodes scanned"
+msgstr[0] "노드 {count}개 스캔됨"
+
+#: src/patches.js:182
+msgid "{count} offline"
+msgid_plural "{count} offline"
+msgstr[0] "{count}개 오프라인"
+
+#: src/run-patch.js:149
+msgid "All pending updates"
+msgstr "보류 중인 모든 업데이트"
+
+#: src/run-patch.js:29
+msgid "All updates"
+msgstr "모든 업데이트"
+
+#: src/run-patch.js:123
+msgid "Batch"
+msgstr "배치"
+
+#: src/run-patch.js:102
+msgid "Details for {node}"
+msgstr "{node} 세부 정보"
+
+#: src/run-patch.js:31
+msgid "Dry run"
+msgstr "드라이 런"
+
+#: src/run-patch.js:157
+msgid "Dry run: report what would be upgraded, and change nothing"
+msgstr "드라이 런: 업그레이드될 내용을 보고하고 아무것도 변경하지 않습니다"
+
+#: src/run-patch.js:199
+msgid "Finding the nodes in {group}…"
+msgstr "{group}의 노드를 찾는 중…"
+
+#: src/run-patch.js:72
+msgid "From"
+msgstr "이전"
+
+#: src/node.js:734
+msgid "Last patch run"
+msgstr "마지막 패치 실행"
+
+#: src/run-patch.js:150
+msgid "Named packages"
+msgstr "이름으로 지정한 패키지"
+
+#: src/run-patch.js:203
+msgid "No node is in this group, so there is nothing to patch."
+msgstr "이 그룹에는 노드가 없으므로 패치할 대상이 없습니다."
+
+#: src/run-patch.js:60
+msgid "No package was selected."
+msgstr "선택한 패키지가 없습니다."
+
+#: src/run-patch.js:170
+msgid "Nodes are patched a batch at a time. When this many nodes have failed, no further batch is started. 0 never stops."
+msgstr "노드는 한 배치씩 패치됩니다. 이 수만큼 노드가 실패하면 더 이상 배치를 시작하지 않습니다. 0은 멈추지 않습니다."
+
+#: src/run-patch.js:162
+msgid "Nodes at a time"
+msgstr "동시 처리 노드 수"
+
+#: src/i18n.js:466
+msgid "Not upgraded"
+msgstr "업그레이드되지 않음"
+
+#: src/i18n.js:467
+msgid "Nothing to apply"
+msgstr "적용할 항목 없음"
+
+#: src/run-patch.js:30
+msgid "Packages: {names}"
+msgstr "패키지: {names}"
+
+#: src/run-patch.js:175
+msgid "Patch"
+msgstr "패치"
+
+#: src/run-patch.js:142
+msgid "Patch nodes"
+msgstr "노드 패치"
+
+#: templates/pages/node.tmpl:49
+msgid "Patch now…"
+msgstr "지금 패치…"
+
+#: src/i18n.js:201
+#: templates/pages/jobs.tmpl:25
+msgid "Patch run"
+msgstr "패치 실행"
+
+#: templates/pages/patches.tmpl:23
+msgid "Patch this group…"
+msgstr "이 그룹 패치…"
+
+#: src/run-patch.js:193
+msgid "Patch {count} node?"
+msgid_plural "Patch {count} nodes?"
+msgstr[0] "노드 {count}개를 패치할까요?"
+
+#: src/run-patch.js:192
+msgid "Patch {node}?"
+msgstr "{node}을(를) 패치할까요?"
+
+#: src/run-patch.js:158
+msgid "Reboot a node that needs it once it is patched"
+msgstr "재부팅이 필요한 노드는 패치 후 재부팅"
+
+#: src/run-patch.js:32
+msgid "Reboots if required"
+msgstr "필요하면 재부팅"
+
+#: templates/pages/patches.tmpl:30
+msgid "Recent patch runs"
+msgstr "최근 패치 실행"
+
+#: src/run-patch.js:72
+msgid "Result"
+msgstr "결과"
+
+#: src/run-patch.js:28
+msgid "Security updates"
+msgstr "보안 업데이트"
+
+#: src/run-patch.js:148
+msgid "Security updates only"
+msgstr "보안 업데이트만"
+
+#: src/run-patch.js:155
+msgid "Separate package names with spaces or commas. Only those with an update pending are upgraded."
+msgstr "패키지 이름은 공백이나 쉼표로 구분하세요. 업데이트가 보류 중인 패키지만 업그레이드됩니다."
+
+#: src/run-patch.js:166
+msgid "Stop after failed nodes"
+msgstr "실패한 노드 수에서 중지"
+
+#: templates/pages/patches.tmpl:4
+msgid "The updates each node is missing, as its own package manager reports them. Scanning only looks. A patch run, started for a node group, installs the updates in batches."
+msgstr "각 노드에 없는 업데이트를 해당 노드의 패키지 관리자가 보고한 대로 보여 줍니다. 검사는 확인만 합니다. 노드 그룹에 대해 시작한 패치 실행은 업데이트를 배치로 설치합니다."
+
+#: src/run-patch.js:72
+msgid "To"
+msgstr "이후"
+
+#: src/run-patch.js:147
+msgid "Updates to apply"
+msgstr "적용할 업데이트"
+
+#: src/i18n.js:464
+msgid "Upgraded"
+msgstr "업그레이드됨"
+
+#: src/i18n.js:465
+msgid "Would upgrade"
+msgstr "업그레이드될 예정"
+
+#: src/run-patch.js:153
+msgid "curl openssl"
+msgstr "curl openssl"
+
+#: src/run-patch.js:47
+msgid "in {count} batch of up to {size}"
+msgid_plural "in {count} batches of up to {size}"
+msgstr[0] "최대 {size}개씩 {count}개 배치"
+
+#: src/run-patch.js:86
+msgid "needs a reboot"
+msgstr "재부팅 필요"
+
+#: src/run-patch.js:51
+msgid "never stops for failures"
+msgstr "실패해도 중지하지 않음"
+
+#: src/run-patch.js:85
+msgid "rebooted"
+msgstr "재부팅됨"
+
+#: src/run-patch.js:50
+msgid "stops after {count} failed node"
+msgid_plural "stops after {count} failed nodes"
+msgstr[0] "노드 {count}개 실패 후 중지"
+
+#: src/run-patch.js:84
+msgid "{count} not upgraded"
+msgid_plural "{count} not upgraded"
+msgstr[0] "{count}개 업그레이드되지 않음"
+
+#: src/run-patch.js:82
+msgid "{count} upgraded"
+msgid_plural "{count} upgraded"
+msgstr[0] "{count}개 업그레이드됨"
+
+#: src/run-patch.js:83
+msgid "{count} would be upgraded"
+msgid_plural "{count} would be upgraded"
+msgstr[0] "{count}개 업그레이드될 예정"
+
+#: src/run-patch.js:48
+msgid "{done} finished"
+msgstr "{done}개 완료"
+
+#: src/agentless.js:287
+msgid "A login of its own"
+msgstr "자체 로그인"
+
+#: src/agentless.js:288
+msgid "A shared credential"
+msgstr "공유 자격 증명"
+
+#: src/agentless.js:78
+msgid "Add a host to run tasks on it over SSH."
+msgstr "SSH로 작업을 실행할 호스트를 추가합니다."
+
+#: src/agentless.js:363
+msgid "Add a shared credential"
+msgstr "공유 자격 증명 추가"
+
+#: src/agentless.js:274
+msgid "Add an agentless target"
+msgstr "에이전트 없는 대상 추가"
+
+#: src/agentless.js:378
+#: templates/pages/agentless.tmpl:23
+msgid "Add shared credential"
+msgstr "공유 자격 증명 추가"
+
+#: src/agentless.js:308
+#: templates/pages/agentless.tmpl:9
+msgid "Add target"
+msgstr "대상 추가"
+
+#: src/nodes.js:145
+msgid "Agentless"
+msgstr "에이전트 없음"
+
+#: templates/pages/agentless.tmpl:5
+#: templates/pages/agentless.tmpl:8
+#: templates/pages/nodes.tmpl:6
+msgid "Agentless targets"
+msgstr "에이전트 없는 대상"
+
+#: src/agentless.js:63
+msgid "Check"
+msgstr "확인"
+
+#: src/agentless.js:58
+#: src/nodes.js:141
+msgid "Check failed"
+msgstr "확인 실패"
+
+#: src/agentless.js:166
+msgid "Checking {name}…"
+msgstr "{name} 확인 중…"
+
+#: src/agentless.js:225
+msgid "Delete this shared credential?"
+msgstr "이 공유 자격 증명을 삭제할까요?"
+
+#: src/agentless.js:210
+msgid "Delete this target?"
+msgstr "이 대상을 삭제할까요?"
+
+#: src/agentless.js:274
+#: src/agentless.js:363
+msgid "Edit {name}"
+msgstr "{name} 편집"
+
+#: src/agentless.js:96
+msgid "Host key"
+msgstr "호스트 키"
+
+#: src/agentless.js:42
+msgid "Host key changed"
+msgstr "호스트 키 변경됨"
+
+#: templates/pages/agentless.tmpl:11
+msgid "Hosts the console reaches over SSH instead of a node agent. Tasks can run on them; Puppet runs and patch runs need the agent. Logins are stored sealed and are never shown again."
+msgstr "노드 에이전트 대신 SSH로 콘솔이 접속하는 호스트입니다. 작업은 실행할 수 있지만 Puppet 실행과 패치 실행에는 에이전트가 필요합니다. 로그인 정보는 암호화되어 저장되며 다시 표시되지 않습니다."
+
+#: src/agentless.js:279
+msgid "How the target is named in jobs and node groups. It cannot be the name of a node that exists."
+msgstr "작업과 노드 그룹에서 대상을 부르는 이름입니다. 이미 있는 노드의 이름일 수 없습니다."
+
+#: src/agentless.js:192
+msgid "Key it presents now"
+msgstr "지금 제시하는 키"
+
+#: src/agentless.js:248
+msgid "Key passphrase (if it has one)"
+msgstr "키 암호문 (있는 경우)"
+
+#: src/agentless.js:96
+msgid "Last check"
+msgstr "마지막 확인"
+
+#: src/agentless.js:243
+msgid "Leave blank to keep the stored one."
+msgstr "저장된 값을 유지하려면 비워 두세요."
+
+#: src/agentless.js:131
+#: src/agentless.js:286
+#: src/agentless.js:95
+msgid "Login"
+msgstr "로그인"
+
+#: src/agentless.js:76
+msgid "No agentless targets"
+msgstr "에이전트 없는 대상이 없습니다"
+
+#: src/agentless.js:115
+msgid "No shared credentials."
+msgstr "공유 자격 증명이 없습니다."
+
+#: src/agentless.js:55
+#: src/nodes.js:138
+msgid "Not checked"
+msgstr "확인 안 됨"
+
+#: src/agentless.js:50
+msgid "Not seen yet"
+msgstr "아직 확인되지 않음"
+
+#: templates/pages/agentless.tmpl:25
+msgid "One login several targets can use. Replacing its key or password changes it for all of them."
+msgstr "여러 대상이 사용할 수 있는 로그인입니다. 키나 비밀번호를 바꾸면 모두에 적용됩니다."
+
+#: src/agentless.js:246
+msgid "Paste a PEM or OpenSSH private key."
+msgstr "PEM 또는 OpenSSH 개인 키를 붙여 넣으세요."
+
+#: src/agentless.js:192
+msgid "Pinned key"
+msgstr "고정된 키"
+
+#: src/agentless.js:283
+msgid "Port"
+msgstr "포트"
+
+#: src/agentless.js:245
+msgid "Private key"
+msgstr "개인 키"
+
+#: src/nodes.js:345
+msgid "Puppet runs need the node agent, and a selected node is agentless. Run a task instead."
+msgstr "Puppet 실행에는 노드 에이전트가 필요한데 선택한 노드 중 에이전트 없는 노드가 있습니다. 대신 작업을 실행하세요."
+
+#: src/agentless.js:57
+#: src/nodes.js:140
+msgid "Reachable"
+msgstr "접속 가능"
+
+#: src/agentless.js:197
+msgid "Replace pinned key"
+msgstr "고정된 키 교체"
+
+#: src/agentless.js:196
+msgid "Replace the pinned host key?"
+msgstr "고정된 호스트 키를 교체할까요?"
+
+#: src/agentless.js:65
+#: src/agentless.js:66
+msgid "Review host key"
+msgstr "호스트 키 검토"
+
+#: src/agentless.js:299
+#: src/agentless.js:371
+msgid "Run tasks as (optional)"
+msgstr "작업 실행 사용자 (선택)"
+
+#: src/agentless.js:352
+msgid "Saved {name}. Check it to see its host key and confirm the login works."
+msgstr "{name}을(를) 저장했습니다. 확인하여 호스트 키를 보고 로그인이 작동하는지 확인하세요."
+
+#: src/agentless.js:131
+msgid "Secret"
+msgstr "비밀 값"
+
+#: src/agentless.js:291
+msgid "Shared credential"
+msgstr "공유 자격 증명"
+
+#: src/agentless.js:32
+msgid "Shared credential: {name}"
+msgstr "공유 자격 증명: {name}"
+
+#: templates/pages/agentless.tmpl:22
+msgid "Shared credentials"
+msgstr "공유 자격 증명"
+
+#: src/agentless.js:300
+msgid "Tasks run through sudo as this user. sudo must not ask for a password."
+msgstr "작업은 이 사용자로 sudo를 통해 실행됩니다. sudo가 비밀번호를 요구하면 안 됩니다."
+
+#: src/agentless.js:196
+msgid "Trust this host key?"
+msgstr "이 호스트 키를 신뢰할까요?"
+
+#: src/agentless.js:197
+msgid "Trust this key"
+msgstr "이 키 신뢰"
+
+#: src/agentless.js:45
+msgid "Trusted"
+msgstr "신뢰함"
+
+#: src/agentless.js:251
+msgid "Used when there is no key, or as well."
+msgstr "키가 없을 때 또는 키와 함께 사용됩니다."
+
+#: src/agentless.js:48
+msgid "Waiting to be trusted"
+msgstr "신뢰 대기 중"
+
+#: src/agentless.js:170
+msgid "and as {user}"
+msgstr "및 {user}(으)로"
+
+#: src/agentless.js:122
+#: src/agentless.js:34
+msgid "key"
+msgstr "키"
+
+#: src/agentless.js:122
+#: src/agentless.js:34
+msgid "password"
+msgstr "비밀번호"
+
+#: src/agentless.js:121
+#: src/agentless.js:35
+msgid "runs as {user}"
+msgstr "{user}(으)로 실행"
+
+#: src/agentless.js:173
+msgid "{name} failed at {stage}: {reason}"
+msgstr "{name}이(가) {stage}에서 실패했습니다: {reason}"
+
+#: src/agentless.js:191
+msgid "{name} is presenting a different host key from the one pinned. Nothing was sent to it. Replace the pin only if you know the host was rebuilt or its key rotated."
+msgstr "{name}이(가) 고정된 키와 다른 호스트 키를 제시합니다. 아무것도 전송하지 않았습니다. 호스트가 재구축되었거나 키가 교체된 것을 아는 경우에만 고정을 교체하세요."
+
+#: src/agentless.js:171
+msgid "{name} is reachable. Logged in as {user}{as}."
+msgstr "{name}에 접속할 수 있습니다. {user}{as}(으)로 로그인했습니다."
+
+#: src/agentless.js:193
+msgid "{name} presented this host key. Compare it with the host's own (ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub) before trusting it."
+msgstr "{name}이(가) 이 호스트 키를 제시했습니다. 신뢰하기 전에 호스트 자체의 키(ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub)와 비교하세요."
+
+#: src/agentless.js:226
+msgid "{name} will be deleted. A credential still used by a target cannot be deleted."
+msgstr "{name}을(를) 삭제합니다. 대상이 아직 사용 중인 자격 증명은 삭제할 수 없습니다."
+
+#: src/agentless.js:211
+msgid "{name} will no longer be reachable from the console. Its stored login is deleted."
+msgstr "{name}에 콘솔에서 더 이상 접속할 수 없게 됩니다. 저장된 로그인 정보는 삭제됩니다."
+
+#: src/code-plans.js:50
+msgid "Cannot be run"
+msgstr "실행할 수 없음"
+
+#: src/i18n.js:202
+#: templates/pages/jobs.tmpl:26
+msgid "Code plan"
+msgstr "코드 플랜"
+
+#: src/code-plans.js:37
+msgid "Code plans are not available on this console instance: it does not hold the deployed code. Use an instance that does."
+msgstr "이 콘솔 인스턴스에서는 코드 플랜을 사용할 수 없습니다. 배포된 코드를 보유하고 있지 않습니다. 보유한 인스턴스를 사용하세요."
+
+#: src/code-plans.js:41
+msgid "No plans in the modules of {environment}."
+msgstr "{environment}의 모듈에 플랜이 없습니다."
+
+#: src/code-plans.js:260
+msgid "No steps yet"
+msgstr "아직 단계가 없습니다"
+
+#: src/code-plans.js:273
+msgid "Output"
+msgstr "출력"
+
+#: templates/pages/plans.tmpl:20
+msgid "Plans in code"
+msgstr "코드 안의 플랜"
+
+#: src/code-plans.js:279
+msgid "Returned value"
+msgstr "반환된 값"
+
+#: src/code-plans.js:145
+msgid "Run {plan}"
+msgstr "{plan} 실행"
+
+#: src/code-plans.js:273
+msgid "Step"
+msgstr "단계"
+
+#: src/code-plans.js:257
+msgid "This plan also ran on nodes outside your node groups, so what it printed and returned is not shown."
+msgstr "이 플랜은 노드 그룹 밖의 노드에서도 실행되었으므로 출력한 내용과 반환값은 표시되지 않습니다."
+
+#: src/code-plans.js:155
+msgid "This plan takes no parameters."
+msgstr "이 플랜에는 매개변수가 없습니다."
+
+#: templates/pages/plans.tmpl:21
+msgid "YAML plans in the modules of an environment's deployed code. Each task step is checked against your node groups and task permissions as it is reached."
+msgstr "환경의 배포된 코드 모듈에 있는 YAML 플랜입니다. 각 작업 단계는 도달할 때 노드 그룹과 작업 권한에 따라 확인됩니다."
+
+#: src/code-plans.js:148
+#: src/code-plans.js:247
+msgid "message"
+msgstr "메시지"
+
+#: src/code-plans.js:205
+msgid "{name} is not valid JSON."
+msgstr "{name}은(는) 올바른 JSON이 아닙니다."

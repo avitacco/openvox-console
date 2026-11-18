@@ -200,6 +200,46 @@ func TestLoadConfig_CAClientConfigured(t *testing.T) {
 	}
 }
 
+func TestLoadConfig_PuppetServerUnsetByDefault(t *testing.T) {
+	cfg, err := LoadConfig(envMap(validEnv(nil)))
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if cfg.PuppetServerURL != "" {
+		t.Errorf("PuppetServerURL = %q, want empty (task catalogue inactive by default)", cfg.PuppetServerURL)
+	}
+}
+
+func TestLoadConfig_PuppetServerCredentialDefaultsToOpenvoxdb(t *testing.T) {
+	cfg, err := LoadConfig(envMap(validEnv(map[string]string{
+		"CONSOLE_PUPPET_SERVER_URL": "https://openvoxserver:8140",
+	})))
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if cfg.PuppetServerURL != "https://openvoxserver:8140" {
+		t.Errorf("PuppetServerURL = %q", cfg.PuppetServerURL)
+	}
+	if cfg.PuppetServerCertFile != cfg.OpenvoxdbCertFile || cfg.PuppetServerKeyFile != cfg.OpenvoxdbKeyFile || cfg.PuppetServerCAFile != cfg.OpenvoxdbCAFile {
+		t.Errorf("puppet server credential = %q/%q/%q, want the openvoxdb credential", cfg.PuppetServerCertFile, cfg.PuppetServerKeyFile, cfg.PuppetServerCAFile)
+	}
+}
+
+func TestLoadConfig_PuppetServerExplicitCredential(t *testing.T) {
+	cfg, err := LoadConfig(envMap(validEnv(map[string]string{
+		"CONSOLE_PUPPET_SERVER_URL":       "https://openvoxserver:8140",
+		"CONSOLE_PUPPET_SERVER_CERT_FILE": "certs/tasks-cert.pem",
+		"CONSOLE_PUPPET_SERVER_KEY_FILE":  "certs/tasks-key.pem",
+		"CONSOLE_PUPPET_SERVER_CA_FILE":   "certs/tasks-ca.pem",
+	})))
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if cfg.PuppetServerCertFile != "certs/tasks-cert.pem" || cfg.PuppetServerKeyFile != "certs/tasks-key.pem" || cfg.PuppetServerCAFile != "certs/tasks-ca.pem" {
+		t.Errorf("puppet server credential = %q/%q/%q", cfg.PuppetServerCertFile, cfg.PuppetServerKeyFile, cfg.PuppetServerCAFile)
+	}
+}
+
 func TestLoadConfig_MissingRequired(t *testing.T) {
 	_, err := LoadConfig(envMap(nil))
 	if err == nil {
@@ -842,5 +882,24 @@ func TestLoadConfig_ClusterModeInvalidValueIsRejected(t *testing.T) {
 		if !strings.Contains(msg, string(m)) {
 			t.Errorf("error %q does not name valid cluster mode %q", msg, m)
 		}
+	}
+}
+
+func TestLoadConfig_AgentAutoUpgrade(t *testing.T) {
+	for value, want := range map[string]bool{"": true, "true": true, "TRUE": true, "1": true, "on": true, "false": false, "False": false, "0": false, "off": false, "no": false} {
+		env := validEnv(map[string]string{"CONSOLE_AGENT_AUTO_UPGRADE": value})
+		cfg, err := LoadConfig(func(k string) string { return env[k] })
+		if err != nil {
+			t.Fatalf("CONSOLE_AGENT_AUTO_UPGRADE=%q: %v", value, err)
+		}
+		if cfg.AgentAutoUpgrade != want {
+			t.Errorf("CONSOLE_AGENT_AUTO_UPGRADE=%q: AgentAutoUpgrade = %v, want %v", value, cfg.AgentAutoUpgrade, want)
+		}
+	}
+
+	// A typo must not quietly decide either way.
+	env := validEnv(map[string]string{"CONSOLE_AGENT_AUTO_UPGRADE": "flase"})
+	if _, err := LoadConfig(func(k string) string { return env[k] }); err == nil {
+		t.Error("an unrecognized CONSOLE_AGENT_AUTO_UPGRADE value was accepted")
 	}
 }

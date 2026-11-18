@@ -43,6 +43,26 @@ CA: there is no way to allow signing but not revoking, or one node but
 not another. Give it to specific trusted operators, not to everyone who
 needs to see node status.
 
+### Letting a team sign its own nodes
+
+A role granted on particular node groups can act only on certificates
+of nodes in those groups - see
+[Users, roles and tokens](access.html). A new node waiting to be signed
+has never run Puppet, so it has no facts and is in no group's rule.
+For a team to sign it, pin its name to the team's group first:
+
+1. Open **Groups** and the team's group. The group must sit directly
+   under **All Nodes**; a pin in a deeper group counts only if the node
+   is pinned to each group above it as well.
+2. Under **Pinned nodes**, add the node's name exactly as it will
+   enrol, and save. This needs `classifier:write`.
+3. The team's `nodes:certs:manage` holders now see the request on the
+   **Nodes** page and can sign it.
+
+Once the node has run Puppet, its facts place it in groups as usual
+and the pin can be removed. Anyone whose role is granted on
+**All Nodes** signs any request, as before.
+
 ## Sign, revoke or clean
 
 On the **Nodes** page, each node's certificate state is one of
