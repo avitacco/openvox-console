@@ -1,4 +1,4 @@
-import { fetchJSON, escapeHtml, requirePermission, statusVariant, statusLabel, kindLabel, qs, withLoading, t, formatDateTime } from './app.js';
+import { fetchJSON, escapeHtml, requirePermission, statusVariant, statusLabel, kindLabel, qs, withLoading, t, formatDateTime, hasPermission } from './app.js';
 import { runOptionBadges } from './run-puppet.js';
 import { patchOptionBadges, patchProgressHTML, patchTargetsHTML } from './run-patch.js';
 import { codePlanTraceHTML } from './code-plans.js';
@@ -36,6 +36,14 @@ if (requirePermission('orchestrator:read')) {
         ? `<a href="/schedule.html?id=${job.schedule.id}">${name}</a>`
         : `${name} <span class="vox-color-text-2">(${escapeHtml(t('since deleted'))})</span>`;
       parts.push(`<div><strong>${escapeHtml(t('Started by schedule:'))}</strong> ${link}</div>`);
+    }
+    if (job.agentRequest) {
+      const a = job.agentRequest;
+      const request = hasPermission('agent-requests:read')
+        ? `<a href="/approvals.html?id=${a.requestId}">${escapeHtml(t('Request #{id}', { id: a.requestId }))}</a>`
+        : escapeHtml(t('Request #{id}', { id: a.requestId }));
+      parts.push(`<div><strong>${escapeHtml(t('Requested by AI agent:'))}</strong> ${escapeHtml(a.token)} (${request})</div>`);
+      parts.push(`<div><strong>${escapeHtml(t('Approved by:'))}</strong> ${escapeHtml(a.approvedBy)}</div>`);
     }
     return parts.length ? `<div class="vox-display-flex vox-gap-lg vox-flex-wrap vox-m-top-md">${parts.join('')}</div>` : '';
   }

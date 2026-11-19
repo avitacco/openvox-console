@@ -367,6 +367,8 @@ export const ALL_PERMISSIONS = [
   'vulnerabilities:read',
   'vulnerabilities:manage',
   'agentless:manage',
+  'agent-requests:read',
+  'agent-requests:approve',
 ];
 
 // Redirects to / if the current session lacks the given permission - used
@@ -657,9 +659,25 @@ onDocumentReady(() => {
     const codeLink = document.getElementById('nav-code-link');
     if (codeLink) codeLink.style.display = '';
   }
-  if (hasPermission('orchestrator:read')) {
+  if (hasPermission('orchestrator:read') || hasPermission('agent-requests:read')) {
     const jobsLink = document.getElementById('nav-jobs-link');
     if (jobsLink) jobsLink.style.display = '';
+  }
+  // Requests AI agents have made and a person has yet to decide: a tab on
+  // the Jobs pages and a count beside Jobs in the navigation.
+  if (hasPermission('agent-requests:read')) {
+    const approvalsTab = document.getElementById('approvals-tab');
+    if (approvalsTab) approvalsTab.style.display = '';
+    fetchJSON('/api/v1/agent-requests/pending-count')
+      .then(({ count }) => {
+        const badge = document.getElementById('nav-approvals-count');
+        if (badge && count > 0) {
+          badge.textContent = String(count);
+          badge.style.display = '';
+        }
+        if (approvalsTab && count > 0) approvalsTab.textContent = `${t('Approvals')} (${count})`;
+      })
+      .catch(() => {});
   }
   if (hasPermission('vulnerabilities:read')) {
     const vulnerabilitiesLink = document.getElementById('nav-vulnerabilities-link');

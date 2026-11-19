@@ -188,22 +188,27 @@ func (c *Coordinator) checkTasks(ctx context.Context, req Request, plans map[str
 	return nil
 }
 
-// Start checks a request and, if it can be run, records the run and
-// follows it in the background. Refusals are *RunError, *ParamError,
-// *orchestrator.OutOfScopeError, *orchestrator.InvalidTargetError and
-// *orchestrator.PlanStepError.
-func (c *Coordinator) Start(ctx context.Context, req Request) (orchestrator.Job, error) {
+// prepared is a request that has passed every check: the plan and those it
+// calls, and the parameters bound and with their targets resolved.
+type prepared struct {
+	plans map[string]*Plan
+	plan  *Plan
+	env   map[string]any
+}
+
+// prepare runs every check Start makes, creating nothing.
+func (c *Coordinator) prepare(ctx context.Context, req Request) (prepared, error) {
 	if !environmentName.MatchString(req.Environment) {
-		return orchestrator.Job{}, &RunError{Reason: fmt.Sprintf("invalid environment name %q: only letters, digits and underscores are allowed", req.Environment)}
+		return prepared{}, &RunError{Reason: fmt.Sprintf("invalid environment name %q: only letters, digits and underscores are allowed", req.Environment)}
 	}
 	plans := map[string]*Plan{}
 	if err := c.check(ctx, req, req.Plan, nil, plans); err != nil {
-		return orchestrator.Job{}, err
+		return prepared{}, err
 	}
 	plan := plans[req.Plan]
 	env, err := plan.Bind(req.Parameters)
 	if err != nil {
-		return orchestrator.Job{}, err
+		return prepared{}, err
 	}
 	// Target parameters are resolved once, now, within the caller's scope.
 	for _, p := range plan.Parameters {
@@ -212,7 +217,7 @@ func (c *Coordinator) Start(ctx context.Context, req Request) (orchestrator.Job,
 		}
 		names, err := c.resolveTargets(ctx, req, p.Name, env[p.Name])
 		if err != nil {
-			return orchestrator.Job{}, err
+			return prepared{}, err
 		}
 		list := make([]any, len(names))
 		for i, n := range names {
@@ -222,12 +227,48 @@ func (c *Coordinator) Start(ctx context.Context, req Request) (orchestrator.Job,
 	}
 
 	if err := c.checkTasks(ctx, req, plans); err != nil {
+		return prepared{}, err
+	}
+	return prepared{plans: plans, plan: plan, env: env}, nil
+}
+
+// Checked is what checking a request found, for a caller that keeps it to
+// start later: the parameters as they may be stored and shown, and the real
+// values of the sensitive ones, by name.
+type Checked struct {
+	Parameters map[string]any
+	Sensitive  map[string]any
+}
+
+// Check refuses a request exactly as Start would, and starts nothing.
+func (c *Coordinator) Check(ctx context.Context, req Request) (Checked, error) {
+	p, err := c.prepare(ctx, req)
+	if err != nil {
+		return Checked{}, err
+	}
+	out := Checked{Parameters: redactedParameters(p.plan, req.Parameters), Sensitive: map[string]any{}}
+	for _, param := range p.plan.Parameters {
+		if v, ok := req.Parameters[param.Name]; ok && param.Sensitive && v != nil {
+			out.Sensitive[param.Name] = v
+		}
+	}
+	return out, nil
+}
+
+// Start checks a request and, if it can be run, records the run and
+// follows it in the background. Refusals are *RunError, *ParamError,
+// *orchestrator.OutOfScopeError, *orchestrator.InvalidTargetError and
+// *orchestrator.PlanStepError.
+func (c *Coordinator) Start(ctx context.Context, req Request) (orchestrator.Job, error) {
+	p, err := c.prepare(ctx, req)
+	if err != nil {
 		return orchestrator.Job{}, err
 	}
+	plans, plan, env := p.plans, p.plan, p.env
 
 	given := redactedParameters(plan, req.Parameters)
 	params, _ := json.Marshal(map[string]any{"parameters": given, "sha256": plan.SHA256})
-	job, err := c.jobs.CreateCodePlanJob(ctx, req.Plan, req.Environment, params, req.Start.Actor, orchestrator.JobOrigin{})
+	job, err := c.jobs.CreateCodePlanJob(ctx, req.Plan, req.Environment, params, req.Start.Actor, orchestrator.JobOrigin{Agent: req.Start.Agent})
 	if err != nil {
 		return orchestrator.Job{}, err
 	}

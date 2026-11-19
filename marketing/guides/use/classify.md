@@ -68,7 +68,12 @@ Facts are named by their path, with dots for structured facts:
 
 1. Open **Groups** and create a group.
 2. Name it, choose its **parent group**, and choose its **environment**
-   if it should set one.
+   if it should set one. The environment is a dropdown. **Not set**
+   (which says what the group then inherits from its parent) leaves the
+   choice to the parent. The environments openvoxserver reports are
+   listed below it. **Other...** opens a text field for a name that is
+   not listed yet, such as a branch you have just pushed, or when the
+   list could not be loaded.
 3. Add **classes**, each with any parameters it needs, and any
    **top-scope parameters**. See [Choose classes](#choose-classes)
    below.

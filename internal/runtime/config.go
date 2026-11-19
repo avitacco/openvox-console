@@ -6,7 +6,9 @@ import (
 	"encoding/base64"
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
+	"time"
 
 	"github.com/voxpupuli/enterprise-console/internal/auditlog"
 	"github.com/voxpupuli/enterprise-console/internal/sealer"
@@ -161,6 +163,18 @@ type Config struct {
 	// automatic upgrades stop. An operator can upgrade a single node
 	// either way.
 	AgentAutoUpgrade bool
+
+	// MCPEnabled serves the agent endpoint at /mcp (CONSOLE_MCP_ENABLED,
+	// default off - see add-agent-api). MCPRatePerMinute is the calls a
+	// minute one agent token may make (CONSOLE_MCP_RATE_LIMIT, default
+	// 60), per instance. AgentRequestTTL is how long a request an agent
+	// made waits to be approved (CONSOLE_AGENT_REQUEST_TTL, a duration such
+	// as 30m, default 1h) and AgentTokenMaxDays the longest life an agent
+	// token may be issued with (CONSOLE_AGENT_TOKEN_MAX_DAYS, default 90).
+	MCPEnabled        bool
+	MCPRatePerMinute  int
+	AgentRequestTTL   time.Duration
+	AgentTokenMaxDays int
 
 	// Optional: per-category audit event emission level (see
 	// internal/auditlog) - each defaults to "writes" (mutating actions
@@ -413,6 +427,30 @@ func LoadConfig(getenv func(string) string) (Config, error) {
 	default:
 		return Config{}, fmt.Errorf("CONSOLE_AGENT_AUTO_UPGRADE must be true or false, got %q", getenv("CONSOLE_AGENT_AUTO_UPGRADE"))
 	}
+	// Off unless explicitly turned on, and strict, like the setting above:
+	// this decides whether the console accepts automated callers at all.
+	switch strings.ToLower(getenv("CONSOLE_MCP_ENABLED")) {
+	case "", "false", "0", "no", "off":
+		cfg.MCPEnabled = false
+	case "true", "1", "yes", "on":
+		cfg.MCPEnabled = true
+	default:
+		return Config{}, fmt.Errorf("CONSOLE_MCP_ENABLED must be true or false, got %q", getenv("CONSOLE_MCP_ENABLED"))
+	}
+	if cfg.MCPRatePerMinute, err = positiveInt(getenv, "CONSOLE_MCP_RATE_LIMIT", 60); err != nil {
+		return Config{}, err
+	}
+	if cfg.AgentTokenMaxDays, err = positiveInt(getenv, "CONSOLE_AGENT_TOKEN_MAX_DAYS", 90); err != nil {
+		return Config{}, err
+	}
+	cfg.AgentRequestTTL = time.Hour
+	if v := getenv("CONSOLE_AGENT_REQUEST_TTL"); v != "" {
+		d, err := time.ParseDuration(v)
+		if err != nil || d < time.Minute || d > 7*24*time.Hour {
+			return Config{}, fmt.Errorf("CONSOLE_AGENT_REQUEST_TTL must be a duration between 1m and 168h such as 30m, got %q", v)
+		}
+		cfg.AgentRequestTTL = d
+	}
 	if cfg.RBACSigningKeyID == "" {
 		cfg.RBACSigningKeyID = DefaultSigningKeyID
 	}
@@ -565,4 +603,18 @@ func LoadConfig(getenv func(string) string) (Config, error) {
 	}
 
 	return cfg, nil
+}
+
+// positiveInt reads a setting that must be a whole number of at least one,
+// or its default when unset.
+func positiveInt(getenv func(string) string, name string, def int) (int, error) {
+	v := getenv(name)
+	if v == "" {
+		return def, nil
+	}
+	n, err := strconv.Atoi(v)
+	if err != nil || n < 1 {
+		return 0, fmt.Errorf("%s must be a whole number of at least 1, got %q", name, v)
+	}
+	return n, nil
 }

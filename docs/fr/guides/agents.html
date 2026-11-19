@@ -1,0 +1,463 @@
+<!DOCTYPE html><html lang="fr" dir="ltr"><head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="Give an AI agent its own limited token, let it read the fleet and ask for changes, and approve each change yourself before anything runs."/>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+    <title>Let AI agents use the console - OpenVox Console</title>
+
+    
+    <script>
+      (function () {
+        
+        
+        var stored = null;
+        try { stored = localStorage.getItem('vox-theme'); } catch (e) {}
+        var theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-vox-theme', theme);
+      })();
+    </script>
+    <style>
+      html { background-color: #f5faf9; }
+      html[data-vox-theme='dark'] { background-color: #0d1417; }
+      html:not([data-vox-ready]) body { visibility: hidden; }
+    </style>
+    
+    <noscript><style>body { visibility: visible !important; }</style></noscript>
+    <script>
+      setTimeout(function () {
+        document.documentElement.setAttribute('data-vox-ready', '');
+      }, 2000);
+    </script>
+
+    
+    <script>
+      (function () {
+        var LOCALES = ["en", "zh", "hi", "es", "fr", "de", "ja", "ar", ];
+        var KEY = 'vox-lang';
+
+        function stored() {
+          
+          
+          try { return localStorage.getItem(KEY); } catch (e) { return null; }
+        }
+
+        
+        
+        
+        
+        
+        document.addEventListener('click', function (event) {
+          var path = event.composedPath ? event.composedPath() : [event.target];
+          for (var i = 0; i < path.length; i++) {
+            var code = path[i].getAttribute && path[i].getAttribute('data-lang');
+            if (code) {
+              try { localStorage.setItem(KEY, code); } catch (e) {}
+              return;
+            }
+          }
+        });
+        
+      })();
+    </script>
+
+    <link rel="stylesheet" href="../../vendor/voxblocks.css"/>
+    <link rel="stylesheet" href="../../site.css"/>
+    <script type="module" src="../../vendor/voxblocks.js"></script>
+    <script type="module" src="../../theme.js"></script>
+    <script type="module" src="../../lightbox.js"></script>
+    <script type="module" src="../../guides.js"></script>
+  </head>
+  <body>
+    
+    <a class="skip-link" href="#main">Aller au contenu</a>
+
+    <vox-header site-title="OpenVox Console" href="../index.html">
+      
+      <svg slot="logo" viewBox="0 0 2560 2478" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M1946.22 272.18L1874.51 643.161C1840.69 625.335 1769.51 597.048 1744.63 592.202L1946.22 272.18ZM1647.05 893.509C1735.54 894.748 1789.05 935.815 1845.35 1010.52C1716.57 1047.71 1641.84 987.053 1586.85 899.704C1600.03 898.445 1634.39 893.339 1647.05 893.509ZM1421.62 600.655C1288.19 638.415 1170.91 730.251 1126.1 808.997C1126.1 808.997 1186.31 336.289 1244.88 158.652C1315.83 282.552 1421.62 600.655 1421.62 600.655ZM2477.39 1158.21C2342.39 1125.61 2074.76 1042.77 2053.7 881.139C2043.59 803.362 1980.86 717.271 1947.86 694.589L2004.72 106.064L1517.51 580.681C1517.51 580.681 1358.55 170.153 1243.89 0C1100.67 241.805 932.123 707.949 896.253 809.107L1227.33 1744.42C1243.68 1615.28 1328.09 1472.06 1428.27 1381.86C1350.61 1280.89 1210.56 1250.76 1151.7 1289.73C1228.31 1186.22 1376.21 1050.44 1651.27 1124.86C1773.51 1157.92 1898.72 1222.92 1978.75 1240.54C2184.12 1285.76 2337.81 1231.2 2337.81 1231.2C2336.23 1279.58 2360.5 1315.47 2410.61 1338.87C2196.05 1539.04 1914.11 1376.52 1715.51 1407.29C1514.8 1438.43 1238.87 2011.65 1201.73 2093.07L593.825 394.322L584.775 369.242C535.086 234.271 451.316 124.12 296.898 124.12H0V473.618H92.0793C145.649 473.618 170.849 489.355 189.769 542.882L903.123 2478H1248.99L1312.45 2324.93L1556.24 1812.6C1660.38 1581.57 1765.81 1518.18 2072.12 1531.73C2162.6 1535.73 2349.93 1537.27 2457.29 1405.96C2611.96 1216.8 2569.29 1180.38 2477.43 1158.16" fill="currentColor"></path>
+      </svg>
+      
+      <nav slot="actions" class="lang-switcher" aria-label="Langue">
+        <vox-dropdown label="Français">
+          <a data-lang="en" href="../../guides/agents.html" hreflang="en" lang="en">English</a>
+          <a data-lang="zh" href="../../zh/guides/agents.html" hreflang="zh" lang="zh">中文</a>
+          <a data-lang="hi" href="../../hi/guides/agents.html" hreflang="hi" lang="hi">हिन्दी</a>
+          <a data-lang="es" href="../../es/guides/agents.html" hreflang="es" lang="es">Español</a>
+          <a aria-current="page" data-lang="fr" href="../../fr/guides/agents.html" hreflang="fr" lang="fr">Français</a>
+          <a data-lang="de" href="../../de/guides/agents.html" hreflang="de" lang="de">Deutsch</a>
+          <a data-lang="ja" href="../../ja/guides/agents.html" hreflang="ja" lang="ja">日本語</a>
+          <a data-lang="ar" href="../../ar/guides/agents.html" hreflang="ar" lang="ar">العربية</a>
+          </vox-dropdown>
+      </nav>
+      <vox-theme-toggle slot="actions"></vox-theme-toggle>
+      
+      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
+    </vox-header>
+
+    <div class="site-subnav">
+      <vox-subnav label="Fonctionnalités" class="vox-container">
+      
+      <a href="../features/nodes.html">Nodes</a>
+      <a href="../features/classification.html">Classification</a>
+      <a href="../features/code.html">Code</a>
+      <a href="../features/orchestration.html">Orchestration</a>
+      <a href="../features/security.html">Sécurité</a>
+      <a href="../features/access-control.html">Contrôle d&#39;accès</a>
+      <a href="../features/scaling.html">Scaling</a>
+      </vox-subnav>
+    </div>
+
+    <main id="main">
+      <div class="site-main vox-container">
+<div class="guide-layout">
+  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
+    <vox-sidenav-group heading="Install">
+      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    <vox-sidenav-group heading="Nodes">
+      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    <vox-sidenav-group heading="Scale">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    <vox-sidenav-group heading="Use" open="">
+      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html" current="" aria-current="page"><span>Let AI agents use the console</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    <vox-sidenav-group heading="Operate">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+      </vox-sidenav-group>
+    </vox-sidenav>
+
+  <article class="guide">
+    <p class="guide-eyebrow">Use</p>
+    <h1 class="guide-title vox-ts-xxl">Let AI agents use the console</h1>
+    <p class="guide-summary">Give an AI agent its own limited token, let it read the fleet and ask for changes, and approve each change yourself before anything runs.</p>
+
+    
+    <vox-callout variant="info" heading="Not fully translated yet">
+      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
+    </vox-callout>
+
+    <div class="guide-body vox-prose">
+<p>The console has an endpoint for AI agents, built on MCP (the Model Context
+Protocol), at <code>/mcp</code>. An agent connected to it can look at your nodes, node
+groups, tasks and jobs. When it wants to change something - run a task, run
+Puppet, run a plan or patch nodes - it does not start anything. It <strong>asks</strong>,
+and the request waits on the <strong>Approvals</strong> page until a person approves it.</p>
+<p>Everything an agent can see or ask for is limited by its own token: which
+permissions it has, which node groups it can reach, and which tasks it may
+ask to run. Everything it does is in the audit log under its own name.</p>
+<h2 id="turn-the-endpoint-on">Turn the endpoint on</h2>
+<p>The endpoint is off. Set <code>CONSOLE_MCP_ENABLED=true</code> on the console and
+restart it. Until then <code>/mcp</code> does not exist: it answers as any unknown
+path does.</p>
+<div class="guide-table" tabindex="0"><table class="vox-table">
+<thead>
+<tr>
+<th>Setting</th>
+<th>Meaning</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CONSOLE_MCP_ENABLED</code></td>
+<td>serve <code>/mcp</code></td>
+<td>off</td>
+</tr>
+<tr>
+<td><code>CONSOLE_MCP_RATE_LIMIT</code></td>
+<td>calls a minute one token may make</td>
+<td>60</td>
+</tr>
+<tr>
+<td><code>CONSOLE_AGENT_REQUEST_TTL</code></td>
+<td>how long a request waits for a decision, such as <code>30m</code></td>
+<td><code>1h</code></td>
+</tr>
+<tr>
+<td><code>CONSOLE_AGENT_TOKEN_MAX_DAYS</code></td>
+<td>the longest an agent token may last</td>
+<td>90</td>
+</tr>
+</tbody>
+</table></div>
+<p>The rate limit is kept by each console instance, so a token may make that
+many calls a minute on every instance. Put the endpoint behind TLS, as you
+do the rest of the console: the token is a bearer credential.</p>
+<h2 id="issue-a-token-for-an-agent">Issue a token for an agent</h2>
+<p>An agent token is its own kind of token. It is not a service token: it
+expires, it is limited to node groups, and it works only at <code>/mcp</code>. A leaked
+one cannot be used against the rest of the console&#39;s API.</p>
+<ol>
+<li>Open <strong>Admin</strong>, then <strong>Agent tokens</strong>.</li>
+<li>Name the token for the agent it is for, such as <code>ops-assistant</code>.</li>
+<li>Choose its <strong>permissions</strong>. An agent token can carry only
+<code>nodes:read</code>, <code>classifier:read</code>, <code>orchestrator:read</code>, <code>orchestrator:run</code>
+and <code>vulnerabilities:read</code>.
+<code>orchestrator:run</code> does not let the agent run anything: it lets it
+<strong>ask</strong>.</li>
+<li>Choose the <strong>node groups</strong> it may reach. A token with none reaches no
+nodes. Everything the agent reads or asks for is limited to those groups
+and the groups beneath them.</li>
+<li>Optionally, under <strong>Tasks it may ask to run</strong>, list the tasks it may ask
+for, one pattern per line, as for a <a href="access.html#limit-a-role-to-some-tasks">role</a>.
+Leave it empty to allow every task. Both the node groups and the tasks
+are fixed when the token is created.</li>
+<li>Set how many days it lasts. A token must expire, and cannot last longer
+than <code>CONSOLE_AGENT_TOKEN_MAX_DAYS</code>. Thirty days is a good start.</li>
+<li>Choose <strong>Create agent token</strong> and copy the token: it is shown once.</li>
+</ol>
+<p><strong>Revoke</strong> on the same page ends the token at once, on every console
+instance. Its requests stay on the Approvals page as a record, and any it
+had waiting are marked failed.</p>
+<h2 id="connect-an-agent">Connect an agent</h2>
+<p>Give the agent the console&#39;s address with <code>/mcp</code> on the end, and the token
+as a bearer token. The endpoint speaks streamable HTTP, and answers each
+POSTed message directly. For Claude Code, for example:</p>
+<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>claude mcp add --transport http openvox https://console.example.com/mcp \
+  --header &#34;Authorization: Bearer &lt;the token&gt;&#34;
+</code></vox-code-block>
+<p>The agent is offered only the tools its token allows.</p>
+<div class="guide-table" tabindex="0"><table class="vox-table">
+<thead>
+<tr>
+<th>Tool</th>
+<th>Needs</th>
+<th>Ce qu&#39;elle fait</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>list_nodes</code>, <code>get_node</code>, <code>get_node_reports</code></td>
+<td><code>nodes:read</code></td>
+<td>look at nodes, their facts and reports</td>
+</tr>
+<tr>
+<td><code>get_node_patches</code>, <code>get_patch_inventory</code></td>
+<td><code>nodes:read</code></td>
+<td>pending operating system updates</td>
+</tr>
+<tr>
+<td><code>list_groups</code>, <code>get_group</code>, <code>get_group_nodes</code></td>
+<td><code>classifier:read</code></td>
+<td>node groups</td>
+</tr>
+<tr>
+<td><code>list_tasks</code>, <code>get_task</code>, <code>list_code_plans</code>, <code>get_code_plan</code></td>
+<td><code>orchestrator:read</code></td>
+<td>what the deployed code offers, and each one&#39;s parameters</td>
+</tr>
+<tr>
+<td><code>list_jobs</code>, <code>get_job</code></td>
+<td><code>orchestrator:read</code></td>
+<td>jobs and their results</td>
+</tr>
+<tr>
+<td><code>resolve_targets</code></td>
+<td><code>orchestrator:run</code></td>
+<td>which nodes a target would name</td>
+</tr>
+<tr>
+<td><code>request_task</code>, <code>request_puppet_run</code>, <code>request_plan</code>, <code>request_patch_run</code>, <code>request_code_plan</code></td>
+<td><code>orchestrator:run</code></td>
+<td>ask to run something (see below)</td>
+</tr>
+<tr>
+<td><code>get_request</code>, <code>list_requests</code></td>
+<td><code>orchestrator:run</code></td>
+<td>the agent&#39;s own requests and how they were decided</td>
+</tr>
+</tbody>
+</table></div>
+<p>Everything an agent reads comes through the console&#39;s own endpoints with its
+token, so it sees exactly what a person with that token&#39;s permissions and node
+groups would, and sensitive values are masked as everywhere else. A long
+result is cut, with a note telling the agent how to ask for less.</p>
+<h2 id="approve-what-an-agent-asks-for">Approve what an agent asks for</h2>
+<p>When an agent calls one of the <code>request_</code> tools, the console checks the
+request exactly as it would check yours - the task and its parameters, the
+nodes, the agent&#39;s node groups and task list - and, if it passes, stores it
+and tells the agent it is awaiting approval. Nothing runs. A request that
+fails a check is refused with the reason, so the agent can correct it.</p>
+<p>Open <strong>Jobs</strong>, then <strong>Approvals</strong> (the tab shows how many are waiting, as does
+the navigation). <strong>Review</strong> a request to see:</p>
+<ul>
+<li>which agent asked and when, and when the request expires</li>
+<li>the task, plan or kind of run, and its environment</li>
+<li>the <strong>exact nodes</strong>, resolved when the agent asked</li>
+<li>the parameters, with sensitive values masked</li>
+</ul>
+<p>Choose <strong>Approve and run</strong> to start the job, or <strong>Reject</strong>, with a note if you
+like: the agent is told. Approving starts exactly what you saw - parameters
+and nodes are frozen when the request is made - as the agent&#39;s token. The job
+shows that an AI agent asked for it and who approved it, and <strong>Jobs</strong> can be
+limited to jobs started that way.</p>
+<p>A request that nobody decides expires, after an hour unless you set
+<code>CONSOLE_AGENT_REQUEST_TTL</code>, and can no longer be approved. An agent can hold
+only so many waiting requests at once.</p>
+<h3 id="who-can-approve">Who can approve</h3>
+<p>Two permissions, which go on roles for people and cannot be given to an agent
+token:</p>
+<div class="guide-table" tabindex="0"><table class="vox-table">
+<thead>
+<tr>
+<th>Permission</th>
+<th>Lets someone</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>agent-requests:read</code></td>
+<td>see requests on the Approvals page</td>
+</tr>
+<tr>
+<td><code>agent-requests:approve</code></td>
+<td>approve and reject them</td>
+</tr>
+</tbody>
+</table></div>
+<p>An approver also needs <code>orchestrator:run</code> over every node the request acts on,
+and may run the task. You cannot approve a request on nodes you could not run
+the task on yourself. Someone who can see only some node groups sees only the
+requests that name nodes in them.</p>
+<p>The person who issued an agent&#39;s token cannot approve its requests, though
+they can reject them. With only one administrator, create a second account
+for approving.</p>
+<vox-callout variant="info" heading="Note"><p>A permission added in a newer console version is not added to existing roles
+for you. After an upgrade, grant <code>agent-requests:read</code> and
+<code>agent-requests:approve</code> on the <strong>Roles</strong> page to the roles that should have
+them. The bootstrap administrator of a new installation has both.</p>
+</vox-callout>
+<p>If an agent&#39;s token is revoked or has expired by the time you approve, nothing
+is started, and the request says why.</p>
+<h2 id="plans-from-code">Plans from code</h2>
+<p><code>request_code_plan</code> asks to run a <a href="code-plans.html">plan from your code</a>.
+Such a plan chooses its own nodes while it runs, within what the agent&#39;s token
+reaches, so approving it needs <code>orchestrator:run</code> over everything that token
+reaches. Plans run only on the console instance that deploys your code, so
+approve them there, or the request fails with that reason.</p>
+<h2 id="what-is-recorded">What is recorded</h2>
+<p>The audit log, at the orchestrator category&#39;s level, records each request, each
+approval, rejection and expiry, naming the agent as <code>agent:&lt;token name&gt;</code> and the
+person who decided, with the request&#39;s number. Reads an agent makes are
+audited as any read is, under the same name. Sensitive values never appear in
+the audit log, the activity log or the request itself: they are kept encrypted
+with the console&#39;s secrets key (<code>CONSOLE_SECRETS_KEY</code>), without which a request
+that carries one is refused.</p>
+<h2 id="the-api-description">The API description</h2>
+<p><code>/api/v1/openapi.json</code> describes the REST API for programs you write yourself,
+for anyone who is signed in. Agent tokens cannot call that API, and a program
+using a service token is not asked to wait for approval. To let an agent act
+with a person&#39;s approval in the loop, connect it to <code>/mcp</code>.</p>
+
+    </div>
+
+    <vox-series-nav label="Use" previous-text="Previous" next-text="Next" previous-href="../guides/code-plans.html" previous-label="Run plans from your code"></vox-series-nav>
+  </article>
+
+  
+  <div class="guide-toc-rail">
+    <vox-toc heading="On this page">
+      <vox-toc-item href="#turn-the-endpoint-on"><span>Turn the endpoint on</span>
+      </vox-toc-item>
+      <vox-toc-item href="#issue-a-token-for-an-agent"><span>Issue a token for an agent</span>
+      </vox-toc-item>
+      <vox-toc-item href="#connect-an-agent"><span>Connect an agent</span>
+      </vox-toc-item>
+      <vox-toc-item href="#approve-what-an-agent-asks-for"><span>Approve what an agent asks for</span>
+        <vox-toc-item slot="children" href="#who-can-approve"><span>Who can approve</span></vox-toc-item>
+      </vox-toc-item>
+      <vox-toc-item href="#plans-from-code"><span>Plans from code</span>
+      </vox-toc-item>
+      <vox-toc-item href="#what-is-recorded"><span>What is recorded</span>
+      </vox-toc-item>
+      <vox-toc-item href="#the-api-description"><span>The API description</span>
+      </vox-toc-item>
+      </vox-toc>
+  </div>
+  </div>
+
+      </div>
+
+      
+      <vox-cta-band heading="Faites-le tourner vous-même">
+      <p>
+        OpenVox Console ships as container images, built for amd64 and
+        arm64 on every push, and as a single binary. The install guides
+        take you from an empty host to a working deployment -
+        openvoxserver, openvoxdb, Postgres and the console - with
+        containers or with packages.
+      </p>
+      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">Source sur GitHub</vox-cta>
+      <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">Images de conteneur</vox-cta>
+      </vox-cta-band>
+    </main>
+
+    
+    <dialog class="lightbox" aria-label="Full-size screenshot">
+      <div class="lightbox-bar">
+        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+      </div>
+      <img class="lightbox-image" alt=""/>
+    </dialog>
+
+    <vox-footer>
+      <vox-footer-column heading="OpenVox Console">
+        <a href="../index.html">Aperçu</a>
+        <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">Source</a>
+        <a href="../guides/index.html#install">Install guides</a>
+      </vox-footer-column>
+      <vox-footer-column heading="Fonctionnalités">
+        <a href="../features/nodes.html">Nodes</a>
+        <a href="../features/classification.html">Classification</a>
+        <a href="../features/code.html">Code</a>
+        <a href="../features/orchestration.html">Orchestration</a>
+        <a href="../features/security.html">Sécurité</a>
+        <a href="../features/access-control.html">Contrôle d&#39;accès</a>
+        <a href="../features/scaling.html">Scaling</a>
+        </vox-footer-column>
+      
+      <vox-footer-column heading="Langue">
+        <a href="../../guides/agents.html" hreflang="en" lang="en">English</a>
+        <a href="../../zh/guides/agents.html" hreflang="zh" lang="zh">中文</a>
+        <a href="../../hi/guides/agents.html" hreflang="hi" lang="hi">हिन्दी</a>
+        <a href="../../es/guides/agents.html" hreflang="es" lang="es">Español</a>
+        <a href="../../de/guides/agents.html" hreflang="de" lang="de">Deutsch</a>
+        <a href="../../ja/guides/agents.html" hreflang="ja" lang="ja">日本語</a>
+        <a href="../../ar/guides/agents.html" hreflang="ar" lang="ar">العربية</a>
+        </vox-footer-column>
+      <vox-footer-column heading="OpenVox">
+        <a href="https://openvoxproject.github.io/" rel="noopener" target="_blank">OpenVox project</a>
+        <a href="https://github.com/voxpupuli" rel="noopener" target="_blank">Vox Pupuli</a>
+      </vox-footer-column>
+      <div slot="bottom" class="footer-note">
+        <span>Sous licence GPL-3.0</span>
+        <span>Les captures montrent la console en fonctionnement face à un parc de démonstration synthétique.</span>
+      </div>
+    </vox-footer>
+  
+
+</body></html>

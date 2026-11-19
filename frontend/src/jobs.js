@@ -9,6 +9,7 @@ if (requirePermission('orchestrator:read')) {
   const kindFilter = document.getElementById('kind-filter');
   const statusFilter = document.getElementById('status-filter');
   const triggeredByFilter = document.getElementById('triggered-by-filter');
+  const agentFilter = document.getElementById('agent-filter');
   const sortOrder = document.getElementById('sort-order');
 
   // Lets a link like /jobs.html?target=web01.example.com (e.g. from a
@@ -45,6 +46,9 @@ if (requirePermission('orchestrator:read')) {
       const name = escapeHtml(j.schedule.name);
       const link = j.schedule.id ? `<a href="/schedule.html?id=${j.schedule.id}">${name}</a>` : name;
       parts.push(`<vox-badge variant="neutral">${escapeHtml(t('Scheduled'))}</vox-badge> ${link}`);
+    }
+    if (j.agentRequest) {
+      parts.push(`<vox-badge variant="tip">${escapeHtml(t('AI agent'))}</vox-badge> ${escapeHtml(j.agentRequest.token)}, ${escapeHtml(t('approved by {name}', { name: j.agentRequest.approvedBy }))}`);
     }
     return parts.length ? `<div class="vox-ts-sm vox-color-text-2 job-origin">${parts.join(' · ')}</div>` : '';
   }
@@ -98,6 +102,7 @@ if (requirePermission('orchestrator:read')) {
     if (kindFilter.value) params.set('kind', kindFilter.value);
     if (statusFilter.value) params.set('status', statusFilter.value);
     if (triggeredByFilter.value) params.set('triggeredBy', triggeredByFilter.value);
+    if (agentFilter.value) params.set('agent', agentFilter.value);
     if (sortOrder.value === 'asc') params.set('sort', 'asc');
     params.set('page', currentPage);
     return `/api/v1/orchestrator/jobs?${params.toString()}`;
@@ -128,7 +133,7 @@ if (requirePermission('orchestrator:read')) {
   for (const el of [targetFilter, triggeredByFilter]) {
     el.addEventListener('input', debouncedLoad);
   }
-  for (const el of [kindFilter, statusFilter, sortOrder]) {
+  for (const el of [kindFilter, statusFilter, sortOrder, agentFilter]) {
     el.addEventListener('change', () => {
       currentPage = 1;
       load();

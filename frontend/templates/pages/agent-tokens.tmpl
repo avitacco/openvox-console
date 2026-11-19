@@ -1,0 +1,50 @@
+{{define "content" -}}
+    <main class="vox-container vox-p-y-xl">
+      <vox-subnav label="Admin" class="vox-m-bottom-lg" data-i18n-attr="label">
+        <a href="/users.html" data-i18n>Users</a>
+        <a href="/user-groups.html" data-i18n>User groups</a>
+        <a href="/roles.html" data-i18n>Roles</a>
+        <a href="/service-tokens.html" data-i18n>Service tokens</a>
+        <a href="/agent-tokens.html" aria-current="page" data-i18n>Agent tokens</a>
+        <a href="/account-policy.html" data-i18n>Account policy</a>
+      </vox-subnav>
+
+      <h1 class="vox-ts-xl vox-m-bottom-md" data-i18n>Agent tokens</h1>
+      <p class="vox-m-bottom-lg" data-i18n>An agent token lets an AI agent use the console through its MCP endpoint (/mcp). The agent can read what the token allows. Anything it asks to change waits on the Approvals page until a person approves it. A token expires, and works only at /mcp.</p>
+
+      <div id="new-token-panel"></div>
+
+      <section>
+        <h2 data-i18n>New agent token</h2>
+        <div id="create-error"></div>
+        <div class="vox-m-bottom-md">
+          <vox-input id="new-token-name" label="Name" required data-i18n-attr="label"></vox-input>
+        </div>
+        <div class="vox-m-bottom-md">
+          <div class="vox-ts-sm vox-m-bottom-sm"><strong data-i18n>Permissions</strong></div>
+          <div id="new-token-permissions" class="vox-display-flex vox-flex-wrap vox-gap-md"></div>
+          <p class="vox-ts-sm vox-color-text-2 vox-m-top-sm" data-i18n>orchestrator:run only lets the agent ask: a person still approves each request.</p>
+        </div>
+        <div class="vox-m-bottom-md">
+          <div class="vox-ts-sm vox-m-bottom-sm"><strong data-i18n>Node groups it may reach</strong></div>
+          <div id="new-token-groups"></div>
+        </div>
+        <div class="vox-m-bottom-md">
+          <vox-textarea id="new-token-tasks" rows="3" class="vox-width-full" label="Tasks it may ask to run" data-i18n-attr="label,note"
+            note="One per line: a task name such as package::install, a module such as patch::*, or * for every task. Leave it empty to allow every task. Fixed when the token is created."></vox-textarea>
+          <div id="new-token-tasks-error"></div>
+        </div>
+        <div class="vox-m-bottom-md">
+          <vox-input id="new-token-days" label="Expires after (days)" type="number" required class="field-narrow" data-i18n-attr="label"></vox-input>
+        </div>
+        <div class="vox-display-flex vox-gap-sm vox-m-top-lg">
+          <vox-button id="create-token" variant="brand" data-i18n>Create agent token</vox-button>
+        </div>
+      </section>
+
+      <section>
+        <h2 data-i18n>All agent tokens</h2>
+        <div id="results"></div>
+      </section>
+    </main>
+{{- end}}

@@ -1558,3 +1558,75 @@ Added by `add-code-plans`.
   *names*) and `codeplan.succeeded` / `codeplan.failed`, plus activity entries.
 - **Not included.** Scheduling a code plan, Puppet-language plans, parallel
   steps, error catching, retries.
+
+## AI agent access
+
+An AI agent reads the console, and asks for changes that a person approves,
+through an MCP endpoint at `/mcp`. The user-facing flow is in
+`marketing/guides/use/agents.md`; this is what an operator or developer needs.
+
+- **Off by default.** `CONSOLE_MCP_ENABLED=true` registers `/mcp` (with the
+  orchestrator route group, so on `web` and `all` instances); without it the
+  path is not routed at all. `CONSOLE_MCP_RATE_LIMIT` (60 calls a minute a
+  token), `CONSOLE_AGENT_REQUEST_TTL` (`1h`, between 1 minute and 168 hours)
+  and `CONSOLE_AGENT_TOKEN_MAX_DAYS` (90). Anything unparseable stops the console
+  starting, as `CONSOLE_AGENT_AUTO_UPGRADE` does.
+- **Transport.** Stateless streamable HTTP: one JSON-RPC message (or a batch)
+  per POST, answered in the response; notifications get `202`. Methods:
+  `initialize`, `ping`, `tools/list`, `tools/call`. There are no sessions, so any
+  instance can answer any call. A request with an `Origin` that is not this host
+  is refused (browsers do not call this endpoint). Bodies are capped at 256 KiB
+  and results at 64 KiB (cut, with a note).
+- **Agent tokens** (`rbac.TokenTypeAgent`, table `agent_tokens`). A token carries
+  its permissions (only `nodes:read`, `classifier:read`, `orchestrator:read`,
+  `orchestrator:run`, `vulnerabilities:read`), an explicit node scope, a task
+  grant on those groups and a mandatory expiry. `Verifier.Authenticate` refuses
+  type `agent` everywhere except for a request whose *context* carries
+  `rbac.AllowAgentTokens`, which only `/mcp` sets, on its own in-process calls;
+  `/mcp` in turn accepts only `Verifier.VerifyAgent`. The token's actor name is
+  `agent:<name>` in jobs, audit and activity. Revoking deletes the row (the
+  request history stays, with `token_id` null) and fails its pending requests in
+  the same transaction.
+- **Reads.** A read tool calls the console's own `GET` endpoint through the
+  router with the agent's bearer token, in process. Permission, node scope,
+  task scope, masking and read audit are therefore the endpoint's own, not a
+  second implementation. A tool exists only if its permission is in the token.
+- **Requests** (`agent_requests`). A `request_*` tool runs the same `Check*`
+  as the REST handler, resolves the targets once (a query or group becomes the
+  node list, narrowed to what the token's task allowlist permits), and stores
+  `body` (the request with sensitive values redacted) and `targets`. Sensitive
+  values are sealed (`agent_request:<id>`, AAD-bound) with the secrets key; with no
+  key such a request is refused. Statuses: `pending`, `approved`, `rejected`,
+  `expired`, `failed`. A pending request past `expires_at` reads as expired at
+  once; the job-reaper worker records it (`agent_request.expired`).
+- **Approval.** One conditional `UPDATE ... WHERE status = 'pending' AND
+  expires_at > now()` decides who wins, so simultaneous approvals start one
+  job. Before it, the service reads the token as it stands (revoked or expired:
+  the request is failed), refuses the token's issuer, and requires the approver's
+  `orchestrator:run` scope to cover every target (for a code plan, everything the
+  token can reach) and the task to be allowed to them. The job is then started
+  through `Starter` with the token's scope and tasks, `triggered_by =
+  agent:<name>`, and `jobs.agent_request_id`, `agent_token` and `approved_by`.
+  A failure after the claim marks the request `failed` with the reason. A code
+  plan needs the instance that holds the deployed code, as running one always
+  does.
+- **Visibility.** `agent-requests:read` and `:approve` are scoped like any
+  permission: a reader sees a request only if every node in it is in their scope,
+  and a plan that picks its own nodes only if their scope is fleet-wide. A
+  request they cannot see answers as one that does not exist.
+- **Rate limit.** A token bucket per token, per instance: a cluster of N
+  instances allows up to N times the rate. Pending requests per token are capped
+  at 20.
+- **Audit.** `agent_request.submitted` (actor `agent:<name>`),
+  `agent_request.approved` / `.rejected` / `.expired` / `.failed`, under the
+  orchestrator category and always written, with the request id, kind and token,
+  never a parameter value. Tool reads are audited by the endpoint they call.
+- **OpenAPI.** `GET /api/v1/openapi.json` for any signed-in caller, built from
+  the table in `internal/agentapi/openapi.go`. A test reads every registered route
+  out of the source and fails for one that is neither documented nor listed as
+  left out on purpose. Agent tokens cannot call it.
+- **Upgrading.** Migration 41. The bootstrap administrator of an existing
+  installation does not have `agent-requests:read` / `:approve`; add them to a
+  role on the Roles page.
+- **Not included.** A stdio binary, auto-approving rules, notifications of new
+  requests, MCP resources and prompts, OAuth for MCP clients.

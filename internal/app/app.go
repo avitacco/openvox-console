@@ -22,8 +22,10 @@ import (
 	"time"
 
 	"github.com/voxpupuli/enterprise-console/internal/activity"
+	"github.com/voxpupuli/enterprise-console/internal/agentapi"
 	"github.com/voxpupuli/enterprise-console/internal/agentdist"
 	"github.com/voxpupuli/enterprise-console/internal/agentless"
+	"github.com/voxpupuli/enterprise-console/internal/agentrequests"
 	"github.com/voxpupuli/enterprise-console/internal/agentupgrade"
 	"github.com/voxpupuli/enterprise-console/internal/auditlog"
 	"github.com/voxpupuli/enterprise-console/internal/certstatus"
@@ -62,7 +64,7 @@ import (
 
 // allPermissions is granted to the bootstrap admin role - see
 // bootstrapAdmin. Every other role is configured by an admin afterward.
-var allPermissions = []string{"nodes:read", "nodes:certs:manage", "nodes:manage", "classifier:read", "classifier:write", "enc:read", "rbac:admin", "activity:read", "status:read", "code:deploy", "code:read", "orchestrator:read", "orchestrator:run", "vulnerabilities:read", "vulnerabilities:manage", "agentless:manage"}
+var allPermissions = []string{"nodes:read", "nodes:certs:manage", "nodes:manage", "classifier:read", "classifier:write", "enc:read", "rbac:admin", "activity:read", "status:read", "code:deploy", "code:read", "orchestrator:read", "orchestrator:run", "vulnerabilities:read", "vulnerabilities:manage", "agentless:manage", "agent-requests:read", "agent-requests:approve"}
 
 // Run builds and starts the subsystems the configured run mode calls
 // for, and blocks until ctx is canceled or a subsystem fails.
@@ -408,6 +410,7 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 			authService, rbacStore, verifier, revoker, issuer, oidcService, recordActivity(rbacActivityPublisher),
 			auditWrite(auditlog.CategoryAuth), auditWrite(auditlog.CategoryRBAC), auditRead(auditlog.CategoryRBAC),
 		)
+		rbacHandlers.SetAgentTokenMaxLife(time.Duration(cfg.AgentTokenMaxDays) * 24 * time.Hour)
 	}
 
 	codemanagerStore := codemanager.NewStore(db.Pool)
@@ -816,6 +819,27 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 	taskCatalogHandlers := taskcatalog.NewHandlers(taskCatalog)
 	taskCatalogHandlers.SetTaskScope(taskScope)
 
+	// Agent access (add-agent-api). What an agent asks to change is stored
+	// as a request and started, through the same Starter, only when a
+	// person approves it. The endpoint itself is registered only when
+	// CONSOLE_MCP_ENABLED is set, but approving what is already stored
+	// does not depend on it.
+	agentRequests := agentrequests.NewService(agentrequests.NewStore(db.Pool), orchestratorHandlers.Starter(), codePlanCoordinator,
+		agentAuthority(rbacStore, scopeResolver, time.Now), secretsSealer)
+	agentRequests.SetLimits(cfg.AgentRequestTTL, 0)
+	agentRequests.SetRecorders(func(action, actor, summary string) {
+		orchestratorActivityPublisher.Publish(action, actor, summary)
+	}, auditWriteNoRequest(auditlog.CategoryOrchestrator))
+	agentRequestHandlers := agentrequests.NewHandlers(agentRequests, nodeScope,
+		approverFor(scopeResolver, actorFromRequest), auditRead(auditlog.CategoryOrchestrator))
+	var mcpHandler *agentapi.Handler
+	if cfg.MCPEnabled {
+		mcpHandler = agentapi.New(agentapi.Config{
+			Verifier: verifier, Requests: agentRequests, RatePerMinute: cfg.MCPRatePerMinute, Version: runtime.Version, Logger: logger,
+			Caller: agentCaller(rbacStore, nodeScope, taskScope),
+		})
+	}
+
 	patchHandlers.SetGroupResolver(func(r *http.Request, groupID int64) ([]string, error) {
 		claims, ok := rbac.ClaimsFromContext(r.Context())
 		if !ok || !claims.HasPermission("classifier:read") {
@@ -977,6 +1001,11 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 		},
 		routeOrchestrator: func(mux *http.ServeMux) {
 			orchestratorHandlers.Register(mux, authorize)
+			agentRequestHandlers.Register(mux, authorize)
+			agentapi.RegisterOpenAPI(mux, verifier, runtime.Version)
+			if mcpHandler != nil {
+				mcpHandler.Register(mux)
+			}
 			codePlanHandlers.Register(mux, authorize)
 			scheduleHandlers.Register(mux, authorize)
 			savedPlanHandlers.Register(mux, authorize)
@@ -1008,6 +1037,12 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 		build(mux)
 	}
 	logger.Info("routes registered", "mode", cfg.Mode, "groups", surface.Routes)
+	if mcpHandler != nil {
+		// Read tools call the console's own API in process, through this
+		// router, with the agent's token.
+		mcpHandler.SetInternal(mux)
+		logger.Info("agent endpoint enabled", "path", "/mcp", "ratePerMinute", cfg.MCPRatePerMinute)
+	}
 
 	srv := &http.Server{
 		Addr:    cfg.HTTPAddr,
@@ -1059,7 +1094,11 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 					return
 				case <-ticker.C:
 					if _, err := singletonLeases.Hold(ctx, jobReaperLease, func(ctx context.Context) error {
-						_, err := reaper.ReapOnce(ctx)
+						if _, err := reaper.ReapOnce(ctx); err != nil {
+							return err
+						}
+						// Requests an agent made that nobody decided in time.
+						_, err := agentRequests.Expire(ctx)
 						return err
 					}); err != nil {
 						logger.Warn("failed to reap stale jobs", "error", err)

@@ -15,7 +15,13 @@ const matchingSectionEl = document.getElementById('matching-section');
 const warningsEl = document.getElementById('override-warnings');
 const rootNoteEl = document.getElementById('root-note');
 const pinsOutsideEl = document.getElementById('pins-outside');
+// The environment is a choice - not set, one the server reports, or
+// "Other" with a typed name. environmentEl is that typed name, shown only
+// for Other; read and write it through getEnvironment/setEnvironment.
 const environmentEl = document.getElementById('environment');
+const environmentChoiceEl = document.getElementById('environment-choice');
+const OTHER_ENVIRONMENT = '\u0000other';
+let knownEnvironments = [];
 const classEditor = createClassEditor({ root: document.getElementById('classes-editor') });
 const parametersEl = document.getElementById('parameters');
 const configDataEl = document.getElementById('config-data');
@@ -46,23 +52,47 @@ const inheritedEnvironment = new Map();
 // the one its parent passes down, else production. Recomputed, and the
 // class list reloaded, whenever the environment or the parent changes.
 function refreshClassEnvironment() {
-  const own = environmentEl.value.trim();
+  const own = getEnvironment();
   const inherited = isRoot ? '' : inheritedEnvironment.get(Number(parentEl.value)) || '';
   return classEditor.setEnvironment(own || inherited || 'production');
 }
 
-// The server's environments, offered in the environment field. A name
-// not among them is still accepted - the environment may not be
-// deployed yet - and no list at all just means it is typed.
+function getEnvironment() {
+  return environmentChoiceEl.value === OTHER_ENVIRONMENT ? environmentEl.value.trim() : environmentChoiceEl.value;
+}
+
+function setEnvironment(name) {
+  const known = name === '' || knownEnvironments.includes(name);
+  environmentEl.value = known ? '' : name;
+  renderEnvironmentChoices(known ? name : OTHER_ENVIRONMENT);
+}
+
+// Rebuilds the dropdown: "not set" first (saying what the group then
+// inherits), the server's environments, then Other. A saved name the
+// server does not list stays selectable, as Other with the name filled.
+function renderEnvironmentChoices(selected) {
+  const inherited = isRoot ? '' : inheritedEnvironment.get(Number(parentEl.value)) || '';
+  const unset = inherited ? t('Not set (inherits {env})', { env: inherited }) : t('Not set');
+  environmentChoiceEl.innerHTML =
+    `<option value="">${escapeHtml(unset)}</option>` +
+    knownEnvironments.map((e) => `<option value="${escapeHtml(e)}">${escapeHtml(e)}</option>`).join('') +
+    `<option value="${OTHER_ENVIRONMENT}">${escapeHtml(t('Other...'))}</option>`;
+  environmentChoiceEl.value = selected;
+  environmentChoiceEl.requestUpdate?.();
+  environmentEl.closest('.native-field').hidden = selected !== OTHER_ENVIRONMENT;
+}
+
+// The server's environments, offered in the dropdown. A name not among
+// them is still accepted through Other - the environment may not be
+// deployed yet - and no list at all just leaves Other to type in.
 async function loadEnvironmentOptions() {
   try {
     const { environments } = await fetchJSON('/api/v1/classes/environments');
-    document.getElementById('environment-options').innerHTML = (environments || [])
-      .map((e) => `<option value="${escapeHtml(e)}"></option>`)
-      .join('');
+    knownEnvironments = environments || [];
   } catch {
-    // Left empty.
+    knownEnvironments = [];
   }
+  setEnvironment(getEnvironment());
 }
 
 // True once the group being edited is known to be the built-in All
@@ -148,8 +178,16 @@ async function loadParents(selectedId) {
   parentEl.requestUpdate?.();
 }
 
-parentEl.addEventListener('change', refreshClassEnvironment);
+parentEl.addEventListener('change', () => {
+  renderEnvironmentChoices(environmentChoiceEl.value);
+  refreshClassEnvironment();
+});
 environmentEl.addEventListener('change', refreshClassEnvironment);
+environmentChoiceEl.addEventListener('change', () => {
+  environmentEl.closest('.native-field').hidden = environmentChoiceEl.value !== OTHER_ENVIRONMENT;
+  if (environmentChoiceEl.value === OTHER_ENVIRONMENT) environmentEl.focus();
+  refreshClassEnvironment();
+});
 
 function warningText(w) {
   const vars = { ancestor: w.ancestorName, key: w.key, class: w.class };
@@ -404,7 +442,7 @@ async function loadForEdit() {
     setRuleMatch(g.ruleMatch);
     savedPins = g.pins || [];
     renderOverrides(g.warnings, null);
-    environmentEl.value = g.environment || '';
+    setEnvironment(g.environment || '');
     // The class list first, so each stored value gets the control its
     // parameter's type calls for.
     await refreshClassEnvironment();
@@ -514,7 +552,7 @@ async function save() {
     body = {
       name: nameEl.value.trim(),
       priority: Number(priorityEl.value),
-      environment: environmentEl.value.trim() || null,
+      environment: getEnvironment() || null,
       classes: classEditor.getClasses(),
       parameters: parseJSONField(parametersEl, {}),
       configData: parseConfigData(),
@@ -601,6 +639,7 @@ async function remove() {
 saveButton.addEventListener('click', save);
 deleteButton.addEventListener('click', remove);
 
+renderEnvironmentChoices('');
 loadEnvironmentOptions();
 if (isEdit) {
   loadForEdit();

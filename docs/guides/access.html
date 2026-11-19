@@ -164,6 +164,7 @@
       <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Operate">
       <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
@@ -255,8 +256,16 @@ reaches a person through a <strong>role</strong>. Programs, such as enc-bridge, 
 <td>seeing the System page</td>
 </tr>
 <tr>
+<td><code>agent-requests:read</code></td>
+<td>seeing what AI agents have asked to run</td>
+</tr>
+<tr>
+<td><code>agent-requests:approve</code></td>
+<td>approving and rejecting those requests</td>
+</tr>
+<tr>
 <td><code>rbac:admin</code></td>
-<td>managing users, roles and service tokens</td>
+<td>managing users, roles, service tokens and agent tokens</td>
 </tr>
 </tbody>
 </table></div>
@@ -671,6 +680,9 @@ once.</li>
 </ol>
 <p>Deleting a service token revokes it on every console instance at once.
 Signing out revokes the tokens of that session the same way.</p>
+<p>To give an AI agent access, use an agent token instead: it expires, is
+limited to node groups, and every change it asks for waits for someone&#39;s
+approval. See <a href="agents.html">Let AI agents use the console</a>.</p>
 <h2 id="keep-an-audit-trail">Keep an audit trail</h2>
 <p>Every change made through the console is on the <strong>Activity</strong> page, which
 needs <code>activity:read</code>. Separately, the console can write an audit log for

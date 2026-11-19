@@ -19,6 +19,14 @@ type ScheduleRef struct {
 	Name string `json:"name"`
 }
 
+// AgentRef names the approved agent request a job was started from: the
+// request, the agent token that made it, and the person who approved it.
+type AgentRef struct {
+	RequestID  int64  `json:"requestId"`
+	Token      string `json:"token"`
+	ApprovedBy string `json:"approvedBy"`
+}
+
 // StartRequest is everything about a job except what it does: which
 // nodes, on whose authority, and what started it. It is the same for a
 // request made over HTTP and for a schedule firing - the only
@@ -36,6 +44,8 @@ type StartRequest struct {
 	Actor string
 	// Schedule is set when a schedule is firing.
 	Schedule *ScheduleRef
+	// Agent is set when an approved agent request is starting the job.
+	Agent *AgentRef
 }
 
 // RunRequest is a request to run Puppet.
@@ -130,7 +140,7 @@ func (s *Starter) StartPatch(ctx context.Context, req PatchRequest) (Job, error)
 	if s.patches == nil {
 		return Job{}, errors.New("patching is not available on this console instance")
 	}
-	job, err := s.store.CreatePatchJob(ctx, options, certnames, req.Actor, JobOrigin{Source: source, Schedule: req.Schedule})
+	job, err := s.store.CreatePatchJob(ctx, options, certnames, req.Actor, JobOrigin{Source: source, Schedule: req.Schedule, Agent: req.Agent})
 	if err != nil {
 		return Job{}, err
 	}
@@ -191,7 +201,7 @@ func (s *Starter) StartRun(ctx context.Context, req RunRequest) (Job, error) {
 	if err != nil {
 		return Job{}, err
 	}
-	job, err := s.store.CreateRunJobFrom(ctx, options, certnames, req.Actor, JobOrigin{Source: source, Schedule: req.Schedule})
+	job, err := s.store.CreateRunJobFrom(ctx, options, certnames, req.Actor, JobOrigin{Source: source, Schedule: req.Schedule, Agent: req.Agent})
 	if err != nil {
 		return Job{}, err
 	}
@@ -255,7 +265,7 @@ func (s *Starter) StartTask(ctx context.Context, req TaskRequest) (Job, error) {
 	if req.Parent != nil {
 		parent, step = &req.Parent.JobID, &req.Parent.Step
 	}
-	job, err := s.store.CreateTaskJobChild(ctx, req.Task, prepared.payload.Environment, prepared.storedParams, certnames, req.Actor, JobOrigin{Source: source, Schedule: req.Schedule}, parent, step)
+	job, err := s.store.CreateTaskJobChild(ctx, req.Task, prepared.payload.Environment, prepared.storedParams, certnames, req.Actor, JobOrigin{Source: source, Schedule: req.Schedule, Agent: req.Agent}, parent, step)
 	if err != nil {
 		return Job{}, err
 	}

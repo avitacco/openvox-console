@@ -78,6 +78,7 @@
           <vox-sidenav-item href="/jobs.html" id="nav-jobs-link" current>
             <vox-icon slot="icon" name="orchestrate"></vox-icon>
             <span data-i18n>Jobs</span>
+            <vox-badge id="nav-approvals-count" variant="warning" style="display: none"></vox-badge>
           </vox-sidenav-item>
           <vox-sidenav-item href="/code.html" id="nav-code-link" style="display: none">
             <vox-icon slot="icon" name="deploy"></vox-icon>
@@ -113,6 +114,7 @@
         <a href="/jobs.html" aria-current="page" data-i18n>Job history</a>
         <a href="/schedules.html" data-i18n>Scheduled jobs</a>
         <a href="/plans.html" data-i18n>Plans</a>
+        <a href="/approvals.html" id="approvals-tab" style="display: none" data-i18n>Approvals</a>
       </vox-subnav>
 
       <div class="filters vox-display-flex vox-items-end vox-gap-md vox-flex-wrap vox-m-bottom-lg">
@@ -132,6 +134,10 @@
           <option value="failed" data-i18n>Failed</option>
         </vox-select>
         <vox-input id="triggered-by-filter" label="Triggered by" placeholder="Filter by actor" data-i18n-attr="label,placeholder"></vox-input>
+        <vox-select id="agent-filter" label="Started by" data-i18n-attr="label">
+          <option value="" data-i18n>Anyone</option>
+          <option value="true" data-i18n>AI agents (approved)</option>
+        </vox-select>
         <vox-select id="sort-order" label="Order" data-i18n-attr="label">
           <option value="desc" data-i18n>Newest first</option>
           <option value="asc" data-i18n>Oldest first</option>

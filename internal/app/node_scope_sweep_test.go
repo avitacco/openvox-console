@@ -99,6 +99,9 @@ var exemptRoutes = map[string]string{
 	"GET /api/v1/users/{id}/groups":                "rbac administration",
 	"GET /api/v1/roles/{id}":                       "rbac administration",
 	"GET /api/v1/service-tokens":                   "rbac administration",
+	"GET /api/v1/agent-tokens":                     "rbac administration",
+	"POST /api/v1/agent-tokens":                    "rbac administration",
+	"DELETE /api/v1/agent-tokens/{id}":             "rbac administration",
 	"GET /api/v1/vulnerability-provider-types":     "provider configuration, not node data",
 	"GET /api/v1/vulnerability-providers":          "provider configuration",
 	"GET /api/v1/vulnerability-providers/{id}":     "provider configuration",
@@ -470,6 +473,32 @@ func seedPatches(t *testing.T, dsn string) {
 	}
 }
 
+// seedAgentRequests records an agent token and two pending requests of it:
+// one on the visible node, one on the hidden node. It returns their ids.
+func seedAgentRequests(t *testing.T, dsn string) (visibleRequest, hiddenRequest int64) {
+	t.Helper()
+	ctx := context.Background()
+	conn, err := pgx.Connect(ctx, dsn)
+	if err != nil {
+		t.Fatalf("connect: %v", err)
+	}
+	defer conn.Close(ctx)
+	var token int64
+	if err := conn.QueryRow(ctx, `INSERT INTO agent_tokens (name, jti, owner, permissions, expires_at)
+		VALUES ('sweep-agent', 'sweep-agent-jti', 'nobody', '{orchestrator:run}', now() + interval '1 day') RETURNING id`).Scan(&token); err != nil {
+		t.Fatalf("seed agent token: %v", err)
+	}
+	request := func(node string) int64 {
+		var id int64
+		if err := conn.QueryRow(ctx, `INSERT INTO agent_requests (token_id, token_name, kind, summary, body, targets, expires_at)
+			VALUES ($1, 'sweep-agent', 'run', 'a Puppet run on '||$2::text, '{}', ARRAY[$2::text], now() + interval '1 hour') RETURNING id`, token, node).Scan(&id); err != nil {
+			t.Fatalf("seed agent request: %v", err)
+		}
+		return id
+	}
+	return request(visibleNode), request(hiddenNode)
+}
+
 // seedJobs records three finished runs - on the visible node, on the
 // hidden node, and on both - and returns their ids in that order.
 func seedJobs(t *testing.T, dsn string) (visibleJob, hiddenJob, bothJob int64) {
@@ -542,6 +571,7 @@ func TestNodeScope_NoRouteReachesANodeOutsideTheCallersGroups(t *testing.T) {
 	seedPatches(t, cluster.DSN())
 	visibleAgentlessID, hiddenAgentlessID := seedAgentless(t, cluster.DSN())
 	visibleJob, hiddenJob, bothJob := seedJobs(t, cluster.DSN())
+	visibleRequest, hiddenRequest := seedAgentRequests(t, cluster.DSN())
 	c := sweepClient{t: t, inst: inst}
 	admin := inst.Login(t, testapp.BootstrapAdminUser, testapp.BootstrapAdminPassword)
 
@@ -568,6 +598,7 @@ func TestNodeScope_NoRouteReachesANodeOutsideTheCallersGroups(t *testing.T) {
 			"nodes:read", "classifier:read", "vulnerabilities:read", "code:read",
 			"orchestrator:read", "activity:read", "status:read",
 			"orchestrator:run", "nodes:manage", "nodes:certs:manage", "agentless:manage",
+			"agent-requests:read", "agent-requests:approve",
 		},
 		"nodeGroups": []int64{web},
 	}, &role)
@@ -623,8 +654,10 @@ func TestNodeScope_NoRouteReachesANodeOutsideTheCallersGroups(t *testing.T) {
 			"/api/v1/orchestrator/jobs?pageSize=100",
 			"/api/v1/orchestrator/jobs?pageSize=100&target=hidden",
 		},
-		"GET /api/v1/orchestrator/schedules":      {"/api/v1/orchestrator/schedules"},
-		"GET /api/v1/orchestrator/schedules/{id}": {schedulePath},
+		"GET /api/v1/orchestrator/schedules":       {"/api/v1/orchestrator/schedules"},
+		"GET /api/v1/orchestrator/schedules/{id}":  {schedulePath},
+		"GET /api/v1/agent-requests":               {"/api/v1/agent-requests", "/api/v1/agent-requests?status=pending"},
+		"GET /api/v1/agent-requests/pending-count": {"/api/v1/agent-requests/pending-count"},
 		"GET /api/v1/orchestrator/jobs/{id}": {
 			fmt.Sprintf("/api/v1/orchestrator/jobs/%d", hiddenJob),
 			fmt.Sprintf("/api/v1/orchestrator/jobs/%d", bothJob),
@@ -706,6 +739,13 @@ func TestNodeScope_NoRouteReachesANodeOutsideTheCallersGroups(t *testing.T) {
 		"POST /api/v1/agentless/targets/{id}/host-key/accept":  {http.MethodPost, "/api/v1/agentless/targets/%d/host-key/accept", map[string]any{"fingerprint": "SHA256:x"}},
 		"POST /api/v1/agentless/targets/{id}/host-key/replace": {http.MethodPost, "/api/v1/agentless/targets/%d/host-key/replace", map[string]any{"fingerprint": "SHA256:x"}},
 	}
+	// An agent request is addressed by id, so one on a node the caller may
+	// not see answers as an id nothing has, whatever is done to it.
+	agentRequestByID := map[string]action{
+		"GET /api/v1/agent-requests/{id}":          {http.MethodGet, "/api/v1/agent-requests/%d", nil},
+		"POST /api/v1/agent-requests/{id}/approve": {http.MethodPost, "/api/v1/agent-requests/%d/approve", nil},
+		"POST /api/v1/agent-requests/{id}/reject":  {http.MethodPost, "/api/v1/agent-requests/%d/reject", nil},
+	}
 	agentlessCredentials := map[string]action{
 		"GET /api/v1/agentless/credentials":         {http.MethodGet, "/api/v1/agentless/credentials", nil},
 		"GET /api/v1/agentless/credentials/{id}":    {http.MethodGet, "/api/v1/agentless/credentials/1", nil},
@@ -722,7 +762,8 @@ func TestNodeScope_NoRouteReachesANodeOutsideTheCallersGroups(t *testing.T) {
 		_, hidden := notFound[route]
 		_, byID := agentlessByID[route]
 		_, cred := agentlessCredentials[route]
-		swept := read || acted || hidden || byID || cred
+		_, reqByID := agentRequestByID[route]
+		swept := read || acted || hidden || byID || cred || reqByID
 		_, exempt := exemptRoutes[route]
 		switch {
 		case swept && exempt:
@@ -750,6 +791,7 @@ func TestNodeScope_NoRouteReachesANodeOutsideTheCallersGroups(t *testing.T) {
 		"/api/v1/patches/packages?name=hidden-only-patch":      "hidden-only-patch",
 		"/api/v1/nodes/" + hiddenNode + "/patches":             "hidden-only-patch",
 		"/api/v1/agentless/targets":                            "hidden-agentless-target",
+		"/api/v1/agent-requests":                               hiddenNode,
 	} {
 		if status, body := c.get(path, admin); status != http.StatusOK || !strings.Contains(body, marker) {
 			t.Fatalf("fixture check: admin GET %s = %d, missing %q:\n%s", path, status, marker, body)
@@ -817,6 +859,20 @@ func TestNodeScope_NoRouteReachesANodeOutsideTheCallersGroups(t *testing.T) {
 			t.Errorf("%s on a hidden target = %d %s; a missing one = %d %s; want identical 404s", route, status, body, missingStatus, missingBody)
 		}
 	}
+	for route, a := range agentRequestByID {
+		status, body := c.do(a.method, fmt.Sprintf(a.path, hiddenRequest), scoped, a.body)
+		missingStatus, missingBody := c.do(a.method, fmt.Sprintf(a.path, int64(999999999)), scoped, a.body)
+		if status != http.StatusNotFound || status != missingStatus || body != missingBody {
+			t.Errorf("%s on a hidden request = %d %s; a missing one = %d %s; want identical 404s", route, status, body, missingStatus, missingBody)
+		}
+	}
+	if status, body := c.get(fmt.Sprintf("/api/v1/agent-requests/%d", hiddenRequest), admin); status != http.StatusOK || !strings.Contains(body, `"status":"pending"`) {
+		t.Errorf("the hidden request after the scoped user's attempts = %d %s; want it still pending", status, body)
+	}
+	if status, body := c.get("/api/v1/agent-requests", scoped); status != http.StatusOK || !strings.Contains(body, visibleNode) || strings.Contains(body, hiddenNode) {
+		t.Errorf("the scoped user's request list = %d %s; want their node's request and not the hidden one", status, body)
+	}
+	_ = visibleRequest
 	// Their own target is theirs to read and manage.
 	if status, body := c.get(fmt.Sprintf("/api/v1/agentless/targets/%d", visibleAgentlessID), scoped); status != http.StatusOK || !strings.Contains(body, visibleAgentless) {
 		t.Errorf("the scoped user's own agentless target: %d %s", status, body)

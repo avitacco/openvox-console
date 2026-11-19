@@ -29,7 +29,9 @@ Managing users, roles and tokens needs `rbac:admin`.
 | `agentless:manage` | adding, changing and deleting agentless SSH targets and shared credentials, and trusting their host keys |
 | `activity:read` | seeing the activity log |
 | `status:read` | seeing the System page |
-| `rbac:admin` | managing users, roles and service tokens |
+| `agent-requests:read` | seeing what AI agents have asked to run |
+| `agent-requests:approve` | approving and rejecting those requests |
+| `rbac:admin` | managing users, roles, service tokens and agent tokens |
 
 > [!NOTE]
 > The bootstrap admin gets every permission. A permission added in a
@@ -399,6 +401,10 @@ only what it needs:
 
 Deleting a service token revokes it on every console instance at once.
 Signing out revokes the tokens of that session the same way.
+
+To give an AI agent access, use an agent token instead: it expires, is
+limited to node groups, and every change it asks for waits for someone's
+approval. See [Let AI agents use the console](agents.html).
 
 ## Keep an audit trail
 

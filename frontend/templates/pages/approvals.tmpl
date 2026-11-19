@@ -1,0 +1,28 @@
+{{define "content" -}}
+    <main class="vox-container vox-p-y-xl">
+      <h1 class="vox-ts-xl vox-m-bottom-md" data-i18n>Approvals</h1>
+      <vox-subnav label="Jobs" class="vox-m-bottom-lg" data-i18n-attr="label">
+        <a href="/jobs.html" data-i18n>Job history</a>
+        <a href="/schedules.html" data-i18n>Scheduled jobs</a>
+        <a href="/plans.html" data-i18n>Plans</a>
+        <a href="/approvals.html" id="approvals-tab" aria-current="page" data-i18n>Approvals</a>
+      </vox-subnav>
+
+      <p class="vox-m-bottom-lg" data-i18n>AI agents ask here before anything runs. Review exactly what a request would do, then approve it to start the job, or reject it.</p>
+
+      <div id="decision-panel"></div>
+
+      <div class="filters vox-display-flex vox-items-end vox-gap-md vox-flex-wrap vox-m-bottom-lg">
+        <vox-select id="status-filter" label="Show" data-i18n-attr="label">
+          <option value="pending" data-i18n>Waiting for a decision</option>
+          <option value="" data-i18n>All</option>
+          <option value="approved" data-i18n>Approved</option>
+          <option value="rejected" data-i18n>Rejected</option>
+          <option value="expired" data-i18n>Expired</option>
+          <option value="failed" data-i18n>Failed</option>
+        </vox-select>
+      </div>
+
+      <div id="results"></div>
+    </main>
+{{- end}}

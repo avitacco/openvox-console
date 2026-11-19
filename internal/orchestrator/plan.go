@@ -216,7 +216,7 @@ func (s *Starter) StartPlan(ctx context.Context, req PlanRequest) (Job, error) {
 			payloads[i] = *step.payload
 		}
 	}
-	plan, err := s.store.CreatePlanFrom(ctx, req.Name, rows, certnames, req.Actor, JobOrigin{Source: source, Schedule: req.Schedule})
+	plan, err := s.store.CreatePlanFrom(ctx, req.Name, rows, certnames, req.Actor, JobOrigin{Source: source, Schedule: req.Schedule, Agent: req.Agent})
 	if err != nil {
 		return Job{}, err
 	}

@@ -5,6 +5,7 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/voxpupuli/enterprise-console/internal/auditlog"
 )
@@ -901,5 +902,38 @@ func TestLoadConfig_AgentAutoUpgrade(t *testing.T) {
 	env := validEnv(map[string]string{"CONSOLE_AGENT_AUTO_UPGRADE": "flase"})
 	if _, err := LoadConfig(func(k string) string { return env[k] }); err == nil {
 		t.Error("an unrecognized CONSOLE_AGENT_AUTO_UPGRADE value was accepted")
+	}
+}
+
+func TestLoadConfig_AgentAPISettings(t *testing.T) {
+	load := func(extra map[string]string) (Config, error) {
+		env := validEnv(extra)
+		return LoadConfig(func(k string) string { return env[k] })
+	}
+	cfg, err := load(nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if cfg.MCPEnabled || cfg.MCPRatePerMinute != 60 || cfg.AgentRequestTTL != time.Hour || cfg.AgentTokenMaxDays != 90 {
+		t.Errorf("defaults = %+v", cfg)
+	}
+	cfg, err = load(map[string]string{"CONSOLE_MCP_ENABLED": "true", "CONSOLE_MCP_RATE_LIMIT": "10", "CONSOLE_AGENT_REQUEST_TTL": "30m", "CONSOLE_AGENT_TOKEN_MAX_DAYS": "7"})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !cfg.MCPEnabled || cfg.MCPRatePerMinute != 10 || cfg.AgentRequestTTL != 30*time.Minute || cfg.AgentTokenMaxDays != 7 {
+		t.Errorf("set = %+v", cfg)
+	}
+	for _, bad := range []map[string]string{
+		{"CONSOLE_MCP_ENABLED": "flase"},
+		{"CONSOLE_MCP_RATE_LIMIT": "0"},
+		{"CONSOLE_MCP_RATE_LIMIT": "many"},
+		{"CONSOLE_AGENT_REQUEST_TTL": "soon"},
+		{"CONSOLE_AGENT_REQUEST_TTL": "5s"},
+		{"CONSOLE_AGENT_TOKEN_MAX_DAYS": "-1"},
+	} {
+		if _, err := load(bad); err == nil {
+			t.Errorf("%v was accepted", bad)
+		}
 	}
 }

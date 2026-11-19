@@ -81,11 +81,13 @@ func (s *Store) CreateRunJob(ctx context.Context, options RunOptions, targets []
 type JobOrigin struct {
 	Source   *TargetSource
 	Schedule *ScheduleRef
+	// Agent is the approved agent request that started the job.
+	Agent *AgentRef
 }
 
 // setOrigin records origin on the job just inserted in tx.
 func setOrigin(ctx context.Context, tx pgx.Tx, jobID int64, origin JobOrigin) error {
-	if origin.Source == nil && origin.Schedule == nil {
+	if origin.Source == nil && origin.Schedule == nil && origin.Agent == nil {
 		return nil
 	}
 	var source []byte
@@ -104,9 +106,15 @@ func setOrigin(ctx context.Context, tx pgx.Tx, jobID int64, origin JobOrigin) er
 			scheduleID = &origin.Schedule.ID
 		}
 	}
+	var agentRequest *int64
+	var agentToken, approvedBy *string
+	if origin.Agent != nil {
+		agentRequest, agentToken, approvedBy = &origin.Agent.RequestID, &origin.Agent.Token, &origin.Agent.ApprovedBy
+	}
 	if _, err := tx.Exec(ctx,
-		`UPDATE jobs SET target_source = $2, schedule_id = $3, schedule_name = $4 WHERE id = $1`,
-		jobID, source, scheduleID, scheduleName); err != nil {
+		`UPDATE jobs SET target_source = $2, schedule_id = $3, schedule_name = $4,
+		        agent_request_id = $5, agent_token = $6, approved_by = $7 WHERE id = $1`,
+		jobID, source, scheduleID, scheduleName, agentRequest, agentToken, approvedBy); err != nil {
 		return fmt.Errorf("record job origin: %w", err)
 	}
 	return nil
@@ -459,6 +467,8 @@ type JobFilter struct {
 	// restriction; an empty, non-nil list matches no job. A plan has no
 	// targets of its own, so it matches through its steps.
 	Certnames []string
+	// Agent limits the list to jobs started by approving an agent request.
+	Agent bool
 }
 
 // inScopeCondition is the SQL for "this jobs row ran on one of the
@@ -506,6 +516,9 @@ func (s *Store) ListJobs(ctx context.Context, page, pageSize int, filter JobFilt
 		conditions = append(conditions, fmt.Sprintf("EXISTS (SELECT 1 FROM job_targets jt WHERE jt.job_id = jobs.id AND jt.certname ILIKE $%d)", len(args)))
 	}
 
+	if filter.Agent {
+		conditions = append(conditions, "agent_request_id IS NOT NULL")
+	}
 	if filter.Certnames != nil {
 		args = append(args, filter.Certnames)
 		conditions = append(conditions, inScopeCondition(len(args)))
@@ -538,7 +551,8 @@ func (s *Store) ListJobs(ctx context.Context, page, pageSize int, filter JobFilt
 	args = append(args, pageSize, (page-1)*pageSize)
 	query := fmt.Sprintf(
 		`SELECT id, kind, COALESCE(task_name, ''), COALESCE(plan_name, ''), status, triggered_by, started_at, finished_at, parent_job_id, step_order,
-		        CASE WHEN kind = 'run' THEN params END, target_source, schedule_id, schedule_name
+		        CASE WHEN kind = 'run' THEN params END, target_source, schedule_id, schedule_name,
+		        agent_request_id, agent_token, approved_by
 		 FROM jobs %s ORDER BY started_at %s, id %s LIMIT $%d OFFSET $%d`,
 		where, order, order, len(args)-1, len(args),
 	)
@@ -557,7 +571,7 @@ func (s *Store) ListJobs(ctx context.Context, page, pageSize int, filter JobFilt
 		var runParams json.RawMessage
 		var origin jobOriginColumns
 		if err := rows.Scan(&j.ID, &kind, &j.TaskName, &j.PlanName, &j.Status, &j.TriggeredBy, &j.StartedAt, &j.FinishedAt, &j.ParentJobID, &j.StepOrder, &runParams,
-			&origin.source, &origin.scheduleID, &origin.scheduleName); err != nil {
+			&origin.source, &origin.scheduleID, &origin.scheduleName, &origin.agentRequest, &origin.agentToken, &origin.approvedBy); err != nil {
 			rows.Close()
 			return nil, 0, fmt.Errorf("list jobs: %w", err)
 		}
@@ -685,6 +699,9 @@ type jobOriginColumns struct {
 	source       []byte
 	scheduleID   *int64
 	scheduleName *string
+	agentRequest *int64
+	agentToken   *string
+	approvedBy   *string
 }
 
 func (c jobOriginColumns) apply(j *Job) {
@@ -692,6 +709,12 @@ func (c jobOriginColumns) apply(j *Job) {
 		var source TargetSource
 		if err := json.Unmarshal(c.source, &source); err == nil {
 			j.TargetSource = &source
+		}
+	}
+	if c.agentRequest != nil && c.agentToken != nil {
+		j.Agent = &AgentRef{RequestID: *c.agentRequest, Token: *c.agentToken}
+		if c.approvedBy != nil {
+			j.Agent.ApprovedBy = *c.approvedBy
 		}
 	}
 	if c.scheduleName != nil {
@@ -754,11 +777,11 @@ func (s *Store) GetJob(ctx context.Context, id int64) (Job, error) {
 	var origin jobOriginColumns
 	err := s.pool.QueryRow(ctx,
 		`SELECT id, kind, COALESCE(task_name, ''), COALESCE(plan_name, ''), COALESCE(environment, ''), params, status, triggered_by, started_at, finished_at, parent_job_id, step_order,
-		        target_source, schedule_id, schedule_name, heartbeat_at, plan_trace, result, error
+		        target_source, schedule_id, schedule_name, agent_request_id, agent_token, approved_by, heartbeat_at, plan_trace, result, error
 		 FROM jobs WHERE id = $1`,
 		id,
 	).Scan(&j.ID, &kind, &j.TaskName, &j.PlanName, &j.Environment, &j.Params, &j.Status, &j.TriggeredBy, &j.StartedAt, &j.FinishedAt, &j.ParentJobID, &j.StepOrder,
-		&origin.source, &origin.scheduleID, &origin.scheduleName, &j.HeartbeatAt, &traceRaw, &j.Result, &j.Error)
+		&origin.source, &origin.scheduleID, &origin.scheduleName, &origin.agentRequest, &origin.agentToken, &origin.approvedBy, &j.HeartbeatAt, &traceRaw, &j.Result, &j.Error)
 	if errors.Is(err, pgx.ErrNoRows) {
 		return Job{}, ErrNotFound
 	}

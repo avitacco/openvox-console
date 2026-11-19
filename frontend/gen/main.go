@@ -39,6 +39,8 @@ var pages = []page{
 	{Name: "user-groups.html", Title: "User groups - OpenVox Console", Script: "user-groups", ShowHeader: true, ActiveNav: "admin"},
 	{Name: "roles.html", Title: "Roles - OpenVox Console", Script: "roles", ShowHeader: true, ActiveNav: "admin"},
 	{Name: "service-tokens.html", Title: "Service Tokens - OpenVox Console", Script: "service-tokens", ShowHeader: true, ActiveNav: "admin"},
+	{Name: "agent-tokens.html", Title: "Agent tokens - OpenVox Console", Script: "agent-tokens", ShowHeader: true, ActiveNav: "admin"},
+	{Name: "approvals.html", Title: "Approvals - OpenVox Console", Script: "approvals", ShowHeader: true, ActiveNav: "jobs"},
 	{Name: "activity.html", Title: "Activity - OpenVox Console", Script: "activity", ShowHeader: true, ActiveNav: "activity"},
 	{Name: "status.html", Title: "Stack Status - OpenVox Console", Script: "status", ShowHeader: true, ActiveNav: "system"},
 	{Name: "code.html", Title: "Code - OpenVox Console", Script: "code", ShowHeader: true, ActiveNav: "code"},

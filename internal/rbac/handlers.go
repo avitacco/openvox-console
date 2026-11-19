@@ -43,6 +43,7 @@ type Handlers struct {
 	revoker        *Revoker
 	issuer         *Issuer
 	oidc           *OIDCService
+	agentMaxLife   time.Duration
 	recordActivity func(r *http.Request, action, summary string)
 
 	// recordAuditAuth is bound to the auth category (only used here for
@@ -111,6 +112,8 @@ func (h *Handlers) Register(mux *http.ServeMux) {
 	mux.HandleFunc("GET /api/v1/service-tokens", h.verifier.Authorize("rbac:admin", h.listServiceTokens))
 	mux.HandleFunc("POST /api/v1/service-tokens", h.verifier.Authorize("rbac:admin", h.createServiceToken))
 	mux.HandleFunc("DELETE /api/v1/service-tokens/{id}", h.verifier.Authorize("rbac:admin", h.revokeServiceToken))
+
+	h.registerAgentTokens(mux)
 }
 
 // --- auth ---

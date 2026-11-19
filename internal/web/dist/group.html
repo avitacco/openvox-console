@@ -78,6 +78,7 @@
           <vox-sidenav-item href="/jobs.html" id="nav-jobs-link" style="display: none">
             <vox-icon slot="icon" name="orchestrate"></vox-icon>
             <span data-i18n>Jobs</span>
+            <vox-badge id="nav-approvals-count" variant="warning" style="display: none"></vox-badge>
           </vox-sidenav-item>
           <vox-sidenav-item href="/code.html" id="nav-code-link" style="display: none">
             <vox-icon slot="icon" name="deploy"></vox-icon>
@@ -131,11 +132,13 @@
           <div class="vox-display-flex vox-gap-lg vox-flex-wrap vox-items-start">
             <vox-input id="priority" class="field-narrow" label="Priority" type="number" required
               note="Higher wins a conflict." data-i18n-attr="label,note"></vox-input>
-            <div class="native-field field-grow">
-              <label for="environment" data-i18n>Environment (optional)</label>
-              <input id="environment" class="native-control" list="environment-options" autocomplete="off" spellcheck="false">
-              <datalist id="environment-options"></datalist>
-              <p class="native-note" data-i18n>Puppet environment matching nodes compile against. Blank means this group doesn't set one.</p>
+            <div class="field-grow">
+              <vox-select id="environment-choice" label="Environment" data-i18n-attr="label"></vox-select>
+              <p class="native-note" data-i18n>Puppet environment matching nodes compile against. Not set means this group doesn't choose one; it takes its parent's.</p>
+              <div class="native-field vox-m-top-sm" hidden>
+                <label for="environment" data-i18n>Environment name</label>
+                <input id="environment" class="native-control" autocomplete="off" spellcheck="false">
+              </div>
             </div>
           </div>
           <p class="vox-ts-sm vox-color-text-2 vox-m-top-sm vox-m-bottom-none" data-i18n-html>

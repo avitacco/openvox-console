@@ -399,6 +399,7 @@ func (h *Handlers) listJobs(w http.ResponseWriter, r *http.Request) {
 		Target:      r.URL.Query().Get("target"),
 		SortAsc:     r.URL.Query().Get("sort") == "asc",
 	}
+	filter.Agent = r.URL.Query().Get("agent") == "true"
 	if parent := r.URL.Query().Get("parent"); parent != "" {
 		id, err := strconv.ParseInt(parent, 10, 64)
 		if err != nil {

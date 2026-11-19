@@ -140,6 +140,7 @@
       <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
       <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Operate">
       <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
@@ -230,7 +231,12 @@ group&#39;s page lists such pins so that one with no effect is not silent.</p>
 <ol>
 <li>Open <strong>Groups</strong> and create a group.</li>
 <li>Name it, choose its <strong>parent group</strong>, and choose its <strong>environment</strong>
-if it should set one.</li>
+if it should set one. The environment is a dropdown. <strong>Not set</strong>
+(which says what the group then inherits from its parent) leaves the
+choice to the parent. The environments openvoxserver reports are
+listed below it. <strong>Other...</strong> opens a text field for a name that is
+not listed yet, such as a branch you have just pushed, or when the
+list could not be loaded.</li>
 <li>Add <strong>classes</strong>, each with any parameters it needs, and any
 <strong>top-scope parameters</strong>. See <a href="#choose-classes">Choose classes</a>
 below.</li>

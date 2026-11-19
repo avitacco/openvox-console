@@ -94,6 +94,8 @@ type Job struct {
 	TargetSource *TargetSource `json:"targetSource,omitempty"`
 	// Schedule is the schedule that started the job, if one did.
 	Schedule *ScheduleRef `json:"schedule,omitempty"`
+	// Agent is the agent request that was approved to start the job.
+	Agent *AgentRef `json:"agentRequest,omitempty"`
 
 	// TargetsHidden is set on a job read by a caller whose node group
 	// scope does not cover every node the job ran on: some results are
@@ -142,6 +144,9 @@ func (j Job) originNote() string {
 	}
 	if j.Schedule != nil {
 		note += fmt.Sprintf(", started by schedule %q", j.Schedule.Name)
+	}
+	if j.Agent != nil {
+		note += fmt.Sprintf(", requested by agent %q and approved by %s", j.Agent.Token, j.Agent.ApprovedBy)
 	}
 	return note
 }

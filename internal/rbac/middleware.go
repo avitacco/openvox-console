@@ -41,6 +41,12 @@ func (v *Verifier) Authenticate(h http.HandlerFunc) http.HandlerFunc {
 			writeJSONError(w, http.StatusUnauthorized, err.Error())
 			return
 		}
+		// An agent token is for the agent endpoint alone: anywhere else it
+		// is refused, so a leaked one cannot be used against the REST API.
+		if claims.Type == TokenTypeAgent && !agentTokensAllowed(r.Context()) {
+			writeJSONError(w, http.StatusUnauthorized, "an agent token can only be used with the agent endpoint")
+			return
+		}
 		ctx := context.WithValue(r.Context(), claimsContextKey, claims)
 		h(w, r.WithContext(ctx))
 	}
