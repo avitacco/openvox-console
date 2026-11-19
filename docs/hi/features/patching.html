@@ -1,0 +1,241 @@
+<!DOCTYPE html><html lang="hi" dir="ltr"><head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="Scan Linux nodes for pending updates and patch them in batches, with a dry run, a stop threshold and an optional reboot."/>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+    <title>Patching - OpenVox Console</title>
+
+    
+    <script>
+      (function () {
+        
+        
+        var stored = null;
+        try { stored = localStorage.getItem('vox-theme'); } catch (e) {}
+        var theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-vox-theme', theme);
+      })();
+    </script>
+    <style>
+      html { background-color: #f5faf9; }
+      html[data-vox-theme='dark'] { background-color: #0d1417; }
+      html:not([data-vox-ready]) body { visibility: hidden; }
+    </style>
+    
+    <noscript><style>body { visibility: visible !important; }</style></noscript>
+    <script>
+      setTimeout(function () {
+        document.documentElement.setAttribute('data-vox-ready', '');
+      }, 2000);
+    </script>
+
+    
+    <script>
+      (function () {
+        var LOCALES = ["en", "zh", "hi", "es", "fr", "de", "ja", "ar", ];
+        var KEY = 'vox-lang';
+
+        function stored() {
+          
+          
+          try { return localStorage.getItem(KEY); } catch (e) { return null; }
+        }
+
+        
+        
+        
+        
+        
+        document.addEventListener('click', function (event) {
+          var path = event.composedPath ? event.composedPath() : [event.target];
+          for (var i = 0; i < path.length; i++) {
+            var code = path[i].getAttribute && path[i].getAttribute('data-lang');
+            if (code) {
+              try { localStorage.setItem(KEY, code); } catch (e) {}
+              return;
+            }
+          }
+        });
+        
+      })();
+    </script>
+
+    <link rel="stylesheet" href="../../vendor/voxblocks.css"/>
+    <link rel="stylesheet" href="../../site.css"/>
+    <script type="module" src="../../vendor/voxblocks.js"></script>
+    <script type="module" src="../../theme.js"></script>
+    <script type="module" src="../../lightbox.js"></script>
+    
+  </head>
+  <body>
+    
+    <a class="skip-link" href="#main">सामग्री पर जाएँ</a>
+
+    <vox-header site-title="OpenVox Console" href="../index.html">
+      
+      <svg slot="logo" viewBox="0 0 2560 2478" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M1946.22 272.18L1874.51 643.161C1840.69 625.335 1769.51 597.048 1744.63 592.202L1946.22 272.18ZM1647.05 893.509C1735.54 894.748 1789.05 935.815 1845.35 1010.52C1716.57 1047.71 1641.84 987.053 1586.85 899.704C1600.03 898.445 1634.39 893.339 1647.05 893.509ZM1421.62 600.655C1288.19 638.415 1170.91 730.251 1126.1 808.997C1126.1 808.997 1186.31 336.289 1244.88 158.652C1315.83 282.552 1421.62 600.655 1421.62 600.655ZM2477.39 1158.21C2342.39 1125.61 2074.76 1042.77 2053.7 881.139C2043.59 803.362 1980.86 717.271 1947.86 694.589L2004.72 106.064L1517.51 580.681C1517.51 580.681 1358.55 170.153 1243.89 0C1100.67 241.805 932.123 707.949 896.253 809.107L1227.33 1744.42C1243.68 1615.28 1328.09 1472.06 1428.27 1381.86C1350.61 1280.89 1210.56 1250.76 1151.7 1289.73C1228.31 1186.22 1376.21 1050.44 1651.27 1124.86C1773.51 1157.92 1898.72 1222.92 1978.75 1240.54C2184.12 1285.76 2337.81 1231.2 2337.81 1231.2C2336.23 1279.58 2360.5 1315.47 2410.61 1338.87C2196.05 1539.04 1914.11 1376.52 1715.51 1407.29C1514.8 1438.43 1238.87 2011.65 1201.73 2093.07L593.825 394.322L584.775 369.242C535.086 234.271 451.316 124.12 296.898 124.12H0V473.618H92.0793C145.649 473.618 170.849 489.355 189.769 542.882L903.123 2478H1248.99L1312.45 2324.93L1556.24 1812.6C1660.38 1581.57 1765.81 1518.18 2072.12 1531.73C2162.6 1535.73 2349.93 1537.27 2457.29 1405.96C2611.96 1216.8 2569.29 1180.38 2477.43 1158.16" fill="currentColor"></path>
+      </svg>
+      
+      <nav slot="actions" class="lang-switcher" aria-label="भाषा">
+        <vox-dropdown label="हिन्दी">
+          <a data-lang="en" href="../../features/patching.html" hreflang="en" lang="en">English</a>
+          <a data-lang="zh" href="../../zh/features/patching.html" hreflang="zh" lang="zh">中文</a>
+          <a aria-current="page" data-lang="hi" href="../../hi/features/patching.html" hreflang="hi" lang="hi">हिन्दी</a>
+          <a data-lang="es" href="../../es/features/patching.html" hreflang="es" lang="es">Español</a>
+          <a data-lang="fr" href="../../fr/features/patching.html" hreflang="fr" lang="fr">Français</a>
+          <a data-lang="de" href="../../de/features/patching.html" hreflang="de" lang="de">Deutsch</a>
+          <a data-lang="ja" href="../../ja/features/patching.html" hreflang="ja" lang="ja">日本語</a>
+          <a data-lang="ar" href="../../ar/features/patching.html" hreflang="ar" lang="ar">العربية</a>
+          </vox-dropdown>
+      </nav>
+      <vox-theme-toggle slot="actions"></vox-theme-toggle>
+      
+      <a href="../guides/index.html" slot="actions">Guides</a>
+      <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
+    </vox-header>
+
+    <div class="site-subnav">
+      <vox-subnav label="क्षमताएँ" class="vox-container">
+      
+      <a href="../features/nodes.html">Nodes</a>
+      <a href="../features/classification.html">वर्गीकरण</a>
+      <a href="../features/code.html">Code</a>
+      <a href="../features/orchestration.html">ऑर्केस्ट्रेशन</a>
+      <a aria-current="page" href="../features/patching.html">Patching</a>
+      <a href="../features/security.html">सुरक्षा</a>
+      <a href="../features/access-control.html">पहुँच नियंत्रण</a>
+      <a href="../features/ai-agents.html">AI agents</a>
+      <a href="../features/scaling.html">Scaling</a>
+      </vox-subnav>
+    </div>
+
+    <main id="main">
+      <div class="site-main vox-container">
+<vox-hero eyebrow="Patching" heading="See what is out of date, then patch it safely">
+  <p>Scan Linux nodes for the updates they are missing, and apply them in batches with a way to stop before a bad update reaches the whole fleet.</p>
+</vox-hero>
+
+<section class="site-section">
+  <h2 class="vox-ts-xxl">Pending updates, as each node&#39;s package manager reports them</h2>
+  <div class="vox-prose">
+    <p>A scan asks the node&#39;s agent to run apt, dnf or yum in a mode that changes nothing, then shows each pending update with its installed and available versions and whether the package manager calls it a security update. A node also says whether it already needs a reboot.</p>
+    <p>Scans run on a schedule you control, or on demand for one node or a whole group. A node that cannot be scanned is listed as unable to report — never shown as fully patched.</p>
+  </div>
+</section>
+
+<figure class="shot">
+  <a class="shot-link" href="../../assets/screenshots/patching-light-hi.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/patching-dark-hi.png" data-theme-dark="../../assets/screenshots/patching-dark-hi.png" data-theme-light="../../assets/screenshots/patching-light-hi.png"/>
+      <img src="../../assets/screenshots/patching-light-hi.png" alt="The Patching page listing each Linux node with its pending updates, how many of them are security fixes and whether it needs a reboot, with options to scan and to patch a node group" width="1440"/>
+    </picture>
+    <span class="vox-sr-only">Open full size</span>
+  </a>
+</figure>
+
+<section class="site-section">
+  <h2 class="vox-ts-xxl">Patch in batches, with a safety stop</h2>
+  <div class="vox-prose">
+    <p>Choose security updates, everything, or named packages, and how many nodes to patch at once. Set how many failures end the run, so that no further batch starts once something has gone wrong. Preview with a dry run that installs nothing, and let nodes that need it reboot when they are done.</p>
+    <p>Progress is shown node by node, a node that goes quiet part-way is reported as having done so instead of hanging forever, and when it finishes the node is scanned again so the page shows what is really left.</p>
+  </div>
+</section>
+
+<vox-timeline>
+  <vox-timeline-item heading="Scan">Each node reports what its package manager would upgrade.</vox-timeline-item>
+  <vox-timeline-item heading="Dry run">Preview a run on the nodes you chose. Nothing is installed.</vox-timeline-item>
+  <vox-timeline-item heading="Batches">Patch a few nodes at a time, stopping after as many failures as you allow.</vox-timeline-item>
+  <vox-timeline-item heading="Rescan">Each patched node is scanned again, so what remains is on record.</vox-timeline-item>
+</vox-timeline>
+
+<vox-grid min="240px" gap="lg">
+  <vox-card heading="Scoped to your nodes">
+    <vox-icon slot="icon" name="node-group"></vox-icon>
+    Scanning and patching follow the same node group access as every other
+    action: people can patch the nodes their roles cover, and no others.
+  </vox-card>
+  <vox-card heading="Scheduled or on demand">
+    <vox-icon slot="icon" name="orchestrate"></vox-icon>
+    Patch runs are jobs like any other, with results per node, and show up
+    in the job history with their options.
+  </vox-card>
+</vox-grid>
+
+<vox-callout variant="warning" heading="Linux with apt, dnf or yum">
+  <p>Windows, macOS and zypper (SUSE) nodes are not scanned. They are listed as unable to report, so a gap in coverage is visible rather than mistaken for a clean bill of health.</p>
+</vox-callout>
+
+      
+      <section class="site-section do-it" aria-labelledby="do-it-heading">
+        <h2 id="do-it-heading" class="vox-ts-xxl">Do it</h2>
+        <vox-grid min="16rem">
+          <vox-card heading="Find and apply missing updates" href="../guides/patching.html"><p>Scan Linux nodes for pending package updates, then patch them in batches with a dry run, a stop threshold and an optional reboot.</p></vox-card>
+          </vox-grid>
+      </section>
+      </div>
+
+      
+      <vox-cta-band heading="स्वयं चलाकर देखिए">
+      <p>
+        OpenVox Console ships as container images, built for amd64 and
+        arm64 on every push, and as a single binary. The install guides
+        take you from an empty host to a working deployment -
+        openvoxserver, openvoxdb, Postgres and the console - with
+        containers or with packages.
+      </p>
+      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">GitHub पर स्रोत</vox-cta>
+      <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">कंटेनर इमेज</vox-cta>
+      </vox-cta-band>
+    </main>
+
+    
+    <dialog class="lightbox" aria-label="Full-size screenshot">
+      <div class="lightbox-bar">
+        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+      </div>
+      <img class="lightbox-image" alt=""/>
+    </dialog>
+
+    <vox-footer>
+      <vox-footer-column heading="OpenVox Console">
+        <a href="../index.html">सिंहावलोकन</a>
+        <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">स्रोत</a>
+        <a href="../guides/index.html#install">Install guides</a>
+      </vox-footer-column>
+      <vox-footer-column heading="क्षमताएँ">
+        <a href="../features/nodes.html">Nodes</a>
+        <a href="../features/classification.html">वर्गीकरण</a>
+        <a href="../features/code.html">Code</a>
+        <a href="../features/orchestration.html">ऑर्केस्ट्रेशन</a>
+        <a href="../features/patching.html">Patching</a>
+        <a href="../features/security.html">सुरक्षा</a>
+        <a href="../features/access-control.html">पहुँच नियंत्रण</a>
+        <a href="../features/ai-agents.html">AI agents</a>
+        <a href="../features/scaling.html">Scaling</a>
+        </vox-footer-column>
+      
+      <vox-footer-column heading="भाषा">
+        <a href="../../features/patching.html" hreflang="en" lang="en">English</a>
+        <a href="../../zh/features/patching.html" hreflang="zh" lang="zh">中文</a>
+        <a href="../../es/features/patching.html" hreflang="es" lang="es">Español</a>
+        <a href="../../fr/features/patching.html" hreflang="fr" lang="fr">Français</a>
+        <a href="../../de/features/patching.html" hreflang="de" lang="de">Deutsch</a>
+        <a href="../../ja/features/patching.html" hreflang="ja" lang="ja">日本語</a>
+        <a href="../../ar/features/patching.html" hreflang="ar" lang="ar">العربية</a>
+        </vox-footer-column>
+      <vox-footer-column heading="OpenVox">
+        <a href="https://openvoxproject.github.io/" rel="noopener" target="_blank">OpenVox project</a>
+        <a href="https://github.com/voxpupuli" rel="noopener" target="_blank">Vox Pupuli</a>
+      </vox-footer-column>
+      <div slot="bottom" class="footer-note">
+        <span>GPL-3.0 के अंतर्गत लाइसेंस-प्राप्त</span>
+        <span>स्क्रीनशॉट कंसोल के वे दृश्य हैं जो एक कृत्रिम डेमो फ़्लीट के विरुद्ध चल रहा है।</span>
+      </div>
+    </vox-footer>
+  
+
+</body></html>

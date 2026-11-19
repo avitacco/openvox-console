@@ -664,10 +664,13 @@ onDocumentReady(() => {
     if (jobsLink) jobsLink.style.display = '';
   }
   // Requests AI agents have made and a person has yet to decide: a tab on
-  // the Jobs pages and a count beside Jobs in the navigation.
-  if (hasPermission('agent-requests:read')) {
-    const approvalsTab = document.getElementById('approvals-tab');
-    if (approvalsTab) approvalsTab.style.display = '';
+  // the Jobs pages and a count beside Jobs in the navigation. The tab is in
+  // the page from the start and removed for anyone who may not see it, so
+  // the subnav never has to re-measure a tab that appeared late.
+  const approvalsTab = document.getElementById('approvals-tab');
+  if (!hasPermission('agent-requests:read')) {
+    if (approvalsTab && !approvalsTab.hasAttribute('aria-current')) approvalsTab.remove();
+  } else {
     fetchJSON('/api/v1/agent-requests/pending-count')
       .then(({ count }) => {
         const badge = document.getElementById('nav-approvals-count');
@@ -675,7 +678,6 @@ onDocumentReady(() => {
           badge.textContent = String(count);
           badge.style.display = '';
         }
-        if (approvalsTab && count > 0) approvalsTab.textContent = `${t('Approvals')} (${count})`;
       })
       .catch(() => {});
   }

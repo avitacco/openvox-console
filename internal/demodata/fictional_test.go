@@ -155,3 +155,45 @@ func TestGroups_RootFirstAndParentsBeforeChildren(t *testing.T) {
 		t.Errorf("%d nested groups, want at least 2 so the demo shows a hierarchy", nested)
 	}
 }
+
+func TestPatchScansAndAgentRequestsNameDemoNodes(t *testing.T) {
+	known := map[string]Node{}
+	for _, n := range Fleet {
+		known[n.Certname] = n
+	}
+	for _, scan := range PatchScans {
+		node, ok := known[scan.Certname]
+		if !ok {
+			t.Errorf("a patch scan names %q, which is not in the demo fleet", scan.Certname)
+			continue
+		}
+		// A scan of a node whose package manager the console cannot scan
+		// would put a lie on the Patching page.
+		switch node.Platform.PkgProvider {
+		case "apt", "dnf", "yum":
+		default:
+			t.Errorf("%q is scanned, but its package manager %q is not one the console scans", scan.Certname, node.Platform.PkgProvider)
+		}
+		if scan.Manager != node.Platform.PkgProvider {
+			t.Errorf("%q is scanned as %q, but runs %q", scan.Certname, scan.Manager, node.Platform.PkgProvider)
+		}
+	}
+
+	tokens := map[string]bool{}
+	for _, tok := range AgentTokens {
+		tokens[tok.Name] = true
+	}
+	for _, r := range AgentRequests {
+		if !tokens[r.Token] {
+			t.Errorf("a request is from %q, which is not a demo agent token", r.Token)
+		}
+		for _, target := range r.Targets {
+			if _, ok := known[target]; !ok {
+				t.Errorf("a request targets %q, which is not in the demo fleet", target)
+			}
+		}
+		if r.Status != "pending" && r.Status != "rejected" && r.Status != "expired" {
+			t.Errorf("a request has status %q", r.Status)
+		}
+	}
+}

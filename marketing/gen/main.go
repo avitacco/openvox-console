@@ -63,7 +63,7 @@ var pages = []page{
 	{
 		Name:    "index.html",
 		Title:   N_("OpenVox Console"),
-		Summary: N_("A Puppet Enterprise console equivalent for OpenVox: node inventory, classification, code deployment, orchestration, package and vulnerability tracking, and role-based access control - in a single Go binary."),
+		Summary: N_("A Puppet Enterprise console equivalent for OpenVox: node inventory, classification, code deployment, orchestration, patching, package and vulnerability tracking, role-based access control and approval-gated AI agent access - in a single Go binary."),
 	},
 	{
 		Name:       "features/nodes.html",
@@ -71,7 +71,7 @@ var pages = []page{
 		NavLabel:   N_("Nodes"),
 		Summary:    N_("See every managed node, what it reported, whether it is reachable and the state of its certificate."),
 		Capability: "nodes",
-		DoIt:       []string{"add", "certificates", "remove"},
+		DoIt:       []string{"add", "certificates", "remove", "agentless"},
 	},
 	{
 		Name:       "features/classification.html",
@@ -93,9 +93,17 @@ var pages = []page{
 		Name:       "features/orchestration.html",
 		Title:      N_("Orchestration - OpenVox Console"),
 		NavLabel:   N_("Orchestration"),
-		Summary:    N_("Run Puppet on demand across the fleet, and see what each node did."),
+		Summary:    N_("Run Puppet, tasks and plans on demand or on a schedule, on nodes or agentless hosts, and see what each node did."),
 		Capability: "orchestration",
-		DoIt:       []string{"run-jobs"},
+		DoIt:       []string{"run-jobs", "run-plans", "schedule-jobs", "code-plans"},
+	},
+	{
+		Name:       "features/patching.html",
+		Title:      N_("Patching - OpenVox Console"),
+		NavLabel:   N_("Patching"),
+		Summary:    N_("Scan Linux nodes for pending updates and patch them in batches, with a dry run, a stop threshold and an optional reboot."),
+		Capability: "patching",
+		DoIt:       []string{"patching"},
 	},
 	{
 		Name:       "features/security.html",
@@ -109,9 +117,17 @@ var pages = []page{
 		Name:       "features/access-control.html",
 		Title:      N_("Access control and audit - OpenVox Console"),
 		NavLabel:   N_("Access control"),
-		Summary:    N_("Single sign-on through your identity provider, role-based access control, service tokens, and an audit trail of who changed what."),
+		Summary:    N_("Single sign-on through your identity provider, role-based access control down to tasks and node groups, service and agent tokens, and an audit trail of who changed what."),
 		Capability: "access-control",
 		DoIt:       []string{"access"},
+	},
+	{
+		Name:       "features/ai-agents.html",
+		Title:      N_("AI agents - OpenVox Console"),
+		NavLabel:   N_("AI agents"),
+		Summary:    N_("Connect AI agents to the console over MCP: they read freely, and every change they ask for waits for a person's approval."),
+		Capability: "ai-agents",
+		DoIt:       []string{"agents"},
 	},
 	{
 		Name:       "features/scaling.html",

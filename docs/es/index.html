@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="es" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="El equivalente de una consola de Puppet Enterprise para OpenVox: inventario de Nodes, clasificación, despliegue de código, orquestación, seguimiento de paquetes y vulnerabilidades, y control de acceso basado en roles, todo en un único binario de Go."/>
+    <meta name="description" content="A Puppet Enterprise console equivalent for OpenVox: node inventory, classification, code deployment, orchestration, patching, package and vulnerability tracking, role-based access control and approval-gated AI agent access - in a single Go binary."/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
@@ -104,8 +104,10 @@
       <a href="./features/classification.html">Clasificación</a>
       <a href="./features/code.html">Code</a>
       <a href="./features/orchestration.html">Orquestación</a>
+      <a href="./features/patching.html">Patching</a>
       <a href="./features/security.html">Seguridad</a>
       <a href="./features/access-control.html">Control de acceso</a>
+      <a href="./features/ai-agents.html">AI agents</a>
       <a href="./features/scaling.html">Scaling</a>
       </vox-subnav>
     </div>
@@ -113,7 +115,7 @@
     <main id="main">
       <div class="site-main vox-container">
 <vox-hero eyebrow="OpenVox Console" heading="Toda su flota, en un solo lugar">
-  <p>Vea cada Node, decida qué se ejecuta y dónde, despliegue su código y actúe sobre lo que vuelve. Una consola de Puppet Enterprise para OpenVox: un binario de Go, sobre el openvox-server y el openvoxdb que ya ejecuta.</p>
+  <p>See every node, decide what runs where, deploy your code, patch and run tasks and plans, and act on what comes back. A Puppet Enterprise console for OpenVox — one Go binary, on top of the openvox-server and openvoxdb you already run.</p>
   <vox-cta slot="actions" href="#highlights">Vea lo que hace</vox-cta>
   <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">Consíguelo en GitHub</vox-cta>
 </vox-hero>
@@ -229,7 +231,17 @@
 
   <vox-link-hub-item href="features/classification.html" heading="Clasificación">
     <vox-icon slot="icon" name="node-group"></vox-icon>
-    <span>Grupos de Nodes basados en reglas que deciden qué configuración se aplica dónde.</span>
+    <span>Rule-based node groups that decide what configuration applies where, with classes picked from your own code.</span>
+  </vox-link-hub-item>
+
+  <vox-link-hub-item href="features/patching.html" heading="Patching">
+    <vox-icon slot="icon" name="deploy"></vox-icon>
+    <span>Scan Linux nodes for pending updates and patch them in batches, with a dry run and a stop threshold.</span>
+  </vox-link-hub-item>
+
+  <vox-link-hub-item href="features/ai-agents.html" heading="AI agents">
+    <vox-icon slot="icon" name="key"></vox-icon>
+    <span>Let AI agents read the fleet and ask for changes, with a person approving each one before it runs.</span>
   </vox-link-hub-item>
 </vox-link-hub>
 
@@ -280,8 +292,10 @@
         <a href="./features/classification.html">Clasificación</a>
         <a href="./features/code.html">Code</a>
         <a href="./features/orchestration.html">Orquestación</a>
+        <a href="./features/patching.html">Patching</a>
         <a href="./features/security.html">Seguridad</a>
         <a href="./features/access-control.html">Control de acceso</a>
+        <a href="./features/ai-agents.html">AI agents</a>
         <a href="./features/scaling.html">Scaling</a>
         </vox-footer-column>
       

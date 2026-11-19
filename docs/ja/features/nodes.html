@@ -104,8 +104,10 @@
       <a href="../features/classification.html">分類</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">オーケストレーション</a>
+      <a href="../features/patching.html">Patching</a>
       <a href="../features/security.html">セキュリティ</a>
       <a href="../features/access-control.html">アクセス制御</a>
+      <a href="../features/ai-agents.html">AI agents</a>
       <a href="../features/scaling.html">Scaling</a>
       </vox-subnav>
     </div>
@@ -168,6 +170,14 @@
   </a>
 </figure>
 
+<section class="site-section">
+  <h2 class="vox-ts-xxl">Hosts with no agent</h2>
+  <div class="vox-prose">
+    <p>Appliances, locked-down servers and machines not yet enrolled can be registered as agentless targets. The console reaches them over SSH with a key or password stored sealed and never shown again, pins each host&#39;s key the first time it connects, and refuses to carry on if the key later changes until a person accepts the new one.</p>
+    <p>Tasks run on them, on their own, in plans and on schedules, with the same node group access and task permissions as any other node.</p>
+  </div>
+</section>
+
 <vox-callout variant="tip" heading="Reports は詳細を保持する">
   <p>実行が生成したすべてのリソースイベントがここにあります。変更ごとの新旧の値と、それを引き起こした manifest と行番号付きです。要約ではなく、エージェントが送信したそのものです。</p>
 </vox-callout>
@@ -179,6 +189,7 @@
           <vox-card heading="Add nodes" href="../guides/add.html"><p>Enroll a node with one script on Linux, macOS or Windows, sign its certificate, and see it connect and run.</p></vox-card>
           <vox-card heading="Manage node certificates" href="../guides/certificates.html"><p>Sign, revoke and clean node certificates from the console, and what each does to a connected node.</p></vox-card>
           <vox-card heading="Remove a node" href="../guides/remove.html"><p>Delete a node from the console, what that does in openvoxdb and the CA, and what it keeps.</p></vox-card>
+          <vox-card heading="Run tasks on hosts without an agent" href="../guides/agentless.html"><p>Register hosts the console reaches over SSH, pin their host keys, check them, and run tasks on them like any other node.</p></vox-card>
           </vox-grid>
       </section>
       </div>
@@ -217,8 +228,10 @@
         <a href="../features/classification.html">分類</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">オーケストレーション</a>
+        <a href="../features/patching.html">Patching</a>
         <a href="../features/security.html">セキュリティ</a>
         <a href="../features/access-control.html">アクセス制御</a>
+        <a href="../features/ai-agents.html">AI agents</a>
         <a href="../features/scaling.html">Scaling</a>
         </vox-footer-column>
       

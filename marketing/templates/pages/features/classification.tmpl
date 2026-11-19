@@ -34,6 +34,23 @@
   </div>
 </section>
 
+<section class="site-section">
+  <h2 class="vox-ts-xxl" data-i18n>Classes from your own code</h2>
+  <div class="vox-prose">
+    <p data-i18n>
+      The console reads the classes your deployed code defines, so a group
+      offers a picker and typed inputs for each class's parameters instead
+      of free-typed names. A class a group names that no longer exists is
+      flagged, never silently dropped.
+    </p>
+    <p data-i18n>
+      Groups can also carry configuration data, which nodes read with
+      lookup() ahead of your control repository's Hiera data &mdash; so a
+      value can be set for a group of nodes without a commit.
+    </p>
+  </div>
+</section>
+
 <vox-step-indicator>
   <vox-step>A node asks for its catalog</vox-step>
   <vox-step>openvox-server asks the console what applies</vox-step>

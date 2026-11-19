@@ -1,0 +1,83 @@
+{{define "content"}}
+<vox-hero eyebrow="AI agents" heading="Let AI agents help, with a person approving every change" data-i18n-attr="heading,eyebrow">
+  <p data-i18n>
+    Connect an AI agent to the console over MCP. It can read your fleet
+    freely. Whenever it wants to change something, it asks &mdash; and
+    nothing runs until someone approves.
+  </p>
+</vox-hero>
+
+<section class="site-section">
+  <h2 class="vox-ts-xxl" data-i18n>Read freely, ask before acting</h2>
+  <div class="vox-prose">
+    <p data-i18n>
+      The agent can look at nodes, facts and reports, node groups, the tasks
+      and plans your code offers, and the results of jobs. What it can see
+      is exactly what its token allows: the permissions, the node groups
+      and the tasks you chose when you issued it.
+    </p>
+    <p data-i18n>
+      To run a task, run Puppet, run a plan or patch nodes, the agent
+      submits a request. The console checks it exactly as it would check
+      yours, stores it, and tells the agent it is waiting. Nothing has
+      started.
+    </p>
+  </div>
+</section>
+
+<vox-step-indicator>
+  <vox-step>The agent asks to run something</vox-step>
+  <vox-step>The console checks it and holds it for approval</vox-step>
+  <vox-step>A person reviews exactly what would run, and where</vox-step>
+  <vox-step>Approved, it runs as the agent; rejected or ignored, it never does</vox-step>
+</vox-step-indicator>
+
+{{screenshot "approvals"}}
+
+<section class="site-section">
+  <h2 class="vox-ts-xxl" data-i18n>What you approve is what runs</h2>
+  <div class="vox-prose">
+    <p data-i18n>
+      A request records the task and its parameters, and the exact nodes it
+      will act on, at the moment the agent asked. Sensitive values are
+      sealed and never shown. The person approving sees all of it, and
+      approving starts precisely that &mdash; not whatever the agent might
+      ask for a moment later. A request nobody decides expires.
+    </p>
+    <p data-i18n>
+      The job it starts shows that an AI agent asked for it, which agent,
+      and who approved it.
+    </p>
+  </div>
+</section>
+
+<vox-grid min="240px" gap="lg">
+  <vox-card heading="Tokens that expire" data-i18n-attr="heading">
+    <vox-icon slot="icon" name="key"></vox-icon>
+    An agent token always has an expiry, is limited to the node groups and
+    tasks you name, works only at the agent endpoint, and can be revoked at
+    any moment.
+  </vox-card>
+  <vox-card heading="People decide" data-i18n-attr="heading">
+    <vox-icon slot="icon" name="people"></vox-icon>
+    Only someone who could run the task on those nodes themselves can
+    approve it, and never the person who issued the agent's token.
+  </vox-card>
+  <vox-card heading="On the record" data-i18n-attr="heading">
+    <vox-icon slot="icon" name="activity-log"></vox-icon>
+    Every request, approval, rejection and expiry is audited under the
+    agent's own name, alongside the person who decided.
+  </vox-card>
+</vox-grid>
+
+{{screenshot "agent-tokens"}}
+
+<vox-callout variant="tip" heading="Off until you turn it on" data-i18n-attr="heading">
+  <p data-i18n>
+    The endpoint does not exist until you enable it, and it has its own
+    rate limit and size limits. Agents that do not speak MCP can use the
+    console's documented REST API with an ordinary token &mdash; without the
+    approval step, so give those tokens only what you would give a script.
+  </p>
+</vox-callout>
+{{end}}

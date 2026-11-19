@@ -1,8 +1,8 @@
 {{define "content"}}
 <vox-hero eyebrow="Orchestration" heading="Run it now, everywhere" data-i18n-attr="heading,eyebrow">
   <p data-i18n>
-    Run Puppet on the nodes you pick, right now, and watch the results
-    come back one node at a time.
+    Run Puppet, tasks and plans on the nodes you pick &mdash; now or on a
+    schedule &mdash; and watch the results come back one node at a time.
   </p>
 </vox-hero>
 
@@ -24,6 +24,42 @@
 </section>
 
 {{screenshot "jobs-list"}}
+
+<section class="site-section">
+  <h2 class="vox-ts-xxl" data-i18n>Tasks, plans and schedules</h2>
+  <div class="vox-prose">
+    <p data-i18n>
+      Run a task from your deployed code, with its parameters checked
+      against the types it declares and sensitive values kept out of every
+      record. Chain Puppet runs and tasks into a plan you keep and run
+      again. Or write a plan in YAML beside your code, with typed
+      parameters and results passed from step to step, and the console runs
+      it &mdash; no Bolt needed.
+    </p>
+    <p data-i18n>
+      Save any of them to start later, once or repeatedly. A schedule picks
+      its nodes each time it fires, and runs with the access its owner has
+      at that moment, so a schedule stops doing what its owner may no
+      longer do.
+    </p>
+  </div>
+</section>
+
+<section class="site-section">
+  <h2 class="vox-ts-xxl" data-i18n>Choose targets by rule, not by list</h2>
+  <div class="vox-prose">
+    <p data-i18n>
+      Name nodes, point at a node group, or write a PQL query, and the
+      console works out the nodes when the job starts. Run Puppet as a
+      no-op to see what it would change, against another environment, or
+      with debug output &mdash; per run.
+    </p>
+    <p data-i18n>
+      Hosts that cannot run the agent can still be reached over SSH. Tasks
+      run on them like on any node.
+    </p>
+  </div>
+</section>
 
 <vox-timeline>
   <vox-timeline-item heading="Job created" data-i18n-attr="heading">Targets recorded, each one pending.</vox-timeline-item>

@@ -28,6 +28,8 @@ func seed(ctx context.Context, opts options) error {
 		stage{name: "code deploys (real g10k runs against the fixture repos)", run: seedDeploys},
 		stage{name: "job history (fabricated, via the orchestrator's own store)", run: seedJobs},
 		stage{name: "vulnerability findings (via the engine's own apply path)", run: seedVulnerabilities},
+		stage{name: "pending updates (via the patch inventory's own store)", run: seedPatches},
+		stage{name: "AI agent tokens and requests", run: seedAgentAccess},
 	)
 
 	for i, s := range stages {

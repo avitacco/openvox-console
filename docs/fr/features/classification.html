@@ -104,8 +104,10 @@
       <a aria-current="page" href="../features/classification.html">Classification</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">Orchestration</a>
+      <a href="../features/patching.html">Patching</a>
       <a href="../features/security.html">Sécurité</a>
       <a href="../features/access-control.html">Contrôle d&#39;accès</a>
+      <a href="../features/ai-agents.html">AI agents</a>
       <a href="../features/scaling.html">Scaling</a>
       </vox-subnav>
     </div>
@@ -137,6 +139,14 @@
   <h2 class="vox-ts-xxl">Une préséance qui se lit sur la page</h2>
   <div class="vox-prose">
     <p>Groups form a tree, and a group only ever contains nodes its parent does. When several groups apply to a node, a group always wins over the groups above it, and an explicit priority decides between the rest. If that ever lets a child override a parent with a higher priority, the console says so on the group instead of leaving you to work it out.</p>
+  </div>
+</section>
+
+<section class="site-section">
+  <h2 class="vox-ts-xxl">Classes from your own code</h2>
+  <div class="vox-prose">
+    <p>The console reads the classes your deployed code defines, so a group offers a picker and typed inputs for each class&#39;s parameters instead of free-typed names. A class a group names that no longer exists is flagged, never silently dropped.</p>
+    <p>Groups can also carry configuration data, which nodes read with lookup() ahead of your control repository&#39;s Hiera data — so a value can be set for a group of nodes without a commit.</p>
   </div>
 </section>
 
@@ -194,8 +204,10 @@
         <a href="../features/classification.html">Classification</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">Orchestration</a>
+        <a href="../features/patching.html">Patching</a>
         <a href="../features/security.html">Sécurité</a>
         <a href="../features/access-control.html">Contrôle d&#39;accès</a>
+        <a href="../features/ai-agents.html">AI agents</a>
         <a href="../features/scaling.html">Scaling</a>
         </vox-footer-column>
       

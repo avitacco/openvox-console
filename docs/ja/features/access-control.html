@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="ja" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Single sign-on through your identity provider, role-based access control, service tokens, and an audit trail of who changed what."/>
+    <meta name="description" content="Single sign-on through your identity provider, role-based access control down to tasks and node groups, service and agent tokens, and an audit trail of who changed what."/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
@@ -104,8 +104,10 @@
       <a href="../features/classification.html">分類</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">オーケストレーション</a>
+      <a href="../features/patching.html">Patching</a>
       <a href="../features/security.html">セキュリティ</a>
       <a aria-current="page" href="../features/access-control.html">アクセス制御</a>
+      <a href="../features/ai-agents.html">AI agents</a>
       <a href="../features/scaling.html">Scaling</a>
       </vox-subnav>
     </div>
@@ -141,6 +143,14 @@
   </a>
 </figure>
 
+<section class="site-section">
+  <h2 class="vox-ts-xxl">Access that stops at the nodes and tasks it should</h2>
+  <div class="vox-prose">
+    <p>A role applies to the node groups you name, so an operator can act on the web tier and nothing else — and sees only those nodes in every list, report and job. A role can also be limited to named tasks, or a module&#39;s tasks, so someone who may patch cannot run anything else.</p>
+    <p>Give roles to a user group and everyone in it gets them, alongside any they hold directly. An account policy sets password rules and locks an account after repeated failed sign-ins.</p>
+  </div>
+</section>
+
 <vox-grid min="240px" gap="lg">
   <vox-card heading="ユーザー">
     <vox-icon slot="icon" name="people"></vox-icon>
@@ -151,6 +161,11 @@
     <vox-icon slot="icon" name="key"></vox-icon>
     Service tokens scoped to just the permissions an integration needs.
     Shown once, revocable at any time.
+  </vox-card>
+  <vox-card heading="AI agents">
+    <vox-icon slot="icon" name="key"></vox-icon>
+    Agent tokens that expire, reach only the node groups and tasks you
+    name, and can only ask: a person approves every change.
   </vox-card>
   <vox-card heading="その他すべて">
     <vox-icon slot="icon" name="activity-log"></vox-icon>
@@ -223,8 +238,10 @@
         <a href="../features/classification.html">分類</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">オーケストレーション</a>
+        <a href="../features/patching.html">Patching</a>
         <a href="../features/security.html">セキュリティ</a>
         <a href="../features/access-control.html">アクセス制御</a>
+        <a href="../features/ai-agents.html">AI agents</a>
         <a href="../features/scaling.html">Scaling</a>
         </vox-footer-column>
       

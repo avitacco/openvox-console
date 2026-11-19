@@ -174,6 +174,41 @@ var All = withDefaults([]Shot{
 		MustContain: "o.operator",
 	},
 
+	// --- patching ---
+	{
+		Name:        "patching",
+		Path:        "/patches.html",
+		Caption:     N_("The Patching page listing each Linux node with its pending updates, how many of them are security fixes and whether it needs a reboot, with options to scan and to patch a node group"),
+		ReadyWhen:   "#results tbody tr",
+		MustContain: "db-01.prod.example.com",
+		// Scans are dated from the real clock - see cmd/demo-seed.
+		LiveClock: true,
+	},
+
+	// --- AI agents ---
+	{
+		Name:      "approvals",
+		Path:      "/approvals.html",
+		Caption:   N_("The Approvals page, where an AI agent's request to restart nginx on three web nodes is open for review, showing the task, its parameters and the exact nodes, with buttons to approve or reject it"),
+		ReadyWhen: "#results tbody tr",
+		// The first request listed is the newest waiting one; opening it
+		// is what shows a person exactly what approving would run.
+		Interactions: []Interaction{
+			{Click: "vox-button[data-review-id]", WaitFor: "#decision-panel vox-card"},
+		},
+		MustContain: "service::restart",
+		// A request waits on the real clock - see cmd/demo-seed.
+		LiveClock: true,
+	},
+	{
+		Name:        "agent-tokens",
+		Path:        "/agent-tokens.html",
+		Caption:     N_("The Agent tokens page listing the tokens issued to AI agents, each with its permissions, the node groups it can reach, the tasks it may ask for and when it expires"),
+		ReadyWhen:   "#results tbody tr",
+		MustContain: "ops-assistant",
+		LiveClock:   true,
+	},
+
 	// --- packages and vulnerabilities ---
 	{
 		Name:        "packages",

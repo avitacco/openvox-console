@@ -1,8 +1,8 @@
 {{define "content"}}
 <vox-hero eyebrow="OpenVox Console" heading="Your whole fleet, in one place" data-i18n-attr="heading,eyebrow">
   <p data-i18n>
-    See every node, decide what runs where, deploy your code, and act on
-    what comes back. A Puppet Enterprise console for OpenVox &mdash; one
+    See every node, decide what runs where, deploy your code, patch and
+    run tasks and plans, and act on what comes back. A Puppet Enterprise console for OpenVox &mdash; one
     Go binary, on top of the openvox-server and openvoxdb you already run.
   </p>
   <vox-cta slot="actions" href="#highlights" data-i18n>See what it does</vox-cta>
@@ -106,7 +106,17 @@
 
   <vox-link-hub-item href="features/classification.html" heading="Classification" data-i18n-attr="heading">
     <vox-icon slot="icon" name="node-group"></vox-icon>
-    <span data-i18n>Rule-based node groups that decide what configuration applies where.</span>
+    <span data-i18n>Rule-based node groups that decide what configuration applies where, with classes picked from your own code.</span>
+  </vox-link-hub-item>
+
+  <vox-link-hub-item href="features/patching.html" heading="Patching" data-i18n-attr="heading">
+    <vox-icon slot="icon" name="deploy"></vox-icon>
+    <span data-i18n>Scan Linux nodes for pending updates and patch them in batches, with a dry run and a stop threshold.</span>
+  </vox-link-hub-item>
+
+  <vox-link-hub-item href="features/ai-agents.html" heading="AI agents" data-i18n-attr="heading">
+    <vox-icon slot="icon" name="key"></vox-icon>
+    <span data-i18n>Let AI agents read the fleet and ask for changes, with a person approving each one before it runs.</span>
   </vox-link-hub-item>
 </vox-link-hub>
 

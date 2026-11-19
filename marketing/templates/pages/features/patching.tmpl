@@ -1,0 +1,74 @@
+{{define "content"}}
+<vox-hero eyebrow="Patching" heading="See what is out of date, then patch it safely" data-i18n-attr="heading,eyebrow">
+  <p data-i18n>
+    Scan Linux nodes for the updates they are missing, and apply them in
+    batches with a way to stop before a bad update reaches the whole fleet.
+  </p>
+</vox-hero>
+
+<section class="site-section">
+  <h2 class="vox-ts-xxl" data-i18n>Pending updates, as each node's package manager reports them</h2>
+  <div class="vox-prose">
+    <p data-i18n>
+      A scan asks the node's agent to run apt, dnf or yum in a mode that
+      changes nothing, then shows each pending update with its installed
+      and available versions and whether the package manager calls it a
+      security update. A node also says whether it already needs a reboot.
+    </p>
+    <p data-i18n>
+      Scans run on a schedule you control, or on demand for one node or a
+      whole group. A node that cannot be scanned is listed as unable to
+      report &mdash; never shown as fully patched.
+    </p>
+  </div>
+</section>
+
+{{screenshot "patching"}}
+
+<section class="site-section">
+  <h2 class="vox-ts-xxl" data-i18n>Patch in batches, with a safety stop</h2>
+  <div class="vox-prose">
+    <p data-i18n>
+      Choose security updates, everything, or named packages, and how many
+      nodes to patch at once. Set how many failures end the run, so that no
+      further batch starts once something has gone wrong. Preview with a
+      dry run that installs nothing, and let nodes that need it reboot when
+      they are done.
+    </p>
+    <p data-i18n>
+      Progress is shown node by node, a node that goes quiet part-way is
+      reported as having done so instead of hanging forever, and when it
+      finishes the node is scanned again so the page shows what is really
+      left.
+    </p>
+  </div>
+</section>
+
+<vox-timeline>
+  <vox-timeline-item heading="Scan" data-i18n-attr="heading">Each node reports what its package manager would upgrade.</vox-timeline-item>
+  <vox-timeline-item heading="Dry run" data-i18n-attr="heading">Preview a run on the nodes you chose. Nothing is installed.</vox-timeline-item>
+  <vox-timeline-item heading="Batches" data-i18n-attr="heading">Patch a few nodes at a time, stopping after as many failures as you allow.</vox-timeline-item>
+  <vox-timeline-item heading="Rescan" data-i18n-attr="heading">Each patched node is scanned again, so what remains is on record.</vox-timeline-item>
+</vox-timeline>
+
+<vox-grid min="240px" gap="lg">
+  <vox-card heading="Scoped to your nodes" data-i18n-attr="heading">
+    <vox-icon slot="icon" name="node-group"></vox-icon>
+    Scanning and patching follow the same node group access as every other
+    action: people can patch the nodes their roles cover, and no others.
+  </vox-card>
+  <vox-card heading="Scheduled or on demand" data-i18n-attr="heading">
+    <vox-icon slot="icon" name="orchestrate"></vox-icon>
+    Patch runs are jobs like any other, with results per node, and show up
+    in the job history with their options.
+  </vox-card>
+</vox-grid>
+
+<vox-callout variant="warning" heading="Linux with apt, dnf or yum" data-i18n-attr="heading">
+  <p data-i18n>
+    Windows, macOS and zypper (SUSE) nodes are not scanned. They are listed
+    as unable to report, so a gap in coverage is visible rather than
+    mistaken for a clean bill of health.
+  </p>
+</vox-callout>
+{{end}}

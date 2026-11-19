@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="de" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Run Puppet on demand across the fleet, and see what each node did."/>
+    <meta name="description" content="Run Puppet, tasks and plans on demand or on a schedule, on nodes or agentless hosts, and see what each node did."/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
@@ -104,8 +104,10 @@
       <a href="../features/classification.html">Klassifizierung</a>
       <a href="../features/code.html">Code</a>
       <a aria-current="page" href="../features/orchestration.html">Orchestrierung</a>
+      <a href="../features/patching.html">Patching</a>
       <a href="../features/security.html">Sicherheit</a>
       <a href="../features/access-control.html">Zugriffskontrolle</a>
+      <a href="../features/ai-agents.html">AI agents</a>
       <a href="../features/scaling.html">Scaling</a>
       </vox-subnav>
     </div>
@@ -113,7 +115,7 @@
     <main id="main">
       <div class="site-main vox-container">
 <vox-hero eyebrow="Orchestrierung" heading="Jetzt ausführen, überall">
-  <p>Run Puppet on the nodes you pick, right now, and watch the results come back one node at a time.</p>
+  <p>Run Puppet, tasks and plans on the nodes you pick — now or on a schedule — and watch the results come back one node at a time.</p>
 </vox-hero>
 
 <section class="site-section">
@@ -134,6 +136,22 @@
   </a>
 </figure>
 
+<section class="site-section">
+  <h2 class="vox-ts-xxl">Tasks, plans and schedules</h2>
+  <div class="vox-prose">
+    <p>Run a task from your deployed code, with its parameters checked against the types it declares and sensitive values kept out of every record. Chain Puppet runs and tasks into a plan you keep and run again. Or write a plan in YAML beside your code, with typed parameters and results passed from step to step, and the console runs it — no Bolt needed.</p>
+    <p>Save any of them to start later, once or repeatedly. A schedule picks its nodes each time it fires, and runs with the access its owner has at that moment, so a schedule stops doing what its owner may no longer do.</p>
+  </div>
+</section>
+
+<section class="site-section">
+  <h2 class="vox-ts-xxl">Choose targets by rule, not by list</h2>
+  <div class="vox-prose">
+    <p>Name nodes, point at a node group, or write a PQL query, and the console works out the nodes when the job starts. Run Puppet as a no-op to see what it would change, against another environment, or with debug output — per run.</p>
+    <p>Hosts that cannot run the agent can still be reached over SSH. Tasks run on them like on any node.</p>
+  </div>
+</section>
+
 <vox-timeline>
   <vox-timeline-item heading="Job erstellt">Targets recorded, each one pending.</vox-timeline-item>
   <vox-timeline-item heading="Versendet">Work goes out to the nodes.</vox-timeline-item>
@@ -150,6 +168,9 @@
         <h2 id="do-it-heading" class="vox-ts-xxl">Do it</h2>
         <vox-grid min="16rem">
           <vox-card heading="Run jobs" href="../guides/run-jobs.html"><p>Run Puppet or a Puppet task on demand on one node, a selection, the nodes a query matches, or a node group, and see what each node did.</p></vox-card>
+          <vox-card heading="Run plans" href="../guides/run-plans.html"><p>Build a plan - a list of Puppet runs and tasks carried out in order - keep it, run it on the nodes you choose, and watch each step.</p></vox-card>
+          <vox-card heading="Schedule jobs" href="../guides/schedule-jobs.html"><p>Save a Puppet run, a task or a plan to start later, once or repeatedly, on nodes that are worked out each time it starts.</p></vox-card>
+          <vox-card heading="Run plans from your code" href="../guides/code-plans.html"><p>Run YAML plans that live in your modules, with typed parameters, results passed between steps, and every task checked against your node groups.</p></vox-card>
           </vox-grid>
       </section>
       </div>
@@ -188,8 +209,10 @@
         <a href="../features/classification.html">Klassifizierung</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">Orchestrierung</a>
+        <a href="../features/patching.html">Patching</a>
         <a href="../features/security.html">Sicherheit</a>
         <a href="../features/access-control.html">Zugriffskontrolle</a>
+        <a href="../features/ai-agents.html">AI agents</a>
         <a href="../features/scaling.html">Scaling</a>
         </vox-footer-column>
       

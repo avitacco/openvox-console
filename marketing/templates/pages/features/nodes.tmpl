@@ -54,6 +54,23 @@
 
 {{screenshot "node-detail"}}
 
+<section class="site-section">
+  <h2 class="vox-ts-xxl" data-i18n>Hosts with no agent</h2>
+  <div class="vox-prose">
+    <p data-i18n>
+      Appliances, locked-down servers and machines not yet enrolled can be
+      registered as agentless targets. The console reaches them over SSH
+      with a key or password stored sealed and never shown again, pins each
+      host's key the first time it connects, and refuses to carry on if the
+      key later changes until a person accepts the new one.
+    </p>
+    <p data-i18n>
+      Tasks run on them, on their own, in plans and on schedules, with the
+      same node group access and task permissions as any other node.
+    </p>
+  </div>
+</section>
+
 <vox-callout variant="tip" heading="Reports keep their detail" data-i18n-attr="heading">
   <p data-i18n>
     Every resource event a run produced is here, with the old and new

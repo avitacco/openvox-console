@@ -14,8 +14,9 @@ and running them needs `orchestrator:run`.
 
 > [!NOTE]
 > A plan here is a list of steps built in the console. It is not a plan
-> written in the Puppet language and shipped in a module, which the
-> console does not run.
+> written in the Puppet language, which the console does not run. A plan
+> written in YAML in your own modules is run from the same page: see
+> [Run plans from your code](code-plans.html).
 
 ## Build a plan
 
