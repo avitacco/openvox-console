@@ -1,0 +1,154 @@
+name: Release
+
+# Pushing a v* tag tests the commit, publishes both container images to
+# GHCR, and stamps a GitHub release. Nothing else triggers a build.
+#
+# Releases are immutable, so the release is created as a draft, every
+# asset is attached, and only then is it published - assets cannot be
+# added afterwards. A tag containing "-" (v1.2.0-rc.1) is marked a
+# prerelease and does not move :latest.
+on:
+  push:
+    tags: ["v*"]
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  test:
+    name: Test
+    uses: ./.github/workflows/ci.yml
+    permissions:
+      contents: read
+
+  image:
+    name: Build image
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: docker/setup-buildx-action@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v4
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Derive image tags
+        id: meta
+        uses: docker/metadata-action@v6
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha,prefix=sha-
+            type=raw,value=latest,enable=${{ !contains(github.ref_name, '-') }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          # The Dockerfile cross-compiles from the build host's own
+          # architecture, so arm64 costs no emulation time.
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            VERSION=${{ github.ref_name }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  openvoxserver-image:
+    name: Build openvoxserver image
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: docker/setup-buildx-action@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v4
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Same tagging scheme as the console image, but a separate package:
+      # openvoxserver plus the enc-bridge binary and the
+      # node_terminus=exec wiring that make the console its ENC. The two
+      # images are versioned together and a deployment runs matching tags.
+      - name: Derive image tags
+        id: meta
+        uses: docker/metadata-action@v6
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-server
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha,prefix=sha-
+            type=raw,value=latest,enable=${{ !contains(github.ref_name, '-') }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: Dockerfile.openvoxserver
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            VERSION=${{ github.ref_name }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  release:
+    name: Publish release
+    needs: [image, openvoxserver-image]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      # Node-agent binaries and native packages, the same ones embedded
+      # in the images, attached so they can be fetched without the console.
+      - name: Build agent assets
+        run: |
+          make agent-packages VERSION="${GITHUB_REF_NAME}"
+          mkdir release-assets
+          cp internal/agentdist/bin/node-agent-client-* release-assets/
+          find internal/agentdist/packages -maxdepth 1 -type f \( -name '*.deb' -o -name '*.rpm' \) -exec cp {} release-assets/ \;
+          (cd release-assets && sha256sum * > SHA256SUMS)
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          flags=""
+          case "$GITHUB_REF_NAME" in *-*) flags="--prerelease" ;; esac
+          gh release create "$GITHUB_REF_NAME" release-assets/* \
+            --draft --verify-tag --generate-notes --title "$GITHUB_REF_NAME" $flags
+          gh release edit "$GITHUB_REF_NAME" --draft=false
