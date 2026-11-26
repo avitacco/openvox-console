@@ -269,8 +269,8 @@ var All = withDefaults([]Shot{
 		// The demo database is created fresh for every refresh and its
 		// groups are seeded in a fixed order after the root, so Web Tier
 		// is always the sixth (see internal/demodata/console.go).
-		Path:        "/group.html?id=6",
-		Caption:     N_("A node group's editor, showing its name, parent group, priority and environment, the classes it applies with their parameters, and the rule that decides which nodes it matches"),
+		Path:    "/group.html?id=6",
+		Caption: N_("A node group's editor, showing its name, parent group, priority and environment, the classes it applies with their parameters, and the rule that decides which nodes it matches"),
 		// The class names sit in inputs, which page text does not
 		// include; the matching nodes are rendered text, and only the
 		// demo fleet has web nodes under prod.example.com.
