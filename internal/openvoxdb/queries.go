@@ -177,6 +177,28 @@ func (c *Client) ReportEnvironments(ctx context.Context, hashes []string) (map[s
 	return out, nil
 }
 
+// ReportProducers returns the certnames of the Puppet servers that
+// compiled the catalogs of reports received since since: the servers
+// currently handing out catalogs. Reports with no producer recorded
+// are skipped.
+func (c *Client) ReportProducers(ctx context.Context, since time.Time) ([]string, error) {
+	var rows []struct {
+		Producer *string `json:"producer"`
+	}
+	pql := fmt.Sprintf("reports[producer] { receive_time > %s group by producer }",
+		pqlString(since.UTC().Format(time.RFC3339)))
+	if err := c.query(ctx, pql, &rows); err != nil {
+		return nil, err
+	}
+	out := make([]string, 0, len(rows))
+	for _, r := range rows {
+		if r.Producer != nil && *r.Producer != "" {
+			out = append(out, *r.Producer)
+		}
+	}
+	return out, nil
+}
+
 // Reports returns the report history for the node named certname, most
 // recent first.
 func (c *Client) Reports(ctx context.Context, certname string) ([]Report, error) {

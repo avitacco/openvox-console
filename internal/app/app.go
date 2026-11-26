@@ -863,6 +863,24 @@ func Run(ctx context.Context, cfg runtime.Config, logger *slog.Logger) error {
 	// deploy webhooks concurrently and would otherwise run g10k against
 	// the same directory at the same time.
 	codemanagerHandlers.SetDeployLeases(singletonLeases)
+	// After each deploy, tell the Puppet servers to drop their cached copy
+	// of the environment: with environment_timeout = unlimited they would
+	// otherwise keep compiling the code they loaded before the deploy. The
+	// servers are the configured one plus each server openvoxdb says
+	// compiled a catalog recently, all reached with the task catalogue's
+	// credential.
+	if taskCatalog != nil {
+		codemanagerHandlers.SetEnvironmentCacheFlush(&codemanager.EnvironmentCacheFlush{
+			Primary:   cfg.PuppetServerURL,
+			Addresses: cfg.PuppetServerAddresses,
+			Servers: func(ctx context.Context) ([]string, error) {
+				return openvoxdbClient.ReportProducers(ctx, time.Now().Add(-compileServerWindow))
+			},
+			Flush: func(ctx context.Context, baseURL, environment string) error {
+				return taskCatalog.WithURL(baseURL).FlushEnvironmentCache(ctx, environment)
+			},
+		})
+	}
 	codemanagerHandlers.SetUsageResolver(codemanager.NewUsageResolver(
 		// Assigned: what classification would send each node. The
 		// resolver merges every matching group by priority, so a node
@@ -1272,3 +1290,10 @@ func loadCodeSources(cfg runtime.Config) (codemanager.Sources, error) {
 	}
 	return nil, nil
 }
+
+// compileServerWindow is how far back the post-deploy flush looks in
+// openvoxdb for servers that compiled catalogs. Several days, so a
+// server that serves a weekly-run group or sat idle over a weekend is
+// still flushed; a server retired within it fails its flush (recorded
+// as activity) until it ages out.
+const compileServerWindow = 7 * 24 * time.Hour

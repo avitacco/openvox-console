@@ -98,6 +98,17 @@ func newClient(baseURL string, httpClient *http.Client) *Client {
 	return &Client{baseURL: strings.TrimRight(baseURL, "/"), http: httpClient}
 }
 
+// WithURL returns a Client for the Puppet server at baseURL that uses
+// this one's credential and connection pool - for reaching another
+// server of the same CA, such as a compile server. A nil Client stays
+// nil.
+func (c *Client) WithURL(baseURL string) *Client {
+	if c == nil {
+		return nil
+	}
+	return newClient(baseURL, c.http)
+}
+
 // maxResponse bounds how much of a response is read. Task metadata is a
 // few kilobytes; an environment with thousands of tasks is still well
 // under this.

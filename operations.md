@@ -1022,10 +1022,32 @@ Added by `add-class-discovery-and-run-options`.
   others follow within five minutes. A restart simply re-reads.
 - **The server has its own environment cache.** With
   `environment_timeout = unlimited` (the container image's setting) the
-  server keeps answering with the classes it first loaded until
-  `DELETE /puppet-admin-api/v1/environment-cache` is called. The console does
-  not call it. This is the same flush a catalog needs after new code, and
-  until it happens "Refresh classes" re-reads the server's stale answer.
+  server keeps compiling, and answering with the classes of, the code it
+  first loaded until `DELETE /puppet-admin-api/v1/environment-cache` is
+  called. After every successful deploy the console calls it, for the
+  deployed environment, on every server that may have the old code cached:
+  - The server at `CONSOLE_PUPPET_SERVER_URL`.
+  - Every server that compiled a report's catalog in the last seven days.
+    These come from the reports' `producer` field in openvoxdb, so adding
+    or retiring a compile server needs no console change. A server that
+    has compiled nothing in that window has no old catalogs being served
+    from it.
+  - Discovered servers are reached at `https://<certname>:8140`. Where a
+    certname does not resolve to the server, or the server listens
+    elsewhere, map it with `CONSOLE_PUPPET_SERVER_ADDRESSES`, as
+    `certname=https://host:port` pairs separated by commas.
+  - All servers are reached with the same credential as class discovery.
+    The stock `auth.conf` rule "puppet admin api clear caches" allows any
+    authenticated certificate.
+  - The flushes run in parallel, each bounded to 30 seconds.
+- A failed flush leaves the deploy succeeded, because the code is on disk.
+  The console logs a warning and records a `deploy.cache_flush_failed`
+  activity entry naming the server. Nodes compiled by that server keep
+  getting catalogs from the previous code until it is flushed by hand or
+  restarted. A failed openvoxdb lookup is recorded the same way, and only
+  the configured server is flushed. A compile server retired in the last
+  seven days fails its flush, and is recorded, until it ages out of the
+  window.
 - The server sends no `ETag` unless its `environment-class-cache-enabled` is
   on, so each read is a full parse of the environment. One read per
   environment per five minutes per instance.

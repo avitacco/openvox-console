@@ -45,6 +45,9 @@ type Handlers struct {
 	// scope limits the repository overview's node counts to the nodes
 	// in the caller's node group scope. Nil counts every node.
 	scope nodescope.Func
+	// cacheFlush makes the Puppet servers reload an environment after
+	// a deploy. Nil skips the flush - see SetEnvironmentCacheFlush.
+	cacheFlush *EnvironmentCacheFlush
 }
 
 // SetUsageResolver wires the node-count source for the repository
@@ -389,6 +392,11 @@ func (h *Handlers) runDeployLocked(ctx context.Context, source Source, branch, r
 	if err := h.deployer.Activate(deployment.Environment, deployment.StagingDir); err != nil {
 		return fail(err)
 	}
+
+	// The new code is live on disk from here on, so the deploy has
+	// succeeded whatever the flush does; a failed flush is reported, not
+	// turned into a failed deploy.
+	h.flushEnvironmentCache(ctx, deployment.Environment, r)
 
 	if err := h.store.CompleteDeploy(ctx, id, StatusSucceeded, "", &deployment.Environment, deployment.SizeBytes); err != nil {
 		h.logger.Error("failed to record deploy success", "error", err, "deployID", id)

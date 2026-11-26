@@ -16,9 +16,14 @@ import (
 // rule to add, not a server to bring back.
 type ForbiddenError struct {
 	Path string
+	// Method is the refused request's method; "" means a GET.
+	Method string
 }
 
 func (e *ForbiddenError) Error() string {
+	if e.Method != "" && e.Method != http.MethodGet {
+		return fmt.Sprintf("openvoxserver does not allow the console to %s %s", e.Method, e.Path)
+	}
 	return fmt.Sprintf("openvoxserver does not allow the console to read %s", e.Path)
 }
 

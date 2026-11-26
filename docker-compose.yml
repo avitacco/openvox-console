@@ -83,6 +83,11 @@ services:
       # above, which openvoxserver lets read tasks; no new credential.
       # Set CONSOLE_PUPPET_SERVER_URL= (empty) in .env to turn tasks off.
       CONSOLE_PUPPET_SERVER_URL: ${CONSOLE_PUPPET_SERVER_URL-https://openvoxserver:8140}
+      # After each deploy the console flushes the environment cache of
+      # this server and of every compile server openvoxdb saw compiling
+      # catalogs, at https://<certname>:8140. Map any compile server not
+      # reachable that way: compile1=https://10.0.0.5:8140,compile2=...
+      CONSOLE_PUPPET_SERVER_ADDRESSES: ${CONSOLE_PUPPET_SERVER_ADDRESSES:-}
 
       # Optional OIDC login. Inactive while CONSOLE_OIDC_ISSUER is unset,
       # and it never replaces local login or service tokens. The callback

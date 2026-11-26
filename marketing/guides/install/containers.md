@@ -361,8 +361,9 @@ docker compose -f docker-compose.yml exec -u puppet:0 openvoxserver \
 
 <!-- include: enc-verify.md -->
 
-openvoxserver caches environments, so after adding Puppet code, flush its
-cache or the same error persists:
+openvoxserver caches environments. Code deployed from the console flushes
+that cache automatically. Code placed on the server any other way, such as
+by hand or by a script, needs a manual flush, or the same error persists:
 
 ```sh
 docker compose -f docker-compose.yml exec openvoxserver sh -c \

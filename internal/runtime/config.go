@@ -5,6 +5,7 @@ package runtime
 import (
 	"encoding/base64"
 	"fmt"
+	"net/url"
 	"os"
 	"strconv"
 	"strings"
@@ -146,6 +147,15 @@ type Config struct {
 	PuppetServerCertFile string
 	PuppetServerKeyFile  string
 	PuppetServerCAFile   string
+
+	// PuppetServerAddresses (CONSOLE_PUPPET_SERVER_ADDRESSES, optional)
+	// maps a Puppet server's certname to the URL the console reaches it
+	// at, as "certname=https://host:port" pairs separated by commas.
+	// After a deploy the console flushes the environment cache of every
+	// server that recently compiled a catalog, found by certname in
+	// openvoxdb, at https://<certname>:8140 unless this map says
+	// otherwise.
+	PuppetServerAddresses map[string]string
 
 	// Optional: this console's own externally-reachable base URL,
 	// embedded into the agent-distribution install script so a node
@@ -369,6 +379,12 @@ func LoadConfig(getenv func(string) string) (Config, error) {
 			return Config{}, fmt.Errorf("%s is no longer supported: the node transport now clusters with CONSOLE_CLUSTER_* - remove it", removed)
 		}
 	}
+
+	addresses, err := ParsePuppetServerAddresses(getenv("CONSOLE_PUPPET_SERVER_ADDRESSES"))
+	if err != nil {
+		return Config{}, fmt.Errorf("CONSOLE_PUPPET_SERVER_ADDRESSES: %w", err)
+	}
+	cfg.PuppetServerAddresses = addresses
 
 	clusterMode, err := ParseClusterMode(getenv("CONSOLE_CLUSTER_MODE"))
 	if err != nil {
@@ -617,4 +633,31 @@ func positiveInt(getenv func(string) string, name string, def int) (int, error) 
 		return 0, fmt.Errorf("%s must be a whole number of at least 1, got %q", name, v)
 	}
 	return n, nil
+}
+
+// ParsePuppetServerAddresses parses CONSOLE_PUPPET_SERVER_ADDRESSES:
+// "certname=https://host:port" pairs separated by commas. Empty yields
+// an empty map.
+func ParsePuppetServerAddresses(raw string) (map[string]string, error) {
+	out := map[string]string{}
+	for _, entry := range strings.Split(raw, ",") {
+		entry = strings.TrimSpace(entry)
+		if entry == "" {
+			continue
+		}
+		certname, address, ok := strings.Cut(entry, "=")
+		certname, address = strings.TrimSpace(certname), strings.TrimSpace(address)
+		if !ok || certname == "" || address == "" {
+			return nil, fmt.Errorf("%q is not certname=https://host:port", entry)
+		}
+		u, err := url.Parse(address)
+		if err != nil || u.Scheme != "https" || u.Host == "" {
+			return nil, fmt.Errorf("%q: the address must be an https URL such as https://compile1.example.com:8140", entry)
+		}
+		if _, dup := out[certname]; dup {
+			return nil, fmt.Errorf("%q is listed twice", certname)
+		}
+		out[certname] = strings.TrimRight(address, "/")
+	}
+	return out, nil
 }
