@@ -424,6 +424,14 @@ func (c *catalog) pluralFormsHeader() string {
 // fuzzy entry is left out entirely so the runtime falls back to the
 // msgid, which is the English source - better than shipping an empty
 // string that would render as nothing.
+//
+// A translation identical to its source is a real translation, and is
+// kept: a name such as "Linux" or "All Nodes" reads the same in many
+// languages, and the translator saying so is different from nobody
+// having looked. The console's runtime renders either the same way, but
+// the site's build counts what is in the catalogue to decide whether a
+// guide is fully translated, and would otherwise mark every guide with
+// such a passage as unfinished.
 func writeJSON(path string, cat *catalog) error {
 	forms := cat.nplurals()
 
@@ -451,7 +459,7 @@ func writeJSON(path string, cat *catalog) error {
 			out[e.ID] = e.Plurals[:forms]
 			continue
 		}
-		if e.Str == "" || e.Str == e.ID {
+		if e.Str == "" {
 			continue
 		}
 		out[e.ID] = e.Str
