@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="ar" dir="rtl"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Register hosts the console reaches over SSH, pin their host keys, check them, and run tasks on them like any other node."/>
+    <meta name="description" content="سجّل المضيفين الذين تصل إليهم وحدة التحكم عبر SSH، وثبّت مفاتيح مضيفيهم، وافحصهم، وشغّل الـ Tasks عليهم مثل أي Node آخر."/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Run tasks on hosts without an agent - OpenVox Console</title>
+    <title>تشغيل Tasks على مضيفين بلا وكيل - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">الأدلة</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,173 +104,120 @@
       <a href="../features/classification.html">التصنيف</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">التنسيق</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">تثبيت التصحيحات</a>
       <a href="../features/security.html">الأمان</a>
       <a href="../features/access-control.html">التحكم في الوصول</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">وكلاء الذكاء الاصطناعي</a>
+      <a href="../features/scaling.html">التوسّع</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="الأدلة" toggle-label="كل الأدلة">
+    <vox-sidenav-group heading="التثبيت">
+      <vox-sidenav-item href="../guides/plan.html"><span>خطّط للنشر</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>التثبيت باستخدام الحاويات</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>التثبيت من الحزم والملفات التنفيذية</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>إضافة Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>إدارة شهادات الـ Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>إزالة Node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>إبقاء وكلاء الـ Nodes محدَّثين</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
-      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="التوسّع">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>أوضاع التشغيل</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>تشغيل مزيد من المثيلات</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use" open="">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html" current="" aria-current="page"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="الاستخدام" open="">
+      <vox-sidenav-item href="../guides/classify.html"><span>تصنيف الـ Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>deploy الكود</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>تشغيل الـ Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>تشغيل الـ Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>جدولة الـ Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>المستخدمون والأدوار والرموز</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>تتبّع الثغرات</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>العثور على التحديثات الناقصة وتطبيقها</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html" current="" aria-current="page"><span>تشغيل Tasks على مضيفين بلا وكيل</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>تشغيل Plans من الكود الخاص بك</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>السماح لوكلاء الذكاء الاصطناعي باستخدام وحدة التحكم</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="التشغيل">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>الانتقال إلى قاعدة بيانات احتياطية عند الفشل</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>تدوير مفتاح توقيع الرموز</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>ترقية قواعد بيانات الحاويات إلى Postgres 18</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Use</p>
-    <h1 class="guide-title vox-ts-xxl">Run tasks on hosts without an agent</h1>
-    <p class="guide-summary">Register hosts the console reaches over SSH, pin their host keys, check them, and run tasks on them like any other node.</p>
+    <p class="guide-eyebrow">الاستخدام</p>
+    <h1 class="guide-title vox-ts-xxl">تشغيل Tasks على مضيفين بلا وكيل</h1>
+    <p class="guide-summary">سجّل المضيفين الذين تصل إليهم وحدة التحكم عبر SSH، وثبّت مفاتيح مضيفيهم، وافحصهم، وشغّل الـ Tasks عليهم مثل أي Node آخر.</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>Some hosts cannot or should not run the node agent: appliances, locked-down
-servers, machines not yet enrolled. The console can reach a Linux host over
-<strong>SSH</strong> instead and run <a href="run-jobs.html">tasks</a> on it. Such a host is an
-<strong>agentless target</strong>.</p>
-<p>What an agentless target can do is deliberately narrow:</p>
+<p>بعض المضيفين لا يستطيعون تشغيل وكيل الـ Node أو لا ينبغي لهم ذلك: الأجهزة المخصّصة، والخوادم المقفلة، والأجهزة غير المسجّلة بعد. ويمكن لوحدة التحكم بدلًا من ذلك الوصول إلى مضيف Linux عبر <strong>SSH</strong> وتشغيل <a href="run-jobs.html">الـ Tasks</a> عليه. ومثل هذا المضيف <strong>هدف بلا وكيل</strong>.</p>
+<p>ما يستطيع الهدف الذي بلا وكيل فعله محدود عن قصد:</p>
 <ul>
-<li><strong>Tasks run on it</strong>, on their own, in a <a href="run-plans.html">plan</a> or on a
-<a href="schedule-jobs.html">schedule</a>, with the same permissions, node groups and
-task allowlists as any node.</li>
-<li><strong>Puppet runs and patch runs do not.</strong> They need the agent. A request that
-names an agentless target for one is refused whole, naming the target, and
-nothing is sent to anyone.</li>
-<li>It has <strong>no facts or reports</strong>, so a node group&#39;s rule, which matches on
-facts, cannot include it. A group includes it by <strong>pin</strong>.</li>
+<li><strong>تُشغَّل عليه الـ Tasks</strong>، منفردة، أو ضمن <a href="run-plans.html">Plan</a>، أو وفق <a href="schedule-jobs.html">جدولة</a>، بالأذونات ومجموعات الـ Nodes وقوائم سماح الـ Tasks نفسها كأي Node.</li>
+<li><strong>أما تشغيلات Puppet وتشغيلات التصحيح فلا.</strong> إذ تحتاج إلى الوكيل. والطلب الذي يذكر هدفًا بلا وكيل لأحدها يُرفض بكامله، مع ذكر الهدف، ولا يُرسل شيء إلى أي أحد.</li>
+<li><strong>ليست لديه Facts ولا Reports</strong>، فلا يمكن لقاعدة مجموعة Nodes، التي تطابق بناءً على الـ Facts، أن تتضمنه. وتتضمنه المجموعة عبر <strong>التثبيت</strong>.</li>
 </ul>
-<h2 id="add-a-target">Add a target</h2>
-<p>Open <strong>Nodes</strong>, then <strong>Agentless targets</strong>, then <strong>Add target</strong>. This needs
-<code>agentless:manage</code>. Give:</p>
+<h2 id="add-a-target">أضف هدفًا</h2>
+<p>افتح <strong>Nodes</strong>، ثم <strong>أهداف بلا وكيل</strong>، ثم <strong>إضافة هدف</strong>. يحتاج هذا إلى <code>agentless:manage</code>. أدخل:</p>
 <ul>
-<li>a <strong>name</strong>, which is how the target appears in jobs and node groups. It
-cannot be the name of a node that exists, or of another target;</li>
-<li>the <strong>address</strong> and <strong>port</strong> (22 unless you say otherwise);</li>
-<li>the <strong>login</strong>: a user, and a <strong>private key</strong> (with its passphrase if it has
-one), a <strong>password</strong>, or both. Or choose a <strong>shared credential</strong>: one login
-several targets use. A target&#39;s own login wins over a shared one;</li>
-<li>optionally a user to <strong>run tasks as</strong>. Tasks then run through
-<code>sudo -n -u &lt;user&gt;</code>, so <code>sudo</code> must not ask for a password. Password <code>sudo</code>
-is not supported.</li>
+<li><strong>اسمًا</strong>، وهو الاسم الذي يظهر به الهدف في الـ Jobs ومجموعات الـ Nodes. ولا يجوز أن يكون اسم Node موجود، أو اسم هدف آخر؛</li>
+<li><strong>العنوان</strong> و<strong>المنفذ</strong> (22 ما لم تحدد غير ذلك)؛</li>
+<li><strong>بيانات تسجيل الدخول</strong>: مستخدمًا، و<strong>مفتاحًا خاصًّا</strong> (مع عبارة المرور إن كانت له واحدة)، أو <strong>كلمة مرور</strong>، أو كليهما. أو اختر <strong>بيانات اعتماد مشتركة</strong>: بيانات تسجيل دخول واحدة تستخدمها عدة أهداف. وتتغلب بيانات تسجيل الدخول الخاصة بالهدف على المشتركة؛</li>
+<li>واختياريًا مستخدمًا <strong>تُشغَّل الـ Tasks بصفته</strong>. تعمل الـ Tasks عندئذ عبر <code>sudo -n -u &lt;user&gt;</code>، لذا يجب ألّا يطلب <code>sudo</code> كلمة مرور. ولا يُدعم <code>sudo</code> بكلمة مرور.</li>
 </ul>
-<p>The key, passphrase and password are stored <strong>sealed</strong> with the console&#39;s
-secrets key (<code>CONSOLE_SECRETS_KEY_FILE</code>; without it a target with credentials
-cannot be added). They are never returned by the console, written to its logs
-or audit entries, or put in a job. You can set or replace one but never read
-it: leave the fields blank when you edit to keep the stored ones. A key is
-checked when you save it, and a passphrase that does not open it is refused.</p>
-<p>A target must be pinned into a node group to be seen by anyone limited to
-that group. A user limited to some node groups can add and manage targets
-only inside their groups, and cannot use shared credentials at all, since a
-shared credential belongs to no node.</p>
-<h2 id="trust-its-host-key">Trust its host key</h2>
-<p>Before the console sends a login to a host it must know it is the right one.</p>
+<p>يُخزَّن المفتاح وعبارة المرور وكلمة المرور <strong>مختومة</strong> بمفتاح الأسرار الخاص بوحدة التحكم (<code>CONSOLE_SECRETS_KEY_FILE</code>؛ ومن دونه لا يمكن إضافة هدف ببيانات اعتماد). ولا تُرجعها وحدة التحكم أبدًا، ولا تُكتب في سجلاتها أو إدخالات التدقيق، ولا توضع في Job. يمكنك ضبط أيٍّ منها أو استبداله لكن لا يمكنك قراءته أبدًا: اترك الحقول فارغة عند التحرير للإبقاء على المخزَّنة. ويُفحص المفتاح حين تحفظه، وتُرفض عبارة المرور التي لا تفتحه.</p>
+<p>يجب تثبيت الهدف في مجموعة Nodes كي يراه من هو مقصور على تلك المجموعة. والمستخدم المقصور على بعض مجموعات الـ Nodes لا يستطيع إضافة الأهداف وإدارتها إلا داخل مجموعاته، ولا يستطيع استخدام بيانات الاعتماد المشتركة إطلاقًا، لأن بيانات الاعتماد المشتركة لا تخص أي Node.</p>
+<h2 id="trust-its-host-key">ثق بمفتاح مضيفه</h2>
+<p>قبل أن ترسل وحدة التحكم بيانات تسجيل الدخول إلى مضيف، يجب أن تعرف أنه المضيف الصحيح.</p>
 <ol>
-<li><strong>Check</strong> the target. The console connects and reads the host&#39;s key
-<strong>without logging in</strong>, and shows its fingerprint.</li>
-<li>Compare that fingerprint with the host&#39;s own, for example
-<code>ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub</code> on the host, and
-choose <strong>Trust this key</strong>.</li>
-<li>Check again: now the console logs in, and reports who it logged in as
-(and as whom tasks will run, if you set a run-as user).</li>
+<li>اختر <strong>فحص</strong> للهدف. تتصل وحدة التحكم وتقرأ مفتاح المضيف <strong>دون تسجيل الدخول</strong>، وتعرض بصمته.</li>
+<li>قارن تلك البصمة ببصمة المضيف نفسه، على سبيل المثال بتشغيل <code>ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub</code> على المضيف، واختر <strong>الوثوق بهذا المفتاح</strong>.</li>
+<li>افحص مجددًا: الآن تسجّل وحدة التحكم الدخول، وتُبلّغ عن الهوية التي سجّلت الدخول بها (وعن الهوية التي ستعمل بها الـ Tasks، إن ضبطت مستخدمًا للتشغيل).</li>
 </ol>
-<p>Until a key is trusted, a task on the target fails as &#34;not trusted&#34; and
-nothing is run. If a trusted target later presents a <strong>different key</strong>, the
-connection is refused before any login is sent, and the target shows
-<strong>Host key changed</strong> with both fingerprints. Replace the pin only if you know
-the host was rebuilt or its key rotated: that is a separate, audited action.
-Changing a target&#39;s address or port clears its pin, since a pin vouches for a
-host, not a name.</p>
-<p>A failed check says which stage failed: connecting, the host key,
-authentication, becoming the run-as user, or running a command.</p>
-<h2 id="run-a-task-on-one">Run a task on one</h2>
-<p>On the Nodes page select targets with any other nodes and choose <strong>Run
-task</strong>, or name them in a task, plan or schedule. The job shows each target&#39;s
-own result.</p>
-<p>For each target the console downloads the task&#39;s files from the Puppet
-server, verifies their checksums, then connects, creates a private directory
-on the host (<code>mktemp -d</code>, mode 700), copies the files into it over the SSH
-session, runs the task and removes the directory, whether the task succeeded,
-failed or timed out. Nothing needs to be installed on the host beyond <code>sh</code>,
-<code>cat</code>, <code>mktemp</code> and (for a run-as user) <code>sudo</code>.</p>
+<p>إلى أن يُوثَق بمفتاح، تفشل أي Task على الهدف بالحالة «not trusted» ولا يُنفَّذ شيء. وإذا قدّم هدف موثوق لاحقًا <strong>مفتاحًا مختلفًا</strong>، يُرفض الاتصال قبل إرسال أي بيانات تسجيل دخول، ويعرض الهدف <strong>تغيّر مفتاح المضيف</strong> مع البصمتين كلتيهما. لا تستبدل التثبيت إلا إذا كنت تعلم أن المضيف أُعيد بناؤه أو دُوِّر مفتاحه: فذلك إجراء منفصل يخضع للتدقيق. وتغيير عنوان الهدف أو منفذه يمسح تثبيته، لأن التثبيت يشهد لمضيف، لا لاسم.</p>
+<p>يذكر الفحص الفاشل المرحلة التي فشلت: الاتصال، أو مفتاح المضيف، أو المصادقة، أو التحوّل إلى مستخدم التشغيل، أو تشغيل أمر.</p>
+<h2 id="run-a-task-on-one">شغّل Task على أحدها</h2>
+<p>في صفحة Nodes حدّد الأهداف مع أي Nodes أخرى واختر <strong>تنفيذ Task</strong>، أو اذكرها في Task أو Plan أو جدولة. ويعرض الـ Job نتيجة كل هدف على حدة.</p>
+<p>لكل هدف، تنزّل وحدة التحكم ملفات الـ Task من خادم Puppet، وتتحقق من مجاميعها الاختبارية، ثم تتصل، وتُنشئ مجلدًا خاصًّا على المضيف (<code>mktemp -d</code>، بالوضع 700)، وتنسخ الملفات إليه عبر جلسة SSH، وتشغّل الـ Task وتزيل المجلد، سواء نجحت الـ Task أو فشلت أو انقضت مهلتها. ولا يلزم تثبيت أي شيء على المضيف سوى <code>sh</code> و<code>cat</code> و<code>mktemp</code> و(لمستخدم التشغيل) <code>sudo</code>.</p>
 <ul>
-<li>Task <strong>parameters never appear on a command line</strong>, where any user of the
-host could read them. They reach the task on standard input or in its
-environment, as the task&#39;s metadata asks, and are never written to disk.
-What a task prints is recorded like any task&#39;s output.</li>
-<li>A task whose implementations all need the Puppet agent (<code>puppet-agent</code>)
-cannot run: the target provides a shell only.</li>
-<li>A task is limited by its <strong>timeout</strong>. When it runs out, the task is stopped
-and the target fails with that reason. Connecting is limited to 15 seconds.</li>
-<li>A target runs <strong>one task at a time</strong>; a second is refused as busy. At most
-20 SSH sessions run across the console at once, and the rest wait.</li>
-<li>A <code>/tmp</code> mounted <code>noexec</code> stops a task from running there. The failure says
-so; make a directory available or remount.</li>
+<li><strong>لا تظهر معاملات الـ Task أبدًا في سطر أوامر</strong>، حيث يمكن لأي مستخدم على المضيف قراءتها. بل تصل إلى الـ Task عبر الإدخال القياسي أو في بيئتها، كما تطلب البيانات الوصفية للـ Task، ولا تُكتب على القرص أبدًا. وما تطبعه الـ Task يُسجَّل مثل مخرجات أي Task.</li>
+<li>الـ Task التي تحتاج كل تطبيقاتها إلى وكيل Puppet ‏(<code>puppet-agent</code>) لا يمكن تشغيلها: فالهدف لا يوفّر سوى صدفة (shell).</li>
+<li>تُقيَّد الـ Task بـ <strong>مهلتها</strong>. وحين تنقضي، تُوقف الـ Task ويفشل الهدف لهذا السبب. ويقتصر الاتصال على 15 ثانية.</li>
+<li>يشغّل الهدف <strong>Task واحدة في كل مرة</strong>؛ وتُرفض الثانية لانشغاله. ولا تعمل أكثر من 20 جلسة SSH عبر وحدة التحكم في وقت واحد، وتنتظر البقية.</li>
+<li>تركيب <code>/tmp</code> بالخيار <code>noexec</code> يمنع الـ Task من العمل هناك. ورسالة الفشل تذكر ذلك؛ وفّر مجلدًا أو أعِد التركيب.</li>
 </ul>
-<h2 id="where-it-is-audited">Where it is audited</h2>
-<p>Adding, changing, deleting and checking a target, trusting or replacing a
-host key, and every shared credential change are audit entries naming who
-and what. They name which secrets were set, never their values. Jobs are
-audited as always.</p>
-<h2 id="not-covered">Not covered</h2>
-<p>Windows and WinRM, jump hosts, SSH certificates, Puppet runs, patch scans
-and patch runs, collecting facts, and Puppet-language plans.</p>
+<h2 id="where-it-is-audited">أين يُدقَّق</h2>
+<p>إضافة هدف وتغييره وحذفه وفحصه، والوثوق بمفتاح مضيف أو استبداله، وكل تغيير في بيانات الاعتماد المشتركة، كلها إدخالات تدقيق تذكر من وماذا. وتذكر الأسرار التي ضُبطت، لا قيمها أبدًا. وتُدقَّق الـ Jobs كما هو الحال دائمًا.</p>
+<h2 id="not-covered">ما لا يشمله</h2>
+<p>Windows وWinRM، ومضيفات القفز (jump hosts)، وشهادات SSH، وتشغيلات Puppet، وعمليات مسح التصحيحات وتشغيلاتها، وجمع الـ Facts، والـ Plans المكتوبة بلغة Puppet.</p>
 
     </div>
 
-    <vox-series-nav label="Use" previous-text="Previous" next-text="Next" previous-href="../guides/patching.html" previous-label="Find and apply missing updates" next-href="../guides/code-plans.html" next-label="Run plans from your code"></vox-series-nav>
+    <vox-series-nav label="الاستخدام" previous-text="السابق" next-text="التالي" previous-href="../guides/patching.html" previous-label="العثور على التحديثات الناقصة وتطبيقها" next-href="../guides/code-plans.html" next-label="تشغيل Plans من الكود الخاص بك"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#add-a-target"><span>Add a target</span>
+    <vox-toc heading="في هذه الصفحة">
+      <vox-toc-item href="#add-a-target"><span>أضف هدفًا</span>
       </vox-toc-item>
-      <vox-toc-item href="#trust-its-host-key"><span>Trust its host key</span>
+      <vox-toc-item href="#trust-its-host-key"><span>ثق بمفتاح مضيفه</span>
       </vox-toc-item>
-      <vox-toc-item href="#run-a-task-on-one"><span>Run a task on one</span>
+      <vox-toc-item href="#run-a-task-on-one"><span>شغّل Task على أحدها</span>
       </vox-toc-item>
-      <vox-toc-item href="#where-it-is-audited"><span>Where it is audited</span>
+      <vox-toc-item href="#where-it-is-audited"><span>أين يُدقَّق</span>
       </vox-toc-item>
-      <vox-toc-item href="#not-covered"><span>Not covered</span>
+      <vox-toc-item href="#not-covered"><span>ما لا يشمله</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -280,23 +227,17 @@ and patch runs, collecting facts, and Puppet-language plans.</p>
 
       
       <vox-cta-band heading="شغّله بنفسك">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>يُوزَّع OpenVox Console على هيئة صور حاويات تُبنى لمعماريتَي amd64 وarm64 مع كل push، وعلى هيئة ملف تنفيذي واحد. تأخذك أدلة التثبيت من مضيف فارغ إلى نشر عامل - openvoxserver وopenvoxdb وPostgres ووحدة التحكم - باستخدام الحاويات أو الحزم.</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">أدلة التثبيت</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">الشيفرة المصدرية على GitHub</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">صور الحاويات</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="لقطة الشاشة بالحجم الكامل">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">إغلاق</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -305,18 +246,18 @@ and patch runs, collecting facts, and Puppet-language plans.</p>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">نظرة عامة</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">الشيفرة المصدرية</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">أدلة التثبيت</a>
       </vox-footer-column>
       <vox-footer-column heading="الإمكانات">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">التصنيف</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">التنسيق</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">تثبيت التصحيحات</a>
         <a href="../features/security.html">الأمان</a>
         <a href="../features/access-control.html">التحكم في الوصول</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">وكلاء الذكاء الاصطناعي</a>
+        <a href="../features/scaling.html">التوسّع</a>
         </vox-footer-column>
       
       <vox-footer-column heading="اللغة">

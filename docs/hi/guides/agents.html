@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="hi" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Give an AI agent its own limited token, let it read the fleet and ask for changes, and approve each change yourself before anything runs."/>
+    <meta name="description" content="किसी AI एजेंट को उसका अपना सीमित टोकन दीजिए, उसे फ़्लीट पढ़ने और बदलाव माँगने दीजिए, और कुछ भी चलने से पहले हर बदलाव को स्वयं स्वीकृत कीजिए।"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Let AI agents use the console - OpenVox Console</title>
+    <title>AI एजेंटों को कंसोल का उपयोग करने दें - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">गाइड</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,149 +104,121 @@
       <a href="../features/classification.html">वर्गीकरण</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">ऑर्केस्ट्रेशन</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">पैचिंग</a>
       <a href="../features/security.html">सुरक्षा</a>
       <a href="../features/access-control.html">पहुँच नियंत्रण</a>
       <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/scaling.html">विस्तार</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="गाइड" toggle-label="सभी गाइड">
+    <vox-sidenav-group heading="इंस्टॉल">
+      <vox-sidenav-item href="../guides/plan.html"><span>परिनियोजन की योजना बनाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>कंटेनरों से इंस्टॉल करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>पैकेजों और बाइनरी से इंस्टॉल करें</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>Nodes जोड़ें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>Node प्रमाणपत्र प्रबंधित करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>किसी Node को हटाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Node एजेंटों को नवीनतम रखें</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
+    <vox-sidenav-group heading="विस्तार">
       <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>अधिक इंस्टेंस चलाएँ</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use" open="">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html" current="" aria-current="page"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="उपयोग" open="">
+      <vox-sidenav-item href="../guides/classify.html"><span>Nodes का वर्गीकरण करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>कोड deploy करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>Jobs चलाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>Plans चलाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Jobs शेड्यूल करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>उपयोगकर्ता, भूमिकाएँ और टोकन</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>कमज़ोरियों पर नज़र रखें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>छूटे हुए अपडेट खोजें और लागू करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>बिना एजेंट वाले होस्टों पर Tasks चलाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>अपने कोड से Plans चलाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html" current="" aria-current="page"><span>AI एजेंटों को कंसोल का उपयोग करने दें</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="संचालन">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>standby डेटाबेस पर failover करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>टोकन हस्ताक्षर कुंजी बदलें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>कंटेनर डेटाबेस को Postgres 18 पर अपग्रेड करें</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Use</p>
-    <h1 class="guide-title vox-ts-xxl">Let AI agents use the console</h1>
-    <p class="guide-summary">Give an AI agent its own limited token, let it read the fleet and ask for changes, and approve each change yourself before anything runs.</p>
+    <p class="guide-eyebrow">उपयोग</p>
+    <h1 class="guide-title vox-ts-xxl">AI एजेंटों को कंसोल का उपयोग करने दें</h1>
+    <p class="guide-summary">किसी AI एजेंट को उसका अपना सीमित टोकन दीजिए, उसे फ़्लीट पढ़ने और बदलाव माँगने दीजिए, और कुछ भी चलने से पहले हर बदलाव को स्वयं स्वीकृत कीजिए।</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>The console has an endpoint for AI agents, built on MCP (the Model Context
-Protocol), at <code>/mcp</code>. An agent connected to it can look at your nodes, node
-groups, tasks and jobs. When it wants to change something - run a task, run
-Puppet, run a plan or patch nodes - it does not start anything. It <strong>asks</strong>,
-and the request waits on the <strong>Approvals</strong> page until a person approves it.</p>
-<p>Everything an agent can see or ask for is limited by its own token: which
-permissions it has, which node groups it can reach, and which tasks it may
-ask to run. Everything it does is in the audit log under its own name.</p>
-<h2 id="turn-the-endpoint-on">Turn the endpoint on</h2>
-<p>The endpoint is off. Set <code>CONSOLE_MCP_ENABLED=true</code> on the console and
-restart it. Until then <code>/mcp</code> does not exist: it answers as any unknown
-path does.</p>
+<p>कंसोल में AI एजेंटों के लिए MCP (Model Context Protocol) पर बना एक endpoint है, <code>/mcp</code> पर। इससे जुड़ा एजेंट आपके Nodes, Node समूह, Tasks और Jobs देख सकता है। जब वह कुछ बदलना चाहता है - कोई Task चलाना, Puppet चलाना, कोई Plan चलाना या Nodes पैच करना - तो वह कुछ भी शुरू नहीं करता। वह <strong>माँगता</strong> है, और अनुरोध <strong>स्वीकृतियाँ</strong> पृष्ठ पर तब तक प्रतीक्षा करता है जब तक कोई व्यक्ति उसे स्वीकृत न करे।</p>
+<p>एजेंट जो कुछ देख या माँग सकता है, वह उसके अपने टोकन से सीमित है: उसके पास कौन-सी अनुमतियाँ हैं, वह किन Node समूहों तक पहुँच सकता है, और कौन-से Tasks चलाने का अनुरोध कर सकता है। वह जो कुछ करता है, वह उसके अपने नाम से ऑडिट लॉग में होता है।</p>
+<h2 id="turn-the-endpoint-on">endpoint चालू करें</h2>
+<p>endpoint बंद है। कंसोल पर <code>CONSOLE_MCP_ENABLED=true</code> सेट कीजिए और उसे पुनः आरंभ कीजिए। तब तक <code>/mcp</code> मौजूद नहीं होता: यह किसी भी अज्ञात पथ की तरह उत्तर देता है।</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Setting</th>
-<th>Meaning</th>
-<th>Default</th>
+<th>सेटिंग</th>
+<th>अर्थ</th>
+<th>डिफ़ॉल्ट</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>CONSOLE_MCP_ENABLED</code></td>
-<td>serve <code>/mcp</code></td>
-<td>off</td>
+<td><code>/mcp</code> देना</td>
+<td>बंद</td>
 </tr>
 <tr>
 <td><code>CONSOLE_MCP_RATE_LIMIT</code></td>
-<td>calls a minute one token may make</td>
+<td>एक टोकन प्रति मिनट कितनी कॉल कर सकता है</td>
 <td>60</td>
 </tr>
 <tr>
 <td><code>CONSOLE_AGENT_REQUEST_TTL</code></td>
-<td>how long a request waits for a decision, such as <code>30m</code></td>
+<td>अनुरोध निर्णय के लिए कितनी देर प्रतीक्षा करता है, जैसे <code>30m</code></td>
 <td><code>1h</code></td>
 </tr>
 <tr>
 <td><code>CONSOLE_AGENT_TOKEN_MAX_DAYS</code></td>
-<td>the longest an agent token may last</td>
+<td>एजेंट टोकन अधिकतम कितने समय चल सकता है</td>
 <td>90</td>
 </tr>
 </tbody>
 </table></div>
-<p>The rate limit is kept by each console instance, so a token may make that
-many calls a minute on every instance. Put the endpoint behind TLS, as you
-do the rest of the console: the token is a bearer credential.</p>
-<h2 id="issue-a-token-for-an-agent">Issue a token for an agent</h2>
-<p>An agent token is its own kind of token. It is not a service token: it
-expires, it is limited to node groups, and it works only at <code>/mcp</code>. A leaked
-one cannot be used against the rest of the console&#39;s API.</p>
+<p>rate limit हर कंसोल इंस्टेंस अलग से रखता है, इसलिए एक टोकन हर इंस्टेंस पर प्रति मिनट उतनी कॉल कर सकता है। कंसोल के बाक़ी हिस्से की तरह endpoint को TLS के पीछे रखिए: टोकन एक bearer credential है।</p>
+<h2 id="issue-a-token-for-an-agent">एजेंट के लिए टोकन जारी करें</h2>
+<p>एजेंट टोकन एक अलग प्रकार का टोकन है। यह सेवा टोकन नहीं है: यह समाप्त होता है, Node समूहों तक सीमित होता है, और केवल <code>/mcp</code> पर काम करता है। लीक हुए एजेंट टोकन का उपयोग कंसोल के बाक़ी API के विरुद्ध नहीं किया जा सकता।</p>
 <ol>
-<li>Open <strong>Admin</strong>, then <strong>Agent tokens</strong>.</li>
-<li>Name the token for the agent it is for, such as <code>ops-assistant</code>.</li>
-<li>Choose its <strong>permissions</strong>. An agent token can carry only
-<code>nodes:read</code>, <code>classifier:read</code>, <code>orchestrator:read</code>, <code>orchestrator:run</code>
-and <code>vulnerabilities:read</code>.
-<code>orchestrator:run</code> does not let the agent run anything: it lets it
-<strong>ask</strong>.</li>
-<li>Choose the <strong>node groups</strong> it may reach. A token with none reaches no
-nodes. Everything the agent reads or asks for is limited to those groups
-and the groups beneath them.</li>
-<li>Optionally, under <strong>Tasks it may ask to run</strong>, list the tasks it may ask
-for, one pattern per line, as for a <a href="access.html#limit-a-role-to-some-tasks">role</a>.
-Leave it empty to allow every task. Both the node groups and the tasks
-are fixed when the token is created.</li>
-<li>Set how many days it lasts. A token must expire, and cannot last longer
-than <code>CONSOLE_AGENT_TOKEN_MAX_DAYS</code>. Thirty days is a good start.</li>
-<li>Choose <strong>Create agent token</strong> and copy the token: it is shown once.</li>
+<li><strong>प्रशासन</strong> खोलिए, फिर <strong>एजेंट टोकन</strong>।</li>
+<li>टोकन का नाम उस एजेंट पर रखिए जिसके लिए वह है, जैसे <code>ops-assistant</code>।</li>
+<li>इसकी <strong>अनुमतियाँ</strong> चुनिए। एजेंट टोकन में केवल <code>nodes:read</code>, <code>classifier:read</code>, <code>orchestrator:read</code>, <code>orchestrator:run</code> और <code>vulnerabilities:read</code> हो सकती हैं। <code>orchestrator:run</code> एजेंट को कुछ चलाने नहीं देता: यह उसे <strong>माँगने</strong> देता है।</li>
+<li>वे <strong>Node समूह</strong> चुनिए जिन तक यह पहुँच सकता है। बिना किसी समूह वाला टोकन किसी Node तक नहीं पहुँचता। एजेंट जो कुछ भी पढ़ता या माँगता है, वह उन समूहों और उनके नीचे के समूहों तक सीमित है।</li>
+<li>वैकल्पिक रूप से, <strong>जिन Tasks को चलाने का अनुरोध वह कर सकता है</strong> के अंतर्गत वे Tasks सूचीबद्ध कीजिए जिन्हें वह माँग सकता है, हर पंक्ति में एक pattern, जैसे किसी <a href="access.html#limit-a-role-to-some-tasks">भूमिका</a> के लिए। हर Task की अनुमति देने के लिए इसे खाली छोड़ दीजिए। टोकन बनाते समय Node समूह और Tasks, दोनों स्थिर हो जाते हैं।</li>
+<li>तय कीजिए कि यह कितने दिन चलेगा। टोकन का समाप्त होना अनिवार्य है, और यह <code>CONSOLE_AGENT_TOKEN_MAX_DAYS</code> से अधिक नहीं चल सकता। तीस दिन अच्छी शुरुआत है।</li>
+<li><strong>एजेंट टोकन बनाएँ</strong> चुनिए और टोकन कॉपी कर लीजिए: यह केवल एक बार दिखाया जाता है।</li>
 </ol>
-<p><strong>Revoke</strong> on the same page ends the token at once, on every console
-instance. Its requests stay on the Approvals page as a record, and any it
-had waiting are marked failed.</p>
-<h2 id="connect-an-agent">Connect an agent</h2>
-<p>Give the agent the console&#39;s address with <code>/mcp</code> on the end, and the token
-as a bearer token. The endpoint speaks streamable HTTP, and answers each
-POSTed message directly. For Claude Code, for example:</p>
-<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>claude mcp add --transport http openvox https://console.example.com/mcp \
+<p>उसी पृष्ठ पर <strong>निरस्त करें</strong> टोकन को हर कंसोल इंस्टेंस पर तुरंत समाप्त कर देता है। उसके अनुरोध रिकॉर्ड के रूप में स्वीकृतियाँ पृष्ठ पर बने रहते हैं, और उसके जो अनुरोध प्रतीक्षा में थे, वे विफल चिह्नित हो जाते हैं।</p>
+<h2 id="connect-an-agent">एजेंट जोड़ें</h2>
+<p>एजेंट को अंत में <code>/mcp</code> लगा कंसोल का पता दीजिए, और टोकन bearer token के रूप में। endpoint streamable HTTP बोलता है, और हर POST किए गए संदेश का सीधे उत्तर देता है। उदाहरण के लिए Claude Code के लिए:</p>
+<vox-code-block language="plaintext" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>claude mcp add --transport http openvox https://console.example.com/mcp \
   --header &#34;Authorization: Bearer &lt;the token&gt;&#34;
 </code></vox-code-block>
-<p>The agent is offered only the tools its token allows.</p>
+<p>एजेंट को केवल वही tools दिए जाते हैं जिनकी उसका टोकन अनुमति देता है।</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
 <th>Tool</th>
-<th>Needs</th>
+<th>आवश्यकता</th>
 <th>यह क्या करता है</th>
 </tr>
 </thead>
@@ -254,148 +226,111 @@ POSTed message directly. For Claude Code, for example:</p>
 <tr>
 <td><code>list_nodes</code>, <code>get_node</code>, <code>get_node_reports</code></td>
 <td><code>nodes:read</code></td>
-<td>look at nodes, their facts and reports</td>
+<td>Nodes, उनके Facts और Reports देखना</td>
 </tr>
 <tr>
 <td><code>get_node_patches</code>, <code>get_patch_inventory</code></td>
 <td><code>nodes:read</code></td>
-<td>pending operating system updates</td>
+<td>लंबित ऑपरेटिंग सिस्टम अपडेट</td>
 </tr>
 <tr>
 <td><code>list_groups</code>, <code>get_group</code>, <code>get_group_nodes</code></td>
 <td><code>classifier:read</code></td>
-<td>node groups</td>
+<td>Node समूह</td>
 </tr>
 <tr>
 <td><code>list_tasks</code>, <code>get_task</code>, <code>list_code_plans</code>, <code>get_code_plan</code></td>
 <td><code>orchestrator:read</code></td>
-<td>what the deployed code offers, and each one&#39;s parameters</td>
+<td>deploy किया गया कोड क्या प्रस्तुत करता है, और हर एक के पैरामीटर</td>
 </tr>
 <tr>
 <td><code>list_jobs</code>, <code>get_job</code></td>
 <td><code>orchestrator:read</code></td>
-<td>jobs and their results</td>
+<td>Jobs और उनके परिणाम</td>
 </tr>
 <tr>
 <td><code>resolve_targets</code></td>
 <td><code>orchestrator:run</code></td>
-<td>which nodes a target would name</td>
+<td>कोई लक्ष्य किन Nodes को इंगित करेगा</td>
 </tr>
 <tr>
 <td><code>request_task</code>, <code>request_puppet_run</code>, <code>request_plan</code>, <code>request_patch_run</code>, <code>request_code_plan</code></td>
 <td><code>orchestrator:run</code></td>
-<td>ask to run something (see below)</td>
+<td>कुछ चलाने का अनुरोध करना (नीचे देखें)</td>
 </tr>
 <tr>
 <td><code>get_request</code>, <code>list_requests</code></td>
 <td><code>orchestrator:run</code></td>
-<td>the agent&#39;s own requests and how they were decided</td>
+<td>एजेंट के अपने अनुरोध और उन पर क्या निर्णय हुआ</td>
 </tr>
 </tbody>
 </table></div>
-<p>Everything an agent reads comes through the console&#39;s own endpoints with its
-token, so it sees exactly what a person with that token&#39;s permissions and node
-groups would, and sensitive values are masked as everywhere else. A long
-result is cut, with a note telling the agent how to ask for less.</p>
-<h2 id="approve-what-an-agent-asks-for">Approve what an agent asks for</h2>
-<p>When an agent calls one of the <code>request_</code> tools, the console checks the
-request exactly as it would check yours - the task and its parameters, the
-nodes, the agent&#39;s node groups and task list - and, if it passes, stores it
-and tells the agent it is awaiting approval. Nothing runs. A request that
-fails a check is refused with the reason, so the agent can correct it.</p>
-<p>Open <strong>Jobs</strong>, then <strong>Approvals</strong> (the tab shows how many are waiting, as does
-the navigation). <strong>Review</strong> a request to see:</p>
+<p>एजेंट जो कुछ पढ़ता है, वह उसके टोकन के साथ कंसोल के अपने endpoints से आता है, इसलिए उसे ठीक वही दिखता है जो उस टोकन की अनुमतियों और Node समूहों वाले व्यक्ति को दिखता, और संवेदनशील मान हर जगह की तरह छिपाए जाते हैं। लंबा परिणाम काट दिया जाता है, एक टिप्पणी के साथ जो एजेंट को बताती है कि कम कैसे माँगे।</p>
+<h2 id="approve-what-an-agent-asks-for">एजेंट के अनुरोध स्वीकृत करें</h2>
+<p>जब कोई एजेंट <code>request_</code> tools में से किसी को कॉल करता है, तो कंसोल अनुरोध को ठीक वैसे ही जाँचता है जैसे आपके अनुरोध को जाँचता - Task और उसके पैरामीटर, Nodes, एजेंट के Node समूह और Task सूची - और यदि वह सफल हो, तो उसे संग्रहीत करके एजेंट को बताता है कि वह स्वीकृति की प्रतीक्षा में है। कुछ नहीं चलता। जाँच में विफल अनुरोध कारण सहित अस्वीकार होता है, ताकि एजेंट उसे सुधार सके।</p>
+<p><strong>Jobs</strong> खोलिए, फिर <strong>स्वीकृतियाँ</strong> (टैब दिखाता है कि कितने प्रतीक्षा में हैं, और navigation भी)। किसी अनुरोध की <strong>समीक्षा करें</strong> ताकि यह देख सकें:</p>
 <ul>
-<li>which agent asked and when, and when the request expires</li>
-<li>the task, plan or kind of run, and its environment</li>
-<li>the <strong>exact nodes</strong>, resolved when the agent asked</li>
-<li>the parameters, with sensitive values masked</li>
+<li>किस एजेंट ने और कब पूछा, और अनुरोध कब समाप्त होगा</li>
+<li>Task, Plan या रन का प्रकार, और उसका Environment</li>
+<li><strong>सटीक Nodes</strong>, जो एजेंट के पूछते समय तय किए गए</li>
+<li>पैरामीटर, संवेदनशील मान छिपाकर</li>
 </ul>
-<p>Choose <strong>Approve and run</strong> to start the job, or <strong>Reject</strong>, with a note if you
-like: the agent is told. Approving starts exactly what you saw - parameters
-and nodes are frozen when the request is made - as the agent&#39;s token. The job
-shows that an AI agent asked for it and who approved it, and <strong>Jobs</strong> can be
-limited to jobs started that way.</p>
-<p>A request that nobody decides expires, after an hour unless you set
-<code>CONSOLE_AGENT_REQUEST_TTL</code>, and can no longer be approved. An agent can hold
-only so many waiting requests at once.</p>
-<h3 id="who-can-approve">Who can approve</h3>
-<p>Two permissions, which go on roles for people and cannot be given to an agent
-token:</p>
+<p>Job शुरू करने के लिए <strong>स्वीकृत करें और चलाएँ</strong> चुनिए, या <strong>अस्वीकार करें</strong>, चाहें तो एक टिप्पणी के साथ: एजेंट को सूचित किया जाता है। स्वीकृति ठीक वही शुरू करती है जो आपने देखा - अनुरोध बनते ही पैरामीटर और Nodes स्थिर हो जाते हैं - एजेंट के टोकन के रूप में। Job दिखाता है कि उसे किसी AI एजेंट ने माँगा था और किसने स्वीकृत किया, और <strong>Jobs</strong> को इस तरह शुरू हुए Jobs तक सीमित किया जा सकता है।</p>
+<p>जिस अनुरोध पर कोई निर्णय नहीं लेता, वह एक घंटे बाद समाप्त हो जाता है, जब तक आप <code>CONSOLE_AGENT_REQUEST_TTL</code> सेट न करें, और फिर उसे स्वीकृत नहीं किया जा सकता। कोई agent एक साथ सीमित संख्या में ही प्रतीक्षारत अनुरोध रख सकता है।</p>
+<h3 id="who-can-approve">कौन स्वीकृत कर सकता है</h3>
+<p>दो अनुमतियाँ, जो लोगों की भूमिकाओं पर लगती हैं और एजेंट टोकन को नहीं दी जा सकतीं:</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Permission</th>
-<th>Lets someone</th>
+<th>अनुमति</th>
+<th>किसी को यह करने देता है</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>agent-requests:read</code></td>
-<td>see requests on the Approvals page</td>
+<td>स्वीकृतियाँ पृष्ठ पर अनुरोध देखना</td>
 </tr>
 <tr>
 <td><code>agent-requests:approve</code></td>
-<td>approve and reject them</td>
+<td>उन्हें स्वीकृत और अस्वीकार करना</td>
 </tr>
 </tbody>
 </table></div>
-<p>An approver also needs <code>orchestrator:run</code> over every node the request acts on,
-and may run the task. You cannot approve a request on nodes you could not run
-the task on yourself. Someone who can see only some node groups sees only the
-requests that name nodes in them.</p>
-<p>The person who issued an agent&#39;s token cannot approve its requests, though
-they can reject them. With only one administrator, create a second account
-for approving.</p>
-<vox-callout variant="info" heading="Note"><p>A permission added in a newer console version is not added to existing roles
-for you. After an upgrade, grant <code>agent-requests:read</code> and
-<code>agent-requests:approve</code> on the <strong>Roles</strong> page to the roles that should have
-them. The bootstrap administrator of a new installation has both.</p>
+<p>स्वीकृति देने वाले के पास भी उन सभी Nodes पर <code>orchestrator:run</code> होना चाहिए जिन पर अनुरोध काम करता है, और उसे वह Task चलाने की अनुमति होनी चाहिए। आप ऐसे Nodes पर अनुरोध स्वीकृत नहीं कर सकते जिन पर आप स्वयं वह Task नहीं चला सकते। जो व्यक्ति केवल कुछ Node समूह देख सकता है, उसे केवल वही अनुरोध दिखते हैं जिनमें उन समूहों के Nodes के नाम हैं।</p>
+<p>जिस व्यक्ति ने एजेंट का टोकन जारी किया, वह उसके अनुरोध स्वीकृत नहीं कर सकता, हालाँकि अस्वीकार कर सकता है। केवल एक administrator होने पर, स्वीकृति के लिए दूसरा खाता बनाइए।</p>
+<vox-callout variant="info" heading="नोट"><p>कंसोल के नए संस्करण में जोड़ी गई अनुमति मौजूदा भूमिकाओं में अपने-आप नहीं जुड़ती। अपग्रेड के बाद, <strong>भूमिकाएँ</strong> पृष्ठ पर <code>agent-requests:read</code> और <code>agent-requests:approve</code> उन भूमिकाओं को दीजिए जिनके पास वे होनी चाहिए। नए इंस्टॉलेशन के bootstrap administrator के पास दोनों होती हैं।</p>
 </vox-callout>
-<p>If an agent&#39;s token is revoked or has expired by the time you approve, nothing
-is started, and the request says why.</p>
-<h2 id="plans-from-code">Plans from code</h2>
-<p><code>request_code_plan</code> asks to run a <a href="code-plans.html">plan from your code</a>.
-Such a plan chooses its own nodes while it runs, within what the agent&#39;s token
-reaches, so approving it needs <code>orchestrator:run</code> over everything that token
-reaches. Plans run only on the console instance that deploys your code, so
-approve them there, or the request fails with that reason.</p>
-<h2 id="what-is-recorded">What is recorded</h2>
-<p>The audit log, at the orchestrator category&#39;s level, records each request, each
-approval, rejection and expiry, naming the agent as <code>agent:&lt;token name&gt;</code> and the
-person who decided, with the request&#39;s number. Reads an agent makes are
-audited as any read is, under the same name. Sensitive values never appear in
-the audit log, the activity log or the request itself: they are kept encrypted
-with the console&#39;s secrets key (<code>CONSOLE_SECRETS_KEY</code>), without which a request
-that carries one is refused.</p>
-<h2 id="the-api-description">The API description</h2>
-<p><code>/api/v1/openapi.json</code> describes the REST API for programs you write yourself,
-for anyone who is signed in. Agent tokens cannot call that API, and a program
-using a service token is not asked to wait for approval. To let an agent act
-with a person&#39;s approval in the loop, connect it to <code>/mcp</code>.</p>
+<p>यदि आपके स्वीकृति देने तक एजेंट का टोकन निरस्त या समाप्त हो चुका है, तो कुछ भी शुरू नहीं होता, और अनुरोध कारण बताता है।</p>
+<h2 id="plans-from-code">कोड से Plans</h2>
+<p><code>request_code_plan</code> <a href="code-plans.html">आपके कोड के किसी Plan</a> को चलाने का अनुरोध करता है। ऐसा Plan चलते समय अपने Nodes स्वयं चुनता है, agent के टोकन की पहुँच की सीमा के भीतर, इसलिए इसे स्वीकृत करने के लिए उस टोकन की पहुँच वाली हर चीज़ पर <code>orchestrator:run</code> चाहिए। Plans केवल उसी कंसोल इंस्टेंस पर चलते हैं जो आपका कोड deploy करता है, इसलिए उन्हें वहीं स्वीकृत कीजिए, वरना अनुरोध इसी कारण से विफल होता है।</p>
+<h2 id="what-is-recorded">क्या दर्ज होता है</h2>
+<p>ऑडिट लॉग, orchestrator श्रेणी के स्तर पर, हर अनुरोध, हर स्वीकृति, अस्वीकृति और समाप्ति दर्ज करता है, एजेंट का नाम <code>agent:&lt;token name&gt;</code> के रूप में और निर्णय लेने वाले व्यक्ति का नाम, अनुरोध की संख्या के साथ। एजेंट द्वारा किए गए पठन का ऑडिट किसी भी पठन की तरह, उसी नाम से होता है। संवेदनशील मान कभी ऑडिट लॉग, गतिविधि लॉग या स्वयं अनुरोध में नहीं आते: वे कंसोल की secrets कुंजी (<code>CONSOLE_SECRETS_KEY</code>) से एन्क्रिप्ट करके रखे जाते हैं, जिसके बिना ऐसा मान रखने वाला अनुरोध अस्वीकार होता है।</p>
+<h2 id="the-api-description">API विवरण</h2>
+<p><code>/api/v1/openapi.json</code> आपके स्वयं लिखे प्रोग्रामों के लिए REST API का वर्णन करता है, और साइन इन किए हुए किसी भी व्यक्ति के लिए उपलब्ध है। Agent टोकन उस API को कॉल नहीं कर सकते, और सेवा टोकन का उपयोग करने वाले प्रोग्राम से स्वीकृति की प्रतीक्षा करने को नहीं कहा जाता। किसी agent को किसी व्यक्ति की स्वीकृति के साथ काम करने देने के लिए, उसे <code>/mcp</code> से जोड़िए।</p>
 
     </div>
 
-    <vox-series-nav label="Use" previous-text="Previous" next-text="Next" previous-href="../guides/code-plans.html" previous-label="Run plans from your code"></vox-series-nav>
+    <vox-series-nav label="उपयोग" previous-text="पिछला" next-text="अगला" previous-href="../guides/code-plans.html" previous-label="अपने कोड से Plans चलाएँ"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#turn-the-endpoint-on"><span>Turn the endpoint on</span>
+    <vox-toc heading="इस पृष्ठ पर">
+      <vox-toc-item href="#turn-the-endpoint-on"><span>endpoint चालू करें</span>
       </vox-toc-item>
-      <vox-toc-item href="#issue-a-token-for-an-agent"><span>Issue a token for an agent</span>
+      <vox-toc-item href="#issue-a-token-for-an-agent"><span>एजेंट के लिए टोकन जारी करें</span>
       </vox-toc-item>
-      <vox-toc-item href="#connect-an-agent"><span>Connect an agent</span>
+      <vox-toc-item href="#connect-an-agent"><span>एजेंट जोड़ें</span>
       </vox-toc-item>
-      <vox-toc-item href="#approve-what-an-agent-asks-for"><span>Approve what an agent asks for</span>
-        <vox-toc-item slot="children" href="#who-can-approve"><span>Who can approve</span></vox-toc-item>
+      <vox-toc-item href="#approve-what-an-agent-asks-for"><span>एजेंट के अनुरोध स्वीकृत करें</span>
+        <vox-toc-item slot="children" href="#who-can-approve"><span>कौन स्वीकृत कर सकता है</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#plans-from-code"><span>Plans from code</span>
+      <vox-toc-item href="#plans-from-code"><span>कोड से Plans</span>
       </vox-toc-item>
-      <vox-toc-item href="#what-is-recorded"><span>What is recorded</span>
+      <vox-toc-item href="#what-is-recorded"><span>क्या दर्ज होता है</span>
       </vox-toc-item>
-      <vox-toc-item href="#the-api-description"><span>The API description</span>
+      <vox-toc-item href="#the-api-description"><span>API विवरण</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -405,23 +340,17 @@ with a person&#39;s approval in the loop, connect it to <code>/mcp</code>.</p>
 
       
       <vox-cta-band heading="स्वयं चलाकर देखिए">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console कंटेनर इमेजों के रूप में आता है, जो हर push पर amd64 और arm64 के लिए बनती हैं, और एक अकेली बाइनरी के रूप में भी। इंस्टॉल गाइड आपको खाली होस्ट से एक चालू परिनियोजन तक ले जाते हैं - openvoxserver, openvoxdb, Postgres और कंसोल - कंटेनरों से या पैकेजों से।</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">इंस्टॉल गाइड</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">GitHub पर स्रोत</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">कंटेनर इमेज</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="पूर्ण आकार का स्क्रीनशॉट">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">बंद करें</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -430,18 +359,18 @@ with a person&#39;s approval in the loop, connect it to <code>/mcp</code>.</p>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">सिंहावलोकन</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">स्रोत</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">इंस्टॉल गाइड</a>
       </vox-footer-column>
       <vox-footer-column heading="क्षमताएँ">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">वर्गीकरण</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">ऑर्केस्ट्रेशन</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">पैचिंग</a>
         <a href="../features/security.html">सुरक्षा</a>
         <a href="../features/access-control.html">पहुँच नियंत्रण</a>
         <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/scaling.html">विस्तार</a>
         </vox-footer-column>
       
       <vox-footer-column heading="भाषा">

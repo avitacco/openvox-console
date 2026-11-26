@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="ar" dir="rtl"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Move a container deployment&#39;s two databases from Postgres 17 to 18 by dumping and restoring them."/>
+    <meta name="description" content="انقل قاعدتَي بيانات نشر الحاويات من Postgres 17 إلى 18 عبر تفريغهما (dump) واستعادتهما."/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Upgrade the container databases to Postgres 18 - OpenVox Console</title>
+    <title>ترقية قواعد بيانات الحاويات إلى Postgres 18 - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">الأدلة</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,139 +104,121 @@
       <a href="../features/classification.html">التصنيف</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">التنسيق</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">تثبيت التصحيحات</a>
       <a href="../features/security.html">الأمان</a>
       <a href="../features/access-control.html">التحكم في الوصول</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">وكلاء الذكاء الاصطناعي</a>
+      <a href="../features/scaling.html">التوسّع</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="الأدلة" toggle-label="كل الأدلة">
+    <vox-sidenav-group heading="التثبيت">
+      <vox-sidenav-item href="../guides/plan.html"><span>خطّط للنشر</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>التثبيت باستخدام الحاويات</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>التثبيت من الحزم والملفات التنفيذية</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>إضافة Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>إدارة شهادات الـ Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>إزالة Node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>إبقاء وكلاء الـ Nodes محدَّثين</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
-      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="التوسّع">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>أوضاع التشغيل</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>تشغيل مزيد من المثيلات</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="الاستخدام">
+      <vox-sidenav-item href="../guides/classify.html"><span>تصنيف الـ Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>deploy الكود</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>تشغيل الـ Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>تشغيل الـ Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>جدولة الـ Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>المستخدمون والأدوار والرموز</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>تتبّع الثغرات</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>العثور على التحديثات الناقصة وتطبيقها</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>تشغيل Tasks على مضيفين بلا وكيل</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>تشغيل Plans من الكود الخاص بك</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>السماح لوكلاء الذكاء الاصطناعي باستخدام وحدة التحكم</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate" open="">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html" current="" aria-current="page"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="التشغيل" open="">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>الانتقال إلى قاعدة بيانات احتياطية عند الفشل</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>تدوير مفتاح توقيع الرموز</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html" current="" aria-current="page"><span>ترقية قواعد بيانات الحاويات إلى Postgres 18</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Operate</p>
-    <h1 class="guide-title vox-ts-xxl">Upgrade the container databases to Postgres 18</h1>
-    <p class="guide-summary">Move a container deployment&#39;s two databases from Postgres 17 to 18 by dumping and restoring them.</p>
+    <p class="guide-eyebrow">التشغيل</p>
+    <h1 class="guide-title vox-ts-xxl">ترقية قواعد بيانات الحاويات إلى Postgres 18</h1>
+    <p class="guide-summary">انقل قاعدتَي بيانات نشر الحاويات من Postgres 17 إلى 18 عبر تفريغهما (dump) واستعادتهما.</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>The production compose file runs both databases on Postgres 18. Postgres
-18 images keep their data in a version-numbered directory inside the
-volume, so the volumes are mounted at <code>/var/lib/postgresql</code>, not
-<code>/var/lib/postgresql/data</code> as before.</p>
-<p>A Postgres 18 container started against a volume still holding Postgres
-17 data refuses to start, with an error beginning <code>Error: in 18+, these Docker images are configured to store database data in a format which is compatible with &#34;pg_ctlcluster&#34;</code>. That is a refusal, not damage: the old
-data is untouched. This guide moves it across.</p>
-<p>The upgrade is a dump and restore: <code>pg_upgrade</code> would need both
-versions in one image, and these images carry one.</p>
-<h2 id="dump-both-databases">Dump both databases</h2>
-<p>Do this with the Postgres 17 containers still running. Stop what writes
-to them, and leave the databases up:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml stop console openvoxdb
+<p>يشغّل ملف compose الإنتاجي قاعدتَي البيانات كلتيهما على Postgres 18. تحتفظ صور Postgres 18 ببياناتها في مجلد مرقَّم بالإصدار داخل وحدة التخزين، لذا تُركَّب وحدات التخزين على <code>/var/lib/postgresql</code>، لا على <code>/var/lib/postgresql/data</code> كما كان من قبل.</p>
+<p>حاوية Postgres 18 التي تُشغَّل على وحدة تخزين لا تزال تحوي بيانات Postgres 17 ترفض البدء، مع خطأ يبدأ بـ <code>Error: in 18+, these Docker images are configured to store database data in a format which is compatible with &#34;pg_ctlcluster&#34;</code>. هذا رفض لا ضرر: فالبيانات القديمة لم تُمَس. وهذا الدليل ينقلها.</p>
+<p>الترقية تفريغ (dump) ثم استعادة: إذ يحتاج <code>pg_upgrade</code> إلى الإصدارين في صورة واحدة، وهذه الصور تحمل إصدارًا واحدًا.</p>
+<h2 id="dump-both-databases">أفرغ قاعدتَي البيانات (dump)</h2>
+<p>افعل هذا وحاويات Postgres 17 لا تزال تعمل. أوقف ما يكتب فيها، واترك قواعد البيانات تعمل:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>docker compose -f docker-compose.yml stop console openvoxdb
 </code></vox-code-block>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml exec -T openvoxdb-postgres \
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>docker compose -f docker-compose.yml exec -T openvoxdb-postgres \
   pg_dumpall -U openvoxdb &gt; openvoxdb-17.sql
 docker compose -f docker-compose.yml exec -T console-postgres \
   pg_dumpall -U console &gt; console-17.sql
 </code></vox-code-block>
-<p>Check both files are there and not empty <strong>before going on</strong>:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>ls -l openvoxdb-17.sql console-17.sql
+<p>تحقّق من وجود الملفين وأنهما غير فارغين <strong>قبل المتابعة</strong>:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>ls -l openvoxdb-17.sql console-17.sql
 </code></vox-code-block>
-<h2 id="replace-the-volumes">Replace the volumes</h2>
-<vox-callout variant="danger" heading="Caution"><p>This deletes the Postgres 17 data. From here the two dump files are the
-only copy, which is why the check above comes first.</p>
+<h2 id="replace-the-volumes">استبدل وحدات التخزين</h2>
+<vox-callout variant="danger" heading="تنبيه"><p>هذا يحذف بيانات Postgres 17. ومن هذه النقطة يصبح ملفا التفريغ النسخة الوحيدة، ولهذا يأتي الفحص المذكور أعلاه أولًا.</p>
 </vox-callout>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml down
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>docker compose -f docker-compose.yml down
 docker volume rm openvox-console_openvoxdb-postgres-data openvox-console_console-postgres-data
 </code></vox-code-block>
-<p>The volume names follow the project directory&#39;s name; check them with
-<code>docker volume ls</code>.</p>
-<h2 id="restore-on-postgres-18">Restore on Postgres 18</h2>
-<p>Start only the databases. They start empty, and openvoxdb&#39;s gets the
-<code>pg_trgm</code> extension it needs from the compose file:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml up -d openvoxdb-postgres console-postgres
+<p>تتبع أسماء وحدات التخزين اسم مجلد المشروع؛ تحقّق منها باستخدام <code>docker volume ls</code>.</p>
+<h2 id="restore-on-postgres-18">الاستعادة على Postgres 18</h2>
+<p>شغّل قواعد البيانات فقط. تبدأ فارغة، وتحصل قاعدة بيانات openvoxdb على الامتداد <code>pg_trgm</code> الذي تحتاج إليه من ملف compose:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>docker compose -f docker-compose.yml up -d openvoxdb-postgres console-postgres
 </code></vox-code-block>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml exec -T openvoxdb-postgres \
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>docker compose -f docker-compose.yml exec -T openvoxdb-postgres \
   psql -U openvoxdb &lt; openvoxdb-17.sql
 docker compose -f docker-compose.yml exec -T console-postgres \
   psql -U console &lt; console-17.sql
 </code></vox-code-block>
-<p>Then start everything else:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml up -d
+<p>ثم شغّل كل ما تبقّى:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>docker compose -f docker-compose.yml up -d
 </code></vox-code-block>
-<h2 id="if-openvoxdb-says-pg-trgm-is-missing">If openvoxdb says pg_trgm is missing</h2>
-<p>openvoxdb refuses to start without the <code>pg_trgm</code> extension. The compose
-file only adds it when the database is first created, so a database that
-already existed needs it added by hand:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml exec openvoxdb-postgres \
+<h2 id="if-openvoxdb-says-pg-trgm-is-missing">إذا قال openvoxdb إن pg_trgm مفقود</h2>
+<p>يرفض openvoxdb البدء من دون الامتداد <code>pg_trgm</code>. لا يضيفه ملف compose إلا عند إنشاء قاعدة البيانات أول مرة، لذا فإن قاعدة البيانات الموجودة مسبقًا تحتاج إلى إضافته يدويًا:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>docker compose -f docker-compose.yml exec openvoxdb-postgres \
   psql -U openvoxdb -c &#39;CREATE EXTENSION IF NOT EXISTS pg_trgm;&#39;
 </code></vox-code-block>
-<h2 id="staying-on-postgres-17">Staying on Postgres 17</h2>
-<p>Staying on 17 takes two changes, not one: set
-<code>OPENVOXDB_POSTGRES_VERSION=17-alpine</code> (and the console&#39;s equivalent,
-<code>CONSOLE_POSTGRES_VERSION</code>), <strong>and</strong> move each volume&#39;s mount back to
-<code>/var/lib/postgresql/data</code>. Changing only the version produces the error
-above.</p>
+<h2 id="staying-on-postgres-17">البقاء على Postgres 17</h2>
+<p>البقاء على 17 يتطلب تغييرين لا تغييرًا واحدًا: اضبط <code>OPENVOXDB_POSTGRES_VERSION=17-alpine</code> (ونظيره لوحدة التحكم، <code>CONSOLE_POSTGRES_VERSION</code>)، <strong>و</strong>أعِد نقطة تركيب كل وحدة تخزين إلى <code>/var/lib/postgresql/data</code>. وتغيير الإصدار وحده يُنتج الخطأ المذكور أعلاه.</p>
 
     </div>
 
-    <vox-series-nav label="Operate" previous-text="Previous" next-text="Next" previous-href="../guides/rotate-signing-key.html" previous-label="Rotate the token signing key"></vox-series-nav>
+    <vox-series-nav label="التشغيل" previous-text="السابق" next-text="التالي" previous-href="../guides/rotate-signing-key.html" previous-label="تدوير مفتاح توقيع الرموز"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#dump-both-databases"><span>Dump both databases</span>
+    <vox-toc heading="في هذه الصفحة">
+      <vox-toc-item href="#dump-both-databases"><span>أفرغ قاعدتَي البيانات (dump)</span>
       </vox-toc-item>
-      <vox-toc-item href="#replace-the-volumes"><span>Replace the volumes</span>
+      <vox-toc-item href="#replace-the-volumes"><span>استبدل وحدات التخزين</span>
       </vox-toc-item>
-      <vox-toc-item href="#restore-on-postgres-18"><span>Restore on Postgres 18</span>
+      <vox-toc-item href="#restore-on-postgres-18"><span>الاستعادة على Postgres 18</span>
       </vox-toc-item>
-      <vox-toc-item href="#if-openvoxdb-says-pg-trgm-is-missing"><span>If openvoxdb says pg_trgm is missing</span>
+      <vox-toc-item href="#if-openvoxdb-says-pg-trgm-is-missing"><span>إذا قال openvoxdb إن pg_trgm مفقود</span>
       </vox-toc-item>
-      <vox-toc-item href="#staying-on-postgres-17"><span>Staying on Postgres 17</span>
+      <vox-toc-item href="#staying-on-postgres-17"><span>البقاء على Postgres 17</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -246,23 +228,17 @@ above.</p>
 
       
       <vox-cta-band heading="شغّله بنفسك">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>يُوزَّع OpenVox Console على هيئة صور حاويات تُبنى لمعماريتَي amd64 وarm64 مع كل push، وعلى هيئة ملف تنفيذي واحد. تأخذك أدلة التثبيت من مضيف فارغ إلى نشر عامل - openvoxserver وopenvoxdb وPostgres ووحدة التحكم - باستخدام الحاويات أو الحزم.</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">أدلة التثبيت</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">الشيفرة المصدرية على GitHub</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">صور الحاويات</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="لقطة الشاشة بالحجم الكامل">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">إغلاق</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -271,18 +247,18 @@ above.</p>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">نظرة عامة</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">الشيفرة المصدرية</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">أدلة التثبيت</a>
       </vox-footer-column>
       <vox-footer-column heading="الإمكانات">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">التصنيف</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">التنسيق</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">تثبيت التصحيحات</a>
         <a href="../features/security.html">الأمان</a>
         <a href="../features/access-control.html">التحكم في الوصول</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">وكلاء الذكاء الاصطناعي</a>
+        <a href="../features/scaling.html">التوسّع</a>
         </vox-footer-column>
       
       <vox-footer-column heading="اللغة">

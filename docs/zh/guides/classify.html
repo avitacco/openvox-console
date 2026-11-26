@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="zh" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Decide which classes, parameters and environment each node gets, with a tree of node groups matched by facts or pinned by name."/>
+    <meta name="description" content="借助一棵按 Facts 匹配或按名称固定的 Node 组树，决定每个 Node 获得哪些类、参数和 Environment。"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Classify nodes - OpenVox Console</title>
+    <title>为 Nodes 分类 - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">指南</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,349 +104,220 @@
       <a href="../features/classification.html">分类</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">编排</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">补丁管理</a>
       <a href="../features/security.html">安全</a>
       <a href="../features/access-control.html">访问控制</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">AI 代理</a>
+      <a href="../features/scaling.html">扩展</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="指南" toggle-label="所有指南">
+    <vox-sidenav-group heading="安装">
+      <vox-sidenav-item href="../guides/plan.html"><span>规划部署</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>使用容器安装</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>从软件包和二进制文件安装</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>添加 Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>管理 Node 证书</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>移除 Node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>保持 Node 代理为最新</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
-      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="扩展">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>运行模式</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>运行更多实例</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use" open="">
-      <vox-sidenav-item href="../guides/classify.html" current="" aria-current="page"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="使用" open="">
+      <vox-sidenav-item href="../guides/classify.html" current="" aria-current="page"><span>为 Nodes 分类</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy 代码</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>运行 Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>运行 Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>计划 Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>用户、角色与令牌</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>跟踪漏洞</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>查找并应用缺失的更新</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>在没有代理的主机上运行 Tasks</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>运行代码中的 Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>让 AI 代理使用控制台</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="运维">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>故障切换到备用数据库</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>轮换令牌签名密钥</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>将容器数据库升级到 Postgres 18</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Use</p>
-    <h1 class="guide-title vox-ts-xxl">Classify nodes</h1>
-    <p class="guide-summary">Decide which classes, parameters and environment each node gets, with a tree of node groups matched by facts or pinned by name.</p>
+    <p class="guide-eyebrow">使用</p>
+    <h1 class="guide-title vox-ts-xxl">为 Nodes 分类</h1>
+    <p class="guide-summary">借助一棵按 Facts 匹配或按名称固定的 Node 组树，决定每个 Node 获得哪些类、参数和 Environment。</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>openvoxserver asks the console what each node should be: which classes it
-includes, with which parameters, and which environment its code comes
-from. The console answers from its <strong>node groups</strong>. Classification
-reaches openvoxserver only once it is connected, which both install
-guides cover.</p>
-<p>Viewing groups needs <code>classifier:read</code>; creating, changing and deleting
-them needs <code>classifier:write</code>.</p>
-<h2 id="groups-form-a-tree">Groups form a tree</h2>
-<p>Every group has a <strong>parent</strong>. At the top is <strong>All Nodes</strong>, a built-in
-group that every node belongs to. You cannot delete, rename or move it,
-and it has no rule or pinned nodes, but you can give it classes,
-parameters and an environment, and they then apply to the whole fleet.</p>
-<p>A group can only contain nodes that are also in its parent. So a group
-under <strong>Linux Servers</strong> never picks up a Windows node, whatever its own
-rule says, and a group&#39;s nodes are always a subset of its parent&#39;s. A
-new group goes directly under All Nodes unless you choose another
-parent.</p>
-<p>A group cannot be moved under itself or under one of the groups beneath
-it, and a group that still has groups beneath it cannot be deleted: move
-or delete those first.</p>
-<p>A group that a role is granted on cannot be deleted either, because
-that would silently take away the access the role gives. Remove the
-group from the role first, on the <strong>Roles</strong> page - see
-<a href="access.html">Users, roles and tokens</a>.</p>
-<h2 id="how-a-group-decides-which-nodes-it-applies-to">How a group decides which nodes it applies to</h2>
-<p>A group applies to a node when the node is in the group&#39;s parent and
-either:</p>
+<p>openvoxserver 会询问控制台每个 Node 应该是什么样：包含哪些类、使用哪些参数，以及其代码来自哪个 Environment。控制台依据其 <strong>Node 组</strong>作答。只有在连接之后，分类才会到达 openvoxserver，两份安装指南都介绍了如何连接。</p>
+<p>查看组需要 <code>classifier:read</code>；创建、更改和删除组需要 <code>classifier:write</code>。</p>
+<h2 id="groups-form-a-tree">组构成一棵树</h2>
+<p>每个组都有一个<strong>父组</strong>。最顶层是 <strong>All Nodes</strong>，这是一个内置组，每个 Node 都属于它。你不能删除、重命名或移动它，它也没有规则或固定的 Nodes，但你可以为它设置类、参数和 Environment，它们随后会应用于整个机群。</p>
+<p>组只能包含同样位于其父组中的 Nodes。因此，无论其自身规则如何，<strong>Linux Servers</strong> 下的组永远不会纳入 Windows Node，而且组的 Nodes 总是其父组 Nodes 的子集。除非你选择其他父组，否则新组会直接位于 All Nodes 之下。</p>
+<p>组不能被移到它自己或其下属的任何组之下；而仍有下属组的组不能被删除：请先移动或删除那些下属组。</p>
+<p>已被授予给某个角色的组也不能被删除，因为那样会悄无声息地收回该角色所提供的访问权限。请先在<strong>角色</strong>页面上从该角色中移除这个组——参见<a href="access.html">用户、角色与令牌</a>。</p>
+<h2 id="how-a-group-decides-which-nodes-it-applies-to">组如何决定它适用于哪些 Nodes</h2>
+<p>当 Node 位于组的父组中，并且满足以下任一条件时，该组就适用于该 Node：</p>
 <ul>
-<li>the node is <strong>pinned</strong> to it by name, or</li>
-<li>the node&#39;s facts satisfy the group&#39;s match rule: <strong>all</strong> of its
-conditions, or <strong>any</strong> one of them, whichever the group is set to.</li>
+<li>该 Node 按名称<strong>固定</strong>到该组，或者</li>
+<li>该 Node 的 Facts 满足组的匹配规则：满足其<strong>所有</strong>条件，或满足其中<strong>任意</strong>一个，取决于该组的设置。</li>
 </ul>
-<p>A group with no conditions and no pinned nodes applies to no node at all.
-An empty rule deliberately does not mean &#34;everyone&#34;, so a half-finished
-group cannot take over the fleet.</p>
-<p>A pin overrides the group&#39;s own rule, not its parent. A node pinned to a
-group whose parent does not contain it is not in the group, and the
-group&#39;s page lists such pins so that one with no effect is not silent.</p>
-<p>Each condition compares one fact with a value:</p>
+<p>既没有条件也没有固定 Nodes 的组不会应用到任何 Node。空规则被有意设计为不代表「所有人」，这样一个半成品的组就不可能接管整个机群。</p>
+<p>固定会覆盖组自身的规则，但不会覆盖其父组。被固定到某个组、但其父组并不包含它的 Node 不属于该组；组的页面会列出这类固定，以免一个无效的固定悄无声息。</p>
+<p>每个条件将一个 Fact 与一个值进行比较：</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Operator</th>
-<th>Matches when the fact</th>
+<th>运算符</th>
+<th>当该 Fact 满足以下条件时匹配</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>=</code></td>
-<td>equals the value</td>
+<td>等于该值</td>
 </tr>
 <tr>
 <td><code>!=</code></td>
-<td>differs from the value</td>
+<td>不等于该值</td>
 </tr>
 <tr>
 <td><code>~</code></td>
-<td>matches the value as a regular expression</td>
+<td>以正则表达式匹配该值</td>
 </tr>
 <tr>
 <td><code>&gt;</code> <code>&lt;</code> <code>&gt;=</code> <code>&lt;=</code></td>
-<td>compares that way, numerically where both sides are numbers</td>
+<td>按相应方式比较，两边都是数字时按数值比较</td>
 </tr>
 </tbody>
 </table></div>
-<p>Facts are named by their path, with dots for structured facts:
-<code>os.family</code>, <code>os.release.major</code>, <code>networking.domain</code>.</p>
-<h2 id="create-a-group">Create a group</h2>
+<p>Facts 以其路径命名，结构化 Facts 用点号分隔：<code>os.family</code>、<code>os.release.major</code>、<code>networking.domain</code>。</p>
+<h2 id="create-a-group">创建组</h2>
 <ol>
-<li>Open <strong>Groups</strong> and create a group.</li>
-<li>Name it, choose its <strong>parent group</strong>, and choose its <strong>environment</strong>
-if it should set one. The environment is a dropdown. <strong>Not set</strong>
-(which says what the group then inherits from its parent) leaves the
-choice to the parent. The environments openvoxserver reports are
-listed below it. <strong>Other...</strong> opens a text field for a name that is
-not listed yet, such as a branch you have just pushed, or when the
-list could not be loaded.</li>
-<li>Add <strong>classes</strong>, each with any parameters it needs, and any
-<strong>top-scope parameters</strong>. See <a href="#choose-classes">Choose classes</a>
-below.</li>
-<li>Build its <strong>match rule</strong>, one condition per row: a fact path, an
-operator and a value. Choose whether a node must satisfy <strong>all of the
-conditions</strong> or <strong>any one</strong> of them. The editor refuses to save a
-condition with no fact path, or a regular expression that does not
-compile, and shows which row is wrong.</li>
-<li>Pin any nodes by certname that should belong whatever their facts.</li>
-<li>Give it a <strong>priority</strong>, then save.</li>
+<li>打开<strong>组</strong>并创建一个组。</li>
+<li>为它命名，选择其<strong>父组</strong>，如果它需要设置 Environment，再选择其 <strong>Environment</strong>。Environment 是一个下拉列表。<strong>未设置</strong>（会注明该组将从父组继承什么）表示把选择权交给父组。openvoxserver 报告的 Environments 列在其下方。<strong>Other...</strong> 会打开一个文本字段，用于输入尚未列出的名称，例如你刚刚 push 的分支，或者在列表无法加载时使用。</li>
+<li>添加<strong>类</strong>（每个类带上其所需的参数），以及任何<strong>顶层作用域参数</strong>。参见下文的<a href="#choose-classes">选择类</a>。</li>
+<li>构建其<strong>匹配规则</strong>，每行一个条件：一个 Fact 路径、一个运算符和一个值。选择 Node 必须满足<strong>所有条件</strong>还是满足其中<strong>任意一个</strong>。编辑器会拒绝保存没有 Fact 路径的条件或无法编译的正则表达式，并指出哪一行有误。</li>
+<li>按 certname 固定那些无论 Facts 如何都应属于该组的 Nodes。</li>
+<li>为它设置<strong>优先级</strong>，然后保存。</li>
 </ol>
-<p>The groups list shows the tree, each group beneath its parent, with how
-many nodes each one matches right now, so a rule that matches nothing,
-or everything, is visible straight away.</p>
-<vox-callout variant="info" heading="Note"><p><strong>Edit as JSON</strong> shows the rule as raw JSON, for pasting a rule in or
-writing a shape the row editor does not offer. Its checks are the row
-editor&#39;s: a rule saved as JSON, or through the API, with an empty fact
-path or a broken regular expression is accepted, and simply never
-matches.</p>
+<figure class="shot">
+  <a class="shot-link" href="../../assets/screenshots/group-editor-light-zh.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/group-editor-dark-zh.png" data-theme-dark="../../assets/screenshots/group-editor-dark-zh.png" data-theme-light="../../assets/screenshots/group-editor-light-zh.png"/>
+      <img src="../../assets/screenshots/group-editor-light-zh.png" alt="Node 组的编辑器，显示其名称、父组、优先级和 Environment，它所应用的类及其参数，以及决定它匹配哪些 Nodes 的规则" width="1440"/>
+    </picture>
+    <span class="vox-sr-only">Open full size</span>
+  </a>
+</figure>
+<p>组列表以树形显示，每个组位于其父组之下，并显示每个组此刻匹配的 Node 数量，因此匹配不到任何 Node 或匹配了所有 Nodes 的规则会立即显现。</p>
+<vox-callout variant="info" heading="说明"><p><strong>以 JSON 编辑</strong>会以原始 JSON 显示规则，用于粘贴规则，或编写行编辑器不提供的结构。它的检查与行编辑器相同：以 JSON 或通过 API 保存的规则，即使 Fact 路径为空或正则表达式有误也会被接受，只是永远不会匹配。</p>
 </vox-callout>
-<h2 id="choose-classes">Choose classes</h2>
-<p>The console reads the classes your deployed code defines from
-openvoxserver, so a group&#39;s classes are picked, not typed.</p>
+<h2 id="choose-classes">选择类</h2>
+<p>控制台会从 openvoxserver 读取你已 deploy 的代码所定义的类，因此组的类是选出来的，而不是手动输入的。</p>
 <ol>
-<li>Under <strong>Classes</strong>, start typing in <strong>Add a class</strong>, pick the class,
-and add it.</li>
-<li>To set one of its parameters, pick it under <strong>Set a parameter</strong>. The
-field that appears fits the parameter&#39;s type: a choice for a Boolean
-or an Enum, a number for an Integer or Float, text for a String. Its
-note shows the type and the default from the code. Any other type is
-entered as JSON, so text needs double quotes: <code>&#34;value&#34;</code>,
-<code>[&#34;a&#34;, &#34;b&#34;]</code>.</li>
-<li>Leave a parameter out to keep the value the code or Hiera gives it.
-Remove a parameter to go back to that.</li>
+<li>在<strong>类</strong>下，在<strong>添加类</strong>中开始输入，选择该类并添加。</li>
+<li>要设置它的某个参数，请在<strong>设置参数</strong>下选择该参数。出现的字段与参数类型相符：Boolean 或 Enum 为选项，Integer 或 Float 为数字，String 为文本。其备注会显示类型和代码中的默认值。其他任何类型都以 JSON 输入，因此文本需要加双引号：<code>&#34;value&#34;</code>、<code>[&#34;a&#34;, &#34;b&#34;]</code>。</li>
+<li>省略某个参数即可保留代码或 Hiera 为其提供的值。移除参数即可恢复为该值。</li>
 </ol>
-<p>The classes come from the group&#39;s <strong>environment</strong>: its own, or else the
-nearest parent&#39;s that sets one, or else <code>production</code>. The page says
-which, and when the list was read. A node that also matches another
-group that sets a different environment compiles against that one, which
-the group cannot know.</p>
-<p>The list is reused for five minutes and read again after a code deploy.
-<strong>Refresh classes</strong> reads it at once, and needs <code>classifier:write</code>.</p>
-<vox-callout variant="info" heading="Note"><p>openvoxserver keeps its own cache of each environment. If it is set to
-keep environments indefinitely, as the container image is, a class
-added by new code does not appear until that cache is flushed - the
-same flush a catalog needs to see the new code. See
-<a href="containers.html">Install with containers</a>.</p>
+<p>类来自该组的 <strong>Environment</strong>：它自己的，否则取最近一个设置了 Environment 的父组的，再否则为 <code>production</code>。页面会说明采用的是哪个，以及列表的读取时间。如果某个 Node 还匹配另一个设置了不同 Environment 的组，它会针对那个 Environment 编译，而这是该组无从得知的。</p>
+<p>该列表会被复用五分钟，并在代码 deploy 后重新读取。<strong>刷新类</strong>会立即读取它，需要 <code>classifier:write</code>。</p>
+<vox-callout variant="info" heading="说明"><p>openvoxserver 会为每个 Environment 维护自己的缓存。如果它被设置为无限期保留 Environments（容器镜像就是如此），新代码添加的类在该缓存被刷新之前不会出现——这与 catalog 看到新代码所需的刷新相同。参见<a href="containers.html">使用容器安装</a>。</p>
 </vox-callout>
-<p><strong>Edit as JSON</strong> shows the classes as raw JSON, for pasting them in.</p>
-<h3 id="classes-that-do-not-match-the-code">Classes that do not match the code</h3>
-<p>A group can name a class the environment does not define, set a
-parameter the class does not declare, or give a value that does not fit
-the parameter&#39;s type. That happens when a class is renamed or removed in
-the code, or when the group is saved before the code is deployed.</p>
-<p>The group&#39;s page marks each one, and the groups list shows <strong>Class
-mismatch</strong> on the group. These are advice only:</p>
+<p><strong>以 JSON 编辑</strong>会以原始 JSON 显示类，便于粘贴。</p>
+<h3 id="classes-that-do-not-match-the-code">与代码不符的类</h3>
+<p>组可能指定了 Environment 中未定义的类、设置了类中未声明的参数，或者给出了与参数类型不符的值。当代码中的类被重命名或删除，或者组在代码 deploy 之前就已保存时，就会出现这种情况。</p>
+<p>组页面会逐一标记它们，组列表会在该组上显示<strong>类不匹配</strong>。这些仅作为提示：</p>
 <ul>
-<li>The group saves as it is. Nothing is removed or changed.</li>
-<li>Nodes are still classified with the class. A node whose catalog needs
-a class that does not exist fails to compile, with <code>Could not find class</code>, until the code or the group is changed.</li>
-<li>Only types the console can check are checked. A value for any other
-type is never marked.</li>
+<li>组会按原样保存。不会删除或更改任何内容。</li>
+<li>Nodes 仍然会带着该类被分类。如果某个 Node 的 catalog 需要一个不存在的类，它就会编译失败并报 <code>Could not find class</code>，直到代码或组被修改为止。</li>
+<li>只有控制台能够检查的类型才会被检查。其他任何类型的值都永远不会被标记。</li>
 </ul>
-<p>Nothing is marked as missing when one of the environment&#39;s manifests
-fails to parse, since the class may be in that manifest. The page lists
-the manifests and their errors instead.</p>
-<h3 id="when-the-list-is-unavailable">When the list is unavailable</h3>
-<p>The page says why, and classes and parameters are typed by name. Nothing
-is marked, and saving and classification work as normal. The causes:</p>
+<p>当 Environment 中的某个 manifest 解析失败时，不会把任何类标记为缺失，因为该类可能就在那个 manifest 中。页面会改为列出这些 manifests 及其错误。</p>
+<h3 id="when-the-list-is-unavailable">当列表不可用时</h3>
+<p>页面会说明原因，此时类和参数需要按名称输入。不会标记任何内容，保存和分类都照常工作。原因有：</p>
 <ul>
-<li><strong>The console has no connection to openvoxserver.</strong> Set
-<code>CONSOLE_PUPPET_SERVER_URL</code>.</li>
-<li><strong>openvoxserver does not allow the console to read classes.</strong> Add the
-rule from the install guide:
-<a href="containers.html">containers</a> or <a href="packages.html">packages</a>.</li>
-<li><strong>openvoxserver could not be reached.</strong> If the list was read earlier,
-that earlier list is offered, marked as possibly out of date.</li>
+<li><strong>控制台没有连接到 openvoxserver。</strong>请设置 <code>CONSOLE_PUPPET_SERVER_URL</code>。</li>
+<li><strong>openvoxserver 不允许控制台读取类。</strong>请添加安装指南中的规则：<a href="containers.html">容器</a>或<a href="packages.html">软件包</a>。</li>
+<li><strong>无法访问 openvoxserver。</strong>如果之前读取过该列表，就会提供之前的列表，并标记为可能已过时。</li>
 </ul>
-<h2 id="when-groups-overlap">When groups overlap</h2>
-<p>A node matching several groups gets everything from all of them: every
-class, every parameter. Since a node in a group is also in every group
-above it, a group inherits whatever those groups set and it does not.</p>
-<p>Where two groups set the same thing differently - the same class
-parameter, the same top-scope parameter, or the environment - two rules
-decide, in this order:</p>
+<h2 id="when-groups-overlap">当组相互重叠时</h2>
+<p>匹配多个组的 Node 会获得所有这些组中的全部内容：每个类、每个参数。由于组中的 Node 也位于其上层的每个组中，一个组会继承那些组设置而它自己未设置的任何内容。</p>
+<p>当两个组对同一事项（同一个类参数、同一个顶层作用域参数或 Environment）设置不同时，由两条规则按以下顺序决定：</p>
 <ol>
-<li><strong>A group always wins over the groups above it.</strong> A child&#39;s value
-beats its parent&#39;s, its grandparent&#39;s and so on, whatever their
-priorities.</li>
-<li>Between groups where neither is above the other, the <strong>higher
-priority wins</strong>.</li>
+<li><strong>组总是优先于其上层的组。</strong>子组的值优先于父组、祖父组等的值，无论它们的优先级如何。</li>
+<li>在互不为上下级的组之间，<strong>优先级高者胜出</strong>。</li>
 </ol>
-<p>A group also counts as ranking at least as high as its parent. Take a
-parent with priority 10, its child with priority 1, and an unrelated
-group with priority 5, all matching one node. The child beats its parent
-by the first rule, and it beats the unrelated group too, because it
-ranks as 10: a refinement of a group outranks whatever that group
-outranks.</p>
-<h3 id="when-a-child-overrides-a-higher-priority">When a child overrides a higher priority</h3>
-<p>If a group sets something differently from a group above it that has a
-<strong>higher</strong> priority, the child&#39;s value is still the one used, but the
-priorities alone would have said otherwise. The console tells you: the
-group&#39;s page names the parent and the values concerned when you open or
-save it, the groups list marks the group <strong>Overrides priority</strong>, and the
-change is noted on the <strong>Activity</strong> page. It is a warning, not an error.
-Nothing is refused, and nodes are classified as normal. To clear it,
-give the child the higher priority or remove the value from one of the
-two groups.</p>
-<p>Values set on All Nodes never raise it: every group is expected to
-override those.</p>
-<h2 id="set-configuration-data">Set configuration data</h2>
-<p><strong>Configuration data</strong> is data your code reads with <code>lookup()</code>: a value
-for <code>ntp::servers</code>, <code>profile::dns::resolvers</code> or any other Hiera key.
-Setting it on a node group changes it for every node in the group without
-a commit or a code deploy.</p>
+<p>组的排名也至少与其父组一样高。假设一个优先级为 10 的父组、它的优先级为 1 的子组，以及一个无关的优先级为 5 的组，都匹配同一个 Node。按照第一条规则，子组胜过其父组；它也胜过那个无关的组，因为它的排名按 10 计算：对某个组的细化，会胜过该组所胜过的一切。</p>
+<h3 id="when-a-child-overrides-a-higher-priority">当子组覆盖更高的优先级时</h3>
+<p>如果某个组的设置与其上层一个优先级<strong>更高</strong>的组不同，仍然会采用子组的值，但单看优先级本应得出相反的结论。控制台会告诉你：打开或保存该组时，组页面会指出该父组以及相关的值；组列表会把该组标记为<strong>覆盖优先级</strong>；这一变更也会记录在<strong>活动</strong>页面上。这是一个警告，而不是错误。不会拒绝任何操作，Nodes 也会照常分类。要消除它，请为子组设置更高的优先级，或者从两个组之一中删除该值。</p>
+<p>在 All Nodes 上设置的值永远不会引发此警告：每个组都应当覆盖这些值。</p>
+<h2 id="set-configuration-data">设置配置数据</h2>
+<p><strong>配置数据</strong>是你的代码通过 <code>lookup()</code> 读取的数据：<code>ntp::servers</code>、<code>profile::dns::resolvers</code> 或任何其他 Hiera 键的值。在 Node 组上设置它，就能为组中每个 Node 更改该值，而无需提交代码或进行代码 deploy。</p>
 <ol>
-<li>Open the group, and under <strong>Classes</strong> open <strong>Configuration data
-(JSON)</strong>.</li>
-<li>Type a JSON object of keys and values, for example
-<code>{&#34;ntp::servers&#34;: [&#34;0.pool.ntp.org&#34;], &#34;dns::timeout&#34;: 5}</code>. A value
-can be any JSON: a string, a number, a boolean, a list, an object or
-<code>null</code>.</li>
-<li>Save the group. Nodes pick it up on their next Puppet run.</li>
+<li>打开该组，在<strong>类</strong>下打开<strong>配置数据（JSON）</strong>。</li>
+<li>输入一个由键和值组成的 JSON 对象，例如 <code>{&#34;ntp::servers&#34;: [&#34;0.pool.ntp.org&#34;], &#34;dns::timeout&#34;: 5}</code>。值可以是任何 JSON：字符串、数字、布尔值、列表、对象或 <code>null</code>。</li>
+<li>保存该组。Nodes 会在下一次 Puppet 运行时采用它。</li>
 </ol>
-<p>A key is up to 255 characters of letters, digits and <code>_ : . -</code>. A group
-holds up to 1000 keys, each value up to 64 KiB. The key <code>lookup_options</code>
-is refused: it is how Hiera sets merge behavior, which configuration data
-does not offer.</p>
-<h3 id="which-value-a-node-gets">Which value a node gets</h3>
-<p>Data is combined from every group the node is in by the same two rules
-that combine class parameters (see <a href="#when-groups-overlap">When groups
-overlap</a>): a group beats the groups above it, and
-between unrelated groups the higher priority wins. A key set by the
-winning group replaces the same key from the others <strong>whole</strong>: two groups
-that both set <code>app::opts</code> to an object do not have their objects merged
-key by key.</p>
-<h3 id="console-data-beats-the-control-repo">Console data beats the control repo</h3>
-<p>When a key is set both here and in your control repo&#39;s Hiera data, the
-<strong>console&#39;s value is used</strong>. A key the console does not set is found in
-the control repo as before. So configuration data is the right place for
-a value you want to override per group, and the control repo remains the
-place for everything else.</p>
-<h3 id="not-for-secrets">Not for secrets</h3>
-<p>Configuration data is stored as plain text and shown to everyone who can
-see node groups (<code>classifier:read</code>). Do not put passwords or keys in it.
-The <strong>Activity</strong> page and the audit log record which keys changed, never
-their values.</p>
-<h3 id="if-a-node-s-run-fails">If a node&#39;s run fails</h3>
-<p>openvoxserver asks the console for a node&#39;s data each time it compiles a
-catalog. If the console cannot answer, the compile <strong>fails</strong> with an error
-naming the console, instead of building a catalog from missing values. The
-install guides show how the server is set up to ask.</p>
-<h2 id="check-what-a-node-gets">Check what a node gets</h2>
-<p>A group&#39;s page lists the nodes it matches right now. What a node finally
-receives is every matching group merged, and the one place that shows
-that whole answer is enc-bridge itself: ask it on the openvoxserver host,
-as the install guides show, and it prints exactly what openvoxserver is
-told. A node&#39;s <a href="#set-configuration-data">configuration data</a> is separate:
-<code>GET /api/v1/enc/&lt;certname&gt;/data</code>, with the same token, returns it.</p>
-<p>Classification takes effect at the node&#39;s next Puppet run. To apply it
-now, start a run from the group&#39;s page, which runs Puppet on every node
-the group matches; see <a href="run-jobs.html">Run jobs</a>.</p>
-<p>Every change to a group is recorded on the <strong>Activity</strong> page, with who
-made it.</p>
-<h2 id="upgrading-from-a-version-without-the-tree">Upgrading from a version without the tree</h2>
-<p>Upgrading changes no node&#39;s classification. Every existing group
-becomes a direct child of All Nodes, keeps its rule, pins and priority,
-and matches on all of its conditions as before.</p>
-<p>If you already had a group called &#34;All Nodes&#34;, it is renamed
-<strong>All Nodes (previous)</strong> and carries on exactly as it was, with its own
-rule. It is not turned into the built-in group, because that would apply
-its classes to nodes its rule did not match. Once you have checked it,
-you can move its classes onto the built-in All Nodes and delete it.</p>
-<p>If you run several console instances, finish upgrading all of them
-before you put one group under another. An instance still on the old
-version ignores parents and would classify by priority alone. See
-<a href="cluster.html">Run more instances</a>.</p>
+<p>键最长 255 个字符，可包含字母、数字以及 <code>_ : . -</code>。一个组最多可容纳 1000 个键，每个值最大 64 KiB。键 <code>lookup_options</code> 会被拒绝：Hiera 用它来设置合并行为，而配置数据不提供这一功能。</p>
+<h3 id="which-value-a-node-gets">Node 获得哪个值</h3>
+<p>数据会按照合并类参数的相同两条规则（参见<a href="#when-groups-overlap">当组相互重叠时</a>），从 Node 所在的每个组中合并而来：组优先于其上层的组，而在无关的组之间，优先级高者胜出。胜出组设置的键会<strong>整体</strong>替换其他组中的同名键：如果两个组都把 <code>app::opts</code> 设置为一个对象，这两个对象不会逐键合并。</p>
+<h3 id="console-data-beats-the-control-repo">控制台数据优先于 control 仓库</h3>
+<p>当某个键既在此处设置、又在你的 control 仓库的 Hiera 数据中设置时，<strong>采用控制台的值</strong>。控制台未设置的键会像以前一样在 control 仓库中查找。因此，需要按组覆盖的值适合放在配置数据中，而其他一切仍应放在 control 仓库中。</p>
+<h3 id="not-for-secrets">不适用于机密</h3>
+<p>配置数据以纯文本形式存储，并向每个能查看 Node 组的人（<code>classifier:read</code>）显示。请勿在其中存放密码或密钥。<strong>活动</strong>页面和审计日志会记录哪些键发生了变化，但绝不记录其值。</p>
+<h3 id="if-a-node-s-run-fails">如果某个 Node 的运行失败</h3>
+<p>openvoxserver 每次编译 catalog 时都会向控制台请求该 Node 的数据。如果控制台无法应答，编译就会<strong>失败</strong>，并报出指明控制台的错误，而不会用缺失的值构建 catalog。安装指南介绍了如何设置服务器以发出该请求。</p>
+<h2 id="check-what-a-node-gets">检查一个 Node 会得到什么</h2>
+<p>组的页面会列出它此刻匹配的 Nodes。一个 Node 最终获得的是所有匹配组合并后的结果，而唯一能显示完整答案的地方就是 enc-bridge 本身：按照安装指南所示，在 openvoxserver 主机上向它查询，它会准确打印出 openvoxserver 被告知的内容。Node 的<a href="#set-configuration-data">配置数据</a>是分开的：使用同一个令牌请求 <code>GET /api/v1/enc/&lt;certname&gt;/data</code> 即可获得。</p>
+<p>分类在 Node 的下一次 Puppet 运行时生效。要立即应用，请从该组的页面启动一次运行，它会在该组匹配的每个 Node 上运行 Puppet；参见<a href="run-jobs.html">运行 Jobs</a>。</p>
+<p>对组的每次更改都会记录在<strong>活动</strong>页面上，并注明是谁做的。</p>
+<h2 id="upgrading-from-a-version-without-the-tree">从不支持组树的版本升级</h2>
+<p>升级不会改变任何 Node 的分类。每个现有组都会成为 All Nodes 的直接子组，保留其规则、固定的 Nodes 和优先级，并像以前一样按其所有条件进行匹配。</p>
+<p>如果你之前已经有一个名为 &#34;All Nodes&#34; 的组，它会被重命名为 <strong>All Nodes (previous)</strong>，并带着它自己的规则完全照旧运行。它不会被转换为内置组，因为那样会把它的类应用到其规则原本并不匹配的 Nodes 上。检查过它之后，你可以把它的类移到内置的 All Nodes 上，然后删除它。</p>
+<p>如果你运行多个控制台实例，请在把某个组放到另一个组之下之前，先完成所有实例的升级。仍在旧版本上的实例会忽略父组，只按优先级进行分类。参见<a href="cluster.html">运行更多实例</a>。</p>
 
     </div>
 
-    <vox-series-nav label="Use" previous-text="Previous" next-text="Next" next-href="../guides/deploy-code.html" next-label="Deploy code"></vox-series-nav>
+    <vox-series-nav label="使用" previous-text="上一篇" next-text="下一篇" next-href="../guides/deploy-code.html" next-label="Deploy 代码"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#groups-form-a-tree"><span>Groups form a tree</span>
+    <vox-toc heading="本页内容">
+      <vox-toc-item href="#groups-form-a-tree"><span>组构成一棵树</span>
       </vox-toc-item>
-      <vox-toc-item href="#how-a-group-decides-which-nodes-it-applies-to"><span>How a group decides which nodes it applies to</span>
+      <vox-toc-item href="#how-a-group-decides-which-nodes-it-applies-to"><span>组如何决定它适用于哪些 Nodes</span>
       </vox-toc-item>
-      <vox-toc-item href="#create-a-group"><span>Create a group</span>
+      <vox-toc-item href="#create-a-group"><span>创建组</span>
       </vox-toc-item>
-      <vox-toc-item href="#choose-classes"><span>Choose classes</span>
-        <vox-toc-item slot="children" href="#classes-that-do-not-match-the-code"><span>Classes that do not match the code</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#when-the-list-is-unavailable"><span>When the list is unavailable</span></vox-toc-item>
+      <vox-toc-item href="#choose-classes"><span>选择类</span>
+        <vox-toc-item slot="children" href="#classes-that-do-not-match-the-code"><span>与代码不符的类</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#when-the-list-is-unavailable"><span>当列表不可用时</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#when-groups-overlap"><span>When groups overlap</span>
-        <vox-toc-item slot="children" href="#when-a-child-overrides-a-higher-priority"><span>When a child overrides a higher priority</span></vox-toc-item>
+      <vox-toc-item href="#when-groups-overlap"><span>当组相互重叠时</span>
+        <vox-toc-item slot="children" href="#when-a-child-overrides-a-higher-priority"><span>当子组覆盖更高的优先级时</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#set-configuration-data"><span>Set configuration data</span>
-        <vox-toc-item slot="children" href="#which-value-a-node-gets"><span>Which value a node gets</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#console-data-beats-the-control-repo"><span>Console data beats the control repo</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#not-for-secrets"><span>Not for secrets</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#if-a-node-s-run-fails"><span>If a node&#39;s run fails</span></vox-toc-item>
+      <vox-toc-item href="#set-configuration-data"><span>设置配置数据</span>
+        <vox-toc-item slot="children" href="#which-value-a-node-gets"><span>Node 获得哪个值</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#console-data-beats-the-control-repo"><span>控制台数据优先于 control 仓库</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#not-for-secrets"><span>不适用于机密</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#if-a-node-s-run-fails"><span>如果某个 Node 的运行失败</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#check-what-a-node-gets"><span>Check what a node gets</span>
+      <vox-toc-item href="#check-what-a-node-gets"><span>检查一个 Node 会得到什么</span>
       </vox-toc-item>
-      <vox-toc-item href="#upgrading-from-a-version-without-the-tree"><span>Upgrading from a version without the tree</span>
+      <vox-toc-item href="#upgrading-from-a-version-without-the-tree"><span>从不支持组树的版本升级</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -456,23 +327,17 @@ version ignores parents and would classify by priority alone. See
 
       
       <vox-cta-band heading="自己动手运行">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console 以容器镜像形式发布，每次 push 都会构建 amd64 和 arm64 版本，同时也提供单个二进制文件。安装指南将带你从一台空主机走到一套可用的部署——openvoxserver、openvoxdb、Postgres 和控制台——可以用容器，也可以用软件包。</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">安装指南</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">GitHub 上的源码</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">容器镜像</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="全尺寸截图">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">关闭</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -481,18 +346,18 @@ version ignores parents and would classify by priority alone. See
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">概览</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">源码</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">安装指南</a>
       </vox-footer-column>
       <vox-footer-column heading="功能">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">分类</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">编排</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">补丁管理</a>
         <a href="../features/security.html">安全</a>
         <a href="../features/access-control.html">访问控制</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">AI 代理</a>
+        <a href="../features/scaling.html">扩展</a>
         </vox-footer-column>
       
       <vox-footer-column heading="语言">

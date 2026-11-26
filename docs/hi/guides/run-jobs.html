@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="hi" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Run Puppet or a Puppet task on demand on one node, a selection, the nodes a query matches, or a node group, and see what each node did."/>
+    <meta name="description" content="माँग पर Puppet या कोई Puppet Task चलाइए — एक Node पर, किसी चयन पर, किसी क्वेरी से मेल खाने वाले Nodes पर, या किसी Node समूह पर — और देखिए कि हर Node ने क्या किया।"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Run jobs - OpenVox Console</title>
+    <title>Jobs चलाएँ - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">गाइड</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,205 +104,137 @@
       <a href="../features/classification.html">वर्गीकरण</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">ऑर्केस्ट्रेशन</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">पैचिंग</a>
       <a href="../features/security.html">सुरक्षा</a>
       <a href="../features/access-control.html">पहुँच नियंत्रण</a>
       <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/scaling.html">विस्तार</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="गाइड" toggle-label="सभी गाइड">
+    <vox-sidenav-group heading="इंस्टॉल">
+      <vox-sidenav-item href="../guides/plan.html"><span>परिनियोजन की योजना बनाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>कंटेनरों से इंस्टॉल करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>पैकेजों और बाइनरी से इंस्टॉल करें</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>Nodes जोड़ें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>Node प्रमाणपत्र प्रबंधित करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>किसी Node को हटाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Node एजेंटों को नवीनतम रखें</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
+    <vox-sidenav-group heading="विस्तार">
       <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>अधिक इंस्टेंस चलाएँ</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use" open="">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html" current="" aria-current="page"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="उपयोग" open="">
+      <vox-sidenav-item href="../guides/classify.html"><span>Nodes का वर्गीकरण करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>कोड deploy करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html" current="" aria-current="page"><span>Jobs चलाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>Plans चलाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Jobs शेड्यूल करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>उपयोगकर्ता, भूमिकाएँ और टोकन</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>कमज़ोरियों पर नज़र रखें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>छूटे हुए अपडेट खोजें और लागू करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>बिना एजेंट वाले होस्टों पर Tasks चलाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>अपने कोड से Plans चलाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>AI एजेंटों को कंसोल का उपयोग करने दें</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="संचालन">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>standby डेटाबेस पर failover करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>टोकन हस्ताक्षर कुंजी बदलें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>कंटेनर डेटाबेस को Postgres 18 पर अपग्रेड करें</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Use</p>
-    <h1 class="guide-title vox-ts-xxl">Run jobs</h1>
-    <p class="guide-summary">Run Puppet or a Puppet task on demand on one node, a selection, the nodes a query matches, or a node group, and see what each node did.</p>
+    <p class="guide-eyebrow">उपयोग</p>
+    <h1 class="guide-title vox-ts-xxl">Jobs चलाएँ</h1>
+    <p class="guide-summary">माँग पर Puppet या कोई Puppet Task चलाइए — एक Node पर, किसी चयन पर, किसी क्वेरी से मेल खाने वाले Nodes पर, या किसी Node समूह पर — और देखिए कि हर Node ने क्या किया।</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>The console can run Puppet on nodes right now, rather than at their next
-scheduled run, and run the Puppet tasks your deployed code contains. Each
-request is a <strong>job</strong>, recorded with every node it targeted and what
-happened on each.</p>
-<p>Starting a job needs <code>orchestrator:run</code>; seeing jobs needs
-<code>orchestrator:read</code>. A node must be connected to be reached: see
-<a href="add.html">Add nodes</a>.</p>
-<p>If your role is granted on particular node groups, you can start jobs
-only on nodes in those groups, and you see only their jobs. A job that
-names a node outside them is refused whole - nothing runs on the other
-nodes either - and the console says which nodes to leave out. See
-<a href="access.html">Users, roles and tokens</a>.</p>
-<p>To carry out several runs and tasks in order, see
-<a href="run-plans.html">Run plans</a>. To start a job later, or repeatedly, see
-<a href="schedule-jobs.html">Schedule jobs</a>.</p>
-<h2 id="run-puppet">Run Puppet</h2>
-<p>From wherever you are looking at the nodes you want:</p>
+<p>कंसोल Nodes पर उनके अगले निर्धारित रन के बजाय अभी Puppet चला सकता है, और आपके deploy किए गए कोड के Puppet Tasks चला सकता है। हर अनुरोध एक <strong>Job</strong> है, जो उसके हर लक्षित Node और हर एक पर हुई घटना के साथ दर्ज होता है।</p>
+<p>Job शुरू करने के लिए <code>orchestrator:run</code> चाहिए; Jobs देखने के लिए <code>orchestrator:read</code>। किसी Node तक पहुँचने के लिए उसका कनेक्टेड होना ज़रूरी है: देखें <a href="add.html">Nodes जोड़ें</a>।</p>
+<p>यदि आपकी भूमिका विशेष Node समूहों पर दी गई है, तो आप केवल उन्हीं समूहों के Nodes पर Jobs शुरू कर सकते हैं, और आपको केवल उन्हीं के Jobs दिखते हैं। उनके बाहर के किसी Node का नाम देने वाला Job पूरा का पूरा अस्वीकार हो जाता है - बाक़ी Nodes पर भी कुछ नहीं चलता - और कंसोल बताता है कि किन Nodes को हटाना है। देखें <a href="access.html">उपयोगकर्ता, भूमिकाएँ और टोकन</a>।</p>
+<p>कई रन और Tasks क्रम से पूरे करने के लिए देखें <a href="run-plans.html">Plans चलाएँ</a>। किसी Job को बाद में, या बार-बार, शुरू करने के लिए देखें <a href="schedule-jobs.html">Jobs शेड्यूल करें</a>।</p>
+<h2 id="run-puppet">Puppet चलाएँ</h2>
+<p>जहाँ भी आप अपने मनचाहे Nodes देख रहे हों, वहीं से:</p>
 <ul>
-<li><strong>One node:</strong> on the node&#39;s page, run Puppet.</li>
-<li><strong>A selection:</strong> on the <strong>Nodes</strong> page, select nodes, then run Puppet
-on the selection.</li>
-<li><strong>Every node a group matches:</strong> on the group&#39;s page, run Puppet on its
-matching nodes.</li>
+<li><strong>एक Node:</strong> Node के पृष्ठ पर Puppet चलाइए।</li>
+<li><strong>एक चयन:</strong> <strong>Nodes</strong> पृष्ठ पर Nodes चुनिए, फिर चयन पर Puppet चलाइए।</li>
+<li><strong>किसी समूह से मेल खाने वाला हर Node:</strong> समूह के पृष्ठ पर, उसके मिलते Nodes पर Puppet चलाइए।</li>
 </ul>
-<p>Each opens a dialog naming the nodes. Confirm it to start a job, which
-you are taken to.</p>
-<p>Or start from the <strong>Jobs</strong> page, where <strong>Run Puppet</strong> and <strong>Run task</strong>
-let you say which nodes: see <a href="#choose-the-nodes">Choose the nodes</a>.</p>
-<h3 id="run-options">Run options</h3>
-<p>The dialog offers three options. With none chosen, the run is an
-ordinary one.</p>
+<p>हर एक Nodes के नाम बताने वाला एक dialog खोलता है। Job शुरू करने के लिए उसकी पुष्टि कीजिए, और आपको उस Job पर ले जाया जाता है।</p>
+<p>या <strong>Jobs</strong> पृष्ठ से शुरू कीजिए, जहाँ <strong>Puppet चलाएँ</strong> और <strong>Task चलाएँ</strong> आपको बताने देते हैं कि कौन-से Nodes: देखें <a href="#choose-the-nodes">Nodes चुनें</a>।</p>
+<h3 id="run-options">रन विकल्प</h3>
+<p>dialog तीन विकल्प देता है। कोई न चुनने पर रन सामान्य होता है।</p>
 <ul>
-<li><strong>No-op</strong> reports what the run would change and changes nothing. The
-job shows the list for each node.</li>
-<li><strong>Debug output</strong> records Puppet&#39;s debug log for each node on the job.</li>
-<li><strong>Environment</strong> asks the node to run against that environment, for
-trying a node against a branch.</li>
+<li><strong>No-op</strong> बताता है कि रन क्या बदलेगा, और कुछ नहीं बदलता। Job हर Node के लिए वह सूची दिखाता है।</li>
+<li><strong>डीबग आउटपुट</strong> Job के हर Node के लिए Puppet का debug लॉग दर्ज करता है।</li>
+<li><strong>Environment</strong> Node से उस Environment के विरुद्ध चलने को कहता है, ताकि किसी Node को किसी शाखा पर आज़माया जा सके।</li>
 </ul>
-<vox-callout variant="warning" heading="Warning"><p>The environment is a request, not an override. When a node&#39;s node
-groups set an environment, Puppet uses that one whatever the run asks
-for. The job marks each node that ran in a different environment from
-the one requested, once the node&#39;s report arrives.</p>
+<vox-callout variant="warning" heading="चेतावनी"><p>Environment एक अनुरोध है, ओवरराइड नहीं। जब किसी Node के Node समूह कोई Environment सेट करते हैं, तो रन चाहे जो माँगे, Puppet उसी का उपयोग करता है। Node की Report आने पर Job हर उस Node को चिह्नित करता है जो माँगे गए Environment से अलग Environment में चला।</p>
 </vox-callout>
-<p>A run with options records what Puppet printed. Open <strong>Output</strong> under a
-node&#39;s line on the job to read it. Long output is cut off at 256 KB,
-and says so.</p>
-<p>Run options need a node agent client from this version of the console
-or later. An older client refuses the request, and the node&#39;s line
-fails saying the client is too old. Puppet is not run on that node at
-all, so a no-op request is never carried out as a real run. Upgrade the
-client - see <a href="agent-upgrades.html">Keep node agents current</a> - and run again.
-A run with no options works on every client version.</p>
-<p>Through the API, with an access token:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -X POST https://console.example.com/api/v1/orchestrator/runs \
+<p>विकल्पों वाला रन वह दर्ज करता है जो Puppet ने छापा। इसे पढ़ने के लिए Job पर किसी Node की पंक्ति के नीचे <strong>आउटपुट</strong> खोलिए। लंबा आउटपुट 256 KB पर काट दिया जाता है, और यह बताया जाता है।</p>
+<p>रन विकल्पों के लिए कंसोल के इस या बाद के संस्करण का node agent client चाहिए। पुराना client अनुरोध अस्वीकार कर देता है, और Node की पंक्ति यह बताते हुए विफल होती है कि client बहुत पुराना है। उस Node पर Puppet बिल्कुल नहीं चलता, इसलिए no-op अनुरोध कभी असली रन के रूप में नहीं चलता। client अपग्रेड कीजिए - देखें <a href="agent-upgrades.html">Node एजेंटों को नवीनतम रखें</a> - और फिर चलाइए। बिना विकल्पों वाला रन हर client संस्करण पर काम करता है।</p>
+<p>API के ज़रिये, access token के साथ:</p>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>curl -X POST https://console.example.com/api/v1/orchestrator/runs \
   -H &#34;Authorization: Bearer &lt;access token&gt;&#34; \
   -H &#39;Content-Type: application/json&#39; \
   -d &#39;{&#34;targets&#34;:[&#34;web01.example.com&#34;,&#34;web02.example.com&#34;]}&#39;
 </code></vox-code-block>
-<p>Add <code>options</code> for a run with options. Any of the three may be left out:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>  -d &#39;{&#34;targets&#34;:[&#34;web01.example.com&#34;],
+<p>विकल्पों वाले रन के लिए <code>options</code> जोड़िए। तीनों में से कोई भी छोड़ा जा सकता है:</p>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>  -d &#39;{&#34;targets&#34;:[&#34;web01.example.com&#34;],
        &#34;options&#34;:{&#34;noop&#34;:true,&#34;environment&#34;:&#34;feature_x&#34;,&#34;debug&#34;:true}}&#39;
 </code></vox-code-block>
-<p>The request is refused, and no job is created, if the environment name
-is not valid, if openvoxserver has no such environment, or if it names
-an option the console does not know.</p>
-<h2 id="choose-the-nodes">Choose the nodes</h2>
-<p><strong>Run Puppet</strong> and <strong>Run task</strong> on the <strong>Jobs</strong> page ask which nodes to
-run on, in one of three ways:</p>
+<p>यदि Environment का नाम मान्य नहीं है, यदि openvoxserver में ऐसा कोई Environment नहीं है, या यदि अनुरोध में ऐसा विकल्प है जिसे कंसोल नहीं जानता, तो अनुरोध अस्वीकार होता है और कोई Job नहीं बनता।</p>
+<h2 id="choose-the-nodes">Nodes चुनें</h2>
+<p><strong>Jobs</strong> पृष्ठ पर <strong>Puppet चलाएँ</strong> और <strong>Task चलाएँ</strong> पूछते हैं कि किन Nodes पर चलाना है, तीन में से किसी एक तरीक़े से:</p>
 <ul>
 <li>
-<p><strong>List of nodes:</strong> certnames, one per line.</p>
+<p><strong>Nodes की सूची:</strong> certnames, हर पंक्ति में एक।</p>
 </li>
 <li>
-<p><strong>Query:</strong> a <a href="https://www.puppet.com/docs/puppetdb/latest/api/query/v4/pql.html">PQL</a>
-query that returns <code>certname</code>. The console runs it against openvoxdb
-when the job starts, and the job runs on the nodes it returns:</p>
-<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>inventory[certname] { facts.os.family = &#34;Debian&#34; and facts.os.release.major = &#34;12&#34; }
+<p><strong>क्वेरी:</strong> एक <a href="https://www.puppet.com/docs/puppetdb/latest/api/query/v4/pql.html">PQL</a> क्वेरी जो <code>certname</code> लौटाती है। Job शुरू होने पर कंसोल इसे openvoxdb पर चलाता है, और Job उन्हीं Nodes पर चलता है जो यह लौटाती है:</p>
+<vox-code-block language="plaintext" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>inventory[certname] { facts.os.family = &#34;Debian&#34; and facts.os.release.major = &#34;12&#34; }
 </code></vox-code-block>
 </li>
 <li>
-<p><strong>Node group:</strong> the nodes in the group when the job starts.</p>
+<p><strong>Node समूह:</strong> Job शुरू होते समय समूह में मौजूद Nodes।</p>
 </li>
 </ul>
-<p><strong>Preview nodes</strong> shows the nodes your choice means right now. The
-dialog always shows them to you before it starts anything: choosing
-<strong>Run</strong> the first time runs the preview, and the second time starts the
-job. A query or a group that matches no nodes starts nothing.</p>
-<p>A query must be in PQL&#39;s own syntax and return <code>certname</code>. A query the
-console or openvoxdb cannot use is refused with the reason, which for a
-syntax error is openvoxdb&#39;s own message pointing at the mistake.</p>
-<p>If your role is granted on particular node groups, a query or a group
-gives you the matching nodes that are in <em>your</em> groups, and says
-nothing about any others. Your query also cannot contain a subquery -
-one entity&#39;s braces inside another&#39;s - because such a query could be
-used to find out about nodes you cannot see. Query a single entity, as
-in the example above; <code>inventory</code> reaches every fact and trusted fact
-of a node. Nodes you name in a list are still all or nothing.</p>
-<p>Through the API, give <code>query</code> or <code>group</code> (a node group&#39;s ID) in place
-of <code>targets</code>:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -X POST https://console.example.com/api/v1/orchestrator/runs \
+<p><strong>Nodes का पूर्वावलोकन</strong> दिखाता है कि इस समय आपके चुनाव का अर्थ कौन-से Nodes हैं। dialog कुछ भी शुरू करने से पहले उन्हें हमेशा आपको दिखाता है: पहली बार <strong>चलाएँ</strong> चुनने पर पूर्वावलोकन चलता है, और दूसरी बार Job शुरू होता है। जो क्वेरी या समूह किसी Node से मेल नहीं खाता, वह कुछ शुरू नहीं करता।</p>
+<p>क्वेरी PQL के अपने syntax में होनी चाहिए और <code>certname</code> लौटानी चाहिए। जिस क्वेरी का कंसोल या openvoxdb उपयोग नहीं कर सकता, वह कारण सहित अस्वीकार होती है; syntax त्रुटि के मामले में यह openvoxdb का अपना संदेश होता है जो गलती की ओर इशारा करता है।</p>
+<p>यदि आपकी भूमिका विशेष Node समूहों पर दी गई है, तो क्वेरी या समूह आपको वे मेल खाने वाले Nodes देता है जो <em>आपके</em> समूहों में हैं, और दूसरों के बारे में कुछ नहीं बताता। आपकी क्वेरी में subquery भी नहीं हो सकती - एक entity के braces दूसरी के भीतर - क्योंकि ऐसी क्वेरी से उन Nodes के बारे में पता लगाया जा सकता है जिन्हें आप नहीं देख सकते। ऊपर के उदाहरण की तरह एक ही entity पर क्वेरी कीजिए; <code>inventory</code> किसी Node के हर Fact और trusted fact तक पहुँचता है। सूची में आपके द्वारा नामित Nodes अब भी या तो सब या कोई नहीं होते हैं।</p>
+<p>API के ज़रिये, <code>targets</code> की जगह <code>query</code> या <code>group</code> (किसी Node समूह की ID) दीजिए:</p>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>curl -X POST https://console.example.com/api/v1/orchestrator/runs \
   -H &#34;Authorization: Bearer &lt;access token&gt;&#34; \
   -H &#39;Content-Type: application/json&#39; \
   -d &#39;{&#34;query&#34;:&#34;inventory[certname] { facts.os.family = \&#34;Debian\&#34; }&#34;,
        &#34;options&#34;:{&#34;noop&#34;:true}}&#39;
 </code></vox-code-block>
-<p><code>POST /api/v1/orchestrator/targets/resolve</code> takes the same <code>targets</code>,
-<code>query</code> or <code>group</code> and answers with the nodes, starting nothing.</p>
-<h2 id="run-a-task">Run a task</h2>
-<p>A task is a script shipped in a module&#39;s <code>tasks</code> directory, with a
-metadata file describing its parameters. The console runs the ones in
-the code you have deployed - see <a href="deploy-code.html">Deploy code</a> - so
-there is nothing to install for a task beyond deploying the module that
-contains it.</p>
-<p>Tasks are offered in the same places as Puppet runs: <strong>Run task</strong> on a
-node&#39;s page, on the <strong>Nodes</strong> page&#39;s selection, on a group&#39;s matching
-nodes, and on the <strong>Jobs</strong> page. In the dialog:</p>
+<p><code>POST /api/v1/orchestrator/targets/resolve</code> वही <code>targets</code>, <code>query</code> या <code>group</code> लेता है और कुछ भी शुरू किए बिना Nodes के साथ उत्तर देता है।</p>
+<h2 id="run-a-task">एक Task चलाएँ</h2>
+<p>Task किसी module की <code>tasks</code> डायरेक्टरी में भेजी गई एक स्क्रिप्ट है, जिसके साथ उसके पैरामीटरों का वर्णन करने वाली metadata फ़ाइल होती है। कंसोल आपके deploy किए गए कोड के Tasks चलाता है - देखें <a href="deploy-code.html">कोड deploy करें</a> - इसलिए किसी Task के लिए उसे रखने वाले module को deploy करने के अलावा कुछ इंस्टॉल नहीं करना पड़ता।</p>
+<p>Tasks उन्हीं जगहों पर उपलब्ध हैं जहाँ Puppet रन: Node के पृष्ठ पर, <strong>Nodes</strong> पृष्ठ के चयन पर, किसी समूह के मिलते Nodes पर, और <strong>Jobs</strong> पृष्ठ पर <strong>Task चलाएँ</strong>। dialog में:</p>
 <ol>
-<li>Pick the <strong>Environment</strong> to take the task from. Tasks are read from
-that environment&#39;s code as it is deployed right now.</li>
-<li>Pick the <strong>Task</strong>. Its description, and a field for each parameter,
-appear below it. A field marked <code>*</code> is required; one left empty gets
-the default its metadata declares.</li>
-<li>Optionally, set a <strong>Timeout</strong>. A task still running after it is
-stopped, along with anything it started, and reported as timed out.
-It is 30 minutes unless you say otherwise, and at most 55.</li>
-<li><strong>Run task</strong> starts the job and takes you to it.</li>
+<li>वह <strong>Environment</strong> चुनिए जिससे Task लेना है। Tasks उस Environment के कोड से पढ़े जाते हैं, जैसा वह अभी deploy है।</li>
+<li><strong>Task</strong> चुनिए। इसके नीचे उसका विवरण, और हर पैरामीटर के लिए एक फ़ील्ड दिखता है। <code>*</code> चिह्नित फ़ील्ड आवश्यक है; खाली छोड़े गए फ़ील्ड को उसके metadata में घोषित default मिलता है।</li>
+<li>वैकल्पिक रूप से, एक <strong>टाइमआउट</strong> सेट कीजिए। उसके समाप्त होने पर भी चल रहा Task, उसके द्वारा शुरू की गई हर चीज़ के साथ, रोक दिया जाता है और समय समाप्त होने के रूप में बताया जाता है। जब तक आप कुछ और न कहें, यह 30 मिनट है, और अधिकतम 55।</li>
+<li><strong>Task चलाएँ</strong> Job शुरू करता है और आपको उस पर ले जाता है।</li>
 </ol>
-<p>The console checks the parameters against the task&#39;s metadata before it
-starts anything, and marks each field it refuses with the reason. No job
-is created until they are right.</p>
-<p>A role can be limited to some tasks, and then the <strong>Task</strong> list offers
-only the ones you may run. A task you may not run is refused with <code>403</code>
-and its name, whether you pick it from the list or ask for it through the
-API - see <a href="access.html#limit-a-role-to-some-tasks">Limit a role to some tasks</a>.</p>
-<p>A parameter the task&#39;s metadata marks <code>sensitive</code> - a password, a token -
-is typed into a masked field. Its value is sent to the nodes and nowhere
-else: the job&#39;s stored parameters, its page, the activity log and the
-audit log all show <code>Sensitive [value redacted]</code> instead.</p>
-<p>Through the API, naming the task, its parameters and, optionally, the
-environment and the timeout in seconds:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -X POST https://console.example.com/api/v1/orchestrator/tasks \
+<p>कुछ भी शुरू करने से पहले कंसोल पैरामीटरों को Task के metadata से जाँचता है, और जिस फ़ील्ड को वह अस्वीकार करता है उस पर कारण चिह्नित करता है। जब तक वे सही न हों, कोई Job नहीं बनता।</p>
+<p>भूमिका को कुछ Tasks तक सीमित किया जा सकता है, और तब <strong>Task</strong> सूची केवल वही दिखाती है जिन्हें आप चला सकते हैं। जिस Task को आप नहीं चला सकते, वह <code>403</code> और उसके नाम के साथ अस्वीकार होता है, चाहे आप उसे सूची से चुनें या API से माँगें - देखें <a href="access.html#limit-a-role-to-some-tasks">किसी भूमिका को कुछ Tasks तक सीमित करें</a>।</p>
+<p>जिस पैरामीटर को Task का metadata <code>sensitive</code> चिह्नित करता है - कोई पासवर्ड, कोई टोकन - वह एक छिपे हुए फ़ील्ड में टाइप किया जाता है। उसका मान Nodes को भेजा जाता है और कहीं नहीं: Job के संग्रहीत पैरामीटर, उसका पृष्ठ, गतिविधि लॉग और ऑडिट लॉग, सभी इसके बजाय <code>Sensitive [value redacted]</code> दिखाते हैं।</p>
+<p>API के ज़रिये, Task, उसके पैरामीटर और, वैकल्पिक रूप से, Environment और सेकंड में timeout बताते हुए:</p>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>curl -X POST https://console.example.com/api/v1/orchestrator/tasks \
   -H &#34;Authorization: Bearer &lt;access token&gt;&#34; \
   -H &#39;Content-Type: application/json&#39; \
   -d &#39;{&#34;targets&#34;:[&#34;web01.example.com&#34;],
@@ -311,82 +243,53 @@ environment and the timeout in seconds:</p>
        &#34;environment&#34;:&#34;production&#34;,
        &#34;timeoutSeconds&#34;:600}&#39;
 </code></vox-code-block>
-<p>The API checks the same way: an unknown task, a missing or unexpected
-parameter, or a value of the wrong type is refused with <code>400</code>, and its
-<code>fields</code> name each problem. The task catalogue behind the dialog is in
-the API too: <code>GET /api/v1/tasks/environments</code>,
-<code>GET /api/v1/tasks?environment=production</code>, and
-<code>GET /api/v1/tasks/&lt;module&gt;/&lt;task&gt;?environment=production</code> (a module&#39;s
-own task is <code>&lt;module&gt;/init</code>).</p>
-<h3 id="what-the-node-does">What the node does</h3>
-<p>The node&#39;s agent downloads the task&#39;s files from the Puppet server its
-own Puppet agent uses, with its own certificate, and runs nothing unless
-every file matches the checksum the console looked up. It keeps verified
-files, so running the same task again downloads nothing.</p>
-<p>A task&#39;s script is run directly, so its first line decides what runs it
-(<code>#!/bin/sh</code>, <code>#!/usr/bin/env python3</code>). Ruby tasks run with the Ruby
-that comes with the Puppet agent, and on Windows, PowerShell tasks run in
-PowerShell. Where a task offers several implementations, the node picks
-the one that suits it.</p>
-<p>A node finds its Puppet server by asking its own Puppet configuration.
-A node that finds it through DNS SRV records instead has no address to
-read there; set <code>NODE_AGENT_PUPPET_SERVER=puppet.example.com:8140</code> in
-its agent&#39;s environment.</p>
-<p>Nodes need an agent from a console with task support. A node whose agent
-is older fails every task with <code>Error: Unknown subcommand &#39;task&#39;</code>: run
-the node&#39;s install script again to upgrade it - see
-<a href="add.html">Add nodes</a>.</p>
-<h2 id="follow-a-job">Follow a job</h2>
-<p>The <strong>Jobs</strong> page lists every job, newest first. A job&#39;s page shows each
-target on its own line - its status, exit code and output - so a job that
-worked on nine nodes and failed on one says exactly that.</p>
-<p>If a job also ran on nodes outside your node groups, its page shows
-only your nodes and says so. The job&#39;s overall status still covers
-every node it ran on, so it can read <strong>failed</strong> when all the nodes you
-can see succeeded.</p>
-<p>For a task, each target&#39;s line opens to show the task&#39;s result: the
-JSON it printed, or its text under <code>_output</code>. A task fails when it exits
-with anything but 0, or reports an <code>_error</code>, whose message is shown as
-the line&#39;s error.</p>
-<p>A node that was not connected when the job started fails at once with
-&#34;agent not connected&#34;, instead of holding the job open.</p>
-<p>When a run finishes, its line links to the report that run produced, with
-every resource it changed.</p>
-<p>The jobs list and a job&#39;s page show a run&#39;s options: <strong>No-op</strong>, the
-environment it asked for, and <strong>Debug</strong>.</p>
-<p>They also show where a job&#39;s nodes came from, when it was not a list:
-the query or the node group. A job that a schedule started names the
-schedule, and is recorded as triggered by the schedule&#39;s owner. If a
-job started by a query also ran on nodes outside your node groups, you
-are shown your nodes but not the query.</p>
-<p>Every job&#39;s start and outcome is also recorded on the <strong>Activity</strong> page.</p>
-<p>A <a href="run-plans.html">plan</a> is one line in the list. Its page shows its
-steps in order, each with its own state and node results.</p>
-<h2 id="a-job-whose-instance-stopped">A job whose instance stopped</h2>
-<p>A job is followed to the end by the console instance that started it. If
-that instance stops before its targets finish, the job would otherwise
-show as running forever; instead, it is marked failed once it has been
-running far longer than any run could take.</p>
+<p>API भी इसी तरह जाँच करता है: अज्ञात Task, अनुपस्थित या अप्रत्याशित पैरामीटर, या गलत type का मान <code>400</code> के साथ अस्वीकार होता है, और उसके <code>fields</code> हर समस्या का नाम बताते हैं। dialog के पीछे का Task catalogue भी API में है: <code>GET /api/v1/tasks/environments</code>, <code>GET /api/v1/tasks?environment=production</code>, और <code>GET /api/v1/tasks/&lt;module&gt;/&lt;task&gt;?environment=production</code> (किसी module का अपना Task <code>&lt;module&gt;/init</code> है)।</p>
+<h3 id="what-the-node-does">Node क्या करता है</h3>
+<p>Node का एजेंट Task की फ़ाइलें, अपने प्रमाणपत्र के साथ, उसी Puppet सर्वर से डाउनलोड करता है जिसका उपयोग उसका अपना Puppet agent करता है, और जब तक हर फ़ाइल कंसोल द्वारा खोजे गए checksum से मेल न खाए, कुछ नहीं चलाता। यह सत्यापित फ़ाइलें रखता है, इसलिए वही Task फिर से चलाने पर कुछ डाउनलोड नहीं होता।</p>
+<p>Task की स्क्रिप्ट सीधे चलाई जाती है, इसलिए उसकी पहली पंक्ति तय करती है कि उसे क्या चलाएगा (<code>#!/bin/sh</code>, <code>#!/usr/bin/env python3</code>)। Ruby Tasks Puppet agent के साथ आने वाले Ruby से चलते हैं, और Windows पर PowerShell Tasks PowerShell में चलते हैं। जहाँ कोई Task कई implementations देता है, वहाँ Node अपने लिए उपयुक्त implementation चुनता है।</p>
+<p>Node अपने Puppet सर्वर का पता अपने Puppet कॉन्फ़िगरेशन से पूछकर लगाता है। जो Node इसके बजाय DNS SRV records से उसका पता लगाता है, उसके पास वहाँ पढ़ने के लिए कोई पता नहीं होता; उसके agent के environment में <code>NODE_AGENT_PUPPET_SERVER=puppet.example.com:8140</code> सेट कीजिए।</p>
+<p>Nodes को Task समर्थन वाले कंसोल का एजेंट चाहिए। जिस Node का एजेंट पुराना है, वह हर Task में <code>Error: Unknown subcommand &#39;task&#39;</code> के साथ विफल होता है: उसे अपग्रेड करने के लिए Node की इंस्टॉल स्क्रिप्ट फिर से चलाइए - देखें <a href="add.html">Nodes जोड़ें</a>।</p>
+<h2 id="follow-a-job">किसी Job पर नज़र रखें</h2>
+<p><strong>Jobs</strong> पृष्ठ हर Job को, सबसे नए से शुरू करके, सूचीबद्ध करता है। किसी Job का पृष्ठ हर लक्ष्य को उसकी अपनी पंक्ति में दिखाता है - उसकी स्थिति, निकास कोड और आउटपुट - इसलिए जो Job नौ Nodes पर चला और एक पर विफल हुआ, वह ठीक यही बताता है।</p>
+<figure class="shot">
+  <a class="shot-link" href="../../assets/screenshots/job-result-light-hi.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/job-result-dark-hi.png" data-theme-dark="../../assets/screenshots/job-result-dark-hi.png" data-theme-light="../../assets/screenshots/job-result-light-hi.png"/>
+      <img src="../../assets/screenshots/job-result-light-hi.png" alt="पूरे हुए Job का पृष्ठ, जिसमें दिख रहा है कि क्या चलाया गया, उसे किसने और कब शुरू किया, और उसके हर लक्षित Node पर परिणाम" width="1440"/>
+    </picture>
+    <span class="vox-sr-only">Open full size</span>
+  </a>
+</figure>
+<p>यदि कोई Job आपके Node समूहों के बाहर के Nodes पर भी चला, तो उसका पृष्ठ केवल आपके Nodes दिखाता है और यह बता देता है। Job की कुल स्थिति फिर भी उन सभी Nodes को समेटती है जिन पर वह चला, इसलिए वह <strong>विफल</strong> दिखा सकती है, भले ही आपको दिखने वाले सभी Nodes सफल रहे हों।</p>
+<p>Task के लिए, हर लक्ष्य की पंक्ति खुलकर Task का परिणाम दिखाती है: उसके द्वारा छापा गया JSON, या <code>_output</code> के अंतर्गत उसका पाठ। Task तब विफल होता है जब वह 0 के अलावा किसी कोड से बाहर निकले, या कोई <code>_error</code> बताए, जिसका संदेश पंक्ति की त्रुटि के रूप में दिखाया जाता है।</p>
+<p>जो Node Job शुरू होते समय कनेक्ट नहीं था, वह Job को खुला रखने के बजाय तुरंत &#34;agent not connected&#34; के साथ विफल हो जाता है।</p>
+<p>रन पूरा होने पर उसकी पंक्ति उस रन से बनी Report से जुड़ जाती है, जिसमें उसके द्वारा बदला गया हर संसाधन है।</p>
+<p>Jobs सूची और किसी Job का पृष्ठ रन के विकल्प दिखाते हैं: <strong>No-op</strong>, उसके द्वारा माँगा गया Environment, और <strong>डीबग</strong>।</p>
+<p>जब Job के Nodes सूची से नहीं आए, तो ये यह भी दिखाते हैं कि वे कहाँ से आए: क्वेरी या Node समूह। शेड्यूल द्वारा शुरू किया गया Job शेड्यूल का नाम बताता है, और शेड्यूल के स्वामी द्वारा चलाए गए के रूप में दर्ज होता है। यदि क्वेरी से शुरू हुआ Job आपके Node समूहों के बाहर के Nodes पर भी चला, तो आपको आपके Nodes दिखाए जाते हैं पर क्वेरी नहीं।</p>
+<p>हर Job की शुरुआत और परिणाम भी <strong>गतिविधि</strong> पृष्ठ पर दर्ज होते हैं।</p>
+<p><a href="run-plans.html">Plan</a> सूची में एक पंक्ति है। उसका पृष्ठ उसके चरण क्रम से दिखाता है, हर एक की अपनी अवस्था और Node परिणामों के साथ।</p>
+<h2 id="a-job-whose-instance-stopped">ऐसा Job जिसका इंस्टेंस रुक गया</h2>
+<p>किसी Job पर अंत तक वही कंसोल इंस्टेंस नज़र रखता है जिसने उसे शुरू किया। यदि वह इंस्टेंस लक्ष्यों के पूरा होने से पहले रुक जाए, तो Job हमेशा के लिए चालू दिखता रहता; इसके बजाय, जब वह किसी भी रन में लग सकने वाले समय से कहीं अधिक देर तक चल चुका होता है, तो उसे विफल चिह्नित कर दिया जाता है।</p>
 
     </div>
 
-    <vox-series-nav label="Use" previous-text="Previous" next-text="Next" previous-href="../guides/deploy-code.html" previous-label="Deploy code" next-href="../guides/run-plans.html" next-label="Run plans"></vox-series-nav>
+    <vox-series-nav label="उपयोग" previous-text="पिछला" next-text="अगला" previous-href="../guides/deploy-code.html" previous-label="कोड deploy करें" next-href="../guides/run-plans.html" next-label="Plans चलाएँ"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#run-puppet"><span>Run Puppet</span>
-        <vox-toc-item slot="children" href="#run-options"><span>Run options</span></vox-toc-item>
+    <vox-toc heading="इस पृष्ठ पर">
+      <vox-toc-item href="#run-puppet"><span>Puppet चलाएँ</span>
+        <vox-toc-item slot="children" href="#run-options"><span>रन विकल्प</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#choose-the-nodes"><span>Choose the nodes</span>
+      <vox-toc-item href="#choose-the-nodes"><span>Nodes चुनें</span>
       </vox-toc-item>
-      <vox-toc-item href="#run-a-task"><span>Run a task</span>
-        <vox-toc-item slot="children" href="#what-the-node-does"><span>What the node does</span></vox-toc-item>
+      <vox-toc-item href="#run-a-task"><span>एक Task चलाएँ</span>
+        <vox-toc-item slot="children" href="#what-the-node-does"><span>Node क्या करता है</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#follow-a-job"><span>Follow a job</span>
+      <vox-toc-item href="#follow-a-job"><span>किसी Job पर नज़र रखें</span>
       </vox-toc-item>
-      <vox-toc-item href="#a-job-whose-instance-stopped"><span>A job whose instance stopped</span>
+      <vox-toc-item href="#a-job-whose-instance-stopped"><span>ऐसा Job जिसका इंस्टेंस रुक गया</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -396,23 +299,17 @@ running far longer than any run could take.</p>
 
       
       <vox-cta-band heading="स्वयं चलाकर देखिए">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console कंटेनर इमेजों के रूप में आता है, जो हर push पर amd64 और arm64 के लिए बनती हैं, और एक अकेली बाइनरी के रूप में भी। इंस्टॉल गाइड आपको खाली होस्ट से एक चालू परिनियोजन तक ले जाते हैं - openvoxserver, openvoxdb, Postgres और कंसोल - कंटेनरों से या पैकेजों से।</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">इंस्टॉल गाइड</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">GitHub पर स्रोत</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">कंटेनर इमेज</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="पूर्ण आकार का स्क्रीनशॉट">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">बंद करें</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -421,18 +318,18 @@ running far longer than any run could take.</p>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">सिंहावलोकन</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">स्रोत</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">इंस्टॉल गाइड</a>
       </vox-footer-column>
       <vox-footer-column heading="क्षमताएँ">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">वर्गीकरण</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">ऑर्केस्ट्रेशन</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">पैचिंग</a>
         <a href="../features/security.html">सुरक्षा</a>
         <a href="../features/access-control.html">पहुँच नियंत्रण</a>
         <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/scaling.html">विस्तार</a>
         </vox-footer-column>
       
       <vox-footer-column heading="भाषा">

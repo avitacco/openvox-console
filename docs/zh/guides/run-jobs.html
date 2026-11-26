@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="zh" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Run Puppet or a Puppet task on demand on one node, a selection, the nodes a query matches, or a node group, and see what each node did."/>
+    <meta name="description" content="在单个 Node、一组选中的 Nodes、查询匹配的 Nodes 或某个 Node 组上按需运行 Puppet 或 Puppet Task，并查看每个 Node 做了什么。"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Run jobs - OpenVox Console</title>
+    <title>运行 Jobs - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">指南</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,205 +104,137 @@
       <a href="../features/classification.html">分类</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">编排</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">补丁管理</a>
       <a href="../features/security.html">安全</a>
       <a href="../features/access-control.html">访问控制</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">AI 代理</a>
+      <a href="../features/scaling.html">扩展</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="指南" toggle-label="所有指南">
+    <vox-sidenav-group heading="安装">
+      <vox-sidenav-item href="../guides/plan.html"><span>规划部署</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>使用容器安装</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>从软件包和二进制文件安装</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>添加 Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>管理 Node 证书</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>移除 Node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>保持 Node 代理为最新</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
-      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="扩展">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>运行模式</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>运行更多实例</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use" open="">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html" current="" aria-current="page"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="使用" open="">
+      <vox-sidenav-item href="../guides/classify.html"><span>为 Nodes 分类</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy 代码</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html" current="" aria-current="page"><span>运行 Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>运行 Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>计划 Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>用户、角色与令牌</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>跟踪漏洞</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>查找并应用缺失的更新</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>在没有代理的主机上运行 Tasks</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>运行代码中的 Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>让 AI 代理使用控制台</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="运维">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>故障切换到备用数据库</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>轮换令牌签名密钥</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>将容器数据库升级到 Postgres 18</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Use</p>
-    <h1 class="guide-title vox-ts-xxl">Run jobs</h1>
-    <p class="guide-summary">Run Puppet or a Puppet task on demand on one node, a selection, the nodes a query matches, or a node group, and see what each node did.</p>
+    <p class="guide-eyebrow">使用</p>
+    <h1 class="guide-title vox-ts-xxl">运行 Jobs</h1>
+    <p class="guide-summary">在单个 Node、一组选中的 Nodes、查询匹配的 Nodes 或某个 Node 组上按需运行 Puppet 或 Puppet Task，并查看每个 Node 做了什么。</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>The console can run Puppet on nodes right now, rather than at their next
-scheduled run, and run the Puppet tasks your deployed code contains. Each
-request is a <strong>job</strong>, recorded with every node it targeted and what
-happened on each.</p>
-<p>Starting a job needs <code>orchestrator:run</code>; seeing jobs needs
-<code>orchestrator:read</code>. A node must be connected to be reached: see
-<a href="add.html">Add nodes</a>.</p>
-<p>If your role is granted on particular node groups, you can start jobs
-only on nodes in those groups, and you see only their jobs. A job that
-names a node outside them is refused whole - nothing runs on the other
-nodes either - and the console says which nodes to leave out. See
-<a href="access.html">Users, roles and tokens</a>.</p>
-<p>To carry out several runs and tasks in order, see
-<a href="run-plans.html">Run plans</a>. To start a job later, or repeatedly, see
-<a href="schedule-jobs.html">Schedule jobs</a>.</p>
-<h2 id="run-puppet">Run Puppet</h2>
-<p>From wherever you are looking at the nodes you want:</p>
+<p>控制台可以立即在 Nodes 上运行 Puppet，而不必等待其下一次计划运行，还可以运行你已 deploy 的代码中包含的 Puppet Tasks。每个请求都是一个 <strong>Job</strong>，会记录它针对的每个 Node 以及每个 Node 上发生了什么。</p>
+<p>启动 Job 需要 <code>orchestrator:run</code>；查看 Jobs 需要 <code>orchestrator:read</code>。Node 必须已连接才能被访问：参见<a href="add.html">添加 Nodes</a>。</p>
+<p>如果你的角色是在特定 Node 组上被授予的，你只能在这些组中的 Nodes 上启动 Jobs，而且只能看到它们的 Jobs。指定了组外 Node 的 Job 会被整体拒绝——其他 Nodes 上也不会运行任何东西——控制台会告诉你应排除哪些 Nodes。参见<a href="access.html">用户、角色与令牌</a>。</p>
+<p>要按顺序执行多次运行和多个 Tasks，参见<a href="run-plans.html">运行 Plans</a>。要稍后启动或重复启动 Job，参见<a href="schedule-jobs.html">计划 Jobs</a>。</p>
+<h2 id="run-puppet">运行 Puppet</h2>
+<p>无论你在哪里查看想要操作的 Nodes：</p>
 <ul>
-<li><strong>One node:</strong> on the node&#39;s page, run Puppet.</li>
-<li><strong>A selection:</strong> on the <strong>Nodes</strong> page, select nodes, then run Puppet
-on the selection.</li>
-<li><strong>Every node a group matches:</strong> on the group&#39;s page, run Puppet on its
-matching nodes.</li>
+<li><strong>单个 Node：</strong>在该 Node 的页面上运行 Puppet。</li>
+<li><strong>一组选中的 Nodes：</strong>在 <strong>Nodes</strong> 页面上选择 Nodes，然后对所选 Nodes 运行 Puppet。</li>
+<li><strong>某个组匹配的所有 Nodes：</strong>在该组的页面上，对其匹配的 Nodes 运行 Puppet。</li>
 </ul>
-<p>Each opens a dialog naming the nodes. Confirm it to start a job, which
-you are taken to.</p>
-<p>Or start from the <strong>Jobs</strong> page, where <strong>Run Puppet</strong> and <strong>Run task</strong>
-let you say which nodes: see <a href="#choose-the-nodes">Choose the nodes</a>.</p>
-<h3 id="run-options">Run options</h3>
-<p>The dialog offers three options. With none chosen, the run is an
-ordinary one.</p>
+<p>每种方式都会打开一个列出这些 Nodes 的对话框。确认后即启动一个 Job，并带你进入该 Job。</p>
+<p>或者从 <strong>Jobs</strong> 页面启动，在那里，<strong>运行 Puppet</strong> 和<strong>运行 Task</strong> 可以让你指定 Nodes：参见<a href="#choose-the-nodes">选择 Nodes</a>。</p>
+<h3 id="run-options">运行选项</h3>
+<p>对话框提供三个选项。一个都不选时，就是一次普通的运行。</p>
 <ul>
-<li><strong>No-op</strong> reports what the run would change and changes nothing. The
-job shows the list for each node.</li>
-<li><strong>Debug output</strong> records Puppet&#39;s debug log for each node on the job.</li>
-<li><strong>Environment</strong> asks the node to run against that environment, for
-trying a node against a branch.</li>
+<li><strong>No-op</strong> 会报告该次运行将要更改的内容，但不做任何更改。Job 会为每个 Node 显示该列表。</li>
+<li><strong>调试输出</strong>会为该 Job 中的每个 Node 记录 Puppet 的调试日志。</li>
+<li><strong>Environment</strong> 让 Node 针对该 Environment 运行，用于在某个分支上试运行 Node。</li>
 </ul>
-<vox-callout variant="warning" heading="Warning"><p>The environment is a request, not an override. When a node&#39;s node
-groups set an environment, Puppet uses that one whatever the run asks
-for. The job marks each node that ran in a different environment from
-the one requested, once the node&#39;s report arrives.</p>
+<vox-callout variant="warning" heading="警告"><p>Environment 只是一个请求，而不是强制覆盖。当某个 Node 的 Node 组设置了 Environment 时，无论运行请求的是什么，Puppet 都会使用该 Environment。在 Node 的 Report 到达后，Job 会标记出每个在与所请求的不同 Environment 中运行的 Node。</p>
 </vox-callout>
-<p>A run with options records what Puppet printed. Open <strong>Output</strong> under a
-node&#39;s line on the job to read it. Long output is cut off at 256 KB,
-and says so.</p>
-<p>Run options need a node agent client from this version of the console
-or later. An older client refuses the request, and the node&#39;s line
-fails saying the client is too old. Puppet is not run on that node at
-all, so a no-op request is never carried out as a real run. Upgrade the
-client - see <a href="agent-upgrades.html">Keep node agents current</a> - and run again.
-A run with no options works on every client version.</p>
-<p>Through the API, with an access token:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -X POST https://console.example.com/api/v1/orchestrator/runs \
+<p>带选项的运行会记录 Puppet 打印的内容。在 Job 中某个 Node 的行下打开<strong>输出</strong>即可阅读。过长的输出会在 256 KB 处截断，并注明这一点。</p>
+<p>运行选项需要来自此版本或更高版本控制台的 Node 代理客户端。较旧的客户端会拒绝该请求，该 Node 所在的行会失败，并说明客户端版本过旧。该 Node 上根本不会运行 Puppet，因此 No-op 请求永远不会被当作真实运行执行。请升级客户端——参见<a href="agent-upgrades.html">保持 Node 代理为最新</a>——然后再次运行。不带选项的运行适用于所有客户端版本。</p>
+<p>通过 API，使用访问令牌：</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>curl -X POST https://console.example.com/api/v1/orchestrator/runs \
   -H &#34;Authorization: Bearer &lt;access token&gt;&#34; \
   -H &#39;Content-Type: application/json&#39; \
   -d &#39;{&#34;targets&#34;:[&#34;web01.example.com&#34;,&#34;web02.example.com&#34;]}&#39;
 </code></vox-code-block>
-<p>Add <code>options</code> for a run with options. Any of the three may be left out:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>  -d &#39;{&#34;targets&#34;:[&#34;web01.example.com&#34;],
+<p>对于带选项的运行，请添加 <code>options</code>。三项中的任何一项都可以省略：</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>  -d &#39;{&#34;targets&#34;:[&#34;web01.example.com&#34;],
        &#34;options&#34;:{&#34;noop&#34;:true,&#34;environment&#34;:&#34;feature_x&#34;,&#34;debug&#34;:true}}&#39;
 </code></vox-code-block>
-<p>The request is refused, and no job is created, if the environment name
-is not valid, if openvoxserver has no such environment, or if it names
-an option the console does not know.</p>
-<h2 id="choose-the-nodes">Choose the nodes</h2>
-<p><strong>Run Puppet</strong> and <strong>Run task</strong> on the <strong>Jobs</strong> page ask which nodes to
-run on, in one of three ways:</p>
+<p>如果 Environment 名称无效、openvoxserver 中不存在该 Environment，或者请求指定了控制台不认识的选项，请求就会被拒绝，并且不会创建 Job。</p>
+<h2 id="choose-the-nodes">选择 Nodes</h2>
+<p><strong>Jobs</strong> 页面上的<strong>运行 Puppet</strong> 和<strong>运行 Task</strong> 会询问要在哪些 Nodes 上运行，有以下三种方式：</p>
 <ul>
 <li>
-<p><strong>List of nodes:</strong> certnames, one per line.</p>
+<p><strong>Nodes 列表：</strong>certname，每行一个。</p>
 </li>
 <li>
-<p><strong>Query:</strong> a <a href="https://www.puppet.com/docs/puppetdb/latest/api/query/v4/pql.html">PQL</a>
-query that returns <code>certname</code>. The console runs it against openvoxdb
-when the job starts, and the job runs on the nodes it returns:</p>
-<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>inventory[certname] { facts.os.family = &#34;Debian&#34; and facts.os.release.major = &#34;12&#34; }
+<p><strong>查询：</strong>一个返回 <code>certname</code> 的 <a href="https://www.puppet.com/docs/puppetdb/latest/api/query/v4/pql.html">PQL</a> 查询。控制台会在 Job 启动时针对 openvoxdb 运行它，Job 会在它返回的 Nodes 上运行：</p>
+<vox-code-block language="plaintext" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>inventory[certname] { facts.os.family = &#34;Debian&#34; and facts.os.release.major = &#34;12&#34; }
 </code></vox-code-block>
 </li>
 <li>
-<p><strong>Node group:</strong> the nodes in the group when the job starts.</p>
+<p><strong>Node 组：</strong>Job 启动时该组中的 Nodes。</p>
 </li>
 </ul>
-<p><strong>Preview nodes</strong> shows the nodes your choice means right now. The
-dialog always shows them to you before it starts anything: choosing
-<strong>Run</strong> the first time runs the preview, and the second time starts the
-job. A query or a group that matches no nodes starts nothing.</p>
-<p>A query must be in PQL&#39;s own syntax and return <code>certname</code>. A query the
-console or openvoxdb cannot use is refused with the reason, which for a
-syntax error is openvoxdb&#39;s own message pointing at the mistake.</p>
-<p>If your role is granted on particular node groups, a query or a group
-gives you the matching nodes that are in <em>your</em> groups, and says
-nothing about any others. Your query also cannot contain a subquery -
-one entity&#39;s braces inside another&#39;s - because such a query could be
-used to find out about nodes you cannot see. Query a single entity, as
-in the example above; <code>inventory</code> reaches every fact and trusted fact
-of a node. Nodes you name in a list are still all or nothing.</p>
-<p>Through the API, give <code>query</code> or <code>group</code> (a node group&#39;s ID) in place
-of <code>targets</code>:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -X POST https://console.example.com/api/v1/orchestrator/runs \
+<p><strong>预览 Nodes</strong> 会显示你的选择此刻对应的 Nodes。对话框在启动任何东西之前总会先向你显示它们：第一次选择<strong>运行</strong>会执行预览，第二次才会启动 Job。不匹配任何 Node 的查询或组不会启动任何东西。</p>
+<p>查询必须使用 PQL 自身的语法，并返回 <code>certname</code>。控制台或 openvoxdb 无法使用的查询会被拒绝并给出原因；如果是语法错误，给出的是 openvoxdb 自己的消息，会指出错误所在。</p>
+<p>如果你的角色是在特定 Node 组上被授予的，查询或组只会给出位于<em>你的</em>组中的匹配 Nodes，并且不会透露任何其他 Nodes 的信息。你的查询也不能包含子查询（即一个实体的花括号嵌套在另一个实体中），因为这样的查询可能被用来探知你看不到的 Nodes。请像上面的示例那样只查询单个实体；<code>inventory</code> 可以访问一个 Node 的每个 Fact 和受信任 Fact。你在列表中指定的 Nodes 仍然是全有或全无。</p>
+<p>通过 API 时，用 <code>query</code> 或 <code>group</code>（Node 组的 ID）代替 <code>targets</code>：</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>curl -X POST https://console.example.com/api/v1/orchestrator/runs \
   -H &#34;Authorization: Bearer &lt;access token&gt;&#34; \
   -H &#39;Content-Type: application/json&#39; \
   -d &#39;{&#34;query&#34;:&#34;inventory[certname] { facts.os.family = \&#34;Debian\&#34; }&#34;,
        &#34;options&#34;:{&#34;noop&#34;:true}}&#39;
 </code></vox-code-block>
-<p><code>POST /api/v1/orchestrator/targets/resolve</code> takes the same <code>targets</code>,
-<code>query</code> or <code>group</code> and answers with the nodes, starting nothing.</p>
-<h2 id="run-a-task">Run a task</h2>
-<p>A task is a script shipped in a module&#39;s <code>tasks</code> directory, with a
-metadata file describing its parameters. The console runs the ones in
-the code you have deployed - see <a href="deploy-code.html">Deploy code</a> - so
-there is nothing to install for a task beyond deploying the module that
-contains it.</p>
-<p>Tasks are offered in the same places as Puppet runs: <strong>Run task</strong> on a
-node&#39;s page, on the <strong>Nodes</strong> page&#39;s selection, on a group&#39;s matching
-nodes, and on the <strong>Jobs</strong> page. In the dialog:</p>
+<p><code>POST /api/v1/orchestrator/targets/resolve</code> 接受相同的 <code>targets</code>、<code>query</code> 或 <code>group</code>，返回对应的 Nodes，但不启动任何东西。</p>
+<h2 id="run-a-task">运行 Task</h2>
+<p>Task 是随模块 <code>tasks</code> 目录一起提供的脚本，附带一个描述其参数的元数据文件。控制台运行你已 deploy 的代码中的 Tasks——参见 <a href="deploy-code.html">Deploy 代码</a>——因此，除了 deploy 包含该 Task 的模块之外，无需为 Task 安装任何东西。</p>
+<p>Tasks 出现在与 Puppet 运行相同的地方：Node 页面上的<strong>运行 Task</strong>、<strong>Nodes</strong> 页面上的选中项、组的匹配 Nodes，以及 <strong>Jobs</strong> 页面。在对话框中：</p>
 <ol>
-<li>Pick the <strong>Environment</strong> to take the task from. Tasks are read from
-that environment&#39;s code as it is deployed right now.</li>
-<li>Pick the <strong>Task</strong>. Its description, and a field for each parameter,
-appear below it. A field marked <code>*</code> is required; one left empty gets
-the default its metadata declares.</li>
-<li>Optionally, set a <strong>Timeout</strong>. A task still running after it is
-stopped, along with anything it started, and reported as timed out.
-It is 30 minutes unless you say otherwise, and at most 55.</li>
-<li><strong>Run task</strong> starts the job and takes you to it.</li>
+<li>选择从哪个 <strong>Environment</strong> 中获取 Task。Tasks 读取自该 Environment 当前已 deploy 的代码。</li>
+<li>选择 <strong>Task</strong>。其说明以及每个参数对应的字段会显示在下方。标有 <code>*</code> 的字段为必填；留空的字段会采用其元数据中声明的默认值。</li>
+<li>可选：设置<strong>超时</strong>。超时到达时仍在运行的 Task 会连同它启动的一切被一并停止，并报告为超时。除非另行指定，超时为 30 分钟，最长 55 分钟。</li>
+<li><strong>运行 Task</strong> 会启动 Job 并带你进入该 Job。</li>
 </ol>
-<p>The console checks the parameters against the task&#39;s metadata before it
-starts anything, and marks each field it refuses with the reason. No job
-is created until they are right.</p>
-<p>A role can be limited to some tasks, and then the <strong>Task</strong> list offers
-only the ones you may run. A task you may not run is refused with <code>403</code>
-and its name, whether you pick it from the list or ask for it through the
-API - see <a href="access.html#limit-a-role-to-some-tasks">Limit a role to some tasks</a>.</p>
-<p>A parameter the task&#39;s metadata marks <code>sensitive</code> - a password, a token -
-is typed into a masked field. Its value is sent to the nodes and nowhere
-else: the job&#39;s stored parameters, its page, the activity log and the
-audit log all show <code>Sensitive [value redacted]</code> instead.</p>
-<p>Through the API, naming the task, its parameters and, optionally, the
-environment and the timeout in seconds:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -X POST https://console.example.com/api/v1/orchestrator/tasks \
+<p>控制台会在启动任何东西之前依据 Task 的元数据检查参数，并在每个被拒绝的字段上标注原因。在参数正确之前，不会创建任何 Job。</p>
+<p>角色可以被限制为只能运行部分 Tasks，此时 <strong>Task</strong> 列表只会提供你可以运行的 Tasks。无论你是从列表中选择还是通过 API 请求，你无权运行的 Task 都会被拒绝，返回 <code>403</code> 及其名称——参见<a href="access.html#limit-a-role-to-some-tasks">将角色限制为部分 Tasks</a>。</p>
+<p>在 Task 元数据中被标记为 <code>sensitive</code> 的参数（密码、令牌）会在遮罩字段中输入。它的值只会发送给 Nodes，不会发往其他任何地方：Job 存储的参数、Job 页面、活动日志和审计日志都会显示 <code>Sensitive [value redacted]</code>。</p>
+<p>通过 API，指定 Task、其参数，以及可选的 Environment 和以秒为单位的超时：</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>curl -X POST https://console.example.com/api/v1/orchestrator/tasks \
   -H &#34;Authorization: Bearer &lt;access token&gt;&#34; \
   -H &#39;Content-Type: application/json&#39; \
   -d &#39;{&#34;targets&#34;:[&#34;web01.example.com&#34;],
@@ -311,82 +243,53 @@ environment and the timeout in seconds:</p>
        &#34;environment&#34;:&#34;production&#34;,
        &#34;timeoutSeconds&#34;:600}&#39;
 </code></vox-code-block>
-<p>The API checks the same way: an unknown task, a missing or unexpected
-parameter, or a value of the wrong type is refused with <code>400</code>, and its
-<code>fields</code> name each problem. The task catalogue behind the dialog is in
-the API too: <code>GET /api/v1/tasks/environments</code>,
-<code>GET /api/v1/tasks?environment=production</code>, and
-<code>GET /api/v1/tasks/&lt;module&gt;/&lt;task&gt;?environment=production</code> (a module&#39;s
-own task is <code>&lt;module&gt;/init</code>).</p>
-<h3 id="what-the-node-does">What the node does</h3>
-<p>The node&#39;s agent downloads the task&#39;s files from the Puppet server its
-own Puppet agent uses, with its own certificate, and runs nothing unless
-every file matches the checksum the console looked up. It keeps verified
-files, so running the same task again downloads nothing.</p>
-<p>A task&#39;s script is run directly, so its first line decides what runs it
-(<code>#!/bin/sh</code>, <code>#!/usr/bin/env python3</code>). Ruby tasks run with the Ruby
-that comes with the Puppet agent, and on Windows, PowerShell tasks run in
-PowerShell. Where a task offers several implementations, the node picks
-the one that suits it.</p>
-<p>A node finds its Puppet server by asking its own Puppet configuration.
-A node that finds it through DNS SRV records instead has no address to
-read there; set <code>NODE_AGENT_PUPPET_SERVER=puppet.example.com:8140</code> in
-its agent&#39;s environment.</p>
-<p>Nodes need an agent from a console with task support. A node whose agent
-is older fails every task with <code>Error: Unknown subcommand &#39;task&#39;</code>: run
-the node&#39;s install script again to upgrade it - see
-<a href="add.html">Add nodes</a>.</p>
-<h2 id="follow-a-job">Follow a job</h2>
-<p>The <strong>Jobs</strong> page lists every job, newest first. A job&#39;s page shows each
-target on its own line - its status, exit code and output - so a job that
-worked on nine nodes and failed on one says exactly that.</p>
-<p>If a job also ran on nodes outside your node groups, its page shows
-only your nodes and says so. The job&#39;s overall status still covers
-every node it ran on, so it can read <strong>failed</strong> when all the nodes you
-can see succeeded.</p>
-<p>For a task, each target&#39;s line opens to show the task&#39;s result: the
-JSON it printed, or its text under <code>_output</code>. A task fails when it exits
-with anything but 0, or reports an <code>_error</code>, whose message is shown as
-the line&#39;s error.</p>
-<p>A node that was not connected when the job started fails at once with
-&#34;agent not connected&#34;, instead of holding the job open.</p>
-<p>When a run finishes, its line links to the report that run produced, with
-every resource it changed.</p>
-<p>The jobs list and a job&#39;s page show a run&#39;s options: <strong>No-op</strong>, the
-environment it asked for, and <strong>Debug</strong>.</p>
-<p>They also show where a job&#39;s nodes came from, when it was not a list:
-the query or the node group. A job that a schedule started names the
-schedule, and is recorded as triggered by the schedule&#39;s owner. If a
-job started by a query also ran on nodes outside your node groups, you
-are shown your nodes but not the query.</p>
-<p>Every job&#39;s start and outcome is also recorded on the <strong>Activity</strong> page.</p>
-<p>A <a href="run-plans.html">plan</a> is one line in the list. Its page shows its
-steps in order, each with its own state and node results.</p>
-<h2 id="a-job-whose-instance-stopped">A job whose instance stopped</h2>
-<p>A job is followed to the end by the console instance that started it. If
-that instance stops before its targets finish, the job would otherwise
-show as running forever; instead, it is marked failed once it has been
-running far longer than any run could take.</p>
+<p>API 的检查方式相同：未知的 Task、缺失或多余的参数，或类型错误的值都会被拒绝并返回 <code>400</code>，其 <code>fields</code> 会指出每个问题。对话框背后的 Task 目录也可以通过 API 获取：<code>GET /api/v1/tasks/environments</code>、<code>GET /api/v1/tasks?environment=production</code> 以及 <code>GET /api/v1/tasks/&lt;module&gt;/&lt;task&gt;?environment=production</code>（模块自身的 Task 为 <code>&lt;module&gt;/init</code>）。</p>
+<h3 id="what-the-node-does">Node 会做什么</h3>
+<p>Node 的代理会使用自己的证书，从其自身 Puppet 代理所使用的 Puppet 服务器下载 Task 的文件，除非每个文件都与控制台查到的校验和一致，否则不会运行任何东西。它会保留已验证的文件，因此再次运行同一个 Task 时无需重新下载。</p>
+<p>Task 的脚本是直接运行的，因此其第一行决定由什么来运行它（<code>#!/bin/sh</code>、<code>#!/usr/bin/env python3</code>）。Ruby Tasks 使用 Puppet 代理自带的 Ruby 运行；在 Windows 上，PowerShell Tasks 在 PowerShell 中运行。如果一个 Task 提供多种实现，Node 会选择适合自己的那一种。</p>
+<p>Node 通过查询自己的 Puppet 配置来找到它的 Puppet 服务器。通过 DNS SRV 记录找到服务器的 Node 在配置中没有可读取的地址；请在其代理的环境中设置 <code>NODE_AGENT_PUPPET_SERVER=puppet.example.com:8140</code>。</p>
+<p>Nodes 需要来自支持 Task 的控制台的代理。代理版本较旧的 Node 在执行每个 Task 时都会以 <code>Error: Unknown subcommand &#39;task&#39;</code> 失败：请再次运行该 Node 的安装脚本以升级代理——参见<a href="add.html">添加 Nodes</a>。</p>
+<h2 id="follow-a-job">跟踪 Job</h2>
+<p><strong>Jobs</strong> 页面列出所有 Jobs，最新的在前。Job 的页面把每个目标单独列为一行——其状态、退出码和输出——因此一个在九个 Nodes 上成功、在一个上失败的 Job 会如实显示。</p>
+<figure class="shot">
+  <a class="shot-link" href="../../assets/screenshots/job-result-light-zh.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/job-result-dark-zh.png" data-theme-dark="../../assets/screenshots/job-result-dark-zh.png" data-theme-light="../../assets/screenshots/job-result-light-zh.png"/>
+      <img src="../../assets/screenshots/job-result-light-zh.png" alt="一个已完成 Job 的页面，显示运行了什么、由谁在何时启动，以及在其针对的每个 Node 上的结果" width="1440"/>
+    </picture>
+    <span class="vox-sr-only">Open full size</span>
+  </a>
+</figure>
+<p>如果某个 Job 还在你的 Node 组之外的 Nodes 上运行过，它的页面只会显示你的 Nodes，并注明这一点。该 Job 的总体状态仍然涵盖它运行过的每个 Node，因此即使你能看到的所有 Nodes 都成功了，它也可能显示为<strong>失败</strong>。</p>
+<p>对于 Task，展开每个目标的行即可看到 Task 的结果：它打印的 JSON，或位于 <code>_output</code> 下的文本。当 Task 以非 0 值退出，或报告了 <code>_error</code> 时，Task 即为失败，其中的消息会显示为该行的错误。</p>
+<p>在 Job 启动时未连接的 Node 会立即以 &#34;agent not connected&#34; 失败，而不会让 Job 一直挂起。</p>
+<p>运行结束后，它所在的行会链接到该次运行产生的 Report，其中包含它更改的每个资源。</p>
+<p>Jobs 列表和 Job 页面会显示运行的选项：<strong>No-op</strong>、所请求的 Environment，以及<strong>调试</strong>。</p>
+<p>它们还会显示 Job 的 Nodes 来自哪里（当不是列表时）：查询或 Node 组。由计划启动的 Job 会注明该计划，并记录为由该计划的所有者触发。如果某个由查询启动的 Job 也在你的 Node 组之外的 Nodes 上运行过，你会看到自己的 Nodes，但看不到该查询。</p>
+<p>每个 Job 的启动和结果也会记录在<strong>活动</strong>页面上。</p>
+<p>一个 <a href="run-plans.html">Plan</a> 在列表中占一行。它的页面按顺序显示其步骤，每个步骤都有自己的状态和 Node 结果。</p>
+<h2 id="a-job-whose-instance-stopped">实例已停止的 Job</h2>
+<p>一个 Job 由启动它的控制台实例全程跟踪到结束。如果该实例在其目标完成之前停止，这个 Job 本会一直显示为运行中；实际上，一旦它的运行时间远超任何运行可能需要的时长，就会被标记为失败。</p>
 
     </div>
 
-    <vox-series-nav label="Use" previous-text="Previous" next-text="Next" previous-href="../guides/deploy-code.html" previous-label="Deploy code" next-href="../guides/run-plans.html" next-label="Run plans"></vox-series-nav>
+    <vox-series-nav label="使用" previous-text="上一篇" next-text="下一篇" previous-href="../guides/deploy-code.html" previous-label="Deploy 代码" next-href="../guides/run-plans.html" next-label="运行 Plans"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#run-puppet"><span>Run Puppet</span>
-        <vox-toc-item slot="children" href="#run-options"><span>Run options</span></vox-toc-item>
+    <vox-toc heading="本页内容">
+      <vox-toc-item href="#run-puppet"><span>运行 Puppet</span>
+        <vox-toc-item slot="children" href="#run-options"><span>运行选项</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#choose-the-nodes"><span>Choose the nodes</span>
+      <vox-toc-item href="#choose-the-nodes"><span>选择 Nodes</span>
       </vox-toc-item>
-      <vox-toc-item href="#run-a-task"><span>Run a task</span>
-        <vox-toc-item slot="children" href="#what-the-node-does"><span>What the node does</span></vox-toc-item>
+      <vox-toc-item href="#run-a-task"><span>运行 Task</span>
+        <vox-toc-item slot="children" href="#what-the-node-does"><span>Node 会做什么</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#follow-a-job"><span>Follow a job</span>
+      <vox-toc-item href="#follow-a-job"><span>跟踪 Job</span>
       </vox-toc-item>
-      <vox-toc-item href="#a-job-whose-instance-stopped"><span>A job whose instance stopped</span>
+      <vox-toc-item href="#a-job-whose-instance-stopped"><span>实例已停止的 Job</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -396,23 +299,17 @@ running far longer than any run could take.</p>
 
       
       <vox-cta-band heading="自己动手运行">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console 以容器镜像形式发布，每次 push 都会构建 amd64 和 arm64 版本，同时也提供单个二进制文件。安装指南将带你从一台空主机走到一套可用的部署——openvoxserver、openvoxdb、Postgres 和控制台——可以用容器，也可以用软件包。</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">安装指南</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">GitHub 上的源码</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">容器镜像</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="全尺寸截图">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">关闭</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -421,18 +318,18 @@ running far longer than any run could take.</p>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">概览</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">源码</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">安装指南</a>
       </vox-footer-column>
       <vox-footer-column heading="功能">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">分类</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">编排</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">补丁管理</a>
         <a href="../features/security.html">安全</a>
         <a href="../features/access-control.html">访问控制</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">AI 代理</a>
+        <a href="../features/scaling.html">扩展</a>
         </vox-footer-column>
       
       <vox-footer-column heading="语言">

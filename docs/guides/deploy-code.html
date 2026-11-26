@@ -289,6 +289,15 @@ the same for the default repository.</p>
 <p>Deploys of the same environment never overlap, however many console
 instances run. Each appears in the deploy history, with who started it,
 and on the <strong>Activity</strong> page.</p>
+<figure class="shot">
+  <a class="shot-link" href="../assets/screenshots/code-deploys-light.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="../assets/screenshots/code-deploys-dark.png" data-theme-dark="../assets/screenshots/code-deploys-dark.png" data-theme-light="../assets/screenshots/code-deploys-light.png"/>
+      <img src="../assets/screenshots/code-deploys-light.png" alt="Code deployment history showing successful deploys from two separate control repositories, each with the source it came from, the environment it wrote, its ref, who triggered it and when it ran" width="1440"/>
+    </picture>
+    <span class="vox-sr-only">Open full size</span>
+  </a>
+</figure>
 <h2 id="deploy-on-every-push">Deploy on every push</h2>
 <p>To deploy whenever a branch is pushed, add a webhook to the repository
 on your git host:</p>

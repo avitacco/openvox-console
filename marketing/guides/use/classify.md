@@ -85,6 +85,8 @@ Facts are named by their path, with dots for structured facts:
 5. Pin any nodes by certname that should belong whatever their facts.
 6. Give it a **priority**, then save.
 
+![](shot:group-editor)
+
 The groups list shows the tree, each group beneath its parent, with how
 many nodes each one matches right now, so a rule that matches nothing,
 or everything, is visible straight away.

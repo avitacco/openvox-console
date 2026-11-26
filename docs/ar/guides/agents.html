@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="ar" dir="rtl"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Give an AI agent its own limited token, let it read the fleet and ask for changes, and approve each change yourself before anything runs."/>
+    <meta name="description" content="امنح وكيل الذكاء الاصطناعي رمزًا محدودًا خاصًّا به، ودعه يقرأ الأسطول ويطلب تغييرات، ووافق بنفسك على كل تغيير قبل أن يُنفَّذ أي شيء."/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Let AI agents use the console - OpenVox Console</title>
+    <title>السماح لوكلاء الذكاء الاصطناعي باستخدام وحدة التحكم - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">الأدلة</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,149 +104,121 @@
       <a href="../features/classification.html">التصنيف</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">التنسيق</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">تثبيت التصحيحات</a>
       <a href="../features/security.html">الأمان</a>
       <a href="../features/access-control.html">التحكم في الوصول</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">وكلاء الذكاء الاصطناعي</a>
+      <a href="../features/scaling.html">التوسّع</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="الأدلة" toggle-label="كل الأدلة">
+    <vox-sidenav-group heading="التثبيت">
+      <vox-sidenav-item href="../guides/plan.html"><span>خطّط للنشر</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>التثبيت باستخدام الحاويات</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>التثبيت من الحزم والملفات التنفيذية</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>إضافة Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>إدارة شهادات الـ Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>إزالة Node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>إبقاء وكلاء الـ Nodes محدَّثين</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
-      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="التوسّع">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>أوضاع التشغيل</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>تشغيل مزيد من المثيلات</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use" open="">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html" current="" aria-current="page"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="الاستخدام" open="">
+      <vox-sidenav-item href="../guides/classify.html"><span>تصنيف الـ Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>deploy الكود</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>تشغيل الـ Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>تشغيل الـ Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>جدولة الـ Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>المستخدمون والأدوار والرموز</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>تتبّع الثغرات</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>العثور على التحديثات الناقصة وتطبيقها</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>تشغيل Tasks على مضيفين بلا وكيل</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>تشغيل Plans من الكود الخاص بك</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html" current="" aria-current="page"><span>السماح لوكلاء الذكاء الاصطناعي باستخدام وحدة التحكم</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="التشغيل">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>الانتقال إلى قاعدة بيانات احتياطية عند الفشل</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>تدوير مفتاح توقيع الرموز</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>ترقية قواعد بيانات الحاويات إلى Postgres 18</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Use</p>
-    <h1 class="guide-title vox-ts-xxl">Let AI agents use the console</h1>
-    <p class="guide-summary">Give an AI agent its own limited token, let it read the fleet and ask for changes, and approve each change yourself before anything runs.</p>
+    <p class="guide-eyebrow">الاستخدام</p>
+    <h1 class="guide-title vox-ts-xxl">السماح لوكلاء الذكاء الاصطناعي باستخدام وحدة التحكم</h1>
+    <p class="guide-summary">امنح وكيل الذكاء الاصطناعي رمزًا محدودًا خاصًّا به، ودعه يقرأ الأسطول ويطلب تغييرات، ووافق بنفسك على كل تغيير قبل أن يُنفَّذ أي شيء.</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>The console has an endpoint for AI agents, built on MCP (the Model Context
-Protocol), at <code>/mcp</code>. An agent connected to it can look at your nodes, node
-groups, tasks and jobs. When it wants to change something - run a task, run
-Puppet, run a plan or patch nodes - it does not start anything. It <strong>asks</strong>,
-and the request waits on the <strong>Approvals</strong> page until a person approves it.</p>
-<p>Everything an agent can see or ask for is limited by its own token: which
-permissions it has, which node groups it can reach, and which tasks it may
-ask to run. Everything it does is in the audit log under its own name.</p>
-<h2 id="turn-the-endpoint-on">Turn the endpoint on</h2>
-<p>The endpoint is off. Set <code>CONSOLE_MCP_ENABLED=true</code> on the console and
-restart it. Until then <code>/mcp</code> does not exist: it answers as any unknown
-path does.</p>
+<p>لدى وحدة التحكم نقطة نهاية لوكلاء الذكاء الاصطناعي، مبنية على MCP ‏(Model Context Protocol)، على <code>/mcp</code>. يستطيع الوكيل المتصل بها الاطلاع على الـ Nodes ومجموعات الـ Nodes والـ Tasks والـ Jobs لديك. وحين يريد تغيير شيء ما - تشغيل Task، أو تشغيل Puppet، أو تشغيل Plan، أو تصحيح Nodes - فإنه لا يبدأ أي شيء. بل <strong>يطلب</strong>، وينتظر الطلب في صفحة <strong>الموافقات</strong> حتى يوافق عليه شخص.</p>
+<p>كل ما يستطيع الوكيل رؤيته أو طلبه مقيَّد برمزه الخاص: الأذونات التي لديه، ومجموعات الـ Nodes التي يستطيع الوصول إليها، والـ Tasks التي يحق له طلب تشغيلها. وكل ما يفعله مسجَّل في سجل التدقيق باسمه الخاص.</p>
+<h2 id="turn-the-endpoint-on">شغّل نقطة النهاية</h2>
+<p>نقطة النهاية معطَّلة. اضبط <code>CONSOLE_MCP_ENABLED=true</code> على وحدة التحكم وأعِد تشغيلها. وحتى ذلك الحين لا يوجد <code>/mcp</code>: إذ يستجيب كما يستجيب أي مسار غير معروف.</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Setting</th>
-<th>Meaning</th>
-<th>Default</th>
+<th>الإعداد</th>
+<th>المعنى</th>
+<th>الافتراضي</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>CONSOLE_MCP_ENABLED</code></td>
-<td>serve <code>/mcp</code></td>
-<td>off</td>
+<td>تقديم <code>/mcp</code></td>
+<td>معطَّل</td>
 </tr>
 <tr>
 <td><code>CONSOLE_MCP_RATE_LIMIT</code></td>
-<td>calls a minute one token may make</td>
+<td>عدد الاستدعاءات في الدقيقة المسموح بها لرمز واحد</td>
 <td>60</td>
 </tr>
 <tr>
 <td><code>CONSOLE_AGENT_REQUEST_TTL</code></td>
-<td>how long a request waits for a decision, such as <code>30m</code></td>
+<td>المدة التي ينتظر فيها الطلب قرارًا، مثل <code>30m</code></td>
 <td><code>1h</code></td>
 </tr>
 <tr>
 <td><code>CONSOLE_AGENT_TOKEN_MAX_DAYS</code></td>
-<td>the longest an agent token may last</td>
+<td>أطول مدة يجوز أن يدومها رمز الوكيل</td>
 <td>90</td>
 </tr>
 </tbody>
 </table></div>
-<p>The rate limit is kept by each console instance, so a token may make that
-many calls a minute on every instance. Put the endpoint behind TLS, as you
-do the rest of the console: the token is a bearer credential.</p>
-<h2 id="issue-a-token-for-an-agent">Issue a token for an agent</h2>
-<p>An agent token is its own kind of token. It is not a service token: it
-expires, it is limited to node groups, and it works only at <code>/mcp</code>. A leaked
-one cannot be used against the rest of the console&#39;s API.</p>
+<p>يحتفظ كل مثيل من وحدة التحكم بحدّ معدل الطلبات الخاص به، لذا يجوز للرمز إجراء ذلك العدد من الاستدعاءات في الدقيقة على كل مثيل. ضع نقطة النهاية خلف TLS، كما تفعل مع بقية وحدة التحكم: فالرمز بيانات اعتماد حاملة (bearer).</p>
+<h2 id="issue-a-token-for-an-agent">أصدِر رمزًا لوكيل</h2>
+<p>رمز الوكيل نوع خاص من الرموز. وهو ليس رمز خدمة: إذ تنتهي صلاحيته، ويقتصر على مجموعات Nodes، ولا يعمل إلا على <code>/mcp</code>. والرمز المتسرّب لا يمكن استخدامه ضد بقية الـ API الخاصة بوحدة التحكم.</p>
 <ol>
-<li>Open <strong>Admin</strong>, then <strong>Agent tokens</strong>.</li>
-<li>Name the token for the agent it is for, such as <code>ops-assistant</code>.</li>
-<li>Choose its <strong>permissions</strong>. An agent token can carry only
-<code>nodes:read</code>, <code>classifier:read</code>, <code>orchestrator:read</code>, <code>orchestrator:run</code>
-and <code>vulnerabilities:read</code>.
-<code>orchestrator:run</code> does not let the agent run anything: it lets it
-<strong>ask</strong>.</li>
-<li>Choose the <strong>node groups</strong> it may reach. A token with none reaches no
-nodes. Everything the agent reads or asks for is limited to those groups
-and the groups beneath them.</li>
-<li>Optionally, under <strong>Tasks it may ask to run</strong>, list the tasks it may ask
-for, one pattern per line, as for a <a href="access.html#limit-a-role-to-some-tasks">role</a>.
-Leave it empty to allow every task. Both the node groups and the tasks
-are fixed when the token is created.</li>
-<li>Set how many days it lasts. A token must expire, and cannot last longer
-than <code>CONSOLE_AGENT_TOKEN_MAX_DAYS</code>. Thirty days is a good start.</li>
-<li>Choose <strong>Create agent token</strong> and copy the token: it is shown once.</li>
+<li>افتح <strong>الإدارة</strong>، ثم <strong>رموز الوكلاء</strong>.</li>
+<li>سمِّ الرمز باسم الوكيل المخصص له، مثل <code>ops-assistant</code>.</li>
+<li>اختر <strong>أذوناته</strong>. لا يستطيع رمز الوكيل أن يحمل إلا <code>nodes:read</code> و<code>classifier:read</code> و<code>orchestrator:read</code> و<code>orchestrator:run</code> و<code>vulnerabilities:read</code>. ولا يتيح <code>orchestrator:run</code> للوكيل تشغيل أي شيء: بل يتيح له أن <strong>يطلب</strong>.</li>
+<li>اختر <strong>مجموعات الـ Nodes</strong> التي يحق له الوصول إليها. والرمز الذي لا مجموعات له لا يصل إلى أي Node. وكل ما يقرؤه الوكيل أو يطلبه مقصور على تلك المجموعات والمجموعات التي تحتها.</li>
+<li>اختياريًا، تحت <strong>Tasks التي يمكنه طلب تشغيلها</strong>، اسرد الـ Tasks التي يحق له طلبها، نمط واحد في كل سطر، كما في <a href="access.html#limit-a-role-to-some-tasks">الدور</a>. اتركه فارغًا للسماح بكل Task. وتُثبَّت مجموعات الـ Nodes والـ Tasks كلتاهما عند إنشاء الرمز.</li>
+<li>حدّد عدد الأيام التي يدوم فيها. يجب أن تنتهي صلاحية الرمز، ولا يمكن أن يدوم أطول من <code>CONSOLE_AGENT_TOKEN_MAX_DAYS</code>. وثلاثون يومًا بداية جيدة.</li>
+<li>اختر <strong>إنشاء رمز وكيل</strong> وانسخ الرمز: فهو يُعرض مرة واحدة.</li>
 </ol>
-<p><strong>Revoke</strong> on the same page ends the token at once, on every console
-instance. Its requests stay on the Approvals page as a record, and any it
-had waiting are marked failed.</p>
-<h2 id="connect-an-agent">Connect an agent</h2>
-<p>Give the agent the console&#39;s address with <code>/mcp</code> on the end, and the token
-as a bearer token. The endpoint speaks streamable HTTP, and answers each
-POSTed message directly. For Claude Code, for example:</p>
-<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>claude mcp add --transport http openvox https://console.example.com/mcp \
+<p><strong>إبطال</strong> في الصفحة نفسها يُنهي الرمز فورًا، على كل مثيل من وحدة التحكم. وتبقى طلباته في صفحة الموافقات كسجل، ويُوسَم أي طلب كان ينتظر بالفشل.</p>
+<h2 id="connect-an-agent">اربط وكيلًا</h2>
+<p>أعطِ الوكيل عنوان وحدة التحكم مع <code>/mcp</code> في آخره، والرمز كرمز حامل (bearer token). تتحدث نقطة النهاية بـ HTTP القابل للبث (streamable HTTP)، وتجيب عن كل رسالة تُرسل بـ POST مباشرة. بالنسبة إلى Claude Code، على سبيل المثال:</p>
+<vox-code-block language="plaintext" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>claude mcp add --transport http openvox https://console.example.com/mcp \
   --header &#34;Authorization: Bearer &lt;the token&gt;&#34;
 </code></vox-code-block>
-<p>The agent is offered only the tools its token allows.</p>
+<p>لا تُعرض على الوكيل إلا الأدوات التي يسمح بها رمزه.</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Tool</th>
-<th>Needs</th>
+<th>الأداة</th>
+<th>يحتاج إلى</th>
 <th>ماذا يفعل</th>
 </tr>
 </thead>
@@ -254,148 +226,111 @@ POSTed message directly. For Claude Code, for example:</p>
 <tr>
 <td><code>list_nodes</code>, <code>get_node</code>, <code>get_node_reports</code></td>
 <td><code>nodes:read</code></td>
-<td>look at nodes, their facts and reports</td>
+<td>الاطلاع على الـ Nodes والـ Facts والـ Reports الخاصة بها</td>
 </tr>
 <tr>
 <td><code>get_node_patches</code>, <code>get_patch_inventory</code></td>
 <td><code>nodes:read</code></td>
-<td>pending operating system updates</td>
+<td>تحديثات نظام التشغيل المعلّقة</td>
 </tr>
 <tr>
 <td><code>list_groups</code>, <code>get_group</code>, <code>get_group_nodes</code></td>
 <td><code>classifier:read</code></td>
-<td>node groups</td>
+<td>مجموعات الـ Nodes</td>
 </tr>
 <tr>
 <td><code>list_tasks</code>, <code>get_task</code>, <code>list_code_plans</code>, <code>get_code_plan</code></td>
 <td><code>orchestrator:read</code></td>
-<td>what the deployed code offers, and each one&#39;s parameters</td>
+<td>ما يوفّره الكود المنشور، ومعاملات كلٍّ منها</td>
 </tr>
 <tr>
 <td><code>list_jobs</code>, <code>get_job</code></td>
 <td><code>orchestrator:read</code></td>
-<td>jobs and their results</td>
+<td>الـ Jobs ونتائجها</td>
 </tr>
 <tr>
 <td><code>resolve_targets</code></td>
 <td><code>orchestrator:run</code></td>
-<td>which nodes a target would name</td>
+<td>الـ Nodes التي سيذكرها هدف ما</td>
 </tr>
 <tr>
 <td><code>request_task</code>, <code>request_puppet_run</code>, <code>request_plan</code>, <code>request_patch_run</code>, <code>request_code_plan</code></td>
 <td><code>orchestrator:run</code></td>
-<td>ask to run something (see below)</td>
+<td>طلب تشغيل شيء ما (انظر أدناه)</td>
 </tr>
 <tr>
 <td><code>get_request</code>, <code>list_requests</code></td>
 <td><code>orchestrator:run</code></td>
-<td>the agent&#39;s own requests and how they were decided</td>
+<td>طلبات الوكيل نفسه وكيف بُتّ فيها</td>
 </tr>
 </tbody>
 </table></div>
-<p>Everything an agent reads comes through the console&#39;s own endpoints with its
-token, so it sees exactly what a person with that token&#39;s permissions and node
-groups would, and sensitive values are masked as everywhere else. A long
-result is cut, with a note telling the agent how to ask for less.</p>
-<h2 id="approve-what-an-agent-asks-for">Approve what an agent asks for</h2>
-<p>When an agent calls one of the <code>request_</code> tools, the console checks the
-request exactly as it would check yours - the task and its parameters, the
-nodes, the agent&#39;s node groups and task list - and, if it passes, stores it
-and tells the agent it is awaiting approval. Nothing runs. A request that
-fails a check is refused with the reason, so the agent can correct it.</p>
-<p>Open <strong>Jobs</strong>, then <strong>Approvals</strong> (the tab shows how many are waiting, as does
-the navigation). <strong>Review</strong> a request to see:</p>
+<p>كل ما يقرؤه الوكيل يأتي عبر نقاط النهاية الخاصة بوحدة التحكم برمزه، فيرى بالضبط ما يراه شخص لديه أذونات ذلك الرمز ومجموعات الـ Nodes الخاصة به، وتُقنَّع القيم الحساسة كما في أي مكان آخر. والنتيجة الطويلة تُقتطع، مع ملاحظة تخبر الوكيل كيف يطلب قدرًا أقل.</p>
+<h2 id="approve-what-an-agent-asks-for">وافق على ما يطلبه الوكيل</h2>
+<p>حين يستدعي وكيل إحدى أدوات <code>request_</code>، تفحص وحدة التحكم الطلب تمامًا كما كانت ستفحص طلبك - الـ Task ومعاملاتها، والـ Nodes، ومجموعات الـ Nodes الخاصة بالوكيل وقائمة الـ Tasks الخاصة به - وإن اجتاز الفحص، تخزّنه وتخبر الوكيل بأنه ينتظر الموافقة. لا يُنفَّذ شيء. والطلب الذي يفشل في فحص ما يُرفض مع ذكر السبب، كي يتمكن الوكيل من تصحيحه.</p>
+<p>افتح <strong>Jobs</strong>، ثم <strong>الموافقات</strong> (يعرض التبويب عدد الطلبات المنتظرة، كما يعرضه شريط التنقل). اختر <strong>مراجعة</strong> لطلب لترى:</p>
 <ul>
-<li>which agent asked and when, and when the request expires</li>
-<li>the task, plan or kind of run, and its environment</li>
-<li>the <strong>exact nodes</strong>, resolved when the agent asked</li>
-<li>the parameters, with sensitive values masked</li>
+<li>أي وكيل طلب ومتى، ومتى تنتهي صلاحية الطلب</li>
+<li>الـ Task أو الـ Plan أو نوع التشغيل، والـ Environment الخاص به</li>
+<li><strong>الـ Nodes المحددة</strong>، كما حُلّت حين طلب الوكيل</li>
+<li>المعاملات، مع تقنيع القيم الحساسة</li>
 </ul>
-<p>Choose <strong>Approve and run</strong> to start the job, or <strong>Reject</strong>, with a note if you
-like: the agent is told. Approving starts exactly what you saw - parameters
-and nodes are frozen when the request is made - as the agent&#39;s token. The job
-shows that an AI agent asked for it and who approved it, and <strong>Jobs</strong> can be
-limited to jobs started that way.</p>
-<p>A request that nobody decides expires, after an hour unless you set
-<code>CONSOLE_AGENT_REQUEST_TTL</code>, and can no longer be approved. An agent can hold
-only so many waiting requests at once.</p>
-<h3 id="who-can-approve">Who can approve</h3>
-<p>Two permissions, which go on roles for people and cannot be given to an agent
-token:</p>
+<p>اختر <strong>وافق وشغّل</strong> لبدء الـ Job، أو <strong>رفض</strong>، مع ملاحظة إن شئت: ويُبلَّغ الوكيل بذلك. والموافقة تبدأ بالضبط ما رأيته - إذ تُجمَّد المعاملات والـ Nodes عند تقديم الطلب - بصفة رمز الوكيل. ويُظهر الـ Job أن وكيل ذكاء اصطناعي طلبه ومن وافق عليه، ويمكن قصر <strong>Jobs</strong> على الـ Jobs التي بدأت بهذه الطريقة.</p>
+<p>الطلب الذي لا يبتّ فيه أحد تنتهي صلاحيته، بعد ساعة ما لم تضبط <code>CONSOLE_AGENT_REQUEST_TTL</code>، ولا يعود بالإمكان الموافقة عليه. ولا يستطيع الوكيل أن يحتفظ إلا بعدد محدود من الطلبات المنتظرة في وقت واحد.</p>
+<h3 id="who-can-approve">من يستطيع الموافقة</h3>
+<p>إذنان، يوضعان على أدوار الأشخاص ولا يمكن منحهما لرمز وكيل:</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Permission</th>
-<th>Lets someone</th>
+<th>الإذن</th>
+<th>يتيح للشخص</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>agent-requests:read</code></td>
-<td>see requests on the Approvals page</td>
+<td>رؤية الطلبات في صفحة الموافقات</td>
 </tr>
 <tr>
 <td><code>agent-requests:approve</code></td>
-<td>approve and reject them</td>
+<td>الموافقة عليها ورفضها</td>
 </tr>
 </tbody>
 </table></div>
-<p>An approver also needs <code>orchestrator:run</code> over every node the request acts on,
-and may run the task. You cannot approve a request on nodes you could not run
-the task on yourself. Someone who can see only some node groups sees only the
-requests that name nodes in them.</p>
-<p>The person who issued an agent&#39;s token cannot approve its requests, though
-they can reject them. With only one administrator, create a second account
-for approving.</p>
-<vox-callout variant="info" heading="Note"><p>A permission added in a newer console version is not added to existing roles
-for you. After an upgrade, grant <code>agent-requests:read</code> and
-<code>agent-requests:approve</code> on the <strong>Roles</strong> page to the roles that should have
-them. The bootstrap administrator of a new installation has both.</p>
+<p>يحتاج الموافِق أيضًا إلى <code>orchestrator:run</code> على كل Node يعمل عليه الطلب، وأن يحق له تشغيل الـ Task. فلا يمكنك الموافقة على طلب على Nodes لا تستطيع أنت نفسك تشغيل الـ Task عليها. ومن لا يرى إلا بعض مجموعات الـ Nodes لا يرى إلا الطلبات التي تذكر Nodes فيها.</p>
+<p>لا يستطيع الشخص الذي أصدر رمز وكيل الموافقة على طلباته، وإن كان يستطيع رفضها. ومع وجود مسؤول واحد فقط، أنشئ حسابًا ثانيًا للموافقة.</p>
+<vox-callout variant="info" heading="ملاحظة"><p>الإذن الذي يُضاف في إصدار أحدث من وحدة التحكم لا يُضاف إلى الأدوار الموجودة نيابة عنك. بعد الترقية، امنح <code>agent-requests:read</code> و<code>agent-requests:approve</code> في صفحة <strong>الأدوار</strong> للأدوار التي ينبغي أن تحملهما. والمسؤول التمهيدي في التثبيت الجديد لديه الإذنان كلاهما.</p>
 </vox-callout>
-<p>If an agent&#39;s token is revoked or has expired by the time you approve, nothing
-is started, and the request says why.</p>
-<h2 id="plans-from-code">Plans from code</h2>
-<p><code>request_code_plan</code> asks to run a <a href="code-plans.html">plan from your code</a>.
-Such a plan chooses its own nodes while it runs, within what the agent&#39;s token
-reaches, so approving it needs <code>orchestrator:run</code> over everything that token
-reaches. Plans run only on the console instance that deploys your code, so
-approve them there, or the request fails with that reason.</p>
-<h2 id="what-is-recorded">What is recorded</h2>
-<p>The audit log, at the orchestrator category&#39;s level, records each request, each
-approval, rejection and expiry, naming the agent as <code>agent:&lt;token name&gt;</code> and the
-person who decided, with the request&#39;s number. Reads an agent makes are
-audited as any read is, under the same name. Sensitive values never appear in
-the audit log, the activity log or the request itself: they are kept encrypted
-with the console&#39;s secrets key (<code>CONSOLE_SECRETS_KEY</code>), without which a request
-that carries one is refused.</p>
-<h2 id="the-api-description">The API description</h2>
-<p><code>/api/v1/openapi.json</code> describes the REST API for programs you write yourself,
-for anyone who is signed in. Agent tokens cannot call that API, and a program
-using a service token is not asked to wait for approval. To let an agent act
-with a person&#39;s approval in the loop, connect it to <code>/mcp</code>.</p>
+<p>إذا أُبطل رمز الوكيل أو انتهت صلاحيته بحلول وقت موافقتك، فلا يبدأ شيء، ويذكر الطلب السبب.</p>
+<h2 id="plans-from-code">Plans من الكود</h2>
+<p>يطلب <code>request_code_plan</code> تشغيل <a href="code-plans.html">Plan من الكود الخاص بك</a>. ومثل هذا الـ Plan يختار الـ Nodes الخاصة به أثناء تشغيله، ضمن ما يصل إليه رمز الوكيل، لذا تتطلب الموافقة عليه <code>orchestrator:run</code> على كل ما يصل إليه ذلك الرمز. ولا تعمل الـ Plans إلا على مثيل وحدة التحكم الذي ينفّذ deploy الكود الخاص بك، لذا وافق عليها هناك، وإلا فشل الطلب لهذا السبب.</p>
+<h2 id="what-is-recorded">ما الذي يُسجَّل</h2>
+<p>يسجّل سجل التدقيق، بمستوى فئة orchestrator، كل طلب، وكل موافقة ورفض وانتهاء صلاحية، مع ذكر الوكيل بصيغة <code>agent:&lt;token name&gt;</code> والشخص الذي قرّر، ورقم الطلب. وتُدقَّق القراءات التي يجريها الوكيل كأي قراءة، تحت الاسم نفسه. ولا تظهر القيم الحساسة أبدًا في سجل التدقيق أو سجل النشاط أو الطلب نفسه: إذ تُحفظ مشفَّرة بمفتاح الأسرار الخاص بوحدة التحكم (<code>CONSOLE_SECRETS_KEY</code>)، ومن دونه يُرفض الطلب الذي يحمل قيمة حساسة.</p>
+<h2 id="the-api-description">وصف الـ API</h2>
+<p>يصف <code>/api/v1/openapi.json</code> واجهة REST API للبرامج التي تكتبها بنفسك، لأي شخص مسجّل الدخول. لا تستطيع رموز الوكلاء استدعاء تلك الـ API، ولا يُطلب من البرنامج الذي يستخدم رمز خدمة انتظار الموافقة. ولتتيح لوكيل أن يتصرف مع إبقاء موافقة شخص ضمن الحلقة، اربطه بـ <code>/mcp</code>.</p>
 
     </div>
 
-    <vox-series-nav label="Use" previous-text="Previous" next-text="Next" previous-href="../guides/code-plans.html" previous-label="Run plans from your code"></vox-series-nav>
+    <vox-series-nav label="الاستخدام" previous-text="السابق" next-text="التالي" previous-href="../guides/code-plans.html" previous-label="تشغيل Plans من الكود الخاص بك"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#turn-the-endpoint-on"><span>Turn the endpoint on</span>
+    <vox-toc heading="في هذه الصفحة">
+      <vox-toc-item href="#turn-the-endpoint-on"><span>شغّل نقطة النهاية</span>
       </vox-toc-item>
-      <vox-toc-item href="#issue-a-token-for-an-agent"><span>Issue a token for an agent</span>
+      <vox-toc-item href="#issue-a-token-for-an-agent"><span>أصدِر رمزًا لوكيل</span>
       </vox-toc-item>
-      <vox-toc-item href="#connect-an-agent"><span>Connect an agent</span>
+      <vox-toc-item href="#connect-an-agent"><span>اربط وكيلًا</span>
       </vox-toc-item>
-      <vox-toc-item href="#approve-what-an-agent-asks-for"><span>Approve what an agent asks for</span>
-        <vox-toc-item slot="children" href="#who-can-approve"><span>Who can approve</span></vox-toc-item>
+      <vox-toc-item href="#approve-what-an-agent-asks-for"><span>وافق على ما يطلبه الوكيل</span>
+        <vox-toc-item slot="children" href="#who-can-approve"><span>من يستطيع الموافقة</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#plans-from-code"><span>Plans from code</span>
+      <vox-toc-item href="#plans-from-code"><span>Plans من الكود</span>
       </vox-toc-item>
-      <vox-toc-item href="#what-is-recorded"><span>What is recorded</span>
+      <vox-toc-item href="#what-is-recorded"><span>ما الذي يُسجَّل</span>
       </vox-toc-item>
-      <vox-toc-item href="#the-api-description"><span>The API description</span>
+      <vox-toc-item href="#the-api-description"><span>وصف الـ API</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -405,23 +340,17 @@ with a person&#39;s approval in the loop, connect it to <code>/mcp</code>.</p>
 
       
       <vox-cta-band heading="شغّله بنفسك">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>يُوزَّع OpenVox Console على هيئة صور حاويات تُبنى لمعماريتَي amd64 وarm64 مع كل push، وعلى هيئة ملف تنفيذي واحد. تأخذك أدلة التثبيت من مضيف فارغ إلى نشر عامل - openvoxserver وopenvoxdb وPostgres ووحدة التحكم - باستخدام الحاويات أو الحزم.</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">أدلة التثبيت</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">الشيفرة المصدرية على GitHub</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">صور الحاويات</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="لقطة الشاشة بالحجم الكامل">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">إغلاق</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -430,18 +359,18 @@ with a person&#39;s approval in the loop, connect it to <code>/mcp</code>.</p>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">نظرة عامة</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">الشيفرة المصدرية</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">أدلة التثبيت</a>
       </vox-footer-column>
       <vox-footer-column heading="الإمكانات">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">التصنيف</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">التنسيق</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">تثبيت التصحيحات</a>
         <a href="../features/security.html">الأمان</a>
         <a href="../features/access-control.html">التحكم في الوصول</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">وكلاء الذكاء الاصطناعي</a>
+        <a href="../features/scaling.html">التوسّع</a>
         </vox-footer-column>
       
       <vox-footer-column heading="اللغة">

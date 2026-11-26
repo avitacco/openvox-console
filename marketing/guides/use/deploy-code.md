@@ -108,6 +108,8 @@ Deploys of the same environment never overlap, however many console
 instances run. Each appears in the deploy history, with who started it,
 and on the **Activity** page.
 
+![](shot:code-deploys)
+
 ## Deploy on every push
 
 To deploy whenever a branch is pushed, add a webhook to the repository

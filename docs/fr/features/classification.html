@@ -104,11 +104,11 @@
       <a aria-current="page" href="../features/classification.html">Classification</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">Orchestration</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">Mise à jour corrective</a>
       <a href="../features/security.html">Sécurité</a>
       <a href="../features/access-control.html">Contrôle d&#39;accès</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">Agents d&#39;IA</a>
+      <a href="../features/scaling.html">Montée en charge</a>
       </vox-subnav>
     </div>
 
@@ -129,7 +129,7 @@
   <a class="shot-link" href="../../assets/screenshots/groups-list-light-fr.png">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/groups-list-dark-fr.png" data-theme-dark="../../assets/screenshots/groups-list-dark-fr.png" data-theme-light="../../assets/screenshots/groups-list-light-fr.png"/>
-      <img src="../../assets/screenshots/groups-list-light-fr.png" alt="Node groups listed with their environment, priority and the number of nodes each rule currently matches" width="1440"/>
+      <img src="../../assets/screenshots/groups-list-light-fr.png" alt="La liste des groupes de Nodes avec leur Environment, leur priorité et le nombre de Nodes que chaque règle sélectionne actuellement" width="1440"/>
     </picture>
     <span class="vox-sr-only">Open full size</span>
   </a>
@@ -138,15 +138,15 @@
 <section class="site-section">
   <h2 class="vox-ts-xxl">Une préséance qui se lit sur la page</h2>
   <div class="vox-prose">
-    <p>Groups form a tree, and a group only ever contains nodes its parent does. When several groups apply to a node, a group always wins over the groups above it, and an explicit priority decides between the rest. If that ever lets a child override a parent with a higher priority, the console says so on the group instead of leaving you to work it out.</p>
+    <p>Les groupes forment une arborescence, et un groupe ne contient jamais que des Nodes que contient son parent. Lorsque plusieurs groupes s&#39;appliquent à un Node, un groupe l&#39;emporte toujours sur les groupes situés au-dessus de lui, et une priorité explicite départage les autres. Si cela permet un jour à un enfant de prendre le pas sur un parent de priorité plus élevée, la console le signale sur le groupe au lieu de vous laisser le découvrir.</p>
   </div>
 </section>
 
 <section class="site-section">
-  <h2 class="vox-ts-xxl">Classes from your own code</h2>
+  <h2 class="vox-ts-xxl">Les classes de votre propre code</h2>
   <div class="vox-prose">
-    <p>The console reads the classes your deployed code defines, so a group offers a picker and typed inputs for each class&#39;s parameters instead of free-typed names. A class a group names that no longer exists is flagged, never silently dropped.</p>
-    <p>Groups can also carry configuration data, which nodes read with lookup() ahead of your control repository&#39;s Hiera data — so a value can be set for a group of nodes without a commit.</p>
+    <p>La console lit les classes que définit votre code déployé : un groupe propose donc un sélecteur et des champs typés pour les paramètres de chaque classe, au lieu de noms tapés librement. Une classe nommée par un groupe et qui n&#39;existe plus est signalée, jamais retirée en silence.</p>
+    <p>Les groupes peuvent aussi porter des données de configuration, que les Nodes lisent avec lookup() avant les données Hiera de votre dépôt de contrôle — une valeur peut ainsi être définie pour un groupe de Nodes sans commit.</p>
   </div>
 </section>
 
@@ -158,37 +158,31 @@
 </vox-step-indicator>
 
 <vox-callout variant="warning" heading="Les règles s&#39;appuient sur les Facts rapportés">
-  <p>A node that has never checked in has no facts yet, so no fact-based rule can match it. It is still in All Nodes, and can be pinned to a group directly beneath it if it needs more before its first run.</p>
+  <p>Un Node qui ne s&#39;est jamais manifesté n&#39;a pas encore de Facts, et aucune règle fondée sur les Facts ne peut donc le sélectionner. Il fait tout de même partie d&#39;All Nodes, et peut être épinglé à un groupe situé juste en dessous s&#39;il lui faut davantage avant sa première exécution.</p>
 </vox-callout>
 
       
       <section class="site-section do-it" aria-labelledby="do-it-heading">
-        <h2 id="do-it-heading" class="vox-ts-xxl">Do it</h2>
+        <h2 id="do-it-heading" class="vox-ts-xxl">Passez à la pratique</h2>
         <vox-grid min="16rem">
-          <vox-card heading="Classify nodes" href="../guides/classify.html"><p>Decide which classes, parameters and environment each node gets, with a tree of node groups matched by facts or pinned by name.</p></vox-card>
+          <vox-card heading="Classifier les Nodes" href="../guides/classify.html"><p>Décidez des classes, des paramètres et de l&#39;Environment que reçoit chaque Node, avec une arborescence de groupes de Nodes sélectionnés par Facts ou épinglés par nom.</p></vox-card>
           </vox-grid>
       </section>
       </div>
 
       
       <vox-cta-band heading="Faites-le tourner vous-même">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console est distribué sous forme d&#39;images de conteneur, construites pour amd64 et arm64 à chaque push, et d&#39;un binaire unique. Les guides d&#39;installation vous mènent d&#39;un hôte vide à un déploiement fonctionnel - openvoxserver, openvoxdb, Postgres et la console - avec des conteneurs ou avec des paquets.</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">Guides d&#39;installation</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">Source sur GitHub</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">Images de conteneur</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="Capture d&#39;écran en taille réelle">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">Fermer</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -197,18 +191,18 @@
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">Aperçu</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">Source</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">Guides d&#39;installation</a>
       </vox-footer-column>
       <vox-footer-column heading="Fonctionnalités">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">Classification</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">Orchestration</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">Mise à jour corrective</a>
         <a href="../features/security.html">Sécurité</a>
         <a href="../features/access-control.html">Contrôle d&#39;accès</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">Agents d&#39;IA</a>
+        <a href="../features/scaling.html">Montée en charge</a>
         </vox-footer-column>
       
       <vox-footer-column heading="Langue">

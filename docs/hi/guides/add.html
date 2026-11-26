@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="hi" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Enroll a node with one script on Linux, macOS or Windows, sign its certificate, and see it connect and run."/>
+    <meta name="description" content="Linux, macOS या Windows पर एक स्क्रिप्ट से Node को नामांकित कीजिए, उसके प्रमाणपत्र पर हस्ताक्षर कीजिए, और उसे कनेक्ट होते और चलते देखिए।"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Add nodes - OpenVox Console</title>
+    <title>Nodes जोड़ें - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">गाइड</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,184 +104,143 @@
       <a href="../features/classification.html">वर्गीकरण</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">ऑर्केस्ट्रेशन</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">पैचिंग</a>
       <a href="../features/security.html">सुरक्षा</a>
       <a href="../features/access-control.html">पहुँच नियंत्रण</a>
       <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/scaling.html">विस्तार</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="गाइड" toggle-label="सभी गाइड">
+    <vox-sidenav-group heading="इंस्टॉल">
+      <vox-sidenav-item href="../guides/plan.html"><span>परिनियोजन की योजना बनाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>कंटेनरों से इंस्टॉल करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>पैकेजों और बाइनरी से इंस्टॉल करें</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes" open="">
-      <vox-sidenav-item href="../guides/add.html" current="" aria-current="page"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html" current="" aria-current="page"><span>Nodes जोड़ें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>Node प्रमाणपत्र प्रबंधित करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>किसी Node को हटाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Node एजेंटों को नवीनतम रखें</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
+    <vox-sidenav-group heading="विस्तार">
       <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>अधिक इंस्टेंस चलाएँ</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="उपयोग">
+      <vox-sidenav-item href="../guides/classify.html"><span>Nodes का वर्गीकरण करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>कोड deploy करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>Jobs चलाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>Plans चलाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Jobs शेड्यूल करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>उपयोगकर्ता, भूमिकाएँ और टोकन</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>कमज़ोरियों पर नज़र रखें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>छूटे हुए अपडेट खोजें और लागू करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>बिना एजेंट वाले होस्टों पर Tasks चलाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>अपने कोड से Plans चलाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>AI एजेंटों को कंसोल का उपयोग करने दें</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="संचालन">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>standby डेटाबेस पर failover करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>टोकन हस्ताक्षर कुंजी बदलें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>कंटेनर डेटाबेस को Postgres 18 पर अपग्रेड करें</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
     <p class="guide-eyebrow">Nodes</p>
-    <h1 class="guide-title vox-ts-xxl">Add nodes</h1>
-    <p class="guide-summary">Enroll a node with one script on Linux, macOS or Windows, sign its certificate, and see it connect and run.</p>
+    <h1 class="guide-title vox-ts-xxl">Nodes जोड़ें</h1>
+    <p class="guide-summary">Linux, macOS या Windows पर एक स्क्रिप्ट से Node को नामांकित कीजिए, उसके प्रमाणपत्र पर हस्ताक्षर कीजिए, और उसे कनेक्ट होते और चलते देखिए।</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>Adding a node is one script, run once on the node. It installs the
-OpenVox agent, enrolls the node with the CA if it has no certificate yet,
-installs the console&#39;s node agent from the console&#39;s own package
-repository, and starts it as a service. It is safe to run again.</p>
-<h2 id="before-you-start">Before you start</h2>
-<p>The console has to know two addresses a node will use, both set when you
-installed it:</p>
+<p>Node जोड़ना एक स्क्रिप्ट है, जो Node पर एक बार चलाई जाती है। यह OpenVox agent इंस्टॉल करती है, यदि Node के पास अभी प्रमाणपत्र नहीं है तो उसे CA के साथ नामांकित करती है, कंसोल की अपनी पैकेज रिपॉज़िटरी से कंसोल का node agent इंस्टॉल करती है, और उसे सेवा के रूप में शुरू करती है। इसे दोबारा चलाना सुरक्षित है।</p>
+<h2 id="before-you-start">शुरू करने से पहले</h2>
+<p>कंसोल को वे दो पते पता होने चाहिए जिनका Node उपयोग करेगा, दोनों इंस्टॉल करते समय सेट किए जाते हैं:</p>
 <ul>
-<li><code>CONSOLE_NODE_TRANSPORT_PUBLIC_ADDR</code>, the address nodes dial to keep
-their connection to the console open. Its host must be in the node
-transport certificate.</li>
-<li><code>CONSOLE_PUPPET_SERVER_PUBLIC_ADDR</code>, the Puppet server a node enrolls
-against. It must be a name in openvoxserver&#39;s certificate. If it is
-unset, the script leaves the node&#39;s Puppet server configuration alone,
-which suits nodes already pointed at a server some other way.</li>
+<li><code>CONSOLE_NODE_TRANSPORT_PUBLIC_ADDR</code>, वह पता जिस पर Nodes कंसोल से अपना कनेक्शन खुला रखने के लिए कनेक्ट करते हैं। इसका होस्ट Node ट्रांसपोर्ट प्रमाणपत्र में होना चाहिए।</li>
+<li><code>CONSOLE_PUPPET_SERVER_PUBLIC_ADDR</code>, वह Puppet सर्वर जिसके साथ Node नामांकित होता है। यह openvoxserver के प्रमाणपत्र का कोई नाम होना चाहिए। यदि यह सेट नहीं है, तो स्क्रिप्ट Node के Puppet सर्वर कॉन्फ़िगरेशन को नहीं छेड़ती, जो उन Nodes के लिए ठीक है जो किसी और तरीक़े से पहले ही किसी सर्वर पर लगाए जा चुके हैं।</li>
 </ul>
-<p>Each node must be able to reach the console&#39;s base URL, openvoxserver on
-port 8140, and the node transport address.</p>
-<vox-callout variant="info" heading="Note"><p>The published console image already contains the node agent packages
-the script installs. If you built the console yourself, build them
-before the console, as the packages install guide describes, or every
-node install fails with a 404.</p>
+<p>हर Node को कंसोल के base URL, पोर्ट 8140 पर openvoxserver, और Node ट्रांसपोर्ट पते तक पहुँचने में सक्षम होना चाहिए।</p>
+<vox-callout variant="info" heading="नोट"><p>प्रकाशित कंसोल इमेज में वे node agent पैकेज पहले से हैं जिन्हें स्क्रिप्ट इंस्टॉल करती है। यदि आपने कंसोल स्वयं build किया है, तो पैकेज इंस्टॉल गाइड के अनुसार उन्हें कंसोल से पहले build कीजिए, वरना हर Node इंस्टॉल 404 के साथ विफल होगा।</p>
 </vox-callout>
-<h2 id="run-the-install-script">Run the install script</h2>
-<p>On the node, as an administrator:</p>
-<vox-tabs class="guide-tabs"><vox-tab slot="tab" panel="tab1-linux" data-tab-key="linux" selected="">Linux</vox-tab><vox-tab-panel name="tab1-linux"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -fsSL https://console.example.com/packages/install.sh | sudo bash
-</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab1-macos" data-tab-key="macos">macOS</vox-tab><vox-tab-panel name="tab1-macos"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -fsSL https://console.example.com/packages/install-macos.sh | sudo bash
-</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab1-windows" data-tab-key="windows">Windows</vox-tab><vox-tab-panel name="tab1-windows"><vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>Invoke-WebRequest https://console.example.com/packages/install.ps1 -OutFile install.ps1
+<h2 id="run-the-install-script">इंस्टॉल स्क्रिप्ट चलाएँ</h2>
+<p>Node पर, administrator के रूप में:</p>
+<vox-tabs class="guide-tabs"><vox-tab slot="tab" panel="tab1-linux" data-tab-key="linux" selected="">Linux</vox-tab><vox-tab-panel name="tab1-linux"><vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>curl -fsSL https://console.example.com/packages/install.sh | sudo bash
+</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab1-macos" data-tab-key="macos">macOS</vox-tab><vox-tab-panel name="tab1-macos"><vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>curl -fsSL https://console.example.com/packages/install-macos.sh | sudo bash
+</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab1-windows" data-tab-key="windows">Windows</vox-tab><vox-tab-panel name="tab1-windows"><vox-code-block language="plaintext" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>Invoke-WebRequest https://console.example.com/packages/install.ps1 -OutFile install.ps1
 .\install.ps1
-</code></vox-code-block></vox-tab-panel></vox-tabs><p>On Windows, run PowerShell as Administrator.</p>
-<vox-callout variant="info" heading="Note"><p>The macOS and Windows scripts are checked by the project&#39;s tests but
-have not yet been run end to end on real macOS and Windows hosts, as
-the Linux script has. Report anything that does not go as described
-here.</p>
+</code></vox-code-block></vox-tab-panel></vox-tabs><p>Windows पर PowerShell को Administrator के रूप में चलाइए।</p>
+<vox-callout variant="info" heading="नोट"><p>macOS और Windows स्क्रिप्टों की जाँच प्रोजेक्ट के tests से होती है, लेकिन Linux स्क्रिप्ट की तरह उन्हें अभी तक असली macOS और Windows होस्ट पर शुरू से अंत तक नहीं चलाया गया है। जो कुछ भी यहाँ बताए अनुसार न हो, उसकी रिपोर्ट कीजिए।</p>
 </vox-callout>
-<h2 id="sign-the-node-s-certificate">Sign the node&#39;s certificate</h2>
-<p>If the CA signs requests automatically, the script finishes on its own.
-If not, it waits for up to five minutes, checking every 15 seconds. Sign
-the request while it waits and the same run carries on to the end:</p>
+<h2 id="sign-the-node-s-certificate">Node के प्रमाणपत्र पर हस्ताक्षर करें</h2>
+<p>यदि CA अनुरोधों पर स्वचालित रूप से हस्ताक्षर करता है, तो स्क्रिप्ट अपने-आप पूरी हो जाती है। अन्यथा यह पाँच मिनट तक प्रतीक्षा करती है, हर 15 सेकंड पर जाँचते हुए। इसके प्रतीक्षा करते समय अनुरोध पर हस्ताक्षर कीजिए, और वही रन अंत तक जारी रहता है:</p>
 <ol>
-<li>Open the console&#39;s <strong>Nodes</strong> page. The node is listed with a pending
-certificate request.</li>
-<li>Choose <strong>Sign</strong>.</li>
+<li>कंसोल का <strong>Nodes</strong> पृष्ठ खोलिए। Node एक लंबित प्रमाणपत्र अनुरोध के साथ सूचीबद्ध है।</li>
+<li><strong>हस्ताक्षर करें</strong> चुनिए।</li>
 </ol>
-<p>Signing from the console needs the certificate-admin credential, and a
-user holding the <code>nodes:certs:manage</code> permission; see
-<a href="certificates.html">Manage node certificates</a>. You can also sign on the
-CA host itself:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo /opt/puppetlabs/bin/puppetserver ca sign --certname &lt;node certname&gt;
+<p>कंसोल से हस्ताक्षर करने के लिए certificate-admin क्रेडेंशियल, और <code>nodes:certs:manage</code> अनुमति वाला उपयोगकर्ता चाहिए; देखें <a href="certificates.html">Node प्रमाणपत्र प्रबंधित करें</a>। आप स्वयं CA होस्ट पर भी हस्ताक्षर कर सकते हैं:</p>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>sudo /opt/puppetlabs/bin/puppetserver ca sign --certname &lt;node certname&gt;
 </code></vox-code-block>
-<p>The script ends in one of three ways:</p>
+<p>स्क्रिप्ट तीन में से किसी एक तरह समाप्त होती है:</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>What happened</th>
-<th>What you see</th>
+<th>क्या हुआ</th>
+<th>आपको क्या दिखता है</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>The request was signed while it waited</td>
-<td>It carries on and finishes the install</td>
+<td>प्रतीक्षा के दौरान अनुरोध पर हस्ताक्षर हो गए</td>
+<td>यह जारी रहती है और इंस्टॉल पूरा करती है</td>
 </tr>
 <tr>
-<td>The wait ran out with the request still unsigned</td>
-<td>It stops, naming the Nodes page to sign it on; sign it, then run the script again</td>
+<td>प्रतीक्षा समाप्त हो गई और अनुरोध पर अभी भी हस्ताक्षर नहीं हुए</td>
+<td>यह रुक जाती है और बताती है कि Nodes पृष्ठ पर हस्ताक्षर करें; हस्ताक्षर कीजिए, फिर स्क्रिप्ट दोबारा चलाइए</td>
 </tr>
 <tr>
-<td>It could not reach the CA</td>
-<td>It stops, reporting a connection or TLS problem - not a pending request</td>
+<td>यह CA तक नहीं पहुँच सकी</td>
+<td>यह रुक जाती है और कनेक्शन या TLS समस्या बताती है - लंबित अनुरोध नहीं</td>
 </tr>
 </tbody>
 </table></div>
-<vox-callout variant="tip" heading="Tip"><p>An unreachable CA is only reported once the full wait has passed,
-because the agent keeps retrying in case the problem is brief. If you
-see a connection error, check name resolution and port 8140 rather than
-looking for a request to sign.</p>
+<vox-callout variant="tip" heading="सुझाव"><p>पहुँच से बाहर CA की सूचना पूरी प्रतीक्षा बीत जाने पर ही मिलती है, क्योंकि एजेंट इस आशा में बार-बार प्रयास करता रहता है कि समस्या क्षणिक हो। यदि आपको कनेक्शन त्रुटि दिखे, तो हस्ताक्षर के लिए अनुरोध खोजने के बजाय name resolution और पोर्ट 8140 जाँचिए।</p>
 </vox-callout>
-<h2 id="see-the-node-connect">See the node connect</h2>
-<p>On the <strong>Nodes</strong> page, the node shows as connected, with a signed
-certificate.</p>
-<p>A node that connects before it has ever reported to openvoxdb would
-otherwise sit there empty until its next scheduled Puppet run, so the
-console starts its first run for it straight away. That run appears on
-the <strong>Jobs</strong> page like any other, recorded as started by
-<code>system:initial-run</code>. Once it finishes, the node&#39;s page shows its facts,
-its reports and the classes applied to it.</p>
-<h2 id="after-that-the-node-agent-looks-after-itself">After that, the node agent looks after itself</h2>
-<p>You do not run the script again to upgrade the node agent. When you
-upgrade the console, it upgrades the node agent on each connected node
-for you; see <a href="agent-upgrades.html">Keep node agents current</a>.</p>
-<h2 id="report-the-node-s-packages-optional">Report the node&#39;s packages (optional)</h2>
-<p>Package inventory is off for each node until you turn it on. On the
-node&#39;s page, in its <strong>Packages</strong> section, switch reporting on. The
-console tells the node to add the package fact and runs Puppet straight
-away, so the inventory appears within that run rather than at the next
-scheduled one. Switching it off removes the fact the same way.</p>
-<p>The switch needs the <code>orchestrator:run</code> permission, and works only while
-the node is connected: it acts on the node there and then, rather than
-queueing a change for later.</p>
+<h2 id="see-the-node-connect">Node को कनेक्ट होते देखें</h2>
+<p><strong>Nodes</strong> पृष्ठ पर Node, हस्ताक्षरित प्रमाणपत्र के साथ, कनेक्टेड दिखता है।</p>
+<p>जो Node openvoxdb को कभी रिपोर्ट करने से पहले ही कनेक्ट हो जाता है, वह अन्यथा अपने अगले निर्धारित Puppet रन तक खाली पड़ा रहता, इसलिए कंसोल उसके लिए पहला रन तुरंत शुरू कर देता है। वह रन किसी भी अन्य रन की तरह <strong>Jobs</strong> पृष्ठ पर दिखता है, <code>system:initial-run</code> द्वारा शुरू किए गए के रूप में दर्ज। उसके पूरा होने पर Node के पृष्ठ पर उसके Facts, उसकी Reports और उस पर लागू क्लासें दिखती हैं।</p>
+<h2 id="after-that-the-node-agent-looks-after-itself">उसके बाद Node एजेंट अपनी देखभाल स्वयं करता है</h2>
+<p>Node एजेंट अपग्रेड करने के लिए आपको स्क्रिप्ट फिर से नहीं चलानी पड़ती। जब आप कंसोल अपग्रेड करते हैं, तो वह हर कनेक्टेड Node पर Node एजेंट को आपके लिए अपग्रेड कर देता है; देखें <a href="agent-upgrades.html">Node एजेंटों को नवीनतम रखें</a>।</p>
+<h2 id="report-the-node-s-packages-optional">Node के पैकेज रिपोर्ट करें (वैकल्पिक)</h2>
+<p>पैकेज सूची हर Node के लिए तब तक बंद रहती है जब तक आप उसे चालू न करें। Node के पृष्ठ पर, उसके <strong>पैकेज</strong> खंड में, रिपोर्टिंग चालू कीजिए। कंसोल Node से पैकेज Fact जोड़ने को कहता है और तुरंत Puppet चलाता है, इसलिए सूची अगले निर्धारित रन में नहीं, उसी रन में दिख जाती है। इसे बंद करने से Fact उसी तरह हट जाता है।</p>
+<p>इस switch के लिए <code>orchestrator:run</code> अनुमति चाहिए, और यह केवल तभी काम करता है जब Node कनेक्टेड हो: यह बाद के लिए बदलाव कतार में डालने के बजाय उसी समय Node पर कार्रवाई करता है।</p>
 
     </div>
 
-    <vox-series-nav label="Nodes" previous-text="Previous" next-text="Next" next-href="../guides/certificates.html" next-label="Manage node certificates"></vox-series-nav>
+    <vox-series-nav label="Nodes" previous-text="पिछला" next-text="अगला" next-href="../guides/certificates.html" next-label="Node प्रमाणपत्र प्रबंधित करें"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#before-you-start"><span>Before you start</span>
+    <vox-toc heading="इस पृष्ठ पर">
+      <vox-toc-item href="#before-you-start"><span>शुरू करने से पहले</span>
       </vox-toc-item>
-      <vox-toc-item href="#run-the-install-script"><span>Run the install script</span>
+      <vox-toc-item href="#run-the-install-script"><span>इंस्टॉल स्क्रिप्ट चलाएँ</span>
       </vox-toc-item>
-      <vox-toc-item href="#sign-the-node-s-certificate"><span>Sign the node&#39;s certificate</span>
+      <vox-toc-item href="#sign-the-node-s-certificate"><span>Node के प्रमाणपत्र पर हस्ताक्षर करें</span>
       </vox-toc-item>
-      <vox-toc-item href="#see-the-node-connect"><span>See the node connect</span>
+      <vox-toc-item href="#see-the-node-connect"><span>Node को कनेक्ट होते देखें</span>
       </vox-toc-item>
-      <vox-toc-item href="#after-that-the-node-agent-looks-after-itself"><span>After that, the node agent looks after itself</span>
+      <vox-toc-item href="#after-that-the-node-agent-looks-after-itself"><span>उसके बाद Node एजेंट अपनी देखभाल स्वयं करता है</span>
       </vox-toc-item>
-      <vox-toc-item href="#report-the-node-s-packages-optional"><span>Report the node&#39;s packages (optional)</span>
+      <vox-toc-item href="#report-the-node-s-packages-optional"><span>Node के पैकेज रिपोर्ट करें (वैकल्पिक)</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -291,23 +250,17 @@ queueing a change for later.</p>
 
       
       <vox-cta-band heading="स्वयं चलाकर देखिए">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console कंटेनर इमेजों के रूप में आता है, जो हर push पर amd64 और arm64 के लिए बनती हैं, और एक अकेली बाइनरी के रूप में भी। इंस्टॉल गाइड आपको खाली होस्ट से एक चालू परिनियोजन तक ले जाते हैं - openvoxserver, openvoxdb, Postgres और कंसोल - कंटेनरों से या पैकेजों से।</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">इंस्टॉल गाइड</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">GitHub पर स्रोत</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">कंटेनर इमेज</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="पूर्ण आकार का स्क्रीनशॉट">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">बंद करें</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -316,18 +269,18 @@ queueing a change for later.</p>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">सिंहावलोकन</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">स्रोत</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">इंस्टॉल गाइड</a>
       </vox-footer-column>
       <vox-footer-column heading="क्षमताएँ">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">वर्गीकरण</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">ऑर्केस्ट्रेशन</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">पैचिंग</a>
         <a href="../features/security.html">सुरक्षा</a>
         <a href="../features/access-control.html">पहुँच नियंत्रण</a>
         <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/scaling.html">विस्तार</a>
         </vox-footer-column>
       
       <vox-footer-column heading="भाषा">

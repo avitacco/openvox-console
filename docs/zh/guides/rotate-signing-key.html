@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="zh" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Replace the key the console signs login tokens with, without logging anyone out."/>
+    <meta name="description" content="在不让任何人退出登录的情况下，替换控制台用于签名登录令牌的密钥。"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Rotate the token signing key - OpenVox Console</title>
+    <title>轮换令牌签名密钥 - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">指南</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,147 +104,127 @@
       <a href="../features/classification.html">分类</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">编排</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">补丁管理</a>
       <a href="../features/security.html">安全</a>
       <a href="../features/access-control.html">访问控制</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">AI 代理</a>
+      <a href="../features/scaling.html">扩展</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="指南" toggle-label="所有指南">
+    <vox-sidenav-group heading="安装">
+      <vox-sidenav-item href="../guides/plan.html"><span>规划部署</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>使用容器安装</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>从软件包和二进制文件安装</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>添加 Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>管理 Node 证书</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>移除 Node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>保持 Node 代理为最新</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
-      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="扩展">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>运行模式</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>运行更多实例</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="使用">
+      <vox-sidenav-item href="../guides/classify.html"><span>为 Nodes 分类</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy 代码</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>运行 Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>运行 Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>计划 Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>用户、角色与令牌</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>跟踪漏洞</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>查找并应用缺失的更新</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>在没有代理的主机上运行 Tasks</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>运行代码中的 Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>让 AI 代理使用控制台</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate" open="">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html" current="" aria-current="page"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="运维" open="">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>故障切换到备用数据库</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html" current="" aria-current="page"><span>轮换令牌签名密钥</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>将容器数据库升级到 Postgres 18</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Operate</p>
-    <h1 class="guide-title vox-ts-xxl">Rotate the token signing key</h1>
-    <p class="guide-summary">Replace the key the console signs login tokens with, without logging anyone out.</p>
+    <p class="guide-eyebrow">运维</p>
+    <h1 class="guide-title vox-ts-xxl">轮换令牌签名密钥</h1>
+    <p class="guide-summary">在不让任何人退出登录的情况下，替换控制台用于签名登录令牌的密钥。</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>The console signs its login tokens with its own ES256 key. Each token
-names the key that signed it, and the console checks tokens against a
-<strong>set</strong> of keys. So a new key can take over signing while tokens signed
-by the old one keep working until they expire: nobody is logged out, and
-nothing stops.</p>
-<p>Three settings are involved:</p>
+<p>控制台使用自己的 ES256 密钥为登录令牌签名。每个令牌都注明了为其签名的密钥，而控制台会依据一<strong>组</strong>密钥来校验令牌。因此，新密钥可以接管签名工作，而旧密钥签名的令牌在过期之前依然有效：没有人会被登出，也不会有任何中断。</p>
+<p>涉及三项设置：</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Setting</th>
-<th>What it is</th>
+<th>设置</th>
+<th>说明</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>CONSOLE_RBAC_SIGNING_KEY_FILE</code></td>
-<td>the key this instance signs with</td>
+<td>此实例用于签名的密钥</td>
 </tr>
 <tr>
 <td><code>CONSOLE_RBAC_SIGNING_KEY_ID</code></td>
-<td>the key&#39;s ID, written into every token it signs. Unset, it is <code>default</code></td>
+<td>密钥的 ID，会写入它签名的每个令牌。未设置时为 <code>default</code></td>
 </tr>
 <tr>
 <td><code>CONSOLE_RBAC_VERIFICATION_KEYS_DIR</code></td>
-<td>a directory of further keys to accept tokens from, one file per key, named <code>&lt;key ID&gt;.pem</code></td>
+<td>一个存放其他可接受令牌的密钥的目录，每个密钥一个文件，命名为 <code>&lt;key ID&gt;.pem</code></td>
 </tr>
 </tbody>
 </table></div>
-<p>An instance always accepts tokens signed with its own signing key.</p>
-<h2 id="generate-the-new-key">Generate the new key</h2>
-<p>Choose an ID for it; a date is a good one:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>openssl ecparam -genkey -name prime256v1 -noout -out 2026-10-01.pem
+<p>实例总是接受用其自身签名密钥签名的令牌。</p>
+<h2 id="generate-the-new-key">生成新密钥</h2>
+<p>为它选择一个 ID；日期就是个不错的选择：</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>openssl ecparam -genkey -name prime256v1 -noout -out 2026-10-01.pem
 </code></vox-code-block>
-<h2 id="make-every-instance-accept-both-keys">Make every instance accept both keys</h2>
-<p>On <strong>every</strong> console instance, put the current key and the new one in
-its verification directory, each named after its ID. A deployment that
-never set <code>CONSOLE_RBAC_SIGNING_KEY_ID</code> uses <code>default</code> for the current
-key:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo install -d -m 0750 -o root -g openvox-console /etc/openvox-console/rbac-verification-keys
+<h2 id="make-every-instance-accept-both-keys">让每个实例同时接受两个密钥</h2>
+<p>在<strong>每个</strong>控制台实例上，把当前密钥和新密钥都放入其验证目录，各自以其 ID 命名。从未设置过 <code>CONSOLE_RBAC_SIGNING_KEY_ID</code> 的部署，当前密钥使用 <code>default</code>：</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo install -d -m 0750 -o root -g openvox-console /etc/openvox-console/rbac-verification-keys
 sudo install -m 0640 -o root -g openvox-console \
   /etc/openvox-console/rbac-signing-key.pem /etc/openvox-console/rbac-verification-keys/default.pem
 sudo install -m 0640 -o root -g openvox-console \
   2026-10-01.pem /etc/openvox-console/rbac-verification-keys/2026-10-01.pem
 </code></vox-code-block>
-<p>Set <code>CONSOLE_RBAC_VERIFICATION_KEYS_DIR</code> to that directory if it is not
-set already, and restart each instance.</p>
-<p>Doing this everywhere <strong>before</strong> anything signs with the new key is what
-keeps a load-balanced deployment working: a token one instance signs with
-the new key is then accepted by every other.</p>
-<h2 id="start-signing-with-the-new-key">Start signing with the new key</h2>
-<p>On the instances that issue tokens (<code>all</code> and <code>web</code>), sign with the new
-key under its ID, and restart them:</p>
-<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CONSOLE_RBAC_SIGNING_KEY_FILE=/etc/openvox-console/rbac-verification-keys/2026-10-01.pem
+<p>如果尚未设置，请将 <code>CONSOLE_RBAC_VERIFICATION_KEYS_DIR</code> 设置为该目录，然后重启每个实例。</p>
+<p>在任何实例用新密钥签名<strong>之前</strong>先在所有地方完成这一步，才能确保负载均衡的部署持续正常工作：这样一个实例用新密钥签名的令牌就能被其他每个实例接受。</p>
+<h2 id="start-signing-with-the-new-key">开始使用新密钥签名</h2>
+<p>在签发令牌的实例（<code>all</code> 和 <code>web</code>）上，改用新密钥并以其 ID 签名，然后重启这些实例：</p>
+<vox-code-block language="plaintext" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>CONSOLE_RBAC_SIGNING_KEY_FILE=/etc/openvox-console/rbac-verification-keys/2026-10-01.pem
 CONSOLE_RBAC_SIGNING_KEY_ID=2026-10-01
 </code></vox-code-block>
-<p>New logins now get tokens signed with the new key. Tokens signed with the
-old one keep working, because every instance still accepts it.</p>
-<h2 id="retire-the-old-key">Retire the old key</h2>
-<p>A token lives at most 24 hours: that is how long a refresh token lasts.
-Once 24 hours have passed since the last instance started signing with
-the new key, remove the old key&#39;s file from every instance&#39;s
-verification directory, and restart them. Tokens signed with the old key
-are refused from then on.</p>
-<vox-callout variant="danger" heading="Caution"><p>Removing the old key sooner logs out everyone whose tokens it signed.
-Removing it and then losing the new key logs out everyone. Back the new
-key up before retiring the old one.</p>
+<p>新的登录现在会获得用新密钥签名的令牌。用旧密钥签名的令牌仍然有效，因为每个实例仍然接受旧密钥。</p>
+<h2 id="retire-the-old-key">停用旧密钥</h2>
+<p>令牌最长存活 24 小时：这就是刷新令牌的有效期。在最后一个实例开始使用新密钥签名满 24 小时后，从每个实例的验证目录中删除旧密钥文件，然后重启这些实例。从那时起，用旧密钥签名的令牌都会被拒绝。</p>
+<vox-callout variant="danger" heading="注意"><p>过早删除旧密钥，会让所有持有由它签名的令牌的人退出登录。删除旧密钥后又丢失新密钥，则会让所有人退出登录。在停用旧密钥之前，请先备份新密钥。</p>
 </vox-callout>
 
     </div>
 
-    <vox-series-nav label="Operate" previous-text="Previous" next-text="Next" previous-href="../guides/postgres-failover.html" previous-label="Fail over to a standby database" next-href="../guides/upgrade-postgres.html" next-label="Upgrade the container databases to Postgres 18"></vox-series-nav>
+    <vox-series-nav label="运维" previous-text="上一篇" next-text="下一篇" previous-href="../guides/postgres-failover.html" previous-label="故障切换到备用数据库" next-href="../guides/upgrade-postgres.html" next-label="将容器数据库升级到 Postgres 18"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#generate-the-new-key"><span>Generate the new key</span>
+    <vox-toc heading="本页内容">
+      <vox-toc-item href="#generate-the-new-key"><span>生成新密钥</span>
       </vox-toc-item>
-      <vox-toc-item href="#make-every-instance-accept-both-keys"><span>Make every instance accept both keys</span>
+      <vox-toc-item href="#make-every-instance-accept-both-keys"><span>让每个实例同时接受两个密钥</span>
       </vox-toc-item>
-      <vox-toc-item href="#start-signing-with-the-new-key"><span>Start signing with the new key</span>
+      <vox-toc-item href="#start-signing-with-the-new-key"><span>开始使用新密钥签名</span>
       </vox-toc-item>
-      <vox-toc-item href="#retire-the-old-key"><span>Retire the old key</span>
+      <vox-toc-item href="#retire-the-old-key"><span>停用旧密钥</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -254,23 +234,17 @@ key up before retiring the old one.</p>
 
       
       <vox-cta-band heading="自己动手运行">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console 以容器镜像形式发布，每次 push 都会构建 amd64 和 arm64 版本，同时也提供单个二进制文件。安装指南将带你从一台空主机走到一套可用的部署——openvoxserver、openvoxdb、Postgres 和控制台——可以用容器，也可以用软件包。</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">安装指南</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">GitHub 上的源码</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">容器镜像</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="全尺寸截图">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">关闭</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -279,18 +253,18 @@ key up before retiring the old one.</p>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">概览</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">源码</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">安装指南</a>
       </vox-footer-column>
       <vox-footer-column heading="功能">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">分类</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">编排</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">补丁管理</a>
         <a href="../features/security.html">安全</a>
         <a href="../features/access-control.html">访问控制</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">AI 代理</a>
+        <a href="../features/scaling.html">扩展</a>
         </vox-footer-column>
       
       <vox-footer-column heading="语言">

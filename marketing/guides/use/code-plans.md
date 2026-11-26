@@ -93,7 +93,7 @@ line, put a reference that contains `[` or `,` in quotes.
 
 A step's result has:
 
-| | |
+| Field | Holds |
 |---|---|
 | `ok` | every target succeeded |
 | `results` | each target's `target`, `ok`, `value` and `error` |

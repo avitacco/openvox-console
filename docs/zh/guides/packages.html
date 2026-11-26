@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="zh" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Install openvoxserver, openvoxdb and Postgres from packages, build the console, and run it as a systemd service."/>
+    <meta name="description" content="从软件包安装 openvoxserver、openvoxdb 和 Postgres，构建控制台，并将其作为 systemd 服务运行。"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Install from packages and binaries - OpenVox Console</title>
+    <title>从软件包和二进制文件安装 - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">指南</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,222 +104,204 @@
       <a href="../features/classification.html">分类</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">编排</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">补丁管理</a>
       <a href="../features/security.html">安全</a>
       <a href="../features/access-control.html">访问控制</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">AI 代理</a>
+      <a href="../features/scaling.html">扩展</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install" open="">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html" current="" aria-current="page"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="指南" toggle-label="所有指南">
+    <vox-sidenav-group heading="安装" open="">
+      <vox-sidenav-item href="../guides/plan.html"><span>规划部署</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>使用容器安装</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html" current="" aria-current="page"><span>从软件包和二进制文件安装</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>添加 Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>管理 Node 证书</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>移除 Node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>保持 Node 代理为最新</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
-      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="扩展">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>运行模式</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>运行更多实例</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="使用">
+      <vox-sidenav-item href="../guides/classify.html"><span>为 Nodes 分类</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy 代码</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>运行 Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>运行 Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>计划 Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>用户、角色与令牌</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>跟踪漏洞</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>查找并应用缺失的更新</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>在没有代理的主机上运行 Tasks</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>运行代码中的 Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>让 AI 代理使用控制台</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="运维">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>故障切换到备用数据库</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>轮换令牌签名密钥</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>将容器数据库升级到 Postgres 18</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Install</p>
-    <h1 class="guide-title vox-ts-xxl">Install from packages and binaries</h1>
-    <p class="guide-summary">Install openvoxserver, openvoxdb and Postgres from packages, build the console, and run it as a systemd service.</p>
+    <p class="guide-eyebrow">安装</p>
+    <h1 class="guide-title vox-ts-xxl">从软件包和二进制文件安装</h1>
+    <p class="guide-summary">从软件包安装 openvoxserver、openvoxdb 和 Postgres，构建控制台，并将其作为 systemd 服务运行。</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>This guide installs openvoxserver, openvoxdb and Postgres from the
-OpenVox and distribution packages, and runs the console as a single
-binary under systemd. Settle the names in <a href="plan.html">Plan a deployment</a>
-before you start.</p>
-<p>The commands are for Debian and Ubuntu, with the RHEL, Rocky Linux and
-AlmaLinux equivalent alongside where it differs. The parts can live on
-one host or several; where a step belongs on a particular host, it says
-so.</p>
-<h2 id="install-openvoxserver">Install openvoxserver</h2>
-<p>openvoxserver is the certificate authority every other part&#39;s
-certificate comes from, so it comes first. Add the OpenVox 8 repository
-and install it:</p>
-<vox-tabs class="guide-tabs"><vox-tab slot="tab" panel="tab1-debian-and-ubuntu" data-tab-key="debian-and-ubuntu" selected="">Debian and Ubuntu</vox-tab><vox-tab-panel name="tab1-debian-and-ubuntu"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>. /etc/os-release
+<p>本指南从 OpenVox 和发行版的软件包安装 openvoxserver、openvoxdb 和 Postgres，并在 systemd 下以单一二进制文件运行控制台。开始之前，请先按照<a href="plan.html">规划部署</a>确定好各个名称。</p>
+<p>命令以 Debian 和 Ubuntu 为准，若有不同，会同时给出 RHEL、Rocky Linux 和 AlmaLinux 的对应命令。各组件可以放在一台主机上，也可以分布在多台主机上；如果某一步需要在特定主机上执行，会明确说明。</p>
+<h2 id="install-openvoxserver">安装 openvoxserver</h2>
+<p>openvoxserver 是其他所有组件证书的来源证书颁发机构，因此最先安装它。添加 OpenVox 8 仓库并安装：</p>
+<vox-tabs class="guide-tabs"><vox-tab slot="tab" panel="tab1-debian-and-ubuntu" data-tab-key="debian-and-ubuntu" selected="">Debian 和 Ubuntu</vox-tab><vox-tab-panel name="tab1-debian-and-ubuntu"><vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>. /etc/os-release
 curl -fsSL -o /tmp/openvox8-release.deb \
   &#34;https://apt.voxpupuli.org/openvox8-release-${ID}${VERSION_ID}.deb&#34;
 sudo apt-get install -y /tmp/openvox8-release.deb
 sudo apt-get update &amp;&amp; sudo apt-get install -y openvox-server
-</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab1-rhel-rocky-and-almalinux" data-tab-key="rhel-rocky-and-almalinux">RHEL, Rocky and AlmaLinux</vox-tab><vox-tab-panel name="tab1-rhel-rocky-and-almalinux"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo dnf install -y https://yum.voxpupuli.org/openvox8-release-el-9.noarch.rpm
+</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab1-rhel-rocky-and-almalinux" data-tab-key="rhel-rocky-and-almalinux">RHEL、Rocky 和 AlmaLinux</vox-tab><vox-tab-panel name="tab1-rhel-rocky-and-almalinux"><vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo dnf install -y https://yum.voxpupuli.org/openvox8-release-el-9.noarch.rpm
 sudo dnf install -y openvox-server
-</code></vox-code-block></vox-tab-panel></vox-tabs><p>Installing the package <strong>already creates the CA and this server&#39;s own
-certificate</strong>, issued for the host&#39;s certname, normally its fully
-qualified name. In the common case there is nothing more to do than start
-it:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo systemctl enable --now puppetserver
+</code></vox-code-block></vox-tab-panel></vox-tabs><p>软件包本身不会创建 CA。它的<strong>首次启动会创建 CA 以及这台服务器自己的证书</strong>，签发给主机的 certname，通常就是其完全限定域名。在通常情况下，只需启动它即可：</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo systemctl enable --now puppetserver
 </code></vox-code-block>
-<vox-callout variant="danger" heading="Caution"><p>Do not run <code>puppetserver ca setup</code> on a host that already has a CA. It
-only creates a CA that does not exist yet, and on an existing one it
-stops with &#34;Existing file at .../ca_crt.pem&#34;. Deleting those files as
-the message suggests destroys your CA and every certificate it has ever
-issued, including every enrolled node&#39;s.</p>
+<vox-callout variant="danger" heading="注意"><p>不要在已经有 CA 的主机上运行 <code>puppetserver ca setup</code>。它只会创建尚不存在的 CA，在已有 CA 的主机上它会停止并提示 &#34;Existing file at .../ca_crt.pem&#34;。按照提示删除这些文件会摧毁你的 CA 以及它签发过的所有证书，包括每个已接入 Node 的证书。</p>
 </vox-callout>
-<h3 id="check-its-certificate-s-names">Check its certificate&#39;s names</h3>
-<p>A certificate is always valid for its own certname. If nodes and the
-console both reach this server by its certname, there is nothing to
-change. Otherwise, check which names the certificate already covers:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo openssl x509 -in /etc/puppetlabs/puppet/ssl/certs/$(hostname -f).pem \
+<h3 id="let-the-ca-sign-alternative-names">允许 CA 签发备用名称</h3>
+<p>控制台的 Node 传输证书，以及这台服务器自己的证书（如果你在下面重新签发它），都包含不止一个名称。默认情况下，CA 会拒绝签发此类请求，并让它一直处于等待状态，因此需要一次性允许它。在 <code>/etc/puppetlabs/puppetserver/conf.d/ca.conf</code> 中，把该设置添加到 <code>certificate-authority</code> 块内：</p>
+<vox-code-block language="plaintext" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>certificate-authority: {
+    allow-subject-alt-names: true
+    ...
+}
+</code></vox-code-block>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo systemctl restart puppetserver
+</code></vox-code-block>
+<h3 id="check-its-certificate-s-names">检查其证书中的名称</h3>
+<p>证书始终对其自身的 certname 有效。如果 Nodes 和控制台都通过 certname 访问这台服务器，就无需做任何更改。否则，请检查该证书已经覆盖了哪些名称：</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo openssl x509 -in /etc/puppetlabs/puppet/ssl/certs/$(hostname -f).pem \
   -noout -subject -ext subjectAltName
 </code></vox-code-block>
-<p>If a name from your plan is missing, reissue <strong>only this server&#39;s own
-certificate</strong>, never the CA. Setting <code>dns_alt_names</code> afterwards does not
-change a certificate that already exists, so clean and regenerate it
-while the server is running:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo /opt/puppetlabs/bin/puppetserver ca clean --certname $(hostname -f)
+<p>如果缺少规划中的某个名称，请<strong>只重新签发这台服务器自己的证书</strong>，绝不要重建 CA。事后设置 <code>dns_alt_names</code> 不会改变已经存在的证书，因此请在服务器运行期间清理并重新生成它：</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo /opt/puppetlabs/bin/puppetserver ca clean --certname $(hostname -f)
 sudo /opt/puppetlabs/bin/puppetserver ca generate --certname $(hostname -f) \
   --subject-alt-names puppet.example.com,openvoxserver
 sudo systemctl restart puppetserver
 </code></vox-code-block>
-<vox-callout variant="tip" heading="Tip"><p>On a fresh host, you can set the names before the first start instead,
-and let that start create the certificate with them:
-<code>sudo /opt/puppetlabs/bin/puppet config set --section server dns_alt_names puppet.example.com,openvoxserver</code></p>
+<vox-callout variant="tip" heading="提示"><p>在全新的主机上，也可以在首次启动前设置好名称，让首次启动时直接用这些名称创建证书：<code>sudo /opt/puppetlabs/bin/puppet config set --section server dns_alt_names puppet.example.com,openvoxserver</code></p>
 </vox-callout>
-<h3 id="check-it-is-running">Check it is running</h3>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -ksS https://puppet.example.com:8140/status/v1/simple
+<h3 id="check-it-is-running">检查它是否在运行</h3>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>curl -ksS https://puppet.example.com:8140/status/v1/simple
 </code></vox-code-block>
-<p>The reply is <code>running</code>.</p>
-<h2 id="install-openvoxdb-and-its-database">Install openvoxdb and its database</h2>
-<h3 id="enroll-openvoxdb-s-host">Enroll openvoxdb&#39;s host</h3>
-<p>openvoxdb does not request a certificate itself: its setup copies the one
-its host already has. If openvoxdb has a host of its own, enroll that host
-with the CA first, then sign its request on the CA if the CA does not sign
-automatically:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo /opt/puppetlabs/bin/puppet ssl bootstrap --server puppet.example.com
+<p>返回 <code>running</code>。</p>
+<h2 id="install-openvoxdb-and-its-database">安装 openvoxdb 及其数据库</h2>
+<h3 id="enroll-openvoxdb-s-host">注册 openvoxdb 的主机</h3>
+<p>openvoxdb 不会自己申请证书：其安装程序会复制其主机已有的证书。如果 openvoxdb 有自己独立的主机，请先向 CA 注册该主机；如果 CA 不自动签名，再在 CA 上为其请求签名：</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo /opt/puppetlabs/bin/puppet ssl bootstrap --server puppet.example.com
 
 # on the CA host:
 sudo /opt/puppetlabs/bin/puppetserver ca sign --certname &lt;openvoxdb host&gt;
 </code></vox-code-block>
-<p>Skip this when openvoxdb shares a host with openvoxserver, which already
-has a certificate.</p>
-<h3 id="create-its-database">Create its database</h3>
-<p>openvoxdb needs a Postgres database of its own, which the package does not
-create:</p>
-<vox-tabs class="guide-tabs"><vox-tab slot="tab" panel="tab2-debian-and-ubuntu" data-tab-key="debian-and-ubuntu" selected="">Debian and Ubuntu</vox-tab><vox-tab-panel name="tab2-debian-and-ubuntu"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo apt-get install -y postgresql
+<p>如果 openvoxdb 与 openvoxserver 共用一台主机（该主机已有证书），请跳过此步。</p>
+<h3 id="create-its-database">创建它的数据库</h3>
+<p>openvoxdb 需要一个属于自己的 Postgres 数据库，而软件包不会创建它：</p>
+<vox-tabs class="guide-tabs"><vox-tab slot="tab" panel="tab2-debian-and-ubuntu" data-tab-key="debian-and-ubuntu" selected="">Debian 和 Ubuntu</vox-tab><vox-tab-panel name="tab2-debian-and-ubuntu"><vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo apt-get install -y postgresql
 sudo systemctl enable --now postgresql
-</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab2-rhel-rocky-and-almalinux" data-tab-key="rhel-rocky-and-almalinux">RHEL, Rocky and AlmaLinux</vox-tab><vox-tab-panel name="tab2-rhel-rocky-and-almalinux"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo dnf install -y postgresql-server
+</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab2-rhel-rocky-and-almalinux" data-tab-key="rhel-rocky-and-almalinux">RHEL、Rocky 和 AlmaLinux</vox-tab><vox-tab-panel name="tab2-rhel-rocky-and-almalinux"><vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo dnf install -y postgresql-server postgresql-contrib
 sudo postgresql-setup --initdb
+# Accept passwords over local connections, which are refused by the
+# default &#34;ident&#34; rules, and store passwords to match.
+sudo sed -i -E &#39;s/^(host .*)(ident)$/\1scram-sha-256/&#39; /var/lib/pgsql/data/pg_hba.conf
+echo &#34;password_encryption = &#39;scram-sha-256&#39;&#34; | sudo tee -a /var/lib/pgsql/data/postgresql.conf
 sudo systemctl enable --now postgresql
-</code></vox-code-block></vox-tab-panel></vox-tabs><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo -u postgres createuser --pwprompt puppetdb
+</code></vox-code-block></vox-tab-panel></vox-tabs><p>在 RHEL 及其重构发行版上，下面的 <code>pg_trgm</code> 来自 <code>postgresql-contrib</code>，而且修改密码设置必须在创建用户之前完成：在此之前存储的密码无法按新规则进行校验。</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo -u postgres createuser --pwprompt puppetdb
 sudo -u postgres createdb --owner=puppetdb puppetdb
 # openvoxdb refuses to start without this extension, and creating it
 # needs superuser rights - so it is run as postgres, not as puppetdb.
 sudo -u postgres psql -d puppetdb -c &#39;CREATE EXTENSION IF NOT EXISTS pg_trgm;&#39;
 </code></vox-code-block>
-<p>Check Postgres is accepting connections:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>pg_isready
+<p>检查 Postgres 是否在接受连接：</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>pg_isready
 </code></vox-code-block>
-<p>The reply ends in <code>accepting connections</code>.</p>
-<vox-callout variant="info" heading="Note"><p>On Debian and Ubuntu, <code>systemctl status postgresql</code> reads
-<code>active (exited)</code>, and that is normal: that unit only starts the real
-per-cluster one. <code>pg_lsclusters</code> shows the cluster itself as <code>online</code>.</p>
+<p>返回结果以 <code>accepting connections</code> 结尾。</p>
+<vox-callout variant="info" heading="说明"><p>在 Debian 和 Ubuntu 上，<code>systemctl status postgresql</code> 显示 <code>active (exited)</code>，这是正常的：该单元只负责启动真正的、按集群划分的单元。<code>pg_lsclusters</code> 会显示集群本身为 <code>online</code>。</p>
 </vox-callout>
-<h3 id="install-and-start-openvoxdb">Install and start openvoxdb</h3>
-<vox-tabs class="guide-tabs"><vox-tab slot="tab" panel="tab3-debian-and-ubuntu" data-tab-key="debian-and-ubuntu" selected="">Debian and Ubuntu</vox-tab><vox-tab-panel name="tab3-debian-and-ubuntu"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo apt-get install -y openvoxdb
-</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab3-rhel-rocky-and-almalinux" data-tab-key="rhel-rocky-and-almalinux">RHEL, Rocky and AlmaLinux</vox-tab><vox-tab-panel name="tab3-rhel-rocky-and-almalinux"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo dnf install -y openvoxdb
-</code></vox-code-block></vox-tab-panel></vox-tabs><p>Tell it where its database is. Without this file it will not start, and
-exits with <code>No subname set in the &#34;database&#34; config.</code>:</p>
-<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>[database]
+<h3 id="install-and-start-openvoxdb">安装并启动 openvoxdb</h3>
+<vox-tabs class="guide-tabs"><vox-tab slot="tab" panel="tab3-debian-and-ubuntu" data-tab-key="debian-and-ubuntu" selected="">Debian 和 Ubuntu</vox-tab><vox-tab-panel name="tab3-debian-and-ubuntu"><vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo apt-get install -y openvoxdb
+</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab3-rhel-rocky-and-almalinux" data-tab-key="rhel-rocky-and-almalinux">RHEL、Rocky 和 AlmaLinux</vox-tab><vox-tab-panel name="tab3-rhel-rocky-and-almalinux"><vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo dnf install -y openvoxdb
+</code></vox-code-block></vox-tab-panel></vox-tabs><p>告诉它数据库在哪里。没有这个文件它将无法启动，并以 <code>No subname set in the &#34;database&#34; config.</code> 退出：</p>
+<vox-code-block language="plaintext" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>[database]
 subname = //localhost:5432/puppetdb
 username = puppetdb
 password = &lt;the password you set above&gt;
 </code></vox-code-block>
-<p>Save that as <code>/etc/puppetlabs/puppetdb/conf.d/database.ini</code>, using the
-database host&#39;s name instead of <code>localhost</code> if it is elsewhere, and
-restrict it:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo chown puppetdb:puppetdb /etc/puppetlabs/puppetdb/conf.d/database.ini
+<p>将其保存为 <code>/etc/puppetlabs/puppetdb/conf.d/database.ini</code>（如果数据库在其他主机上，请用数据库主机的名称代替 <code>localhost</code>），并限制其权限：</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo chown puppetdb:puppetdb /etc/puppetlabs/puppetdb/conf.d/database.ini
 sudo chmod 640 /etc/puppetlabs/puppetdb/conf.d/database.ini
 </code></vox-code-block>
-<p>Then copy the host&#39;s certificates into place and start it:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo /opt/puppetlabs/bin/puppetdb ssl-setup
+<p>然后把主机的证书复制到位，并启动它：</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo /opt/puppetlabs/bin/puppetdb ssl-setup
 sudo systemctl enable --now puppetdb
 </code></vox-code-block>
-<p>If it fails to start, <code>/var/log/puppetlabs/puppetdb/puppetdb.log</code> holds
-the real reason; systemd&#39;s own error is usually just the consequence.</p>
-<h3 id="send-catalogs-and-reports-to-it">Send catalogs and reports to it</h3>
-<p>On the openvoxserver host, install the terminus that sends catalogs and
-reports to openvoxdb:</p>
-<vox-tabs class="guide-tabs"><vox-tab slot="tab" panel="tab4-debian-and-ubuntu" data-tab-key="debian-and-ubuntu" selected="">Debian and Ubuntu</vox-tab><vox-tab-panel name="tab4-debian-and-ubuntu"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo apt-get install -y openvoxdb-termini
-</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab4-rhel-rocky-and-almalinux" data-tab-key="rhel-rocky-and-almalinux">RHEL, Rocky and AlmaLinux</vox-tab><vox-tab-panel name="tab4-rhel-rocky-and-almalinux"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo dnf install -y openvoxdb-termini
-</code></vox-code-block></vox-tab-panel></vox-tabs><h3 id="check-it-is-running-2">Check it is running</h3>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -ksS https://&lt;openvoxdb host&gt;:8081/status/v1/simple
+<p>如果它启动失败，<code>/var/log/puppetlabs/puppetdb/puppetdb.log</code> 中记录着真正的原因；systemd 自己的错误通常只是其后果。</p>
+<h3 id="send-catalogs-and-reports-to-it">把 catalog 和 Reports 发送给它</h3>
+<p>在 openvoxserver 主机上，安装把 catalog 和 Reports 发送到 openvoxdb 的 terminus：</p>
+<vox-tabs class="guide-tabs"><vox-tab slot="tab" panel="tab4-debian-and-ubuntu" data-tab-key="debian-and-ubuntu" selected="">Debian 和 Ubuntu</vox-tab><vox-tab-panel name="tab4-debian-and-ubuntu"><vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo apt-get install -y openvoxdb-termini
+</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab4-rhel-rocky-and-almalinux" data-tab-key="rhel-rocky-and-almalinux">RHEL、Rocky 和 AlmaLinux</vox-tab><vox-tab-panel name="tab4-rhel-rocky-and-almalinux"><vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo dnf install -y openvoxdb-termini
+</code></vox-code-block></vox-tab-panel></vox-tabs><h3 id="check-it-is-running-2">检查它是否在运行</h3>
+<p>openvoxdb 的 HTTPS 端口必须提供客户端证书，因此请使用主机自己的证书发起请求。没有证书时，返回的是 <code>certificate required</code>：</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>H=$(hostname -f)
+sudo curl -sS --cert /etc/puppetlabs/puppet/ssl/certs/$H.pem \
+  --key /etc/puppetlabs/puppet/ssl/private_keys/$H.pem \
+  --cacert /etc/puppetlabs/puppet/ssl/certs/ca.pem \
+  https://$H:8081/status/v1/simple
 </code></vox-code-block>
-<p>The reply is <code>running</code>.</p>
-<h2 id="create-the-console-s-database">Create the console&#39;s database</h2>
-<p>The console keeps its own data in a database separate from openvoxdb&#39;s.
-It creates its schema itself on first start; all it needs is an empty
-database and a role that owns it. On the Postgres host:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo -u postgres createuser --pwprompt console
+<p>返回 <code>running</code>。日志中可能会报告 &#34;the read-database user is not configured properly&#34;。这指的是一个本指南没有设置的独立只读用户，openvoxdb 没有它也能运行。</p>
+<h2 id="create-the-console-s-database">创建控制台的数据库</h2>
+<p>控制台把自己的数据保存在一个独立于 openvoxdb 的数据库中。它会在首次启动时自行创建 schema；它只需要一个空数据库和一个拥有该数据库的角色。在 Postgres 主机上执行：</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo -u postgres createuser --pwprompt console
 sudo -u postgres createdb --owner=console console
 </code></vox-code-block>
-<p>If the console will run on a different host, Postgres also has to listen
-on the network. Debian and Ubuntu listen on <code>localhost</code> only, so a remote
-connection is refused even though <code>pg_isready</code> passes locally:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo -u postgres psql -c &#34;ALTER SYSTEM SET listen_addresses = &#39;*&#39;;&#34;
-# allow the console&#39;s host or subnet - adjust the address range:
+<p>如果控制台将运行在另一台主机上，Postgres 还必须在网络上监听。它默认只监听 <code>localhost</code>，因此即使 <code>pg_isready</code> 在本地检查通过，远程连接仍会被拒绝。请允许控制台的主机或子网访问，并相应调整地址范围：</p>
+<vox-tabs class="guide-tabs"><vox-tab slot="tab" panel="tab5-debian-and-ubuntu" data-tab-key="debian-and-ubuntu" selected="">Debian 和 Ubuntu</vox-tab><vox-tab-panel name="tab5-debian-and-ubuntu"><vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo -u postgres psql -c &#34;ALTER SYSTEM SET listen_addresses = &#39;*&#39;;&#34;
 echo &#39;host console console 10.0.0.0/24 scram-sha-256&#39; \
   | sudo tee -a /etc/postgresql/*/main/pg_hba.conf
 sudo systemctl restart postgresql@*-main.service
+</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab5-rhel-rocky-and-almalinux" data-tab-key="rhel-rocky-and-almalinux">RHEL、Rocky 和 AlmaLinux</vox-tab><vox-tab-panel name="tab5-rhel-rocky-and-almalinux"><vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo -u postgres psql -c &#34;ALTER SYSTEM SET listen_addresses = &#39;*&#39;;&#34;
+echo &#39;host console console 10.0.0.0/24 scram-sha-256&#39; \
+  | sudo tee -a /var/lib/pgsql/data/pg_hba.conf
+sudo systemctl restart postgresql
+</code></vox-code-block></vox-tab-panel></vox-tabs><p>在控制台所在的主机上，检查控制台的角色能否连接（那里的 <code>psql</code> 由 <code>postgresql-client</code> 软件包提供）：</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>PGPASSWORD=&#39;&lt;password&gt;&#39; psql -h &lt;postgres host&gt; -U console -d console -c &#39;select 1;&#39;
 </code></vox-code-block>
-<p>Check the console&#39;s role can connect, from the console&#39;s host:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>PGPASSWORD=&#39;&lt;password&gt;&#39; psql -h &lt;postgres host&gt; -U console -d console -c &#39;select 1;&#39;
-</code></vox-code-block>
-<vox-callout variant="tip" heading="Tip"><p>Keep the single quotes. A password containing <code>$</code> is otherwise expanded
-by the shell before psql sees it.</p>
+<vox-callout variant="tip" heading="提示"><p>保留单引号。否则包含 <code>$</code> 的密码会在 psql 看到之前被 shell 展开。</p>
 </vox-callout>
-<h2 id="issue-the-console-s-certificates">Issue the console&#39;s certificates</h2>
-<p>The console needs two certificates from the CA, and optionally a third.
-Generate them on the openvoxserver host, then copy them to the console&#39;s
-host, into <code>/etc/openvox-console/</code>.</p>
-<h3 id="the-openvoxdb-client-certificate">The openvoxdb client certificate</h3>
-<p>This is how the console authenticates to openvoxdb:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo /opt/puppetlabs/bin/puppetserver ca generate --certname console
+<h2 id="issue-the-console-s-certificates">签发控制台的证书</h2>
+<p>控制台需要 CA 签发的两张证书，另有一张可选。在 openvoxserver 主机上生成它们，然后复制到控制台主机的 <code>/etc/openvox-console/</code> 中。请先在控制台的主机上，以控制台将要使用的运行用户创建该目录：</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo useradd --system --home-dir /nonexistent --shell /usr/sbin/nologin openvox-console
+sudo install -d -m 0750 -o root -g openvox-console /etc/openvox-console
 </code></vox-code-block>
-<p>It writes three files the console needs. Copy them across under these
-names:</p>
+<h3 id="the-openvoxdb-client-certificate">openvoxdb 客户端证书</h3>
+<p>控制台就是这样向 openvoxdb 进行认证的：</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo /opt/puppetlabs/bin/puppetserver ca generate --certname console
+</code></vox-code-block>
+<vox-callout variant="info" heading="说明"><p><code>puppetserver ca generate</code> 一开始会打印 <code>Error: Signed certificate console could not be found on the CA</code>。这是它在检查该名称是否可用，并非失败。真正要看的是之后的几行，最后以 <code>Successfully saved certificate</code> 结尾。</p>
+</vox-callout>
+<p>它会写出控制台需要的三个文件。以下列名称把它们复制过去：</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>On the openvoxserver host</th>
-<th>On the console host</th>
+<th>在 openvoxserver 主机上</th>
+<th>在控制台主机上</th>
 </tr>
 </thead>
 <tbody>
@@ -337,99 +319,66 @@ names:</p>
 </tr>
 </tbody>
 </table></div>
-<h3 id="the-node-transport-certificate">The node transport certificate</h3>
-<p>Nodes check this certificate when they connect to the console, so it must
-carry the exact name they dial: the host part of
-<code>CONSOLE_NODE_TRANSPORT_PUBLIC_ADDR</code>.</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo /opt/puppetlabs/bin/puppetserver ca generate --certname node-transport \
+<h3 id="the-node-transport-certificate">Node 传输证书</h3>
+<p>Nodes 连接控制台时会校验此证书，所以它必须包含 Nodes 所拨号的确切名称：即 <code>CONSOLE_NODE_TRANSPORT_PUBLIC_ADDR</code> 的主机部分。</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo /opt/puppetlabs/bin/puppetserver ca generate --certname node-transport \
   --subject-alt-names console.example.com,node-transport
 </code></vox-code-block>
-<p>Copy <code>certs/node-transport.pem</code> and <code>private_keys/node-transport.pem</code>
-across the same way, as <code>node-transport-cert.pem</code> and
-<code>node-transport-key.pem</code>. Nodes authenticate back with their own
-certificates from the same CA, so the console needs nothing else for
-them.</p>
-<h3 id="the-token-signing-key">The token signing key</h3>
-<p>The console signs its own login tokens with an ES256 key. This one does
-not come from the CA. Generate it on any machine with OpenSSL:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>openssl ecparam -genkey -name prime256v1 -noout -out rbac-signing-key.pem
+<p>以同样方式把 <code>certs/node-transport.pem</code> 和 <code>private_keys/node-transport.pem</code> 复制过去，分别命名为 <code>node-transport-cert.pem</code> 和 <code>node-transport-key.pem</code>。Nodes 使用同一 CA 签发的自有证书进行反向认证，因此控制台不需要为它们准备其他任何东西。</p>
+<h3 id="the-token-signing-key">令牌签名密钥</h3>
+<p>控制台使用一个 ES256 密钥为自己的登录令牌签名。这个密钥并非来自 CA。可在任意一台机器上用 OpenSSL 生成：</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>openssl ecparam -genkey -name prime256v1 -noout -out rbac-signing-key.pem
 </code></vox-code-block>
-<vox-callout variant="danger" heading="Caution"><p>Back this file up. Losing it invalidates every issued token, which logs
-everyone out; leaking it lets anyone mint tokens. See
-<a href="rotate-signing-key.html">Rotate the token signing key</a> to replace it
-safely.</p>
+<vox-callout variant="danger" heading="注意"><p>请备份此文件。丢失它会使所有已签发的令牌失效，从而让所有人退出登录；泄露它则会让任何人都能伪造令牌。要安全地替换它，请参见<a href="rotate-signing-key.html">轮换令牌签名密钥</a>。</p>
 </vox-callout>
-<p>Generate it on the console&#39;s host, into <code>/etc/openvox-console/</code>.</p>
-<h3 id="the-certificate-admin-credential-optional">The certificate-admin credential (optional)</h3>
-<p>This credential is what lets the <strong>Nodes</strong> page show certificate status,
-and sign, revoke and clean certificates. Without it the console lists
-only nodes that have already connected or reported. A node waiting for
-its certificate to be signed does not appear at all, because the CA is
-the only part that knows it exists.</p>
-<vox-callout variant="warning" heading="Warning"><p>This credential is full CA admin. openvoxserver gates every CA
-endpoint behind one authorization extension, so a certificate that can
-read statuses can also sign, revoke and clean <em>any</em> node&#39;s certificate.
-There is no read-only variant. Keep it only where the console runs, and
-read <a href="certificates.html">Manage node certificates</a> before issuing it.</p>
+<p>在控制台所在的主机上生成它，放入 <code>/etc/openvox-console/</code>。</p>
+<h3 id="the-certificate-admin-credential-optional">证书管理员凭据（可选）</h3>
+<p>有了这个凭据，<strong>Nodes</strong> 页面才能显示证书状态，并对证书进行签名、吊销和清理。没有它，控制台只会列出已经连接过或上报过的 Nodes。正在等待证书签名的 Node 根本不会出现，因为只有 CA 知道它的存在。</p>
+<vox-callout variant="warning" heading="警告"><p>该凭据拥有完整的 CA 管理员权限。openvoxserver 用同一个授权扩展把守所有 CA 端点，因此一张能读取状态的证书也能签名、吊销和清理<em>任何</em> Node 的证书。不存在只读的变体。请只把它保存在控制台运行的地方，并在签发之前阅读<a href="certificates.html">管理 Node 证书</a>。</p>
 </vox-callout>
-<p>Issuing it writes to CA state that the running server also writes, so
-stop openvoxserver while it is issued:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo systemctl stop puppetserver
+<p>签发它会写入 CA 状态，而运行中的服务器也会写入这些状态，因此签发期间请停止 openvoxserver：</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo systemctl stop puppetserver
 sudo /opt/puppetlabs/bin/puppetserver ca generate --ca-client --certname console-ca-client
 sudo systemctl start puppetserver
 </code></vox-code-block>
-<p>Copy <code>certs/console-ca-client.pem</code> and <code>private_keys/console-ca-client.pem</code>
-across as <code>ca-client-cert.pem</code> and <code>ca-client-key.pem</code>. Then confirm the
-CA accepts it, from the console&#39;s host:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -sS -o /dev/null -w &#39;HTTP %{http_code}\n&#39; \
+<p>把 <code>certs/console-ca-client.pem</code> 和 <code>private_keys/console-ca-client.pem</code> 复制过去，分别命名为 <code>ca-client-cert.pem</code> 和 <code>ca-client-key.pem</code>。然后在控制台所在的主机上确认 CA 接受它：</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>curl -sS -o /dev/null -w &#39;HTTP %{http_code}\n&#39; \
   --cert /etc/openvox-console/ca-client-cert.pem \
   --key /etc/openvox-console/ca-client-key.pem \
   --cacert /etc/openvox-console/ca.pem \
   https://puppet.example.com:8140/puppet-ca/v1/certificate_statuses/all
 </code></vox-code-block>
-<p><code>HTTP 200</code> means it works.</p>
-<h2 id="build-the-console">Build the console</h2>
-<p>The console is one binary with its web interface built in. There is no
-package of it; build it from the source repository. You need Go at the
-version named in <code>go.mod</code>, and git.</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>git clone https://github.com/avitacco/openvox-console.git
+<p><code>HTTP 200</code> 表示它工作正常。</p>
+<h2 id="build-the-console">构建控制台</h2>
+<p>控制台是一个内置了 Web 界面的单一二进制文件。它没有软件包，需要从源码仓库构建。你需要 <code>go.mod</code> 中指定版本的 Go，以及 git。</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>git clone https://github.com/avitacco/openvox-console.git
 cd openvox-console
 </code></vox-code-block>
-<p>The console also serves the node agent that nodes install, from its own
-package repository, and those agents are built into the console binary.
-Build them first, or every node install fails with a 404:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>make agent-binaries
+<p>控制台还会从自己的软件包仓库提供 Nodes 要安装的 Node 代理，这些代理内置在控制台二进制文件中。请先构建它们，否则每次 Node 安装都会以 404 失败：</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>make agent-binaries
 make agent-packages
 make build
 </code></vox-code-block>
-<p>That leaves <code>bin/console</code> and <code>bin/enc-bridge</code>. Install the console on its
-host:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo install -m 0755 bin/console /usr/local/bin/console
+<p>这样就得到了 <code>bin/console</code> 和 <code>bin/enc-bridge</code>。在控制台的主机上安装控制台：</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo install -m 0755 bin/console /usr/local/bin/console
 </code></vox-code-block>
-<h2 id="configure-the-console">Configure the console</h2>
-<p>The console is configured with environment variables only. Create a user
-for it, and a configuration file only that user can read:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo useradd --system --home-dir /nonexistent --shell /usr/sbin/nologin openvox-console
-sudo install -d -m 0750 -o root -g openvox-console /etc/openvox-console
-</code></vox-code-block>
-<p>Six settings are required, and the console refuses to start without them,
-naming the one that is missing. Put them in
-<code>/etc/openvox-console/console.env</code>:</p>
-<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CONSOLE_POSTGRES_DSN=postgres://console:&lt;password&gt;@&lt;postgres host&gt;:5432/console?sslmode=require
+<h2 id="configure-the-console">配置控制台</h2>
+<p>控制台只通过环境变量进行配置，这些变量写在你为其证书创建的 <code>/etc/openvox-console/</code> 目录中的一个文件里。</p>
+<p>有六项设置是必需的，缺少时控制台会拒绝启动，并指出缺少的是哪一项。把它们放在 <code>/etc/openvox-console/console.env</code> 中：</p>
+<vox-code-block language="plaintext" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>CONSOLE_POSTGRES_DSN=postgres://console:&lt;password&gt;@&lt;postgres host&gt;:5432/console?sslmode=require
 CONSOLE_OPENVOXDB_URL=https://&lt;openvoxdb host&gt;:8081
 CONSOLE_OPENVOXDB_CERT_FILE=/etc/openvox-console/console-cert.pem
 CONSOLE_OPENVOXDB_KEY_FILE=/etc/openvox-console/console-key.pem
 CONSOLE_OPENVOXDB_CA_FILE=/etc/openvox-console/ca.pem
 CONSOLE_RBAC_SIGNING_KEY_FILE=/etc/openvox-console/rbac-signing-key.pem
 </code></vox-code-block>
-<vox-callout variant="info" heading="Note"><p><code>sslmode=require</code> assumes your Postgres serves TLS, which it should
-once the connection leaves the host. If the console and Postgres share
-a host and Postgres has no certificate, use <code>sslmode=disable</code>.</p>
+<vox-callout variant="info" heading="说明"><p><code>sslmode=require</code> 假定你的 Postgres 提供 TLS——一旦连接离开本机，它就应该提供。如果控制台和 Postgres 在同一台主机上且 Postgres 没有证书，请使用 <code>sslmode=disable</code>。</p>
 </vox-callout>
-<p>The rest is optional, and each optional feature switches itself off
-rather than blocking startup. For a real deployment, add:</p>
-<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code># Where the console listens, and how the outside world reaches it.
-CONSOLE_HTTP_ADDR=:8080
+<p>其余设置都是可选的，每个可选功能在未配置时会自行关闭，而不会阻止启动。对于正式部署，请添加：</p>
+<vox-code-block language="plaintext" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code># Where the console listens, and how the outside world reaches it. It
+# listens on loopback only: the TLS proxy in front of it is the way in.
+# On a host shared with openvoxdb, which holds 8080, use 127.0.0.1:8088.
+CONSOLE_HTTP_ADDR=127.0.0.1:8080
 CONSOLE_BASE_URL=https://console.example.com
 
 # The first admin user, created only while there are no users. The
@@ -460,21 +409,11 @@ CONSOLE_CA_CLIENT_CA_FILE=/etc/openvox-console/ca.pem
 # another with CONSOLE_PUPPET_SERVER_CERT_FILE, _KEY_FILE and _CA_FILE.
 CONSOLE_PUPPET_SERVER_URL=https://puppet.example.com:8140
 </code></vox-code-block>
-<p>Tasks need no certificate of their own: openvoxserver lets any
-certificate from its CA read tasks, so the openvoxdb client certificate
-serves. Do not point them at the certificate-admin credential, which can
-do far more than reading tasks needs. See <a href="run-jobs.html">Run jobs</a>
-for running them.</p>
-<h3 id="let-the-console-read-the-class-list">Let the console read the class list</h3>
-<p>A node group&#39;s page offers the classes your deployed code defines, with
-their parameters, so they are picked rather than typed. The console
-reads them from openvoxserver over the same connection as tasks, but
-openvoxserver lets no certificate read classes until a rule says so.</p>
-<p>On openvoxserver&#39;s host, add this rule to the <code>rules</code> list in
-<code>/etc/puppetlabs/puppetserver/conf.d/auth.conf</code>, above the final
-<code>puppetlabs deny all</code> rule. <code>console</code> is the name of the openvoxdb
-client certificate you issued above:</p>
-<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>{
+<p>Tasks 不需要自己的证书：openvoxserver 允许其 CA 签发的任何证书读取 Tasks，因此 openvoxdb 客户端证书即可胜任。不要让它们使用证书管理员凭据，它能做的远超读取 Tasks 所需。关于如何运行它们，参见<a href="run-jobs.html">运行 Jobs</a>。</p>
+<h3 id="let-the-console-read-the-class-list">让控制台读取类列表</h3>
+<p>Node 组的页面会提供你已 deploy 的代码所定义的类及其参数，供你选择而不必手动输入。控制台通过与 Tasks 相同的连接从 openvoxserver 读取它们，但在有规则允许之前，openvoxserver 不允许任何证书读取类。</p>
+<p>在 openvoxserver 的主机上，把这条规则添加到 <code>/etc/puppetlabs/puppetserver/conf.d/auth.conf</code> 中的 <code>rules</code> 列表里，放在最后的 <code>puppetlabs deny all</code> 规则之前。<code>console</code> 是你在上面签发的 openvoxdb 客户端证书的名称：</p>
+<vox-code-block language="plaintext" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>{
     match-request: {
         path: &#34;/puppet/v3/environment_classes&#34;
         type: path
@@ -485,37 +424,30 @@ client certificate you issued above:</p>
     name: &#34;openvox console class discovery&#34;
 },
 </code></vox-code-block>
-<p>Then reload openvoxserver:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo systemctl reload puppetserver
+<p>然后重新加载 openvoxserver：</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo systemctl reload puppetserver
 </code></vox-code-block>
-<p>Check it from the console&#39;s host. <code>HTTP 200</code> means the list can be read:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo curl -sS -o /dev/null -w &#39;HTTP %{http_code}\n&#39; \
+<p>在控制台所在的主机上检查它。<code>HTTP 200</code> 表示可以读取该列表：</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo curl -sS -o /dev/null -w &#39;HTTP %{http_code}\n&#39; \
   --cert /etc/openvox-console/console-cert.pem \
   --key /etc/openvox-console/console-key.pem \
   --cacert /etc/openvox-console/ca.pem \
   &#39;https://puppet.example.com:8140/puppet/v3/environment_classes?environment=production&#39;
 </code></vox-code-block>
-<p><code>HTTP 403</code> means the rule is missing or names another certificate.
-Nothing else depends on this step: without it the group page says the
-list is unavailable, and classes are entered by name. See
-<a href="classify.html">Classify nodes</a>.</p>
-<h3 id="keep-secrets-in-files">Keep secrets in files</h3>
-<p>Any setting can be read from a file instead: name the file in the
-setting&#39;s name followed by <code>_FILE</code>. That keeps passwords out of the
-process environment:</p>
-<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CONSOLE_POSTGRES_DSN_FILE=/etc/openvox-console/postgres-dsn
+<p><code>HTTP 403</code> 表示该规则缺失或指定的是另一张证书。没有其他功能依赖于这一步：缺少它时，组页面会提示该列表不可用，类需要按名称输入。参见<a href="classify.html">为 Nodes 分类</a>。</p>
+<h3 id="keep-secrets-in-files">把机密保存在文件中</h3>
+<p>任何设置都可以改为从文件读取：在设置名称后加上 <code>_FILE</code>，并以此指定文件。这样密码就不会出现在进程环境中：</p>
+<vox-code-block language="plaintext" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>CONSOLE_POSTGRES_DSN_FILE=/etc/openvox-console/postgres-dsn
 CONSOLE_BOOTSTRAP_ADMIN_PASSWORD_FILE=/etc/openvox-console/bootstrap-admin-password
 </code></vox-code-block>
-<p>A trailing newline in the file is ignored. A file that is named but
-cannot be read stops the console from starting, rather than letting it
-start with the value silently empty.</p>
-<p>Finally, make every file readable by the console&#39;s user and nobody else:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo chown root:openvox-console /etc/openvox-console/*
-sudo chmod 0640 /etc/openvox-console/*
+<p>文件末尾的换行符会被忽略。如果指定的文件无法读取，控制台会拒绝启动，而不会在该值悄然为空的情况下启动。</p>
+<p>最后，让每个文件只有控制台的用户可以读取：</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo sh -c &#39;chown root:openvox-console /etc/openvox-console/* &amp;&amp; chmod 0640 /etc/openvox-console/*&#39;
 </code></vox-code-block>
-<h2 id="run-it-under-systemd">Run it under systemd</h2>
-<p>Create <code>/etc/systemd/system/openvox-console.service</code>:</p>
-<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>[Unit]
+<p><code>sh -c</code> 很关键：你自己的 shell 无法列出该目录，因此直接执行 <code>sudo chown ... /etc/openvox-console/*</code> 会失败并报 &#34;No such file or directory&#34;。</p>
+<h2 id="run-it-under-systemd">在 systemd 下运行</h2>
+<p>创建 <code>/etc/systemd/system/openvox-console.service</code>：</p>
+<vox-code-block language="plaintext" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>[Unit]
 Description=OpenVox Console
 After=network-online.target
 Wants=network-online.target
@@ -530,122 +462,108 @@ Group=openvox-console
 [Install]
 WantedBy=multi-user.target
 </code></vox-code-block>
-<p>Then start it:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo systemctl daemon-reload
+<p>然后启动它：</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo systemctl daemon-reload
 sudo systemctl enable --now openvox-console
 journalctl -u openvox-console -f
 </code></vox-code-block>
-<h2 id="log-in-for-the-first-time">Log in for the first time</h2>
-<p>On its first start the console creates its database schema, then creates
-the bootstrap admin while the users table is still empty. Its log shows
-three lines once it is up:</p>
-<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>database migrations up to date
+<h2 id="put-tls-in-front-of-the-console">在控制台前面配置 TLS</h2>
+<p>控制台通过普通 HTTP 提供其 Web 界面和 API。<code>https://</code> 基础 URL 经由一个终止 TLS 并把请求转发给控制台的反向代理访问。任何反向代理都可以。这里在控制台的主机上使用 <a href="https://caddyserver.com/">Caddy</a>：</p>
+<vox-tabs class="guide-tabs"><vox-tab slot="tab" panel="tab6-debian-and-ubuntu" data-tab-key="debian-and-ubuntu" selected="">Debian 和 Ubuntu</vox-tab><vox-tab-panel name="tab6-debian-and-ubuntu"><vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo apt-get install -y caddy
+</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab6-rhel-rocky-and-almalinux" data-tab-key="rhel-rocky-and-almalinux">RHEL、Rocky 和 AlmaLinux</vox-tab><vox-tab-panel name="tab6-rhel-rocky-and-almalinux"><vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo dnf install -y epel-release
+sudo dnf install -y caddy
+sudo systemctl enable --now caddy
+</code></vox-code-block></vox-tab-panel></vox-tabs><p>完整的 <code>/etc/caddy/Caddyfile</code> 就是：</p>
+<vox-code-block language="plaintext" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>console.example.com {
+	reverse_proxy 127.0.0.1:8080
+}
+</code></vox-code-block>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo systemctl reload caddy
+</code></vox-code-block>
+<p>如果控制台因为与 openvoxdb 共用主机而监听其他端口，请改为在 <code>reverse_proxy</code> 中填写该端口。</p>
+<p>对于互联网可以解析的名称，Caddy 会自行获取并续期证书。对于内部名称，请在该配置块中加入一行 <code>tls &lt;cert file&gt; &lt;key file&gt;</code>，为它提供由你自己的 CA 签发的证书。用于试用时，<code>tls internal</code> 会让 Caddy 用它自己的本地 CA 签发一张证书，浏览器会对此发出警告。</p>
+<vox-callout variant="warning" heading="警告"><p>只有 Web 界面经过代理。Node 传输（端口 8142）自带 TLS，并会自行校验每个 Node 的证书，因此 Nodes 必须直接访问它。绝不要把它放在代理后面。</p>
+</vox-callout>
+<h2 id="log-in-for-the-first-time">首次登录</h2>
+<p>首次启动时，控制台会创建其数据库 schema，然后趁用户表仍为空时创建引导管理员。启动完成后，其日志中会出现三行：</p>
+<vox-code-block language="plaintext" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>database migrations up to date
 node transport ready   addr=[::]:8142
 console ready          addr=:8080
 </code></vox-code-block>
-<p>Check that it reports itself healthy:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -fsS https://console.example.com/health
+<p>检查它是否报告自身健康：先直接在控制台的主机上检查，再通过 TLS 代理在其基础 URL 上检查：</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>curl -fsS http://127.0.0.1:8080/health
+curl -fsS https://console.example.com/health
 </code></vox-code-block>
-<p>The reply lists each dependency as <code>ok</code>. Then open the console&#39;s base URL,
-log in as the bootstrap admin, and change its password straight away.</p>
-<p>The bootstrap admin&#39;s password must have at least 12 characters and
-must not be the same as its username. If it does not, no admin is
-created and nobody can log in. The log says so:</p>
-<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CONSOLE_BOOTSTRAP_ADMIN_PASSWORD does not meet the account policy, so no administrator was created
+<p>每个应答都会把每个依赖项列为 <code>ok</code>。如果只有第二个失败，说明控制台没有问题，问题出在代理上。如果你把控制台从 8080 移到了其他端口，请在第一个检查中使用控制台自己的端口。然后打开控制台的基础 URL，以引导管理员身份登录，并立即修改其密码。</p>
+<p>引导管理员的密码必须至少有 12 个字符，并且不能与其用户名相同。否则不会创建管理员，也就没有人能登录。日志会说明这一点：</p>
+<vox-code-block language="plaintext" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>CONSOLE_BOOTSTRAP_ADMIN_PASSWORD does not meet the account policy, so no administrator was created
 </code></vox-code-block>
-<p>Set a longer password and start the console again. See
-<a href="access.html#passwords-and-lockout">Passwords and lockout</a>.</p>
-<vox-callout variant="info" heading="Note"><p>Once you have logged in and changed the password, remove the bootstrap
-admin settings from the console&#39;s configuration. They are only read
-while the users table is empty, but there is no reason to keep a
-password lying around.</p>
+<p>设置一个更长的密码，然后重新启动控制台。参见<a href="access.html#passwords-and-lockout">密码与锁定</a>。</p>
+<vox-callout variant="info" heading="说明"><p>登录并修改密码后，请从控制台的配置中删除引导管理员相关设置。它们只在用户表为空时才会被读取，但没有理由让密码一直留在那里。</p>
 </vox-callout>
-<h2 id="connect-classification">Connect classification</h2>
-<p>openvoxserver asks the console which classes each node gets, through
-Puppet&#39;s standard <code>exec</code> node terminus. A small program, <code>enc-bridge</code>,
-makes that request on openvoxserver&#39;s behalf, and it needs a token to do
-so.</p>
-<h3 id="issue-enc-bridge-a-token">Issue enc-bridge a token</h3>
-<p>A service token carries a fixed set of permissions chosen when it is
-created, with no role involved. Create one allowed only to read
-classification:</p>
+<h2 id="connect-classification">连接分类</h2>
+<p>openvoxserver 通过 Puppet 标准的 <code>exec</code> node terminus 向控制台询问每个 Node 获得哪些类。一个小程序 <code>enc-bridge</code> 代表 openvoxserver 发出该请求，为此它需要一个令牌。</p>
+<h3 id="issue-enc-bridge-a-token">为 enc-bridge 签发令牌</h3>
+<p>服务令牌带有一组在创建时选定的固定权限，不涉及任何角色。创建一个只允许读取分类的服务令牌：</p>
 <ol>
-<li>In the console, open <strong>Admin</strong>, then <strong>Service tokens</strong>.</li>
-<li>Under <strong>New service token</strong>, name it <code>enc-bridge</code> and give it only the
-<code>enc:read</code> permission.</li>
-<li>Choose <strong>Create service token</strong>.</li>
+<li>在控制台中打开<strong>管理</strong>，然后打开<strong>服务令牌</strong>。</li>
+<li>在<strong>新建服务令牌</strong>下，将其命名为 <code>enc-bridge</code>，并只授予 <code>enc:read</code> 权限。</li>
+<li>选择<strong>创建服务令牌</strong>。</li>
 </ol>
-<p>The token is shown <strong>once</strong>. Copy it now.</p>
-<vox-callout variant="tip" heading="Tip"><p>The same through the API, with an access token from an admin login:
-<code>curl -X POST https://console.example.com/api/v1/service-tokens -H &#34;Authorization: Bearer &lt;admin access token&gt;&#34; -H &#39;Content-Type: application/json&#39; -d &#39;{&#34;name&#34;:&#34;enc-bridge&#34;,&#34;permissions&#34;:[&#34;enc:read&#34;]}&#39;</code></p>
+<p>令牌只显示<strong>一次</strong>。请立即复制。</p>
+<vox-callout variant="tip" heading="提示"><p>也可以通过 API 完成，使用管理员登录获得的访问令牌：<code>curl -X POST https://console.example.com/api/v1/service-tokens -H &#34;Authorization: Bearer &lt;admin access token&gt;&#34; -H &#39;Content-Type: application/json&#39; -d &#39;{&#34;name&#34;:&#34;enc-bridge&#34;,&#34;permissions&#34;:[&#34;enc:read&#34;]}&#39;</code></p>
 </vox-callout>
-<h3 id="install-enc-bridge-on-openvoxserver-s-host">Install enc-bridge on openvoxserver&#39;s host</h3>
-<p>Copy <code>bin/enc-bridge</code> from your build to the openvoxserver host and
-install it:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo install -m 0755 enc-bridge /usr/local/bin/enc-bridge
+<h3 id="install-enc-bridge-on-openvoxserver-s-host">在 openvoxserver 的主机上安装 enc-bridge</h3>
+<p>把构建产物中的 <code>bin/enc-bridge</code> 复制到 openvoxserver 主机并安装：</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo install -m 0755 enc-bridge /usr/local/bin/enc-bridge
 </code></vox-code-block>
-<p>Save the token where only openvoxserver&#39;s user can read it:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>printf &#39;%s&#39; &#39;&lt;the enc:read service token&gt;&#39; | sudo tee /etc/puppetlabs/enc-bridge-token &gt;/dev/null
+<p>把令牌保存在只有 openvoxserver 的用户可以读取的位置：</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>printf &#39;%s&#39; &#39;&lt;the enc:read service token&gt;&#39; | sudo tee /etc/puppetlabs/enc-bridge-token &gt;/dev/null
 sudo chown root:puppet /etc/puppetlabs/enc-bridge-token
 sudo chmod 0640 /etc/puppetlabs/enc-bridge-token
 </code></vox-code-block>
-<p>enc-bridge reads where the console is, and its token, from its
-environment, which it inherits from openvoxserver. Give openvoxserver
-both, with <code>sudo systemctl edit puppetserver</code>:</p>
-<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>[Service]
+<p>enc-bridge 从其环境变量中读取控制台的位置及其令牌，这些环境变量继承自 openvoxserver。用 <code>sudo systemctl edit puppetserver</code> 把两者都提供给 openvoxserver：</p>
+<vox-code-block language="plaintext" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>[Service]
 Environment=ENC_BRIDGE_URL=https://console.example.com
 Environment=ENC_BRIDGE_TOKEN_FILE=/etc/puppetlabs/enc-bridge-token
 </code></vox-code-block>
-<p>Then point Puppet at it, in the <code>[server]</code> section of
-<code>/etc/puppetlabs/puppet/puppet.conf</code>, and restart openvoxserver:</p>
-<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>[server]
+<p>enc-bridge 会依据 openvoxserver 主机的系统证书库校验控制台的证书。如果代理的证书来自你自己的 CA，请把该 CA 添加到证书库中，否则分类会失败并报 <code>certificate signed by unknown authority</code>：</p>
+<vox-tabs class="guide-tabs"><vox-tab slot="tab" panel="tab7-debian-and-ubuntu" data-tab-key="debian-and-ubuntu" selected="">Debian 和 Ubuntu</vox-tab><vox-tab-panel name="tab7-debian-and-ubuntu"><vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo cp &lt;your CA&gt;.crt /usr/local/share/ca-certificates/
+sudo update-ca-certificates
+</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab7-rhel-rocky-and-almalinux" data-tab-key="rhel-rocky-and-almalinux">RHEL、Rocky 和 AlmaLinux</vox-tab><vox-tab-panel name="tab7-rhel-rocky-and-almalinux"><vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo cp &lt;your CA&gt;.crt /etc/pki/ca-trust/source/anchors/
+sudo update-ca-trust
+</code></vox-code-block></vox-tab-panel></vox-tabs><p>然后在 <code>/etc/puppetlabs/puppet/puppet.conf</code> 的 <code>[server]</code> 部分让 Puppet 指向它，并重启 openvoxserver：</p>
+<vox-code-block language="plaintext" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>[server]
 node_terminus = exec
 external_nodes = /usr/local/bin/enc-bridge
 </code></vox-code-block>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo systemctl restart puppetserver
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo systemctl restart puppetserver
 </code></vox-code-block>
-<h3 id="let-nodes-read-configuration-data">Let nodes read configuration data</h3>
-<p>Optional. This lets nodes read the <strong>configuration data</strong> set on node
-groups with <code>lookup()</code>, ahead of your control repo&#39;s Hiera data. The
-function runs <code>enc-bridge --data</code>, so it uses the same console address and
-token as classification and needs nothing more configured. It needs an
-enc-bridge built from this version.</p>
-<p>The function has to be installed in the openvox gem&#39;s own function
-directory, the only place openvoxserver loads a global Hiera function
-from. The directory carries the gem&#39;s version, so find it:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>FUNCTIONS=$(ls -d /opt/puppetlabs/server/data/puppetserver/jruby-gems/gems/openvox-[0-9]*/lib/puppet/functions | tail -n 1)
-sudo install -m 0644 openvoxserver-init/console_config_data.rb &#34;$FUNCTIONS/console_config_data.rb&#34;
+<h3 id="let-nodes-read-configuration-data">让 Nodes 读取配置数据</h3>
+<p>可选。这能让 Nodes 通过 <code>lookup()</code> 读取在 Node 组上设置的<strong>配置数据</strong>，其优先级高于你的 control 仓库中的 Hiera 数据。该函数会运行 <code>enc-bridge --data</code>，因此它使用与分类相同的控制台地址和令牌，无需额外配置。它需要由此版本构建的 enc-bridge。</p>
+<p>该函数必须安装在 Puppet 自己的函数目录中，这是 openvoxserver 加载全局 Hiera 函数的唯一位置。在你构建所用的代码检出目录中执行：</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo install -m 0644 openvoxserver-init/console_config_data.rb \
+  /opt/puppetlabs/puppet/lib/ruby/vendor_ruby/puppet/functions/console_config_data.rb
 </code></vox-code-block>
-<p>Then add it to the <strong>global</strong> Hiera configuration,
-<code>/etc/puppetlabs/puppet/hiera.yaml</code>, first in the hierarchy so that
-console data wins. If the file does not exist, this is all of it:</p>
-<vox-code-block language="yaml" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>---
+<p>然后把它添加到<strong>全局</strong> Hiera 配置 <code>/etc/puppetlabs/puppet/hiera.yaml</code> 中，放在层级的第一位，使控制台数据胜出。软件包会在那里安装一个占位文件；如果你没有改动过它，请用以下内容替换：</p>
+<vox-code-block language="yaml" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>---
 version: 5
 hierarchy:
   - name: &#34;Console configuration data&#34;
     data_hash: console_config_data
 </code></vox-code-block>
-<p>If you already have a global <code>hiera.yaml</code>, add the entry to it and keep
-your own entries after it.</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo systemctl restart puppetserver
+<p>如果你已经有一个全局的 <code>hiera.yaml</code>，请把该条目添加进去，并把你自己的条目放在它之后。</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo systemctl restart puppetserver
 </code></vox-code-block>
-<p>Do this again after upgrading the openvox gem: the new version has its own
-directory. If a node&#39;s run fails with &#34;Unable to find &#39;data_hash&#39;
-function named &#39;console_config_data&#39;&#34;, the function is not in the
-directory of the gem that is running. The container image does all of
-this itself on every start.</p>
-<h3 id="check-classification">Check classification</h3>
-<p>Run enc-bridge the way openvoxserver does: as its user, with the same
-settings. This checks the program, the token, the file permissions and
-the console&#39;s answer in one command:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo -u puppet env ENC_BRIDGE_URL=https://console.example.com \
+<p>升级 <code>openvox-agent</code> 软件包后，请检查该文件是否仍在，如果不在就重新安装。如果某个 Node 的运行失败并报 &#34;Unable to find &#39;data_hash&#39; function named &#39;console_config_data&#39;&#34;，说明该函数不在那个目录中。容器镜像在每次启动时都会自动完成这一切。</p>
+<h3 id="check-classification">检查分类</h3>
+<p>以 openvoxserver 的方式运行 enc-bridge：使用它的用户、相同的设置。一条命令即可同时检查程序、令牌、文件权限以及控制台的应答：</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo -u puppet env ENC_BRIDGE_URL=https://console.example.com \
   ENC_BRIDGE_TOKEN_FILE=/etc/puppetlabs/enc-bridge-token \
   /usr/local/bin/enc-bridge &lt;a certname&gt;
 </code></vox-code-block>
-<p><code>{}</code> means classification works and that node matches no group yet.
-Create a node group on the console&#39;s <strong>Groups</strong> page that pins that
-certname, run the same command again, and its classes come back:</p>
-<vox-code-block language="yaml" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>classes:
+<p><code>{}</code> 表示分类正常工作，只是该 Node 尚未匹配任何组。在控制台的<strong>组</strong>页面上创建一个固定该 certname 的 Node 组，再次运行同一命令，它的类就会返回：</p>
+<vox-code-block language="yaml" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>classes:
     ntp:
         servers:
             - time.example.com
@@ -653,29 +571,24 @@ parameters:
     role: prodtest
 environment: production
 </code></vox-code-block>
-<p>An error here is the failure to catch. <code>permission denied</code> means the
-token is not readable by the user openvoxserver runs as, and a 401 means
-the token is wrong or lacks <code>enc:read</code>.</p>
-<vox-callout variant="tip" heading="Tip"><p>If a node&#39;s next Puppet run fails with <code>Could not find class &lt;name&gt;</code>,
-classification is working: the console told openvoxserver to include a
-class your Puppet code does not define yet.</p>
+<p>这里出现的错误正是需要捕捉的故障。<code>permission denied</code> 表示运行 openvoxserver 的用户无法读取该令牌；401 则表示令牌错误或缺少 <code>enc:read</code>。</p>
+<vox-callout variant="tip" heading="提示"><p>如果某个 Node 的下一次 Puppet 运行失败并报 <code>Could not find class &lt;name&gt;</code>，说明分类在正常工作：控制台让 openvoxserver 包含了一个你的 Puppet 代码中尚未定义的类。</p>
 </vox-callout>
-<h2 id="upgrade-later">Upgrade later</h2>
-<p>To move to a newer console, pull the source, rebuild in the same order,
-install the new binary and restart:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>git pull
+<h2 id="upgrade-later">日后升级</h2>
+<p>要升级到更新的控制台版本，请拉取源码，按相同顺序重新构建，安装新的二进制文件并重启：</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>git pull
 make agent-binaries
 make agent-packages
 make build
 sudo install -m 0755 bin/console /usr/local/bin/console
 sudo systemctl restart openvox-console
 </code></vox-code-block>
-<h2 id="check-the-whole-deployment">Check the whole deployment</h2>
+<h2 id="check-the-whole-deployment">检查整个部署</h2>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Check</th>
-<th>Expect</th>
+<th>检查项</th>
+<th>预期结果</th>
 </tr>
 </thead>
 <tbody>
@@ -684,76 +597,78 @@ sudo systemctl restart openvox-console
 <td><code>running</code></td>
 </tr>
 <tr>
-<td><code>curl -ksS https://&lt;openvoxdb&gt;:8081/status/v1/simple</code></td>
+<td><code>curl -ksS https://&lt;openvoxdb&gt;:8081/status/v1/simple</code>，从能够访问它的地方执行</td>
 <td><code>running</code></td>
 </tr>
 <tr>
 <td><code>curl -fsS https://console.example.com/health</code></td>
-<td>every dependency <code>ok</code></td>
+<td>每个依赖项均为 <code>ok</code></td>
 </tr>
 <tr>
-<td>The console&#39;s log on start</td>
-<td>migrations, node transport, console ready</td>
+<td>控制台启动时的日志</td>
+<td>迁移、Node 传输、控制台就绪</td>
 </tr>
 <tr>
-<td>Logging in as the bootstrap admin</td>
-<td>succeeds, and the password has been changed</td>
+<td>以引导管理员身份登录</td>
+<td>成功，并且密码已修改</td>
 </tr>
 <tr>
-<td>The <strong>Groups</strong> page</td>
-<td>a group matches the nodes you expect</td>
+<td><strong>组</strong>页面</td>
+<td>有一个组匹配到你预期的 Nodes</td>
 </tr>
 </tbody>
 </table></div>
-<p>Your console is ready for nodes. Continue with
-<a href="add.html">Add nodes</a> to enroll the first one.</p>
+<p>你的控制台已经可以接入 Nodes 了。继续阅读<a href="add.html">添加 Nodes</a>，注册第一个 Node。</p>
 
     </div>
 
-    <vox-series-nav label="Install" previous-text="Previous" next-text="Next" previous-href="../guides/containers.html" previous-label="Install with containers"></vox-series-nav>
+    <vox-series-nav label="安装" previous-text="上一篇" next-text="下一篇" previous-href="../guides/containers.html" previous-label="使用容器安装"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#install-openvoxserver"><span>Install openvoxserver</span>
-        <vox-toc-item slot="children" href="#check-its-certificate-s-names"><span>Check its certificate&#39;s names</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#check-it-is-running"><span>Check it is running</span></vox-toc-item>
+    <vox-toc heading="本页内容">
+      <vox-toc-item href="#install-openvoxserver"><span>安装 openvoxserver</span>
+        <vox-toc-item slot="children" href="#let-the-ca-sign-alternative-names"><span>允许 CA 签发备用名称</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#check-its-certificate-s-names"><span>检查其证书中的名称</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#check-it-is-running"><span>检查它是否在运行</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#install-openvoxdb-and-its-database"><span>Install openvoxdb and its database</span>
-        <vox-toc-item slot="children" href="#enroll-openvoxdb-s-host"><span>Enroll openvoxdb&#39;s host</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#create-its-database"><span>Create its database</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#install-and-start-openvoxdb"><span>Install and start openvoxdb</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#send-catalogs-and-reports-to-it"><span>Send catalogs and reports to it</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#check-it-is-running-2"><span>Check it is running</span></vox-toc-item>
+      <vox-toc-item href="#install-openvoxdb-and-its-database"><span>安装 openvoxdb 及其数据库</span>
+        <vox-toc-item slot="children" href="#enroll-openvoxdb-s-host"><span>注册 openvoxdb 的主机</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#create-its-database"><span>创建它的数据库</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#install-and-start-openvoxdb"><span>安装并启动 openvoxdb</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#send-catalogs-and-reports-to-it"><span>把 catalog 和 Reports 发送给它</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#check-it-is-running-2"><span>检查它是否在运行</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#create-the-console-s-database"><span>Create the console&#39;s database</span>
+      <vox-toc-item href="#create-the-console-s-database"><span>创建控制台的数据库</span>
       </vox-toc-item>
-      <vox-toc-item href="#issue-the-console-s-certificates"><span>Issue the console&#39;s certificates</span>
-        <vox-toc-item slot="children" href="#the-openvoxdb-client-certificate"><span>The openvoxdb client certificate</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#the-node-transport-certificate"><span>The node transport certificate</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#the-token-signing-key"><span>The token signing key</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#the-certificate-admin-credential-optional"><span>The certificate-admin credential (optional)</span></vox-toc-item>
+      <vox-toc-item href="#issue-the-console-s-certificates"><span>签发控制台的证书</span>
+        <vox-toc-item slot="children" href="#the-openvoxdb-client-certificate"><span>openvoxdb 客户端证书</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#the-node-transport-certificate"><span>Node 传输证书</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#the-token-signing-key"><span>令牌签名密钥</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#the-certificate-admin-credential-optional"><span>证书管理员凭据（可选）</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#build-the-console"><span>Build the console</span>
+      <vox-toc-item href="#build-the-console"><span>构建控制台</span>
       </vox-toc-item>
-      <vox-toc-item href="#configure-the-console"><span>Configure the console</span>
-        <vox-toc-item slot="children" href="#let-the-console-read-the-class-list"><span>Let the console read the class list</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#keep-secrets-in-files"><span>Keep secrets in files</span></vox-toc-item>
+      <vox-toc-item href="#configure-the-console"><span>配置控制台</span>
+        <vox-toc-item slot="children" href="#let-the-console-read-the-class-list"><span>让控制台读取类列表</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#keep-secrets-in-files"><span>把机密保存在文件中</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#run-it-under-systemd"><span>Run it under systemd</span>
+      <vox-toc-item href="#run-it-under-systemd"><span>在 systemd 下运行</span>
       </vox-toc-item>
-      <vox-toc-item href="#log-in-for-the-first-time"><span>Log in for the first time</span>
+      <vox-toc-item href="#put-tls-in-front-of-the-console"><span>在控制台前面配置 TLS</span>
       </vox-toc-item>
-      <vox-toc-item href="#connect-classification"><span>Connect classification</span>
-        <vox-toc-item slot="children" href="#issue-enc-bridge-a-token"><span>Issue enc-bridge a token</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#install-enc-bridge-on-openvoxserver-s-host"><span>Install enc-bridge on openvoxserver&#39;s host</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#let-nodes-read-configuration-data"><span>Let nodes read configuration data</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#check-classification"><span>Check classification</span></vox-toc-item>
+      <vox-toc-item href="#log-in-for-the-first-time"><span>首次登录</span>
       </vox-toc-item>
-      <vox-toc-item href="#upgrade-later"><span>Upgrade later</span>
+      <vox-toc-item href="#connect-classification"><span>连接分类</span>
+        <vox-toc-item slot="children" href="#issue-enc-bridge-a-token"><span>为 enc-bridge 签发令牌</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#install-enc-bridge-on-openvoxserver-s-host"><span>在 openvoxserver 的主机上安装 enc-bridge</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#let-nodes-read-configuration-data"><span>让 Nodes 读取配置数据</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#check-classification"><span>检查分类</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#check-the-whole-deployment"><span>Check the whole deployment</span>
+      <vox-toc-item href="#upgrade-later"><span>日后升级</span>
+      </vox-toc-item>
+      <vox-toc-item href="#check-the-whole-deployment"><span>检查整个部署</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -763,23 +678,17 @@ sudo systemctl restart openvox-console
 
       
       <vox-cta-band heading="自己动手运行">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console 以容器镜像形式发布，每次 push 都会构建 amd64 和 arm64 版本，同时也提供单个二进制文件。安装指南将带你从一台空主机走到一套可用的部署——openvoxserver、openvoxdb、Postgres 和控制台——可以用容器，也可以用软件包。</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">安装指南</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">GitHub 上的源码</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">容器镜像</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="全尺寸截图">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">关闭</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -788,18 +697,18 @@ sudo systemctl restart openvox-console
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">概览</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">源码</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">安装指南</a>
       </vox-footer-column>
       <vox-footer-column heading="功能">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">分类</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">编排</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">补丁管理</a>
         <a href="../features/security.html">安全</a>
         <a href="../features/access-control.html">访问控制</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">AI 代理</a>
+        <a href="../features/scaling.html">扩展</a>
         </vox-footer-column>
       
       <vox-footer-column heading="语言">

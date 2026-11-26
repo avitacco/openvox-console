@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="hi" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Register hosts the console reaches over SSH, pin their host keys, check them, and run tasks on them like any other node."/>
+    <meta name="description" content="उन होस्टों को पंजीकृत कीजिए जिन तक कंसोल SSH से पहुँचता है, उनकी host keys पिन कीजिए, उन्हें जाँचिए, और उन पर किसी भी अन्य Node की तरह Tasks चलाइए।"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Run tasks on hosts without an agent - OpenVox Console</title>
+    <title>बिना एजेंट वाले होस्टों पर Tasks चलाएँ - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">गाइड</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,173 +104,120 @@
       <a href="../features/classification.html">वर्गीकरण</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">ऑर्केस्ट्रेशन</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">पैचिंग</a>
       <a href="../features/security.html">सुरक्षा</a>
       <a href="../features/access-control.html">पहुँच नियंत्रण</a>
       <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/scaling.html">विस्तार</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="गाइड" toggle-label="सभी गाइड">
+    <vox-sidenav-group heading="इंस्टॉल">
+      <vox-sidenav-item href="../guides/plan.html"><span>परिनियोजन की योजना बनाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>कंटेनरों से इंस्टॉल करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>पैकेजों और बाइनरी से इंस्टॉल करें</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>Nodes जोड़ें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>Node प्रमाणपत्र प्रबंधित करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>किसी Node को हटाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Node एजेंटों को नवीनतम रखें</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
+    <vox-sidenav-group heading="विस्तार">
       <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>अधिक इंस्टेंस चलाएँ</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use" open="">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html" current="" aria-current="page"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="उपयोग" open="">
+      <vox-sidenav-item href="../guides/classify.html"><span>Nodes का वर्गीकरण करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>कोड deploy करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>Jobs चलाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>Plans चलाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Jobs शेड्यूल करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>उपयोगकर्ता, भूमिकाएँ और टोकन</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>कमज़ोरियों पर नज़र रखें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>छूटे हुए अपडेट खोजें और लागू करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html" current="" aria-current="page"><span>बिना एजेंट वाले होस्टों पर Tasks चलाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>अपने कोड से Plans चलाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>AI एजेंटों को कंसोल का उपयोग करने दें</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="संचालन">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>standby डेटाबेस पर failover करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>टोकन हस्ताक्षर कुंजी बदलें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>कंटेनर डेटाबेस को Postgres 18 पर अपग्रेड करें</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Use</p>
-    <h1 class="guide-title vox-ts-xxl">Run tasks on hosts without an agent</h1>
-    <p class="guide-summary">Register hosts the console reaches over SSH, pin their host keys, check them, and run tasks on them like any other node.</p>
+    <p class="guide-eyebrow">उपयोग</p>
+    <h1 class="guide-title vox-ts-xxl">बिना एजेंट वाले होस्टों पर Tasks चलाएँ</h1>
+    <p class="guide-summary">उन होस्टों को पंजीकृत कीजिए जिन तक कंसोल SSH से पहुँचता है, उनकी host keys पिन कीजिए, उन्हें जाँचिए, और उन पर किसी भी अन्य Node की तरह Tasks चलाइए।</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>Some hosts cannot or should not run the node agent: appliances, locked-down
-servers, machines not yet enrolled. The console can reach a Linux host over
-<strong>SSH</strong> instead and run <a href="run-jobs.html">tasks</a> on it. Such a host is an
-<strong>agentless target</strong>.</p>
-<p>What an agentless target can do is deliberately narrow:</p>
+<p>कुछ होस्ट Node एजेंट नहीं चला सकते या उन्हें नहीं चलाना चाहिए: appliances, कड़े प्रतिबंधों वाले सर्वर, अभी नामांकित न हुई मशीनें। कंसोल इसके बजाय किसी Linux होस्ट तक <strong>SSH</strong> से पहुँचकर उस पर <a href="run-jobs.html">Tasks</a> चला सकता है। ऐसा होस्ट एक <strong>agentless लक्ष्य</strong> है।</p>
+<p>agentless लक्ष्य क्या कर सकता है, यह जानबूझकर सीमित रखा गया है:</p>
 <ul>
-<li><strong>Tasks run on it</strong>, on their own, in a <a href="run-plans.html">plan</a> or on a
-<a href="schedule-jobs.html">schedule</a>, with the same permissions, node groups and
-task allowlists as any node.</li>
-<li><strong>Puppet runs and patch runs do not.</strong> They need the agent. A request that
-names an agentless target for one is refused whole, naming the target, and
-nothing is sent to anyone.</li>
-<li>It has <strong>no facts or reports</strong>, so a node group&#39;s rule, which matches on
-facts, cannot include it. A group includes it by <strong>pin</strong>.</li>
+<li><strong>इस पर Tasks चलते हैं</strong>, अकेले, किसी <a href="run-plans.html">Plan</a> में या किसी <a href="schedule-jobs.html">शेड्यूल</a> पर, उन्हीं अनुमतियों, Node समूहों और Task allowlists के साथ जो किसी भी Node पर लागू होते हैं।</li>
+<li><strong>Puppet रन और patch रन नहीं।</strong> इन्हें agent चाहिए। इनमें से किसी के लिए agentless लक्ष्य का नाम देने वाला अनुरोध, लक्ष्य का नाम बताते हुए, पूरा का पूरा अस्वीकार हो जाता है, और किसी को कुछ नहीं भेजा जाता।</li>
+<li>इसके पास <strong>कोई Facts या Reports नहीं</strong> होते, इसलिए Facts पर मेल खाने वाला Node समूह का नियम इसे शामिल नहीं कर सकता। समूह इसे <strong>पिन</strong> से शामिल करता है।</li>
 </ul>
-<h2 id="add-a-target">Add a target</h2>
-<p>Open <strong>Nodes</strong>, then <strong>Agentless targets</strong>, then <strong>Add target</strong>. This needs
-<code>agentless:manage</code>. Give:</p>
+<h2 id="add-a-target">लक्ष्य जोड़ें</h2>
+<p><strong>Nodes</strong> खोलिए, फिर <strong>एजेंट-रहित टारगेट</strong>, फिर <strong>टारगेट जोड़ें</strong>। इसके लिए <code>agentless:manage</code> चाहिए। ये दीजिए:</p>
 <ul>
-<li>a <strong>name</strong>, which is how the target appears in jobs and node groups. It
-cannot be the name of a node that exists, or of another target;</li>
-<li>the <strong>address</strong> and <strong>port</strong> (22 unless you say otherwise);</li>
-<li>the <strong>login</strong>: a user, and a <strong>private key</strong> (with its passphrase if it has
-one), a <strong>password</strong>, or both. Or choose a <strong>shared credential</strong>: one login
-several targets use. A target&#39;s own login wins over a shared one;</li>
-<li>optionally a user to <strong>run tasks as</strong>. Tasks then run through
-<code>sudo -n -u &lt;user&gt;</code>, so <code>sudo</code> must not ask for a password. Password <code>sudo</code>
-is not supported.</li>
+<li>एक <strong>नाम</strong>, जिससे लक्ष्य Jobs और Node समूहों में दिखता है। यह किसी मौजूदा Node का, या किसी दूसरे लक्ष्य का, नाम नहीं हो सकता;</li>
+<li><strong>पता</strong> और <strong>पोर्ट</strong> (जब तक आप कुछ और न कहें, 22);</li>
+<li><strong>लॉगिन</strong>: एक उपयोगकर्ता, और एक <strong>private key</strong> (यदि हो तो उसके passphrase के साथ), एक <strong>पासवर्ड</strong>, या दोनों। या एक <strong>साझा क्रेडेंशियल</strong> चुनिए: एक लॉगिन जिसे कई लक्ष्य उपयोग करते हैं। लक्ष्य का अपना लॉगिन साझा लॉगिन पर भारी पड़ता है;</li>
+<li>वैकल्पिक रूप से, वह उपयोगकर्ता <strong>जिसके रूप में Tasks चलें</strong>। तब Tasks <code>sudo -n -u &lt;user&gt;</code> के ज़रिये चलते हैं, इसलिए <code>sudo</code> को पासवर्ड नहीं माँगना चाहिए। पासवर्ड वाला <code>sudo</code> समर्थित नहीं है।</li>
 </ul>
-<p>The key, passphrase and password are stored <strong>sealed</strong> with the console&#39;s
-secrets key (<code>CONSOLE_SECRETS_KEY_FILE</code>; without it a target with credentials
-cannot be added). They are never returned by the console, written to its logs
-or audit entries, or put in a job. You can set or replace one but never read
-it: leave the fields blank when you edit to keep the stored ones. A key is
-checked when you save it, and a passphrase that does not open it is refused.</p>
-<p>A target must be pinned into a node group to be seen by anyone limited to
-that group. A user limited to some node groups can add and manage targets
-only inside their groups, and cannot use shared credentials at all, since a
-shared credential belongs to no node.</p>
-<h2 id="trust-its-host-key">Trust its host key</h2>
-<p>Before the console sends a login to a host it must know it is the right one.</p>
+<p>कुंजी, passphrase और पासवर्ड कंसोल की secrets कुंजी (<code>CONSOLE_SECRETS_KEY_FILE</code>; इसके बिना क्रेडेंशियल वाला लक्ष्य जोड़ा नहीं जा सकता) से <strong>सील</strong> करके संग्रहीत किए जाते हैं। कंसोल इन्हें कभी नहीं लौटाता, अपने लॉग या ऑडिट प्रविष्टियों में नहीं लिखता, और किसी Job में नहीं डालता। आप इन्हें सेट या बदल सकते हैं पर कभी पढ़ नहीं सकते: संग्रहीत मान बनाए रखने के लिए संपादन करते समय फ़ील्ड खाली छोड़ दीजिए। सहेजते समय कुंजी की जाँच होती है, और उसे न खोल पाने वाला passphrase अस्वीकार किया जाता है।</p>
+<p>किसी Node समूह तक सीमित व्यक्ति को कोई लक्ष्य दिखे, इसके लिए उसे उस समूह में पिन किया जाना चाहिए। कुछ Node समूहों तक सीमित उपयोगकर्ता केवल अपने समूहों के भीतर ही लक्ष्य जोड़ और प्रबंधित कर सकता है, और साझा क्रेडेंशियल का उपयोग बिल्कुल नहीं कर सकता, क्योंकि साझा क्रेडेंशियल किसी Node का नहीं होता।</p>
+<h2 id="trust-its-host-key">इसकी host key पर भरोसा करें</h2>
+<p>किसी होस्ट को लॉगिन भेजने से पहले कंसोल को पता होना चाहिए कि वह सही होस्ट है।</p>
 <ol>
-<li><strong>Check</strong> the target. The console connects and reads the host&#39;s key
-<strong>without logging in</strong>, and shows its fingerprint.</li>
-<li>Compare that fingerprint with the host&#39;s own, for example
-<code>ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub</code> on the host, and
-choose <strong>Trust this key</strong>.</li>
-<li>Check again: now the console logs in, and reports who it logged in as
-(and as whom tasks will run, if you set a run-as user).</li>
+<li>लक्ष्य को <strong>जाँचें</strong>। कंसोल कनेक्ट होकर <strong>लॉग इन किए बिना</strong> होस्ट की कुंजी पढ़ता है, और उसका fingerprint दिखाता है।</li>
+<li>उस fingerprint की तुलना होस्ट के अपने fingerprint से कीजिए, उदाहरण के लिए होस्ट पर <code>ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub</code> से, और <strong>इस कुंजी पर भरोसा करें</strong> चुनिए।</li>
+<li>फिर से जाँचिए: अब कंसोल लॉग इन करता है, और बताता है कि वह किस उपयोगकर्ता के रूप में लॉग इन हुआ (और यदि आपने run-as उपयोगकर्ता सेट किया है, तो Tasks किसके रूप में चलेंगे)।</li>
 </ol>
-<p>Until a key is trusted, a task on the target fails as &#34;not trusted&#34; and
-nothing is run. If a trusted target later presents a <strong>different key</strong>, the
-connection is refused before any login is sent, and the target shows
-<strong>Host key changed</strong> with both fingerprints. Replace the pin only if you know
-the host was rebuilt or its key rotated: that is a separate, audited action.
-Changing a target&#39;s address or port clears its pin, since a pin vouches for a
-host, not a name.</p>
-<p>A failed check says which stage failed: connecting, the host key,
-authentication, becoming the run-as user, or running a command.</p>
-<h2 id="run-a-task-on-one">Run a task on one</h2>
-<p>On the Nodes page select targets with any other nodes and choose <strong>Run
-task</strong>, or name them in a task, plan or schedule. The job shows each target&#39;s
-own result.</p>
-<p>For each target the console downloads the task&#39;s files from the Puppet
-server, verifies their checksums, then connects, creates a private directory
-on the host (<code>mktemp -d</code>, mode 700), copies the files into it over the SSH
-session, runs the task and removes the directory, whether the task succeeded,
-failed or timed out. Nothing needs to be installed on the host beyond <code>sh</code>,
-<code>cat</code>, <code>mktemp</code> and (for a run-as user) <code>sudo</code>.</p>
+<p>जब तक किसी कुंजी पर भरोसा न किया जाए, लक्ष्य पर Task &#34;not trusted&#34; के रूप में विफल होता है और कुछ नहीं चलता। यदि कोई भरोसेमंद लक्ष्य बाद में <strong>अलग कुंजी</strong> प्रस्तुत करता है, तो कोई लॉगिन भेजे जाने से पहले ही कनेक्शन अस्वीकार हो जाता है, और लक्ष्य दोनों fingerprints के साथ <strong>होस्ट कुंजी बदल गई</strong> दिखाता है। पिन तभी बदलिए जब आप जानते हों कि होस्ट दोबारा बनाया गया या उसकी कुंजी बदली गई: यह एक अलग, ऑडिट होने वाली कार्रवाई है। लक्ष्य का पता या पोर्ट बदलने से उसका पिन हट जाता है, क्योंकि पिन किसी होस्ट की गारंटी देता है, किसी नाम की नहीं।</p>
+<p>विफल जाँच बताती है कि कौन-सा चरण विफल हुआ: कनेक्ट करना, host key, प्रमाणीकरण, run-as उपयोगकर्ता बनना, या कमांड चलाना।</p>
+<h2 id="run-a-task-on-one">किसी पर Task चलाएँ</h2>
+<p>Nodes पृष्ठ पर लक्ष्यों को किसी भी अन्य Nodes के साथ चुनिए और <strong>Task चलाएँ</strong> चुनिए, या उन्हें किसी Task, Plan या शेड्यूल में नामित कीजिए। Job हर लक्ष्य का अपना परिणाम दिखाता है।</p>
+<p>हर लक्ष्य के लिए कंसोल Puppet सर्वर से Task की फ़ाइलें डाउनलोड करता है, उनके checksums सत्यापित करता है, फिर कनेक्ट होता है, होस्ट पर एक निजी डायरेक्टरी बनाता है (<code>mktemp -d</code>, mode 700), SSH सत्र पर फ़ाइलें उसमें कॉपी करता है, Task चलाता है और डायरेक्टरी हटा देता है, चाहे Task सफल हुआ हो, विफल हुआ हो या उसका समय समाप्त हुआ हो। होस्ट पर <code>sh</code>, <code>cat</code>, <code>mktemp</code> और (run-as उपयोगकर्ता के लिए) <code>sudo</code> के अलावा कुछ भी इंस्टॉल करने की ज़रूरत नहीं।</p>
 <ul>
-<li>Task <strong>parameters never appear on a command line</strong>, where any user of the
-host could read them. They reach the task on standard input or in its
-environment, as the task&#39;s metadata asks, and are never written to disk.
-What a task prints is recorded like any task&#39;s output.</li>
-<li>A task whose implementations all need the Puppet agent (<code>puppet-agent</code>)
-cannot run: the target provides a shell only.</li>
-<li>A task is limited by its <strong>timeout</strong>. When it runs out, the task is stopped
-and the target fails with that reason. Connecting is limited to 15 seconds.</li>
-<li>A target runs <strong>one task at a time</strong>; a second is refused as busy. At most
-20 SSH sessions run across the console at once, and the rest wait.</li>
-<li>A <code>/tmp</code> mounted <code>noexec</code> stops a task from running there. The failure says
-so; make a directory available or remount.</li>
+<li>Task के <strong>पैरामीटर कभी command line पर नहीं आते</strong>, जहाँ होस्ट का कोई भी उपयोगकर्ता उन्हें पढ़ सकता है। वे Task के metadata के अनुसार standard input पर या उसके environment में Task तक पहुँचते हैं, और कभी डिस्क पर नहीं लिखे जाते। Task जो छापता है, वह किसी भी Task के आउटपुट की तरह दर्ज होता है।</li>
+<li>जिस Task के सभी implementations को Puppet agent (<code>puppet-agent</code>) चाहिए, वह नहीं चल सकता: लक्ष्य केवल एक shell देता है।</li>
+<li>Task अपने <strong>timeout</strong> से सीमित होता है। उसके समाप्त होने पर Task रोक दिया जाता है और लक्ष्य उसी कारण से विफल होता है। कनेक्ट करना 15 सेकंड तक सीमित है।</li>
+<li>कोई लक्ष्य <strong>एक बार में एक Task</strong> चलाता है; दूसरा व्यस्त बताकर अस्वीकार कर दिया जाता है। पूरे कंसोल में एक साथ अधिकतम 20 SSH सत्र चलते हैं, और बाक़ी प्रतीक्षा करते हैं।</li>
+<li><code>noexec</code> के साथ माउंट किया गया <code>/tmp</code> वहाँ Task चलने से रोकता है। विफलता यही बताती है; कोई डायरेक्टरी उपलब्ध कराइए या दोबारा माउंट कीजिए।</li>
 </ul>
-<h2 id="where-it-is-audited">Where it is audited</h2>
-<p>Adding, changing, deleting and checking a target, trusting or replacing a
-host key, and every shared credential change are audit entries naming who
-and what. They name which secrets were set, never their values. Jobs are
-audited as always.</p>
-<h2 id="not-covered">Not covered</h2>
-<p>Windows and WinRM, jump hosts, SSH certificates, Puppet runs, patch scans
-and patch runs, collecting facts, and Puppet-language plans.</p>
+<h2 id="where-it-is-audited">इसका ऑडिट कहाँ होता है</h2>
+<p>किसी लक्ष्य को जोड़ना, बदलना, हटाना और जाँचना, host key पर भरोसा करना या उसे बदलना, और साझा क्रेडेंशियल का हर बदलाव — ये सब ऑडिट प्रविष्टियाँ हैं जो बताती हैं कि किसने क्या किया। वे बताती हैं कि कौन-से secrets सेट किए गए, उनके मान कभी नहीं। Jobs का ऑडिट हमेशा की तरह होता है।</p>
+<h2 id="not-covered">शामिल नहीं</h2>
+<p>Windows और WinRM, jump hosts, SSH प्रमाणपत्र, Puppet रन, patch स्कैन और patch रन, Facts एकत्र करना, और Puppet-language Plans।</p>
 
     </div>
 
-    <vox-series-nav label="Use" previous-text="Previous" next-text="Next" previous-href="../guides/patching.html" previous-label="Find and apply missing updates" next-href="../guides/code-plans.html" next-label="Run plans from your code"></vox-series-nav>
+    <vox-series-nav label="उपयोग" previous-text="पिछला" next-text="अगला" previous-href="../guides/patching.html" previous-label="छूटे हुए अपडेट खोजें और लागू करें" next-href="../guides/code-plans.html" next-label="अपने कोड से Plans चलाएँ"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#add-a-target"><span>Add a target</span>
+    <vox-toc heading="इस पृष्ठ पर">
+      <vox-toc-item href="#add-a-target"><span>लक्ष्य जोड़ें</span>
       </vox-toc-item>
-      <vox-toc-item href="#trust-its-host-key"><span>Trust its host key</span>
+      <vox-toc-item href="#trust-its-host-key"><span>इसकी host key पर भरोसा करें</span>
       </vox-toc-item>
-      <vox-toc-item href="#run-a-task-on-one"><span>Run a task on one</span>
+      <vox-toc-item href="#run-a-task-on-one"><span>किसी पर Task चलाएँ</span>
       </vox-toc-item>
-      <vox-toc-item href="#where-it-is-audited"><span>Where it is audited</span>
+      <vox-toc-item href="#where-it-is-audited"><span>इसका ऑडिट कहाँ होता है</span>
       </vox-toc-item>
-      <vox-toc-item href="#not-covered"><span>Not covered</span>
+      <vox-toc-item href="#not-covered"><span>शामिल नहीं</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -280,23 +227,17 @@ and patch runs, collecting facts, and Puppet-language plans.</p>
 
       
       <vox-cta-band heading="स्वयं चलाकर देखिए">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console कंटेनर इमेजों के रूप में आता है, जो हर push पर amd64 और arm64 के लिए बनती हैं, और एक अकेली बाइनरी के रूप में भी। इंस्टॉल गाइड आपको खाली होस्ट से एक चालू परिनियोजन तक ले जाते हैं - openvoxserver, openvoxdb, Postgres और कंसोल - कंटेनरों से या पैकेजों से।</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">इंस्टॉल गाइड</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">GitHub पर स्रोत</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">कंटेनर इमेज</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="पूर्ण आकार का स्क्रीनशॉट">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">बंद करें</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -305,18 +246,18 @@ and patch runs, collecting facts, and Puppet-language plans.</p>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">सिंहावलोकन</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">स्रोत</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">इंस्टॉल गाइड</a>
       </vox-footer-column>
       <vox-footer-column heading="क्षमताएँ">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">वर्गीकरण</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">ऑर्केस्ट्रेशन</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">पैचिंग</a>
         <a href="../features/security.html">सुरक्षा</a>
         <a href="../features/access-control.html">पहुँच नियंत्रण</a>
         <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/scaling.html">विस्तार</a>
         </vox-footer-column>
       
       <vox-footer-column heading="भाषा">

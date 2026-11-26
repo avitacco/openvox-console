@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="zh" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Run YAML plans that live in your modules, with typed parameters, results passed between steps, and every task checked against your node groups."/>
+    <meta name="description" content="运行存放在你的模块中的 YAML Plans，支持带类型的参数、在步骤之间传递结果，并且每个 Task 都会依据你的 Node 组进行检查。"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Run plans from your code - OpenVox Console</title>
+    <title>运行代码中的 Plans - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">指南</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,90 +104,72 @@
       <a href="../features/classification.html">分类</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">编排</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">补丁管理</a>
       <a href="../features/security.html">安全</a>
       <a href="../features/access-control.html">访问控制</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">AI 代理</a>
+      <a href="../features/scaling.html">扩展</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="指南" toggle-label="所有指南">
+    <vox-sidenav-group heading="安装">
+      <vox-sidenav-item href="../guides/plan.html"><span>规划部署</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>使用容器安装</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>从软件包和二进制文件安装</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>添加 Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>管理 Node 证书</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>移除 Node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>保持 Node 代理为最新</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
-      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="扩展">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>运行模式</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>运行更多实例</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use" open="">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html" current="" aria-current="page"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="使用" open="">
+      <vox-sidenav-item href="../guides/classify.html"><span>为 Nodes 分类</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy 代码</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>运行 Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>运行 Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>计划 Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>用户、角色与令牌</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>跟踪漏洞</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>查找并应用缺失的更新</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>在没有代理的主机上运行 Tasks</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html" current="" aria-current="page"><span>运行代码中的 Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>让 AI 代理使用控制台</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="运维">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>故障切换到备用数据库</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>轮换令牌签名密钥</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>将容器数据库升级到 Postgres 18</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Use</p>
-    <h1 class="guide-title vox-ts-xxl">Run plans from your code</h1>
-    <p class="guide-summary">Run YAML plans that live in your modules, with typed parameters, results passed between steps, and every task checked against your node groups.</p>
+    <p class="guide-eyebrow">使用</p>
+    <h1 class="guide-title vox-ts-xxl">运行代码中的 Plans</h1>
+    <p class="guide-summary">运行存放在你的模块中的 YAML Plans，支持带类型的参数、在步骤之间传递结果，并且每个 Task 都会依据你的 Node 组进行检查。</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>A <strong>code plan</strong> is a YAML file in a module&#39;s <code>plans</code> directory, in the format
-Bolt and Puppet Enterprise use. The console reads it from the code it
-deployed and runs it itself: one step after another, passing results from
-step to step. It does not need Bolt or the Puppet language.</p>
-<p>This is different from a saved plan, which is a fixed list of Puppet runs and
-tasks that you build in the console and that runs on one set of nodes. A code
-plan lives with your code, takes its own parameters, and decides each step&#39;s
-targets from the steps before it.</p>
-<p>Reading the list of plans needs <code>orchestrator:read</code>. Running one needs
-<code>orchestrator:run</code>. No new permission is involved.</p>
-<h2 id="where-plans-come-from">Where plans come from</h2>
-<p>The console looks in each environment&#39;s modules, in the order of the
-<code>modulepath</code> in <code>environment.conf</code> (<code>modules</code> if there is none), for
-<code>&lt;module&gt;/plans/&lt;name&gt;.yaml</code>. A plan is named <code>module::name</code>, or just
-<code>module</code> for <code>init.yaml</code>. If a name appears in two directories, the first
-wins, as in Puppet.</p>
-<p>The files are read from the code directory of the console instance that
-deploys your code (<code>CONSOLE_CODE_DIR_PATH</code>). <strong>An instance that does not hold
-the deployed code cannot list or run plans</strong>, and says so rather than showing
-an empty list. Run plans from the instance that deploys.</p>
-<p>Open <strong>Jobs</strong>, then <strong>Plans</strong>: the <strong>Plans in code</strong> section lists an
-environment&#39;s plans. A plan the console cannot run is listed with the reason,
-naming the step.</p>
-<h2 id="what-a-plan-can-do">What a plan can do</h2>
-<p>A plan has a <code>description</code>, <code>parameters</code>, <code>steps</code> and a <code>return</code>:</p>
-<vox-code-block language="yaml" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>description: Restart a service, then check it
+<p><strong>代码 Plan</strong> 是位于模块 <code>plans</code> 目录中的 YAML 文件，格式与 Bolt 和 Puppet Enterprise 所用的相同。控制台从它 deploy 的代码中读取该文件并自行运行：一步接一步，并在步骤之间传递结果。它不需要 Bolt，也不需要 Puppet 语言。</p>
+<p>这与已保存的 Plan 不同，后者是你在控制台中构建的固定的一系列 Puppet 运行和 Tasks，在一组 Nodes 上运行。代码 Plan 与你的代码放在一起，接受自己的参数，并根据之前的步骤决定每个步骤的目标。</p>
+<p>读取 Plans 列表需要 <code>orchestrator:read</code>。运行 Plan 需要 <code>orchestrator:run</code>。不涉及任何新权限。</p>
+<h2 id="where-plans-come-from">Plans 从哪里来</h2>
+<p>控制台会按照 <code>environment.conf</code> 中 <code>modulepath</code> 的顺序（如果没有则为 <code>modules</code>），在每个 Environment 的模块中查找 <code>&lt;module&gt;/plans/&lt;name&gt;.yaml</code>。Plan 命名为 <code>module::name</code>；对于 <code>init.yaml</code>，则直接命名为 <code>module</code>。如果同一名称出现在两个目录中，与 Puppet 一样，先找到的胜出。</p>
+<p>这些文件读取自 deploy 你代码的那个控制台实例的代码目录（<code>CONSOLE_CODE_DIR_PATH</code>）。<strong>不持有已 deploy 代码的实例无法列出或运行 Plans</strong>，并会如实说明，而不是显示一个空列表。请从负责 deploy 的实例运行 Plans。</p>
+<p>打开 <strong>Jobs</strong>，然后打开 <strong>Plans</strong>：<strong>代码中的计划</strong>部分会列出某个 Environment 的 Plans。控制台无法运行的 Plan 会被列出并注明原因，指出相应的步骤。</p>
+<h2 id="what-a-plan-can-do">Plan 能做什么</h2>
+<p>Plan 包含 <code>description</code>、<code>parameters</code>、<code>steps</code> 和 <code>return</code>：</p>
+<vox-code-block language="yaml" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>description: Restart a service, then check it
 parameters:
   targets:
     type: TargetSpec
@@ -214,117 +196,81 @@ return:
   restarted: $restart.ok_targets
   healthy: $status.ok
 </code></vox-code-block>
-<p><strong>Parameters</strong> declare a <code>type</code>, an optional <code>default</code> and a <code>description</code>.
-Types are those tasks use (<code>String</code>, <code>Integer[1, 10]</code>, <code>Boolean</code>,
-<code>Array[String]</code>, <code>Enum[&#39;a&#39;,&#39;b&#39;]</code>, <code>Optional[...]</code>, ...) plus <code>TargetSpec</code>
-(nodes) and <code>Sensitive[...]</code>. A parameter with no default that is not
-<code>Optional</code> is required. The console refuses a run with a missing, unknown or
-wrongly typed parameter before anything starts, naming it.</p>
-<p><strong>Steps</strong> do exactly one of:</p>
+<p><strong>参数</strong>需要声明 <code>type</code>、可选的 <code>default</code> 和 <code>description</code>。类型与 Tasks 使用的相同（<code>String</code>、<code>Integer[1, 10]</code>、<code>Boolean</code>、<code>Array[String]</code>、<code>Enum[&#39;a&#39;,&#39;b&#39;]</code>、<code>Optional[...]</code> 等），另外还有 <code>TargetSpec</code>（Nodes）和 <code>Sensitive[...]</code>。没有默认值且不是 <code>Optional</code> 的参数为必填。如果参数缺失、未知或类型错误，控制台会在任何东西启动之前拒绝运行，并指出该参数。</p>
+<p>每个<strong>步骤</strong>只能执行以下其中一项：</p>
 <ul>
-<li><code>task: module::task</code>, with <code>targets</code> and <code>parameters</code>. Runs the task.</li>
-<li><code>plan: module::plan</code>, with <code>parameters</code>. Runs another plan as part of this
-one. A plan may call plans up to five deep, and never itself.</li>
-<li><code>message: text</code>. Prints text into the run&#39;s record.</li>
+<li><code>task: module::task</code>，带 <code>targets</code> 和 <code>parameters</code>。运行该 Task。</li>
+<li><code>plan: module::plan</code>，带 <code>parameters</code>。作为本 Plan 的一部分运行另一个 Plan。Plan 最多可以嵌套调用五层，并且永远不能调用自身。</li>
+<li><code>message: text</code>。把文本打印到该次运行的记录中。</li>
 </ul>
-<p>A step may have a <code>name</code>, which makes its result available as <code>$name</code> to later
-steps, and a <code>description</code>.</p>
-<p><strong>References</strong> are <code>$name</code>, <code>$name.field</code>, <code>$name[0]</code> and <code>$name[&#39;field&#39;]</code>, to
-a parameter or to an earlier step. A string that is only a reference keeps the
-value&#39;s type (a list stays a list). In text, write <code>${name.field}</code>; write
-<code>$$</code> for a dollar sign. That is all the syntax: there are no operators, no
-conditionals, no functions. Inside a YAML list or mapping written on one
-line, put a reference that contains <code>[</code> or <code>,</code> in quotes.</p>
-<p>A step&#39;s result has:</p>
+<p>步骤可以有一个 <code>name</code>，使其结果以 <code>$name</code> 的形式供后续步骤使用，也可以有一个 <code>description</code>。</p>
+<p><strong>引用</strong>的形式为 <code>$name</code>、<code>$name.field</code>、<code>$name[0]</code> 和 <code>$name[&#39;field&#39;]</code>，可引用参数或之前的步骤。仅由一个引用构成的字符串会保留该值的类型（列表仍是列表）。在文本中，请写作 <code>${name.field}</code>；美元符号写作 <code>$$</code>。语法就这么多：没有运算符，没有条件判断，也没有函数。在写在一行内的 YAML 列表或映射中，包含 <code>[</code> 或 <code>,</code> 的引用需要加引号。</p>
+<p>步骤的结果包含：</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th></th>
-<th></th>
+<th>字段</th>
+<th>内容</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>ok</code></td>
-<td>every target succeeded</td>
+<td>所有目标均成功</td>
 </tr>
 <tr>
 <td><code>results</code></td>
-<td>each target&#39;s <code>target</code>, <code>ok</code>, <code>value</code> and <code>error</code></td>
+<td>每个目标的 <code>target</code>、<code>ok</code>、<code>value</code> 和 <code>error</code></td>
 </tr>
 <tr>
 <td><code>targets</code>, <code>ok_targets</code>, <code>error_targets</code></td>
-<td>node names</td>
+<td>Node 名称</td>
 </tr>
 <tr>
 <td><code>value</code></td>
-<td>the task&#39;s result, for a step on a single node</td>
+<td>Task 的结果（针对单个 Node 上的步骤）</td>
 </tr>
 </tbody>
 </table></div>
-<p>A task&#39;s <code>value</code> is what it printed as JSON, or its text as <code>_output</code>.</p>
-<p>If a task step fails on any target, <strong>the plan fails there</strong>: the steps after
-it are recorded as not run and nothing more is sent. A step whose targets are
-empty (say, an earlier step&#39;s successes were none) runs nothing and counts as
-having succeeded.</p>
-<p><strong>Not supported</strong>: <code>command</code>, <code>script</code>, <code>upload</code>, <code>download</code>, <code>resources</code> and
-<code>eval</code> steps, Puppet-language expressions, running steps in parallel, retrying
-and catching errors, and scheduling a code plan. A plan using one is listed as
-unusable with the reason. Bolt&#39;s Puppet-language plans (<code>.pp</code>) are not run.</p>
-<h2 id="run-one">Run one</h2>
-<p>Choose <strong>Run</strong> next to a plan. The form is built from its parameters; leave a
-field empty to use the default. Nodes (<code>TargetSpec</code>) are given as a list of
-names, a <strong>query</strong> or a <strong>node group</strong>, resolved once when the plan starts,
-and previewed first. The run opens as a job; its page shows each step as it
-happens: its status, the job it started, what a message printed, and why a step
-failed, with the value the plan returned and the parameters it was given.</p>
-<h2 id="scope-and-permissions">Scope and permissions</h2>
-<p>A plan can do nothing you could not do by hand. When you start it:</p>
+<p>Task 的 <code>value</code> 是它以 JSON 形式打印的内容，或者以 <code>_output</code> 形式提供的文本。</p>
+<p>如果某个 Task 步骤在任何目标上失败，<strong>Plan 就在那里失败</strong>：之后的步骤会被记录为未运行，不会再发送任何东西。目标为空的步骤（比如，之前某个步骤一个成功的都没有）不会运行任何东西，并被视为成功。</p>
+<p><strong>不支持</strong>：<code>command</code>、<code>script</code>、<code>upload</code>、<code>download</code>、<code>resources</code> 和 <code>eval</code> 步骤、Puppet 语言表达式、并行运行步骤、重试和捕获错误，以及计划运行代码 Plan。使用了其中任何一项的 Plan 会被列为不可用，并注明原因。Bolt 的 Puppet 语言 Plans（<code>.pp</code>）不会被运行。</p>
+<h2 id="run-one">运行一个 Plan</h2>
+<p>在某个 Plan 旁选择<strong>运行</strong>。表单根据其参数生成；将字段留空即使用默认值。Nodes（<code>TargetSpec</code>）以名称列表、<strong>查询</strong>或 <strong>Node 组</strong>的形式给出，在 Plan 启动时解析一次，并会先进行预览。该运行会以 Job 的形式打开；其页面会实时显示每个步骤：其状态、它启动的 Job、消息打印的内容，以及步骤失败的原因，还有 Plan 返回的值和传入的参数。</p>
+<h2 id="scope-and-permissions">范围与权限</h2>
+<p>Plan 不能做任何你无法手动完成的事。当你启动它时：</p>
 <ul>
-<li>the task each step names must exist and be one your roles allow, or the
-request is refused naming the step;</li>
-<li>nodes you name must be in your node groups, or the whole request is refused;</li>
-<li>as each step is reached, its targets are checked against your node groups and
-the task against your allowlist, exactly as a task you started yourself. A
-step that would be refused fails the plan there, with the reason.</li>
+<li>每个步骤指定的 Task 都必须存在，并且是你的角色所允许的，否则请求会被拒绝，并指出该步骤；</li>
+<li>你指定的 Nodes 必须位于你的 Node 组中，否则整个请求都会被拒绝；</li>
+<li>每执行到一个步骤，都会依据你的 Node 组检查其目标，并依据你的允许列表检查其 Task，与你自己启动的 Task 完全相同。会被拒绝的步骤会使 Plan 在那里失败，并给出原因。</li>
 </ul>
-<p>Agentless targets can be used in task steps.</p>
-<p>A reader limited to some node groups sees a plan run only if it ran on their
-nodes, and not what it printed, returned or was given when it also ran on
-others.</p>
-<h2 id="sensitive-values">Sensitive values</h2>
-<p>A parameter typed <code>Sensitive[...]</code> is never written down: it is <code>[redacted]</code>
-in the stored parameters, the trace, messages, the returned value, logs and
-audit entries, and reaches only the task parameter it is given to. A sensitive
-value can be passed on only to a parameter that is itself <code>Sensitive</code>.</p>
-<h2 id="long-runs">Long runs</h2>
-<p>A plan can run for hours, up to 24. The console tells the job it is alive as
-it goes. If the console instance following it stops, the plan is failed ten
-minutes after it was last heard from; steps already started carry on on their
-nodes. A run is limited to 200 steps and a step to 1000 targets; a limit
-fails the plan, naming it.</p>
-<p>Starting a plan, and its end, are audit entries with who, which plan and
-environment and the <em>names</em> of the parameters given, never their values.</p>
+<p>无代理目标可以在 Task 步骤中使用。</p>
+<p>仅限部分 Node 组的读者，只有当某次 Plan 运行在其 Nodes 上运行过时才能看到它；如果它同时也在其他 Nodes 上运行过，则看不到它打印的内容、返回值或传入的值。</p>
+<h2 id="sensitive-values">敏感值</h2>
+<p>类型为 <code>Sensitive[...]</code> 的参数永远不会被记录下来：在存储的参数、跟踪记录、消息、返回值、日志和审计条目中都显示为 <code>[redacted]</code>，并且只会到达被传入的那个 Task 参数。敏感值只能传递给本身也是 <code>Sensitive</code> 的参数。</p>
+<h2 id="long-runs">长时间运行</h2>
+<p>Plan 可以运行数小时，最长 24 小时。控制台会在运行过程中不断告知 Job 它仍然存活。如果跟踪它的控制台实例停止，该 Plan 会在最后一次收到消息的十分钟后被判为失败；已经启动的步骤会在其 Nodes 上继续执行。一次运行最多 200 个步骤，一个步骤最多 1000 个目标；超出限制会使 Plan 失败，并指出是哪项限制。</p>
+<p>Plan 的启动和结束都会生成审计条目，记录操作者、哪个 Plan 和 Environment，以及所传参数的<em>名称</em>，但绝不记录其值。</p>
 
     </div>
 
-    <vox-series-nav label="Use" previous-text="Previous" next-text="Next" previous-href="../guides/agentless.html" previous-label="Run tasks on hosts without an agent" next-href="../guides/agents.html" next-label="Let AI agents use the console"></vox-series-nav>
+    <vox-series-nav label="使用" previous-text="上一篇" next-text="下一篇" previous-href="../guides/agentless.html" previous-label="在没有代理的主机上运行 Tasks" next-href="../guides/agents.html" next-label="让 AI 代理使用控制台"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#where-plans-come-from"><span>Where plans come from</span>
+    <vox-toc heading="本页内容">
+      <vox-toc-item href="#where-plans-come-from"><span>Plans 从哪里来</span>
       </vox-toc-item>
-      <vox-toc-item href="#what-a-plan-can-do"><span>What a plan can do</span>
+      <vox-toc-item href="#what-a-plan-can-do"><span>Plan 能做什么</span>
       </vox-toc-item>
-      <vox-toc-item href="#run-one"><span>Run one</span>
+      <vox-toc-item href="#run-one"><span>运行一个 Plan</span>
       </vox-toc-item>
-      <vox-toc-item href="#scope-and-permissions"><span>Scope and permissions</span>
+      <vox-toc-item href="#scope-and-permissions"><span>范围与权限</span>
       </vox-toc-item>
-      <vox-toc-item href="#sensitive-values"><span>Sensitive values</span>
+      <vox-toc-item href="#sensitive-values"><span>敏感值</span>
       </vox-toc-item>
-      <vox-toc-item href="#long-runs"><span>Long runs</span>
+      <vox-toc-item href="#long-runs"><span>长时间运行</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -334,23 +280,17 @@ environment and the <em>names</em> of the parameters given, never their values.<
 
       
       <vox-cta-band heading="自己动手运行">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console 以容器镜像形式发布，每次 push 都会构建 amd64 和 arm64 版本，同时也提供单个二进制文件。安装指南将带你从一台空主机走到一套可用的部署——openvoxserver、openvoxdb、Postgres 和控制台——可以用容器，也可以用软件包。</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">安装指南</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">GitHub 上的源码</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">容器镜像</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="全尺寸截图">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">关闭</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -359,18 +299,18 @@ environment and the <em>names</em> of the parameters given, never their values.<
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">概览</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">源码</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">安装指南</a>
       </vox-footer-column>
       <vox-footer-column heading="功能">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">分类</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">编排</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">补丁管理</a>
         <a href="../features/security.html">安全</a>
         <a href="../features/access-control.html">访问控制</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">AI 代理</a>
+        <a href="../features/scaling.html">扩展</a>
         </vox-footer-column>
       
       <vox-footer-column heading="语言">

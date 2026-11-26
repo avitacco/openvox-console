@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="ja" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Run openvoxserver, openvoxdb, both databases and the console with Docker Compose, from an empty host to a console ready for nodes."/>
+    <meta name="description" content="openvoxserver、openvoxdb、2 つのデータベース、コンソールを Docker Compose で動かし、空のホストから Node を迎える準備ができたコンソールまでを構築します。"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Install with containers - OpenVox Console</title>
+    <title>コンテナでインストールする - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">ガイド</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,88 +104,77 @@
       <a href="../features/classification.html">分類</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">オーケストレーション</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">パッチ適用</a>
       <a href="../features/security.html">セキュリティ</a>
       <a href="../features/access-control.html">アクセス制御</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">AI エージェント</a>
+      <a href="../features/scaling.html">スケーリング</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install" open="">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html" current="" aria-current="page"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="ガイド" toggle-label="すべてのガイド">
+    <vox-sidenav-group heading="インストール" open="">
+      <vox-sidenav-item href="../guides/plan.html"><span>デプロイを計画する</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html" current="" aria-current="page"><span>コンテナでインストールする</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>パッケージとバイナリからインストールする</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>Node を追加する</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>Node の証明書を管理する</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>Node を削除する</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Node エージェントを最新に保つ</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
-      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="スケール">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>実行モード</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>インスタンスを増やす</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="使う">
+      <vox-sidenav-item href="../guides/classify.html"><span>Node を分類する</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>コードを deploy する</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>Jobs を実行する</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>Plans を実行する</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Jobs をスケジュールする</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>ユーザー、ロール、トークン</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>脆弱性を追跡する</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>不足している更新を見つけて適用する</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>エージェントのないホストで Task を実行する</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>コード内の Plan を実行する</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>AI エージェントにコンソールを使わせる</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="運用">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>スタンバイデータベースにフェイルオーバーする</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>トークン署名鍵をローテーションする</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>コンテナのデータベースを Postgres 18 にアップグレードする</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Install</p>
-    <h1 class="guide-title vox-ts-xxl">Install with containers</h1>
-    <p class="guide-summary">Run openvoxserver, openvoxdb, both databases and the console with Docker Compose, from an empty host to a console ready for nodes.</p>
+    <p class="guide-eyebrow">インストール</p>
+    <h1 class="guide-title vox-ts-xxl">コンテナでインストールする</h1>
+    <p class="guide-summary">openvoxserver、openvoxdb、2 つのデータベース、コンソールを Docker Compose で動かし、空のホストから Node を迎える準備ができたコンソールまでを構築します。</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>This guide runs the whole stack from the project&#39;s production compose
-file and published images. Nothing is built on the host. Settle the names
-in <a href="plan.html">Plan a deployment</a> before you start.</p>
-<p>You need a Linux host with Docker Engine and the Compose plugin.</p>
-<h2 id="get-the-compose-file">Get the compose file</h2>
-<p><code>docker-compose.yml</code> in the project repository is the production stack:
-the console, both databases, openvoxserver and openvoxdb. Copy that one
-file to the host, into a directory of its own:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>mkdir -p /opt/openvox-console/secrets /opt/openvox-console/certs
+<p>このガイドでは、プロジェクトの本番用 compose ファイルと公開イメージからスタック全体を動かします。ホスト上では何もビルドしません。始める前に、<a href="plan.html">デプロイを計画する</a>で名前を決めておいてください。</p>
+<p>Docker Engine と Compose プラグインを備えた Linux ホストと、<code>sudo</code> なしで <code>docker</code> を実行できるユーザーが必要です。</p>
+<h2 id="get-the-compose-file">compose ファイルを取得する</h2>
+<p>プロジェクトリポジトリの <code>docker-compose.yml</code> が本番用のスタックです: コンソール、2 つのデータベース、openvoxserver、openvoxdb。このファイル 1 つだけを、ホスト上の自分のユーザーが所有する専用ディレクトリにコピーします:</p>
+<vox-code-block language="sh" copy-label="コードをコピー" copied-label="コピーしました" copied-message="クリップボードにコピーしました"><code>sudo mkdir -p /opt/openvox-console
+sudo chown &#34;$USER&#34;: /opt/openvox-console
+mkdir -p /opt/openvox-console/secrets /opt/openvox-console/certs
 cd /opt/openvox-console
 curl -fsSLO https://raw.githubusercontent.com/avitacco/openvox-console/main/docker-compose.yml
 </code></vox-code-block>
-<vox-callout variant="warning" heading="Warning"><p>Do not deploy from a checkout of the repository. A checkout also
-carries <code>docker-compose.override.yml</code>, the development stack, which a
-bare <code>docker compose up</code> loads silently: throwaway passwords, open
-database ports and automatic certificate signing. Every command in
-this guide passes <code>-f docker-compose.yml</code> so that only the production
-file is ever read.</p>
+<vox-callout variant="warning" heading="警告"><p>リポジトリのチェックアウトからデプロイしないでください。チェックアウトには開発用スタックである <code>docker-compose.override.yml</code> も含まれており、素の <code>docker compose up</code> はこれを黙って読み込みます: 使い捨てのパスワード、公開されたデータベースポート、証明書の自動署名。このガイドのすべてのコマンドは <code>-f docker-compose.yml</code> を指定しているため、読み込まれるのは常に本番用のファイルだけです。</p>
 </vox-callout>
-<h2 id="set-the-deployment-s-own-values">Set the deployment&#39;s own values</h2>
-<p>Create <code>.env</code> beside the compose file. The compose file refuses to start
-while any of the first three is unset, so a deployment cannot come up on a
-placeholder:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CONSOLE_BASE_URL=https://console.example.com
+<h2 id="set-the-deployment-s-own-values">デプロイ固有の値を設定する</h2>
+<p>compose ファイルと同じ場所に <code>.env</code> を作成します。compose ファイルは最初の 3 つのいずれかが未設定のままだと起動を拒否するため、プレースホルダーのままデプロイが立ち上がることはありません:</p>
+<vox-code-block language="sh" copy-label="コードをコピー" copied-label="コピーしました" copied-message="クリップボードにコピーしました"><code>CONSOLE_BASE_URL=https://console.example.com
 CONSOLE_NODE_TRANSPORT_PUBLIC_ADDR=console.example.com:8142
 OPENVOXDB_POSTGRES_PASSWORD=&lt;a strong password&gt;
 
@@ -196,57 +185,50 @@ OPENVOXSERVER_DNS_ALT_NAMES=puppet.example.com
 # The Puppet server a node should enroll against, written into the node
 # install script. Must be one of the names above.
 CONSOLE_PUPPET_SERVER_PUBLIC_ADDR=puppet.example.com
+
+# The first admin user, created only while there are no users. Its
+# password is a secret file, below. Without this name no admin is
+# created and nobody can log in.
+CONSOLE_BOOTSTRAP_ADMIN_USERNAME=admin
+
+# The console&#39;s plain-HTTP port, published on loopback only, so the
+# TLS proxy in front of it is the only way in. See &#34;Put TLS in front of
+# the console&#34; below.
+CONSOLE_HTTP_PORT=127.0.0.1:8080
 </code></vox-code-block>
-<p>Choose which console image to run. <code>CONSOLE_IMAGE_TAG</code> defaults to
-<code>main</code>, which follows the latest commit. For a deployment you want to hold
-still, pin the immutable tag of one commit instead:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CONSOLE_IMAGE_TAG=sha-a1b2c3d
+<p>実行するコンソールイメージを選びます。<code>CONSOLE_IMAGE_TAG</code> の既定値は <code>main</code> で、最新のコミットに追従します。固定しておきたいデプロイでは、代わりに特定のコミットの不変タグを指定してください:</p>
+<vox-code-block language="sh" copy-label="コードをコピー" copied-label="コピーしました" copied-message="クリップボードにコピーしました"><code>CONSOLE_IMAGE_TAG=sha-a1b2c3d
 </code></vox-code-block>
-<vox-callout variant="info" heading="Note"><p>Version tags such as <code>v1.2.3</code>, and <code>latest</code>, are published only once a
-release is cut. Until then, asking for <code>latest</code> fails with
-<code>manifest unknown</code>.</p>
+<vox-callout variant="info" heading="メモ"><p><code>v1.2.3</code> のようなバージョンタグと <code>latest</code> は、リリースが作成されて初めて公開されます。それまでは、<code>latest</code> を指定すると <code>manifest unknown</code> で失敗します。</p>
 </vox-callout>
-<h2 id="write-the-secrets">Write the secrets</h2>
-<p>Secrets are files in <code>secrets/</code>, one value per file, rather than
-environment variables, so they never appear in <code>docker inspect</code>:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>printf &#39;%s&#39; &#39;&lt;console database password&gt;&#39; &gt; secrets/console_postgres_password
+<h2 id="write-the-secrets">シークレットを書き込む</h2>
+<p>シークレットは環境変数ではなく <code>secrets/</code> 内のファイル (1 ファイルにつき 1 つの値) として置くため、<code>docker inspect</code> に表示されることはありません:</p>
+<vox-code-block language="sh" copy-label="コードをコピー" copied-label="コピーしました" copied-message="クリップボードにコピーしました"><code>printf &#39;%s&#39; &#39;&lt;console database password&gt;&#39; &gt; secrets/console_postgres_password
 printf &#39;postgres://console:%s@console-postgres:5432/console?sslmode=disable&#39; &#39;&lt;console database password&gt;&#39; \
   &gt; secrets/console_postgres_dsn
 printf &#39;%s&#39; &#39;&lt;a strong password, 12 characters or more&gt;&#39; &gt; secrets/console_bootstrap_admin_password
 chmod 600 secrets/*
 </code></vox-code-block>
-<p>The console&#39;s database connection string must use the same password as
-<code>console_postgres_password</code>. <code>sslmode=disable</code> is deliberate: the
-Postgres container runs without TLS, and the connection never leaves the
-compose network, so asking for TLS would only make the console fail to
-connect.</p>
-<p>openvoxserver also needs a token file, <code>enc_bridge_token</code>, which you
-fill in once the console is running. Create it empty for now, because
-openvoxserver will not start without it:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>: &gt; secrets/enc_bridge_token
+<p>コンソールのデータベース接続文字列には、<code>console_postgres_password</code> と同じパスワードを使う必要があります。<code>sslmode=disable</code> は意図的なものです: Postgres コンテナは TLS なしで動作し、接続が compose ネットワークの外に出ることはないため、TLS を要求するとコンソールが接続に失敗するだけです。</p>
+<p>openvoxserver にはトークンファイル <code>enc_bridge_token</code> も必要で、これはコンソールが起動してから記入します。openvoxserver はこれがないと起動しないため、今は空のまま作成しておきます:</p>
+<vox-code-block language="sh" copy-label="コードをコピー" copied-label="コピーしました" copied-message="クリップボードにコピーしました"><code>: &gt; secrets/enc_bridge_token
 </code></vox-code-block>
-<h2 id="start-the-certificate-authority">Start the certificate authority</h2>
-<p>openvoxserver is the CA every other part&#39;s certificate comes from, so it
-starts first and on its own:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml up -d openvoxserver
+<h2 id="start-the-certificate-authority">認証局を起動する</h2>
+<p>openvoxserver は他のすべての構成要素の証明書の発行元となる CA なので、最初に単独で起動します:</p>
+<vox-code-block language="sh" copy-label="コードをコピー" copied-label="コピーしました" copied-message="クリップボードにコピーしました"><code>docker compose -f docker-compose.yml up -d openvoxserver
 </code></vox-code-block>
-<p>Its first start creates the CA, which takes a minute or two. Wait until
-it reports itself running:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml exec openvoxserver \
+<p>初回起動時に CA が作成され、これには 1～2 分かかります。実行中であると報告されるまで待ちます:</p>
+<vox-code-block language="sh" copy-label="コードをコピー" copied-label="コピーしました" copied-message="クリップボードにコピーしました"><code>docker compose -f docker-compose.yml exec openvoxserver \
   curl -ksS https://127.0.0.1:8140/status/v1/simple
 </code></vox-code-block>
-<p>The reply is <code>running</code>.</p>
-<vox-callout variant="danger" heading="Caution"><p>The <code>openvoxserver-ca</code> volume <em>is</em> your certificate authority. Losing
-it means every node has to enroll again. Back it up, and never remove it
-with <code>docker compose down -v</code>.</p>
+<p>応答は <code>running</code> です。</p>
+<vox-callout variant="danger" heading="注意"><p><code>openvoxserver-ca</code> ボリュームこそが認証局<em>そのもの</em>です。失うと、すべての Node を登録し直す必要があります。バックアップを取り、<code>docker compose down -v</code> で削除することは決してしないでください。</p>
 </vox-callout>
-<h2 id="issue-the-console-s-certificates">Issue the console&#39;s certificates</h2>
-<p>The console needs two certificates from the CA, and optionally a third.
-Issue them inside the running openvoxserver container and copy them
-into <code>certs/</code>, where the compose file mounts them for the console.</p>
-<h3 id="the-openvoxdb-client-certificate">The openvoxdb client certificate</h3>
-<p>This is how the console authenticates to openvoxdb:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml exec openvoxserver \
+<h2 id="issue-the-console-s-certificates">コンソールの証明書を発行する</h2>
+<p>コンソールには CA から 2 つの証明書と、任意で 3 つ目の証明書が必要です。稼働中の openvoxserver コンテナ内で発行し、compose ファイルがコンソール用にマウントする <code>certs/</code> にコピーします。</p>
+<h3 id="the-openvoxdb-client-certificate">openvoxdb のクライアント証明書</h3>
+<p>コンソールはこれを使って openvoxdb に認証します:</p>
+<vox-code-block language="sh" copy-label="コードをコピー" copied-label="コピーしました" copied-message="クリップボードにコピーしました"><code>docker compose -f docker-compose.yml exec openvoxserver \
   puppetserver ca generate --certname console
 
 docker compose -f docker-compose.yml cp \
@@ -256,11 +238,11 @@ docker compose -f docker-compose.yml cp \
 docker compose -f docker-compose.yml cp \
   openvoxserver:/etc/puppetlabs/puppet/ssl/certs/ca.pem certs/ca.pem
 </code></vox-code-block>
-<h3 id="the-node-transport-certificate">The node transport certificate</h3>
-<p>Nodes check this certificate when they connect to the console, so it
-must carry the exact name they dial: the host part of
-<code>CONSOLE_NODE_TRANSPORT_PUBLIC_ADDR</code>.</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml exec openvoxserver \
+<vox-callout variant="info" heading="メモ"><p><code>puppetserver ca generate</code> は、最初に <code>Error: Signed certificate console could not be found on the CA</code> と出力します。これは名前が空いているかを確認しているだけで、失敗ではありません。重要なのはその後に続く行で、最後が <code>Successfully saved certificate</code> で終わっていれば成功です。</p>
+</vox-callout>
+<h3 id="the-node-transport-certificate">Node トランスポートの証明書</h3>
+<p>Node はコンソールへの接続時にこの証明書を検証するため、証明書には Node が接続に使う名前そのもの、つまり <code>CONSOLE_NODE_TRANSPORT_PUBLIC_ADDR</code> のホスト部分が含まれている必要があります。</p>
+<vox-code-block language="sh" copy-label="コードをコピー" copied-label="コピーしました" copied-message="クリップボードにコピーしました"><code>docker compose -f docker-compose.yml exec openvoxserver \
   puppetserver ca generate --certname node-transport \
   --subject-alt-names console.example.com,node-transport
 
@@ -269,41 +251,25 @@ docker compose -f docker-compose.yml cp \
 docker compose -f docker-compose.yml cp \
   openvoxserver:/etc/puppetlabs/puppet/ssl/private_keys/node-transport.pem certs/node-transport-key.pem
 </code></vox-code-block>
-<p>Nodes authenticate back with their own certificates from the same CA,
-which is why the console needs no other file for them.</p>
-<h3 id="the-token-signing-key">The token signing key</h3>
-<p>The console signs its own login tokens with an ES256 key. This one does
-not come from the CA. Generate it on any machine with OpenSSL:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>openssl ecparam -genkey -name prime256v1 -noout -out rbac-signing-key.pem
+<p>Node は同じ CA から発行された自身の証明書で認証し返すため、コンソールは Node 用に他のファイルを必要としません。</p>
+<h3 id="the-token-signing-key">トークン署名鍵</h3>
+<p>コンソールは自身のログイントークンに ES256 鍵で署名します。この鍵は CA からではありません。任意のマシンで OpenSSL を使って生成します:</p>
+<vox-code-block language="sh" copy-label="コードをコピー" copied-label="コピーしました" copied-message="クリップボードにコピーしました"><code>openssl ecparam -genkey -name prime256v1 -noout -out rbac-signing-key.pem
 </code></vox-code-block>
-<vox-callout variant="danger" heading="Caution"><p>Back this file up. Losing it invalidates every issued token, which logs
-everyone out; leaking it lets anyone mint tokens. See
-<a href="rotate-signing-key.html">Rotate the token signing key</a> to replace it
-safely.</p>
+<vox-callout variant="danger" heading="注意"><p>このファイルはバックアップしてください。失うと発行済みのトークンがすべて無効になり、全員がログアウトされます。漏れると誰でもトークンを発行できてしまいます。安全に置き換えるには<a href="rotate-signing-key.html">トークン署名鍵をローテーションする</a>を参照してください。</p>
 </vox-callout>
-<p>Generate it straight into <code>certs/</code>:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>openssl ecparam -genkey -name prime256v1 -noout -out certs/rbac-signing-key.pem
+<p><code>certs/</code> に直接生成します:</p>
+<vox-code-block language="sh" copy-label="コードをコピー" copied-label="コピーしました" copied-message="クリップボードにコピーしました"><code>openssl ecparam -genkey -name prime256v1 -noout -out certs/rbac-signing-key.pem
 </code></vox-code-block>
-<h3 id="the-certificate-admin-credential-optional">The certificate-admin credential (optional)</h3>
-<p>This credential is what lets the <strong>Nodes</strong> page show certificate status,
-and sign, revoke and clean certificates. Without it the console lists
-only nodes that have already connected or reported. A node waiting for
-its certificate to be signed does not appear at all, because the CA is
-the only part that knows it exists.</p>
-<vox-callout variant="warning" heading="Warning"><p>This credential is full CA admin. openvoxserver gates every CA
-endpoint behind one authorization extension, so a certificate that can
-read statuses can also sign, revoke and clean <em>any</em> node&#39;s certificate.
-There is no read-only variant. Keep it only where the console runs, and
-read <a href="certificates.html">Manage node certificates</a> before issuing it.</p>
+<h3 id="the-certificate-admin-credential-optional">証明書管理者の認証情報 (任意)</h3>
+<p>この認証情報があることで、<strong>Nodes</strong> ページに証明書のステータスが表示され、証明書の署名、失効、削除ができるようになります。これがない場合、コンソールが一覧表示するのはすでに接続または報告した Node だけです。証明書の署名を待っている Node はまったく表示されません。その存在を知っているのは CA だけだからです。</p>
+<vox-callout variant="warning" heading="警告"><p>この認証情報は CA の完全な管理権限です。openvoxserver はすべての CA エンドポイントを 1 つの認可拡張で保護しているため、ステータスを読める証明書は、<em>どの</em> Node の証明書でも署名、失効、クリーンアップができます。読み取り専用の種類はありません。コンソールが動作する場所にだけ置き、発行する前に<a href="certificates.html">Node の証明書を管理する</a>を読んでください。</p>
 </vox-callout>
-<p>Issuing it writes to CA state that a running openvoxserver also writes,
-so stop openvoxserver first and issue it from a one-off container using
-the same volumes. Compose names volumes after the project directory, so
-check the exact names first:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker volume ls | grep openvoxserver
+<p>発行の際には、稼働中の openvoxserver も書き込む CA の状態に書き込みが行われます。そのため、まず openvoxserver を停止し、同じボリュームを使う使い捨てのコンテナから発行してください。Compose はプロジェクトディレクトリにちなんでボリューム名を付けるので、まず正確な名前を確認します:</p>
+<vox-code-block language="sh" copy-label="コードをコピー" copied-label="コピーしました" copied-message="クリップボードにコピーしました"><code>docker volume ls | grep openvoxserver
 </code></vox-code-block>
-<p>Then, using the two names it printed:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml stop openvoxserver
+<p>次に、表示された 2 つの名前を使って:</p>
+<vox-code-block language="sh" copy-label="コードをコピー" copied-label="コピーしました" copied-message="クリップボードにコピーしました"><code>docker compose -f docker-compose.yml stop openvoxserver
 
 docker run --rm --entrypoint &#34;&#34; \
   -v openvox-console_openvoxserver-ssl:/etc/puppetlabs/puppet/ssl \
@@ -313,169 +279,127 @@ docker run --rm --entrypoint &#34;&#34; \
 
 docker compose -f docker-compose.yml start openvoxserver
 </code></vox-code-block>
-<vox-callout variant="warning" heading="Warning"><p><code>--force</code> is required here. Before signing, the command checks that
-the server is really stopped, and inside a bare container it cannot
-tell, so without <code>--force</code> it prints &#34;Could not determine whether
-Puppet Server is online&#34; and exits having created nothing. Read its
-output rather than assuming it worked.</p>
+<vox-callout variant="warning" heading="警告"><p>ここでは <code>--force</code> が必須です。このコマンドは署名の前にサーバーが本当に停止しているかを確認しますが、素のコンテナの中ではそれを判別できないため、<code>--force</code> がないと「Could not determine whether Puppet Server is online」と表示し、何も作成せずに終了します。うまくいったと思い込まず、出力を読んでください。</p>
 </vox-callout>
-<p>It reports writing its files under a long <code>.puppetlabs</code> path. Ignore
-that: in the volumes they land in the usual place. Copy them out:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml cp \
+<p>ファイルは長い <code>.puppetlabs</code> パスの下に書き込んだと報告されますが、無視してかまいません: ボリューム内では通常の場所に置かれます。それらをコピーして取り出します:</p>
+<vox-code-block language="sh" copy-label="コードをコピー" copied-label="コピーしました" copied-message="クリップボードにコピーしました"><code>docker compose -f docker-compose.yml cp \
   openvoxserver:/etc/puppetlabs/puppet/ssl/certs/console-ca-client.pem certs/ca-client-cert.pem
 docker compose -f docker-compose.yml cp \
   openvoxserver:/etc/puppetlabs/puppet/ssl/private_keys/console-ca-client.pem certs/ca-client-key.pem
 </code></vox-code-block>
-<p>Then tell the console where the CA is, in <code>.env</code>. Inside the compose
-network the console reaches openvoxserver by its container name, which
-is always in openvoxserver&#39;s certificate:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CONSOLE_CA_CLIENT_URL=https://openvoxserver:8140
+<p>次に、コンソールに CA の場所を <code>.env</code> で伝えます。compose ネットワーク内では、コンソールは openvoxserver にコンテナ名で到達し、この名前は常に openvoxserver の証明書に含まれています:</p>
+<vox-code-block language="sh" copy-label="コードをコピー" copied-label="コピーしました" copied-message="クリップボードにコピーしました"><code>CONSOLE_CA_CLIENT_URL=https://openvoxserver:8140
 </code></vox-code-block>
-<p>Confirm the credential is accepted, from inside openvoxserver:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml exec openvoxserver \
+<p>認証情報が受け入れられることを、openvoxserver の内部から確認します:</p>
+<vox-code-block language="sh" copy-label="コードをコピー" copied-label="コピーしました" copied-message="クリップボードにコピーしました"><code>docker compose -f docker-compose.yml exec openvoxserver \
   curl -sS -o /dev/null -w &#39;HTTP %{http_code}\n&#39; \
   --cert /etc/puppetlabs/puppet/ssl/certs/console-ca-client.pem \
   --key /etc/puppetlabs/puppet/ssl/private_keys/console-ca-client.pem \
   --cacert /etc/puppetlabs/puppet/ssl/certs/ca.pem \
   https://openvoxserver:8140/puppet-ca/v1/certificate_statuses/all
 </code></vox-code-block>
-<p><code>HTTP 200</code> means the CA accepts it.</p>
+<p><code>HTTP 200</code> は CA がそれを受け入れたことを意味します。</p>
 <h3 id="tasks">Tasks</h3>
-<p>Running Puppet tasks needs nothing more. The console asks openvoxserver
-which tasks your deployed code contains, at
-<code>https://openvoxserver:8140</code>, using the openvoxdb client certificate you
-already issued; openvoxserver lets any certificate from its CA read
-tasks. To turn tasks off, set the address to nothing in <code>.env</code>:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CONSOLE_PUPPET_SERVER_URL=
+<p>Puppet の Task の実行には、これ以上何も必要ありません。コンソールは、すでに発行した openvoxdb クライアント証明書を使って、<code>https://openvoxserver:8140</code> で、deploy したコードにどの Task が含まれているかを openvoxserver に問い合わせます。openvoxserver は、その CA が発行したどの証明書にも Task の読み取りを許可しています。Task を無効にするには、<code>.env</code> でアドレスを空に設定します:</p>
+<vox-code-block language="sh" copy-label="コードをコピー" copied-label="コピーしました" copied-message="クリップボードにコピーしました"><code>CONSOLE_PUPPET_SERVER_URL=
 </code></vox-code-block>
-<p>See <a href="run-jobs.html">Run jobs</a> for running them.</p>
-<h3 id="the-class-list">The class list</h3>
-<p>A node group&#39;s page offers the classes your deployed code defines, with
-their parameters, so they are picked rather than typed. The console
-reads them from openvoxserver over the same connection as tasks.</p>
-<p>openvoxserver does not let any certificate read classes by default. The
-server image in the compose file adds the rule on every start, allowing
-the certificate named <code>console</code> - the openvoxdb client certificate you
-issued above. If you issued it under another name, set that name in
-<code>.env</code>:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CLASS_DISCOVERY_CERTNAME=my-console-cert
+<p>実行方法については<a href="run-jobs.html">Jobs を実行する</a>を参照してください。</p>
+<h3 id="the-class-list">クラス一覧</h3>
+<p>Node グループのページでは、deploy したコードが定義するクラスがパラメーターとともに提示されるため、入力するのではなく選択できます。コンソールは Tasks と同じ接続を通じて openvoxserver からそれらを読み込みます。</p>
+<p>openvoxserver は既定ではどの証明書にもクラスの読み取りを許可しません。compose ファイルのサーバーイメージは、起動のたびにルールを追加し、<code>console</code> という名前の証明書 (上で発行した openvoxdb クライアント証明書) を許可します。別の名前で発行した場合は、<code>.env</code> でその名前を設定します:</p>
+<vox-code-block language="sh" copy-label="コードをコピー" copied-label="コピーしました" copied-message="クリップボードにコピーしました"><code>CLASS_DISCOVERY_CERTNAME=my-console-cert
 </code></vox-code-block>
-<p>Check it from inside openvoxserver, with the console&#39;s certificate.
-<code>HTTP 200</code> means the list can be read:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml exec openvoxserver \
+<p>openvoxserver の内部から、コンソールの証明書を使って確認します。<code>HTTP 200</code> は一覧を読み取れることを意味します:</p>
+<vox-code-block language="sh" copy-label="コードをコピー" copied-label="コピーしました" copied-message="クリップボードにコピーしました"><code>docker compose -f docker-compose.yml exec openvoxserver \
   curl -sS -o /dev/null -w &#39;HTTP %{http_code}\n&#39; \
   --cert /etc/puppetlabs/puppet/ssl/certs/console.pem \
   --key /etc/puppetlabs/puppet/ssl/private_keys/console.pem \
   --cacert /etc/puppetlabs/puppet/ssl/certs/ca.pem \
   &#39;https://openvoxserver:8140/puppet/v3/environment_classes?environment=production&#39;
 </code></vox-code-block>
-<p><code>HTTP 403</code> means the rule does not name this certificate. Nothing else
-depends on it: the group page then says the list is unavailable, and
-classes are entered by name, as they were before the list existed. See
-<a href="classify.html">Classify nodes</a>.</p>
-<h2 id="start-everything-else">Start everything else</h2>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml pull
+<p><code>HTTP 403</code> は、ルールがこの証明書を指定していないことを意味します。他にこれに依存するものはありません: その場合、グループページには一覧を利用できないと表示され、クラスは一覧が存在する前と同様に名前で入力します。<a href="classify.html">Node を分類する</a>を参照してください。</p>
+<h2 id="start-everything-else">残りをすべて起動する</h2>
+<vox-code-block language="sh" copy-label="コードをコピー" copied-label="コピーしました" copied-message="クリップボードにコピーしました"><code>docker compose -f docker-compose.yml pull
 docker compose -f docker-compose.yml up -d
 </code></vox-code-block>
-<p>openvoxdb requests its own certificate from the CA on first start. The
-compose file signs exactly that one request automatically, through an
-allow list holding only <code>openvoxdb</code>; nodes are never signed that way.
-openvoxdb then waits for its database, and the console waits for both.
-Watch them come up:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml ps
+<p>openvoxdb は初回起動時に自身の証明書を CA に要求します。compose ファイルは、<code>openvoxdb</code> だけを含む許可リストを通じて、まさにその 1 件の要求だけを自動的に署名します。Node がこの方法で署名されることはありません。その後 openvoxdb はデータベースを待ち、コンソールはその両方を待ちます。起動の様子を見守ります:</p>
+<vox-code-block language="sh" copy-label="コードをコピー" copied-label="コピーしました" copied-message="クリップボードにコピーしました"><code>docker compose -f docker-compose.yml ps
 </code></vox-code-block>
-<p>Every service reaches <code>healthy</code> within a few minutes.</p>
-<h3 id="if-openvoxdb-never-becomes-healthy">If openvoxdb never becomes healthy</h3>
-<p>openvoxdb gives up if its certificate request is not signed within two
-minutes, and when it does, it writes the failure into its own certificate
-file. Every restart after that sees a certificate file, skips enrolling,
-and fails with <code>No certs found in &#39;ssl-cert&#39; file</code>. It does not recover
-on its own. Reset its identity rather than restarting it:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml rm -sf openvoxdb
+<p>数分以内にすべてのサービスが <code>healthy</code> になります。</p>
+<h3 id="if-openvoxdb-never-becomes-healthy">openvoxdb が healthy にならない場合</h3>
+<p>openvoxdb は、証明書要求が 2 分以内に署名されないと諦め、その際に失敗を自身の証明書ファイルに書き込みます。それ以降の再起動では証明書ファイルが存在するため登録を飛ばし、<code>No certs found in &#39;ssl-cert&#39; file</code> で失敗します。自然には回復しません。再起動するのではなく、ID をリセットしてください:</p>
+<vox-code-block language="sh" copy-label="コードをコピー" copied-label="コピーしました" copied-message="クリップボードにコピーしました"><code>docker compose -f docker-compose.yml rm -sf openvoxdb
 docker volume rm openvox-console_openvoxdb-ssl
 docker compose -f docker-compose.yml exec openvoxserver \
   puppetserver ca clean --certname openvoxdb
 docker compose -f docker-compose.yml up -d openvoxdb
 </code></vox-code-block>
-<p>The volume name follows the project directory&#39;s name; check it with
-<code>docker volume ls</code>. Skipping the <code>ca clean</code> leaves the CA holding a signed
-certificate for <code>openvoxdb</code> with no key to match, and the fresh start
-fails with <code>No keypair on disk and CA already has signed certificate</code>.</p>
-<h2 id="log-in-for-the-first-time">Log in for the first time</h2>
-<p>On its first start the console creates its database schema, then creates
-the bootstrap admin while the users table is still empty. Its log shows
-three lines once it is up:</p>
-<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>database migrations up to date
+<p>ボリューム名はプロジェクトディレクトリの名前に従います。<code>docker volume ls</code> で確認してください。<code>ca clean</code> を省略すると、CA は対応する鍵のない <code>openvoxdb</code> の署名済み証明書を保持したままになり、新たな起動は <code>No keypair on disk and CA already has signed certificate</code> で失敗します。</p>
+<h2 id="put-tls-in-front-of-the-console">コンソールの前段に TLS を置く</h2>
+<p>コンソールは Web インターフェースと API を平文の HTTP で提供します。<code>https://</code> のベース URL には、TLS を終端してリクエストをコンソールに渡すリバースプロキシを通じて到達します。どのリバースプロキシでも機能します。ここではコンソールのホスト上で <a href="https://caddyserver.com/">Caddy</a> を使います:</p>
+<vox-tabs class="guide-tabs"><vox-tab slot="tab" panel="tab1-debian-and-ubuntu" data-tab-key="debian-and-ubuntu" selected="">Debian と Ubuntu</vox-tab><vox-tab-panel name="tab1-debian-and-ubuntu"><vox-code-block language="sh" copy-label="コードをコピー" copied-label="コピーしました" copied-message="クリップボードにコピーしました"><code>sudo apt-get install -y caddy
+</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab1-rhel-rocky-and-almalinux" data-tab-key="rhel-rocky-and-almalinux">RHEL、Rocky、AlmaLinux</vox-tab><vox-tab-panel name="tab1-rhel-rocky-and-almalinux"><vox-code-block language="sh" copy-label="コードをコピー" copied-label="コピーしました" copied-message="クリップボードにコピーしました"><code>sudo dnf install -y epel-release
+sudo dnf install -y caddy
+sudo systemctl enable --now caddy
+</code></vox-code-block></vox-tab-panel></vox-tabs><p>これで <code>/etc/caddy/Caddyfile</code> の全体は次のとおりです:</p>
+<vox-code-block language="plaintext" copy-label="コードをコピー" copied-label="コピーしました" copied-message="クリップボードにコピーしました"><code>console.example.com {
+	reverse_proxy 127.0.0.1:8080
+}
+</code></vox-code-block>
+<vox-code-block language="sh" copy-label="コードをコピー" copied-label="コピーしました" copied-message="クリップボードにコピーしました"><code>sudo systemctl reload caddy
+</code></vox-code-block>
+<p>openvoxdb とホストを共有しているなどの理由でコンソールが別のポートで待ち受けている場合は、代わりにそのポートを <code>reverse_proxy</code> に指定します。</p>
+<p>インターネットで名前解決できる名前なら、Caddy が自ら証明書を取得・更新します。内部名の場合は、ブロック内に <code>tls &lt;cert file&gt; &lt;key file&gt;</code> の行を置き、独自の CA の証明書を与えます。試用には、<code>tls internal</code> で Caddy 自身のローカル CA から証明書を発行させることもできますが、ブラウザーは警告を表示します。</p>
+<vox-callout variant="warning" heading="警告"><p>プロキシを経由するのは Web インターフェースだけです。Node トランスポート (ポート 8142) は独自の TLS を持ち、各 Node の証明書を自ら検証するため、Node は直接到達する必要があります。決してプロキシの背後に置かないでください。</p>
+</vox-callout>
+<h2 id="log-in-for-the-first-time">初めてログインする</h2>
+<p>初回起動時、コンソールはデータベーススキーマを作成し、続いてユーザーテーブルがまだ空のうちにブートストラップ管理者を作成します。起動が完了すると、ログに次の 3 行が表示されます:</p>
+<vox-code-block language="plaintext" copy-label="コードをコピー" copied-label="コピーしました" copied-message="クリップボードにコピーしました"><code>database migrations up to date
 node transport ready   addr=[::]:8142
 console ready          addr=:8080
 </code></vox-code-block>
-<p>Check that it reports itself healthy:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -fsS https://console.example.com/health
+<p>正常であると報告されることを、まずコンソールのホスト上で直接、次にベース URL の TLS プロキシ経由で確認します:</p>
+<vox-code-block language="sh" copy-label="コードをコピー" copied-label="コピーしました" copied-message="クリップボードにコピーしました"><code>curl -fsS http://127.0.0.1:8080/health
+curl -fsS https://console.example.com/health
 </code></vox-code-block>
-<p>The reply lists each dependency as <code>ok</code>. Then open the console&#39;s base URL,
-log in as the bootstrap admin, and change its password straight away.</p>
-<p>The bootstrap admin&#39;s password must have at least 12 characters and
-must not be the same as its username. If it does not, no admin is
-created and nobody can log in. The log says so:</p>
-<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CONSOLE_BOOTSTRAP_ADMIN_PASSWORD does not meet the account policy, so no administrator was created
+<p>どちらの応答でも各依存先が <code>ok</code> と表示されます。2 つ目だけが失敗する場合、コンソールは正常で、問題はプロキシにあります。コンソールのポートを 8080 から変更した場合は、1 つ目でそのポートを使ってください。次にコンソールのベース URL を開き、ブートストラップ管理者としてログインし、すぐにパスワードを変更してください。</p>
+<p>ブートストラップ管理者のパスワードは 12 文字以上で、ユーザー名と同じであってはなりません。そうでない場合、管理者は作成されず、誰もログインできません。ログにはその旨が記録されます:</p>
+<vox-code-block language="plaintext" copy-label="コードをコピー" copied-label="コピーしました" copied-message="クリップボードにコピーしました"><code>CONSOLE_BOOTSTRAP_ADMIN_PASSWORD does not meet the account policy, so no administrator was created
 </code></vox-code-block>
-<p>Set a longer password and start the console again. See
-<a href="access.html#passwords-and-lockout">Passwords and lockout</a>.</p>
-<vox-callout variant="info" heading="Note"><p>Once you have logged in and changed the password, remove the bootstrap
-admin settings from the console&#39;s configuration. They are only read
-while the users table is empty, but there is no reason to keep a
-password lying around.</p>
+<p>より長いパスワードを設定し、コンソールを再び起動してください。<a href="access.html#passwords-and-lockout">パスワードとロックアウト</a>を参照してください。</p>
+<vox-callout variant="info" heading="メモ"><p>ログインしてパスワードを変更したら、コンソールの設定からブートストラップ管理者の設定を削除してください。これらはユーザーテーブルが空の間しか読み込まれませんが、パスワードを放置しておく理由はありません。</p>
 </vox-callout>
-<h2 id="connect-classification">Connect classification</h2>
-<p>openvoxserver asks the console which classes each node gets, through
-Puppet&#39;s standard <code>exec</code> node terminus. A small program, <code>enc-bridge</code>,
-makes that request on openvoxserver&#39;s behalf, and it needs a token to do
-so.</p>
-<h3 id="issue-enc-bridge-a-token">Issue enc-bridge a token</h3>
-<p>A service token carries a fixed set of permissions chosen when it is
-created, with no role involved. Create one allowed only to read
-classification:</p>
+<h2 id="connect-classification">分類を接続する</h2>
+<p>openvoxserver は、Puppet 標準の <code>exec</code> node terminus を通じて、各 Node にどのクラスを割り当てるかをコンソールに問い合わせます。小さなプログラム <code>enc-bridge</code> が openvoxserver に代わってこの要求を行い、そのためにトークンを必要とします。</p>
+<h3 id="issue-enc-bridge-a-token">enc-bridge にトークンを発行する</h3>
+<p>サービストークンは作成時に選んだ固定の権限セットを持ち、ロールは関係しません。分類の読み取りだけが許可されたトークンを作成します:</p>
 <ol>
-<li>In the console, open <strong>Admin</strong>, then <strong>Service tokens</strong>.</li>
-<li>Under <strong>New service token</strong>, name it <code>enc-bridge</code> and give it only the
-<code>enc:read</code> permission.</li>
-<li>Choose <strong>Create service token</strong>.</li>
+<li>コンソールで<strong>管理</strong>を開き、<strong>サービストークン</strong>を開きます。</li>
+<li><strong>新しいサービストークン</strong>で、名前を <code>enc-bridge</code> とし、<code>enc:read</code> 権限だけを与えます。</li>
+<li><strong>サービストークンを作成</strong>を選びます。</li>
 </ol>
-<p>The token is shown <strong>once</strong>. Copy it now.</p>
-<vox-callout variant="tip" heading="Tip"><p>The same through the API, with an access token from an admin login:
-<code>curl -X POST https://console.example.com/api/v1/service-tokens -H &#34;Authorization: Bearer &lt;admin access token&gt;&#34; -H &#39;Content-Type: application/json&#39; -d &#39;{&#34;name&#34;:&#34;enc-bridge&#34;,&#34;permissions&#34;:[&#34;enc:read&#34;]}&#39;</code></p>
+<p>トークンは<strong>一度しか</strong>表示されません。今すぐコピーしてください。</p>
+<vox-callout variant="tip" heading="ヒント"><p>API でも同じことができます。管理者ログインのアクセストークンを使います: <code>curl -X POST https://console.example.com/api/v1/service-tokens -H &#34;Authorization: Bearer &lt;admin access token&gt;&#34; -H &#39;Content-Type: application/json&#39; -d &#39;{&#34;name&#34;:&#34;enc-bridge&#34;,&#34;permissions&#34;:[&#34;enc:read&#34;]}&#39;</code></p>
 </vox-callout>
-<h3 id="give-openvoxserver-the-token">Give openvoxserver the token</h3>
-<p>The openvoxserver image already contains <code>enc-bridge</code>, the Puppet
-configuration that uses it, and the Hiera function that lets nodes read
-<a href="classify.html#set-configuration-data">configuration data</a>, so all
-it needs is the token. Write it to the
-secret file you created empty earlier:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>printf &#39;%s&#39; &#39;&lt;the enc:read service token&gt;&#39; &gt; secrets/enc_bridge_token
+<h3 id="give-openvoxserver-the-token">openvoxserver にトークンを渡す</h3>
+<p>openvoxserver のイメージには、<code>enc-bridge</code>、それを使う Puppet の設定、そして Node が<a href="classify.html#set-configuration-data">設定データ</a>を読み込むための Hiera 関数がすでに含まれているため、必要なのはトークンだけです。先ほど空で作成したシークレットファイルに書き込みます:</p>
+<vox-code-block language="sh" copy-label="コードをコピー" copied-label="コピーしました" copied-message="クリップボードにコピーしました"><code>printf &#39;%s&#39; &#39;&lt;the enc:read service token&gt;&#39; &gt; secrets/enc_bridge_token
 </code></vox-code-block>
-<p>openvoxserver does not run as root inside its container, and Compose
-mounts secret files with their ownership on the host. A file readable only
-by your own user is therefore unreadable to openvoxserver, and
-classification fails. Give group 0 read access and protect the directory
-instead:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo chgrp 0 secrets/enc_bridge_token
+<p>openvoxserver はコンテナ内で root として動作せず、Compose はシークレットファイルをホスト上の所有権のままマウントします。そのため、自分のユーザーだけが読めるファイルは openvoxserver からは読めず、分類が失敗します。代わりにグループ 0 に読み取り権限を与え、ディレクトリのほうを保護します:</p>
+<vox-code-block language="sh" copy-label="コードをコピー" copied-label="コピーしました" copied-message="クリップボードにコピーしました"><code>sudo chgrp 0 secrets/enc_bridge_token
 chmod 640 secrets/enc_bridge_token
 chmod 700 secrets
 </code></vox-code-block>
-<p>Recreate openvoxserver so it reads the new token:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml up -d --force-recreate openvoxserver
+<p>新しいトークンを読み込ませるため、openvoxserver を再作成します:</p>
+<vox-code-block language="sh" copy-label="コードをコピー" copied-label="コピーしました" copied-message="クリップボードにコピーしました"><code>docker compose -f docker-compose.yml up -d --force-recreate openvoxserver
 </code></vox-code-block>
-<h3 id="check-classification">Check classification</h3>
-<p>Ask enc-bridge directly, as openvoxserver runs it. This checks the
-program, the token, the file permissions and the console&#39;s answer in one
-command:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml exec -u puppet:0 openvoxserver \
+<h3 id="check-classification">分類を確認する</h3>
+<p>openvoxserver が実行するのと同じ方法で、enc-bridge に直接問い合わせます。これでプログラム、トークン、ファイルのパーミッション、コンソールの応答を 1 つのコマンドで確認できます:</p>
+<vox-code-block language="sh" copy-label="コードをコピー" copied-label="コピーしました" copied-message="クリップボードにコピーしました"><code>docker compose -f docker-compose.yml exec -u puppet:0 openvoxserver \
   /usr/local/bin/enc-bridge &lt;a certname&gt;
 </code></vox-code-block>
-<p><code>{}</code> means classification works and that node matches no group yet.
-Create a node group on the console&#39;s <strong>Groups</strong> page that pins that
-certname, run the same command again, and its classes come back:</p>
-<vox-code-block language="yaml" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>classes:
+<p><code>{}</code> は、分類が機能していて、その Node がまだどのグループにも一致していないことを意味します。コンソールの<strong>グループ</strong>ページでその certname を固定する Node グループを作成し、同じコマンドをもう一度実行すると、クラスが返ってきます:</p>
+<vox-code-block language="yaml" copy-label="コードをコピー" copied-label="コピーしました" copied-message="クリップボードにコピーしました"><code>classes:
     ntp:
         servers:
             - time.example.com
@@ -483,34 +407,28 @@ parameters:
     role: prodtest
 environment: production
 </code></vox-code-block>
-<p>An error here is the failure to catch. <code>permission denied</code> means the
-token is not readable by the user openvoxserver runs as, and a 401 means
-the token is wrong or lacks <code>enc:read</code>.</p>
-<vox-callout variant="tip" heading="Tip"><p>If a node&#39;s next Puppet run fails with <code>Could not find class &lt;name&gt;</code>,
-classification is working: the console told openvoxserver to include a
-class your Puppet code does not define yet.</p>
+<p>ここで見逃してはならないのがエラーです。<code>permission denied</code> は openvoxserver の実行ユーザーがトークンを読めないことを意味し、401 はトークンが誤っているか <code>enc:read</code> を持っていないことを意味します。</p>
+<vox-callout variant="tip" heading="ヒント"><p>Node の次の Puppet run が <code>Could not find class &lt;name&gt;</code> で失敗する場合、分類は機能しています: コンソールが openvoxserver に、Puppet コードでまだ定義されていないクラスを含めるよう指示したということです。</p>
 </vox-callout>
-<p>openvoxserver caches environments, so after adding Puppet code, flush its
-cache or the same error persists:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml exec openvoxserver sh -c \
+<p>openvoxserver は Environments をキャッシュするため、Puppet コードを追加した後はキャッシュを破棄してください。そうしないと同じエラーが続きます:</p>
+<vox-code-block language="sh" copy-label="コードをコピー" copied-label="コピーしました" copied-message="クリップボードにコピーしました"><code>docker compose -f docker-compose.yml exec openvoxserver sh -c \
   &#39;curl -ksS -X DELETE \
      --cert /etc/puppetlabs/puppet/ssl/certs/openvoxserver.pem \
      --key /etc/puppetlabs/puppet/ssl/private_keys/openvoxserver.pem \
      https://127.0.0.1:8140/puppet-admin-api/v1/environment-cache&#39;
 </code></vox-code-block>
-<h2 id="upgrade-later">Upgrade later</h2>
-<p>To move to a newer console, change <code>CONSOLE_IMAGE_TAG</code> (or pull again if
-you follow <code>main</code>) and bring the stack up again. Compose recreates only
-what changed:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml pull
+<h2 id="upgrade-later">後でアップグレードする</h2>
+<p>新しいコンソールに移行するには、<code>CONSOLE_IMAGE_TAG</code> を変更し (<code>main</code> に追従している場合は再度 pull し)、スタックをもう一度起動します。Compose は変更されたものだけを再作成します:</p>
+<vox-code-block language="sh" copy-label="コードをコピー" copied-label="コピーしました" copied-message="クリップボードにコピーしました"><code>docker compose -f docker-compose.yml pull
 docker compose -f docker-compose.yml up -d
 </code></vox-code-block>
-<h2 id="check-the-whole-deployment">Check the whole deployment</h2>
+<p>compose ファイルは openvoxdb のポートを公開していないため、以下の確認ではコンテナの内部から問い合わせます: <code>docker compose -f docker-compose.yml exec openvoxdb curl -ksS https://127.0.0.1:8081/status/v1/simple</code></p>
+<h2 id="check-the-whole-deployment">デプロイ全体を確認する</h2>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Check</th>
-<th>Expect</th>
+<th>確認項目</th>
+<th>期待される結果</th>
 </tr>
 </thead>
 <tbody>
@@ -519,67 +437,68 @@ docker compose -f docker-compose.yml up -d
 <td><code>running</code></td>
 </tr>
 <tr>
-<td><code>curl -ksS https://&lt;openvoxdb&gt;:8081/status/v1/simple</code></td>
+<td>到達できる場所から <code>curl -ksS https://&lt;openvoxdb&gt;:8081/status/v1/simple</code></td>
 <td><code>running</code></td>
 </tr>
 <tr>
 <td><code>curl -fsS https://console.example.com/health</code></td>
-<td>every dependency <code>ok</code></td>
+<td>すべての依存先が <code>ok</code></td>
 </tr>
 <tr>
-<td>The console&#39;s log on start</td>
-<td>migrations, node transport, console ready</td>
+<td>起動時のコンソールのログ</td>
+<td>マイグレーション、Node トランスポート、コンソールの準備完了</td>
 </tr>
 <tr>
-<td>Logging in as the bootstrap admin</td>
-<td>succeeds, and the password has been changed</td>
+<td>ブートストラップ管理者としてのログイン</td>
+<td>成功し、パスワードが変更済みである</td>
 </tr>
 <tr>
-<td>The <strong>Groups</strong> page</td>
-<td>a group matches the nodes you expect</td>
+<td><strong>グループ</strong>ページ</td>
+<td>想定どおりの Node にグループが一致する</td>
 </tr>
 </tbody>
 </table></div>
-<p>Your console is ready for nodes. Continue with
-<a href="add.html">Add nodes</a> to enroll the first one.</p>
+<p>コンソールは Node を迎える準備ができました。<a href="add.html">Node を追加する</a>に進み、最初の Node を登録してください。</p>
 
     </div>
 
-    <vox-series-nav label="Install" previous-text="Previous" next-text="Next" previous-href="../guides/plan.html" previous-label="Plan a deployment" next-href="../guides/packages.html" next-label="Install from packages and binaries"></vox-series-nav>
+    <vox-series-nav label="インストール" previous-text="前へ" next-text="次へ" previous-href="../guides/plan.html" previous-label="デプロイを計画する" next-href="../guides/packages.html" next-label="パッケージとバイナリからインストールする"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#get-the-compose-file"><span>Get the compose file</span>
+    <vox-toc heading="このページの内容">
+      <vox-toc-item href="#get-the-compose-file"><span>compose ファイルを取得する</span>
       </vox-toc-item>
-      <vox-toc-item href="#set-the-deployment-s-own-values"><span>Set the deployment&#39;s own values</span>
+      <vox-toc-item href="#set-the-deployment-s-own-values"><span>デプロイ固有の値を設定する</span>
       </vox-toc-item>
-      <vox-toc-item href="#write-the-secrets"><span>Write the secrets</span>
+      <vox-toc-item href="#write-the-secrets"><span>シークレットを書き込む</span>
       </vox-toc-item>
-      <vox-toc-item href="#start-the-certificate-authority"><span>Start the certificate authority</span>
+      <vox-toc-item href="#start-the-certificate-authority"><span>認証局を起動する</span>
       </vox-toc-item>
-      <vox-toc-item href="#issue-the-console-s-certificates"><span>Issue the console&#39;s certificates</span>
-        <vox-toc-item slot="children" href="#the-openvoxdb-client-certificate"><span>The openvoxdb client certificate</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#the-node-transport-certificate"><span>The node transport certificate</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#the-token-signing-key"><span>The token signing key</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#the-certificate-admin-credential-optional"><span>The certificate-admin credential (optional)</span></vox-toc-item>
+      <vox-toc-item href="#issue-the-console-s-certificates"><span>コンソールの証明書を発行する</span>
+        <vox-toc-item slot="children" href="#the-openvoxdb-client-certificate"><span>openvoxdb のクライアント証明書</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#the-node-transport-certificate"><span>Node トランスポートの証明書</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#the-token-signing-key"><span>トークン署名鍵</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#the-certificate-admin-credential-optional"><span>証明書管理者の認証情報 (任意)</span></vox-toc-item>
         <vox-toc-item slot="children" href="#tasks"><span>Tasks</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#the-class-list"><span>The class list</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#the-class-list"><span>クラス一覧</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#start-everything-else"><span>Start everything else</span>
-        <vox-toc-item slot="children" href="#if-openvoxdb-never-becomes-healthy"><span>If openvoxdb never becomes healthy</span></vox-toc-item>
+      <vox-toc-item href="#start-everything-else"><span>残りをすべて起動する</span>
+        <vox-toc-item slot="children" href="#if-openvoxdb-never-becomes-healthy"><span>openvoxdb が healthy にならない場合</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#log-in-for-the-first-time"><span>Log in for the first time</span>
+      <vox-toc-item href="#put-tls-in-front-of-the-console"><span>コンソールの前段に TLS を置く</span>
       </vox-toc-item>
-      <vox-toc-item href="#connect-classification"><span>Connect classification</span>
-        <vox-toc-item slot="children" href="#issue-enc-bridge-a-token"><span>Issue enc-bridge a token</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#give-openvoxserver-the-token"><span>Give openvoxserver the token</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#check-classification"><span>Check classification</span></vox-toc-item>
+      <vox-toc-item href="#log-in-for-the-first-time"><span>初めてログインする</span>
       </vox-toc-item>
-      <vox-toc-item href="#upgrade-later"><span>Upgrade later</span>
+      <vox-toc-item href="#connect-classification"><span>分類を接続する</span>
+        <vox-toc-item slot="children" href="#issue-enc-bridge-a-token"><span>enc-bridge にトークンを発行する</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#give-openvoxserver-the-token"><span>openvoxserver にトークンを渡す</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#check-classification"><span>分類を確認する</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#check-the-whole-deployment"><span>Check the whole deployment</span>
+      <vox-toc-item href="#upgrade-later"><span>後でアップグレードする</span>
+      </vox-toc-item>
+      <vox-toc-item href="#check-the-whole-deployment"><span>デプロイ全体を確認する</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -589,23 +508,17 @@ docker compose -f docker-compose.yml up -d
 
       
       <vox-cta-band heading="自分で動かしてみる">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console は、push のたびに amd64 と arm64 向けにビルドされるコンテナイメージと、単一のバイナリとして提供されます。インストールガイドでは、コンテナまたはパッケージを使って、空のホストから openvoxserver、openvoxdb、Postgres、コンソールからなる稼働するデプロイまでを案内します。</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">インストールガイド</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">GitHub のソース</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">コンテナイメージ</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="フルサイズのスクリーンショット">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">閉じる</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -614,18 +527,18 @@ docker compose -f docker-compose.yml up -d
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">概要</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">ソース</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">インストールガイド</a>
       </vox-footer-column>
       <vox-footer-column heading="機能">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">分類</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">オーケストレーション</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">パッチ適用</a>
         <a href="../features/security.html">セキュリティ</a>
         <a href="../features/access-control.html">アクセス制御</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">AI エージェント</a>
+        <a href="../features/scaling.html">スケーリング</a>
         </vox-footer-column>
       
       <vox-footer-column heading="言語">

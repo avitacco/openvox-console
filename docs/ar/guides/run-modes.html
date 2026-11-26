@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="ar" dir="rtl"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="What each of the console&#39;s run modes serves and runs, and what each one needs configured."/>
+    <meta name="description" content="ما يقدّمه كل وضع من أوضاع تشغيل وحدة التحكم وما يشغّله، وما يحتاج كلٌّ منها إلى تهيئته."/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Run modes - OpenVox Console</title>
+    <title>أوضاع التشغيل - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">الأدلة</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,219 +104,179 @@
       <a href="../features/classification.html">التصنيف</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">التنسيق</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">تثبيت التصحيحات</a>
       <a href="../features/security.html">الأمان</a>
       <a href="../features/access-control.html">التحكم في الوصول</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">وكلاء الذكاء الاصطناعي</a>
+      <a href="../features/scaling.html">التوسّع</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="الأدلة" toggle-label="كل الأدلة">
+    <vox-sidenav-group heading="التثبيت">
+      <vox-sidenav-item href="../guides/plan.html"><span>خطّط للنشر</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>التثبيت باستخدام الحاويات</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>التثبيت من الحزم والملفات التنفيذية</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>إضافة Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>إدارة شهادات الـ Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>إزالة Node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>إبقاء وكلاء الـ Nodes محدَّثين</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale" open="">
-      <vox-sidenav-item href="../guides/run-modes.html" current="" aria-current="page"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="التوسّع" open="">
+      <vox-sidenav-item href="../guides/run-modes.html" current="" aria-current="page"><span>أوضاع التشغيل</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>تشغيل مزيد من المثيلات</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="الاستخدام">
+      <vox-sidenav-item href="../guides/classify.html"><span>تصنيف الـ Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>deploy الكود</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>تشغيل الـ Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>تشغيل الـ Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>جدولة الـ Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>المستخدمون والأدوار والرموز</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>تتبّع الثغرات</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>العثور على التحديثات الناقصة وتطبيقها</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>تشغيل Tasks على مضيفين بلا وكيل</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>تشغيل Plans من الكود الخاص بك</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>السماح لوكلاء الذكاء الاصطناعي باستخدام وحدة التحكم</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="التشغيل">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>الانتقال إلى قاعدة بيانات احتياطية عند الفشل</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>تدوير مفتاح توقيع الرموز</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>ترقية قواعد بيانات الحاويات إلى Postgres 18</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Scale</p>
-    <h1 class="guide-title vox-ts-xxl">Run modes</h1>
-    <p class="guide-summary">What each of the console&#39;s run modes serves and runs, and what each one needs configured.</p>
+    <p class="guide-eyebrow">التوسّع</p>
+    <h1 class="guide-title vox-ts-xxl">أوضاع التشغيل</h1>
+    <p class="guide-summary">ما يقدّمه كل وضع من أوضاع تشغيل وحدة التحكم وما يشغّله، وما يحتاج كلٌّ منها إلى تهيئته.</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>One image, one binary. <code>CONSOLE_RUN_MODE</code> selects which parts of the
-console an instance runs, so parts with very different loads can be
-scaled and placed separately. Unset, it is <code>all</code>: everything in one
-instance, which is what a single-instance deployment always runs.</p>
-<h2 id="what-each-mode-runs">What each mode runs</h2>
+<p>صورة واحدة، وملف تنفيذي واحد. يحدّد <code>CONSOLE_RUN_MODE</code> أي أجزاء وحدة التحكم يشغّلها المثيل، فيمكن توسيع الأجزاء ذات الأحمال المختلفة جدًا ووضعها كلٌّ على حدة. وإن لم يُضبط فقيمته <code>all</code>: كل شيء في مثيل واحد، وهو ما يشغّله دائمًا النشر ذو المثيل الواحد.</p>
+<h2 id="what-each-mode-runs">ما يشغّله كل وضع</h2>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Mode</th>
-<th>Serves</th>
-<th>Listens</th>
-<th>Runs in the background</th>
+<th>الوضع</th>
+<th>يقدّم</th>
+<th>يستمع على</th>
+<th>يعمل في الخلفية</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>all</code> (the default)</td>
-<td>everything</td>
-<td>HTTP, node transport</td>
-<td>every background task</td>
+<td><code>all</code> (الافتراضي)</td>
+<td>كل شيء</td>
+<td>HTTP، نقل الـ Nodes</td>
+<td>كل مهمة في الخلفية</td>
 </tr>
 <tr>
 <td><code>web</code></td>
-<td>the console, its API, code-deploy webhooks and classification</td>
+<td>وحدة التحكم، والـ API الخاص بها، وwebhooks الخاصة بـ deploy الكود، والتصنيف</td>
 <td>HTTP</td>
-<td>following the jobs started through it</td>
+<td>متابعة الـ Jobs التي بدأت عبره</td>
 </tr>
 <tr>
 <td><code>enc</code></td>
-<td>classification only</td>
+<td>التصنيف فقط</td>
 <td>HTTP</td>
-<td>nothing</td>
+<td>لا شيء</td>
 </tr>
 <tr>
 <td><code>orchestrator</code></td>
-<td>nothing beyond health and metrics</td>
-<td>HTTP, node transport</td>
-<td>job dispatch, scheduled jobs, the first run of new nodes, and node agent upgrades</td>
+<td>لا شيء سوى الصحة والمقاييس</td>
+<td>HTTP، نقل الـ Nodes</td>
+<td>إرسال الـ Jobs، والـ Jobs المجدولة، والتشغيل الأول للـ Nodes الجديدة، وترقيات وكلاء الـ Nodes</td>
 </tr>
 <tr>
 <td><code>worker</code></td>
-<td>nothing beyond health and metrics</td>
+<td>لا شيء سوى الصحة والمقاييس</td>
 <td>HTTP</td>
-<td>vulnerability syncs, and cleanup of abandoned jobs</td>
+<td>مزامنات الثغرات، وتنظيف الـ Jobs المهجورة</td>
 </tr>
 </tbody>
 </table></div>
-<p>Every mode serves <code>/health</code> and <code>/metrics</code>, so any instance can be
-checked without knowing its mode, and <code>/health</code> reports the mode it is
-running.</p>
-<p>Two choices in that table are deliberate:</p>
+<p>يقدّم كل وضع <code>/health</code> و<code>/metrics</code>، فيمكن فحص أي مثيل دون معرفة وضعه، ويُبلّغ <code>/health</code> عن الوضع الذي يعمل به.</p>
+<p>خياران في ذلك الجدول مقصودان:</p>
 <ul>
-<li><strong><code>web</code> answers classification too.</strong> <code>enc</code> exists so classification
-<em>can</em> run on its own, next to the compilers, not so that it is missing
-everywhere else. A split that quietly stopped classifying nodes would
-be far worse than <code>web</code> carrying some of that load.</li>
-<li><strong><code>orchestrator</code> serves no API.</strong> It holds the node connections and
-sends jobs down them. Starting a job is <code>web</code>&#39;s job, and <code>web</code> reaches
-those connections through the cluster.</li>
-<li><strong>A job is followed by the instance that started it.</strong> A run, task or
-plan started in the console is sent and tracked by the <code>web</code> instance
-that took the request, so <code>web</code> instances must be
-<a href="cluster.html">clustered</a> with the <code>orchestrator</code> instances to reach
-any node. If that <code>web</code> instance stops before the job ends, the job is
-marked failed by a <code>worker</code> instance.</li>
+<li><strong>يجيب <code>web</code> عن التصنيف أيضًا.</strong> يوجد <code>enc</code> كي <em>يمكن</em> للتصنيف أن يعمل وحده، بجوار الـ compilers، لا كي يغيب في كل مكان آخر. فالتقسيم الذي يتوقف بصمت عن تصنيف الـ Nodes أسوأ بكثير من أن يتحمّل <code>web</code> جزءًا من ذلك العبء.</li>
+<li><strong>لا يقدّم <code>orchestrator</code> أي API.</strong> إنه يحتفظ باتصالات الـ Nodes ويرسل الـ Jobs عبرها. أما بدء الـ Job فمهمة <code>web</code>، ويصل <code>web</code> إلى تلك الاتصالات عبر العنقود.</li>
+<li><strong>يتابع الـ Job المثيلُ الذي بدأه.</strong> فالتشغيل أو الـ Task أو الـ Plan الذي يبدأ في وحدة التحكم يرسله ويتتبّعه مثيل <code>web</code> الذي استقبل الطلب، لذا يجب <a href="cluster.html">ضمّ</a> مثيلات <code>web</code> في عنقود مع مثيلات <code>orchestrator</code> للوصول إلى أي Node. وإذا توقف مثيل <code>web</code> ذلك قبل انتهاء الـ Job، يَسِم مثيلُ <code>worker</code> الـ Job بالفشل.</li>
 </ul>
-<h2 id="what-each-mode-needs">What each mode needs</h2>
-<p>Each mode requires only what it uses, and refuses to start without it,
-naming the missing setting:</p>
+<h2 id="what-each-mode-needs">ما يحتاج إليه كل وضع</h2>
+<p>لا يتطلب كل وضع إلا ما يستخدمه، ويرفض البدء من دونه، مع ذكر اسم الإعداد المفقود:</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Mode</th>
-<th>Requires</th>
+<th>الوضع</th>
+<th>يتطلب</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>every mode</td>
-<td><code>CONSOLE_POSTGRES_DSN</code> and the four <code>CONSOLE_OPENVOXDB_*</code> settings</td>
+<td>كل الأوضاع</td>
+<td><code>CONSOLE_POSTGRES_DSN</code> والإعدادات الأربعة <code>CONSOLE_OPENVOXDB_*</code></td>
 </tr>
 <tr>
 <td><code>all</code>, <code>web</code></td>
-<td><code>CONSOLE_RBAC_SIGNING_KEY_FILE</code>: these are the only modes that issue login tokens</td>
+<td><code>CONSOLE_RBAC_SIGNING_KEY_FILE</code>: هذه هي الأوضاع الوحيدة التي تُصدر رموز تسجيل الدخول</td>
 </tr>
 <tr>
 <td><code>enc</code>, <code>orchestrator</code>, <code>worker</code></td>
-<td><code>CONSOLE_RBAC_VERIFICATION_KEYS_DIR</code>: they check tokens, but never issue them</td>
+<td><code>CONSOLE_RBAC_VERIFICATION_KEYS_DIR</code>: فهي تتحقق من الرموز، لكنها لا تُصدرها أبدًا</td>
 </tr>
 <tr>
 <td><code>orchestrator</code></td>
-<td><code>CONSOLE_NODE_TRANSPORT_ADDR</code>: without a node listener every job would fail &#34;not connected&#34; on an instance that looked healthy</td>
+<td><code>CONSOLE_NODE_TRANSPORT_ADDR</code>: من دون مستمع للـ Nodes سيفشل كل Job بالرسالة «not connected» على مثيل يبدو سليمًا</td>
 </tr>
 </tbody>
 </table></div>
-<h3 id="give-the-scheduler-what-scheduled-jobs-use">Give the scheduler what scheduled jobs use</h3>
-<p><a href="schedule-jobs.html">Scheduled jobs</a> are started by <code>all</code> and
-<code>orchestrator</code> instances, not by <code>web</code>. An <code>orchestrator</code> instance
-starts without these, but a schedule that needs one is skipped, saying
-why, until the instance has it:</p>
+<h3 id="give-the-scheduler-what-scheduled-jobs-use">أعطِ المُجدوِل ما تستخدمه الـ Jobs المجدولة</h3>
+<p>تبدأ <a href="schedule-jobs.html">الـ Jobs المجدولة</a> مثيلاتُ <code>all</code> و<code>orchestrator</code>، لا <code>web</code>. يبدأ مثيل <code>orchestrator</code> من دون هذه الإعدادات، لكن الجدولة التي تحتاج إلى أحدها تُتخطّى، مع ذكر السبب، حتى يحصل عليه المثيل:</p>
 <ul>
-<li><code>CONSOLE_PUPPET_SERVER_URL</code>, to start a scheduled task: the task is
-looked up in the deployed code when the schedule starts.</li>
-<li><code>CONSOLE_SECRETS_KEY_FILE</code>, the same key as on <code>web</code>, to start a
-scheduled task that has a sensitive parameter.</li>
+<li><code>CONSOLE_PUPPET_SERVER_URL</code>، لبدء Task مجدولة: إذ يُبحث عن الـ Task في الكود الذي جرى له deploy عند بدء الجدولة.</li>
+<li><code>CONSOLE_SECRETS_KEY_FILE</code>، المفتاح نفسه الموجود على <code>web</code>، لبدء Task مجدولة لها معامل حساس.</li>
 </ul>
-<p>When several instances run the scheduler, each due time is started by
-exactly one of them. If none is running when a schedule comes due, it
-starts when one is - unless that is more than 15 minutes late, in which
-case that time is recorded as missed.</p>
-<h3 id="give-non-issuing-modes-the-verification-keys">Give non-issuing modes the verification keys</h3>
-<p>An instance that only checks tokens reads the keys to check them against
-from a directory, one file per key, named after the key&#39;s ID. A
-deployment that has never rotated its key uses the ID <code>default</code>, so the
-directory holds one file, <code>default.pem</code>, which is the signing key file
-itself:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo install -d -m 0750 -o root -g openvox-console /etc/openvox-console/rbac-verification-keys
+<p>حين تشغّل عدة مثيلات المُجدوِل، يبدأ كلَّ موعد مثيلٌ واحد منها بالضبط. وإذا لم يكن أيٌّ منها يعمل حين يحل موعد جدولة، فإنها تبدأ حين يعمل أحدها - ما لم يتجاوز التأخر 15 دقيقة، وفي هذه الحالة يُسجَّل ذلك الموعد على أنه فائت.</p>
+<h3 id="give-non-issuing-modes-the-verification-keys">أعطِ الأوضاع غير المُصدِرة مفاتيح التحقق</h3>
+<p>المثيل الذي يكتفي بالتحقق من الرموز يقرأ المفاتيح التي يتحقق بها من مجلد، ملف واحد لكل مفتاح، مسمّى بمعرّف المفتاح. والنشر الذي لم يدوّر مفتاحه قط يستخدم المعرّف <code>default</code>، لذا يحوي المجلد ملفًا واحدًا، <code>default.pem</code>، وهو ملف مفتاح التوقيع نفسه:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>sudo install -d -m 0750 -o root -g openvox-console /etc/openvox-console/rbac-verification-keys
 sudo install -m 0640 -o root -g openvox-console \
   rbac-signing-key.pem /etc/openvox-console/rbac-verification-keys/default.pem
 </code></vox-code-block>
-<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CONSOLE_RUN_MODE=enc
+<vox-code-block language="plaintext" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>CONSOLE_RUN_MODE=enc
 CONSOLE_RBAC_VERIFICATION_KEYS_DIR=/etc/openvox-console/rbac-verification-keys
 </code></vox-code-block>
-<vox-callout variant="warning" heading="Warning"><p>The verification directory currently accepts keys only in the same
-format as the signing key: the private key, of which the console uses
-only the public half. So an instance given the directory also holds a
-key that could sign tokens. Protect it on every host exactly as you
-protect the signing key, including <code>enc</code> instances beside the
-compilers.</p>
+<vox-callout variant="warning" heading="تحذير"><p>لا يقبل مجلد التحقق حاليًا إلا المفاتيح بالصيغة نفسها التي لمفتاح التوقيع: المفتاح الخاص، الذي لا تستخدم منه وحدة التحكم إلا النصف العام. لذا فالمثيل الذي يُعطى المجلد يحمل أيضًا مفتاحًا يمكنه توقيع الرموز. احمِه على كل مضيف تمامًا كما تحمي مفتاح التوقيع، بما في ذلك مثيلات <code>enc</code> المجاورة للـ compilers.</p>
 </vox-callout>
-<p>When you rotate the signing key, every instance&#39;s verification directory
-needs the new key too; <a href="rotate-signing-key.html">Rotate the token signing key</a> covers the order.</p>
-<h2 id="changing-an-instance-s-mode">Changing an instance&#39;s mode</h2>
-<p>Set <code>CONSOLE_RUN_MODE</code> and restart the instance. No data moves: every
-mode reads and writes the same database. Setting it back to <code>all</code> undoes
-the change.</p>
-<p>A lone instance can change mode, but a mode other than <code>all</code> only makes
-sense among clustered instances that between them run every mode. See
-<a href="cluster.html">Run more instances</a>.</p>
+<p>حين تدوّر مفتاح التوقيع، يحتاج مجلد التحقق في كل مثيل إلى المفتاح الجديد أيضًا؛ ويغطي دليل <a href="rotate-signing-key.html">تدوير مفتاح توقيع الرموز</a> الترتيب.</p>
+<h2 id="changing-an-instance-s-mode">تغيير وضع المثيل</h2>
+<p>اضبط <code>CONSOLE_RUN_MODE</code> وأعِد تشغيل المثيل. لا تنتقل أي بيانات: فكل وضع يقرأ من قاعدة البيانات نفسها ويكتب فيها. وإعادة ضبطه على <code>all</code> تتراجع عن التغيير.</p>
+<p>يمكن لمثيل منفرد أن يغيّر وضعه، لكن أي وضع غير <code>all</code> لا معنى له إلا بين مثيلات في عنقود تشغّل فيما بينها كل الأوضاع. راجع <a href="cluster.html">تشغيل مزيد من المثيلات</a>.</p>
 
     </div>
 
-    <vox-series-nav label="Scale" previous-text="Previous" next-text="Next" next-href="../guides/cluster.html" next-label="Run more instances"></vox-series-nav>
+    <vox-series-nav label="التوسّع" previous-text="السابق" next-text="التالي" next-href="../guides/cluster.html" next-label="تشغيل مزيد من المثيلات"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#what-each-mode-runs"><span>What each mode runs</span>
+    <vox-toc heading="في هذه الصفحة">
+      <vox-toc-item href="#what-each-mode-runs"><span>ما يشغّله كل وضع</span>
       </vox-toc-item>
-      <vox-toc-item href="#what-each-mode-needs"><span>What each mode needs</span>
-        <vox-toc-item slot="children" href="#give-the-scheduler-what-scheduled-jobs-use"><span>Give the scheduler what scheduled jobs use</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#give-non-issuing-modes-the-verification-keys"><span>Give non-issuing modes the verification keys</span></vox-toc-item>
+      <vox-toc-item href="#what-each-mode-needs"><span>ما يحتاج إليه كل وضع</span>
+        <vox-toc-item slot="children" href="#give-the-scheduler-what-scheduled-jobs-use"><span>أعطِ المُجدوِل ما تستخدمه الـ Jobs المجدولة</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#give-non-issuing-modes-the-verification-keys"><span>أعطِ الأوضاع غير المُصدِرة مفاتيح التحقق</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#changing-an-instance-s-mode"><span>Changing an instance&#39;s mode</span>
+      <vox-toc-item href="#changing-an-instance-s-mode"><span>تغيير وضع المثيل</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -326,23 +286,17 @@ sense among clustered instances that between them run every mode. See
 
       
       <vox-cta-band heading="شغّله بنفسك">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>يُوزَّع OpenVox Console على هيئة صور حاويات تُبنى لمعماريتَي amd64 وarm64 مع كل push، وعلى هيئة ملف تنفيذي واحد. تأخذك أدلة التثبيت من مضيف فارغ إلى نشر عامل - openvoxserver وopenvoxdb وPostgres ووحدة التحكم - باستخدام الحاويات أو الحزم.</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">أدلة التثبيت</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">الشيفرة المصدرية على GitHub</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">صور الحاويات</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="لقطة الشاشة بالحجم الكامل">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">إغلاق</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -351,18 +305,18 @@ sense among clustered instances that between them run every mode. See
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">نظرة عامة</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">الشيفرة المصدرية</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">أدلة التثبيت</a>
       </vox-footer-column>
       <vox-footer-column heading="الإمكانات">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">التصنيف</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">التنسيق</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">تثبيت التصحيحات</a>
         <a href="../features/security.html">الأمان</a>
         <a href="../features/access-control.html">التحكم في الوصول</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">وكلاء الذكاء الاصطناعي</a>
+        <a href="../features/scaling.html">التوسّع</a>
         </vox-footer-column>
       
       <vox-footer-column heading="اللغة">

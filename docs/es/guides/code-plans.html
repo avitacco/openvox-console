@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="es" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Run YAML plans that live in your modules, with typed parameters, results passed between steps, and every task checked against your node groups."/>
+    <meta name="description" content="Ejecute Plans YAML que viven en sus módulos, con parámetros tipados, resultados que pasan de un paso a otro y cada Task comprobado contra sus grupos de Nodes."/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Run plans from your code - OpenVox Console</title>
+    <title>Ejecutar Plans de su código - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">Guías</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,90 +104,72 @@
       <a href="../features/classification.html">Clasificación</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">Orquestación</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">Aplicación de parches</a>
       <a href="../features/security.html">Seguridad</a>
       <a href="../features/access-control.html">Control de acceso</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">Agentes de IA</a>
+      <a href="../features/scaling.html">Escalado</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="Guías" toggle-label="Todas las guías">
+    <vox-sidenav-group heading="Instalar">
+      <vox-sidenav-item href="../guides/plan.html"><span>Planificar un despliegue</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>Instalar con contenedores</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>Instalar desde paquetes y binarios</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>Añadir Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>Gestionar los certificados de los Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>Quitar un Node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Mantener al día los agentes de Node</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
-      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="Escalar">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>Modos de ejecución</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>Ejecutar más instancias</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use" open="">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html" current="" aria-current="page"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="Usar" open="">
+      <vox-sidenav-item href="../guides/classify.html"><span>Clasificar Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>Desplegar código</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>Ejecutar Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>Ejecutar Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Programar Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>Usuarios, roles y tokens</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Seguir las vulnerabilidades</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>Encontrar y aplicar las actualizaciones que faltan</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>Ejecutar Tasks en hosts sin agente</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html" current="" aria-current="page"><span>Ejecutar Plans de su código</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>Permitir que los agentes de IA usen la consola</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="Operar">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Hacer failover a una base de datos de reserva</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotar la clave de firma de tokens</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Actualizar las bases de datos de los contenedores a Postgres 18</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Use</p>
-    <h1 class="guide-title vox-ts-xxl">Run plans from your code</h1>
-    <p class="guide-summary">Run YAML plans that live in your modules, with typed parameters, results passed between steps, and every task checked against your node groups.</p>
+    <p class="guide-eyebrow">Usar</p>
+    <h1 class="guide-title vox-ts-xxl">Ejecutar Plans de su código</h1>
+    <p class="guide-summary">Ejecute Plans YAML que viven en sus módulos, con parámetros tipados, resultados que pasan de un paso a otro y cada Task comprobado contra sus grupos de Nodes.</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>A <strong>code plan</strong> is a YAML file in a module&#39;s <code>plans</code> directory, in the format
-Bolt and Puppet Enterprise use. The console reads it from the code it
-deployed and runs it itself: one step after another, passing results from
-step to step. It does not need Bolt or the Puppet language.</p>
-<p>This is different from a saved plan, which is a fixed list of Puppet runs and
-tasks that you build in the console and that runs on one set of nodes. A code
-plan lives with your code, takes its own parameters, and decides each step&#39;s
-targets from the steps before it.</p>
-<p>Reading the list of plans needs <code>orchestrator:read</code>. Running one needs
-<code>orchestrator:run</code>. No new permission is involved.</p>
-<h2 id="where-plans-come-from">Where plans come from</h2>
-<p>The console looks in each environment&#39;s modules, in the order of the
-<code>modulepath</code> in <code>environment.conf</code> (<code>modules</code> if there is none), for
-<code>&lt;module&gt;/plans/&lt;name&gt;.yaml</code>. A plan is named <code>module::name</code>, or just
-<code>module</code> for <code>init.yaml</code>. If a name appears in two directories, the first
-wins, as in Puppet.</p>
-<p>The files are read from the code directory of the console instance that
-deploys your code (<code>CONSOLE_CODE_DIR_PATH</code>). <strong>An instance that does not hold
-the deployed code cannot list or run plans</strong>, and says so rather than showing
-an empty list. Run plans from the instance that deploys.</p>
-<p>Open <strong>Jobs</strong>, then <strong>Plans</strong>: the <strong>Plans in code</strong> section lists an
-environment&#39;s plans. A plan the console cannot run is listed with the reason,
-naming the step.</p>
-<h2 id="what-a-plan-can-do">What a plan can do</h2>
-<p>A plan has a <code>description</code>, <code>parameters</code>, <code>steps</code> and a <code>return</code>:</p>
-<vox-code-block language="yaml" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>description: Restart a service, then check it
+<p>Un <strong>Plan de código</strong> es un archivo YAML en el directorio <code>plans</code> de un módulo, en el formato que usan Bolt y Puppet Enterprise. La consola lo lee del código que ha desplegado y lo ejecuta ella misma: un paso tras otro, pasando los resultados de un paso al siguiente. No necesita Bolt ni el lenguaje Puppet.</p>
+<p>Esto es distinto de un Plan guardado, que es una lista fija de ejecuciones de Puppet y Tasks que se construye en la consola y que se ejecuta en un conjunto de Nodes. Un Plan de código vive con su código, acepta sus propios parámetros y decide los destinos de cada paso a partir de los pasos anteriores.</p>
+<p>Leer la lista de Plans requiere <code>orchestrator:read</code>. Ejecutar uno requiere <code>orchestrator:run</code>. No interviene ningún permiso nuevo.</p>
+<h2 id="where-plans-come-from">De dónde vienen los Plans</h2>
+<p>La consola busca <code>&lt;module&gt;/plans/&lt;name&gt;.yaml</code> en los módulos de cada Environment, en el orden del <code>modulepath</code> de <code>environment.conf</code> (<code>modules</code> si no hay ninguno). Un Plan se llama <code>module::name</code>, o simplemente <code>module</code> en el caso de <code>init.yaml</code>. Si un nombre aparece en dos directorios, gana el primero, como en Puppet.</p>
+<p>Los archivos se leen del directorio de código de la instancia de la consola que despliega su código (<code>CONSOLE_CODE_DIR_PATH</code>). <strong>Una instancia que no tiene el código desplegado no puede listar ni ejecutar Plans</strong>, y lo indica en lugar de mostrar una lista vacía. Ejecute los Plans desde la instancia que despliega.</p>
+<p>Abra <strong>Jobs</strong> y después <strong>Plans</strong>: la sección <strong>Planes en el código</strong> lista los Plans de un Environment. Un Plan que la consola no puede ejecutar aparece con el motivo, indicando el paso.</p>
+<h2 id="what-a-plan-can-do">Qué puede hacer un Plan</h2>
+<p>Un Plan tiene una <code>description</code>, <code>parameters</code>, <code>steps</code> y un <code>return</code>:</p>
+<vox-code-block language="yaml" copy-label="Copiar código" copied-label="Copiado" copied-message="Copiado al portapapeles"><code>description: Restart a service, then check it
 parameters:
   targets:
     type: TargetSpec
@@ -214,117 +196,81 @@ return:
   restarted: $restart.ok_targets
   healthy: $status.ok
 </code></vox-code-block>
-<p><strong>Parameters</strong> declare a <code>type</code>, an optional <code>default</code> and a <code>description</code>.
-Types are those tasks use (<code>String</code>, <code>Integer[1, 10]</code>, <code>Boolean</code>,
-<code>Array[String]</code>, <code>Enum[&#39;a&#39;,&#39;b&#39;]</code>, <code>Optional[...]</code>, ...) plus <code>TargetSpec</code>
-(nodes) and <code>Sensitive[...]</code>. A parameter with no default that is not
-<code>Optional</code> is required. The console refuses a run with a missing, unknown or
-wrongly typed parameter before anything starts, naming it.</p>
-<p><strong>Steps</strong> do exactly one of:</p>
+<p>Los <strong>parámetros</strong> declaran un <code>type</code>, un <code>default</code> opcional y una <code>description</code>. Los tipos son los que usan los Tasks (<code>String</code>, <code>Integer[1, 10]</code>, <code>Boolean</code>, <code>Array[String]</code>, <code>Enum[&#39;a&#39;,&#39;b&#39;]</code>, <code>Optional[...]</code>, ...) más <code>TargetSpec</code> (Nodes) y <code>Sensitive[...]</code>. Un parámetro sin valor por defecto que no sea <code>Optional</code> es obligatorio. La consola rechaza una ejecución con un parámetro que falta, desconocido o de tipo incorrecto antes de que empiece nada, indicando cuál es.</p>
+<p>Los <strong>pasos</strong> hacen exactamente una de estas cosas:</p>
 <ul>
-<li><code>task: module::task</code>, with <code>targets</code> and <code>parameters</code>. Runs the task.</li>
-<li><code>plan: module::plan</code>, with <code>parameters</code>. Runs another plan as part of this
-one. A plan may call plans up to five deep, and never itself.</li>
-<li><code>message: text</code>. Prints text into the run&#39;s record.</li>
+<li><code>task: module::task</code>, con <code>targets</code> y <code>parameters</code>. Ejecuta el Task.</li>
+<li><code>plan: module::plan</code>, con <code>parameters</code>. Ejecuta otro Plan como parte de este. Un Plan puede llamar a otros Plans hasta cinco niveles de profundidad, y nunca a sí mismo.</li>
+<li><code>message: text</code>. Escribe texto en el registro de la ejecución.</li>
 </ul>
-<p>A step may have a <code>name</code>, which makes its result available as <code>$name</code> to later
-steps, and a <code>description</code>.</p>
-<p><strong>References</strong> are <code>$name</code>, <code>$name.field</code>, <code>$name[0]</code> and <code>$name[&#39;field&#39;]</code>, to
-a parameter or to an earlier step. A string that is only a reference keeps the
-value&#39;s type (a list stays a list). In text, write <code>${name.field}</code>; write
-<code>$$</code> for a dollar sign. That is all the syntax: there are no operators, no
-conditionals, no functions. Inside a YAML list or mapping written on one
-line, put a reference that contains <code>[</code> or <code>,</code> in quotes.</p>
-<p>A step&#39;s result has:</p>
+<p>Un paso puede tener un <code>name</code>, que pone su resultado a disposición de los pasos posteriores como <code>$name</code>, y una <code>description</code>.</p>
+<p>Las <strong>referencias</strong> son <code>$name</code>, <code>$name.field</code>, <code>$name[0]</code> y <code>$name[&#39;field&#39;]</code>, a un parámetro o a un paso anterior. Una cadena que es solo una referencia conserva el tipo del valor (una lista sigue siendo una lista). Dentro de un texto, escriba <code>${name.field}</code>; escriba <code>$$</code> para un signo de dólar. Esa es toda la sintaxis: no hay operadores, ni condicionales, ni funciones. Dentro de una lista o un mapa YAML escritos en una sola línea, ponga entre comillas una referencia que contenga <code>[</code> o <code>,</code>.</p>
+<p>El resultado de un paso tiene:</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th></th>
-<th></th>
+<th>Campo</th>
+<th>Contiene</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>ok</code></td>
-<td>every target succeeded</td>
+<td>todos los destinos funcionaron</td>
 </tr>
 <tr>
 <td><code>results</code></td>
-<td>each target&#39;s <code>target</code>, <code>ok</code>, <code>value</code> and <code>error</code></td>
+<td>el <code>target</code>, <code>ok</code>, <code>value</code> y <code>error</code> de cada destino</td>
 </tr>
 <tr>
 <td><code>targets</code>, <code>ok_targets</code>, <code>error_targets</code></td>
-<td>node names</td>
+<td>nombres de Nodes</td>
 </tr>
 <tr>
 <td><code>value</code></td>
-<td>the task&#39;s result, for a step on a single node</td>
+<td>el resultado del Task, para un paso en un único Node</td>
 </tr>
 </tbody>
 </table></div>
-<p>A task&#39;s <code>value</code> is what it printed as JSON, or its text as <code>_output</code>.</p>
-<p>If a task step fails on any target, <strong>the plan fails there</strong>: the steps after
-it are recorded as not run and nothing more is sent. A step whose targets are
-empty (say, an earlier step&#39;s successes were none) runs nothing and counts as
-having succeeded.</p>
-<p><strong>Not supported</strong>: <code>command</code>, <code>script</code>, <code>upload</code>, <code>download</code>, <code>resources</code> and
-<code>eval</code> steps, Puppet-language expressions, running steps in parallel, retrying
-and catching errors, and scheduling a code plan. A plan using one is listed as
-unusable with the reason. Bolt&#39;s Puppet-language plans (<code>.pp</code>) are not run.</p>
-<h2 id="run-one">Run one</h2>
-<p>Choose <strong>Run</strong> next to a plan. The form is built from its parameters; leave a
-field empty to use the default. Nodes (<code>TargetSpec</code>) are given as a list of
-names, a <strong>query</strong> or a <strong>node group</strong>, resolved once when the plan starts,
-and previewed first. The run opens as a job; its page shows each step as it
-happens: its status, the job it started, what a message printed, and why a step
-failed, with the value the plan returned and the parameters it was given.</p>
-<h2 id="scope-and-permissions">Scope and permissions</h2>
-<p>A plan can do nothing you could not do by hand. When you start it:</p>
+<p>El <code>value</code> de un Task es lo que imprimió como JSON, o su texto como <code>_output</code>.</p>
+<p>Si un paso de Task falla en cualquier destino, <strong>el Plan falla ahí</strong>: los pasos siguientes se registran como no ejecutados y no se envía nada más. Un paso sin destinos (por ejemplo, porque un paso anterior no tuvo ningún éxito) no ejecuta nada y cuenta como correcto.</p>
+<p><strong>No compatible</strong>: los pasos <code>command</code>, <code>script</code>, <code>upload</code>, <code>download</code>, <code>resources</code> y <code>eval</code>, las expresiones en lenguaje Puppet, la ejecución de pasos en paralelo, los reintentos y la captura de errores, y la programación de un Plan de código. Un Plan que use alguno de ellos aparece como no utilizable, con el motivo. Los Plans de Bolt en lenguaje Puppet (<code>.pp</code>) no se ejecutan.</p>
+<h2 id="run-one">Ejecutar uno</h2>
+<p>Elija <strong>Ejecutar</strong> junto a un Plan. El formulario se construye a partir de sus parámetros; deje un campo vacío para usar el valor por defecto. Los Nodes (<code>TargetSpec</code>) se indican como una lista de nombres, una <strong>consulta</strong> o un <strong>grupo de Nodes</strong>, que se resuelve una vez al arrancar el Plan y se previsualiza antes. La ejecución se abre como un Job; su página muestra cada paso a medida que ocurre: su estado, el Job que inició, lo que imprimió un mensaje y por qué falló un paso, junto con el valor que devolvió el Plan y los parámetros que recibió.</p>
+<h2 id="scope-and-permissions">Alcance y permisos</h2>
+<p>Un Plan no puede hacer nada que usted no pudiera hacer a mano. Cuando lo inicia:</p>
 <ul>
-<li>the task each step names must exist and be one your roles allow, or the
-request is refused naming the step;</li>
-<li>nodes you name must be in your node groups, or the whole request is refused;</li>
-<li>as each step is reached, its targets are checked against your node groups and
-the task against your allowlist, exactly as a task you started yourself. A
-step that would be refused fails the plan there, with the reason.</li>
+<li>el Task que nombra cada paso debe existir y ser uno que permitan sus roles, o la petición se rechaza indicando el paso;</li>
+<li>los Nodes que nombre deben estar en sus grupos de Nodes, o se rechaza toda la petición;</li>
+<li>al llegar a cada paso, sus destinos se comprueban contra sus grupos de Nodes y el Task contra su lista de permitidos, exactamente igual que un Task que iniciara usted mismo. Un paso que se rechazaría hace fallar el Plan en ese punto, con el motivo.</li>
 </ul>
-<p>Agentless targets can be used in task steps.</p>
-<p>A reader limited to some node groups sees a plan run only if it ran on their
-nodes, and not what it printed, returned or was given when it also ran on
-others.</p>
-<h2 id="sensitive-values">Sensitive values</h2>
-<p>A parameter typed <code>Sensitive[...]</code> is never written down: it is <code>[redacted]</code>
-in the stored parameters, the trace, messages, the returned value, logs and
-audit entries, and reaches only the task parameter it is given to. A sensitive
-value can be passed on only to a parameter that is itself <code>Sensitive</code>.</p>
-<h2 id="long-runs">Long runs</h2>
-<p>A plan can run for hours, up to 24. The console tells the job it is alive as
-it goes. If the console instance following it stops, the plan is failed ten
-minutes after it was last heard from; steps already started carry on on their
-nodes. A run is limited to 200 steps and a step to 1000 targets; a limit
-fails the plan, naming it.</p>
-<p>Starting a plan, and its end, are audit entries with who, which plan and
-environment and the <em>names</em> of the parameters given, never their values.</p>
+<p>Los destinos sin agente pueden usarse en pasos de Task.</p>
+<p>Un lector limitado a algunos grupos de Nodes solo ve la ejecución de un Plan si se ejecutó en sus Nodes, y no ve lo que imprimió, devolvió o recibió cuando también se ejecutó en otros.</p>
+<h2 id="sensitive-values">Valores sensibles</h2>
+<p>Un parámetro de tipo <code>Sensitive[...]</code> nunca se escribe en ningún sitio: aparece como <code>[redacted]</code> en los parámetros guardados, la traza, los mensajes, el valor devuelto, los logs y las entradas de auditoría, y solo llega al parámetro del Task al que se pasa. Un valor sensible solo puede pasarse a un parámetro que sea a su vez <code>Sensitive</code>.</p>
+<h2 id="long-runs">Ejecuciones largas</h2>
+<p>Un Plan puede ejecutarse durante horas, hasta 24. La consola va indicando al Job que sigue vivo. Si se detiene la instancia de la consola que lo sigue, el Plan se marca como fallido diez minutos después de la última señal; los pasos ya iniciados continúan en sus Nodes. Una ejecución está limitada a 200 pasos y un paso a 1000 destinos; alcanzar un límite hace fallar el Plan, indicando el límite.</p>
+<p>El inicio de un Plan y su final generan entradas de auditoría con quién, qué Plan y qué Environment, y los <em>nombres</em> de los parámetros proporcionados, nunca sus valores.</p>
 
     </div>
 
-    <vox-series-nav label="Use" previous-text="Previous" next-text="Next" previous-href="../guides/agentless.html" previous-label="Run tasks on hosts without an agent" next-href="../guides/agents.html" next-label="Let AI agents use the console"></vox-series-nav>
+    <vox-series-nav label="Usar" previous-text="Anterior" next-text="Siguiente" previous-href="../guides/agentless.html" previous-label="Ejecutar Tasks en hosts sin agente" next-href="../guides/agents.html" next-label="Permitir que los agentes de IA usen la consola"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#where-plans-come-from"><span>Where plans come from</span>
+    <vox-toc heading="En esta página">
+      <vox-toc-item href="#where-plans-come-from"><span>De dónde vienen los Plans</span>
       </vox-toc-item>
-      <vox-toc-item href="#what-a-plan-can-do"><span>What a plan can do</span>
+      <vox-toc-item href="#what-a-plan-can-do"><span>Qué puede hacer un Plan</span>
       </vox-toc-item>
-      <vox-toc-item href="#run-one"><span>Run one</span>
+      <vox-toc-item href="#run-one"><span>Ejecutar uno</span>
       </vox-toc-item>
-      <vox-toc-item href="#scope-and-permissions"><span>Scope and permissions</span>
+      <vox-toc-item href="#scope-and-permissions"><span>Alcance y permisos</span>
       </vox-toc-item>
-      <vox-toc-item href="#sensitive-values"><span>Sensitive values</span>
+      <vox-toc-item href="#sensitive-values"><span>Valores sensibles</span>
       </vox-toc-item>
-      <vox-toc-item href="#long-runs"><span>Long runs</span>
+      <vox-toc-item href="#long-runs"><span>Ejecuciones largas</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -334,23 +280,17 @@ environment and the <em>names</em> of the parameters given, never their values.<
 
       
       <vox-cta-band heading="Ejecútelo usted mismo">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console se distribuye como imágenes de contenedor, compiladas para amd64 y arm64 en cada push, y como un único binario. Las guías de instalación le llevan de un host vacío a un despliegue funcional (openvoxserver, openvoxdb, Postgres y la consola) con contenedores o con paquetes.</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">Guías de instalación</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">Código fuente en GitHub</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">Imágenes de contenedor</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="Captura a tamaño completo">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">Cerrar</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -359,18 +299,18 @@ environment and the <em>names</em> of the parameters given, never their values.<
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">Resumen</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">Código fuente</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">Guías de instalación</a>
       </vox-footer-column>
       <vox-footer-column heading="Capacidades">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">Clasificación</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">Orquestación</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">Aplicación de parches</a>
         <a href="../features/security.html">Seguridad</a>
         <a href="../features/access-control.html">Control de acceso</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">Agentes de IA</a>
+        <a href="../features/scaling.html">Escalado</a>
         </vox-footer-column>
       
       <vox-footer-column heading="Idioma">

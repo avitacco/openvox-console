@@ -183,6 +183,8 @@ servers, grant the role on that team's group instead:
    **All Nodes**, and tick the team's group.
 4. Choose **Save node groups**.
 
+![](shot:role-editor)
+
 A grant on a group covers every group beneath it, so a role on
 *Linux Servers* also sees the nodes in *Debian Family*. The role's
 members get the change the next time their session refreshes, within

@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="hi" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Scan Linux nodes for pending updates and patch them in batches, with a dry run, a stop threshold and an optional reboot."/>
+    <meta name="description" content="Linux Nodes को लंबित अपडेट के लिए स्कैन कीजिए और उन्हें बैचों में पैच कीजिए, ड्राई रन, रुकने की सीमा और वैकल्पिक रीबूट के साथ।"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Patching - OpenVox Console</title>
+    <title>पैचिंग - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a href="../guides/index.html" slot="actions">Guides</a>
+      <a href="../guides/index.html" slot="actions">गाइड</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,25 +104,25 @@
       <a href="../features/classification.html">वर्गीकरण</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">ऑर्केस्ट्रेशन</a>
-      <a aria-current="page" href="../features/patching.html">Patching</a>
+      <a aria-current="page" href="../features/patching.html">पैचिंग</a>
       <a href="../features/security.html">सुरक्षा</a>
       <a href="../features/access-control.html">पहुँच नियंत्रण</a>
       <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/scaling.html">विस्तार</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
-<vox-hero eyebrow="Patching" heading="See what is out of date, then patch it safely">
-  <p>Scan Linux nodes for the updates they are missing, and apply them in batches with a way to stop before a bad update reaches the whole fleet.</p>
+<vox-hero eyebrow="पैचिंग" heading="देखिए कि क्या पुराना है, फिर उसे सुरक्षित रूप से पैच कीजिए">
+  <p>Linux Nodes को उनके छूटे हुए अपडेट के लिए स्कैन कीजिए, और उन्हें बैचों में लागू कीजिए, ऐसे तरीक़े के साथ जिससे कोई ख़राब अपडेट पूरे फ़्लीट तक पहुँचने से पहले रुक जाए।</p>
 </vox-hero>
 
 <section class="site-section">
-  <h2 class="vox-ts-xxl">Pending updates, as each node&#39;s package manager reports them</h2>
+  <h2 class="vox-ts-xxl">लंबित अपडेट, जैसे हर Node का package manager उन्हें बताता है</h2>
   <div class="vox-prose">
-    <p>A scan asks the node&#39;s agent to run apt, dnf or yum in a mode that changes nothing, then shows each pending update with its installed and available versions and whether the package manager calls it a security update. A node also says whether it already needs a reboot.</p>
-    <p>Scans run on a schedule you control, or on demand for one node or a whole group. A node that cannot be scanned is listed as unable to report — never shown as fully patched.</p>
+    <p>स्कैन Node के agent से apt, dnf या yum को ऐसे मोड में चलाने को कहता है जो कुछ नहीं बदलता, फिर हर लंबित अपडेट को उसके इंस्टॉल और उपलब्ध संस्करणों के साथ दिखाता है, और यह भी कि package manager उसे सुरक्षा अपडेट कहता है या नहीं। Node यह भी बताता है कि उसे पहले से रीबूट की ज़रूरत है या नहीं।</p>
+    <p>स्कैन आपके नियंत्रण वाली समय-सारणी पर चलते हैं, या माँग पर किसी एक Node या पूरे समूह के लिए। जिस Node को स्कैन नहीं किया जा सकता, वह रिपोर्ट करने में असमर्थ के रूप में सूचीबद्ध होता है — कभी पूरी तरह पैच किया हुआ नहीं दिखाया जाता।</p>
   </div>
 </section>
 
@@ -130,72 +130,66 @@
   <a class="shot-link" href="../../assets/screenshots/patching-light-hi.png">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/patching-dark-hi.png" data-theme-dark="../../assets/screenshots/patching-dark-hi.png" data-theme-light="../../assets/screenshots/patching-light-hi.png"/>
-      <img src="../../assets/screenshots/patching-light-hi.png" alt="The Patching page listing each Linux node with its pending updates, how many of them are security fixes and whether it needs a reboot, with options to scan and to patch a node group" width="1440"/>
+      <img src="../../assets/screenshots/patching-light-hi.png" alt="पैचिंग पृष्ठ, जिसमें हर Linux Node उसके लंबित अपडेट, उनमें से कितने सुरक्षा सुधार हैं और उसे रीबूट की ज़रूरत है या नहीं, के साथ सूचीबद्ध है, साथ में किसी Node समूह को स्कैन और पैच करने के विकल्प" width="1440"/>
     </picture>
     <span class="vox-sr-only">Open full size</span>
   </a>
 </figure>
 
 <section class="site-section">
-  <h2 class="vox-ts-xxl">Patch in batches, with a safety stop</h2>
+  <h2 class="vox-ts-xxl">बैचों में पैच कीजिए, सुरक्षा-रोक के साथ</h2>
   <div class="vox-prose">
-    <p>Choose security updates, everything, or named packages, and how many nodes to patch at once. Set how many failures end the run, so that no further batch starts once something has gone wrong. Preview with a dry run that installs nothing, and let nodes that need it reboot when they are done.</p>
-    <p>Progress is shown node by node, a node that goes quiet part-way is reported as having done so instead of hanging forever, and when it finishes the node is scanned again so the page shows what is really left.</p>
+    <p>सुरक्षा अपडेट, सब कुछ, या नाम से चुने पैकेज चुनिए, और यह कि एक साथ कितने Nodes पैच करने हैं। तय कीजिए कि कितनी विफलताओं पर रन समाप्त हो, ताकि कुछ गड़बड़ होते ही आगे कोई बैच शुरू न हो। कुछ भी इंस्टॉल न करने वाले ड्राई रन से पूर्वावलोकन कीजिए, और जिन Nodes को ज़रूरत हो उन्हें काम पूरा होने पर रीबूट होने दीजिए।</p>
+    <p>प्रगति Node-दर-Node दिखाई जाती है, बीच में चुप हो जाने वाले Node को हमेशा के लिए लटका छोड़ने के बजाय चुप हुआ बताया जाता है, और पूरा होने पर Node को फिर से स्कैन किया जाता है ताकि पृष्ठ दिखाए कि वास्तव में क्या बचा है।</p>
   </div>
 </section>
 
 <vox-timeline>
-  <vox-timeline-item heading="Scan">Each node reports what its package manager would upgrade.</vox-timeline-item>
-  <vox-timeline-item heading="Dry run">Preview a run on the nodes you chose. Nothing is installed.</vox-timeline-item>
-  <vox-timeline-item heading="Batches">Patch a few nodes at a time, stopping after as many failures as you allow.</vox-timeline-item>
-  <vox-timeline-item heading="Rescan">Each patched node is scanned again, so what remains is on record.</vox-timeline-item>
+  <vox-timeline-item heading="स्कैन">Each node reports what its package manager would upgrade.</vox-timeline-item>
+  <vox-timeline-item heading="ड्राई रन">Preview a run on the nodes you chose. Nothing is installed.</vox-timeline-item>
+  <vox-timeline-item heading="बैच">Patch a few nodes at a time, stopping after as many failures as you allow.</vox-timeline-item>
+  <vox-timeline-item heading="फिर से स्कैन">Each patched node is scanned again, so what remains is on record.</vox-timeline-item>
 </vox-timeline>
 
 <vox-grid min="240px" gap="lg">
-  <vox-card heading="Scoped to your nodes">
+  <vox-card heading="आपके Nodes तक सीमित">
     <vox-icon slot="icon" name="node-group"></vox-icon>
     Scanning and patching follow the same node group access as every other
     action: people can patch the nodes their roles cover, and no others.
   </vox-card>
-  <vox-card heading="Scheduled or on demand">
+  <vox-card heading="शेड्यूल पर या माँग पर">
     <vox-icon slot="icon" name="orchestrate"></vox-icon>
     Patch runs are jobs like any other, with results per node, and show up
     in the job history with their options.
   </vox-card>
 </vox-grid>
 
-<vox-callout variant="warning" heading="Linux with apt, dnf or yum">
-  <p>Windows, macOS and zypper (SUSE) nodes are not scanned. They are listed as unable to report, so a gap in coverage is visible rather than mistaken for a clean bill of health.</p>
+<vox-callout variant="warning" heading="apt, dnf या yum वाला Linux">
+  <p>Windows, macOS और zypper (SUSE) Nodes स्कैन नहीं होते। वे रिपोर्ट करने में असमर्थ के रूप में सूचीबद्ध होते हैं, ताकि कवरेज की कमी दिखे, न कि उसे सब ठीक होने का प्रमाण समझ लिया जाए।</p>
 </vox-callout>
 
       
       <section class="site-section do-it" aria-labelledby="do-it-heading">
-        <h2 id="do-it-heading" class="vox-ts-xxl">Do it</h2>
+        <h2 id="do-it-heading" class="vox-ts-xxl">स्वयं कीजिए</h2>
         <vox-grid min="16rem">
-          <vox-card heading="Find and apply missing updates" href="../guides/patching.html"><p>Scan Linux nodes for pending package updates, then patch them in batches with a dry run, a stop threshold and an optional reboot.</p></vox-card>
+          <vox-card heading="छूटे हुए अपडेट खोजें और लागू करें" href="../guides/patching.html"><p>Linux Nodes को लंबित पैकेज अपडेट के लिए स्कैन कीजिए, फिर उन्हें ड्राई रन, रुकने की सीमा और वैकल्पिक रीबूट के साथ बैचों में पैच कीजिए।</p></vox-card>
           </vox-grid>
       </section>
       </div>
 
       
       <vox-cta-band heading="स्वयं चलाकर देखिए">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console कंटेनर इमेजों के रूप में आता है, जो हर push पर amd64 और arm64 के लिए बनती हैं, और एक अकेली बाइनरी के रूप में भी। इंस्टॉल गाइड आपको खाली होस्ट से एक चालू परिनियोजन तक ले जाते हैं - openvoxserver, openvoxdb, Postgres और कंसोल - कंटेनरों से या पैकेजों से।</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">इंस्टॉल गाइड</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">GitHub पर स्रोत</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">कंटेनर इमेज</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="पूर्ण आकार का स्क्रीनशॉट">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">बंद करें</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -204,18 +198,18 @@
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">सिंहावलोकन</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">स्रोत</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">इंस्टॉल गाइड</a>
       </vox-footer-column>
       <vox-footer-column heading="क्षमताएँ">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">वर्गीकरण</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">ऑर्केस्ट्रेशन</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">पैचिंग</a>
         <a href="../features/security.html">सुरक्षा</a>
         <a href="../features/access-control.html">पहुँच नियंत्रण</a>
         <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/scaling.html">विस्तार</a>
         </vox-footer-column>
       
       <vox-footer-column heading="भाषा">

@@ -104,11 +104,11 @@
       <a href="../features/classification.html">Classification</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">Orchestration</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">Mise à jour corrective</a>
       <a href="../features/security.html">Sécurité</a>
       <a href="../features/access-control.html">Contrôle d&#39;accès</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">Agents d&#39;IA</a>
+      <a href="../features/scaling.html">Montée en charge</a>
       </vox-subnav>
     </div>
 
@@ -129,7 +129,7 @@
   <a class="shot-link" href="../../assets/screenshots/dashboard-light-fr.png">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/dashboard-dark-fr.png" data-theme-dark="../../assets/screenshots/dashboard-dark-fr.png" data-theme-light="../../assets/screenshots/dashboard-light-fr.png"/>
-      <img src="../../assets/screenshots/dashboard-light-fr.png" alt="The OpenVox Console dashboard showing fleet run status across 26 nodes, with counts of unchanged, changed and failed runs, recent jobs and recent activity" width="1440"/>
+      <img src="../../assets/screenshots/dashboard-light-fr.png" alt="Le Dashboard d&#39;OpenVox Console, avec l&#39;état des exécutions sur un parc de 26 Nodes, le nombre d&#39;exécutions inchangées, modifiées et en échec, les Jobs récents et l&#39;activité récente" width="1440"/>
     </picture>
     <span class="vox-sr-only">Open full size</span>
   </a>
@@ -147,7 +147,7 @@
   <a class="shot-link" href="../../assets/screenshots/nodes-list-light-fr.png">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/nodes-list-dark-fr.png" data-theme-dark="../../assets/screenshots/nodes-list-dark-fr.png" data-theme-light="../../assets/screenshots/nodes-list-light-fr.png"/>
-      <img src="../../assets/screenshots/nodes-list-light-fr.png" alt="The node inventory listing managed nodes with their connection state, certificate status and last report time" width="1440"/>
+      <img src="../../assets/screenshots/nodes-list-light-fr.png" alt="L&#39;inventaire des Nodes, avec les Nodes gérés, leur état de connexion, l&#39;état de leur certificat et l&#39;heure de leur dernier Report" width="1440"/>
     </picture>
     <span class="vox-sr-only">Open full size</span>
   </a>
@@ -164,17 +164,17 @@
   <a class="shot-link" href="../../assets/screenshots/node-detail-light-fr.png">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/node-detail-dark-fr.png" data-theme-dark="../../assets/screenshots/node-detail-dark-fr.png" data-theme-light="../../assets/screenshots/node-detail-light-fr.png"/>
-      <img src="../../assets/screenshots/node-detail-light-fr.png" alt="A single node&#39;s detail page showing its facts, recent Puppet runs and the classes applied to it" width="1440"/>
+      <img src="../../assets/screenshots/node-detail-light-fr.png" alt="La page de détail d&#39;un Node, avec ses Facts, ses exécutions Puppet récentes et les classes qui lui sont appliquées" width="1440"/>
     </picture>
     <span class="vox-sr-only">Open full size</span>
   </a>
 </figure>
 
 <section class="site-section">
-  <h2 class="vox-ts-xxl">Hosts with no agent</h2>
+  <h2 class="vox-ts-xxl">Des hôtes sans agent</h2>
   <div class="vox-prose">
-    <p>Appliances, locked-down servers and machines not yet enrolled can be registered as agentless targets. The console reaches them over SSH with a key or password stored sealed and never shown again, pins each host&#39;s key the first time it connects, and refuses to carry on if the key later changes until a person accepts the new one.</p>
-    <p>Tasks run on them, on their own, in plans and on schedules, with the same node group access and task permissions as any other node.</p>
+    <p>Les appliances, les serveurs verrouillés et les machines pas encore enrôlées peuvent être enregistrés comme cibles sans agent. La console les joint en SSH avec une clé ou un mot de passe stocké scellé et plus jamais affiché, épingle la clé de chaque hôte à la première connexion, et refuse de continuer si la clé change par la suite, jusqu&#39;à ce qu&#39;une personne accepte la nouvelle.</p>
+    <p>Les Tasks s&#39;y exécutent, seuls, dans des Plans et selon des planifications, avec le même accès par groupes de Nodes et les mêmes permissions de Tasks que pour n&#39;importe quel autre Node.</p>
   </div>
 </section>
 
@@ -184,35 +184,29 @@
 
       
       <section class="site-section do-it" aria-labelledby="do-it-heading">
-        <h2 id="do-it-heading" class="vox-ts-xxl">Do it</h2>
+        <h2 id="do-it-heading" class="vox-ts-xxl">Passez à la pratique</h2>
         <vox-grid min="16rem">
-          <vox-card heading="Add nodes" href="../guides/add.html"><p>Enroll a node with one script on Linux, macOS or Windows, sign its certificate, and see it connect and run.</p></vox-card>
-          <vox-card heading="Manage node certificates" href="../guides/certificates.html"><p>Sign, revoke and clean node certificates from the console, and what each does to a connected node.</p></vox-card>
-          <vox-card heading="Remove a node" href="../guides/remove.html"><p>Delete a node from the console, what that does in openvoxdb and the CA, and what it keeps.</p></vox-card>
-          <vox-card heading="Run tasks on hosts without an agent" href="../guides/agentless.html"><p>Register hosts the console reaches over SSH, pin their host keys, check them, and run tasks on them like any other node.</p></vox-card>
+          <vox-card heading="Ajouter des Nodes" href="../guides/add.html"><p>Enrôlez un Node avec un seul script sous Linux, macOS ou Windows, signez son certificat, et voyez-le se connecter et s&#39;exécuter.</p></vox-card>
+          <vox-card heading="Gérer les certificats des Nodes" href="../guides/certificates.html"><p>Signez, révoquez et nettoyez les certificats des Nodes depuis la console, et découvrez l&#39;effet de chaque action sur un Node connecté.</p></vox-card>
+          <vox-card heading="Retirer un Node" href="../guides/remove.html"><p>Supprimer un Node depuis la console : ce que cela fait dans openvoxdb et dans la CA, et ce qui est conservé.</p></vox-card>
+          <vox-card heading="Exécuter des Tasks sur des hôtes sans agent" href="../guides/agentless.html"><p>Enregistrez des hôtes que la console joint en SSH, épinglez leurs clés d&#39;hôte, vérifiez-les, et exécutez des Tasks dessus comme sur n&#39;importe quel Node.</p></vox-card>
           </vox-grid>
       </section>
       </div>
 
       
       <vox-cta-band heading="Faites-le tourner vous-même">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console est distribué sous forme d&#39;images de conteneur, construites pour amd64 et arm64 à chaque push, et d&#39;un binaire unique. Les guides d&#39;installation vous mènent d&#39;un hôte vide à un déploiement fonctionnel - openvoxserver, openvoxdb, Postgres et la console - avec des conteneurs ou avec des paquets.</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">Guides d&#39;installation</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">Source sur GitHub</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">Images de conteneur</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="Capture d&#39;écran en taille réelle">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">Fermer</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -221,18 +215,18 @@
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">Aperçu</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">Source</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">Guides d&#39;installation</a>
       </vox-footer-column>
       <vox-footer-column heading="Fonctionnalités">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">Classification</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">Orchestration</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">Mise à jour corrective</a>
         <a href="../features/security.html">Sécurité</a>
         <a href="../features/access-control.html">Contrôle d&#39;accès</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">Agents d&#39;IA</a>
+        <a href="../features/scaling.html">Montée en charge</a>
         </vox-footer-column>
       
       <vox-footer-column heading="Langue">

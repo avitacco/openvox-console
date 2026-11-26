@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="de" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Cluster a second console instance, split instances into run modes, and place classification next to the compilers."/>
+    <meta name="description" content="Clustern Sie eine zweite Konsoleninstanz, teilen Sie Instanzen in Betriebsmodi auf und platzieren Sie die Klassifizierung neben den Compilern."/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Run more instances - OpenVox Console</title>
+    <title>Weitere Instanzen betreiben - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">Anleitungen</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -107,80 +107,66 @@
       <a href="../features/patching.html">Patching</a>
       <a href="../features/security.html">Sicherheit</a>
       <a href="../features/access-control.html">Zugriffskontrolle</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">KI-Agenten</a>
+      <a href="../features/scaling.html">Skalierung</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="Anleitungen" toggle-label="Alle Anleitungen">
+    <vox-sidenav-group heading="Installation">
+      <vox-sidenav-item href="../guides/plan.html"><span>Eine Installation planen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>Installation mit Containern</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>Installation aus Paketen und Binaries</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>Nodes hinzufügen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>Node-Zertifikate verwalten</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>Einen Node entfernen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Node-Agenten aktuell halten</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale" open="">
-      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html" current="" aria-current="page"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="Skalierung" open="">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>Betriebsmodi</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html" current="" aria-current="page"><span>Weitere Instanzen betreiben</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="Nutzung">
+      <vox-sidenav-item href="../guides/classify.html"><span>Nodes klassifizieren</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>Code deployen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>Jobs ausführen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>Pläne ausführen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Jobs planen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>Benutzer, Rollen und Tokens</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Sicherheitslücken verfolgen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>Fehlende Updates finden und anwenden</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>Tasks auf Hosts ohne Agent ausführen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>Pläne aus Ihrem Code ausführen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>KI-Agenten die Konsole nutzen lassen</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="Betrieb">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Auf eine Standby-Datenbank umschalten</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Den Token-Signaturschlüssel rotieren</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Die Container-Datenbanken auf Postgres 18 aktualisieren</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Scale</p>
-    <h1 class="guide-title vox-ts-xxl">Run more instances</h1>
-    <p class="guide-summary">Cluster a second console instance, split instances into run modes, and place classification next to the compilers.</p>
+    <p class="guide-eyebrow">Skalierung</p>
+    <h1 class="guide-title vox-ts-xxl">Weitere Instanzen betreiben</h1>
+    <p class="guide-summary">Clustern Sie eine zweite Konsoleninstanz, teilen Sie Instanzen in Betriebsmodi auf und platzieren Sie die Klassifizierung neben den Compilern.</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>Several console instances share one database and join one cluster. The
-cluster is how they tell each other about things that must reach every
-instance at once - a revoked login, a revoked node certificate - and how
-a job started on one instance reaches a node connected to another.</p>
-<p>Everything durable lives in Postgres, so any instance can serve any
-request once they are clustered, and a load balancer can send requests to
-whichever is healthy.</p>
-<vox-callout variant="danger" heading="Caution"><p>Instances sharing a database must be clustered. An instance that is
-not only learns of a revoked login when it next re-reads revocations
-from the database, up to 30 seconds later, and cannot reach the nodes
-connected to any other instance.</p>
+<p>Mehrere Konsoleninstanzen teilen sich eine Datenbank und treten einem Cluster bei. Über den Cluster teilen sie einander mit, was jede Instanz sofort erreichen muss – ein widerrufenes Login, ein widerrufenes Node-Zertifikat –, und über ihn erreicht ein auf einer Instanz gestarteter Job einen Node, der mit einer anderen verbunden ist.</p>
+<p>Alles Dauerhafte liegt in Postgres. Sobald die Instanzen geclustert sind, kann daher jede Instanz jede Anfrage beantworten, und ein Load Balancer kann Anfragen an die jeweils gesunde schicken.</p>
+<vox-callout variant="danger" heading="Vorsicht"><p>Instanzen, die sich eine Datenbank teilen, müssen geclustert sein. Eine nicht geclusterte Instanz erfährt von einem widerrufenen Login erst, wenn sie die Widerrufe das nächste Mal aus der Datenbank liest, bis zu 30 Sekunden später, und sie kann die mit einer anderen Instanz verbundenen Nodes nicht erreichen.</p>
 </vox-callout>
-<h2 id="how-instances-find-each-other">How instances find each other</h2>
-<p>Each instance runs an embedded NATS server. The <strong>core</strong> modes (<code>all</code>,
-<code>web</code>, <code>orchestrator</code> and <code>worker</code>) connect to each other directly, as
-routed peers. <code>enc</code> instances instead attach as <strong>leaves</strong>: the
-connection runs outward only, from the <code>enc</code> instance to a core one, so
-the core never needs a way into the network where the compilers are.</p>
-<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>  web-1 --+
+<h2 id="how-instances-find-each-other">Wie Instanzen einander finden</h2>
+<p>Jede Instanz betreibt einen eingebetteten NATS-Server. Die <strong>Core</strong>-Modi (<code>all</code>, <code>web</code>, <code>orchestrator</code> und <code>worker</code>) verbinden sich direkt miteinander, als geroutete Peers. <code>enc</code>-Instanzen hängen sich stattdessen als <strong>Leaves</strong> an: Die Verbindung läuft nur nach außen, von der <code>enc</code>-Instanz zu einer Core-Instanz, sodass der Core nie einen Weg in das Netzwerk braucht, in dem die Compiler stehen.</p>
+<vox-code-block language="plaintext" copy-label="Code kopieren" copied-label="Kopiert" copied-message="In die Zwischenablage kopiert"><code>  web-1 --+
   web-2 --+-- routed peers (:6222)
   orch-1 -+
   worker -+
@@ -190,148 +176,96 @@ the core never needs a way into the network where the compilers are.</p>
       |
   enc-1, enc-2  (beside the compilers)
 </code></vox-code-block>
-<p>A leaf carries the console&#39;s own messages between instances, such as
-revocations and status, and never node traffic: an <code>enc</code> instance can
-never reach a managed node.</p>
-<h2 id="before-you-start">Before you start</h2>
-<p>Every peer connection is encrypted and authenticated in two ways:</p>
+<p>Ein Leaf überträgt die eigenen Nachrichten der Konsole zwischen Instanzen, etwa Widerrufe und Status, und niemals Node-Verkehr: Eine <code>enc</code>-Instanz kann nie einen verwalteten Node erreichen.</p>
+<h2 id="before-you-start">Bevor Sie beginnen</h2>
+<p>Jede Peer-Verbindung ist verschlüsselt und auf zwei Arten authentifiziert:</p>
 <ul>
-<li><strong>mutual TLS</strong>, with each instance&#39;s certificate from the CA. By
-default an instance uses the same certificate it uses for openvoxdb,
-the one from <code>CONSOLE_OPENVOXDB_CERT_FILE</code>, so there is nothing new to
-issue. A peer that dials an instance checks that its certificate is
-valid for the name it dialed, so each instance must be reached by a
-name its certificate carries.</li>
-<li><strong>a shared secret</strong>, the same on every core instance. A managed node
-also holds a certificate from the CA, and the secret is what keeps its
-certificate from being enough to join.</li>
+<li><strong>gegenseitiges TLS</strong>, mit dem Zertifikat jeder Instanz von der CA. Standardmäßig verwendet eine Instanz dasselbe Zertifikat wie für openvoxdb, das aus <code>CONSOLE_OPENVOXDB_CERT_FILE</code>, sodass nichts Neues ausgestellt werden muss. Ein Peer, der eine Instanz anwählt, prüft, ob ihr Zertifikat für den angewählten Namen gilt. Jede Instanz muss daher unter einem Namen erreicht werden, den ihr Zertifikat trägt.</li>
+<li><strong>ein gemeinsames Secret</strong>, auf jeder Core-Instanz gleich. Auch ein verwalteter Node besitzt ein Zertifikat der CA, und das Secret sorgt dafür, dass sein Zertifikat zum Beitreten nicht ausreicht.</li>
 </ul>
-<p>Leaves use a second secret of their own, which must differ from the
-cluster secret: an <code>enc</code> host is the least trusted place a console runs,
-and must not be able to join as a full peer.</p>
-<p>Generate both secrets, and keep them out of the process environment with
-the <code>_FILE</code> form of each setting:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>openssl rand -base64 32 &gt; cluster-secret
+<p>Geben Sie einer Instanz statt des gemeinsamen ein eigenes Zertifikat, muss openvoxserver ihr auch das Lesen der Klassenliste erlauben: Seine Regel nennt das erlaubte Zertifikat, standardmäßig <code>console</code>, und lehnt jedes andere mit <code>HTTP 403</code> ab. Fügen Sie den Certname jeder <code>web</code>- und <code>all</code>-Instanz zu dieser Regel hinzu, sonst meldet die Gruppenseite auf diesen Instanzen, dass die Liste nicht verfügbar ist. Siehe <a href="packages.html">Installation aus Paketen und Binaries</a>.</p>
+<p>Leaves verwenden ein eigenes zweites Secret, das sich vom Cluster-Secret unterscheiden muss: Ein <code>enc</code>-Host ist der am wenigsten vertrauenswürdige Ort, an dem eine Konsole läuft, und darf nicht als vollwertiger Peer beitreten können.</p>
+<p>Erzeugen Sie beide Secrets und halten Sie sie mit der <code>_FILE</code>-Form jeder Einstellung aus der Prozessumgebung heraus:</p>
+<vox-code-block language="sh" copy-label="Code kopieren" copied-label="Kopiert" copied-message="In die Zwischenablage kopiert"><code>openssl rand -base64 32 &gt; cluster-secret
 openssl rand -base64 32 &gt; cluster-leaf-secret
 </code></vox-code-block>
-<h2 id="add-a-second-instance">Add a second instance</h2>
-<p>Start with two <code>all</code> instances. That exercises clustering before any role
-is split out.</p>
-<p>On the <strong>first</strong> instance, open a peer listener and restart it:</p>
-<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CONSOLE_CLUSTER_ADDR=:6222
+<h2 id="add-a-second-instance">Eine zweite Instanz hinzufügen</h2>
+<p>Beginnen Sie mit zwei <code>all</code>-Instanzen. So wird das Clustering erprobt, bevor eine Rolle ausgelagert wird.</p>
+<p>Öffnen Sie auf der <strong>ersten</strong> Instanz einen Peer-Listener und starten Sie sie neu:</p>
+<vox-code-block language="plaintext" copy-label="Code kopieren" copied-label="Kopiert" copied-message="In die Zwischenablage kopiert"><code>CONSOLE_CLUSTER_ADDR=:6222
 CONSOLE_CLUSTER_SECRET_FILE=/etc/openvox-console/cluster-secret
 </code></vox-code-block>
-<p>On the <strong>second</strong>, give it the same database, the same token signing key
-and the same secrets, its own peer listener, and the first instance as a
-peer, by a name in the first instance&#39;s certificate:</p>
-<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CONSOLE_CLUSTER_ADDR=:6222
+<p>Geben Sie der <strong>zweiten</strong> dieselbe Datenbank, denselben Token-Signaturschlüssel und dieselben Secrets, einen eigenen Peer-Listener und die erste Instanz als Peer, unter einem Namen aus dem Zertifikat der ersten Instanz:</p>
+<vox-code-block language="plaintext" copy-label="Code kopieren" copied-label="Kopiert" copied-message="In die Zwischenablage kopiert"><code>CONSOLE_CLUSTER_ADDR=:6222
 CONSOLE_CLUSTER_PEERS=console-1.example.com:6222
 CONSOLE_CLUSTER_SECRET_FILE=/etc/openvox-console/cluster-secret
 </code></vox-code-block>
-<p>Only one side needs to name the other. Every instance that joins later
-names any existing one, and the cluster connects the rest.</p>
-<p>The second instance also needs its own node listener and node transport
-certificate if nodes will connect to it, and every instance needs the
-same <code>CONSOLE_BASE_URL</code>, so links and install scripts point through the
-load balancer.</p>
-<vox-callout variant="info" heading="Note"><p>Instances learn about each other&#39;s addresses from the cluster itself,
-and by default those are IP addresses, which a certificate rarely
-carries. With three or more routed instances, each with its own
-certificate, set <code>CONSOLE_CLUSTER_ADVERTISE</code> on each to a name in its
-own certificate, such as <code>console-2.example.com:6222</code>.</p>
+<p>Nur eine Seite muss die andere benennen. Jede später beitretende Instanz benennt eine beliebige vorhandene, und der Cluster verbindet den Rest.</p>
+<p>Die zweite Instanz braucht außerdem einen eigenen Node-Listener und ein eigenes Node-Transport-Zertifikat, falls sich Nodes mit ihr verbinden werden, und jede Instanz braucht dieselbe <code>CONSOLE_BASE_URL</code>, damit Links und Installationsskripte über den Load Balancer zeigen.</p>
+<vox-callout variant="info" heading="Hinweis"><p>Instanzen erfahren die Adressen der anderen über den Cluster selbst, und standardmäßig sind das IP-Adressen, die ein Zertifikat selten enthält. Setzen Sie bei drei oder mehr gerouteten Instanzen mit jeweils eigenem Zertifikat auf jeder <code>CONSOLE_CLUSTER_ADVERTISE</code> auf einen Namen aus ihrem eigenen Zertifikat, etwa <code>console-2.example.com:6222</code>.</p>
 </vox-callout>
-<h3 id="check-the-cluster-formed">Check the cluster formed</h3>
-<p>Each instance logs <code>cluster joined</code> as it starts, with the peers it was
-given. Then, as a user with the <code>status:read</code> permission, open
-<strong>System</strong> in the console. The <strong>Fleet Status</strong> tab lists every instance
-that answered, grouped by mode; both instances appear there.</p>
-<vox-callout variant="tip" heading="Tip"><p><code>status:read</code> is not added to existing roles automatically. Grant it to
-the roles that should see the page, on the <strong>Roles</strong> page.</p>
+<h3 id="check-the-cluster-formed">Prüfen, ob der Cluster entstanden ist</h3>
+<p>Jede Instanz protokolliert beim Start <code>cluster joined</code> mit den Peers, die ihr übergeben wurden. Öffnen Sie dann als Benutzer mit der Berechtigung <code>status:read</code> in der Konsole <strong>System</strong>. Der Tab <strong>Flottenstatus</strong> listet jede Instanz auf, die geantwortet hat, nach Modus gruppiert; beide Instanzen erscheinen dort.</p>
+<vox-callout variant="tip" heading="Tipp"><p><code>status:read</code> wird bestehenden Rollen nicht automatisch hinzugefügt. Gewähren Sie es auf der Seite <strong>Rollen</strong> den Rollen, die die Seite sehen sollen.</p>
 </vox-callout>
-<h2 id="split-instances-into-modes">Split instances into modes</h2>
-<p>Once two <code>all</code> instances run together, split roles out as load demands:
-background work to <code>worker</code>, node connections to <code>orchestrator</code>,
-everything a person uses to <code>web</code>. Set <code>CONSOLE_RUN_MODE</code> on each
-instance and restart it; see <a href="run-modes.html">Run modes</a> for what each
-mode needs, including the verification keys for modes that do not issue
-tokens.</p>
-<p>Any mode can run as several instances:</p>
+<h2 id="split-instances-into-modes">Instanzen in Modi aufteilen</h2>
+<p>Sobald zwei <code>all</code>-Instanzen zusammen laufen, lagern Sie Rollen je nach Last aus: Hintergrundarbeit an <code>worker</code>, Node-Verbindungen an <code>orchestrator</code>, alles, was eine Person nutzt, an <code>web</code>. Setzen Sie auf jeder Instanz <code>CONSOLE_RUN_MODE</code> und starten Sie sie neu; unter <a href="run-modes.html">Betriebsmodi</a> steht, was jeder Modus braucht, einschließlich der Verifizierungsschlüssel für Modi, die keine Tokens ausstellen.</p>
+<p>Jeder Modus kann als mehrere Instanzen laufen:</p>
 <ul>
-<li>work that must happen once, such as a vulnerability sync, a code deploy
-of one environment, or cleaning up abandoned jobs, is coordinated
-through the database, so two <code>worker</code> instances never both do it;</li>
-<li>revocations reach every instance, so each one&#39;s view stays current;</li>
-<li>activity is recorded once, by the instance where it happened.</li>
+<li>Arbeit, die nur einmal geschehen darf, etwa eine Synchronisierung von Sicherheitslücken, ein Code-Deploy eines Environments oder das Aufräumen verwaister Jobs, wird über die Datenbank koordiniert, sodass nie zwei <code>worker</code>-Instanzen sie beide erledigen;</li>
+<li>Widerrufe erreichen jede Instanz, sodass die Sicht jeder einzelnen aktuell bleibt;</li>
+<li>Aktivitäten werden einmal verzeichnet, von der Instanz, auf der sie stattfanden.</li>
 </ul>
-<p>Point the load balancer at the <code>web</code> instances for the console and its
-API, and point nodes at the <code>orchestrator</code> instances&#39; node transport
-through <code>CONSOLE_NODE_TRANSPORT_PUBLIC_ADDR</code>.</p>
-<h2 id="put-classification-beside-the-compilers">Put classification beside the compilers</h2>
-<p><code>enc</code> instances answer classification for the compilers they sit beside,
-and attach to the cluster as leaves.</p>
-<p>On <strong>one or more core instances</strong>, open a leaf listener, protected by
-the leaf secret:</p>
-<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CONSOLE_CLUSTER_LEAF_ADDR=:6223
+<p>Richten Sie den Load Balancer für die Konsole und ihre API auf die <code>web</code>-Instanzen, und richten Sie Nodes über <code>CONSOLE_NODE_TRANSPORT_PUBLIC_ADDR</code> auf den Node-Transport der <code>orchestrator</code>-Instanzen.</p>
+<h2 id="put-classification-beside-the-compilers">Die Klassifizierung neben die Compiler stellen</h2>
+<p><code>enc</code>-Instanzen beantworten Klassifizierungsanfragen für die Compiler, neben denen sie stehen, und hängen sich als Leaves an den Cluster.</p>
+<p>Öffnen Sie auf <strong>einer oder mehreren Core-Instanzen</strong> einen Leaf-Listener, geschützt durch das Leaf-Secret:</p>
+<vox-code-block language="plaintext" copy-label="Code kopieren" copied-label="Kopiert" copied-message="In die Zwischenablage kopiert"><code>CONSOLE_CLUSTER_LEAF_ADDR=:6223
 CONSOLE_CLUSTER_LEAF_SECRET_FILE=/etc/openvox-console/cluster-leaf-secret
 </code></vox-code-block>
-<p>On each <strong><code>enc</code> instance</strong>, attach to a core instance&#39;s leaf listener.
-It holds the leaf secret only, never the cluster secret:</p>
-<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CONSOLE_RUN_MODE=enc
+<p>Verbinden Sie sich auf jeder <strong><code>enc</code>-Instanz</strong> mit dem Leaf-Listener einer Core-Instanz. Sie hält nur das Leaf-Secret, niemals das Cluster-Secret:</p>
+<vox-code-block language="plaintext" copy-label="Code kopieren" copied-label="Kopiert" copied-message="In die Zwischenablage kopiert"><code>CONSOLE_RUN_MODE=enc
 CONSOLE_CLUSTER_MODE=leaf
 CONSOLE_CLUSTER_PEERS=console-1.example.com:6223
 CONSOLE_CLUSTER_LEAF_SECRET_FILE=/etc/openvox-console/cluster-leaf-secret
 CONSOLE_RBAC_VERIFICATION_KEYS_DIR=/etc/openvox-console/rbac-verification-keys
 </code></vox-code-block>
-<p>Then point each compiler&#39;s <code>enc-bridge</code> at the <code>enc</code> instance beside it,
-with <code>ENC_BRIDGE_URL</code>.</p>
-<h2 id="check-the-whole-fleet">Check the whole fleet</h2>
-<p>The <strong>Fleet Status</strong> tab gathers its picture live, asking every instance
-and collecting what answers within one second. Two things on it are worth
-knowing:</p>
+<p>Richten Sie dann das <code>enc-bridge</code> jedes Compilers mit <code>ENC_BRIDGE_URL</code> auf die <code>enc</code>-Instanz daneben.</p>
+<h2 id="check-the-whole-fleet">Die gesamte Flotte prüfen</h2>
+<p>Der Tab <strong>Flottenstatus</strong> erstellt sein Bild live, indem er jede Instanz fragt und sammelt, was innerhalb einer Sekunde antwortet. Zwei Dinge daran sollten Sie wissen:</p>
 <ul>
-<li>If fewer instances answered than should have, it says so above the
-list, for example &#34;1 of 4 instances did not reply within 1s&#34;. Take that
-seriously: an instance that is running but cannot reach the others is
-usually one that is stuck.</li>
-<li>Each dependency, such as openvoxdb or the CA, is shown as the serving
-instance sees it. One that instances disagree about is marked
-<strong>differs by instance</strong>, which means some instances can reach it and
-others cannot.</li>
+<li>Haben weniger Instanzen geantwortet als erwartet, steht das über der Liste, etwa „1 of 4 instances did not reply within 1s“. Nehmen Sie das ernst: Eine Instanz, die läuft, aber die anderen nicht erreicht, hängt meist fest.</li>
+<li>Jede Abhängigkeit, etwa openvoxdb oder die CA, wird so angezeigt, wie die antwortende Instanz sie sieht. Eine, bei der sich Instanzen uneinig sind, ist als <strong>je Instanz unterschiedlich</strong> markiert. Das heißt, einige Instanzen erreichen sie und andere nicht.</li>
 </ul>
-<p>The page does not refresh itself; reload it for a fresh picture.</p>
-<h3 id="watch-for-dropped-messages">Watch for dropped messages</h3>
-<p><code>console_nats_async_errors_total</code>, on each instance&#39;s <code>/metrics</code>, counts
-problems on its cluster connections. The one that matters is a
-subscriber falling behind, which drops messages; each is also logged at
-error level as &#34;NATS subscriber fell behind; messages were dropped&#34;. A
-rising count deserves a look.</p>
-<h2 id="undo-it">Undo it</h2>
-<p>Every step can be undone: set <code>CONSOLE_RUN_MODE=all</code> and remove the
-cluster settings. Nothing in the database depends on the split.</p>
+<p>Die Seite aktualisiert sich nicht selbst; laden Sie sie neu, um ein aktuelles Bild zu erhalten.</p>
+<h3 id="watch-for-dropped-messages">Auf verworfene Nachrichten achten</h3>
+<p><code>console_nats_async_errors_total</code> auf dem <code>/metrics</code> jeder Instanz zählt Probleme auf ihren Cluster-Verbindungen. Entscheidend ist ein Subscriber, der zurückfällt und dadurch Nachrichten verwirft; jeder solche Fall wird außerdem auf Fehlerebene als „NATS subscriber fell behind; messages were dropped“ protokolliert. Ein steigender Zähler verdient einen Blick.</p>
+<h2 id="undo-it">Rückgängig machen</h2>
+<p>Jeder Schritt lässt sich rückgängig machen: Setzen Sie <code>CONSOLE_RUN_MODE=all</code> und entfernen Sie die Cluster-Einstellungen. Nichts in der Datenbank hängt von der Aufteilung ab.</p>
 
     </div>
 
-    <vox-series-nav label="Scale" previous-text="Previous" next-text="Next" previous-href="../guides/run-modes.html" previous-label="Run modes"></vox-series-nav>
+    <vox-series-nav label="Skalierung" previous-text="Zurück" next-text="Weiter" previous-href="../guides/run-modes.html" previous-label="Betriebsmodi"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#how-instances-find-each-other"><span>How instances find each other</span>
+    <vox-toc heading="Auf dieser Seite">
+      <vox-toc-item href="#how-instances-find-each-other"><span>Wie Instanzen einander finden</span>
       </vox-toc-item>
-      <vox-toc-item href="#before-you-start"><span>Before you start</span>
+      <vox-toc-item href="#before-you-start"><span>Bevor Sie beginnen</span>
       </vox-toc-item>
-      <vox-toc-item href="#add-a-second-instance"><span>Add a second instance</span>
-        <vox-toc-item slot="children" href="#check-the-cluster-formed"><span>Check the cluster formed</span></vox-toc-item>
+      <vox-toc-item href="#add-a-second-instance"><span>Eine zweite Instanz hinzufügen</span>
+        <vox-toc-item slot="children" href="#check-the-cluster-formed"><span>Prüfen, ob der Cluster entstanden ist</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#split-instances-into-modes"><span>Split instances into modes</span>
+      <vox-toc-item href="#split-instances-into-modes"><span>Instanzen in Modi aufteilen</span>
       </vox-toc-item>
-      <vox-toc-item href="#put-classification-beside-the-compilers"><span>Put classification beside the compilers</span>
+      <vox-toc-item href="#put-classification-beside-the-compilers"><span>Die Klassifizierung neben die Compiler stellen</span>
       </vox-toc-item>
-      <vox-toc-item href="#check-the-whole-fleet"><span>Check the whole fleet</span>
-        <vox-toc-item slot="children" href="#watch-for-dropped-messages"><span>Watch for dropped messages</span></vox-toc-item>
+      <vox-toc-item href="#check-the-whole-fleet"><span>Die gesamte Flotte prüfen</span>
+        <vox-toc-item slot="children" href="#watch-for-dropped-messages"><span>Auf verworfene Nachrichten achten</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#undo-it"><span>Undo it</span>
+      <vox-toc-item href="#undo-it"><span>Rückgängig machen</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -341,23 +275,17 @@ cluster settings. Nothing in the database depends on the split.</p>
 
       
       <vox-cta-band heading="Selbst ausführen">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console wird als Container-Images ausgeliefert, bei jedem Push für amd64 und arm64 gebaut, sowie als einzelnes Binary. Die Installationsanleitungen führen Sie vom leeren Host zu einer funktionierenden Installation – openvoxserver, openvoxdb, Postgres und die Konsole – mit Containern oder mit Paketen.</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">Installationsanleitungen</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">Quellcode auf GitHub</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">Container-Images</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="Screenshot in voller Größe">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">Schließen</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -366,7 +294,7 @@ cluster settings. Nothing in the database depends on the split.</p>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">Überblick</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">Quellcode</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">Installationsanleitungen</a>
       </vox-footer-column>
       <vox-footer-column heading="Funktionen">
         <a href="../features/nodes.html">Nodes</a>
@@ -376,8 +304,8 @@ cluster settings. Nothing in the database depends on the split.</p>
         <a href="../features/patching.html">Patching</a>
         <a href="../features/security.html">Sicherheit</a>
         <a href="../features/access-control.html">Zugriffskontrolle</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">KI-Agenten</a>
+        <a href="../features/scaling.html">Skalierung</a>
         </vox-footer-column>
       
       <vox-footer-column heading="Sprache">

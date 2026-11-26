@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="es" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Register hosts the console reaches over SSH, pin their host keys, check them, and run tasks on them like any other node."/>
+    <meta name="description" content="Registre hosts a los que la consola llega por SSH, fije sus claves de host, compruébelos y ejecute Tasks en ellos como en cualquier otro Node."/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Run tasks on hosts without an agent - OpenVox Console</title>
+    <title>Ejecutar Tasks en hosts sin agente - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">Guías</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,173 +104,120 @@
       <a href="../features/classification.html">Clasificación</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">Orquestación</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">Aplicación de parches</a>
       <a href="../features/security.html">Seguridad</a>
       <a href="../features/access-control.html">Control de acceso</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">Agentes de IA</a>
+      <a href="../features/scaling.html">Escalado</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="Guías" toggle-label="Todas las guías">
+    <vox-sidenav-group heading="Instalar">
+      <vox-sidenav-item href="../guides/plan.html"><span>Planificar un despliegue</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>Instalar con contenedores</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>Instalar desde paquetes y binarios</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>Añadir Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>Gestionar los certificados de los Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>Quitar un Node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Mantener al día los agentes de Node</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
-      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="Escalar">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>Modos de ejecución</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>Ejecutar más instancias</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use" open="">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html" current="" aria-current="page"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="Usar" open="">
+      <vox-sidenav-item href="../guides/classify.html"><span>Clasificar Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>Desplegar código</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>Ejecutar Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>Ejecutar Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Programar Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>Usuarios, roles y tokens</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Seguir las vulnerabilidades</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>Encontrar y aplicar las actualizaciones que faltan</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html" current="" aria-current="page"><span>Ejecutar Tasks en hosts sin agente</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>Ejecutar Plans de su código</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>Permitir que los agentes de IA usen la consola</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="Operar">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Hacer failover a una base de datos de reserva</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotar la clave de firma de tokens</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Actualizar las bases de datos de los contenedores a Postgres 18</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Use</p>
-    <h1 class="guide-title vox-ts-xxl">Run tasks on hosts without an agent</h1>
-    <p class="guide-summary">Register hosts the console reaches over SSH, pin their host keys, check them, and run tasks on them like any other node.</p>
+    <p class="guide-eyebrow">Usar</p>
+    <h1 class="guide-title vox-ts-xxl">Ejecutar Tasks en hosts sin agente</h1>
+    <p class="guide-summary">Registre hosts a los que la consola llega por SSH, fije sus claves de host, compruébelos y ejecute Tasks en ellos como en cualquier otro Node.</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>Some hosts cannot or should not run the node agent: appliances, locked-down
-servers, machines not yet enrolled. The console can reach a Linux host over
-<strong>SSH</strong> instead and run <a href="run-jobs.html">tasks</a> on it. Such a host is an
-<strong>agentless target</strong>.</p>
-<p>What an agentless target can do is deliberately narrow:</p>
+<p>Algunos hosts no pueden o no deben ejecutar el agente de Node: appliances, servidores bloqueados, máquinas aún no incorporadas. La consola puede llegar en su lugar a un host Linux por <strong>SSH</strong> y ejecutar <a href="run-jobs.html">Tasks</a> en él. Un host así es un <strong>destino sin agente</strong>.</p>
+<p>Lo que puede hacer un destino sin agente es limitado a propósito:</p>
 <ul>
-<li><strong>Tasks run on it</strong>, on their own, in a <a href="run-plans.html">plan</a> or on a
-<a href="schedule-jobs.html">schedule</a>, with the same permissions, node groups and
-task allowlists as any node.</li>
-<li><strong>Puppet runs and patch runs do not.</strong> They need the agent. A request that
-names an agentless target for one is refused whole, naming the target, and
-nothing is sent to anyone.</li>
-<li>It has <strong>no facts or reports</strong>, so a node group&#39;s rule, which matches on
-facts, cannot include it. A group includes it by <strong>pin</strong>.</li>
+<li><strong>Se ejecutan Tasks en él</strong>, por separado, en un <a href="run-plans.html">Plan</a> o según una <a href="schedule-jobs.html">programación</a>, con los mismos permisos, grupos de Nodes y listas de Tasks permitidos que cualquier Node.</li>
+<li><strong>Las ejecuciones de Puppet y las de parches, no.</strong> Necesitan el agente. Una petición de una de ellas que nombre un destino sin agente se rechaza entera, indicando el destino, y no se envía nada a nadie.</li>
+<li><strong>No tiene Facts ni Reports</strong>, así que la regla de un grupo de Nodes, que coincide por Facts, no puede incluirlo. Un grupo lo incluye mediante una <strong>fijación</strong>.</li>
 </ul>
-<h2 id="add-a-target">Add a target</h2>
-<p>Open <strong>Nodes</strong>, then <strong>Agentless targets</strong>, then <strong>Add target</strong>. This needs
-<code>agentless:manage</code>. Give:</p>
+<h2 id="add-a-target">Añadir un destino</h2>
+<p>Abra <strong>Nodes</strong>, después <strong>Destinos sin agente</strong> y después <strong>Añadir destino</strong>. Esto requiere <code>agentless:manage</code>. Indique:</p>
 <ul>
-<li>a <strong>name</strong>, which is how the target appears in jobs and node groups. It
-cannot be the name of a node that exists, or of another target;</li>
-<li>the <strong>address</strong> and <strong>port</strong> (22 unless you say otherwise);</li>
-<li>the <strong>login</strong>: a user, and a <strong>private key</strong> (with its passphrase if it has
-one), a <strong>password</strong>, or both. Or choose a <strong>shared credential</strong>: one login
-several targets use. A target&#39;s own login wins over a shared one;</li>
-<li>optionally a user to <strong>run tasks as</strong>. Tasks then run through
-<code>sudo -n -u &lt;user&gt;</code>, so <code>sudo</code> must not ask for a password. Password <code>sudo</code>
-is not supported.</li>
+<li>un <strong>nombre</strong>, que es como aparece el destino en los Jobs y los grupos de Nodes. No puede ser el nombre de un Node existente ni de otro destino;</li>
+<li>la <strong>dirección</strong> y el <strong>puerto</strong> (22 salvo que indique otro);</li>
+<li>el <strong>acceso</strong>: un usuario y una <strong>clave privada</strong> (con su frase de contraseña, si la tiene), una <strong>contraseña</strong>, o ambas. O elija una <strong>credencial compartida</strong>: un acceso que usan varios destinos. El acceso propio de un destino prevalece sobre uno compartido;</li>
+<li>opcionalmente, un usuario con el que <strong>ejecutar los Tasks</strong>. Los Tasks se ejecutan entonces mediante <code>sudo -n -u &lt;user&gt;</code>, así que <code>sudo</code> no debe pedir contraseña. No se admite <code>sudo</code> con contraseña.</li>
 </ul>
-<p>The key, passphrase and password are stored <strong>sealed</strong> with the console&#39;s
-secrets key (<code>CONSOLE_SECRETS_KEY_FILE</code>; without it a target with credentials
-cannot be added). They are never returned by the console, written to its logs
-or audit entries, or put in a job. You can set or replace one but never read
-it: leave the fields blank when you edit to keep the stored ones. A key is
-checked when you save it, and a passphrase that does not open it is refused.</p>
-<p>A target must be pinned into a node group to be seen by anyone limited to
-that group. A user limited to some node groups can add and manage targets
-only inside their groups, and cannot use shared credentials at all, since a
-shared credential belongs to no node.</p>
-<h2 id="trust-its-host-key">Trust its host key</h2>
-<p>Before the console sends a login to a host it must know it is the right one.</p>
+<p>La clave, la frase de contraseña y la contraseña se guardan <strong>selladas</strong> con la clave de secretos de la consola (<code>CONSOLE_SECRETS_KEY_FILE</code>; sin ella no se puede añadir un destino con credenciales). La consola nunca las devuelve, ni las escribe en sus logs o entradas de auditoría, ni las pone en un Job. Puede definir o sustituir una, pero nunca leerla: al editar, deje los campos en blanco para conservar las guardadas. Una clave se comprueba al guardarla, y una frase de contraseña que no la abre se rechaza.</p>
+<p>Un destino debe estar fijado en un grupo de Nodes para que lo vea alguien limitado a ese grupo. Un usuario limitado a algunos grupos de Nodes solo puede añadir y gestionar destinos dentro de sus grupos, y no puede usar credenciales compartidas en absoluto, ya que una credencial compartida no pertenece a ningún Node.</p>
+<h2 id="trust-its-host-key">Confiar en su clave de host</h2>
+<p>Antes de enviar unas credenciales de acceso a un host, la consola debe saber que es el correcto.</p>
 <ol>
-<li><strong>Check</strong> the target. The console connects and reads the host&#39;s key
-<strong>without logging in</strong>, and shows its fingerprint.</li>
-<li>Compare that fingerprint with the host&#39;s own, for example
-<code>ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub</code> on the host, and
-choose <strong>Trust this key</strong>.</li>
-<li>Check again: now the console logs in, and reports who it logged in as
-(and as whom tasks will run, if you set a run-as user).</li>
+<li><strong>Compruebe</strong> el destino. La consola se conecta y lee la clave del host <strong>sin iniciar sesión</strong>, y muestra su huella.</li>
+<li>Compare esa huella con la del propio host, por ejemplo con <code>ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub</code> en el host, y elija <strong>Confiar en esta clave</strong>.</li>
+<li>Vuelva a comprobar: ahora la consola inicia sesión e informa de con qué usuario lo hizo (y con qué usuario se ejecutarán los Tasks, si definió un usuario de ejecución).</li>
 </ol>
-<p>Until a key is trusted, a task on the target fails as &#34;not trusted&#34; and
-nothing is run. If a trusted target later presents a <strong>different key</strong>, the
-connection is refused before any login is sent, and the target shows
-<strong>Host key changed</strong> with both fingerprints. Replace the pin only if you know
-the host was rebuilt or its key rotated: that is a separate, audited action.
-Changing a target&#39;s address or port clears its pin, since a pin vouches for a
-host, not a name.</p>
-<p>A failed check says which stage failed: connecting, the host key,
-authentication, becoming the run-as user, or running a command.</p>
-<h2 id="run-a-task-on-one">Run a task on one</h2>
-<p>On the Nodes page select targets with any other nodes and choose <strong>Run
-task</strong>, or name them in a task, plan or schedule. The job shows each target&#39;s
-own result.</p>
-<p>For each target the console downloads the task&#39;s files from the Puppet
-server, verifies their checksums, then connects, creates a private directory
-on the host (<code>mktemp -d</code>, mode 700), copies the files into it over the SSH
-session, runs the task and removes the directory, whether the task succeeded,
-failed or timed out. Nothing needs to be installed on the host beyond <code>sh</code>,
-<code>cat</code>, <code>mktemp</code> and (for a run-as user) <code>sudo</code>.</p>
+<p>Hasta que se confía en una clave, un Task en el destino falla como &#34;not trusted&#34; y no se ejecuta nada. Si un destino de confianza presenta después una <strong>clave distinta</strong>, la conexión se rechaza antes de enviar ninguna credencial, y el destino muestra <strong>Clave de host cambiada</strong> con ambas huellas. Sustituya la fijación solo si sabe que el host se reconstruyó o que su clave se rotó: es una acción aparte y auditada. Cambiar la dirección o el puerto de un destino borra su fijación, ya que una fijación responde por un host, no por un nombre.</p>
+<p>Una comprobación fallida indica qué etapa falló: la conexión, la clave del host, la autenticación, el paso al usuario de ejecución o la ejecución de un comando.</p>
+<h2 id="run-a-task-on-one">Ejecutar un Task en uno</h2>
+<p>En la página Nodes, seleccione los destinos junto con cualquier otro Node y elija <strong>Ejecutar Task</strong>, o nómbrelos en un Task, un Plan o una programación. El Job muestra el resultado propio de cada destino.</p>
+<p>Para cada destino, la consola descarga los archivos del Task desde el servidor de Puppet, verifica sus sumas de verificación y después se conecta, crea un directorio privado en el host (<code>mktemp -d</code>, modo 700), copia en él los archivos por la sesión SSH, ejecuta el Task y elimina el directorio, tanto si el Task funcionó como si falló o agotó su tiempo límite. No hace falta instalar nada en el host aparte de <code>sh</code>, <code>cat</code>, <code>mktemp</code> y (para un usuario de ejecución) <code>sudo</code>.</p>
 <ul>
-<li>Task <strong>parameters never appear on a command line</strong>, where any user of the
-host could read them. They reach the task on standard input or in its
-environment, as the task&#39;s metadata asks, and are never written to disk.
-What a task prints is recorded like any task&#39;s output.</li>
-<li>A task whose implementations all need the Puppet agent (<code>puppet-agent</code>)
-cannot run: the target provides a shell only.</li>
-<li>A task is limited by its <strong>timeout</strong>. When it runs out, the task is stopped
-and the target fails with that reason. Connecting is limited to 15 seconds.</li>
-<li>A target runs <strong>one task at a time</strong>; a second is refused as busy. At most
-20 SSH sessions run across the console at once, and the rest wait.</li>
-<li>A <code>/tmp</code> mounted <code>noexec</code> stops a task from running there. The failure says
-so; make a directory available or remount.</li>
+<li>Los <strong>parámetros de un Task nunca aparecen en una línea de comandos</strong>, donde cualquier usuario del host podría leerlos. Llegan al Task por la entrada estándar o en su entorno, según pidan los metadatos del Task, y nunca se escriben en disco. Lo que imprime un Task se registra como la salida de cualquier Task.</li>
+<li>Un Task cuyas implementaciones necesitan todas el agente de Puppet (<code>puppet-agent</code>) no puede ejecutarse: el destino solo proporciona una shell.</li>
+<li>Un Task está limitado por su <strong>tiempo límite</strong>. Cuando se agota, el Task se detiene y el destino falla con ese motivo. La conexión está limitada a 15 segundos.</li>
+<li>Un destino ejecuta <strong>un Task cada vez</strong>; un segundo se rechaza por estar ocupado. Como mucho hay 20 sesiones SSH a la vez en toda la consola, y el resto esperan.</li>
+<li>Un <code>/tmp</code> montado con <code>noexec</code> impide que un Task se ejecute allí. El fallo lo indica; habilite un directorio o vuelva a montarlo.</li>
 </ul>
-<h2 id="where-it-is-audited">Where it is audited</h2>
-<p>Adding, changing, deleting and checking a target, trusting or replacing a
-host key, and every shared credential change are audit entries naming who
-and what. They name which secrets were set, never their values. Jobs are
-audited as always.</p>
-<h2 id="not-covered">Not covered</h2>
-<p>Windows and WinRM, jump hosts, SSH certificates, Puppet runs, patch scans
-and patch runs, collecting facts, and Puppet-language plans.</p>
+<h2 id="where-it-is-audited">Dónde se audita</h2>
+<p>Añadir, cambiar, eliminar y comprobar un destino, confiar en una clave de host o sustituirla, y cada cambio de una credencial compartida generan entradas de auditoría que indican quién y qué. Indican qué secretos se definieron, nunca sus valores. Los Jobs se auditan como siempre.</p>
+<h2 id="not-covered">No cubierto</h2>
+<p>Windows y WinRM, hosts de salto, certificados SSH, ejecuciones de Puppet, análisis y ejecuciones de parches, recopilación de Facts y Plans en lenguaje Puppet.</p>
 
     </div>
 
-    <vox-series-nav label="Use" previous-text="Previous" next-text="Next" previous-href="../guides/patching.html" previous-label="Find and apply missing updates" next-href="../guides/code-plans.html" next-label="Run plans from your code"></vox-series-nav>
+    <vox-series-nav label="Usar" previous-text="Anterior" next-text="Siguiente" previous-href="../guides/patching.html" previous-label="Encontrar y aplicar las actualizaciones que faltan" next-href="../guides/code-plans.html" next-label="Ejecutar Plans de su código"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#add-a-target"><span>Add a target</span>
+    <vox-toc heading="En esta página">
+      <vox-toc-item href="#add-a-target"><span>Añadir un destino</span>
       </vox-toc-item>
-      <vox-toc-item href="#trust-its-host-key"><span>Trust its host key</span>
+      <vox-toc-item href="#trust-its-host-key"><span>Confiar en su clave de host</span>
       </vox-toc-item>
-      <vox-toc-item href="#run-a-task-on-one"><span>Run a task on one</span>
+      <vox-toc-item href="#run-a-task-on-one"><span>Ejecutar un Task en uno</span>
       </vox-toc-item>
-      <vox-toc-item href="#where-it-is-audited"><span>Where it is audited</span>
+      <vox-toc-item href="#where-it-is-audited"><span>Dónde se audita</span>
       </vox-toc-item>
-      <vox-toc-item href="#not-covered"><span>Not covered</span>
+      <vox-toc-item href="#not-covered"><span>No cubierto</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -280,23 +227,17 @@ and patch runs, collecting facts, and Puppet-language plans.</p>
 
       
       <vox-cta-band heading="Ejecútelo usted mismo">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console se distribuye como imágenes de contenedor, compiladas para amd64 y arm64 en cada push, y como un único binario. Las guías de instalación le llevan de un host vacío a un despliegue funcional (openvoxserver, openvoxdb, Postgres y la consola) con contenedores o con paquetes.</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">Guías de instalación</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">Código fuente en GitHub</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">Imágenes de contenedor</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="Captura a tamaño completo">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">Cerrar</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -305,18 +246,18 @@ and patch runs, collecting facts, and Puppet-language plans.</p>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">Resumen</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">Código fuente</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">Guías de instalación</a>
       </vox-footer-column>
       <vox-footer-column heading="Capacidades">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">Clasificación</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">Orquestación</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">Aplicación de parches</a>
         <a href="../features/security.html">Seguridad</a>
         <a href="../features/access-control.html">Control de acceso</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">Agentes de IA</a>
+        <a href="../features/scaling.html">Escalado</a>
         </vox-footer-column>
       
       <vox-footer-column heading="Idioma">

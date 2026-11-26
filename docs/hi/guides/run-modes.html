@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="hi" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="What each of the console&#39;s run modes serves and runs, and what each one needs configured."/>
+    <meta name="description" content="कंसोल का हर run mode क्या देता है और क्या चलाता है, और हर एक के लिए क्या कॉन्फ़िगर करना ज़रूरी है।"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">गाइड</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,219 +104,179 @@
       <a href="../features/classification.html">वर्गीकरण</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">ऑर्केस्ट्रेशन</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">पैचिंग</a>
       <a href="../features/security.html">सुरक्षा</a>
       <a href="../features/access-control.html">पहुँच नियंत्रण</a>
       <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/scaling.html">विस्तार</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="गाइड" toggle-label="सभी गाइड">
+    <vox-sidenav-group heading="इंस्टॉल">
+      <vox-sidenav-item href="../guides/plan.html"><span>परिनियोजन की योजना बनाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>कंटेनरों से इंस्टॉल करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>पैकेजों और बाइनरी से इंस्टॉल करें</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>Nodes जोड़ें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>Node प्रमाणपत्र प्रबंधित करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>किसी Node को हटाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Node एजेंटों को नवीनतम रखें</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale" open="">
+    <vox-sidenav-group heading="विस्तार" open="">
       <vox-sidenav-item href="../guides/run-modes.html" current="" aria-current="page"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>अधिक इंस्टेंस चलाएँ</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="उपयोग">
+      <vox-sidenav-item href="../guides/classify.html"><span>Nodes का वर्गीकरण करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>कोड deploy करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>Jobs चलाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>Plans चलाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Jobs शेड्यूल करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>उपयोगकर्ता, भूमिकाएँ और टोकन</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>कमज़ोरियों पर नज़र रखें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>छूटे हुए अपडेट खोजें और लागू करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>बिना एजेंट वाले होस्टों पर Tasks चलाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>अपने कोड से Plans चलाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>AI एजेंटों को कंसोल का उपयोग करने दें</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="संचालन">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>standby डेटाबेस पर failover करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>टोकन हस्ताक्षर कुंजी बदलें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>कंटेनर डेटाबेस को Postgres 18 पर अपग्रेड करें</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Scale</p>
+    <p class="guide-eyebrow">विस्तार</p>
     <h1 class="guide-title vox-ts-xxl">Run modes</h1>
-    <p class="guide-summary">What each of the console&#39;s run modes serves and runs, and what each one needs configured.</p>
+    <p class="guide-summary">कंसोल का हर run mode क्या देता है और क्या चलाता है, और हर एक के लिए क्या कॉन्फ़िगर करना ज़रूरी है।</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>One image, one binary. <code>CONSOLE_RUN_MODE</code> selects which parts of the
-console an instance runs, so parts with very different loads can be
-scaled and placed separately. Unset, it is <code>all</code>: everything in one
-instance, which is what a single-instance deployment always runs.</p>
-<h2 id="what-each-mode-runs">What each mode runs</h2>
+<p>एक इमेज, एक बाइनरी। <code>CONSOLE_RUN_MODE</code> चुनता है कि कोई इंस्टेंस कंसोल के कौन-से हिस्से चलाए, ताकि बहुत अलग-अलग भार वाले हिस्सों का अलग से विस्तार किया और उन्हें अलग जगह रखा जा सके। सेट न होने पर यह <code>all</code> होता है: सब कुछ एक इंस्टेंस में, जो एकल-इंस्टेंस परिनियोजन हमेशा चलाता है।</p>
+<h2 id="what-each-mode-runs">हर मोड क्या चलाता है</h2>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Mode</th>
-<th>Serves</th>
-<th>Listens</th>
-<th>Runs in the background</th>
+<th>मोड</th>
+<th>क्या देता है</th>
+<th>सुनता है</th>
+<th>पृष्ठभूमि में चलाता है</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>all</code> (the default)</td>
-<td>everything</td>
-<td>HTTP, node transport</td>
-<td>every background task</td>
+<td><code>all</code> (डिफ़ॉल्ट)</td>
+<td>सब कुछ</td>
+<td>HTTP, Node ट्रांसपोर्ट</td>
+<td>हर पृष्ठभूमि कार्य</td>
 </tr>
 <tr>
 <td><code>web</code></td>
-<td>the console, its API, code-deploy webhooks and classification</td>
+<td>कंसोल, उसका API, code-deploy webhooks और वर्गीकरण</td>
 <td>HTTP</td>
-<td>following the jobs started through it</td>
+<td>इसके ज़रिये शुरू किए गए Jobs पर नज़र रखना</td>
 </tr>
 <tr>
 <td><code>enc</code></td>
-<td>classification only</td>
+<td>केवल वर्गीकरण</td>
 <td>HTTP</td>
-<td>nothing</td>
+<td>कुछ नहीं</td>
 </tr>
 <tr>
 <td><code>orchestrator</code></td>
-<td>nothing beyond health and metrics</td>
-<td>HTTP, node transport</td>
-<td>job dispatch, scheduled jobs, the first run of new nodes, and node agent upgrades</td>
+<td>health और metrics के अलावा कुछ नहीं</td>
+<td>HTTP, Node ट्रांसपोर्ट</td>
+<td>Job भेजना, शेड्यूल किए गए Jobs, नए Nodes का पहला रन, और Node एजेंट अपग्रेड</td>
 </tr>
 <tr>
 <td><code>worker</code></td>
-<td>nothing beyond health and metrics</td>
+<td>health और metrics के अलावा कुछ नहीं</td>
 <td>HTTP</td>
-<td>vulnerability syncs, and cleanup of abandoned jobs</td>
+<td>कमज़ोरी sync, और छोड़े गए Jobs की सफ़ाई</td>
 </tr>
 </tbody>
 </table></div>
-<p>Every mode serves <code>/health</code> and <code>/metrics</code>, so any instance can be
-checked without knowing its mode, and <code>/health</code> reports the mode it is
-running.</p>
-<p>Two choices in that table are deliberate:</p>
+<p>हर मोड <code>/health</code> और <code>/metrics</code> देता है, इसलिए किसी भी इंस्टेंस को उसका मोड जाने बिना जाँचा जा सकता है, और <code>/health</code> बताता है कि वह किस मोड में चल रहा है।</p>
+<p>उस तालिका में दो चुनाव जानबूझकर किए गए हैं:</p>
 <ul>
-<li><strong><code>web</code> answers classification too.</strong> <code>enc</code> exists so classification
-<em>can</em> run on its own, next to the compilers, not so that it is missing
-everywhere else. A split that quietly stopped classifying nodes would
-be far worse than <code>web</code> carrying some of that load.</li>
-<li><strong><code>orchestrator</code> serves no API.</strong> It holds the node connections and
-sends jobs down them. Starting a job is <code>web</code>&#39;s job, and <code>web</code> reaches
-those connections through the cluster.</li>
-<li><strong>A job is followed by the instance that started it.</strong> A run, task or
-plan started in the console is sent and tracked by the <code>web</code> instance
-that took the request, so <code>web</code> instances must be
-<a href="cluster.html">clustered</a> with the <code>orchestrator</code> instances to reach
-any node. If that <code>web</code> instance stops before the job ends, the job is
-marked failed by a <code>worker</code> instance.</li>
+<li><strong><code>web</code> भी वर्गीकरण का उत्तर देता है।</strong> <code>enc</code> इसलिए है कि वर्गीकरण compilers के पास अलग से चल <em>सके</em>, इसलिए नहीं कि वह बाक़ी हर जगह से ग़ायब हो जाए। जो विभाजन चुपचाप Nodes का वर्गीकरण बंद कर दे, वह <code>web</code> के उस भार का कुछ हिस्सा उठाने से कहीं बदतर होगा।</li>
+<li><strong><code>orchestrator</code> कोई API नहीं देता।</strong> यह Node कनेक्शन सँभालता है और उन्हीं के ज़रिये Jobs भेजता है। Job शुरू करना <code>web</code> का काम है, और <code>web</code> उन कनेक्शनों तक cluster के ज़रिये पहुँचता है।</li>
+<li><strong>किसी Job पर वही इंस्टेंस नज़र रखता है जिसने उसे शुरू किया।</strong> कंसोल में शुरू किया गया रन, Task या Plan उसी <code>web</code> इंस्टेंस द्वारा भेजा और ट्रैक किया जाता है जिसने अनुरोध लिया, इसलिए किसी भी Node तक पहुँचने के लिए <code>web</code> इंस्टेंसों का <code>orchestrator</code> इंस्टेंसों के साथ <a href="cluster.html">cluster में</a> होना ज़रूरी है। यदि वह <code>web</code> इंस्टेंस Job समाप्त होने से पहले रुक जाए, तो कोई <code>worker</code> इंस्टेंस Job को विफल चिह्नित कर देता है।</li>
 </ul>
-<h2 id="what-each-mode-needs">What each mode needs</h2>
-<p>Each mode requires only what it uses, and refuses to start without it,
-naming the missing setting:</p>
+<h2 id="what-each-mode-needs">हर मोड को क्या चाहिए</h2>
+<p>हर मोड केवल वही माँगता है जिसका वह उपयोग करता है, और उसके बिना, अनुपस्थित सेटिंग का नाम बताते हुए, शुरू होने से मना कर देता है:</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Mode</th>
-<th>Requires</th>
+<th>मोड</th>
+<th>आवश्यकता</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>every mode</td>
-<td><code>CONSOLE_POSTGRES_DSN</code> and the four <code>CONSOLE_OPENVOXDB_*</code> settings</td>
+<td>हर मोड</td>
+<td><code>CONSOLE_POSTGRES_DSN</code> और चारों <code>CONSOLE_OPENVOXDB_*</code> सेटिंग्स</td>
 </tr>
 <tr>
 <td><code>all</code>, <code>web</code></td>
-<td><code>CONSOLE_RBAC_SIGNING_KEY_FILE</code>: these are the only modes that issue login tokens</td>
+<td><code>CONSOLE_RBAC_SIGNING_KEY_FILE</code>: केवल यही मोड लॉगिन टोकन जारी करते हैं</td>
 </tr>
 <tr>
 <td><code>enc</code>, <code>orchestrator</code>, <code>worker</code></td>
-<td><code>CONSOLE_RBAC_VERIFICATION_KEYS_DIR</code>: they check tokens, but never issue them</td>
+<td><code>CONSOLE_RBAC_VERIFICATION_KEYS_DIR</code>: ये टोकन जाँचते हैं, पर कभी जारी नहीं करते</td>
 </tr>
 <tr>
 <td><code>orchestrator</code></td>
-<td><code>CONSOLE_NODE_TRANSPORT_ADDR</code>: without a node listener every job would fail &#34;not connected&#34; on an instance that looked healthy</td>
+<td><code>CONSOLE_NODE_TRANSPORT_ADDR</code>: Node listener के बिना, स्वस्थ दिखने वाले इंस्टेंस पर हर Job &#34;not connected&#34; के साथ विफल होता</td>
 </tr>
 </tbody>
 </table></div>
-<h3 id="give-the-scheduler-what-scheduled-jobs-use">Give the scheduler what scheduled jobs use</h3>
-<p><a href="schedule-jobs.html">Scheduled jobs</a> are started by <code>all</code> and
-<code>orchestrator</code> instances, not by <code>web</code>. An <code>orchestrator</code> instance
-starts without these, but a schedule that needs one is skipped, saying
-why, until the instance has it:</p>
+<h3 id="give-the-scheduler-what-scheduled-jobs-use">शेड्यूलर को वह दें जिसका शेड्यूल किए गए Jobs उपयोग करते हैं</h3>
+<p><a href="schedule-jobs.html">शेड्यूल किए गए Jobs</a> <code>all</code> और <code>orchestrator</code> इंस्टेंस शुरू करते हैं, <code>web</code> नहीं। <code>orchestrator</code> इंस्टेंस इनके बिना भी शुरू हो जाता है, लेकिन जिस शेड्यूल को इनमें से किसी की ज़रूरत है, वह कारण बताते हुए तब तक छोड़ दिया जाता है जब तक इंस्टेंस को वह न मिल जाए:</p>
 <ul>
-<li><code>CONSOLE_PUPPET_SERVER_URL</code>, to start a scheduled task: the task is
-looked up in the deployed code when the schedule starts.</li>
-<li><code>CONSOLE_SECRETS_KEY_FILE</code>, the same key as on <code>web</code>, to start a
-scheduled task that has a sensitive parameter.</li>
+<li><code>CONSOLE_PUPPET_SERVER_URL</code>, शेड्यूल किया गया Task शुरू करने के लिए: शेड्यूल शुरू होने पर Task को deploy किए गए कोड में खोजा जाता है।</li>
+<li><code>CONSOLE_SECRETS_KEY_FILE</code>, वही कुंजी जो <code>web</code> पर है, ऐसा शेड्यूल किया गया Task शुरू करने के लिए जिसमें कोई संवेदनशील पैरामीटर हो।</li>
 </ul>
-<p>When several instances run the scheduler, each due time is started by
-exactly one of them. If none is running when a schedule comes due, it
-starts when one is - unless that is more than 15 minutes late, in which
-case that time is recorded as missed.</p>
-<h3 id="give-non-issuing-modes-the-verification-keys">Give non-issuing modes the verification keys</h3>
-<p>An instance that only checks tokens reads the keys to check them against
-from a directory, one file per key, named after the key&#39;s ID. A
-deployment that has never rotated its key uses the ID <code>default</code>, so the
-directory holds one file, <code>default.pem</code>, which is the signing key file
-itself:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo install -d -m 0750 -o root -g openvox-console /etc/openvox-console/rbac-verification-keys
+<p>जब कई इंस्टेंस शेड्यूलर चलाते हैं, तो हर देय समय को उनमें से ठीक एक शुरू करता है। यदि शेड्यूल देय होने पर कोई नहीं चल रहा, तो वह तब शुरू होता है जब कोई चलने लगे - जब तक इसमें 15 मिनट से अधिक की देरी न हो, जिस स्थिति में वह समय छूटा हुआ दर्ज होता है।</p>
+<h3 id="give-non-issuing-modes-the-verification-keys">टोकन जारी न करने वाले मोड को verification कुंजियाँ दें</h3>
+<p>जो इंस्टेंस केवल टोकन जाँचता है, वह जाँच के लिए कुंजियाँ एक डायरेक्टरी से पढ़ता है, हर कुंजी के लिए एक फ़ाइल, जिसका नाम कुंजी की ID पर होता है। जिस परिनियोजन ने कभी अपनी कुंजी नहीं बदली, वह ID <code>default</code> का उपयोग करता है, इसलिए डायरेक्टरी में एक ही फ़ाइल होती है, <code>default.pem</code>, जो स्वयं हस्ताक्षर कुंजी फ़ाइल है:</p>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>sudo install -d -m 0750 -o root -g openvox-console /etc/openvox-console/rbac-verification-keys
 sudo install -m 0640 -o root -g openvox-console \
   rbac-signing-key.pem /etc/openvox-console/rbac-verification-keys/default.pem
 </code></vox-code-block>
-<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CONSOLE_RUN_MODE=enc
+<vox-code-block language="plaintext" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>CONSOLE_RUN_MODE=enc
 CONSOLE_RBAC_VERIFICATION_KEYS_DIR=/etc/openvox-console/rbac-verification-keys
 </code></vox-code-block>
-<vox-callout variant="warning" heading="Warning"><p>The verification directory currently accepts keys only in the same
-format as the signing key: the private key, of which the console uses
-only the public half. So an instance given the directory also holds a
-key that could sign tokens. Protect it on every host exactly as you
-protect the signing key, including <code>enc</code> instances beside the
-compilers.</p>
+<vox-callout variant="warning" heading="चेतावनी"><p>verification डायरेक्टरी फ़िलहाल केवल उसी प्रारूप की कुंजियाँ स्वीकार करती है जो हस्ताक्षर कुंजी का है: private key, जिसका कंसोल केवल public हिस्सा उपयोग करता है। इसलिए जिस इंस्टेंस को यह डायरेक्टरी दी जाती है, उसके पास ऐसी कुंजी भी होती है जो टोकनों पर हस्ताक्षर कर सकती है। हर होस्ट पर इसे ठीक वैसे ही सुरक्षित रखिए जैसे हस्ताक्षर कुंजी को, compilers के पास वाले <code>enc</code> इंस्टेंसों सहित।</p>
 </vox-callout>
-<p>When you rotate the signing key, every instance&#39;s verification directory
-needs the new key too; <a href="rotate-signing-key.html">Rotate the token signing key</a> covers the order.</p>
-<h2 id="changing-an-instance-s-mode">Changing an instance&#39;s mode</h2>
-<p>Set <code>CONSOLE_RUN_MODE</code> and restart the instance. No data moves: every
-mode reads and writes the same database. Setting it back to <code>all</code> undoes
-the change.</p>
-<p>A lone instance can change mode, but a mode other than <code>all</code> only makes
-sense among clustered instances that between them run every mode. See
-<a href="cluster.html">Run more instances</a>.</p>
+<p>जब आप हस्ताक्षर कुंजी बदलते हैं, तो हर इंस्टेंस की verification डायरेक्टरी में भी नई कुंजी चाहिए; क्रम <a href="rotate-signing-key.html">टोकन हस्ताक्षर कुंजी बदलें</a> में बताया गया है।</p>
+<h2 id="changing-an-instance-s-mode">किसी इंस्टेंस का मोड बदलना</h2>
+<p><code>CONSOLE_RUN_MODE</code> सेट कीजिए और इंस्टेंस को पुनः आरंभ कीजिए। कोई डेटा कहीं नहीं जाता: हर मोड उसी डेटाबेस को पढ़ता और उसमें लिखता है। इसे वापस <code>all</code> पर सेट करने से बदलाव पलट जाता है।</p>
+<p>अकेला इंस्टेंस मोड बदल सकता है, लेकिन <code>all</code> के अलावा कोई मोड केवल उन clustered इंस्टेंसों के बीच समझ में आता है जो मिलकर हर मोड चलाते हैं। देखें <a href="cluster.html">अधिक इंस्टेंस चलाएँ</a>।</p>
 
     </div>
 
-    <vox-series-nav label="Scale" previous-text="Previous" next-text="Next" next-href="../guides/cluster.html" next-label="Run more instances"></vox-series-nav>
+    <vox-series-nav label="विस्तार" previous-text="पिछला" next-text="अगला" next-href="../guides/cluster.html" next-label="अधिक इंस्टेंस चलाएँ"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#what-each-mode-runs"><span>What each mode runs</span>
+    <vox-toc heading="इस पृष्ठ पर">
+      <vox-toc-item href="#what-each-mode-runs"><span>हर मोड क्या चलाता है</span>
       </vox-toc-item>
-      <vox-toc-item href="#what-each-mode-needs"><span>What each mode needs</span>
-        <vox-toc-item slot="children" href="#give-the-scheduler-what-scheduled-jobs-use"><span>Give the scheduler what scheduled jobs use</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#give-non-issuing-modes-the-verification-keys"><span>Give non-issuing modes the verification keys</span></vox-toc-item>
+      <vox-toc-item href="#what-each-mode-needs"><span>हर मोड को क्या चाहिए</span>
+        <vox-toc-item slot="children" href="#give-the-scheduler-what-scheduled-jobs-use"><span>शेड्यूलर को वह दें जिसका शेड्यूल किए गए Jobs उपयोग करते हैं</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#give-non-issuing-modes-the-verification-keys"><span>टोकन जारी न करने वाले मोड को verification कुंजियाँ दें</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#changing-an-instance-s-mode"><span>Changing an instance&#39;s mode</span>
+      <vox-toc-item href="#changing-an-instance-s-mode"><span>किसी इंस्टेंस का मोड बदलना</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -326,23 +286,17 @@ sense among clustered instances that between them run every mode. See
 
       
       <vox-cta-band heading="स्वयं चलाकर देखिए">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console कंटेनर इमेजों के रूप में आता है, जो हर push पर amd64 और arm64 के लिए बनती हैं, और एक अकेली बाइनरी के रूप में भी। इंस्टॉल गाइड आपको खाली होस्ट से एक चालू परिनियोजन तक ले जाते हैं - openvoxserver, openvoxdb, Postgres और कंसोल - कंटेनरों से या पैकेजों से।</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">इंस्टॉल गाइड</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">GitHub पर स्रोत</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">कंटेनर इमेज</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="पूर्ण आकार का स्क्रीनशॉट">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">बंद करें</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -351,18 +305,18 @@ sense among clustered instances that between them run every mode. See
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">सिंहावलोकन</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">स्रोत</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">इंस्टॉल गाइड</a>
       </vox-footer-column>
       <vox-footer-column heading="क्षमताएँ">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">वर्गीकरण</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">ऑर्केस्ट्रेशन</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">पैचिंग</a>
         <a href="../features/security.html">सुरक्षा</a>
         <a href="../features/access-control.html">पहुँच नियंत्रण</a>
         <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/scaling.html">विस्तार</a>
         </vox-footer-column>
       
       <vox-footer-column heading="भाषा">

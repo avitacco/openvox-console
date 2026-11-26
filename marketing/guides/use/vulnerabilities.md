@@ -53,6 +53,8 @@ an error naming the setting.
    a credential field empty when editing to keep the stored one.
 3. Enable it.
 
+![](shot:vulnerability-providers)
+
 It syncs straight away and then on a schedule, hourly by default for OSV.
 Findings refresh when a provider syncs, not at every Puppet run.
 

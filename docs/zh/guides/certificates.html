@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="zh" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Sign, revoke and clean node certificates from the console, and what each does to a connected node."/>
+    <meta name="description" content="从控制台对 Node 证书进行签名、吊销和清理，以及每种操作对已连接 Node 的影响。"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Manage node certificates - OpenVox Console</title>
+    <title>管理 Node 证书 - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">指南</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,238 +104,190 @@
       <a href="../features/classification.html">分类</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">编排</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">补丁管理</a>
       <a href="../features/security.html">安全</a>
       <a href="../features/access-control.html">访问控制</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">AI 代理</a>
+      <a href="../features/scaling.html">扩展</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="指南" toggle-label="所有指南">
+    <vox-sidenav-group heading="安装">
+      <vox-sidenav-item href="../guides/plan.html"><span>规划部署</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>使用容器安装</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>从软件包和二进制文件安装</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes" open="">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html" current="" aria-current="page"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>添加 Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html" current="" aria-current="page"><span>管理 Node 证书</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>移除 Node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>保持 Node 代理为最新</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
-      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="扩展">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>运行模式</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>运行更多实例</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="使用">
+      <vox-sidenav-item href="../guides/classify.html"><span>为 Nodes 分类</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy 代码</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>运行 Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>运行 Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>计划 Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>用户、角色与令牌</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>跟踪漏洞</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>查找并应用缺失的更新</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>在没有代理的主机上运行 Tasks</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>运行代码中的 Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>让 AI 代理使用控制台</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="运维">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>故障切换到备用数据库</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>轮换令牌签名密钥</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>将容器数据库升级到 Postgres 18</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
     <p class="guide-eyebrow">Nodes</p>
-    <h1 class="guide-title vox-ts-xxl">Manage node certificates</h1>
-    <p class="guide-summary">Sign, revoke and clean node certificates from the console, and what each does to a connected node.</p>
+    <h1 class="guide-title vox-ts-xxl">管理 Node 证书</h1>
+    <p class="guide-summary">从控制台对 Node 证书进行签名、吊销和清理，以及每种操作对已连接 Node 的影响。</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>Every node&#39;s identity is a certificate from openvoxserver&#39;s CA. With the
-certificate-admin credential configured, the console&#39;s <strong>Nodes</strong> page
-shows each certificate&#39;s state and lets you act on it.</p>
-<h2 id="turn-certificate-management-on">Turn certificate management on</h2>
-<p>Certificate management needs the certificate-admin credential, issued
-during installation. Both install guides cover issuing it. The console
-uses it when all four settings are present:</p>
+<p>每个 Node 的身份都是 openvoxserver 的 CA 签发的一张证书。配置了证书管理员凭据后，控制台的 <strong>Nodes</strong> 页面会显示每张证书的状态，并允许你对其进行操作。</p>
+<h2 id="turn-certificate-management-on">开启证书管理</h2>
+<p>证书管理需要在安装期间签发的证书管理员凭据。两份安装指南都介绍了如何签发它。当以下四项设置全部存在时，控制台就会使用它：</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Setting</th>
-<th>What it is</th>
+<th>设置</th>
+<th>说明</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>CONSOLE_CA_CLIENT_URL</code></td>
-<td>openvoxserver&#39;s address, as the console reaches it</td>
+<td>openvoxserver 的地址（控制台访问它所用）</td>
 </tr>
 <tr>
 <td><code>CONSOLE_CA_CLIENT_CERT_FILE</code></td>
-<td>the credential&#39;s certificate</td>
+<td>该凭据的证书</td>
 </tr>
 <tr>
 <td><code>CONSOLE_CA_CLIENT_KEY_FILE</code></td>
-<td>its private key</td>
+<td>其私钥</td>
 </tr>
 <tr>
 <td><code>CONSOLE_CA_CLIENT_CA_FILE</code></td>
-<td>the CA bundle, to verify openvoxserver</td>
+<td>CA 证书包，用于验证 openvoxserver</td>
 </tr>
 </tbody>
 </table></div>
-<p>With any one unset, every node&#39;s certificate state reads <code>unknown</code> and
-the rest of the console works as usual.</p>
-<vox-callout variant="warning" heading="Warning"><p>The credential is full CA admin: anything that can use it can sign,
-revoke and clean <em>any</em> node&#39;s certificate. openvoxserver has no
-narrower variant. Keep its key readable only by the console.</p>
+<p>只要其中任何一项未设置，每个 Node 的证书状态都会显示为 <code>unknown</code>，控制台的其余部分照常工作。</p>
+<vox-callout variant="warning" heading="警告"><p>该凭据拥有完整的 CA 管理员权限：任何能够使用它的东西都可以签名、吊销和清理<em>任何</em> Node 的证书。openvoxserver 没有权限更窄的变体。请确保其密钥只有控制台可以读取。</p>
 </vox-callout>
-<h2 id="decide-who-may-act-on-certificates">Decide who may act on certificates</h2>
-<p>Two permissions are involved, and they are deliberately far apart:</p>
+<h2 id="decide-who-may-act-on-certificates">决定谁可以操作证书</h2>
+<p>涉及两项权限，而且它们被有意设计得相距甚远：</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Permission</th>
-<th>Allows</th>
+<th>权限</th>
+<th>允许</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>nodes:read</code></td>
-<td>seeing each node and its certificate state</td>
+<td>查看每个 Node 及其证书状态</td>
 </tr>
 <tr>
 <td><code>nodes:certs:manage</code></td>
-<td>signing, revoking and cleaning certificates</td>
+<td>对证书进行签名、吊销和清理</td>
 </tr>
 </tbody>
 </table></div>
-<p>Granting <code>nodes:certs:manage</code> is equivalent to giving shell access to the
-CA: there is no way to allow signing but not revoking, or one node but
-not another. Give it to specific trusted operators, not to everyone who
-needs to see node status.</p>
-<h3 id="letting-a-team-sign-its-own-nodes">Letting a team sign its own nodes</h3>
-<p>A role granted on particular node groups can act only on certificates
-of nodes in those groups - see
-<a href="access.html">Users, roles and tokens</a>. A new node waiting to be signed
-has never run Puppet, so it has no facts and is in no group&#39;s rule.
-For a team to sign it, pin its name to the team&#39;s group first:</p>
+<p>授予 <code>nodes:certs:manage</code> 等同于授予 CA 的 shell 访问权限：无法做到只允许签名而不允许吊销，也无法只允许某个 Node 而不允许另一个。请只把它授予特定的可信操作员，而不是每个需要查看 Node 状态的人。</p>
+<h3 id="letting-a-team-sign-its-own-nodes">让团队为自己的 Nodes 签名</h3>
+<p>在特定 Node 组上被授予的角色，只能对这些组中的 Nodes 的证书进行操作——参见<a href="access.html">用户、角色与令牌</a>。等待签名的新 Node 从未运行过 Puppet，因此没有 Facts，也不在任何组的规则中。要让某个团队为它签名，请先把它的名称固定到该团队的组：</p>
 <ol>
-<li>Open <strong>Groups</strong> and the team&#39;s group. The group must sit directly
-under <strong>All Nodes</strong>; a pin in a deeper group counts only if the node
-is pinned to each group above it as well.</li>
-<li>Under <strong>Pinned nodes</strong>, add the node&#39;s name exactly as it will
-enrol, and save. This needs <code>classifier:write</code>.</li>
-<li>The team&#39;s <code>nodes:certs:manage</code> holders now see the request on the
-<strong>Nodes</strong> page and can sign it.</li>
+<li>打开<strong>组</strong>以及该团队的组。该组必须直接位于 <strong>All Nodes</strong> 之下；在更深层的组中，只有当该 Node 也被固定到其上层的每个组时，固定才有效。</li>
+<li>在<strong>固定的 Nodes</strong> 下，按该 Node 注册时将使用的名称原样添加，然后保存。这需要 <code>classifier:write</code>。</li>
+<li>该团队中持有 <code>nodes:certs:manage</code> 的人现在可以在 <strong>Nodes</strong> 页面上看到该请求，并为其签名。</li>
 </ol>
-<p>Once the node has run Puppet, its facts place it in groups as usual
-and the pin can be removed. Anyone whose role is granted on
-<strong>All Nodes</strong> signs any request, as before.</p>
-<h2 id="sign-revoke-or-clean">Sign, revoke or clean</h2>
-<p>On the <strong>Nodes</strong> page, each node&#39;s certificate state is one of
-<code>requested</code>, <code>signed</code>, <code>revoked</code> or <code>unknown</code>, and the actions offered
-follow from it:</p>
+<p>一旦该 Node 运行过 Puppet，其 Facts 就会照常把它归入各组，届时即可移除该固定。与以前一样，角色在 <strong>All Nodes</strong> 上被授予的任何人都可以为任何请求签名。</p>
+<h2 id="sign-revoke-or-clean">签名、吊销或清理</h2>
+<p>在 <strong>Nodes</strong> 页面上，每个 Node 的证书状态是 <code>requested</code>、<code>signed</code>、<code>revoked</code> 或 <code>unknown</code> 之一，可用的操作取决于该状态：</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Action</th>
-<th>Available when</th>
+<th>操作</th>
+<th>可用条件</th>
 <th>它能做什么</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>Sign</strong></td>
+<td><strong>签名</strong></td>
 <td><code>requested</code></td>
-<td>Issues the node&#39;s certificate, so it can authenticate</td>
+<td>签发该 Node 的证书，使其能够进行认证</td>
 </tr>
 <tr>
-<td><strong>Revoke</strong></td>
+<td><strong>吊销</strong></td>
 <td><code>signed</code></td>
-<td>Stops the certificate being accepted anywhere, for good</td>
+<td>使该证书在任何地方都永久不再被接受</td>
 </tr>
 <tr>
-<td><strong>Clean</strong></td>
-<td>any known state</td>
-<td>Revokes the certificate if needed, then removes the CA&#39;s record of the certname entirely</td>
+<td><strong>清理</strong></td>
+<td>任何已知状态</td>
+<td>必要时先吊销证书，然后彻底删除 CA 中该 certname 的记录</td>
 </tr>
 </tbody>
 </table></div>
-<p>Clean is what to use before a node enrolls again under the same name: once
-the record is gone, the certname can submit a fresh request.</p>
-<p>An action the CA refuses, such as signing a certificate that is not
-waiting to be signed, fails with the reason and changes nothing. Each
-completed action is written to the audit log as
-<code>node.certificate.signed</code>, <code>node.certificate.revoked</code> or
-<code>node.certificate.cleaned</code>.</p>
-<h2 id="what-revocation-does-to-a-connected-node">What revocation does to a connected node</h2>
-<p>A node revoked or cleaned through the console is cut off at once. Every
-console instance is told, and whichever one holds the node&#39;s connection
-closes it. Each instance also fetches the CA&#39;s current revocation list
-first, so the node cannot simply reconnect.</p>
-<p>Certificates revoked outside the console, with
-<code>puppetserver ca revoke</code> on the CA host, are caught too: each instance
-re-reads the revocation list every minute, and drops any live connection
-it now revokes.</p>
-<p>The revocation list comes from one of two places:</p>
+<p>在 Node 以相同名称重新注册之前，应使用「清理」：记录一旦删除，该 certname 就可以提交新的请求。</p>
+<p>CA 拒绝的操作，例如为一个并未等待签名的证书签名，会失败并给出原因，且不做任何更改。每个完成的操作都会以 <code>node.certificate.signed</code>、<code>node.certificate.revoked</code> 或 <code>node.certificate.cleaned</code> 写入审计日志。</p>
+<h2 id="what-revocation-does-to-a-connected-node">吊销对已连接 Node 的影响</h2>
+<p>通过控制台吊销或清理的 Node 会被立即切断。每个控制台实例都会收到通知，持有该 Node 连接的实例会关闭连接。每个实例还会先获取 CA 当前的吊销列表，因此该 Node 无法简单地重新连接。</p>
+<p>在控制台之外（在 CA 主机上用 <code>puppetserver ca revoke</code>）吊销的证书同样会被发现：每个实例每分钟重新读取一次吊销列表，并断开任何现已被吊销的活动连接。</p>
+<p>吊销列表来自以下两处之一：</p>
 <ul>
-<li>the file named by <code>CONSOLE_NODE_TRANSPORT_CRL_FILE</code>, typically the
-console host&#39;s own Puppet agent&#39;s <code>crl.pem</code>, which the agent keeps
-current. The console refuses to start if this is set but unreadable;</li>
-<li>otherwise, the CA itself, through the certificate-admin credential.</li>
+<li>由 <code>CONSOLE_NODE_TRANSPORT_CRL_FILE</code> 指定的文件，通常是控制台主机自身 Puppet 代理的 <code>crl.pem</code>，代理会使其保持最新。如果设置了该项但文件无法读取，控制台会拒绝启动；</li>
+<li>否则，由 CA 本身通过证书管理员凭据提供。</li>
 </ul>
-<p>With neither, the console logs a warning at startup: a revoked node
-certificate can then still connect.</p>
-<h2 id="infrastructure-certificates">Infrastructure certificates</h2>
-<p>The Nodes page lists every certname the CA knows, which includes the
-console&#39;s own certificates and those of the servers it talks to:
-<code>console</code>, <code>node-transport</code>, <code>console-ca-client</code>, <code>openvoxdb</code> and
-<code>openvoxserver</code> in a default install. These are recognized automatically
-and hidden by default. <strong>Show infrastructure certs</strong> reveals them,
-marked, and revoking or cleaning one asks for confirmation naming what
-would break.</p>
-<h2 id="retire-the-certificate-admin-credential">Retire the certificate-admin credential</h2>
-<p>Because it is full CA admin, clean the credential as soon as it is no
-longer needed, for example when a console instance is decommissioned. On
-the CA host:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo /opt/puppetlabs/bin/puppetserver ca clean --certname console-ca-client
+<p>如果两者都没有，控制台会在启动时记录一条警告：此时被吊销的 Node 证书仍然可以连接。</p>
+<h2 id="infrastructure-certificates">基础设施证书</h2>
+<p>Nodes 页面列出 CA 已知的每个 certname，其中包括控制台自己的证书以及与它通信的服务器的证书：在默认安装中是 <code>console</code>、<code>node-transport</code>、<code>console-ca-client</code>、<code>openvoxdb</code> 和 <code>openvoxserver</code>。这些证书会被自动识别并默认隐藏。<strong>显示基础设施证书</strong>会把它们带标记地显示出来，吊销或清理其中任何一张时，都会要求你确认，并指出会导致什么出问题。</p>
+<h2 id="retire-the-certificate-admin-credential">停用证书管理员凭据</h2>
+<p>由于它拥有完整的 CA 管理员权限，一旦不再需要，请立即清理该凭据，例如在某个控制台实例退役时。在 CA 主机上执行：</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo /opt/puppetlabs/bin/puppetserver ca clean --certname console-ca-client
 </code></vox-code-block>
-<p>Then remove the four <code>CONSOLE_CA_CLIENT_*</code> settings from every console
-still configured with it. A console still holding the cleaned credential
-simply reports every certificate as <code>unknown</code>; nothing else stops working.</p>
+<p>然后从每个仍在使用该凭据的控制台中删除四项 <code>CONSOLE_CA_CLIENT_*</code> 设置。仍持有已清理凭据的控制台只会把每张证书都报告为 <code>unknown</code>；其他功能都不会停止工作。</p>
 
     </div>
 
-    <vox-series-nav label="Nodes" previous-text="Previous" next-text="Next" previous-href="../guides/add.html" previous-label="Add nodes" next-href="../guides/remove.html" next-label="Remove a node"></vox-series-nav>
+    <vox-series-nav label="Nodes" previous-text="上一篇" next-text="下一篇" previous-href="../guides/add.html" previous-label="添加 Nodes" next-href="../guides/remove.html" next-label="移除 Node"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#turn-certificate-management-on"><span>Turn certificate management on</span>
+    <vox-toc heading="本页内容">
+      <vox-toc-item href="#turn-certificate-management-on"><span>开启证书管理</span>
       </vox-toc-item>
-      <vox-toc-item href="#decide-who-may-act-on-certificates"><span>Decide who may act on certificates</span>
-        <vox-toc-item slot="children" href="#letting-a-team-sign-its-own-nodes"><span>Letting a team sign its own nodes</span></vox-toc-item>
+      <vox-toc-item href="#decide-who-may-act-on-certificates"><span>决定谁可以操作证书</span>
+        <vox-toc-item slot="children" href="#letting-a-team-sign-its-own-nodes"><span>让团队为自己的 Nodes 签名</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#sign-revoke-or-clean"><span>Sign, revoke or clean</span>
+      <vox-toc-item href="#sign-revoke-or-clean"><span>签名、吊销或清理</span>
       </vox-toc-item>
-      <vox-toc-item href="#what-revocation-does-to-a-connected-node"><span>What revocation does to a connected node</span>
+      <vox-toc-item href="#what-revocation-does-to-a-connected-node"><span>吊销对已连接 Node 的影响</span>
       </vox-toc-item>
-      <vox-toc-item href="#infrastructure-certificates"><span>Infrastructure certificates</span>
+      <vox-toc-item href="#infrastructure-certificates"><span>基础设施证书</span>
       </vox-toc-item>
-      <vox-toc-item href="#retire-the-certificate-admin-credential"><span>Retire the certificate-admin credential</span>
+      <vox-toc-item href="#retire-the-certificate-admin-credential"><span>停用证书管理员凭据</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -345,23 +297,17 @@ simply reports every certificate as <code>unknown</code>; nothing else stops wor
 
       
       <vox-cta-band heading="自己动手运行">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console 以容器镜像形式发布，每次 push 都会构建 amd64 和 arm64 版本，同时也提供单个二进制文件。安装指南将带你从一台空主机走到一套可用的部署——openvoxserver、openvoxdb、Postgres 和控制台——可以用容器，也可以用软件包。</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">安装指南</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">GitHub 上的源码</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">容器镜像</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="全尺寸截图">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">关闭</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -370,18 +316,18 @@ simply reports every certificate as <code>unknown</code>; nothing else stops wor
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">概览</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">源码</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">安装指南</a>
       </vox-footer-column>
       <vox-footer-column heading="功能">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">分类</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">编排</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">补丁管理</a>
         <a href="../features/security.html">安全</a>
         <a href="../features/access-control.html">访问控制</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">AI 代理</a>
+        <a href="../features/scaling.html">扩展</a>
         </vox-footer-column>
       
       <vox-footer-column heading="语言">

@@ -33,10 +33,10 @@ sudo dnf install -y https://yum.voxpupuli.org/openvox8-release-el-9.noarch.rpm
 sudo dnf install -y openvox-server
 ```
 
-Installing the package **already creates the CA and this server's own
-certificate**, issued for the host's certname, normally its fully
-qualified name. In the common case there is nothing more to do than start
-it:
+The package does not create the CA itself. Its **first start creates the
+CA and this server's own certificate**, issued for the host's certname,
+normally its fully qualified name. In the common case there is nothing
+more to do than start it:
 
 ```sh
 sudo systemctl enable --now puppetserver
@@ -48,6 +48,25 @@ sudo systemctl enable --now puppetserver
 > stops with "Existing file at .../ca_crt.pem". Deleting those files as
 > the message suggests destroys your CA and every certificate it has ever
 > issued, including every enrolled node's.
+
+### Let the CA sign alternative names
+
+The console's node transport certificate, and this server's own if you
+reissue it below, carry more than one name. Out of the box the CA refuses
+to sign such a request and leaves it waiting, so allow it once. In
+`/etc/puppetlabs/puppetserver/conf.d/ca.conf`, add the setting inside the
+`certificate-authority` block:
+
+```text
+certificate-authority: {
+    allow-subject-alt-names: true
+    ...
+}
+```
+
+```sh
+sudo systemctl restart puppetserver
+```
 
 ### Check its certificate's names
 
@@ -115,10 +134,18 @@ sudo systemctl enable --now postgresql
 ```
 
 ```sh tab="RHEL, Rocky and AlmaLinux"
-sudo dnf install -y postgresql-server
+sudo dnf install -y postgresql-server postgresql-contrib
 sudo postgresql-setup --initdb
+# Accept passwords over local connections, which are refused by the
+# default "ident" rules, and store passwords to match.
+sudo sed -i -E 's/^(host .*)(ident)$/\1scram-sha-256/' /var/lib/pgsql/data/pg_hba.conf
+echo "password_encryption = 'scram-sha-256'" | sudo tee -a /var/lib/pgsql/data/postgresql.conf
 sudo systemctl enable --now postgresql
 ```
+
+On RHEL and its rebuilds, `pg_trgm` below comes from `postgresql-contrib`,
+and the password change has to come before the users are created: a
+password stored before it cannot be checked by the new rules.
 
 ```sh
 sudo -u postgres createuser --pwprompt puppetdb
@@ -195,11 +222,20 @@ sudo dnf install -y openvoxdb-termini
 
 ### Check it is running
 
+openvoxdb's HTTPS port insists on a client certificate, so ask with the
+host's own. Without one, the reply is `certificate required`:
+
 ```sh
-curl -ksS https://<openvoxdb host>:8081/status/v1/simple
+H=$(hostname -f)
+sudo curl -sS --cert /etc/puppetlabs/puppet/ssl/certs/$H.pem \
+  --key /etc/puppetlabs/puppet/ssl/private_keys/$H.pem \
+  --cacert /etc/puppetlabs/puppet/ssl/certs/ca.pem \
+  https://$H:8081/status/v1/simple
 ```
 
-The reply is `running`.
+The reply is `running`. The log may report that "the read-database user
+is not configured properly". That is about a separate read-only user
+this guide does not set up, and openvoxdb runs without one.
 
 ## Create the console's database
 
@@ -213,18 +249,26 @@ sudo -u postgres createdb --owner=console console
 ```
 
 If the console will run on a different host, Postgres also has to listen
-on the network. Debian and Ubuntu listen on `localhost` only, so a remote
-connection is refused even though `pg_isready` passes locally:
+on the network. It listens on `localhost` only by default, so a remote
+connection is refused even though `pg_isready` passes locally. Allow the
+console's host or subnet, adjusting the address range:
 
-```sh
+```sh tab="Debian and Ubuntu"
 sudo -u postgres psql -c "ALTER SYSTEM SET listen_addresses = '*';"
-# allow the console's host or subnet - adjust the address range:
 echo 'host console console 10.0.0.0/24 scram-sha-256' \
   | sudo tee -a /etc/postgresql/*/main/pg_hba.conf
 sudo systemctl restart postgresql@*-main.service
 ```
 
-Check the console's role can connect, from the console's host:
+```sh tab="RHEL, Rocky and AlmaLinux"
+sudo -u postgres psql -c "ALTER SYSTEM SET listen_addresses = '*';"
+echo 'host console console 10.0.0.0/24 scram-sha-256' \
+  | sudo tee -a /var/lib/pgsql/data/pg_hba.conf
+sudo systemctl restart postgresql
+```
+
+Check the console's role can connect, from the console's host (`psql`
+comes with the `postgresql-client` package there):
 
 ```sh
 PGPASSWORD='<password>' psql -h <postgres host> -U console -d console -c 'select 1;'
@@ -238,7 +282,13 @@ PGPASSWORD='<password>' psql -h <postgres host> -U console -d console -c 'select
 
 The console needs two certificates from the CA, and optionally a third.
 Generate them on the openvoxserver host, then copy them to the console's
-host, into `/etc/openvox-console/`.
+host, into `/etc/openvox-console/`. Create that directory first, on the
+console's host, with the user the console will run as:
+
+```sh
+sudo useradd --system --home-dir /nonexistent --shell /usr/sbin/nologin openvox-console
+sudo install -d -m 0750 -o root -g openvox-console /etc/openvox-console
+```
 
 ### The openvoxdb client certificate
 
@@ -247,6 +297,8 @@ This is how the console authenticates to openvoxdb:
 ```sh
 sudo /opt/puppetlabs/bin/puppetserver ca generate --certname console
 ```
+
+<!-- include: generate-error-note.md -->
 
 It writes three files the console needs. Copy them across under these
 names:
@@ -333,13 +385,8 @@ sudo install -m 0755 bin/console /usr/local/bin/console
 
 ## Configure the console
 
-The console is configured with environment variables only. Create a user
-for it, and a configuration file only that user can read:
-
-```sh
-sudo useradd --system --home-dir /nonexistent --shell /usr/sbin/nologin openvox-console
-sudo install -d -m 0750 -o root -g openvox-console /etc/openvox-console
-```
+The console is configured with environment variables only, in a file in
+the `/etc/openvox-console/` directory you created for its certificates.
 
 Six settings are required, and the console refuses to start without them,
 naming the one that is missing. Put them in
@@ -363,8 +410,10 @@ The rest is optional, and each optional feature switches itself off
 rather than blocking startup. For a real deployment, add:
 
 ```ini
-# Where the console listens, and how the outside world reaches it.
-CONSOLE_HTTP_ADDR=:8080
+# Where the console listens, and how the outside world reaches it. It
+# listens on loopback only: the TLS proxy in front of it is the way in.
+# On a host shared with openvoxdb, which holds 8080, use 127.0.0.1:8088.
+CONSOLE_HTTP_ADDR=127.0.0.1:8080
 CONSOLE_BASE_URL=https://console.example.com
 
 # The first admin user, created only while there are no users. The
@@ -466,9 +515,12 @@ start with the value silently empty.
 Finally, make every file readable by the console's user and nobody else:
 
 ```sh
-sudo chown root:openvox-console /etc/openvox-console/*
-sudo chmod 0640 /etc/openvox-console/*
+sudo sh -c 'chown root:openvox-console /etc/openvox-console/* && chmod 0640 /etc/openvox-console/*'
 ```
+
+The `sh -c` matters: your own shell cannot list that directory, so a
+plain `sudo chown ... /etc/openvox-console/*` fails with "No such file
+or directory".
 
 ## Run it under systemd
 
@@ -498,6 +550,8 @@ sudo systemctl daemon-reload
 sudo systemctl enable --now openvox-console
 journalctl -u openvox-console -f
 ```
+
+<!-- include: tls-proxy.md -->
 
 <!-- include: first-start.md -->
 
@@ -530,6 +584,21 @@ Environment=ENC_BRIDGE_URL=https://console.example.com
 Environment=ENC_BRIDGE_TOKEN_FILE=/etc/puppetlabs/enc-bridge-token
 ```
 
+enc-bridge checks the console's certificate against the openvoxserver
+host's system certificate store. If the proxy's certificate comes from
+your own CA, add that CA to the store, or classification fails with
+`certificate signed by unknown authority`:
+
+```sh tab="Debian and Ubuntu"
+sudo cp <your CA>.crt /usr/local/share/ca-certificates/
+sudo update-ca-certificates
+```
+
+```sh tab="RHEL, Rocky and AlmaLinux"
+sudo cp <your CA>.crt /etc/pki/ca-trust/source/anchors/
+sudo update-ca-trust
+```
+
 Then point Puppet at it, in the `[server]` section of
 `/etc/puppetlabs/puppet/puppet.conf`, and restart openvoxserver:
 
@@ -551,18 +620,19 @@ function runs `enc-bridge --data`, so it uses the same console address and
 token as classification and needs nothing more configured. It needs an
 enc-bridge built from this version.
 
-The function has to be installed in the openvox gem's own function
-directory, the only place openvoxserver loads a global Hiera function
-from. The directory carries the gem's version, so find it:
+The function has to be installed in Puppet's own function directory,
+the only place openvoxserver loads a global Hiera function from. From
+your build's checkout:
 
 ```sh
-FUNCTIONS=$(ls -d /opt/puppetlabs/server/data/puppetserver/jruby-gems/gems/openvox-[0-9]*/lib/puppet/functions | tail -n 1)
-sudo install -m 0644 openvoxserver-init/console_config_data.rb "$FUNCTIONS/console_config_data.rb"
+sudo install -m 0644 openvoxserver-init/console_config_data.rb \
+  /opt/puppetlabs/puppet/lib/ruby/vendor_ruby/puppet/functions/console_config_data.rb
 ```
 
 Then add it to the **global** Hiera configuration,
 `/etc/puppetlabs/puppet/hiera.yaml`, first in the hierarchy so that
-console data wins. If the file does not exist, this is all of it:
+console data wins. The package installs a placeholder file there; if you
+have not changed it, replace it with this:
 
 ```yaml
 ---
@@ -579,10 +649,10 @@ your own entries after it.
 sudo systemctl restart puppetserver
 ```
 
-Do this again after upgrading the openvox gem: the new version has its own
-directory. If a node's run fails with "Unable to find 'data_hash'
-function named 'console_config_data'", the function is not in the
-directory of the gem that is running. The container image does all of
+Check after upgrading the `openvox-agent` package that the file is still
+there, and install it again if not. If a node's run fails with "Unable to find 'data_hash'
+function named 'console_config_data'", the function is not in that
+directory. The container image does all of
 this itself on every start.
 
 ### Check classification

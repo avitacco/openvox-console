@@ -10,6 +10,8 @@ On the **Nodes** page, choose **Delete** on the node, and confirm. This
 needs the `nodes:manage` permission, on a role whose node groups
 include the node.
 
+![](shot:node-delete-confirm)
+
 Deleting does two things, together:
 
 - it **deactivates the node in openvoxdb**, so it no longer appears in

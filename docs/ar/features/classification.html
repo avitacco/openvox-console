@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a href="../guides/index.html" slot="actions">Guides</a>
+      <a href="../guides/index.html" slot="actions">الأدلة</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,11 +104,11 @@
       <a aria-current="page" href="../features/classification.html">التصنيف</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">التنسيق</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">تثبيت التصحيحات</a>
       <a href="../features/security.html">الأمان</a>
       <a href="../features/access-control.html">التحكم في الوصول</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">وكلاء الذكاء الاصطناعي</a>
+      <a href="../features/scaling.html">التوسّع</a>
       </vox-subnav>
     </div>
 
@@ -129,7 +129,7 @@
   <a class="shot-link" href="../../assets/screenshots/groups-list-light-ar.png">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/groups-list-dark-ar.png" data-theme-dark="../../assets/screenshots/groups-list-dark-ar.png" data-theme-light="../../assets/screenshots/groups-list-light-ar.png"/>
-      <img src="../../assets/screenshots/groups-list-light-ar.png" alt="Node groups listed with their environment, priority and the number of nodes each rule currently matches" width="1440"/>
+      <img src="../../assets/screenshots/groups-list-light-ar.png" alt="قائمة بمجموعات الـ Nodes مع الـ Environment والأولوية وعدد الـ Nodes التي تطابقها كل قاعدة حاليًا" width="1440"/>
     </picture>
     <span class="vox-sr-only">Open full size</span>
   </a>
@@ -138,15 +138,15 @@
 <section class="site-section">
   <h2 class="vox-ts-xxl">أسبقية تقرؤها من الصفحة</h2>
   <div class="vox-prose">
-    <p>Groups form a tree, and a group only ever contains nodes its parent does. When several groups apply to a node, a group always wins over the groups above it, and an explicit priority decides between the rest. If that ever lets a child override a parent with a higher priority, the console says so on the group instead of leaving you to work it out.</p>
+    <p>تشكّل المجموعات شجرة، ولا تحتوي المجموعة إلا على Nodes تحتويها مجموعتها الأم. وحين تنطبق عدة مجموعات على Node، تتغلب المجموعة دائمًا على المجموعات التي تعلوها، وتحسم أولوية صريحة بين البقية. وإذا أتاح ذلك يومًا لمجموعة فرعية أن تتجاوز مجموعة أمًّا ذات أولوية أعلى، تذكر وحدة التحكم ذلك على المجموعة بدل أن تتركك تستنتجه بنفسك.</p>
   </div>
 </section>
 
 <section class="site-section">
-  <h2 class="vox-ts-xxl">Classes from your own code</h2>
+  <h2 class="vox-ts-xxl">فئات من الكود الخاص بك</h2>
   <div class="vox-prose">
-    <p>The console reads the classes your deployed code defines, so a group offers a picker and typed inputs for each class&#39;s parameters instead of free-typed names. A class a group names that no longer exists is flagged, never silently dropped.</p>
-    <p>Groups can also carry configuration data, which nodes read with lookup() ahead of your control repository&#39;s Hiera data — so a value can be set for a group of nodes without a commit.</p>
+    <p>تقرأ وحدة التحكم الفئات التي يعرّفها الكود الذي جرى له deploy، فتعرض المجموعة أداة اختيار وحقول إدخال ذات أنواع لمعاملات كل فئة بدل أسماء تُكتب كتابة حرة. والفئة التي تذكرها مجموعة ولم تعد موجودة يُشار إليها، ولا تُسقط بصمت أبدًا.</p>
+    <p>يمكن للمجموعات أيضًا أن تحمل بيانات تكوين، تقرؤها الـ Nodes باستخدام lookup() قبل بيانات Hiera في مستودع التحكم لديك — فيمكن ضبط قيمة لمجموعة من الـ Nodes دون commit.</p>
   </div>
 </section>
 
@@ -158,37 +158,31 @@
 </vox-step-indicator>
 
 <vox-callout variant="warning" heading="تطابق القواعد بناءً على الـ Facts المُبلَّغ عنها">
-  <p>A node that has never checked in has no facts yet, so no fact-based rule can match it. It is still in All Nodes, and can be pinned to a group directly beneath it if it needs more before its first run.</p>
+  <p>الـ Node الذي لم يسجّل وصوله قط ليست لديه Facts بعد، فلا يمكن لأي قاعدة قائمة على الـ Facts أن تطابقه. لكنه يظل في All Nodes، ويمكن تثبيته في مجموعة تحتها مباشرة إن احتاج إلى المزيد قبل تشغيله الأول.</p>
 </vox-callout>
 
       
       <section class="site-section do-it" aria-labelledby="do-it-heading">
-        <h2 id="do-it-heading" class="vox-ts-xxl">Do it</h2>
+        <h2 id="do-it-heading" class="vox-ts-xxl">نفّذ ذلك</h2>
         <vox-grid min="16rem">
-          <vox-card heading="Classify nodes" href="../guides/classify.html"><p>Decide which classes, parameters and environment each node gets, with a tree of node groups matched by facts or pinned by name.</p></vox-card>
+          <vox-card heading="تصنيف الـ Nodes" href="../guides/classify.html"><p>قرّر الفئات والمعاملات والـ Environment التي يحصل عليها كل Node، بشجرة من مجموعات الـ Nodes تُطابَق بالـ Facts أو تُثبَّت بالاسم.</p></vox-card>
           </vox-grid>
       </section>
       </div>
 
       
       <vox-cta-band heading="شغّله بنفسك">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>يُوزَّع OpenVox Console على هيئة صور حاويات تُبنى لمعماريتَي amd64 وarm64 مع كل push، وعلى هيئة ملف تنفيذي واحد. تأخذك أدلة التثبيت من مضيف فارغ إلى نشر عامل - openvoxserver وopenvoxdb وPostgres ووحدة التحكم - باستخدام الحاويات أو الحزم.</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">أدلة التثبيت</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">الشيفرة المصدرية على GitHub</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">صور الحاويات</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="لقطة الشاشة بالحجم الكامل">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">إغلاق</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -197,18 +191,18 @@
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">نظرة عامة</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">الشيفرة المصدرية</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">أدلة التثبيت</a>
       </vox-footer-column>
       <vox-footer-column heading="الإمكانات">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">التصنيف</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">التنسيق</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">تثبيت التصحيحات</a>
         <a href="../features/security.html">الأمان</a>
         <a href="../features/access-control.html">التحكم في الوصول</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">وكلاء الذكاء الاصطناعي</a>
+        <a href="../features/scaling.html">التوسّع</a>
         </vox-footer-column>
       
       <vox-footer-column heading="اللغة">

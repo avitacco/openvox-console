@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="hi" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="One binary that runs as a single instance or a clustered fleet of web, worker, orchestrator and ENC instances."/>
+    <meta name="description" content="एक बाइनरी जो एकल इंस्टेंस के रूप में या web, worker, orchestrator और ENC इंस्टेंसों के clustered फ़्लीट के रूप में चलती है।"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Scaling - OpenVox Console</title>
+    <title>विस्तार - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a href="../guides/index.html" slot="actions">Guides</a>
+      <a href="../guides/index.html" slot="actions">गाइड</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,65 +104,65 @@
       <a href="../features/classification.html">वर्गीकरण</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">ऑर्केस्ट्रेशन</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">पैचिंग</a>
       <a href="../features/security.html">सुरक्षा</a>
       <a href="../features/access-control.html">पहुँच नियंत्रण</a>
       <a href="../features/ai-agents.html">AI agents</a>
-      <a aria-current="page" href="../features/scaling.html">Scaling</a>
+      <a aria-current="page" href="../features/scaling.html">विस्तार</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
-<vox-hero eyebrow="Scaling" heading="Start with one binary. Scale out when you need to.">
-  <p>The console is one Go binary, and one container image. The same binary runs a single all-in-one instance, or a fleet of instances each doing one job.</p>
+<vox-hero eyebrow="विस्तार" heading="एक बाइनरी से शुरुआत कीजिए। ज़रूरत पड़ने पर विस्तार कीजिए।">
+  <p>कंसोल एक Go बाइनरी है, और एक कंटेनर इमेज। वही बाइनरी एक अकेला all-in-one इंस्टेंस चलाती है, या इंस्टेंसों का एक फ़्लीट जिसमें हर एक एक ही काम करता है।</p>
 </vox-hero>
 
 <section class="site-section">
-  <h2 class="vox-ts-xxl">One instance to begin with</h2>
+  <h2 class="vox-ts-xxl">शुरुआत के लिए एक इंस्टेंस</h2>
   <div class="vox-prose">
-    <p>The console, access control, classification, orchestration and code deployment run in one process by default. There is nothing to wire together, no internal services to keep in step, and one thing to upgrade.</p>
+    <p>कंसोल, पहुँच नियंत्रण, वर्गीकरण, ऑर्केस्ट्रेशन और कोड deploy — डिफ़ॉल्ट रूप से सब एक ही प्रक्रिया में चलते हैं। आपस में जोड़ने को कुछ नहीं, तालमेल में रखने के लिए कोई आंतरिक सेवाएँ नहीं, और अपग्रेड के लिए बस एक चीज़।</p>
   </div>
 </section>
 
 <section class="site-section">
-  <h2 class="vox-ts-xxl">Split it by job when the fleet grows</h2>
+  <h2 class="vox-ts-xxl">फ़्लीट बढ़ने पर इसे काम के अनुसार बाँटिए</h2>
   <div class="vox-prose">
-    <p>One setting chooses what an instance runs, so each part can be scaled and placed on its own. Everything durable lives in Postgres, so any number of each can run at once.</p>
+    <p>एक सेटिंग चुनती है कि कोई इंस्टेंस क्या चलाए, ताकि हर हिस्से का अलग से विस्तार किया और उसे अलग जगह रखा जा सके। हर स्थायी चीज़ Postgres में रहती है, इसलिए हर प्रकार के कितने भी इंस्टेंस एक साथ चल सकते हैं।</p>
   </div>
 </section>
 
 <vox-grid min="220px" gap="lg">
   <vox-card heading="Web">
     <vox-icon slot="icon" name="dashboard"></vox-icon>
-    <span>The console and its API, behind your load balancer.</span>
+    <span>कंसोल और उसका API, आपके load balancer के पीछे।</span>
   </vox-card>
   <vox-card heading="Orchestrator">
     <vox-icon slot="icon" name="orchestrate"></vox-icon>
-    <span>Holds the connections to your nodes and runs the jobs sent down them.</span>
+    <span>आपके Nodes से कनेक्शन सँभालता है और उनके ज़रिये भेजे गए Jobs चलाता है।</span>
   </vox-card>
   <vox-card heading="Worker">
     <vox-icon slot="icon" name="schedule"></vox-icon>
-    <span>Background work, such as vulnerability syncs, done exactly once however many run.</span>
+    <span>पृष्ठभूमि का काम, जैसे कमज़ोरी sync, ठीक एक बार होता है, चाहे कितने भी इंस्टेंस चल रहे हों।</span>
   </vox-card>
   <vox-card heading="ENC">
     <vox-icon slot="icon" name="classifier"></vox-icon>
-    <span>Classification only, running beside your compilers.</span>
+    <span>केवल वर्गीकरण, आपके compilers के पास चलता हुआ।</span>
   </vox-card>
 </vox-grid>
 
 <section class="site-section">
-  <h2 class="vox-ts-xxl">Clustered, and secured by default</h2>
+  <h2 class="vox-ts-xxl">Clustered, और डिफ़ॉल्ट रूप से सुरक्षित</h2>
   <div class="vox-prose">
-    <p>Instances join one cluster over mutual TLS, using the certificates your OpenVox CA already issues. A revoked login or node certificate is refused by every instance at once, and a job started on any instance reaches a node connected to any other.</p>
-    <p>Classification instances attach from the outside in: the connection runs from beside the compilers to the core, so the core never needs a way into that network, and those instances never carry node traffic.</p>
+    <p>इंस्टेंस mutual TLS पर एक cluster में जुड़ते हैं, उन्हीं प्रमाणपत्रों से जो आपका OpenVox CA पहले से जारी करता है। निरस्त लॉगिन या Node प्रमाणपत्र को हर इंस्टेंस एक साथ अस्वीकार कर देता है, और किसी भी इंस्टेंस पर शुरू हुआ Job किसी भी दूसरे इंस्टेंस से जुड़े Node तक पहुँचता है।</p>
+    <p>वर्गीकरण इंस्टेंस बाहर से भीतर की ओर जुड़ते हैं: कनेक्शन compilers के पास से core तक जाता है, इसलिए core को कभी उस नेटवर्क में प्रवेश का रास्ता नहीं चाहिए, और वे इंस्टेंस कभी Node ट्रैफ़िक नहीं ले जाते।</p>
   </div>
 </section>
 
 <section class="site-section">
-  <h2 class="vox-ts-xxl">The whole fleet on one page</h2>
+  <h2 class="vox-ts-xxl">पूरा फ़्लीट एक पृष्ठ पर</h2>
   <div class="vox-prose">
-    <p>The System page asks every instance to describe itself: its run mode, health, uptime and background work, and how it sees each service the console depends on. An instance that should have answered and did not is called out rather than left off.</p>
+    <p>सिस्टम पृष्ठ हर इंस्टेंस से अपना विवरण देने को कहता है: उसका run mode, स्वास्थ्य, uptime और पृष्ठभूमि का काम, और यह कि वह उन सेवाओं को कैसे देखता है जिन पर कंसोल निर्भर है। जिस इंस्टेंस को उत्तर देना चाहिए था और नहीं दिया, उसे सूची से चुपचाप हटाने के बजाय स्पष्ट रूप से बताया जाता है।</p>
   </div>
 </section>
 
@@ -170,45 +170,39 @@
   <a class="shot-link" href="../../assets/screenshots/fleet-status-light-hi.png">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/fleet-status-dark-hi.png" data-theme-dark="../../assets/screenshots/fleet-status-dark-hi.png" data-theme-light="../../assets/screenshots/fleet-status-light-hi.png"/>
-      <img src="../../assets/screenshots/fleet-status-light-hi.png" alt="The System page&#39;s fleet status, listing every running console instance grouped by run mode - an all-in-one instance, a worker, an orchestrator and an ENC instance - with each one&#39;s health, uptime and background work, and the health of every service the console depends on" width="1440"/>
+      <img src="../../assets/screenshots/fleet-status-light-hi.png" alt="सिस्टम पृष्ठ की फ़्लीट स्थिति, जिसमें हर चालू कंसोल इंस्टेंस run mode के अनुसार समूहित सूचीबद्ध है - एक all-in-one इंस्टेंस, एक worker, एक orchestrator और एक ENC इंस्टेंस - हर एक के स्वास्थ्य, uptime और पृष्ठभूमि के काम के साथ, और कंसोल जिन सेवाओं पर निर्भर है उन सबके स्वास्थ्य के साथ" width="1440"/>
     </picture>
     <span class="vox-sr-only">Open full size</span>
   </a>
 </figure>
 
-<vox-callout variant="tip" heading="Grow into it one step at a time">
-  <p>Add a second all-in-one instance first, then split roles out as load demands. Every step can be undone by setting an instance back to running everything.</p>
+<vox-callout variant="tip" heading="एक-एक क़दम बढ़ाते हुए विस्तार कीजिए">
+  <p>पहले एक दूसरा all-in-one इंस्टेंस जोड़िए, फिर भार की माँग के अनुसार ज़िम्मेदारियाँ अलग कीजिए। किसी इंस्टेंस को फिर से सब कुछ चलाने पर सेट करके हर क़दम पलटा जा सकता है।</p>
 </vox-callout>
 
       
       <section class="site-section do-it" aria-labelledby="do-it-heading">
-        <h2 id="do-it-heading" class="vox-ts-xxl">Do it</h2>
+        <h2 id="do-it-heading" class="vox-ts-xxl">स्वयं कीजिए</h2>
         <vox-grid min="16rem">
-          <vox-card heading="Run modes" href="../guides/run-modes.html"><p>What each of the console&#39;s run modes serves and runs, and what each one needs configured.</p></vox-card>
-          <vox-card heading="Run more instances" href="../guides/cluster.html"><p>Cluster a second console instance, split instances into run modes, and place classification next to the compilers.</p></vox-card>
+          <vox-card heading="Run modes" href="../guides/run-modes.html"><p>कंसोल का हर run mode क्या देता है और क्या चलाता है, और हर एक के लिए क्या कॉन्फ़िगर करना ज़रूरी है।</p></vox-card>
+          <vox-card heading="अधिक इंस्टेंस चलाएँ" href="../guides/cluster.html"><p>दूसरे कंसोल इंस्टेंस को cluster में जोड़िए, इंस्टेंसों को run modes में बाँटिए, और वर्गीकरण को compilers के पास रखिए।</p></vox-card>
           </vox-grid>
       </section>
       </div>
 
       
       <vox-cta-band heading="स्वयं चलाकर देखिए">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console कंटेनर इमेजों के रूप में आता है, जो हर push पर amd64 और arm64 के लिए बनती हैं, और एक अकेली बाइनरी के रूप में भी। इंस्टॉल गाइड आपको खाली होस्ट से एक चालू परिनियोजन तक ले जाते हैं - openvoxserver, openvoxdb, Postgres और कंसोल - कंटेनरों से या पैकेजों से।</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">इंस्टॉल गाइड</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">GitHub पर स्रोत</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">कंटेनर इमेज</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="पूर्ण आकार का स्क्रीनशॉट">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">बंद करें</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -217,18 +211,18 @@
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">सिंहावलोकन</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">स्रोत</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">इंस्टॉल गाइड</a>
       </vox-footer-column>
       <vox-footer-column heading="क्षमताएँ">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">वर्गीकरण</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">ऑर्केस्ट्रेशन</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">पैचिंग</a>
         <a href="../features/security.html">सुरक्षा</a>
         <a href="../features/access-control.html">पहुँच नियंत्रण</a>
         <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/scaling.html">विस्तार</a>
         </vox-footer-column>
       
       <vox-footer-column heading="भाषा">

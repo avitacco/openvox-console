@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="ar" dir="rtl"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Run openvoxserver, openvoxdb, both databases and the console with Docker Compose, from an empty host to a console ready for nodes."/>
+    <meta name="description" content="شغّل openvoxserver وopenvoxdb وقاعدتَي البيانات ووحدة التحكم باستخدام Docker Compose، من مضيف فارغ إلى وحدة تحكم جاهزة لاستقبال الـ Nodes."/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Install with containers - OpenVox Console</title>
+    <title>التثبيت باستخدام الحاويات - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">الأدلة</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,88 +104,77 @@
       <a href="../features/classification.html">التصنيف</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">التنسيق</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">تثبيت التصحيحات</a>
       <a href="../features/security.html">الأمان</a>
       <a href="../features/access-control.html">التحكم في الوصول</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">وكلاء الذكاء الاصطناعي</a>
+      <a href="../features/scaling.html">التوسّع</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install" open="">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html" current="" aria-current="page"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="الأدلة" toggle-label="كل الأدلة">
+    <vox-sidenav-group heading="التثبيت" open="">
+      <vox-sidenav-item href="../guides/plan.html"><span>خطّط للنشر</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html" current="" aria-current="page"><span>التثبيت باستخدام الحاويات</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>التثبيت من الحزم والملفات التنفيذية</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>إضافة Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>إدارة شهادات الـ Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>إزالة Node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>إبقاء وكلاء الـ Nodes محدَّثين</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
-      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="التوسّع">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>أوضاع التشغيل</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>تشغيل مزيد من المثيلات</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="الاستخدام">
+      <vox-sidenav-item href="../guides/classify.html"><span>تصنيف الـ Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>deploy الكود</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>تشغيل الـ Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>تشغيل الـ Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>جدولة الـ Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>المستخدمون والأدوار والرموز</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>تتبّع الثغرات</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>العثور على التحديثات الناقصة وتطبيقها</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>تشغيل Tasks على مضيفين بلا وكيل</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>تشغيل Plans من الكود الخاص بك</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>السماح لوكلاء الذكاء الاصطناعي باستخدام وحدة التحكم</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="التشغيل">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>الانتقال إلى قاعدة بيانات احتياطية عند الفشل</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>تدوير مفتاح توقيع الرموز</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>ترقية قواعد بيانات الحاويات إلى Postgres 18</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Install</p>
-    <h1 class="guide-title vox-ts-xxl">Install with containers</h1>
-    <p class="guide-summary">Run openvoxserver, openvoxdb, both databases and the console with Docker Compose, from an empty host to a console ready for nodes.</p>
+    <p class="guide-eyebrow">التثبيت</p>
+    <h1 class="guide-title vox-ts-xxl">التثبيت باستخدام الحاويات</h1>
+    <p class="guide-summary">شغّل openvoxserver وopenvoxdb وقاعدتَي البيانات ووحدة التحكم باستخدام Docker Compose، من مضيف فارغ إلى وحدة تحكم جاهزة لاستقبال الـ Nodes.</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>This guide runs the whole stack from the project&#39;s production compose
-file and published images. Nothing is built on the host. Settle the names
-in <a href="plan.html">Plan a deployment</a> before you start.</p>
-<p>You need a Linux host with Docker Engine and the Compose plugin.</p>
-<h2 id="get-the-compose-file">Get the compose file</h2>
-<p><code>docker-compose.yml</code> in the project repository is the production stack:
-the console, both databases, openvoxserver and openvoxdb. Copy that one
-file to the host, into a directory of its own:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>mkdir -p /opt/openvox-console/secrets /opt/openvox-console/certs
+<p>يشغّل هذا الدليل المنظومة كاملة من ملف compose الإنتاجي للمشروع وصوره المنشورة. لا يُبنى شيء على المضيف. حدّد الأسماء في <a href="plan.html">خطّط للنشر</a> قبل أن تبدأ.</p>
+<p>تحتاج إلى مضيف Linux عليه Docker Engine والإضافة Compose، وإلى مستخدم يستطيع تشغيل <code>docker</code> دون <code>sudo</code>.</p>
+<h2 id="get-the-compose-file">احصل على ملف compose</h2>
+<p>الملف <code>docker-compose.yml</code> في مستودع المشروع هو منظومة الإنتاج: وحدة التحكم وقاعدتا البيانات وopenvoxserver وopenvoxdb. انسخ هذا الملف وحده إلى المضيف، في مجلد خاص به يملكه مستخدمك:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>sudo mkdir -p /opt/openvox-console
+sudo chown &#34;$USER&#34;: /opt/openvox-console
+mkdir -p /opt/openvox-console/secrets /opt/openvox-console/certs
 cd /opt/openvox-console
 curl -fsSLO https://raw.githubusercontent.com/avitacco/openvox-console/main/docker-compose.yml
 </code></vox-code-block>
-<vox-callout variant="warning" heading="Warning"><p>Do not deploy from a checkout of the repository. A checkout also
-carries <code>docker-compose.override.yml</code>, the development stack, which a
-bare <code>docker compose up</code> loads silently: throwaway passwords, open
-database ports and automatic certificate signing. Every command in
-this guide passes <code>-f docker-compose.yml</code> so that only the production
-file is ever read.</p>
+<vox-callout variant="warning" heading="تحذير"><p>لا تنشر من نسخة checkout من المستودع. فنسخة الـ checkout تحمل أيضًا <code>docker-compose.override.yml</code>، وهو منظومة التطوير، الذي يحمّله الأمر <code>docker compose up</code> المجرّد بصمت: كلمات مرور مؤقتة، ومنافذ قواعد بيانات مفتوحة، وتوقيع تلقائي للشهادات. يمرّر كل أمر في هذا الدليل <code>-f docker-compose.yml</code> حتى لا يُقرأ إلا ملف الإنتاج.</p>
 </vox-callout>
-<h2 id="set-the-deployment-s-own-values">Set the deployment&#39;s own values</h2>
-<p>Create <code>.env</code> beside the compose file. The compose file refuses to start
-while any of the first three is unset, so a deployment cannot come up on a
-placeholder:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CONSOLE_BASE_URL=https://console.example.com
+<h2 id="set-the-deployment-s-own-values">اضبط القيم الخاصة بالنشر</h2>
+<p>أنشئ <code>.env</code> بجوار ملف compose. يرفض ملف compose البدء ما دام أيٌّ من المتغيرات الثلاثة الأولى غير مضبوط، فلا يمكن لنشرٍ أن يقلع بقيمة مؤقتة:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>CONSOLE_BASE_URL=https://console.example.com
 CONSOLE_NODE_TRANSPORT_PUBLIC_ADDR=console.example.com:8142
 OPENVOXDB_POSTGRES_PASSWORD=&lt;a strong password&gt;
 
@@ -196,57 +185,50 @@ OPENVOXSERVER_DNS_ALT_NAMES=puppet.example.com
 # The Puppet server a node should enroll against, written into the node
 # install script. Must be one of the names above.
 CONSOLE_PUPPET_SERVER_PUBLIC_ADDR=puppet.example.com
+
+# The first admin user, created only while there are no users. Its
+# password is a secret file, below. Without this name no admin is
+# created and nobody can log in.
+CONSOLE_BOOTSTRAP_ADMIN_USERNAME=admin
+
+# The console&#39;s plain-HTTP port, published on loopback only, so the
+# TLS proxy in front of it is the only way in. See &#34;Put TLS in front of
+# the console&#34; below.
+CONSOLE_HTTP_PORT=127.0.0.1:8080
 </code></vox-code-block>
-<p>Choose which console image to run. <code>CONSOLE_IMAGE_TAG</code> defaults to
-<code>main</code>, which follows the latest commit. For a deployment you want to hold
-still, pin the immutable tag of one commit instead:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CONSOLE_IMAGE_TAG=sha-a1b2c3d
+<p>اختر صورة وحدة التحكم التي ستشغّلها. القيمة الافتراضية لـ <code>CONSOLE_IMAGE_TAG</code> هي <code>main</code>، التي تتبع أحدث commit. أما للنشر الذي تريده ثابتًا فثبّت بدلًا من ذلك الوسم غير القابل للتغيير الخاص بـ commit واحد:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>CONSOLE_IMAGE_TAG=sha-a1b2c3d
 </code></vox-code-block>
-<vox-callout variant="info" heading="Note"><p>Version tags such as <code>v1.2.3</code>, and <code>latest</code>, are published only once a
-release is cut. Until then, asking for <code>latest</code> fails with
-<code>manifest unknown</code>.</p>
+<vox-callout variant="info" heading="ملاحظة"><p>وسوم الإصدارات مثل <code>v1.2.3</code>، وكذلك <code>latest</code>، لا تُنشر إلا عند إصدار نسخة رسمية. وحتى ذلك الحين يفشل طلب <code>latest</code> مع <code>manifest unknown</code>.</p>
 </vox-callout>
-<h2 id="write-the-secrets">Write the secrets</h2>
-<p>Secrets are files in <code>secrets/</code>, one value per file, rather than
-environment variables, so they never appear in <code>docker inspect</code>:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>printf &#39;%s&#39; &#39;&lt;console database password&gt;&#39; &gt; secrets/console_postgres_password
+<h2 id="write-the-secrets">اكتب الأسرار</h2>
+<p>الأسرار ملفات في <code>secrets/</code>، قيمة واحدة لكل ملف، بدل متغيرات البيئة، فلا تظهر أبدًا في <code>docker inspect</code>:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>printf &#39;%s&#39; &#39;&lt;console database password&gt;&#39; &gt; secrets/console_postgres_password
 printf &#39;postgres://console:%s@console-postgres:5432/console?sslmode=disable&#39; &#39;&lt;console database password&gt;&#39; \
   &gt; secrets/console_postgres_dsn
 printf &#39;%s&#39; &#39;&lt;a strong password, 12 characters or more&gt;&#39; &gt; secrets/console_bootstrap_admin_password
 chmod 600 secrets/*
 </code></vox-code-block>
-<p>The console&#39;s database connection string must use the same password as
-<code>console_postgres_password</code>. <code>sslmode=disable</code> is deliberate: the
-Postgres container runs without TLS, and the connection never leaves the
-compose network, so asking for TLS would only make the console fail to
-connect.</p>
-<p>openvoxserver also needs a token file, <code>enc_bridge_token</code>, which you
-fill in once the console is running. Create it empty for now, because
-openvoxserver will not start without it:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>: &gt; secrets/enc_bridge_token
+<p>يجب أن تستخدم سلسلة اتصال قاعدة بيانات وحدة التحكم كلمة المرور نفسها الموجودة في <code>console_postgres_password</code>. والإعداد <code>sslmode=disable</code> مقصود: فحاوية Postgres تعمل دون TLS، والاتصال لا يغادر شبكة compose أبدًا، فطلب TLS لن يؤدي إلا إلى فشل وحدة التحكم في الاتصال.</p>
+<p>يحتاج openvoxserver أيضًا إلى ملف رمز، <code>enc_bridge_token</code>، تملؤه بعد أن تعمل وحدة التحكم. أنشئه فارغًا الآن، لأن openvoxserver لن يبدأ من دونه:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>: &gt; secrets/enc_bridge_token
 </code></vox-code-block>
-<h2 id="start-the-certificate-authority">Start the certificate authority</h2>
-<p>openvoxserver is the CA every other part&#39;s certificate comes from, so it
-starts first and on its own:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml up -d openvoxserver
+<h2 id="start-the-certificate-authority">شغّل المرجع المُصدِر للشهادات</h2>
+<p>openvoxserver هو الـ CA التي تأتي منها شهادة كل جزء آخر، لذا يبدأ أولًا ووحده:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>docker compose -f docker-compose.yml up -d openvoxserver
 </code></vox-code-block>
-<p>Its first start creates the CA, which takes a minute or two. Wait until
-it reports itself running:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml exec openvoxserver \
+<p>يُنشئ تشغيله الأول الـ CA، وهذا يستغرق دقيقة أو دقيقتين. انتظر حتى يبلّغ بأنه يعمل:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>docker compose -f docker-compose.yml exec openvoxserver \
   curl -ksS https://127.0.0.1:8140/status/v1/simple
 </code></vox-code-block>
-<p>The reply is <code>running</code>.</p>
-<vox-callout variant="danger" heading="Caution"><p>The <code>openvoxserver-ca</code> volume <em>is</em> your certificate authority. Losing
-it means every node has to enroll again. Back it up, and never remove it
-with <code>docker compose down -v</code>.</p>
+<p>الرد هو <code>running</code>.</p>
+<vox-callout variant="danger" heading="تنبيه"><p>وحدة التخزين <code>openvoxserver-ca</code> <em>هي</em> المرجع المُصدِر للشهادات لديك. وفقدانها يعني أن على كل Node أن يسجّل من جديد. احفظ نسخة احتياطية منها، ولا تُزِلها أبدًا باستخدام <code>docker compose down -v</code>.</p>
 </vox-callout>
-<h2 id="issue-the-console-s-certificates">Issue the console&#39;s certificates</h2>
-<p>The console needs two certificates from the CA, and optionally a third.
-Issue them inside the running openvoxserver container and copy them
-into <code>certs/</code>, where the compose file mounts them for the console.</p>
-<h3 id="the-openvoxdb-client-certificate">The openvoxdb client certificate</h3>
-<p>This is how the console authenticates to openvoxdb:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml exec openvoxserver \
+<h2 id="issue-the-console-s-certificates">أصدِر شهادات وحدة التحكم</h2>
+<p>تحتاج وحدة التحكم إلى شهادتين من الـ CA، واختياريًا إلى ثالثة. أصدِرها داخل حاوية openvoxserver العاملة وانسخها إلى <code>certs/</code>، حيث يركّبها ملف compose لوحدة التحكم.</p>
+<h3 id="the-openvoxdb-client-certificate">شهادة عميل openvoxdb</h3>
+<p>بهذه الشهادة تصادق وحدة التحكم على نفسها لدى openvoxdb:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>docker compose -f docker-compose.yml exec openvoxserver \
   puppetserver ca generate --certname console
 
 docker compose -f docker-compose.yml cp \
@@ -256,11 +238,11 @@ docker compose -f docker-compose.yml cp \
 docker compose -f docker-compose.yml cp \
   openvoxserver:/etc/puppetlabs/puppet/ssl/certs/ca.pem certs/ca.pem
 </code></vox-code-block>
-<h3 id="the-node-transport-certificate">The node transport certificate</h3>
-<p>Nodes check this certificate when they connect to the console, so it
-must carry the exact name they dial: the host part of
-<code>CONSOLE_NODE_TRANSPORT_PUBLIC_ADDR</code>.</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml exec openvoxserver \
+<vox-callout variant="info" heading="ملاحظة"><p>يبدأ <code>puppetserver ca generate</code> بطباعة <code>Error: Signed certificate console could not be found on the CA</code>. وهذا تحقّقه من أن الاسم غير مستخدم، لا فشلًا. المهم هو الأسطر التي تليه، المنتهية بـ <code>Successfully saved certificate</code>.</p>
+</vox-callout>
+<h3 id="the-node-transport-certificate">شهادة نقل الـ Nodes</h3>
+<p>تتحقق الـ Nodes من هذه الشهادة عند اتصالها بوحدة التحكم، لذا يجب أن تحمل الاسم الذي تتصل به بالضبط: جزء المضيف من <code>CONSOLE_NODE_TRANSPORT_PUBLIC_ADDR</code>.</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>docker compose -f docker-compose.yml exec openvoxserver \
   puppetserver ca generate --certname node-transport \
   --subject-alt-names console.example.com,node-transport
 
@@ -269,41 +251,25 @@ docker compose -f docker-compose.yml cp \
 docker compose -f docker-compose.yml cp \
   openvoxserver:/etc/puppetlabs/puppet/ssl/private_keys/node-transport.pem certs/node-transport-key.pem
 </code></vox-code-block>
-<p>Nodes authenticate back with their own certificates from the same CA,
-which is why the console needs no other file for them.</p>
-<h3 id="the-token-signing-key">The token signing key</h3>
-<p>The console signs its own login tokens with an ES256 key. This one does
-not come from the CA. Generate it on any machine with OpenSSL:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>openssl ecparam -genkey -name prime256v1 -noout -out rbac-signing-key.pem
+<p>تصادق الـ Nodes على نفسها في المقابل بشهاداتها الخاصة الصادرة من الـ CA نفسها، ولهذا لا تحتاج وحدة التحكم إلى أي ملف آخر من أجلها.</p>
+<h3 id="the-token-signing-key">مفتاح توقيع الرموز</h3>
+<p>توقّع وحدة التحكم رموز تسجيل الدخول الخاصة بها بمفتاح ES256. وهذا المفتاح لا يأتي من الـ CA. ولّده على أي جهاز باستخدام OpenSSL:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>openssl ecparam -genkey -name prime256v1 -noout -out rbac-signing-key.pem
 </code></vox-code-block>
-<vox-callout variant="danger" heading="Caution"><p>Back this file up. Losing it invalidates every issued token, which logs
-everyone out; leaking it lets anyone mint tokens. See
-<a href="rotate-signing-key.html">Rotate the token signing key</a> to replace it
-safely.</p>
+<vox-callout variant="danger" heading="تنبيه"><p>احفظ نسخة احتياطية من هذا الملف. ففقدانه يُبطل كل رمز صادر، فيُخرج الجميع من حساباتهم؛ وتسرّبه يتيح لأي أحد سكّ الرموز. راجع <a href="rotate-signing-key.html">تدوير مفتاح توقيع الرموز</a> لاستبداله بأمان.</p>
 </vox-callout>
-<p>Generate it straight into <code>certs/</code>:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>openssl ecparam -genkey -name prime256v1 -noout -out certs/rbac-signing-key.pem
+<p>ولّدها مباشرة داخل <code>certs/</code>:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>openssl ecparam -genkey -name prime256v1 -noout -out certs/rbac-signing-key.pem
 </code></vox-code-block>
-<h3 id="the-certificate-admin-credential-optional">The certificate-admin credential (optional)</h3>
-<p>This credential is what lets the <strong>Nodes</strong> page show certificate status,
-and sign, revoke and clean certificates. Without it the console lists
-only nodes that have already connected or reported. A node waiting for
-its certificate to be signed does not appear at all, because the CA is
-the only part that knows it exists.</p>
-<vox-callout variant="warning" heading="Warning"><p>This credential is full CA admin. openvoxserver gates every CA
-endpoint behind one authorization extension, so a certificate that can
-read statuses can also sign, revoke and clean <em>any</em> node&#39;s certificate.
-There is no read-only variant. Keep it only where the console runs, and
-read <a href="certificates.html">Manage node certificates</a> before issuing it.</p>
+<h3 id="the-certificate-admin-credential-optional">بيانات اعتماد إدارة الشهادات (اختيارية)</h3>
+<p>بيانات الاعتماد هذه هي ما يتيح لصفحة <strong>Nodes</strong> عرض حالة الشهادات، وتوقيع الشهادات وإبطالها وتنظيفها. من دونها لا تسرد وحدة التحكم إلا الـ Nodes التي اتصلت أو أبلغت بالفعل. أما الـ Node الذي ينتظر توقيع شهادته فلا يظهر إطلاقًا، لأن الـ CA هي الجزء الوحيد الذي يعرف بوجوده.</p>
+<vox-callout variant="warning" heading="تحذير"><p>بيانات الاعتماد هذه صلاحية إدارة كاملة على الـ CA. يحمي openvoxserver كل نقطة نهاية للـ CA خلف امتداد تفويض واحد، لذا فإن الشهادة التي تستطيع قراءة الحالات تستطيع أيضًا توقيع شهادة <em>أي</em> Node وإبطالها وتنظيفها. ولا توجد صيغة للقراءة فقط. احتفظ بها حيث تعمل وحدة التحكم فقط، واقرأ <a href="certificates.html">إدارة شهادات الـ Nodes</a> قبل إصدارها.</p>
 </vox-callout>
-<p>Issuing it writes to CA state that a running openvoxserver also writes,
-so stop openvoxserver first and issue it from a one-off container using
-the same volumes. Compose names volumes after the project directory, so
-check the exact names first:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker volume ls | grep openvoxserver
+<p>إصدارها يكتب في حالة الـ CA التي يكتب فيها أيضًا openvoxserver أثناء عمله، لذا أوقف openvoxserver أولًا وأصدِرها من حاوية لمرة واحدة تستخدم وحدات التخزين نفسها. يسمّي Compose وحدات التخزين باسم مجلد المشروع، لذا تحقّق من الأسماء الدقيقة أولًا:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>docker volume ls | grep openvoxserver
 </code></vox-code-block>
-<p>Then, using the two names it printed:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml stop openvoxserver
+<p>ثم، باستخدام الاسمين اللذين طبعهما:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>docker compose -f docker-compose.yml stop openvoxserver
 
 docker run --rm --entrypoint &#34;&#34; \
   -v openvox-console_openvoxserver-ssl:/etc/puppetlabs/puppet/ssl \
@@ -313,169 +279,127 @@ docker run --rm --entrypoint &#34;&#34; \
 
 docker compose -f docker-compose.yml start openvoxserver
 </code></vox-code-block>
-<vox-callout variant="warning" heading="Warning"><p><code>--force</code> is required here. Before signing, the command checks that
-the server is really stopped, and inside a bare container it cannot
-tell, so without <code>--force</code> it prints &#34;Could not determine whether
-Puppet Server is online&#34; and exits having created nothing. Read its
-output rather than assuming it worked.</p>
+<vox-callout variant="warning" heading="تحذير"><p>الخيار <code>--force</code> مطلوب هنا. قبل التوقيع يتحقق الأمر من أن الخادم متوقف فعلًا، وداخل حاوية مجرّدة لا يستطيع معرفة ذلك، لذا فإنه من دون <code>--force</code> يطبع «Could not determine whether Puppet Server is online» ويخرج دون أن يُنشئ شيئًا. اقرأ مخرجاته بدل أن تفترض أنه نجح.</p>
 </vox-callout>
-<p>It reports writing its files under a long <code>.puppetlabs</code> path. Ignore
-that: in the volumes they land in the usual place. Copy them out:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml cp \
+<p>يُفيد بأنه كتب ملفاته تحت مسار <code>.puppetlabs</code> طويل. تجاهل ذلك: ففي وحدات التخزين تستقر الملفات في مكانها المعتاد. انسخها إلى الخارج:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>docker compose -f docker-compose.yml cp \
   openvoxserver:/etc/puppetlabs/puppet/ssl/certs/console-ca-client.pem certs/ca-client-cert.pem
 docker compose -f docker-compose.yml cp \
   openvoxserver:/etc/puppetlabs/puppet/ssl/private_keys/console-ca-client.pem certs/ca-client-key.pem
 </code></vox-code-block>
-<p>Then tell the console where the CA is, in <code>.env</code>. Inside the compose
-network the console reaches openvoxserver by its container name, which
-is always in openvoxserver&#39;s certificate:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CONSOLE_CA_CLIENT_URL=https://openvoxserver:8140
+<p>ثم أخبر وحدة التحكم بمكان الـ CA، في <code>.env</code>. داخل شبكة compose تصل وحدة التحكم إلى openvoxserver باسم حاويته، وهو موجود دائمًا في شهادة openvoxserver:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>CONSOLE_CA_CLIENT_URL=https://openvoxserver:8140
 </code></vox-code-block>
-<p>Confirm the credential is accepted, from inside openvoxserver:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml exec openvoxserver \
+<p>تأكّد من قبول بيانات الاعتماد، من داخل openvoxserver:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>docker compose -f docker-compose.yml exec openvoxserver \
   curl -sS -o /dev/null -w &#39;HTTP %{http_code}\n&#39; \
   --cert /etc/puppetlabs/puppet/ssl/certs/console-ca-client.pem \
   --key /etc/puppetlabs/puppet/ssl/private_keys/console-ca-client.pem \
   --cacert /etc/puppetlabs/puppet/ssl/certs/ca.pem \
   https://openvoxserver:8140/puppet-ca/v1/certificate_statuses/all
 </code></vox-code-block>
-<p><code>HTTP 200</code> means the CA accepts it.</p>
+<p>تعني <code>HTTP 200</code> أن الـ CA تقبلها.</p>
 <h3 id="tasks">Tasks</h3>
-<p>Running Puppet tasks needs nothing more. The console asks openvoxserver
-which tasks your deployed code contains, at
-<code>https://openvoxserver:8140</code>, using the openvoxdb client certificate you
-already issued; openvoxserver lets any certificate from its CA read
-tasks. To turn tasks off, set the address to nothing in <code>.env</code>:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CONSOLE_PUPPET_SERVER_URL=
+<p>لا يحتاج تشغيل Tasks الخاصة بـ Puppet إلى أي شيء إضافي. تسأل وحدة التحكم openvoxserver عن الـ Tasks التي يحتويها الكود الذي جرى له deploy، على <code>https://openvoxserver:8140</code>، باستخدام شهادة عميل openvoxdb التي أصدرتها بالفعل؛ إذ يسمح openvoxserver لأي شهادة من الـ CA الخاصة به بقراءة الـ Tasks. ولإيقاف الـ Tasks، اضبط العنوان على قيمة فارغة في <code>.env</code>:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>CONSOLE_PUPPET_SERVER_URL=
 </code></vox-code-block>
-<p>See <a href="run-jobs.html">Run jobs</a> for running them.</p>
-<h3 id="the-class-list">The class list</h3>
-<p>A node group&#39;s page offers the classes your deployed code defines, with
-their parameters, so they are picked rather than typed. The console
-reads them from openvoxserver over the same connection as tasks.</p>
-<p>openvoxserver does not let any certificate read classes by default. The
-server image in the compose file adds the rule on every start, allowing
-the certificate named <code>console</code> - the openvoxdb client certificate you
-issued above. If you issued it under another name, set that name in
-<code>.env</code>:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CLASS_DISCOVERY_CERTNAME=my-console-cert
+<p>راجع <a href="run-jobs.html">تشغيل الـ Jobs</a> لمعرفة كيفية تشغيلها.</p>
+<h3 id="the-class-list">قائمة الفئات</h3>
+<p>تعرض صفحة مجموعة الـ Nodes الفئات التي يعرّفها الكود الذي جرى له deploy، مع معاملاتها، فتُختار بدل أن تُكتب. تقرؤها وحدة التحكم من openvoxserver عبر الاتصال نفسه المستخدم للـ Tasks.</p>
+<p>لا يسمح openvoxserver افتراضيًا لأي شهادة بقراءة الفئات. وتضيف صورة الخادم في ملف compose القاعدة عند كل بدء، سامحةً للشهادة المسمّاة <code>console</code> - أي شهادة عميل openvoxdb التي أصدرتها أعلاه. وإذا أصدرتها باسم آخر، فاضبط ذلك الاسم في <code>.env</code>:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>CLASS_DISCOVERY_CERTNAME=my-console-cert
 </code></vox-code-block>
-<p>Check it from inside openvoxserver, with the console&#39;s certificate.
-<code>HTTP 200</code> means the list can be read:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml exec openvoxserver \
+<p>تحقّق من ذلك من داخل openvoxserver، بشهادة وحدة التحكم. تعني <code>HTTP 200</code> أن القائمة قابلة للقراءة:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>docker compose -f docker-compose.yml exec openvoxserver \
   curl -sS -o /dev/null -w &#39;HTTP %{http_code}\n&#39; \
   --cert /etc/puppetlabs/puppet/ssl/certs/console.pem \
   --key /etc/puppetlabs/puppet/ssl/private_keys/console.pem \
   --cacert /etc/puppetlabs/puppet/ssl/certs/ca.pem \
   &#39;https://openvoxserver:8140/puppet/v3/environment_classes?environment=production&#39;
 </code></vox-code-block>
-<p><code>HTTP 403</code> means the rule does not name this certificate. Nothing else
-depends on it: the group page then says the list is unavailable, and
-classes are entered by name, as they were before the list existed. See
-<a href="classify.html">Classify nodes</a>.</p>
-<h2 id="start-everything-else">Start everything else</h2>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml pull
+<p>تعني <code>HTTP 403</code> أن القاعدة لا تذكر هذه الشهادة. ولا شيء آخر يعتمد على ذلك: إذ تقول صفحة المجموعة عندئذ إن القائمة غير متاحة، وتُدخَل الفئات بالاسم، كما كانت قبل وجود القائمة. راجع <a href="classify.html">تصنيف الـ Nodes</a>.</p>
+<h2 id="start-everything-else">شغّل كل ما تبقّى</h2>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>docker compose -f docker-compose.yml pull
 docker compose -f docker-compose.yml up -d
 </code></vox-code-block>
-<p>openvoxdb requests its own certificate from the CA on first start. The
-compose file signs exactly that one request automatically, through an
-allow list holding only <code>openvoxdb</code>; nodes are never signed that way.
-openvoxdb then waits for its database, and the console waits for both.
-Watch them come up:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml ps
+<p>يطلب openvoxdb شهادته الخاصة من الـ CA عند تشغيله الأول. ويوقّع ملف compose ذلك الطلب وحده تلقائيًا، عبر قائمة سماح لا تحوي إلا <code>openvoxdb</code>؛ ولا تُوقَّع الـ Nodes بهذه الطريقة أبدًا. ثم ينتظر openvoxdb قاعدة بياناته، وتنتظر وحدة التحكم كليهما. راقبها وهي تعمل:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>docker compose -f docker-compose.yml ps
 </code></vox-code-block>
-<p>Every service reaches <code>healthy</code> within a few minutes.</p>
-<h3 id="if-openvoxdb-never-becomes-healthy">If openvoxdb never becomes healthy</h3>
-<p>openvoxdb gives up if its certificate request is not signed within two
-minutes, and when it does, it writes the failure into its own certificate
-file. Every restart after that sees a certificate file, skips enrolling,
-and fails with <code>No certs found in &#39;ssl-cert&#39; file</code>. It does not recover
-on its own. Reset its identity rather than restarting it:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml rm -sf openvoxdb
+<p>تبلغ كل خدمة الحالة <code>healthy</code> في غضون دقائق قليلة.</p>
+<h3 id="if-openvoxdb-never-becomes-healthy">إذا لم يصبح openvoxdb سليمًا أبدًا</h3>
+<p>يستسلم openvoxdb إذا لم يُوقَّع طلب شهادته في غضون دقيقتين، وحين يفعل يكتب الفشل في ملف شهادته نفسه. فترى كل إعادة تشغيل بعد ذلك ملف شهادة، فتتخطى التسجيل، وتفشل مع <code>No certs found in &#39;ssl-cert&#39; file</code>. ولا يتعافى من تلقاء نفسه. أعِد ضبط هويته بدل إعادة تشغيله:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>docker compose -f docker-compose.yml rm -sf openvoxdb
 docker volume rm openvox-console_openvoxdb-ssl
 docker compose -f docker-compose.yml exec openvoxserver \
   puppetserver ca clean --certname openvoxdb
 docker compose -f docker-compose.yml up -d openvoxdb
 </code></vox-code-block>
-<p>The volume name follows the project directory&#39;s name; check it with
-<code>docker volume ls</code>. Skipping the <code>ca clean</code> leaves the CA holding a signed
-certificate for <code>openvoxdb</code> with no key to match, and the fresh start
-fails with <code>No keypair on disk and CA already has signed certificate</code>.</p>
-<h2 id="log-in-for-the-first-time">Log in for the first time</h2>
-<p>On its first start the console creates its database schema, then creates
-the bootstrap admin while the users table is still empty. Its log shows
-three lines once it is up:</p>
-<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>database migrations up to date
+<p>يتبع اسم وحدة التخزين اسم مجلد المشروع؛ تحقّق منه باستخدام <code>docker volume ls</code>. وتخطّي <code>ca clean</code> يترك الـ CA محتفظة بشهادة موقَّعة لـ <code>openvoxdb</code> بلا مفتاح مطابق لها، فيفشل التشغيل الجديد مع <code>No keypair on disk and CA already has signed certificate</code>.</p>
+<h2 id="put-tls-in-front-of-the-console">ضع TLS أمام وحدة التحكم</h2>
+<p>تقدّم وحدة التحكم واجهة الويب والـ API الخاصين بها عبر HTTP عادي. ويُوصَل إلى عنوان URL الأساسي <code>https://</code> عبر وكيل عكسي (reverse proxy) يُنهي TLS ويمرّر الطلبات إلى وحدة التحكم. أي وكيل عكسي يفي بالغرض. وهنا نستخدم <a href="https://caddyserver.com/">Caddy</a>، على مضيف وحدة التحكم:</p>
+<vox-tabs class="guide-tabs"><vox-tab slot="tab" panel="tab1-debian-and-ubuntu" data-tab-key="debian-and-ubuntu" selected="">Debian وUbuntu</vox-tab><vox-tab-panel name="tab1-debian-and-ubuntu"><vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>sudo apt-get install -y caddy
+</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab1-rhel-rocky-and-almalinux" data-tab-key="rhel-rocky-and-almalinux">RHEL وRocky وAlmaLinux</vox-tab><vox-tab-panel name="tab1-rhel-rocky-and-almalinux"><vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>sudo dnf install -y epel-release
+sudo dnf install -y caddy
+sudo systemctl enable --now caddy
+</code></vox-code-block></vox-tab-panel></vox-tabs><p>وهذا هو عندئذ محتوى <code>/etc/caddy/Caddyfile</code> كاملًا:</p>
+<vox-code-block language="plaintext" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>console.example.com {
+	reverse_proxy 127.0.0.1:8080
+}
+</code></vox-code-block>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>sudo systemctl reload caddy
+</code></vox-code-block>
+<p>إذا كانت وحدة التحكم تستمع على منفذ آخر، لأنها تتشارك المضيف مع openvoxdb، فضع ذلك المنفذ في <code>reverse_proxy</code> بدلًا من ذلك.</p>
+<p>للاسم الذي يمكن تحليله عبر الإنترنت، يحصل Caddy على الشهادة ويجدّدها بنفسه. أما للاسم الداخلي، فأعطِه شهادة من الـ CA الخاصة بك بسطر <code>tls &lt;cert file&gt; &lt;key file&gt;</code> داخل الكتلة. وللتجربة، يجعل <code>tls internal</code> برنامج Caddy يُصدر شهادة من CA محلية خاصة به، تحذّر منها المتصفحات.</p>
+<vox-callout variant="warning" heading="تحذير"><p>لا تمر عبر الوكيل الوسيط إلا واجهة الويب. أما نقل الـ Nodes، على المنفذ 8142، فيحمل TLS الخاص به ويتحقق من شهادة كل Node بنفسه، لذا يجب أن تصل إليه الـ Nodes مباشرة. لا تضعه أبدًا خلف الوكيل الوسيط.</p>
+</vox-callout>
+<h2 id="log-in-for-the-first-time">سجّل الدخول لأول مرة</h2>
+<p>في تشغيلها الأول تُنشئ وحدة التحكم مخطط قاعدة بياناتها، ثم تُنشئ المسؤول التمهيدي ما دام جدول المستخدمين فارغًا. ويُظهر سجلها ثلاثة أسطر حين تصبح جاهزة:</p>
+<vox-code-block language="plaintext" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>database migrations up to date
 node transport ready   addr=[::]:8142
 console ready          addr=:8080
 </code></vox-code-block>
-<p>Check that it reports itself healthy:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -fsS https://console.example.com/health
+<p>تحقّق من أنها تبلّغ عن نفسها بأنها سليمة، أولًا مباشرة على مضيف وحدة التحكم، ثم عبر وكيل TLS الوسيط على عنوان URL الأساسي لها:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>curl -fsS http://127.0.0.1:8080/health
+curl -fsS https://console.example.com/health
 </code></vox-code-block>
-<p>The reply lists each dependency as <code>ok</code>. Then open the console&#39;s base URL,
-log in as the bootstrap admin, and change its password straight away.</p>
-<p>The bootstrap admin&#39;s password must have at least 12 characters and
-must not be the same as its username. If it does not, no admin is
-created and nobody can log in. The log says so:</p>
-<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CONSOLE_BOOTSTRAP_ADMIN_PASSWORD does not meet the account policy, so no administrator was created
+<p>يسرد كل رد كل تبعية بالحالة <code>ok</code>. إذا فشل الثاني وحده، فوحدة التحكم سليمة والوكيل الوسيط ليس كذلك. استخدم في الأول منفذ وحدة التحكم الخاص بها إن نقلتها عن 8080. ثم افتح عنوان URL الأساسي لوحدة التحكم، وسجّل الدخول بصفتك المسؤول التمهيدي، وغيّر كلمة مروره فورًا.</p>
+<p>يجب أن تتكون كلمة مرور المسؤول التمهيدي من 12 حرفًا على الأقل وألّا تطابق اسم المستخدم الخاص به. وإن لم تكن كذلك، فلا يُنشأ أي مسؤول ولا يستطيع أحد تسجيل الدخول. ويذكر السجل ذلك:</p>
+<vox-code-block language="plaintext" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>CONSOLE_BOOTSTRAP_ADMIN_PASSWORD does not meet the account policy, so no administrator was created
 </code></vox-code-block>
-<p>Set a longer password and start the console again. See
-<a href="access.html#passwords-and-lockout">Passwords and lockout</a>.</p>
-<vox-callout variant="info" heading="Note"><p>Once you have logged in and changed the password, remove the bootstrap
-admin settings from the console&#39;s configuration. They are only read
-while the users table is empty, but there is no reason to keep a
-password lying around.</p>
+<p>اضبط كلمة مرور أطول وشغّل وحدة التحكم مجددًا. راجع <a href="access.html#passwords-and-lockout">كلمات المرور والقفل</a>.</p>
+<vox-callout variant="info" heading="ملاحظة"><p>بعد أن تسجّل الدخول وتغيّر كلمة المرور، أزِل إعدادات المسؤول التمهيدي من تهيئة وحدة التحكم. فهي لا تُقرأ إلا ما دام جدول المستخدمين فارغًا، لكن لا داعي لترك كلمة مرور ملقاة هنا وهناك.</p>
 </vox-callout>
-<h2 id="connect-classification">Connect classification</h2>
-<p>openvoxserver asks the console which classes each node gets, through
-Puppet&#39;s standard <code>exec</code> node terminus. A small program, <code>enc-bridge</code>,
-makes that request on openvoxserver&#39;s behalf, and it needs a token to do
-so.</p>
-<h3 id="issue-enc-bridge-a-token">Issue enc-bridge a token</h3>
-<p>A service token carries a fixed set of permissions chosen when it is
-created, with no role involved. Create one allowed only to read
-classification:</p>
+<h2 id="connect-classification">اربط التصنيف</h2>
+<p>يسأل openvoxserver وحدة التحكم عن الفئات التي يحصل عليها كل Node، عبر الـ node terminus القياسي <code>exec</code> في Puppet. ويرسل برنامج صغير، <code>enc-bridge</code>، هذا الطلب نيابة عن openvoxserver، ويحتاج إلى رمز ليفعل ذلك.</p>
+<h3 id="issue-enc-bridge-a-token">أصدِر رمزًا لـ enc-bridge</h3>
+<p>يحمل رمز الخدمة مجموعة ثابتة من الأذونات تُختار عند إنشائه، دون أي دور. أنشئ رمزًا لا يُسمح له إلا بقراءة التصنيف:</p>
 <ol>
-<li>In the console, open <strong>Admin</strong>, then <strong>Service tokens</strong>.</li>
-<li>Under <strong>New service token</strong>, name it <code>enc-bridge</code> and give it only the
-<code>enc:read</code> permission.</li>
-<li>Choose <strong>Create service token</strong>.</li>
+<li>في وحدة التحكم، افتح <strong>الإدارة</strong>، ثم <strong>رموز الخدمة</strong>.</li>
+<li>تحت <strong>رمز خدمة جديد</strong>، سمّه <code>enc-bridge</code> وامنحه الإذن <code>enc:read</code> وحده.</li>
+<li>اختر <strong>إنشاء رمز خدمة</strong>.</li>
 </ol>
-<p>The token is shown <strong>once</strong>. Copy it now.</p>
-<vox-callout variant="tip" heading="Tip"><p>The same through the API, with an access token from an admin login:
-<code>curl -X POST https://console.example.com/api/v1/service-tokens -H &#34;Authorization: Bearer &lt;admin access token&gt;&#34; -H &#39;Content-Type: application/json&#39; -d &#39;{&#34;name&#34;:&#34;enc-bridge&#34;,&#34;permissions&#34;:[&#34;enc:read&#34;]}&#39;</code></p>
+<p>يُعرض الرمز <strong>مرة واحدة</strong>. انسخه الآن.</p>
+<vox-callout variant="tip" heading="نصيحة"><p>والأمر نفسه عبر الـ API، برمز وصول من تسجيل دخول مسؤول: <code>curl -X POST https://console.example.com/api/v1/service-tokens -H &#34;Authorization: Bearer &lt;admin access token&gt;&#34; -H &#39;Content-Type: application/json&#39; -d &#39;{&#34;name&#34;:&#34;enc-bridge&#34;,&#34;permissions&#34;:[&#34;enc:read&#34;]}&#39;</code></p>
 </vox-callout>
-<h3 id="give-openvoxserver-the-token">Give openvoxserver the token</h3>
-<p>The openvoxserver image already contains <code>enc-bridge</code>, the Puppet
-configuration that uses it, and the Hiera function that lets nodes read
-<a href="classify.html#set-configuration-data">configuration data</a>, so all
-it needs is the token. Write it to the
-secret file you created empty earlier:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>printf &#39;%s&#39; &#39;&lt;the enc:read service token&gt;&#39; &gt; secrets/enc_bridge_token
+<h3 id="give-openvoxserver-the-token">أعطِ openvoxserver الرمز</h3>
+<p>تحتوي صورة openvoxserver بالفعل على <code>enc-bridge</code>، وتهيئة Puppet التي تستخدمه، ودالة Hiera التي تتيح للـ Nodes قراءة <a href="classify.html#set-configuration-data">بيانات التكوين</a>، فكل ما تحتاج إليه هو الرمز. اكتبه في ملف السر الذي أنشأته فارغًا من قبل:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>printf &#39;%s&#39; &#39;&lt;the enc:read service token&gt;&#39; &gt; secrets/enc_bridge_token
 </code></vox-code-block>
-<p>openvoxserver does not run as root inside its container, and Compose
-mounts secret files with their ownership on the host. A file readable only
-by your own user is therefore unreadable to openvoxserver, and
-classification fails. Give group 0 read access and protect the directory
-instead:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo chgrp 0 secrets/enc_bridge_token
+<p>لا يعمل openvoxserver بصلاحيات root داخل حاويته، ويركّب Compose ملفات الأسرار بالملكية التي لها على المضيف. لذا فإن الملف الذي لا يقرؤه إلا مستخدمك يكون غير مقروء لـ openvoxserver، فيفشل التصنيف. امنح المجموعة 0 صلاحية القراءة واحمِ المجلد بدلًا من ذلك:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>sudo chgrp 0 secrets/enc_bridge_token
 chmod 640 secrets/enc_bridge_token
 chmod 700 secrets
 </code></vox-code-block>
-<p>Recreate openvoxserver so it reads the new token:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml up -d --force-recreate openvoxserver
+<p>أعِد إنشاء openvoxserver حتى يقرأ الرمز الجديد:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>docker compose -f docker-compose.yml up -d --force-recreate openvoxserver
 </code></vox-code-block>
-<h3 id="check-classification">Check classification</h3>
-<p>Ask enc-bridge directly, as openvoxserver runs it. This checks the
-program, the token, the file permissions and the console&#39;s answer in one
-command:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml exec -u puppet:0 openvoxserver \
+<h3 id="check-classification">تحقّق من التصنيف</h3>
+<p>اسأل enc-bridge مباشرة، بالطريقة التي يشغّله بها openvoxserver. يتحقق هذا من البرنامج والرمز وأذونات الملفات وإجابة وحدة التحكم بأمر واحد:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>docker compose -f docker-compose.yml exec -u puppet:0 openvoxserver \
   /usr/local/bin/enc-bridge &lt;a certname&gt;
 </code></vox-code-block>
-<p><code>{}</code> means classification works and that node matches no group yet.
-Create a node group on the console&#39;s <strong>Groups</strong> page that pins that
-certname, run the same command again, and its classes come back:</p>
-<vox-code-block language="yaml" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>classes:
+<p>تعني <code>{}</code> أن التصنيف يعمل وأن هذا الـ Node لا يطابق أي مجموعة بعد. أنشئ مجموعة Nodes في صفحة <strong>المجموعات</strong> في وحدة التحكم تثبّت هذا الـ certname، ثم شغّل الأمر نفسه مرة أخرى، فتعود فئاته:</p>
+<vox-code-block language="yaml" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>classes:
     ntp:
         servers:
             - time.example.com
@@ -483,34 +407,28 @@ parameters:
     role: prodtest
 environment: production
 </code></vox-code-block>
-<p>An error here is the failure to catch. <code>permission denied</code> means the
-token is not readable by the user openvoxserver runs as, and a 401 means
-the token is wrong or lacks <code>enc:read</code>.</p>
-<vox-callout variant="tip" heading="Tip"><p>If a node&#39;s next Puppet run fails with <code>Could not find class &lt;name&gt;</code>,
-classification is working: the console told openvoxserver to include a
-class your Puppet code does not define yet.</p>
+<p>الخطأ هنا هو الفشل الذي ينبغي اكتشافه. تعني <code>permission denied</code> أن الرمز غير قابل للقراءة من المستخدم الذي يعمل openvoxserver باسمه، وتعني الاستجابة 401 أن الرمز خاطئ أو يفتقر إلى <code>enc:read</code>.</p>
+<vox-callout variant="tip" heading="نصيحة"><p>إذا فشل تشغيل Puppet التالي لـ Node ما بالرسالة <code>Could not find class &lt;name&gt;</code>، فالتصنيف يعمل: لقد طلبت وحدة التحكم من openvoxserver تضمين فئة لا يعرّفها كود Puppet الخاص بك بعد.</p>
 </vox-callout>
-<p>openvoxserver caches environments, so after adding Puppet code, flush its
-cache or the same error persists:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml exec openvoxserver sh -c \
+<p>يخزّن openvoxserver الـ Environments مؤقتًا، لذا بعد إضافة كود Puppet أفرغ ذاكرته المؤقتة وإلا استمر الخطأ نفسه:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>docker compose -f docker-compose.yml exec openvoxserver sh -c \
   &#39;curl -ksS -X DELETE \
      --cert /etc/puppetlabs/puppet/ssl/certs/openvoxserver.pem \
      --key /etc/puppetlabs/puppet/ssl/private_keys/openvoxserver.pem \
      https://127.0.0.1:8140/puppet-admin-api/v1/environment-cache&#39;
 </code></vox-code-block>
-<h2 id="upgrade-later">Upgrade later</h2>
-<p>To move to a newer console, change <code>CONSOLE_IMAGE_TAG</code> (or pull again if
-you follow <code>main</code>) and bring the stack up again. Compose recreates only
-what changed:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml pull
+<h2 id="upgrade-later">الترقية لاحقًا</h2>
+<p>للانتقال إلى إصدار أحدث من وحدة التحكم، غيّر <code>CONSOLE_IMAGE_TAG</code> (أو اسحب الصورة مجددًا إن كنت تتبع <code>main</code>) ثم شغّل المنظومة مرة أخرى. يعيد Compose إنشاء ما تغيّر فقط:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>docker compose -f docker-compose.yml pull
 docker compose -f docker-compose.yml up -d
 </code></vox-code-block>
-<h2 id="check-the-whole-deployment">Check the whole deployment</h2>
+<p>لا ينشر ملف compose منفذ openvoxdb، لذا للفحص أدناه، اسأله من داخل حاويته: <code>docker compose -f docker-compose.yml exec openvoxdb curl -ksS https://127.0.0.1:8081/status/v1/simple</code></p>
+<h2 id="check-the-whole-deployment">تحقّق من النشر بأكمله</h2>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Check</th>
-<th>Expect</th>
+<th>الفحص</th>
+<th>المتوقَّع</th>
 </tr>
 </thead>
 <tbody>
@@ -519,67 +437,68 @@ docker compose -f docker-compose.yml up -d
 <td><code>running</code></td>
 </tr>
 <tr>
-<td><code>curl -ksS https://&lt;openvoxdb&gt;:8081/status/v1/simple</code></td>
+<td><code>curl -ksS https://&lt;openvoxdb&gt;:8081/status/v1/simple</code>، من مكان يستطيع الوصول إليه</td>
 <td><code>running</code></td>
 </tr>
 <tr>
 <td><code>curl -fsS https://console.example.com/health</code></td>
-<td>every dependency <code>ok</code></td>
+<td>كل تبعية <code>ok</code></td>
 </tr>
 <tr>
-<td>The console&#39;s log on start</td>
-<td>migrations, node transport, console ready</td>
+<td>سجل وحدة التحكم عند البدء</td>
+<td>عمليات الترحيل، ونقل الـ Nodes، وجاهزية وحدة التحكم</td>
 </tr>
 <tr>
-<td>Logging in as the bootstrap admin</td>
-<td>succeeds, and the password has been changed</td>
+<td>تسجيل الدخول بصفتك المسؤول التمهيدي</td>
+<td>ينجح، وقد تغيّرت كلمة المرور</td>
 </tr>
 <tr>
-<td>The <strong>Groups</strong> page</td>
-<td>a group matches the nodes you expect</td>
+<td>صفحة <strong>المجموعات</strong></td>
+<td>تطابق مجموعةٌ الـ Nodes التي تتوقعها</td>
 </tr>
 </tbody>
 </table></div>
-<p>Your console is ready for nodes. Continue with
-<a href="add.html">Add nodes</a> to enroll the first one.</p>
+<p>وحدة التحكم لديك جاهزة لاستقبال الـ Nodes. تابع مع <a href="add.html">إضافة Nodes</a> لتسجيل أول Node.</p>
 
     </div>
 
-    <vox-series-nav label="Install" previous-text="Previous" next-text="Next" previous-href="../guides/plan.html" previous-label="Plan a deployment" next-href="../guides/packages.html" next-label="Install from packages and binaries"></vox-series-nav>
+    <vox-series-nav label="التثبيت" previous-text="السابق" next-text="التالي" previous-href="../guides/plan.html" previous-label="خطّط للنشر" next-href="../guides/packages.html" next-label="التثبيت من الحزم والملفات التنفيذية"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#get-the-compose-file"><span>Get the compose file</span>
+    <vox-toc heading="في هذه الصفحة">
+      <vox-toc-item href="#get-the-compose-file"><span>احصل على ملف compose</span>
       </vox-toc-item>
-      <vox-toc-item href="#set-the-deployment-s-own-values"><span>Set the deployment&#39;s own values</span>
+      <vox-toc-item href="#set-the-deployment-s-own-values"><span>اضبط القيم الخاصة بالنشر</span>
       </vox-toc-item>
-      <vox-toc-item href="#write-the-secrets"><span>Write the secrets</span>
+      <vox-toc-item href="#write-the-secrets"><span>اكتب الأسرار</span>
       </vox-toc-item>
-      <vox-toc-item href="#start-the-certificate-authority"><span>Start the certificate authority</span>
+      <vox-toc-item href="#start-the-certificate-authority"><span>شغّل المرجع المُصدِر للشهادات</span>
       </vox-toc-item>
-      <vox-toc-item href="#issue-the-console-s-certificates"><span>Issue the console&#39;s certificates</span>
-        <vox-toc-item slot="children" href="#the-openvoxdb-client-certificate"><span>The openvoxdb client certificate</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#the-node-transport-certificate"><span>The node transport certificate</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#the-token-signing-key"><span>The token signing key</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#the-certificate-admin-credential-optional"><span>The certificate-admin credential (optional)</span></vox-toc-item>
+      <vox-toc-item href="#issue-the-console-s-certificates"><span>أصدِر شهادات وحدة التحكم</span>
+        <vox-toc-item slot="children" href="#the-openvoxdb-client-certificate"><span>شهادة عميل openvoxdb</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#the-node-transport-certificate"><span>شهادة نقل الـ Nodes</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#the-token-signing-key"><span>مفتاح توقيع الرموز</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#the-certificate-admin-credential-optional"><span>بيانات اعتماد إدارة الشهادات (اختيارية)</span></vox-toc-item>
         <vox-toc-item slot="children" href="#tasks"><span>Tasks</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#the-class-list"><span>The class list</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#the-class-list"><span>قائمة الفئات</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#start-everything-else"><span>Start everything else</span>
-        <vox-toc-item slot="children" href="#if-openvoxdb-never-becomes-healthy"><span>If openvoxdb never becomes healthy</span></vox-toc-item>
+      <vox-toc-item href="#start-everything-else"><span>شغّل كل ما تبقّى</span>
+        <vox-toc-item slot="children" href="#if-openvoxdb-never-becomes-healthy"><span>إذا لم يصبح openvoxdb سليمًا أبدًا</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#log-in-for-the-first-time"><span>Log in for the first time</span>
+      <vox-toc-item href="#put-tls-in-front-of-the-console"><span>ضع TLS أمام وحدة التحكم</span>
       </vox-toc-item>
-      <vox-toc-item href="#connect-classification"><span>Connect classification</span>
-        <vox-toc-item slot="children" href="#issue-enc-bridge-a-token"><span>Issue enc-bridge a token</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#give-openvoxserver-the-token"><span>Give openvoxserver the token</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#check-classification"><span>Check classification</span></vox-toc-item>
+      <vox-toc-item href="#log-in-for-the-first-time"><span>سجّل الدخول لأول مرة</span>
       </vox-toc-item>
-      <vox-toc-item href="#upgrade-later"><span>Upgrade later</span>
+      <vox-toc-item href="#connect-classification"><span>اربط التصنيف</span>
+        <vox-toc-item slot="children" href="#issue-enc-bridge-a-token"><span>أصدِر رمزًا لـ enc-bridge</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#give-openvoxserver-the-token"><span>أعطِ openvoxserver الرمز</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#check-classification"><span>تحقّق من التصنيف</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#check-the-whole-deployment"><span>Check the whole deployment</span>
+      <vox-toc-item href="#upgrade-later"><span>الترقية لاحقًا</span>
+      </vox-toc-item>
+      <vox-toc-item href="#check-the-whole-deployment"><span>تحقّق من النشر بأكمله</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -589,23 +508,17 @@ docker compose -f docker-compose.yml up -d
 
       
       <vox-cta-band heading="شغّله بنفسك">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>يُوزَّع OpenVox Console على هيئة صور حاويات تُبنى لمعماريتَي amd64 وarm64 مع كل push، وعلى هيئة ملف تنفيذي واحد. تأخذك أدلة التثبيت من مضيف فارغ إلى نشر عامل - openvoxserver وopenvoxdb وPostgres ووحدة التحكم - باستخدام الحاويات أو الحزم.</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">أدلة التثبيت</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">الشيفرة المصدرية على GitHub</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">صور الحاويات</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="لقطة الشاشة بالحجم الكامل">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">إغلاق</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -614,18 +527,18 @@ docker compose -f docker-compose.yml up -d
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">نظرة عامة</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">الشيفرة المصدرية</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">أدلة التثبيت</a>
       </vox-footer-column>
       <vox-footer-column heading="الإمكانات">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">التصنيف</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">التنسيق</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">تثبيت التصحيحات</a>
         <a href="../features/security.html">الأمان</a>
         <a href="../features/access-control.html">التحكم في الوصول</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">وكلاء الذكاء الاصطناعي</a>
+        <a href="../features/scaling.html">التوسّع</a>
         </vox-footer-column>
       
       <vox-footer-column heading="اللغة">

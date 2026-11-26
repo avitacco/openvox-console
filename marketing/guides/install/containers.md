@@ -8,15 +8,18 @@ This guide runs the whole stack from the project's production compose
 file and published images. Nothing is built on the host. Settle the names
 in [Plan a deployment](plan.html) before you start.
 
-You need a Linux host with Docker Engine and the Compose plugin.
+You need a Linux host with Docker Engine and the Compose plugin, and a
+user that can run `docker` without `sudo`.
 
 ## Get the compose file
 
 `docker-compose.yml` in the project repository is the production stack:
 the console, both databases, openvoxserver and openvoxdb. Copy that one
-file to the host, into a directory of its own:
+file to the host, into a directory of its own, owned by your user:
 
 ```sh
+sudo mkdir -p /opt/openvox-console
+sudo chown "$USER": /opt/openvox-console
 mkdir -p /opt/openvox-console/secrets /opt/openvox-console/certs
 cd /opt/openvox-console
 curl -fsSLO https://raw.githubusercontent.com/avitacco/openvox-console/main/docker-compose.yml
@@ -48,6 +51,16 @@ OPENVOXSERVER_DNS_ALT_NAMES=puppet.example.com
 # The Puppet server a node should enroll against, written into the node
 # install script. Must be one of the names above.
 CONSOLE_PUPPET_SERVER_PUBLIC_ADDR=puppet.example.com
+
+# The first admin user, created only while there are no users. Its
+# password is a secret file, below. Without this name no admin is
+# created and nobody can log in.
+CONSOLE_BOOTSTRAP_ADMIN_USERNAME=admin
+
+# The console's plain-HTTP port, published on loopback only, so the
+# TLS proxy in front of it is the only way in. See "Put TLS in front of
+# the console" below.
+CONSOLE_HTTP_PORT=127.0.0.1:8080
 ```
 
 Choose which console image to run. `CONSOLE_IMAGE_TAG` defaults to
@@ -135,6 +148,8 @@ docker compose -f docker-compose.yml cp \
 docker compose -f docker-compose.yml cp \
   openvoxserver:/etc/puppetlabs/puppet/ssl/certs/ca.pem certs/ca.pem
 ```
+
+<!-- include: generate-error-note.md -->
 
 ### The node transport certificate
 
@@ -314,6 +329,8 @@ The volume name follows the project directory's name; check it with
 certificate for `openvoxdb` with no key to match, and the fresh start
 fails with `No keypair on disk and CA already has signed certificate`.
 
+<!-- include: tls-proxy.md -->
+
 <!-- include: first-start.md -->
 
 <!-- include: enc-token.md -->
@@ -383,5 +400,9 @@ what changed:
 docker compose -f docker-compose.yml pull
 docker compose -f docker-compose.yml up -d
 ```
+
+The compose file does not publish openvoxdb's port, so for the check
+below, ask it from inside its container:
+`docker compose -f docker-compose.yml exec openvoxdb curl -ksS https://127.0.0.1:8081/status/v1/simple`
 
 <!-- include: checklist.md -->

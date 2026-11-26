@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="zh" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Deploy Puppet code from one or more control repositories into the environments openvoxserver compiles from."/>
+    <meta name="description" content="从一个或多个 control 仓库把 Puppet 代码 deploy 到 openvoxserver 用于编译的 Environments 中。"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Deploy code - OpenVox Console</title>
+    <title>Deploy 代码 - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">指南</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,112 +104,101 @@
       <a href="../features/classification.html">分类</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">编排</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">补丁管理</a>
       <a href="../features/security.html">安全</a>
       <a href="../features/access-control.html">访问控制</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">AI 代理</a>
+      <a href="../features/scaling.html">扩展</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="指南" toggle-label="所有指南">
+    <vox-sidenav-group heading="安装">
+      <vox-sidenav-item href="../guides/plan.html"><span>规划部署</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>使用容器安装</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>从软件包和二进制文件安装</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>添加 Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>管理 Node 证书</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>移除 Node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>保持 Node 代理为最新</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
-      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="扩展">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>运行模式</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>运行更多实例</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use" open="">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html" current="" aria-current="page"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="使用" open="">
+      <vox-sidenav-item href="../guides/classify.html"><span>为 Nodes 分类</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html" current="" aria-current="page"><span>Deploy 代码</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>运行 Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>运行 Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>计划 Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>用户、角色与令牌</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>跟踪漏洞</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>查找并应用缺失的更新</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>在没有代理的主机上运行 Tasks</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>运行代码中的 Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>让 AI 代理使用控制台</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="运维">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>故障切换到备用数据库</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>轮换令牌签名密钥</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>将容器数据库升级到 Postgres 18</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Use</p>
-    <h1 class="guide-title vox-ts-xxl">Deploy code</h1>
-    <p class="guide-summary">Deploy Puppet code from one or more control repositories into the environments openvoxserver compiles from.</p>
+    <p class="guide-eyebrow">使用</p>
+    <h1 class="guide-title vox-ts-xxl">Deploy 代码</h1>
+    <p class="guide-summary">从一个或多个 control 仓库把 Puppet 代码 deploy 到 openvoxserver 用于编译的 Environments 中。</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>The console deploys Puppet code from control repositories - a Puppetfile
-and manifests in git - into the environments directory openvoxserver
-reads, using g10k. Each branch of a control repository becomes one
-environment.</p>
-<p>Viewing deploys needs <code>code:read</code>; starting one needs <code>code:deploy</code>.</p>
-<h2 id="turn-code-deployment-on">Turn code deployment on</h2>
-<p>Code deployment stays off until the console knows where g10k is, what to
-deploy, and where to put it:</p>
+<p>控制台使用 g10k，把 control 仓库（git 中的 Puppetfile 和 manifests）中的 Puppet 代码 deploy 到 openvoxserver 读取的 environments 目录中。control 仓库的每个分支都成为一个 Environment。</p>
+<p>查看 deploy 需要 <code>code:read</code>；启动 deploy 需要 <code>code:deploy</code>。</p>
+<h2 id="turn-code-deployment-on">开启代码 deploy</h2>
+<p>在控制台知道 g10k 在哪里、要 deploy 什么以及放到哪里之前，代码 deploy 一直处于关闭状态：</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Setting</th>
-<th>What it is</th>
+<th>设置</th>
+<th>说明</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>CONSOLE_G10K_BIN_PATH</code></td>
-<td>the g10k program. The console&#39;s container image includes it and sets this already</td>
+<td>g10k 程序。控制台的容器镜像已包含它并已设置好此项</td>
 </tr>
 <tr>
 <td><code>CONSOLE_CONTROL_REPO_URL</code></td>
-<td>a single control repository to deploy from</td>
+<td>用于 deploy 的单个 control 仓库</td>
 </tr>
 <tr>
 <td><code>CONSOLE_CODE_SOURCES_PATH</code></td>
-<td>or, instead, a file declaring several (see below)</td>
+<td>或者改用一个声明多个仓库的文件（见下文）</td>
 </tr>
 <tr>
 <td><code>CONSOLE_CODE_DIR_PATH</code></td>
-<td>the directory openvoxserver reads its code from; the console deploys into its <code>environments</code> directory</td>
+<td>openvoxserver 读取代码的目录；控制台会 deploy 到其中的 <code>environments</code> 目录</td>
 </tr>
 <tr>
 <td><code>CONSOLE_CODE_WEBHOOK_SECRET</code></td>
-<td>the secret git host webhooks are signed with</td>
+<td>git 托管平台用来签名 webhook 的密钥</td>
 </tr>
 </tbody>
 </table></div>
-<p><code>CONSOLE_CONTROL_REPO_URL</code> and <code>CONSOLE_CODE_SOURCES_PATH</code> cannot both
-be set: the console refuses to start rather than combine them.</p>
-<p>The console and openvoxserver must share that directory. With packages
-on one host, point <code>CONSOLE_CODE_DIR_PATH</code> at <code>/etc/puppetlabs/code</code> and
-let the console&#39;s user write to its <code>environments</code> directory.</p>
-<h3 id="with-the-container-stack">With the container stack</h3>
-<p>The production compose file passes none of these settings through to the
-console, and does not give it openvoxserver&#39;s code volume. Add both in a
-<code>compose.code.yml</code> beside it:</p>
-<vox-code-block language="yaml" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>services:
+<p><code>CONSOLE_CONTROL_REPO_URL</code> 和 <code>CONSOLE_CODE_SOURCES_PATH</code> 不能同时设置：控制台会拒绝启动，而不是把两者合并。</p>
+<p>控制台和 openvoxserver 必须共享该目录。在一台主机上使用软件包安装时，把 <code>CONSOLE_CODE_DIR_PATH</code> 指向 <code>/etc/puppetlabs/code</code>，并允许控制台的用户写入其中的 <code>environments</code> 目录。</p>
+<h3 id="with-the-container-stack">使用容器堆栈时</h3>
+<p>生产 compose 文件不会把这些设置传递给控制台，也不会把 openvoxserver 的代码卷提供给它。请在旁边新建一个 <code>compose.code.yml</code>，把两者都加进去：</p>
+<vox-code-block language="yaml" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>services:
   console:
     environment:
       CONSOLE_CONTROL_REPO_URL: ${CONSOLE_CONTROL_REPO_URL:?set the control repository}
@@ -224,18 +213,14 @@ secrets:
   code_webhook_secret:
     file: ./secrets/code_webhook_secret
 </code></vox-code-block>
-<p>Then pass it after the main file in every command:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml -f compose.code.yml up -d console
+<p>然后在每条命令中把它放在主文件之后传入：</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>docker compose -f docker-compose.yml -f compose.code.yml up -d console
 </code></vox-code-block>
-<vox-callout variant="info" heading="Note"><p>This combination has not yet been walked through end to end the way
-the install guides have. If a deploy succeeds but openvoxserver does
-not see the code, check that both containers show the same files
-under <code>/etc/puppetlabs/code/environments</code>.</p>
+<vox-callout variant="info" heading="说明"><p>这种组合还没有像安装指南那样被完整地端到端验证过。如果 deploy 成功但 openvoxserver 看不到代码，请检查两个容器在 <code>/etc/puppetlabs/code/environments</code> 下显示的文件是否相同。</p>
 </vox-callout>
-<h2 id="deploy-from-several-control-repositories">Deploy from several control repositories</h2>
-<p>To deploy from more than one repository, declare them in a YAML file and
-point <code>CONSOLE_CODE_SOURCES_PATH</code> at it:</p>
-<vox-code-block language="yaml" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sources:
+<h2 id="deploy-from-several-control-repositories">从多个 control 仓库 deploy</h2>
+<p>要从多个仓库 deploy，请在一个 YAML 文件中声明它们，并让 <code>CONSOLE_CODE_SOURCES_PATH</code> 指向该文件：</p>
+<vox-code-block language="yaml" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sources:
   control:
     remote: git@github.com:org/control-repo.git
     prefix: false        # branch production -&gt; environment production
@@ -246,77 +231,62 @@ point <code>CONSOLE_CODE_SOURCES_PATH</code> at it:</p>
     webhook_secret_file: /etc/openvox-console/team_a_webhook
 </code></vox-code-block>
 <ul>
-<li>A source&#39;s name may contain only lower-case letters, digits and <code>_</code>,
-because it becomes part of environment names.</li>
-<li><code>prefix</code> decides the environment names a source&#39;s branches produce:
-<code>true</code> prefixes them with the source&#39;s name, <code>false</code> or unset leaves
-them bare, and a string is used as the prefix. Two sources may not end
-up with the same prefix, so at most one can be unprefixed; the console
-refuses to start otherwise.</li>
-<li>Each source can have its own deploy key and its own webhook secret.</li>
+<li>来源名称只能包含小写字母、数字和 <code>_</code>，因为它会成为 Environment 名称的一部分。</li>
+<li><code>prefix</code> 决定某个来源的分支所生成的 Environment 名称：<code>true</code> 以来源名称作为前缀，<code>false</code> 或不设置则不加前缀，设为字符串则以该字符串为前缀。两个来源不能得到相同的前缀，因此最多只能有一个不加前缀；否则控制台会拒绝启动。</li>
+<li>每个来源都可以有自己的 deploy key 和自己的 webhook 密钥。</li>
 </ul>
-<vox-callout variant="tip" heading="Tip"><p>A new prefixed source deploys successfully and changes nothing, until
-nodes are classified into its new environment names. Nothing moves
-nodes there for you.</p>
+<vox-callout variant="tip" heading="提示"><p>新增的带前缀来源会 deploy 成功，但不会改变任何东西，直到有 Nodes 被分类到它的新 Environment 名称中。不会有任何机制自动把 Nodes 移过去。</p>
 </vox-callout>
 <h2 id="deploy">Deploy</h2>
-<p>Open <strong>Code</strong>. The <strong>Repositories</strong> tab lists each repository with its
-environments and last deploy; <strong>Deploy</strong> on a repository deploys its
-<code>production</code> branch. <strong>Deploy now</strong> on the <strong>Deploy history</strong> tab does
-the same for the default repository.</p>
-<p>Deploys of the same environment never overlap, however many console
-instances run. Each appears in the deploy history, with who started it,
-and on the <strong>Activity</strong> page.</p>
-<h2 id="deploy-on-every-push">Deploy on every push</h2>
-<p>To deploy whenever a branch is pushed, add a webhook to the repository
-on your git host:</p>
+<p>打开 <strong>Code</strong>。<strong>仓库</strong>标签页列出每个仓库及其 Environments 和最近一次 deploy；在某个仓库上点击 <strong>Deploy</strong> 会 deploy 它的 <code>production</code> 分支。<strong>Deploy 历史</strong>标签页上的<strong>立即 deploy</strong> 对默认仓库执行同样的操作。</p>
+<p>无论运行多少个控制台实例，同一个 Environment 的 deploy 永远不会重叠。每次 deploy 都会出现在 deploy 历史中（附带启动者），也会出现在<strong>活动</strong>页面上。</p>
+<figure class="shot">
+  <a class="shot-link" href="../../assets/screenshots/code-deploys-light-zh.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/code-deploys-dark-zh.png" data-theme-dark="../../assets/screenshots/code-deploys-dark-zh.png" data-theme-light="../../assets/screenshots/code-deploys-light-zh.png"/>
+      <img src="../../assets/screenshots/code-deploys-light-zh.png" alt="代码 deploy 历史，显示来自两个独立 control 仓库的成功 deploy，每条都列出其来源、写入的 Environment、ref、触发者以及运行时间" width="1440"/>
+    </picture>
+    <span class="vox-sr-only">Open full size</span>
+  </a>
+</figure>
+<h2 id="deploy-on-every-push">每次 push 时 deploy</h2>
+<p>要在每次 push 分支时 deploy，请在你的 git 托管平台上为该仓库添加 webhook：</p>
 <ul>
-<li><strong>URL:</strong> <code>https://console.example.com/api/v1/code-deploys/webhook</code>,
-or, for one source among several,
-<code>https://console.example.com/api/v1/code-deploys/webhook/&lt;source name&gt;</code></li>
-<li><strong>Content type:</strong> JSON</li>
-<li><strong>Secret:</strong> the webhook secret for that source</li>
-<li><strong>Events:</strong> pushes</li>
+<li><strong>URL：</strong><code>https://console.example.com/api/v1/code-deploys/webhook</code>，如果是多个来源中的某一个，则为 <code>https://console.example.com/api/v1/code-deploys/webhook/&lt;source name&gt;</code></li>
+<li><strong>Content type：</strong>JSON</li>
+<li><strong>Secret：</strong>该来源的 webhook 密钥</li>
+<li><strong>Events：</strong>pushes</li>
 </ul>
-<p>The console checks each delivery&#39;s signature (the <code>X-Hub-Signature-256</code>
-header) against the secret, and deploys the branch that was pushed.</p>
-<h2 id="read-the-repositories-tab">Read the Repositories tab</h2>
-<p>Each repository shows two node counts, and the gap between them is the
-useful part:</p>
+<p>控制台会根据密钥校验每次投递的签名（<code>X-Hub-Signature-256</code> 请求头），并 deploy 被 push 的分支。</p>
+<h2 id="read-the-repositories-tab">解读仓库标签页</h2>
+<p>每个仓库显示两个 Node 计数，二者之间的差距才是有用的部分：</p>
 <ul>
-<li><strong>Assigned</strong>: nodes classification sends to one of the repository&#39;s
-environments.</li>
-<li><strong>Reporting</strong>: nodes whose latest Puppet run used one of them.</li>
+<li><strong>已分配</strong>：分类将其分配到该仓库某个 Environment 的 Nodes。</li>
+<li><strong>上报中</strong>：最近一次 Puppet 运行使用了其中某个 Environment 的 Nodes。</li>
 </ul>
-<p>Assigned with nothing reporting means code that has deployed but no node
-has run yet. Reporting with nothing assigned means nodes running code no
-group sends them to - usually an environment left behind by a removed
-source, or a node with an <code>environment</code> set in its own <code>puppet.conf</code>.</p>
-<p><strong>Size</strong> is the size of the deployed files, not disk use: g10k shares
-modules between environments, so repositories&#39; sizes overlap.</p>
-<vox-callout variant="warning" heading="Warning"><p>Removing a source from the configuration stops its deploys, but leaves
-its environments on disk, where openvoxserver keeps compiling from
-them. Delete them yourself if that is what you meant.</p>
+<p>已分配但无上报，意味着代码已经 deploy，但还没有 Node 运行过。有上报但未分配，意味着 Nodes 在运行没有任何组分配给它们的代码——通常是某个已删除来源遗留下来的 Environment，或者某个 Node 在自己的 <code>puppet.conf</code> 中设置了 <code>environment</code>。</p>
+<p><strong>Size</strong> 是已 deploy 文件的大小，而不是磁盘占用：g10k 会在 Environments 之间共享模块，因此各仓库的大小会有重叠。</p>
+<vox-callout variant="warning" heading="警告"><p>从配置中删除某个来源会停止它的 deploy，但会把它的 Environments 留在磁盘上，openvoxserver 会继续从中编译。如果你的本意是删除它们，请自行删除。</p>
 </vox-callout>
 
     </div>
 
-    <vox-series-nav label="Use" previous-text="Previous" next-text="Next" previous-href="../guides/classify.html" previous-label="Classify nodes" next-href="../guides/run-jobs.html" next-label="Run jobs"></vox-series-nav>
+    <vox-series-nav label="使用" previous-text="上一篇" next-text="下一篇" previous-href="../guides/classify.html" previous-label="为 Nodes 分类" next-href="../guides/run-jobs.html" next-label="运行 Jobs"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#turn-code-deployment-on"><span>Turn code deployment on</span>
-        <vox-toc-item slot="children" href="#with-the-container-stack"><span>With the container stack</span></vox-toc-item>
+    <vox-toc heading="本页内容">
+      <vox-toc-item href="#turn-code-deployment-on"><span>开启代码 deploy</span>
+        <vox-toc-item slot="children" href="#with-the-container-stack"><span>使用容器堆栈时</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#deploy-from-several-control-repositories"><span>Deploy from several control repositories</span>
+      <vox-toc-item href="#deploy-from-several-control-repositories"><span>从多个 control 仓库 deploy</span>
       </vox-toc-item>
       <vox-toc-item href="#deploy"><span>Deploy</span>
       </vox-toc-item>
-      <vox-toc-item href="#deploy-on-every-push"><span>Deploy on every push</span>
+      <vox-toc-item href="#deploy-on-every-push"><span>每次 push 时 deploy</span>
       </vox-toc-item>
-      <vox-toc-item href="#read-the-repositories-tab"><span>Read the Repositories tab</span>
+      <vox-toc-item href="#read-the-repositories-tab"><span>解读仓库标签页</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -326,23 +296,17 @@ them. Delete them yourself if that is what you meant.</p>
 
       
       <vox-cta-band heading="自己动手运行">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console 以容器镜像形式发布，每次 push 都会构建 amd64 和 arm64 版本，同时也提供单个二进制文件。安装指南将带你从一台空主机走到一套可用的部署——openvoxserver、openvoxdb、Postgres 和控制台——可以用容器，也可以用软件包。</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">安装指南</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">GitHub 上的源码</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">容器镜像</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="全尺寸截图">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">关闭</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -351,18 +315,18 @@ them. Delete them yourself if that is what you meant.</p>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">概览</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">源码</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">安装指南</a>
       </vox-footer-column>
       <vox-footer-column heading="功能">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">分类</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">编排</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">补丁管理</a>
         <a href="../features/security.html">安全</a>
         <a href="../features/access-control.html">访问控制</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">AI 代理</a>
+        <a href="../features/scaling.html">扩展</a>
         </vox-footer-column>
       
       <vox-footer-column heading="语言">

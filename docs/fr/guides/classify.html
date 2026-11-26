@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="fr" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Decide which classes, parameters and environment each node gets, with a tree of node groups matched by facts or pinned by name."/>
+    <meta name="description" content="Décidez des classes, des paramètres et de l&#39;Environment que reçoit chaque Node, avec une arborescence de groupes de Nodes sélectionnés par Facts ou épinglés par nom."/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Classify nodes - OpenVox Console</title>
+    <title>Classifier les Nodes - OpenVox Console</title>
 
     
     <script>
@@ -104,349 +104,220 @@
       <a href="../features/classification.html">Classification</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">Orchestration</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">Mise à jour corrective</a>
       <a href="../features/security.html">Sécurité</a>
       <a href="../features/access-control.html">Contrôle d&#39;accès</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">Agents d&#39;IA</a>
+      <a href="../features/scaling.html">Montée en charge</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="Guides" toggle-label="Tous les guides">
+    <vox-sidenav-group heading="Installer">
+      <vox-sidenav-item href="../guides/plan.html"><span>Planifier un déploiement</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>Installer avec des conteneurs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>Installer à partir de paquets et de binaires</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>Ajouter des Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>Gérer les certificats des Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>Retirer un Node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Tenir les agents de Node à jour</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
-      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="Passer à l&#39;échelle">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>Modes d&#39;exécution</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>Faire tourner plus d&#39;instances</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use" open="">
-      <vox-sidenav-item href="../guides/classify.html" current="" aria-current="page"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="Utiliser" open="">
+      <vox-sidenav-item href="../guides/classify.html" current="" aria-current="page"><span>Classifier les Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>Déployer du code</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>Lancer des Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>Exécuter des Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Planifier des Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>Utilisateurs, rôles et jetons</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Suivre les vulnérabilités</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>Trouver et appliquer les mises à jour manquantes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>Exécuter des Tasks sur des hôtes sans agent</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>Exécuter des Plans issus de votre code</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>Laisser des agents d&#39;IA utiliser la console</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="Exploiter">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Basculer vers une base de données de secours</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Renouveler la clé de signature des jetons</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Mettre à niveau les bases de données en conteneurs vers Postgres 18</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Use</p>
-    <h1 class="guide-title vox-ts-xxl">Classify nodes</h1>
-    <p class="guide-summary">Decide which classes, parameters and environment each node gets, with a tree of node groups matched by facts or pinned by name.</p>
+    <p class="guide-eyebrow">Utiliser</p>
+    <h1 class="guide-title vox-ts-xxl">Classifier les Nodes</h1>
+    <p class="guide-summary">Décidez des classes, des paramètres et de l&#39;Environment que reçoit chaque Node, avec une arborescence de groupes de Nodes sélectionnés par Facts ou épinglés par nom.</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>openvoxserver asks the console what each node should be: which classes it
-includes, with which parameters, and which environment its code comes
-from. The console answers from its <strong>node groups</strong>. Classification
-reaches openvoxserver only once it is connected, which both install
-guides cover.</p>
-<p>Viewing groups needs <code>classifier:read</code>; creating, changing and deleting
-them needs <code>classifier:write</code>.</p>
-<h2 id="groups-form-a-tree">Groups form a tree</h2>
-<p>Every group has a <strong>parent</strong>. At the top is <strong>All Nodes</strong>, a built-in
-group that every node belongs to. You cannot delete, rename or move it,
-and it has no rule or pinned nodes, but you can give it classes,
-parameters and an environment, and they then apply to the whole fleet.</p>
-<p>A group can only contain nodes that are also in its parent. So a group
-under <strong>Linux Servers</strong> never picks up a Windows node, whatever its own
-rule says, and a group&#39;s nodes are always a subset of its parent&#39;s. A
-new group goes directly under All Nodes unless you choose another
-parent.</p>
-<p>A group cannot be moved under itself or under one of the groups beneath
-it, and a group that still has groups beneath it cannot be deleted: move
-or delete those first.</p>
-<p>A group that a role is granted on cannot be deleted either, because
-that would silently take away the access the role gives. Remove the
-group from the role first, on the <strong>Roles</strong> page - see
-<a href="access.html">Users, roles and tokens</a>.</p>
-<h2 id="how-a-group-decides-which-nodes-it-applies-to">How a group decides which nodes it applies to</h2>
-<p>A group applies to a node when the node is in the group&#39;s parent and
-either:</p>
+<p>openvoxserver demande à la console ce que doit être chaque Node : quelles classes il inclut, avec quels paramètres, et de quel Environment provient son code. La console répond à partir de ses <strong>groupes de Nodes</strong>. La classification ne parvient à openvoxserver qu&#39;une fois celui-ci connecté, ce que couvrent les deux guides d&#39;installation.</p>
+<p>Consulter les groupes nécessite <code>classifier:read</code> ; les créer, les modifier et les supprimer nécessite <code>classifier:write</code>.</p>
+<h2 id="groups-form-a-tree">Les groupes forment une arborescence</h2>
+<p>Chaque groupe a un <strong>parent</strong>. Au sommet se trouve <strong>All Nodes</strong>, un groupe intégré auquel appartient chaque Node. Vous ne pouvez ni le supprimer, ni le renommer, ni le déplacer, et il n&#39;a ni règle ni Node épinglé, mais vous pouvez lui donner des classes, des paramètres et un Environment, qui s&#39;appliquent alors à tout le parc.</p>
+<p>Un groupe ne peut contenir que des Nodes qui font aussi partie de son parent. Un groupe placé sous <strong>Linux Servers</strong> ne récupère donc jamais un Node Windows, quoi que dise sa propre règle, et les Nodes d&#39;un groupe sont toujours un sous-ensemble de ceux de son parent. Un nouveau groupe se place directement sous All Nodes, sauf si vous choisissez un autre parent.</p>
+<p>Un groupe ne peut pas être déplacé sous lui-même ni sous l&#39;un des groupes situés en dessous de lui, et un groupe qui a encore des groupes en dessous ne peut pas être supprimé : déplacez ou supprimez d&#39;abord ceux-ci.</p>
+<p>Un groupe sur lequel un rôle est accordé ne peut pas non plus être supprimé, car cela retirerait sans bruit l&#39;accès que donne le rôle. Retirez d&#39;abord le groupe du rôle, sur la page <strong>Rôles</strong> - voir <a href="access.html">Utilisateurs, rôles et jetons</a>.</p>
+<h2 id="how-a-group-decides-which-nodes-it-applies-to">Comment un groupe décide à quels Nodes il s&#39;applique</h2>
+<p>Un groupe s&#39;applique à un Node lorsque le Node fait partie du parent du groupe et que :</p>
 <ul>
-<li>the node is <strong>pinned</strong> to it by name, or</li>
-<li>the node&#39;s facts satisfy the group&#39;s match rule: <strong>all</strong> of its
-conditions, or <strong>any</strong> one of them, whichever the group is set to.</li>
+<li>le Node y est <strong>épinglé</strong> par son nom, ou</li>
+<li>les Facts du Node satisfont la règle de correspondance du groupe : <strong>toutes</strong> ses conditions, ou <strong>l&#39;une</strong> d&#39;entre elles, selon le réglage du groupe.</li>
 </ul>
-<p>A group with no conditions and no pinned nodes applies to no node at all.
-An empty rule deliberately does not mean &#34;everyone&#34;, so a half-finished
-group cannot take over the fleet.</p>
-<p>A pin overrides the group&#39;s own rule, not its parent. A node pinned to a
-group whose parent does not contain it is not in the group, and the
-group&#39;s page lists such pins so that one with no effect is not silent.</p>
-<p>Each condition compares one fact with a value:</p>
+<p>Un groupe sans condition ni Node épinglé ne s&#39;applique à aucun Node. Une règle vide ne signifie volontairement pas « tout le monde », afin qu&#39;un groupe à moitié configuré ne puisse pas s&#39;emparer du parc.</p>
+<p>Un épinglage prime sur la règle du groupe lui-même, pas sur son parent. Un Node épinglé à un groupe dont le parent ne le contient pas ne fait pas partie du groupe, et la page du groupe liste ces épinglages pour qu&#39;un épinglage sans effet ne passe pas inaperçu.</p>
+<p>Chaque condition compare un Fact à une valeur :</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Operator</th>
-<th>Matches when the fact</th>
+<th>Opérateur</th>
+<th>Correspond lorsque le Fact</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>=</code></td>
-<td>equals the value</td>
+<td>est égal à la valeur</td>
 </tr>
 <tr>
 <td><code>!=</code></td>
-<td>differs from the value</td>
+<td>diffère de la valeur</td>
 </tr>
 <tr>
 <td><code>~</code></td>
-<td>matches the value as a regular expression</td>
+<td>correspond à la valeur en tant qu&#39;expression régulière</td>
 </tr>
 <tr>
 <td><code>&gt;</code> <code>&lt;</code> <code>&gt;=</code> <code>&lt;=</code></td>
-<td>compares that way, numerically where both sides are numbers</td>
+<td>compare de cette façon, numériquement lorsque les deux côtés sont des nombres</td>
 </tr>
 </tbody>
 </table></div>
-<p>Facts are named by their path, with dots for structured facts:
-<code>os.family</code>, <code>os.release.major</code>, <code>networking.domain</code>.</p>
-<h2 id="create-a-group">Create a group</h2>
+<p>Les Facts sont désignés par leur chemin, avec des points pour les Facts structurés : <code>os.family</code>, <code>os.release.major</code>, <code>networking.domain</code>.</p>
+<h2 id="create-a-group">Créer un groupe</h2>
 <ol>
-<li>Open <strong>Groups</strong> and create a group.</li>
-<li>Name it, choose its <strong>parent group</strong>, and choose its <strong>environment</strong>
-if it should set one. The environment is a dropdown. <strong>Not set</strong>
-(which says what the group then inherits from its parent) leaves the
-choice to the parent. The environments openvoxserver reports are
-listed below it. <strong>Other...</strong> opens a text field for a name that is
-not listed yet, such as a branch you have just pushed, or when the
-list could not be loaded.</li>
-<li>Add <strong>classes</strong>, each with any parameters it needs, and any
-<strong>top-scope parameters</strong>. See <a href="#choose-classes">Choose classes</a>
-below.</li>
-<li>Build its <strong>match rule</strong>, one condition per row: a fact path, an
-operator and a value. Choose whether a node must satisfy <strong>all of the
-conditions</strong> or <strong>any one</strong> of them. The editor refuses to save a
-condition with no fact path, or a regular expression that does not
-compile, and shows which row is wrong.</li>
-<li>Pin any nodes by certname that should belong whatever their facts.</li>
-<li>Give it a <strong>priority</strong>, then save.</li>
+<li>Ouvrez <strong>Groupes</strong> et créez un groupe.</li>
+<li>Nommez-le, choisissez son <strong>groupe parent</strong>, et choisissez son <strong>Environment</strong> s&#39;il doit en définir un. L&#39;Environment se choisit dans une liste déroulante. <strong>Non défini</strong> (qui indique ce que le groupe hérite alors de son parent) laisse le choix au parent. Les Environments que signale openvoxserver sont listés en dessous. <strong>Autre...</strong> ouvre un champ de texte pour un nom qui n&#39;est pas encore listé, comme une branche que vous venez de pousser, ou lorsque la liste n&#39;a pas pu être chargée.</li>
+<li>Ajoutez des <strong>classes</strong>, chacune avec les paramètres dont elle a besoin, et d&#39;éventuels <strong>paramètres de portée globale</strong>. Voir <a href="#choose-classes">Choisir les classes</a> ci-dessous.</li>
+<li>Construisez sa <strong>règle de correspondance</strong>, une condition par ligne : un chemin de Fact, un opérateur et une valeur. Choisissez si un Node doit satisfaire <strong>toutes les conditions</strong> ou <strong>l&#39;une des conditions</strong>. L&#39;éditeur refuse d&#39;enregistrer une condition sans chemin de Fact, ou une expression régulière qui ne compile pas, et indique quelle ligne est en cause.</li>
+<li>Épinglez par certname les Nodes qui doivent appartenir au groupe quels que soient leurs Facts.</li>
+<li>Attribuez-lui une <strong>priorité</strong>, puis enregistrez.</li>
 </ol>
-<p>The groups list shows the tree, each group beneath its parent, with how
-many nodes each one matches right now, so a rule that matches nothing,
-or everything, is visible straight away.</p>
-<vox-callout variant="info" heading="Note"><p><strong>Edit as JSON</strong> shows the rule as raw JSON, for pasting a rule in or
-writing a shape the row editor does not offer. Its checks are the row
-editor&#39;s: a rule saved as JSON, or through the API, with an empty fact
-path or a broken regular expression is accepted, and simply never
-matches.</p>
+<figure class="shot">
+  <a class="shot-link" href="../../assets/screenshots/group-editor-light-fr.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/group-editor-dark-fr.png" data-theme-dark="../../assets/screenshots/group-editor-dark-fr.png" data-theme-light="../../assets/screenshots/group-editor-light-fr.png"/>
+      <img src="../../assets/screenshots/group-editor-light-fr.png" alt="L&#39;éditeur d&#39;un groupe de Nodes, avec son nom, son groupe parent, sa priorité et son Environment, les classes qu&#39;il applique avec leurs paramètres, et la règle qui détermine les Nodes qu&#39;il sélectionne" width="1440"/>
+    </picture>
+    <span class="vox-sr-only">Open full size</span>
+  </a>
+</figure>
+<p>La liste des groupes affiche l&#39;arborescence, chaque groupe sous son parent, avec le nombre de Nodes que chacun sélectionne à cet instant : une règle qui ne sélectionne rien, ou tout, se voit donc immédiatement.</p>
+<vox-callout variant="info" heading="Remarque"><p><strong>Modifier en JSON</strong> affiche la règle en JSON brut, pour y coller une règle ou écrire une forme que l&#39;éditeur par lignes ne propose pas. Ses vérifications sont celles de l&#39;éditeur par lignes : une règle enregistrée en JSON, ou via l&#39;API, avec un chemin de Fact vide ou une expression régulière invalide est acceptée, et ne sélectionne simplement jamais rien.</p>
 </vox-callout>
-<h2 id="choose-classes">Choose classes</h2>
-<p>The console reads the classes your deployed code defines from
-openvoxserver, so a group&#39;s classes are picked, not typed.</p>
+<h2 id="choose-classes">Choisir les classes</h2>
+<p>La console lit depuis openvoxserver les classes que définit votre code déployé : les classes d&#39;un groupe sont donc choisies, et non tapées.</p>
 <ol>
-<li>Under <strong>Classes</strong>, start typing in <strong>Add a class</strong>, pick the class,
-and add it.</li>
-<li>To set one of its parameters, pick it under <strong>Set a parameter</strong>. The
-field that appears fits the parameter&#39;s type: a choice for a Boolean
-or an Enum, a number for an Integer or Float, text for a String. Its
-note shows the type and the default from the code. Any other type is
-entered as JSON, so text needs double quotes: <code>&#34;value&#34;</code>,
-<code>[&#34;a&#34;, &#34;b&#34;]</code>.</li>
-<li>Leave a parameter out to keep the value the code or Hiera gives it.
-Remove a parameter to go back to that.</li>
+<li>Sous <strong>Classes</strong>, commencez à taper dans <strong>Ajouter une classe</strong>, choisissez la classe et ajoutez-la.</li>
+<li>Pour définir l&#39;un de ses paramètres, choisissez-le sous <strong>Définir un paramètre</strong>. Le champ qui apparaît correspond au type du paramètre : un choix pour un Boolean ou un Enum, un nombre pour un Integer ou un Float, du texte pour une String. Sa note indique le type et la valeur par défaut issue du code. Tout autre type se saisit en JSON ; le texte doit donc être entre guillemets doubles : <code>&#34;value&#34;</code>, <code>[&#34;a&#34;, &#34;b&#34;]</code>.</li>
+<li>Omettez un paramètre pour conserver la valeur que lui donne le code ou Hiera. Retirez un paramètre pour revenir à cette valeur.</li>
 </ol>
-<p>The classes come from the group&#39;s <strong>environment</strong>: its own, or else the
-nearest parent&#39;s that sets one, or else <code>production</code>. The page says
-which, and when the list was read. A node that also matches another
-group that sets a different environment compiles against that one, which
-the group cannot know.</p>
-<p>The list is reused for five minutes and read again after a code deploy.
-<strong>Refresh classes</strong> reads it at once, and needs <code>classifier:write</code>.</p>
-<vox-callout variant="info" heading="Note"><p>openvoxserver keeps its own cache of each environment. If it is set to
-keep environments indefinitely, as the container image is, a class
-added by new code does not appear until that cache is flushed - the
-same flush a catalog needs to see the new code. See
-<a href="containers.html">Install with containers</a>.</p>
+<p>Les classes proviennent de l&#39;<strong>Environment</strong> du groupe : le sien, ou à défaut celui du parent le plus proche qui en définit un, ou à défaut <code>production</code>. La page indique lequel, et quand la liste a été lue. Un Node également sélectionné par un autre groupe qui définit un Environment différent compile sur ce dernier, ce que le groupe ne peut pas savoir.</p>
+<p>La liste est réutilisée pendant cinq minutes et relue après un déploiement de code. <strong>Actualiser les classes</strong> la relit immédiatement, et nécessite <code>classifier:write</code>.</p>
+<vox-callout variant="info" heading="Remarque"><p>openvoxserver conserve son propre cache de chaque Environment. S&#39;il est réglé pour conserver les Environments indéfiniment, comme dans l&#39;image de conteneur, une classe ajoutée par du nouveau code n&#39;apparaît qu&#39;une fois ce cache vidé - le même vidage dont un catalogue a besoin pour voir le nouveau code. Voir <a href="containers.html">Installer avec des conteneurs</a>.</p>
 </vox-callout>
-<p><strong>Edit as JSON</strong> shows the classes as raw JSON, for pasting them in.</p>
-<h3 id="classes-that-do-not-match-the-code">Classes that do not match the code</h3>
-<p>A group can name a class the environment does not define, set a
-parameter the class does not declare, or give a value that does not fit
-the parameter&#39;s type. That happens when a class is renamed or removed in
-the code, or when the group is saved before the code is deployed.</p>
-<p>The group&#39;s page marks each one, and the groups list shows <strong>Class
-mismatch</strong> on the group. These are advice only:</p>
+<p><strong>Modifier en JSON</strong> affiche les classes en JSON brut, pour pouvoir les coller.</p>
+<h3 id="classes-that-do-not-match-the-code">Classes qui ne correspondent pas au code</h3>
+<p>Un groupe peut nommer une classe que l&#39;Environment ne définit pas, définir un paramètre que la classe ne déclare pas, ou donner une valeur qui ne correspond pas au type du paramètre. Cela arrive quand une classe est renommée ou supprimée dans le code, ou quand le groupe est enregistré avant le déploiement du code.</p>
+<p>La page du groupe signale chacun de ces cas, et la liste des groupes affiche <strong>Classe non conforme</strong> sur le groupe. Ce ne sont que des conseils :</p>
 <ul>
-<li>The group saves as it is. Nothing is removed or changed.</li>
-<li>Nodes are still classified with the class. A node whose catalog needs
-a class that does not exist fails to compile, with <code>Could not find class</code>, until the code or the group is changed.</li>
-<li>Only types the console can check are checked. A value for any other
-type is never marked.</li>
+<li>Le groupe s&#39;enregistre tel quel. Rien n&#39;est retiré ni modifié.</li>
+<li>Les Nodes restent classifiés avec la classe. Un Node dont le catalogue nécessite une classe inexistante échoue à la compilation, avec <code>Could not find class</code>, jusqu&#39;à ce que le code ou le groupe soit modifié.</li>
+<li>Seuls les types que la console sait vérifier sont vérifiés. Une valeur de tout autre type n&#39;est jamais signalée.</li>
 </ul>
-<p>Nothing is marked as missing when one of the environment&#39;s manifests
-fails to parse, since the class may be in that manifest. The page lists
-the manifests and their errors instead.</p>
-<h3 id="when-the-list-is-unavailable">When the list is unavailable</h3>
-<p>The page says why, and classes and parameters are typed by name. Nothing
-is marked, and saving and classification work as normal. The causes:</p>
+<p>Rien n&#39;est marqué comme manquant lorsque l&#39;un des manifestes de l&#39;Environment ne peut pas être analysé, puisque la classe peut se trouver dans ce manifeste. La page liste à la place les manifestes et leurs erreurs.</p>
+<h3 id="when-the-list-is-unavailable">Quand la liste n&#39;est pas disponible</h3>
+<p>La page en indique la raison, et les classes et paramètres se saisissent par leur nom. Rien n&#39;est signalé, et l&#39;enregistrement comme la classification fonctionnent normalement. Les causes possibles :</p>
 <ul>
-<li><strong>The console has no connection to openvoxserver.</strong> Set
-<code>CONSOLE_PUPPET_SERVER_URL</code>.</li>
-<li><strong>openvoxserver does not allow the console to read classes.</strong> Add the
-rule from the install guide:
-<a href="containers.html">containers</a> or <a href="packages.html">packages</a>.</li>
-<li><strong>openvoxserver could not be reached.</strong> If the list was read earlier,
-that earlier list is offered, marked as possibly out of date.</li>
+<li><strong>La console n&#39;a pas de connexion à openvoxserver.</strong> Définissez <code>CONSOLE_PUPPET_SERVER_URL</code>.</li>
+<li><strong>openvoxserver n&#39;autorise pas la console à lire les classes.</strong> Ajoutez la règle indiquée dans le guide d&#39;installation : <a href="containers.html">conteneurs</a> ou <a href="packages.html">paquets</a>.</li>
+<li><strong>openvoxserver est injoignable.</strong> Si la liste a déjà été lue auparavant, cette liste antérieure est proposée, signalée comme possiblement périmée.</li>
 </ul>
-<h2 id="when-groups-overlap">When groups overlap</h2>
-<p>A node matching several groups gets everything from all of them: every
-class, every parameter. Since a node in a group is also in every group
-above it, a group inherits whatever those groups set and it does not.</p>
-<p>Where two groups set the same thing differently - the same class
-parameter, the same top-scope parameter, or the environment - two rules
-decide, in this order:</p>
+<h2 id="when-groups-overlap">Quand des groupes se chevauchent</h2>
+<p>Un Node sélectionné par plusieurs groupes reçoit tout de chacun d&#39;eux : chaque classe, chaque paramètre. Comme un Node membre d&#39;un groupe fait aussi partie de chaque groupe situé au-dessus, un groupe hérite de tout ce que ces groupes définissent et que lui ne définit pas.</p>
+<p>Lorsque deux groupes définissent différemment la même chose - le même paramètre de classe, le même paramètre de portée globale ou l&#39;Environment -, deux règles décident, dans cet ordre :</p>
 <ol>
-<li><strong>A group always wins over the groups above it.</strong> A child&#39;s value
-beats its parent&#39;s, its grandparent&#39;s and so on, whatever their
-priorities.</li>
-<li>Between groups where neither is above the other, the <strong>higher
-priority wins</strong>.</li>
+<li><strong>Un groupe l&#39;emporte toujours sur les groupes situés au-dessus de lui.</strong> La valeur d&#39;un enfant l&#39;emporte sur celle de son parent, de son grand-parent, et ainsi de suite, quelles que soient leurs priorités.</li>
+<li>Entre des groupes dont aucun n&#39;est au-dessus de l&#39;autre, <strong>la priorité la plus élevée l&#39;emporte</strong>.</li>
 </ol>
-<p>A group also counts as ranking at least as high as its parent. Take a
-parent with priority 10, its child with priority 1, and an unrelated
-group with priority 5, all matching one node. The child beats its parent
-by the first rule, and it beats the unrelated group too, because it
-ranks as 10: a refinement of a group outranks whatever that group
-outranks.</p>
-<h3 id="when-a-child-overrides-a-higher-priority">When a child overrides a higher priority</h3>
-<p>If a group sets something differently from a group above it that has a
-<strong>higher</strong> priority, the child&#39;s value is still the one used, but the
-priorities alone would have said otherwise. The console tells you: the
-group&#39;s page names the parent and the values concerned when you open or
-save it, the groups list marks the group <strong>Overrides priority</strong>, and the
-change is noted on the <strong>Activity</strong> page. It is a warning, not an error.
-Nothing is refused, and nodes are classified as normal. To clear it,
-give the child the higher priority or remove the value from one of the
-two groups.</p>
-<p>Values set on All Nodes never raise it: every group is expected to
-override those.</p>
-<h2 id="set-configuration-data">Set configuration data</h2>
-<p><strong>Configuration data</strong> is data your code reads with <code>lookup()</code>: a value
-for <code>ntp::servers</code>, <code>profile::dns::resolvers</code> or any other Hiera key.
-Setting it on a node group changes it for every node in the group without
-a commit or a code deploy.</p>
+<p>Un groupe compte aussi comme se classant au moins aussi haut que son parent. Prenez un parent de priorité 10, son enfant de priorité 1 et un groupe sans lien de priorité 5, qui sélectionnent tous un même Node. L&#39;enfant l&#39;emporte sur son parent selon la première règle, et il l&#39;emporte aussi sur le groupe sans lien, car il se classe à 10 : un raffinement d&#39;un groupe l&#39;emporte sur tout ce sur quoi ce groupe l&#39;emporte.</p>
+<h3 id="when-a-child-overrides-a-higher-priority">Quand un enfant prend le pas sur une priorité plus élevée</h3>
+<p>Si un groupe définit quelque chose différemment d&#39;un groupe situé au-dessus de lui et de priorité <strong>plus élevée</strong>, c&#39;est toujours la valeur de l&#39;enfant qui est utilisée, alors que les priorités seules auraient dit l&#39;inverse. La console vous le signale : la page du groupe nomme le parent et les valeurs concernées lorsque vous l&#39;ouvrez ou l&#39;enregistrez, la liste des groupes marque le groupe <strong>Prend le pas sur la priorité</strong>, et le changement est noté sur la page <strong>Activité</strong>. C&#39;est un avertissement, pas une erreur. Rien n&#39;est refusé, et les Nodes sont classifiés normalement. Pour le faire disparaître, donnez à l&#39;enfant la priorité la plus élevée ou retirez la valeur de l&#39;un des deux groupes.</p>
+<p>Les valeurs définies sur All Nodes ne déclenchent jamais cet avertissement : chaque groupe est censé les remplacer.</p>
+<h2 id="set-configuration-data">Définir des données de configuration</h2>
+<p>Les <strong>données de configuration</strong> sont des données que votre code lit avec <code>lookup()</code> : une valeur pour <code>ntp::servers</code>, <code>profile::dns::resolvers</code> ou toute autre clé Hiera. Les définir sur un groupe de Nodes les modifie pour chaque Node du groupe, sans commit ni déploiement de code.</p>
 <ol>
-<li>Open the group, and under <strong>Classes</strong> open <strong>Configuration data
-(JSON)</strong>.</li>
-<li>Type a JSON object of keys and values, for example
-<code>{&#34;ntp::servers&#34;: [&#34;0.pool.ntp.org&#34;], &#34;dns::timeout&#34;: 5}</code>. A value
-can be any JSON: a string, a number, a boolean, a list, an object or
-<code>null</code>.</li>
-<li>Save the group. Nodes pick it up on their next Puppet run.</li>
+<li>Ouvrez le groupe, et sous <strong>Classes</strong>, ouvrez <strong>Données de configuration (JSON)</strong>.</li>
+<li>Saisissez un objet JSON de clés et de valeurs, par exemple <code>{&#34;ntp::servers&#34;: [&#34;0.pool.ntp.org&#34;], &#34;dns::timeout&#34;: 5}</code>. Une valeur peut être n&#39;importe quel JSON : une chaîne, un nombre, un booléen, une liste, un objet ou <code>null</code>.</li>
+<li>Enregistrez le groupe. Les Nodes le prennent en compte à leur prochaine exécution Puppet.</li>
 </ol>
-<p>A key is up to 255 characters of letters, digits and <code>_ : . -</code>. A group
-holds up to 1000 keys, each value up to 64 KiB. The key <code>lookup_options</code>
-is refused: it is how Hiera sets merge behavior, which configuration data
-does not offer.</p>
-<h3 id="which-value-a-node-gets">Which value a node gets</h3>
-<p>Data is combined from every group the node is in by the same two rules
-that combine class parameters (see <a href="#when-groups-overlap">When groups
-overlap</a>): a group beats the groups above it, and
-between unrelated groups the higher priority wins. A key set by the
-winning group replaces the same key from the others <strong>whole</strong>: two groups
-that both set <code>app::opts</code> to an object do not have their objects merged
-key by key.</p>
-<h3 id="console-data-beats-the-control-repo">Console data beats the control repo</h3>
-<p>When a key is set both here and in your control repo&#39;s Hiera data, the
-<strong>console&#39;s value is used</strong>. A key the console does not set is found in
-the control repo as before. So configuration data is the right place for
-a value you want to override per group, and the control repo remains the
-place for everything else.</p>
-<h3 id="not-for-secrets">Not for secrets</h3>
-<p>Configuration data is stored as plain text and shown to everyone who can
-see node groups (<code>classifier:read</code>). Do not put passwords or keys in it.
-The <strong>Activity</strong> page and the audit log record which keys changed, never
-their values.</p>
-<h3 id="if-a-node-s-run-fails">If a node&#39;s run fails</h3>
-<p>openvoxserver asks the console for a node&#39;s data each time it compiles a
-catalog. If the console cannot answer, the compile <strong>fails</strong> with an error
-naming the console, instead of building a catalog from missing values. The
-install guides show how the server is set up to ask.</p>
-<h2 id="check-what-a-node-gets">Check what a node gets</h2>
-<p>A group&#39;s page lists the nodes it matches right now. What a node finally
-receives is every matching group merged, and the one place that shows
-that whole answer is enc-bridge itself: ask it on the openvoxserver host,
-as the install guides show, and it prints exactly what openvoxserver is
-told. A node&#39;s <a href="#set-configuration-data">configuration data</a> is separate:
-<code>GET /api/v1/enc/&lt;certname&gt;/data</code>, with the same token, returns it.</p>
-<p>Classification takes effect at the node&#39;s next Puppet run. To apply it
-now, start a run from the group&#39;s page, which runs Puppet on every node
-the group matches; see <a href="run-jobs.html">Run jobs</a>.</p>
-<p>Every change to a group is recorded on the <strong>Activity</strong> page, with who
-made it.</p>
-<h2 id="upgrading-from-a-version-without-the-tree">Upgrading from a version without the tree</h2>
-<p>Upgrading changes no node&#39;s classification. Every existing group
-becomes a direct child of All Nodes, keeps its rule, pins and priority,
-and matches on all of its conditions as before.</p>
-<p>If you already had a group called &#34;All Nodes&#34;, it is renamed
-<strong>All Nodes (previous)</strong> and carries on exactly as it was, with its own
-rule. It is not turned into the built-in group, because that would apply
-its classes to nodes its rule did not match. Once you have checked it,
-you can move its classes onto the built-in All Nodes and delete it.</p>
-<p>If you run several console instances, finish upgrading all of them
-before you put one group under another. An instance still on the old
-version ignores parents and would classify by priority alone. See
-<a href="cluster.html">Run more instances</a>.</p>
+<p>Une clé compte jusqu&#39;à 255 caractères parmi les lettres, les chiffres et <code>_ : . -</code>. Un groupe contient jusqu&#39;à 1000 clés, chaque valeur pouvant atteindre 64 Kio. La clé <code>lookup_options</code> est refusée : c&#39;est par elle que Hiera définit le comportement de fusion, ce que les données de configuration ne proposent pas.</p>
+<h3 id="which-value-a-node-gets">Quelle valeur reçoit un Node</h3>
+<p>Les données sont combinées à partir de tous les groupes dont le Node fait partie, selon les deux mêmes règles que pour les paramètres de classe (voir <a href="#when-groups-overlap">Quand des groupes se chevauchent</a>) : un groupe l&#39;emporte sur les groupes situés au-dessus de lui, et entre groupes sans lien la priorité la plus élevée l&#39;emporte. Une clé définie par le groupe gagnant remplace <strong>entièrement</strong> la même clé des autres : deux groupes qui définissent tous deux <code>app::opts</code> comme un objet ne voient pas leurs objets fusionnés clé par clé.</p>
+<h3 id="console-data-beats-the-control-repo">Les données de la console l&#39;emportent sur le dépôt de contrôle</h3>
+<p>Lorsqu&#39;une clé est définie à la fois ici et dans les données Hiera de votre dépôt de contrôle, <strong>c&#39;est la valeur de la console qui est utilisée</strong>. Une clé que la console ne définit pas est trouvée dans le dépôt de contrôle comme auparavant. Les données de configuration sont donc le bon endroit pour une valeur que vous voulez remplacer par groupe, et le dépôt de contrôle reste l&#39;endroit pour tout le reste.</p>
+<h3 id="not-for-secrets">Pas pour les secrets</h3>
+<p>Les données de configuration sont stockées en clair et visibles par toute personne pouvant voir les groupes de Nodes (<code>classifier:read</code>). N&#39;y mettez ni mots de passe ni clés. La page <strong>Activité</strong> et le journal d&#39;audit consignent les clés modifiées, jamais leurs valeurs.</p>
+<h3 id="if-a-node-s-run-fails">Si l&#39;exécution d&#39;un Node échoue</h3>
+<p>openvoxserver demande à la console les données d&#39;un Node à chaque compilation de catalogue. Si la console ne peut pas répondre, la compilation <strong>échoue</strong> avec une erreur qui nomme la console, au lieu de construire un catalogue à partir de valeurs manquantes. Les guides d&#39;installation montrent comment configurer le serveur pour qu&#39;il pose la question.</p>
+<h2 id="check-what-a-node-gets">Vérifier ce qu&#39;un Node reçoit</h2>
+<p>La page d&#39;un groupe liste les Nodes qu&#39;il sélectionne à cet instant. Ce qu&#39;un Node reçoit finalement, c&#39;est la fusion de tous les groupes qui le sélectionnent, et le seul endroit qui montre cette réponse complète est enc-bridge lui-même : interrogez-le sur l&#39;hôte openvoxserver, comme le montrent les guides d&#39;installation, et il affiche exactement ce qui est transmis à openvoxserver. Les <a href="#set-configuration-data">données de configuration</a> d&#39;un Node sont à part : <code>GET /api/v1/enc/&lt;certname&gt;/data</code>, avec le même jeton, les renvoie.</p>
+<p>La classification prend effet à la prochaine exécution Puppet du Node. Pour l&#39;appliquer tout de suite, lancez une exécution depuis la page du groupe, ce qui exécute Puppet sur chaque Node que le groupe sélectionne ; voir <a href="run-jobs.html">Lancer des Jobs</a>.</p>
+<p>Chaque modification d&#39;un groupe est consignée sur la page <strong>Activité</strong>, avec son auteur.</p>
+<h2 id="upgrading-from-a-version-without-the-tree">Mettre à jour depuis une version sans arborescence</h2>
+<p>La mise à jour ne modifie la classification d&#39;aucun Node. Chaque groupe existant devient un enfant direct d&#39;All Nodes, conserve sa règle, ses épinglages et sa priorité, et sélectionne selon toutes ses conditions comme auparavant.</p>
+<p>Si vous aviez déjà un groupe nommé « All Nodes », il est renommé <strong>All Nodes (previous)</strong> et continue exactement comme avant, avec sa propre règle. Il n&#39;est pas transformé en groupe intégré, car cela appliquerait ses classes à des Nodes que sa règle ne sélectionnait pas. Une fois que vous l&#39;avez vérifié, vous pouvez déplacer ses classes vers le groupe intégré All Nodes et le supprimer.</p>
+<p>Si vous faites tourner plusieurs instances de la console, terminez la mise à jour de toutes avant de placer un groupe sous un autre. Une instance encore sur l&#39;ancienne version ignore les parents et classifierait selon la seule priorité. Voir <a href="cluster.html">Faire tourner plus d&#39;instances</a>.</p>
 
     </div>
 
-    <vox-series-nav label="Use" previous-text="Previous" next-text="Next" next-href="../guides/deploy-code.html" next-label="Deploy code"></vox-series-nav>
+    <vox-series-nav label="Utiliser" previous-text="Précédent" next-text="Suivant" next-href="../guides/deploy-code.html" next-label="Déployer du code"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#groups-form-a-tree"><span>Groups form a tree</span>
+    <vox-toc heading="Sur cette page">
+      <vox-toc-item href="#groups-form-a-tree"><span>Les groupes forment une arborescence</span>
       </vox-toc-item>
-      <vox-toc-item href="#how-a-group-decides-which-nodes-it-applies-to"><span>How a group decides which nodes it applies to</span>
+      <vox-toc-item href="#how-a-group-decides-which-nodes-it-applies-to"><span>Comment un groupe décide à quels Nodes il s&#39;applique</span>
       </vox-toc-item>
-      <vox-toc-item href="#create-a-group"><span>Create a group</span>
+      <vox-toc-item href="#create-a-group"><span>Créer un groupe</span>
       </vox-toc-item>
-      <vox-toc-item href="#choose-classes"><span>Choose classes</span>
-        <vox-toc-item slot="children" href="#classes-that-do-not-match-the-code"><span>Classes that do not match the code</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#when-the-list-is-unavailable"><span>When the list is unavailable</span></vox-toc-item>
+      <vox-toc-item href="#choose-classes"><span>Choisir les classes</span>
+        <vox-toc-item slot="children" href="#classes-that-do-not-match-the-code"><span>Classes qui ne correspondent pas au code</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#when-the-list-is-unavailable"><span>Quand la liste n&#39;est pas disponible</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#when-groups-overlap"><span>When groups overlap</span>
-        <vox-toc-item slot="children" href="#when-a-child-overrides-a-higher-priority"><span>When a child overrides a higher priority</span></vox-toc-item>
+      <vox-toc-item href="#when-groups-overlap"><span>Quand des groupes se chevauchent</span>
+        <vox-toc-item slot="children" href="#when-a-child-overrides-a-higher-priority"><span>Quand un enfant prend le pas sur une priorité plus élevée</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#set-configuration-data"><span>Set configuration data</span>
-        <vox-toc-item slot="children" href="#which-value-a-node-gets"><span>Which value a node gets</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#console-data-beats-the-control-repo"><span>Console data beats the control repo</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#not-for-secrets"><span>Not for secrets</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#if-a-node-s-run-fails"><span>If a node&#39;s run fails</span></vox-toc-item>
+      <vox-toc-item href="#set-configuration-data"><span>Définir des données de configuration</span>
+        <vox-toc-item slot="children" href="#which-value-a-node-gets"><span>Quelle valeur reçoit un Node</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#console-data-beats-the-control-repo"><span>Les données de la console l&#39;emportent sur le dépôt de contrôle</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#not-for-secrets"><span>Pas pour les secrets</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#if-a-node-s-run-fails"><span>Si l&#39;exécution d&#39;un Node échoue</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#check-what-a-node-gets"><span>Check what a node gets</span>
+      <vox-toc-item href="#check-what-a-node-gets"><span>Vérifier ce qu&#39;un Node reçoit</span>
       </vox-toc-item>
-      <vox-toc-item href="#upgrading-from-a-version-without-the-tree"><span>Upgrading from a version without the tree</span>
+      <vox-toc-item href="#upgrading-from-a-version-without-the-tree"><span>Mettre à jour depuis une version sans arborescence</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -456,23 +327,17 @@ version ignores parents and would classify by priority alone. See
 
       
       <vox-cta-band heading="Faites-le tourner vous-même">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console est distribué sous forme d&#39;images de conteneur, construites pour amd64 et arm64 à chaque push, et d&#39;un binaire unique. Les guides d&#39;installation vous mènent d&#39;un hôte vide à un déploiement fonctionnel - openvoxserver, openvoxdb, Postgres et la console - avec des conteneurs ou avec des paquets.</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">Guides d&#39;installation</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">Source sur GitHub</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">Images de conteneur</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="Capture d&#39;écran en taille réelle">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">Fermer</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -481,18 +346,18 @@ version ignores parents and would classify by priority alone. See
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">Aperçu</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">Source</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">Guides d&#39;installation</a>
       </vox-footer-column>
       <vox-footer-column heading="Fonctionnalités">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">Classification</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">Orchestration</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">Mise à jour corrective</a>
         <a href="../features/security.html">Sécurité</a>
         <a href="../features/access-control.html">Contrôle d&#39;accès</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">Agents d&#39;IA</a>
+        <a href="../features/scaling.html">Montée en charge</a>
         </vox-footer-column>
       
       <vox-footer-column heading="Langue">

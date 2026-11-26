@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="zh" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Save a Puppet run, a task or a plan to start later, once or repeatedly, on nodes that are worked out each time it starts."/>
+    <meta name="description" content="保存一次 Puppet 运行、一个 Task 或一个 Plan，以便稍后启动——一次或重复启动——其 Nodes 会在每次启动时重新确定。"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Schedule jobs - OpenVox Console</title>
+    <title>计划 Jobs - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">指南</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,233 +104,154 @@
       <a href="../features/classification.html">分类</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">编排</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">补丁管理</a>
       <a href="../features/security.html">安全</a>
       <a href="../features/access-control.html">访问控制</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">AI 代理</a>
+      <a href="../features/scaling.html">扩展</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="指南" toggle-label="所有指南">
+    <vox-sidenav-group heading="安装">
+      <vox-sidenav-item href="../guides/plan.html"><span>规划部署</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>使用容器安装</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>从软件包和二进制文件安装</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>添加 Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>管理 Node 证书</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>移除 Node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>保持 Node 代理为最新</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
-      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="扩展">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>运行模式</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>运行更多实例</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use" open="">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html" current="" aria-current="page"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="使用" open="">
+      <vox-sidenav-item href="../guides/classify.html"><span>为 Nodes 分类</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy 代码</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>运行 Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>运行 Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html" current="" aria-current="page"><span>计划 Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>用户、角色与令牌</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>跟踪漏洞</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>查找并应用缺失的更新</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>在没有代理的主机上运行 Tasks</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>运行代码中的 Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>让 AI 代理使用控制台</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="运维">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>故障切换到备用数据库</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>轮换令牌签名密钥</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>将容器数据库升级到 Postgres 18</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Use</p>
-    <h1 class="guide-title vox-ts-xxl">Schedule jobs</h1>
-    <p class="guide-summary">Save a Puppet run, a task or a plan to start later, once or repeatedly, on nodes that are worked out each time it starts.</p>
+    <p class="guide-eyebrow">使用</p>
+    <h1 class="guide-title vox-ts-xxl">计划 Jobs</h1>
+    <p class="guide-summary">保存一次 Puppet 运行、一个 Task 或一个 Plan，以便稍后启动——一次或重复启动——其 Nodes 会在每次启动时重新确定。</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>A <strong>schedule</strong> is a Puppet run, a task or a <a href="run-plans.html">plan</a> saved to start by itself: once,
-at a time you choose, or repeatedly. It does what the same job would do
-if you started it by hand at that moment - see <a href="run-jobs.html">Run jobs</a> -
-and each time it starts, it is recorded as a job like any other.</p>
-<p>Creating and changing schedules needs <code>orchestrator:run</code>; seeing them
-needs <code>orchestrator:read</code>.</p>
-<h2 id="create-a-schedule">Create a schedule</h2>
-<p>Open <strong>Jobs</strong>, then <strong>Scheduled jobs</strong>, then <strong>New schedule</strong>. Or fill
-in <strong>Run Puppet</strong>, <strong>Run task</strong> or <strong>Run plan</strong> anywhere and choose <strong>Schedule
-instead</strong>, which opens the same form with what you had filled in. From
-a node group&#39;s page, that schedules the group, not the nodes in it
-today.</p>
+<p><strong>计划</strong>是一个被保存下来、会自行启动的 Puppet 运行、Task 或 <a href="run-plans.html">Plan</a>：可以在你选定的时间启动一次，也可以重复启动。它所做的与你在那一刻手动启动同一个 Job 完全相同——参见<a href="run-jobs.html">运行 Jobs</a>——而且每次启动时，都会像其他 Job 一样被记录下来。</p>
+<p>创建和更改计划需要 <code>orchestrator:run</code>；查看计划需要 <code>orchestrator:read</code>。</p>
+<h2 id="create-a-schedule">创建计划</h2>
+<p>打开 <strong>Jobs</strong>，然后打开<strong>计划的 Jobs</strong>，再选择<strong>新建计划</strong>。或者在任意位置填写<strong>运行 Puppet</strong>、<strong>运行 Task</strong> 或<strong>运行 Plan</strong>，然后选择<strong>改为计划</strong>，这会打开同一个表单，并带上你已填写的内容。如果是从 Node 组的页面操作，计划的对象是该组，而不是该组当前包含的 Nodes。</p>
 <ol>
-<li>Give it a <strong>Name</strong>. Jobs it starts are labelled with it.</li>
-<li>Choose <strong>What to run</strong>: Puppet, with any
-<a href="run-jobs.html#run-options">run options</a>; a task, with its
-parameters; or a plan, chosen from the saved plans.</li>
-<li>Choose <strong>Which nodes</strong>: a list, a query, or a node group, as in
-<a href="run-jobs.html#choose-the-nodes">Choose the nodes</a>. <strong>Preview nodes</strong>
-shows what it would run on now.</li>
-<li>Choose <strong>When</strong>: the start time and, if it should repeat, how often.</li>
-<li><strong>Save schedule</strong>.</li>
+<li>为它设置<strong>名称</strong>。它启动的 Jobs 都会标上这个名称。</li>
+<li>选择<strong>运行内容</strong>：Puppet（可带任意<a href="run-jobs.html#run-options">运行选项</a>）；Task（带上其参数）；或者从已保存的 Plans 中选择一个 Plan。</li>
+<li>选择<strong>哪些 Nodes</strong>：列表、查询或 Node 组，与<a href="run-jobs.html#choose-the-nodes">选择 Nodes</a> 中相同。<strong>预览 Nodes</strong> 会显示它此刻将在哪些 Nodes 上运行。</li>
+<li>选择<strong>时间</strong>：开始时间，以及如需重复，重复的频率。</li>
+<li><strong>保存计划</strong>。</li>
 </ol>
-<p>The console checks a schedule when you save it exactly as it would
-check the job if you started it now, and refuses it with the reason
-beside the part that is wrong. One difference: a query or a group that
-matches no nodes yet can be saved.</p>
-<h3 id="nodes-are-worked-out-each-time">Nodes are worked out each time</h3>
-<p>A query or a node group is worked out again every time the schedule
-starts. A node that joins the group next week is included next week; a
-node that stops matching the query is left out.</p>
-<h3 id="times-and-repeating">Times and repeating</h3>
-<p>Times are entered and shown in your browser&#39;s time zone, which the form
-names. Someone in another zone sees the same moment in theirs.</p>
-<p>A schedule that does not repeat starts once, and is then shown as
-<strong>Finished</strong>. A repeating schedule starts at its start time and then
-every so many minutes, hours, days or weeks after it. The shortest
-repeat is 5 minutes.</p>
-<vox-callout variant="info" heading="Note"><p>A repeat is a fixed length of time: a day is 24 hours and a week is
-seven of them. Where the clocks change for daylight saving, a daily
-schedule keeps its time in UTC and moves by an hour on the local
-clock. There are no calendar rules such as &#34;the first Monday&#34;.</p>
+<p>保存计划时，控制台会像你此刻启动该 Job 那样对它进行完全相同的检查，并在出错的部分旁边给出拒绝原因。只有一点不同：尚未匹配任何 Node 的查询或组也可以保存。</p>
+<h3 id="nodes-are-worked-out-each-time">每次都会重新确定 Nodes</h3>
+<p>每次计划启动时，查询或 Node 组都会被重新计算。下周加入该组的 Node 会在下周被包括进来；不再匹配查询的 Node 会被排除在外。</p>
+<h3 id="times-and-repeating">时间与重复</h3>
+<p>时间按你浏览器的时区输入和显示，表单会注明该时区。处于其他时区的人看到的是同一时刻在其时区中的时间。</p>
+<p>不重复的计划只启动一次，之后显示为<strong>完成</strong>。重复计划在其开始时间启动，之后每隔若干分钟、小时、天或周启动一次。最短的重复间隔为 5 分钟。</p>
+<vox-callout variant="info" heading="说明"><p>重复间隔是一段固定的时长：一天是 24 小时，一周是七个这样的一天。在实行夏令时调整时钟的地方，每日计划会按 UTC 保持其时间，因此在本地时钟上会移动一小时。没有诸如「第一个星期一」之类的日历规则。</p>
 </vox-callout>
-<p>A repeating schedule may be given a start time in the past. It next
-starts at its first repeat that is still ahead.</p>
-<h2 id="what-a-schedule-runs-as">What a schedule runs as</h2>
-<p>A schedule runs as its <strong>owner</strong>: the person who last saved it. Each
-time it starts, the console applies the owner&#39;s roles as they are at
-that moment, not as they were when it was saved:</p>
+<p>重复计划可以设置一个过去的开始时间。它下一次会在仍在未来的第一个重复时间启动。</p>
+<h2 id="what-a-schedule-runs-as">计划以什么身份运行</h2>
+<p>计划以其<strong>所有者</strong>的身份运行：即最后保存它的人。每次启动时，控制台都会应用所有者在那一刻的角色，而不是保存时的角色：</p>
 <ul>
-<li>If the owner can no longer run jobs - their role was removed, or
-their account or service token deleted - nothing is started.</li>
-<li>If the owner&#39;s role is granted on particular node groups, a query or
-a group gives the matching nodes in those groups. Nodes named in a
-list must all still be in them, or nothing is started.</li>
-<li>If the owner&#39;s role is limited to some tasks, the schedule starts only
-tasks they may still run, and only on the nodes they may run them on.
-Saving a schedule for a task you may not run is refused, naming it.</li>
+<li>如果所有者已不能再运行 Jobs——其角色被移除，或者其账户或服务令牌被删除——就不会启动任何东西。</li>
+<li>如果所有者的角色是在特定 Node 组上被授予的，查询或组只会给出这些组中的匹配 Nodes。列表中指定的 Nodes 必须全部仍在这些组中，否则不会启动任何东西。</li>
+<li>如果所有者的角色仅限部分 Tasks，计划只会启动他们仍然有权运行的 Tasks，而且只在他们有权运行这些 Tasks 的 Nodes 上启动。为你无权运行的 Task 保存计划会被拒绝，并指出该 Task。</li>
 </ul>
-<p>Saving a change to a schedule makes you its owner, and the form says so
-when you open someone else&#39;s. That is how to take over a schedule from
-someone who has left: open it and save it. Pausing and resuming do not
-change the owner.</p>
-<p>You can see and change the schedules you own. Someone whose role is
-granted on <strong>All Nodes</strong> can see and change everyone&#39;s. See
-<a href="access.html">Users, roles and tokens</a>.</p>
-<h2 id="when-a-schedule-does-not-start">When a schedule does not start</h2>
-<p>A schedule&#39;s page lists what happened each time it came due.</p>
+<p>保存对某个计划的更改会使你成为其所有者，当你打开别人的计划时，表单会提示这一点。这就是从已离职的人手中接管计划的方法：打开它并保存。暂停和恢复不会改变所有者。</p>
+<p>你可以查看和更改自己拥有的计划。角色在 <strong>All Nodes</strong> 上被授予的人可以查看和更改所有人的计划。参见<a href="access.html">用户、角色与令牌</a>。</p>
+<h2 id="when-a-schedule-does-not-start">当计划没有启动时</h2>
+<p>计划的页面会列出每次到期时发生的情况。</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Outcome</th>
-<th>What it means</th>
+<th>结果</th>
+<th>含义</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>Started</strong></td>
-<td>A job was started. The line links to it.</td>
+<td><strong>开始</strong></td>
+<td>已启动一个 Job。该行会链接到它。</td>
 </tr>
 <tr>
-<td><strong>Skipped</strong></td>
-<td>Nothing was started, for the reason shown. The schedule carries on at its next time.</td>
+<td><strong>已跳过</strong></td>
+<td>因所示原因未启动任何东西。该计划会在下一个时间继续。</td>
 </tr>
 <tr>
-<td><strong>Missed</strong></td>
-<td>No console was running the scheduler when it came due, and by the time one was, it was more than 15 minutes late.</td>
+<td><strong>已错过</strong></td>
+<td>到期时没有控制台在运行调度器，等到有控制台运行时，已经晚了超过 15 分钟。</td>
 </tr>
 <tr>
-<td><strong>Interrupted</strong></td>
-<td>The console instance starting it stopped before it could.</td>
+<td><strong>已中断</strong></td>
+<td>负责启动它的控制台实例在启动之前就停止了。</td>
 </tr>
 </tbody>
 </table></div>
-<p>A schedule is skipped when:</p>
+<p>在以下情况下，计划会被跳过：</p>
 <ul>
-<li>its query or group matches no nodes, or none the owner can act on;</li>
-<li>its owner can no longer run jobs, or a node it names has left the
-owner&#39;s node groups;</li>
-<li>its task, or one of its plan&#39;s tasks, is one its owner&#39;s roles no
-longer allow (the firing names the task, and the step for a plan) -
-see <a href="access.html#limit-a-role-to-some-tasks">Limit a role to some tasks</a>;</li>
-<li>its task, a task parameter, its environment or its node group no
-longer exists as the schedule describes it;</li>
-<li>openvoxdb or the Puppet server could not be reached to work out the
-nodes or the task;</li>
-<li>the job it started last time is still running.</li>
+<li>其查询或组没有匹配到任何 Node，或者没有匹配到所有者有权操作的 Node；</li>
+<li>其所有者已不能再运行 Jobs，或者它指定的某个 Node 已离开所有者的 Node 组；</li>
+<li>其 Task 或其 Plan 中的某个 Task 已不再被所有者的角色允许（本次触发会注明该 Task，如果是 Plan 还会注明步骤）——参见<a href="access.html#limit-a-role-to-some-tasks">将角色限制为部分 Tasks</a>；</li>
+<li>其 Task、某个 Task 参数、其 Environment 或其 Node 组已不再如计划所描述的那样存在；</li>
+<li>无法访问 openvoxdb 或 Puppet 服务器，因而无法确定 Nodes 或 Task；</li>
+<li>它上次启动的 Job 仍在运行。</li>
 </ul>
-<p>A firing that did not start is never retried. A run meant for 02:00
-does not start at 09:00 because the console was down overnight, and a
-task is never started twice for one due time. A repeating schedule that
-was missed over several repeats records one missed firing and resumes
-at its next time.</p>
-<p>Skipped and missed firings are also recorded on the <strong>Activity</strong> page,
-and the <strong>Scheduled jobs</strong> list shows each schedule&#39;s last outcome.</p>
-<p>A node that is not connected when a schedule starts fails in that job
-with &#34;agent not connected&#34;, as in a job started by hand; the job still
-starts for the other nodes.</p>
-<h3 id="a-scheduled-plan-keeps-its-own-steps">A scheduled plan keeps its own steps</h3>
-<p>When you choose a plan, the schedule takes a copy of its steps and
-shows them. From then on the schedule runs that copy. Changing or
-deleting the saved plan does not change what the schedule runs.</p>
-<p>To pick up a change to the plan, edit the schedule, choose the plan
-under <strong>Plan</strong> again, and save. Leaving <strong>Plan</strong> at &#34;Keep the steps
-shown below&#34; keeps the copy as it is.</p>
-<p>The reason is that a schedule runs with its owner&#39;s access, while
-everyone who can run jobs can change a plan - see
-<a href="run-plans.html#schedule-a-plan">Run plans</a>.</p>
-<p>If a step can no longer run when the schedule comes due - its task has
-been removed from the code, say - nothing is started, and that time is
-recorded as <strong>Skipped</strong>, naming the step.</p>
-<h2 id="pause-change-or-delete-a-schedule">Pause, change or delete a schedule</h2>
-<p>On the schedule&#39;s page:</p>
+<p>未能启动的触发永远不会重试。原定 02:00 的运行不会因为控制台整夜宕机而在 09:00 启动，而且同一个到期时间的 Task 永远不会被启动两次。错过了多次重复的重复计划只会记录一次错过的触发，并在下一个时间恢复。</p>
+<p>被跳过和错过的触发也会记录在<strong>活动</strong>页面上，<strong>计划的 Jobs</strong> 列表会显示每个计划最近一次的结果。</p>
+<p>计划启动时未连接的 Node 会在该 Job 中以 &#34;agent not connected&#34; 失败，与手动启动的 Job 一样；该 Job 仍会针对其他 Nodes 启动。</p>
+<h3 id="a-scheduled-plan-keeps-its-own-steps">计划的 Plan 保留其自己的步骤</h3>
+<p>当你选择一个 Plan 时，计划会复制其步骤并显示出来。从那时起，计划运行的就是这份副本。更改或删除已保存的 Plan 不会改变计划运行的内容。</p>
+<p>若要采用对 Plan 的更改，请编辑该计划，在 <strong>Plan</strong> 下重新选择该 Plan，然后保存。如果 <strong>Plan</strong> 保持为「保留下方显示的步骤」，副本会保持原样。</p>
+<p>原因在于：计划以其所有者的访问权限运行，而每个能运行 Jobs 的人都能更改 Plan——参见<a href="run-plans.html#schedule-a-plan">运行 Plans</a>。</p>
+<p>如果在计划到期时某个步骤已无法运行——比如其 Task 已从代码中移除——就不会启动任何东西，该次时间会被记录为<strong>已跳过</strong>，并指出该步骤。</p>
+<h2 id="pause-change-or-delete-a-schedule">暂停、更改或删除计划</h2>
+<p>在计划的页面上：</p>
 <ul>
-<li><strong>Pause</strong> stops it coming due. <strong>Resume</strong> starts it again from its
-next time still ahead; nothing is started for the times that passed.
-A schedule that does not repeat, and whose time passed while it was
-paused, needs a new start time instead.</li>
-<li><strong>Edit</strong> opens the form. Saving checks it again, as a new schedule.</li>
-<li><strong>Delete</strong> removes it. The jobs it started stay in the job history,
-still naming it.</li>
+<li><strong>暂停</strong>使其不再到期。<strong>恢复</strong>会让它从下一个尚未到来的时间重新开始；对于已经过去的时间，不会补启动任何东西。不重复的计划如果在暂停期间错过了时间，则需要改设一个新的开始时间。</li>
+<li><strong>编辑</strong>会打开表单。保存时会像新建计划一样再次检查。</li>
+<li><strong>删除</strong>会移除它。它启动过的 Jobs 仍保留在 Job 历史记录中，并且依然注明它。</li>
 </ul>
-<p>Deleting a node group does not delete the schedules that target it.
-They are skipped, saying the group no longer exists, until you change
-or delete them.</p>
-<h2 id="sensitive-task-parameters">Sensitive task parameters</h2>
-<p>A task parameter marked <code>sensitive</code> - a password, a token - has to be
-kept until the schedule starts. The console stores it encrypted with
-its secrets key and shows <code>Sensitive [value redacted]</code> everywhere the
-schedule or its jobs appear. The same goes for the sensitive values of
-a scheduled plan&#39;s task steps, which the schedule form asks for under
-each step.</p>
+<p>删除 Node 组不会删除以它为目标的计划。这些计划会被跳过，并说明该组已不存在，直到你更改或删除它们为止。</p>
+<h2 id="sensitive-task-parameters">敏感的 Task 参数</h2>
+<p>被标记为 <code>sensitive</code> 的 Task 参数（密码、令牌）必须保留到计划启动时。控制台会用其机密密钥加密存储它，并在计划或其 Jobs 出现的所有地方显示 <code>Sensitive [value redacted]</code>。计划的 Plan 中 Task 步骤的敏感值也是如此，计划表单会在每个步骤下要求输入这些值。</p>
 <ul>
-<li>Without a secrets key, a schedule with a sensitive value is refused.
-Set <code>CONSOLE_SECRETS_KEY_FILE</code> - see
-<a href="vulnerabilities.html">Track vulnerabilities</a>, which uses the same
-key - on every instance that serves the console or runs the
-scheduler.</li>
-<li>When you edit your own schedule, leave a sensitive field empty to
-keep the stored value.</li>
-<li>When you save someone else&#39;s schedule, you must enter its sensitive
-values again. The console does not hand a stored secret to a new
-owner.</li>
-<li>If the secrets key changes, the stored values can no longer be read.
-The schedule is skipped, saying so, until it is saved again with the
-values.</li>
+<li>没有机密密钥时，带有敏感值的计划会被拒绝。请在每个提供控制台服务或运行调度器的实例上设置 <code>CONSOLE_SECRETS_KEY_FILE</code>——参见<a href="vulnerabilities.html">跟踪漏洞</a>，它使用同一个密钥。</li>
+<li>编辑你自己的计划时，将敏感字段留空即可保留已存储的值。</li>
+<li>保存别人的计划时，你必须重新输入其敏感值。控制台不会把已存储的机密交给新的所有者。</li>
+<li>如果机密密钥发生变化，已存储的值就无法再被读取。该计划会被跳过并说明原因，直到重新带上这些值保存它为止。</li>
 </ul>
-<h2 id="through-the-api">Through the API</h2>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -X POST https://console.example.com/api/v1/orchestrator/schedules \
+<h2 id="through-the-api">通过 API</h2>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>curl -X POST https://console.example.com/api/v1/orchestrator/schedules \
   -H &#34;Authorization: Bearer &lt;access token&gt;&#34; \
   -H &#39;Content-Type: application/json&#39; \
   -d &#39;{&#34;name&#34;:&#34;Weekly no-op&#34;,
@@ -340,75 +261,65 @@ values.</li>
        &#34;startAt&#34;:&#34;2026-01-04T03:00:00Z&#34;,
        &#34;repeat&#34;:{&#34;every&#34;:1,&#34;unit&#34;:&#34;week&#34;}}&#39;
 </code></vox-code-block>
-<p><code>kind</code> is <code>run</code> (with <code>options</code>), <code>task</code> (with <code>task</code>, <code>params</code>,
-<code>environment</code> and <code>timeoutSeconds</code>, as in a task request) or <code>plan</code>
-(with <code>planName</code> and <code>steps</code>, as in a
-<a href="run-plans.html#through-the-api">plan request</a>). The nodes
-are <code>targets</code>, <code>query</code> or <code>group</code>. <code>repeat.unit</code> is <code>minute</code>, <code>hour</code>,
-<code>day</code> or <code>week</code>; leave <code>repeat</code> out for a schedule that starts once.</p>
+<p><code>kind</code> 为 <code>run</code>（带 <code>options</code>）、<code>task</code>（带 <code>task</code>、<code>params</code>、<code>environment</code> 和 <code>timeoutSeconds</code>，与 Task 请求相同）或 <code>plan</code>（带 <code>planName</code> 和 <code>steps</code>，与 <a href="run-plans.html#through-the-api">Plan 请求</a>相同）。Nodes 由 <code>targets</code>、<code>query</code> 或 <code>group</code> 指定。<code>repeat.unit</code> 为 <code>minute</code>、<code>hour</code>、<code>day</code> 或 <code>week</code>；对于只启动一次的计划，省略 <code>repeat</code>。</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Request</th>
-<th>Does</th>
+<th>请求</th>
+<th>作用</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>GET /api/v1/orchestrator/schedules</code></td>
-<td>lists the schedules you can see</td>
+<td>列出你能看到的计划</td>
 </tr>
 <tr>
 <td><code>GET /api/v1/orchestrator/schedules/&lt;id&gt;</code></td>
-<td>one schedule, with what happened each time it came due</td>
+<td>一个计划，以及它每次到期时发生的情况</td>
 </tr>
 <tr>
 <td><code>PUT /api/v1/orchestrator/schedules/&lt;id&gt;</code></td>
-<td>replaces it, and makes you its owner</td>
+<td>替换它，并使你成为其所有者</td>
 </tr>
 <tr>
-<td><code>POST /api/v1/orchestrator/schedules/&lt;id&gt;/pause</code> and <code>/resume</code></td>
-<td>pauses or resumes it</td>
+<td><code>POST /api/v1/orchestrator/schedules/&lt;id&gt;/pause</code> 和 <code>/resume</code></td>
+<td>暂停或恢复它</td>
 </tr>
 <tr>
 <td><code>DELETE /api/v1/orchestrator/schedules/&lt;id&gt;</code></td>
-<td>deletes it</td>
+<td>删除它</td>
 </tr>
 </tbody>
 </table></div>
-<p>A refused request answers <code>400</code> (or <code>403</code> for a node outside your node
-groups) with an <code>error</code>, and a <code>field</code> naming the part of the schedule
-it concerns - and, for a plan, the <code>step</code> that was refused. A schedule owned by a service token runs for as long as
-that token exists and holds <code>orchestrator:run</code>.</p>
-<h2 id="where-schedules-are-started">Where schedules are started</h2>
-<p>Schedules are started by instances in the <code>all</code> and <code>orchestrator</code>
-<a href="run-modes.html">run modes</a>. When several are running, each due time is
-started by exactly one of them.</p>
+<p>被拒绝的请求会以 <code>400</code>（如果是你的 Node 组之外的 Node，则为 <code>403</code>）响应，并附带 <code>error</code>，以及指出与计划的哪一部分有关的 <code>field</code>——如果是 Plan，还会附带被拒绝的 <code>step</code>。由服务令牌拥有的计划，只要该令牌存在且持有 <code>orchestrator:run</code>，就会一直运行。</p>
+<h2 id="where-schedules-are-started">计划在哪里启动</h2>
+<p>计划由 <code>all</code> 和 <code>orchestrator</code> <a href="run-modes.html">运行模式</a>的实例启动。当有多个实例在运行时，每个到期时间都只由其中一个实例启动。</p>
 
     </div>
 
-    <vox-series-nav label="Use" previous-text="Previous" next-text="Next" previous-href="../guides/run-plans.html" previous-label="Run plans" next-href="../guides/access.html" next-label="Users, roles and tokens"></vox-series-nav>
+    <vox-series-nav label="使用" previous-text="上一篇" next-text="下一篇" previous-href="../guides/run-plans.html" previous-label="运行 Plans" next-href="../guides/access.html" next-label="用户、角色与令牌"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#create-a-schedule"><span>Create a schedule</span>
-        <vox-toc-item slot="children" href="#nodes-are-worked-out-each-time"><span>Nodes are worked out each time</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#times-and-repeating"><span>Times and repeating</span></vox-toc-item>
+    <vox-toc heading="本页内容">
+      <vox-toc-item href="#create-a-schedule"><span>创建计划</span>
+        <vox-toc-item slot="children" href="#nodes-are-worked-out-each-time"><span>每次都会重新确定 Nodes</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#times-and-repeating"><span>时间与重复</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#what-a-schedule-runs-as"><span>What a schedule runs as</span>
+      <vox-toc-item href="#what-a-schedule-runs-as"><span>计划以什么身份运行</span>
       </vox-toc-item>
-      <vox-toc-item href="#when-a-schedule-does-not-start"><span>When a schedule does not start</span>
-        <vox-toc-item slot="children" href="#a-scheduled-plan-keeps-its-own-steps"><span>A scheduled plan keeps its own steps</span></vox-toc-item>
+      <vox-toc-item href="#when-a-schedule-does-not-start"><span>当计划没有启动时</span>
+        <vox-toc-item slot="children" href="#a-scheduled-plan-keeps-its-own-steps"><span>计划的 Plan 保留其自己的步骤</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#pause-change-or-delete-a-schedule"><span>Pause, change or delete a schedule</span>
+      <vox-toc-item href="#pause-change-or-delete-a-schedule"><span>暂停、更改或删除计划</span>
       </vox-toc-item>
-      <vox-toc-item href="#sensitive-task-parameters"><span>Sensitive task parameters</span>
+      <vox-toc-item href="#sensitive-task-parameters"><span>敏感的 Task 参数</span>
       </vox-toc-item>
-      <vox-toc-item href="#through-the-api"><span>Through the API</span>
+      <vox-toc-item href="#through-the-api"><span>通过 API</span>
       </vox-toc-item>
-      <vox-toc-item href="#where-schedules-are-started"><span>Where schedules are started</span>
+      <vox-toc-item href="#where-schedules-are-started"><span>计划在哪里启动</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -418,23 +329,17 @@ started by exactly one of them.</p>
 
       
       <vox-cta-band heading="自己动手运行">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console 以容器镜像形式发布，每次 push 都会构建 amd64 和 arm64 版本，同时也提供单个二进制文件。安装指南将带你从一台空主机走到一套可用的部署——openvoxserver、openvoxdb、Postgres 和控制台——可以用容器，也可以用软件包。</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">安装指南</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">GitHub 上的源码</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">容器镜像</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="全尺寸截图">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">关闭</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -443,18 +348,18 @@ started by exactly one of them.</p>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">概览</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">源码</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">安装指南</a>
       </vox-footer-column>
       <vox-footer-column heading="功能">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">分类</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">编排</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">补丁管理</a>
         <a href="../features/security.html">安全</a>
         <a href="../features/access-control.html">访问控制</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">AI 代理</a>
+        <a href="../features/scaling.html">扩展</a>
         </vox-footer-column>
       
       <vox-footer-column heading="语言">

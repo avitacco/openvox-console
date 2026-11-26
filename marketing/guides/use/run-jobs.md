@@ -151,8 +151,8 @@ nodes, and on the **Jobs** page. In the dialog:
 2. Pick the **Task**. Its description, and a field for each parameter,
    appear below it. A field marked `*` is required; one left empty gets
    the default its metadata declares.
-3. Optionally, set a **Timeout**. A task still running after it is
-   stopped, along with anything it started, and reported as timed out.
+3. Optionally, set a **Timeout**. A task still running when it runs out
+   is stopped, along with anything it started, and reported as timed out.
    It is 30 minutes unless you say otherwise, and at most 55.
 4. **Run task** starts the job and takes you to it.
 
@@ -220,6 +220,8 @@ the node's install script again to upgrade it - see
 The **Jobs** page lists every job, newest first. A job's page shows each
 target on its own line - its status, exit code and output - so a job that
 worked on nine nodes and failed on one says exactly that.
+
+![](shot:job-result)
 
 If a job also ran on nodes outside your node groups, its page shows
 only your nodes and says so. The job's overall status still covers

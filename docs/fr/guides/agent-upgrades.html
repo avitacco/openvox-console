@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="fr" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="How the console upgrades the node agent on your nodes by itself, how to see which nodes are behind, and the one-time step for nodes installed before this existed."/>
+    <meta name="description" content="Comment la console met à jour d&#39;elle-même l&#39;agent de Node sur vos Nodes, comment voir quels Nodes sont en retard, et l&#39;étape unique pour les Nodes installés avant l&#39;existence de cette fonctionnalité."/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Keep node agents current - OpenVox Console</title>
+    <title>Tenir les agents de Node à jour - OpenVox Console</title>
 
     
     <script>
@@ -104,194 +104,142 @@
       <a href="../features/classification.html">Classification</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">Orchestration</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">Mise à jour corrective</a>
       <a href="../features/security.html">Sécurité</a>
       <a href="../features/access-control.html">Contrôle d&#39;accès</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">Agents d&#39;IA</a>
+      <a href="../features/scaling.html">Montée en charge</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="Guides" toggle-label="Tous les guides">
+    <vox-sidenav-group heading="Installer">
+      <vox-sidenav-item href="../guides/plan.html"><span>Planifier un déploiement</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>Installer avec des conteneurs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>Installer à partir de paquets et de binaires</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes" open="">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html" current="" aria-current="page"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>Ajouter des Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>Gérer les certificats des Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>Retirer un Node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html" current="" aria-current="page"><span>Tenir les agents de Node à jour</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
-      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="Passer à l&#39;échelle">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>Modes d&#39;exécution</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>Faire tourner plus d&#39;instances</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="Utiliser">
+      <vox-sidenav-item href="../guides/classify.html"><span>Classifier les Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>Déployer du code</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>Lancer des Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>Exécuter des Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Planifier des Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>Utilisateurs, rôles et jetons</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Suivre les vulnérabilités</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>Trouver et appliquer les mises à jour manquantes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>Exécuter des Tasks sur des hôtes sans agent</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>Exécuter des Plans issus de votre code</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>Laisser des agents d&#39;IA utiliser la console</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="Exploiter">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Basculer vers une base de données de secours</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Renouveler la clé de signature des jetons</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Mettre à niveau les bases de données en conteneurs vers Postgres 18</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
     <p class="guide-eyebrow">Nodes</p>
-    <h1 class="guide-title vox-ts-xxl">Keep node agents current</h1>
-    <p class="guide-summary">How the console upgrades the node agent on your nodes by itself, how to see which nodes are behind, and the one-time step for nodes installed before this existed.</p>
+    <h1 class="guide-title vox-ts-xxl">Tenir les agents de Node à jour</h1>
+    <p class="guide-summary">Comment la console met à jour d&#39;elle-même l&#39;agent de Node sur vos Nodes, comment voir quels Nodes sont en retard, et l&#39;étape unique pour les Nodes installés avant l&#39;existence de cette fonctionnalité.</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>The node agent is the small service the install script puts on each
-node. It holds the node&#39;s connection to the console and carries out the
-runs and tasks you start. It is built with the console and ships inside
-it, so a newer console usually brings a newer node agent.</p>
-<p>The console upgrades the node agent on your nodes for you. When a node
-connects, the console asks which build of the agent it runs. If that
-build is older than the one the console ships, the console tells the
-node to upgrade, and the node downloads the new build from the console,
-checks it, installs it and restarts onto it. You do nothing on the node.</p>
-<h2 id="what-you-see">What you see</h2>
+<p>L&#39;agent de Node est le petit service que le script d&#39;installation place sur chaque Node. Il détient la connexion du Node à la console et effectue les exécutions et les Tasks que vous lancez. Il est construit avec la console et livré à l&#39;intérieur de celle-ci : une console plus récente apporte donc généralement un agent de Node plus récent.</p>
+<p>La console met à jour pour vous l&#39;agent de Node sur vos Nodes. Lorsqu&#39;un Node se connecte, la console demande quel build de l&#39;agent il exécute. Si ce build est plus ancien que celui que fournit la console, celle-ci demande au Node de se mettre à jour, et le Node télécharge le nouveau build depuis la console, le vérifie, l&#39;installe et redémarre dessus. Vous n&#39;avez rien à faire sur le Node.</p>
+<h2 id="what-you-see">Ce que vous voyez</h2>
 <ul>
-<li><strong>Nodes page.</strong> A node whose agent is behind is marked
-<strong>Client out of date</strong>.</li>
-<li><strong>A node&#39;s page.</strong> Shows the agent&#39;s version and when it was built,
-whether it is current, and what became of the last upgrade attempt.</li>
-<li><strong>Dashboard.</strong> Under <strong>Fleet status</strong>, how many node agents are
-current, how many are out of date, how many upgrades have failed, and
-whether automatic upgrades are on.</li>
+<li><strong>Page Nodes.</strong> Un Node dont l&#39;agent est en retard est marqué <strong>Client obsolète</strong>.</li>
+<li><strong>La page d&#39;un Node.</strong> Affiche la version de l&#39;agent et sa date de construction, s&#39;il est à jour, et l&#39;issue de la dernière tentative de mise à jour.</li>
+<li><strong>Dashboard.</strong> Sous <strong>État du parc</strong>, le nombre d&#39;agents de Node à jour, le nombre d&#39;agents obsolètes, le nombre de mises à jour en échec, et l&#39;activation ou non des mises à jour automatiques.</li>
 </ul>
-<p>Starting an upgrade yourself, from a node&#39;s page, needs <code>nodes:manage</code>
-on a role whose node groups include the node. The upgrades the console
-starts by itself are not limited by anyone&#39;s node groups.</p>
-<p>A node that has not connected since the console was upgraded shows as
-not yet reported, not as out of date. It reports the next time it
-connects.</p>
-<h2 id="nodes-installed-before-automatic-upgrades-existed">Nodes installed before automatic upgrades existed</h2>
-<p>A node agent from before this feature cannot upgrade itself, because it
-does not understand the request. The console shows such a node as out of
-date, with a note that the install script has to be run again. Run it on
-the node once, exactly as you did to <a href="add.html">add the node</a>:</p>
-<vox-tabs class="guide-tabs"><vox-tab slot="tab" panel="tab1-linux" data-tab-key="linux" selected="">Linux</vox-tab><vox-tab-panel name="tab1-linux"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -fsSL https://console.example.com/packages/install.sh | sudo bash
-</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab1-macos" data-tab-key="macos">macOS</vox-tab><vox-tab-panel name="tab1-macos"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -fsSL https://console.example.com/packages/install-macos.sh | sudo bash
-</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab1-windows" data-tab-key="windows">Windows</vox-tab><vox-tab-panel name="tab1-windows"><vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>Invoke-WebRequest https://console.example.com/packages/install.ps1 -OutFile install.ps1
+<p>Lancer vous-même une mise à jour, depuis la page d&#39;un Node, nécessite <code>nodes:manage</code> sur un rôle dont les groupes de Nodes incluent le Node. Les mises à jour que la console lance d&#39;elle-même ne sont limitées par les groupes de Nodes de personne.</p>
+<p>Un Node qui ne s&#39;est pas connecté depuis la mise à jour de la console apparaît comme n&#39;ayant pas encore remonté d&#39;information, et non comme obsolète. Il le fera à sa prochaine connexion.</p>
+<h2 id="nodes-installed-before-automatic-upgrades-existed">Les Nodes installés avant l&#39;existence des mises à jour automatiques</h2>
+<p>Un agent de Node antérieur à cette fonctionnalité ne peut pas se mettre à jour lui-même, car il ne comprend pas la demande. La console affiche un tel Node comme obsolète, avec une note indiquant qu&#39;il faut relancer le script d&#39;installation. Exécutez-le une fois sur le Node, exactement comme pour <a href="add.html">ajouter le Node</a> :</p>
+<vox-tabs class="guide-tabs"><vox-tab slot="tab" panel="tab1-linux" data-tab-key="linux" selected="">Linux</vox-tab><vox-tab-panel name="tab1-linux"><vox-code-block language="sh" copy-label="Copier le code" copied-label="Copié" copied-message="Copié dans le presse-papiers"><code>curl -fsSL https://console.example.com/packages/install.sh | sudo bash
+</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab1-macos" data-tab-key="macos">macOS</vox-tab><vox-tab-panel name="tab1-macos"><vox-code-block language="sh" copy-label="Copier le code" copied-label="Copié" copied-message="Copié dans le presse-papiers"><code>curl -fsSL https://console.example.com/packages/install-macos.sh | sudo bash
+</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab1-windows" data-tab-key="windows">Windows</vox-tab><vox-tab-panel name="tab1-windows"><vox-code-block language="plaintext" copy-label="Copier le code" copied-label="Copié" copied-message="Copié dans le presse-papiers"><code>Invoke-WebRequest https://console.example.com/packages/install.ps1 -OutFile install.ps1
 .\install.ps1
-</code></vox-code-block></vox-tab-panel></vox-tabs><p>From then on the node keeps itself current. The dashboard counts the
-nodes still waiting for this, so you can tell when you have done them
-all.</p>
-<p>If you manage the Linux package with Puppet instead, <code>ensure =&gt; latest</code>
-on the <code>node-agent-client</code> package from the console&#39;s repository does
-the same job.</p>
-<h2 id="what-an-upgrade-does-and-does-not-do">What an upgrade does and does not do</h2>
+</code></vox-code-block></vox-tab-panel></vox-tabs><p>À partir de là, le Node se tient lui-même à jour. Le Dashboard compte les Nodes qui attendent encore cette opération, pour que vous sachiez quand vous les avez tous traités.</p>
+<p>Si vous gérez plutôt le paquet Linux avec Puppet, <code>ensure =&gt; latest</code> sur le paquet <code>node-agent-client</code> issu du dépôt de la console fait le même travail.</p>
+<h2 id="what-an-upgrade-does-and-does-not-do">Ce que fait et ne fait pas une mise à jour</h2>
 <ul>
-<li><strong>It never interrupts work.</strong> A node that is in the middle of a run or
-a task is left alone and tried again a minute later.</li>
-<li><strong>It is checked before it is installed.</strong> The console sends the
-expected checksum of the download over the node&#39;s authenticated
-connection. The node refuses anything that does not match, and starts
-the new agent once to confirm it works before replacing the old one.
-If either check fails, the node keeps the agent it has.</li>
-<li><strong>It goes a few nodes at a time.</strong> At most 20 nodes upgrade at once,
-however many are behind.</li>
-<li><strong>It only goes forwards.</strong> A node running a newer agent than the
-console ships is left alone. This is what you see part-way through
-upgrading a cluster of console instances, or after rolling the console
-back.</li>
-<li><strong>On Linux it goes through the package manager.</strong> The node installs
-the console&#39;s <code>.deb</code> or <code>.rpm</code>, so <code>dpkg</code> and <code>rpm</code> show the version
-that is really installed.</li>
+<li><strong>Elle n&#39;interrompt jamais le travail.</strong> Un Node en pleine exécution ou en plein Task est laissé tranquille, et une nouvelle tentative a lieu une minute plus tard.</li>
+<li><strong>Elle est vérifiée avant d&#39;être installée.</strong> La console envoie la somme de contrôle attendue du téléchargement par la connexion authentifiée du Node. Le Node refuse tout ce qui ne correspond pas, et démarre une fois le nouvel agent pour confirmer qu&#39;il fonctionne avant de remplacer l&#39;ancien. Si l&#39;une ou l&#39;autre vérification échoue, le Node conserve son agent actuel.</li>
+<li><strong>Elle procède quelques Nodes à la fois.</strong> Au plus 20 Nodes se mettent à jour en même temps, quel que soit le nombre de Nodes en retard.</li>
+<li><strong>Elle ne fait qu&#39;avancer.</strong> Un Node dont l&#39;agent est plus récent que celui que fournit la console est laissé tel quel. C&#39;est ce que vous observez en pleine mise à jour d&#39;un cluster d&#39;instances de la console, ou après un retour à une version antérieure de la console.</li>
+<li><strong>Sous Linux, elle passe par le gestionnaire de paquets.</strong> Le Node installe le <code>.deb</code> ou le <code>.rpm</code> de la console ; <code>dpkg</code> et <code>rpm</code> indiquent donc la version réellement installée.</li>
 </ul>
-<vox-callout variant="info" heading="Note"><p>Upgrades on macOS and Windows are covered by the project&#39;s tests but
-have not yet been run end to end on real macOS and Windows hosts.
-Report anything that does not go as described here.</p>
+<vox-callout variant="info" heading="Remarque"><p>Les mises à jour sous macOS et Windows sont couvertes par les tests du projet, mais n&#39;ont pas encore été exécutées de bout en bout sur de vrais hôtes macOS et Windows. Signalez tout ce qui ne se déroule pas comme décrit ici.</p>
 </vox-callout>
-<h2 id="when-an-upgrade-fails">When an upgrade fails</h2>
-<p>The node&#39;s page shows the reason, in the node&#39;s own words: the download
-failed, the checksum did not match, the package manager was busy. The
-console tries again after five minutes, then waits twice as long each
-time, and stops after five failures at the same build.</p>
-<p>The most common cause is a node that cannot reach the console&#39;s base URL
-(<code>CONSOLE_BASE_URL</code>), which is where it downloads the new agent from.
-The install script used the same address, so check what has changed
-since the node was installed.</p>
-<p>Once you have fixed the cause, choose <strong>Upgrade client</strong> on the node&#39;s
-page to try again straight away. This needs the <code>nodes:manage</code>
-permission and a connected node. It works whether or not automatic
-upgrades are on, and after the automatic attempts have stopped.</p>
-<p>The console also starts again by itself when you upgrade it to a version
-shipping a different node agent.</p>
-<h2 id="turning-automatic-upgrades-off">Turning automatic upgrades off</h2>
-<p>To stop the console upgrading node agents by itself, set this on every
-console instance and restart it:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CONSOLE_AGENT_AUTO_UPGRADE=false
+<h2 id="when-an-upgrade-fails">Quand une mise à jour échoue</h2>
+<p>La page du Node affiche la raison, dans les termes du Node lui-même : le téléchargement a échoué, la somme de contrôle ne correspondait pas, le gestionnaire de paquets était occupé. La console réessaie au bout de cinq minutes, puis attend deux fois plus longtemps à chaque fois, et s&#39;arrête après cinq échecs sur le même build.</p>
+<p>La cause la plus fréquente est un Node qui ne peut pas joindre l&#39;URL de base de la console (<code>CONSOLE_BASE_URL</code>), d&#39;où il télécharge le nouvel agent. Le script d&#39;installation utilisait la même adresse : vérifiez donc ce qui a changé depuis l&#39;installation du Node.</p>
+<p>Une fois la cause corrigée, choisissez <strong>Mettre à niveau le client</strong> sur la page du Node pour réessayer immédiatement. Cela nécessite la permission <code>nodes:manage</code> et un Node connecté. Cela fonctionne que les mises à jour automatiques soient activées ou non, et même après l&#39;arrêt des tentatives automatiques.</p>
+<p>La console reprend aussi d&#39;elle-même lorsque vous la mettez à jour vers une version qui fournit un agent de Node différent.</p>
+<h2 id="turning-automatic-upgrades-off">Désactiver les mises à jour automatiques</h2>
+<p>Pour empêcher la console de mettre à jour d&#39;elle-même les agents de Node, définissez ceci sur chaque instance de la console et redémarrez-la :</p>
+<vox-code-block language="sh" copy-label="Copier le code" copied-label="Copié" copied-message="Copié dans le presse-papiers"><code>CONSOLE_AGENT_AUTO_UPGRADE=false
 </code></vox-code-block>
-<p>The console still records each node&#39;s agent build and still shows which
-nodes are out of date. <strong>Upgrade client</strong> on a node&#39;s page still works.</p>
-<p>To exempt a single node instead, set <code>NODE_AGENT_ACCEPT_UPGRADES=false</code>
-for the node agent on that node and restart it:</p>
+<p>La console enregistre toujours le build de l&#39;agent de chaque Node et affiche toujours les Nodes obsolètes. <strong>Mettre à niveau le client</strong> sur la page d&#39;un Node fonctionne toujours.</p>
+<p>Pour exempter plutôt un seul Node, définissez <code>NODE_AGENT_ACCEPT_UPGRADES=false</code> pour l&#39;agent de Node de ce Node et redémarrez-le :</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Platform</th>
-<th>Where to set it</th>
+<th>Plateforme</th>
+<th>Où la définir</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Linux</td>
-<td>Add the line to <code>/etc/node-agent-client/local.env</code>, then <code>sudo systemctl restart node-agent-client</code></td>
+<td>Ajoutez la ligne à <code>/etc/node-agent-client/local.env</code>, puis exécutez <code>sudo systemctl restart node-agent-client</code></td>
 </tr>
 <tr>
 <td>Windows</td>
-<td>Set it as a system environment variable, then restart the <code>node-agent-client</code> service</td>
+<td>Définissez-la comme variable d&#39;environnement système, puis redémarrez le service <code>node-agent-client</code></td>
 </tr>
 <tr>
 <td>macOS</td>
-<td>Add it to <code>EnvironmentVariables</code> in <code>/Library/LaunchDaemons/org.voxpupuli.node-agent-client.plist</code>, then reload the job</td>
+<td>Ajoutez-la à <code>EnvironmentVariables</code> dans <code>/Library/LaunchDaemons/org.voxpupuli.node-agent-client.plist</code>, puis rechargez le job launchd</td>
 </tr>
 </tbody>
 </table></div>
-<p>The node&#39;s page then says that upgrades are declined on that node, and
-the console does not try. On macOS, running the install script again
-rewrites that file, so set it again afterwards.</p>
+<p>La page du Node indique alors que les mises à jour sont refusées sur ce Node, et la console n&#39;essaie pas. Sous macOS, relancer le script d&#39;installation réécrit ce fichier : redéfinissez donc la variable ensuite.</p>
 
     </div>
 
-    <vox-series-nav label="Nodes" previous-text="Previous" next-text="Next" previous-href="../guides/remove.html" previous-label="Remove a node"></vox-series-nav>
+    <vox-series-nav label="Nodes" previous-text="Précédent" next-text="Suivant" previous-href="../guides/remove.html" previous-label="Retirer un Node"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#what-you-see"><span>What you see</span>
+    <vox-toc heading="Sur cette page">
+      <vox-toc-item href="#what-you-see"><span>Ce que vous voyez</span>
       </vox-toc-item>
-      <vox-toc-item href="#nodes-installed-before-automatic-upgrades-existed"><span>Nodes installed before automatic upgrades existed</span>
+      <vox-toc-item href="#nodes-installed-before-automatic-upgrades-existed"><span>Les Nodes installés avant l&#39;existence des mises à jour automatiques</span>
       </vox-toc-item>
-      <vox-toc-item href="#what-an-upgrade-does-and-does-not-do"><span>What an upgrade does and does not do</span>
+      <vox-toc-item href="#what-an-upgrade-does-and-does-not-do"><span>Ce que fait et ne fait pas une mise à jour</span>
       </vox-toc-item>
-      <vox-toc-item href="#when-an-upgrade-fails"><span>When an upgrade fails</span>
+      <vox-toc-item href="#when-an-upgrade-fails"><span>Quand une mise à jour échoue</span>
       </vox-toc-item>
-      <vox-toc-item href="#turning-automatic-upgrades-off"><span>Turning automatic upgrades off</span>
+      <vox-toc-item href="#turning-automatic-upgrades-off"><span>Désactiver les mises à jour automatiques</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -301,23 +249,17 @@ rewrites that file, so set it again afterwards.</p>
 
       
       <vox-cta-band heading="Faites-le tourner vous-même">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console est distribué sous forme d&#39;images de conteneur, construites pour amd64 et arm64 à chaque push, et d&#39;un binaire unique. Les guides d&#39;installation vous mènent d&#39;un hôte vide à un déploiement fonctionnel - openvoxserver, openvoxdb, Postgres et la console - avec des conteneurs ou avec des paquets.</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">Guides d&#39;installation</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">Source sur GitHub</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">Images de conteneur</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="Capture d&#39;écran en taille réelle">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">Fermer</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -326,18 +268,18 @@ rewrites that file, so set it again afterwards.</p>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">Aperçu</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">Source</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">Guides d&#39;installation</a>
       </vox-footer-column>
       <vox-footer-column heading="Fonctionnalités">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">Classification</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">Orchestration</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">Mise à jour corrective</a>
         <a href="../features/security.html">Sécurité</a>
         <a href="../features/access-control.html">Contrôle d&#39;accès</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">Agents d&#39;IA</a>
+        <a href="../features/scaling.html">Montée en charge</a>
         </vox-footer-column>
       
       <vox-footer-column heading="Langue">

@@ -228,6 +228,12 @@ name its certificate carries.</li>
 also holds a certificate from the CA, and the secret is what keeps its
 certificate from being enough to join.</li>
 </ul>
+<p>If you give an instance a certificate of its own rather than the shared
+one, openvoxserver must also let it read the class list: its rule names
+the certificate it allows, <code>console</code> by default, and refuses any other
+with <code>HTTP 403</code>. Add every <code>web</code> and <code>all</code> instance&#39;s certname to that
+rule, or the group page on those instances says the list is
+unavailable. See <a href="packages.html">Install from packages and binaries</a>.</p>
 <p>Leaves use a second secret of their own, which must differ from the
 cluster secret: an <code>enc</code> host is the least trusted place a console runs,
 and must not be able to join as a full peer.</p>

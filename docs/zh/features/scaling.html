@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="zh" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="One binary that runs as a single instance or a clustered fleet of web, worker, orchestrator and ENC instances."/>
+    <meta name="description" content="一个二进制文件，既可以作为单个实例运行，也可以作为由 web、worker、orchestrator 和 ENC 实例组成的集群运行。"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Scaling - OpenVox Console</title>
+    <title>扩展 - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a href="../guides/index.html" slot="actions">Guides</a>
+      <a href="../guides/index.html" slot="actions">指南</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,65 +104,65 @@
       <a href="../features/classification.html">分类</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">编排</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">补丁管理</a>
       <a href="../features/security.html">安全</a>
       <a href="../features/access-control.html">访问控制</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a aria-current="page" href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">AI 代理</a>
+      <a aria-current="page" href="../features/scaling.html">扩展</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
-<vox-hero eyebrow="Scaling" heading="Start with one binary. Scale out when you need to.">
-  <p>The console is one Go binary, and one container image. The same binary runs a single all-in-one instance, or a fleet of instances each doing one job.</p>
+<vox-hero eyebrow="扩展" heading="从一个二进制文件开始。需要时再横向扩展。">
+  <p>控制台是一个 Go 二进制文件，也是一个容器镜像。同一个二进制文件既可以运行单个一体化实例，也可以运行一组各司其职的实例。</p>
 </vox-hero>
 
 <section class="site-section">
-  <h2 class="vox-ts-xxl">One instance to begin with</h2>
+  <h2 class="vox-ts-xxl">从一个实例开始</h2>
   <div class="vox-prose">
-    <p>The console, access control, classification, orchestration and code deployment run in one process by default. There is nothing to wire together, no internal services to keep in step, and one thing to upgrade.</p>
+    <p>控制台、访问控制、分类、编排和代码 deploy 默认在同一个进程中运行。没有需要拼接的东西，没有需要保持同步的内部服务，只有一样东西需要升级。</p>
   </div>
 </section>
 
 <section class="site-section">
-  <h2 class="vox-ts-xxl">Split it by job when the fleet grows</h2>
+  <h2 class="vox-ts-xxl">机群增长时按职责拆分</h2>
   <div class="vox-prose">
-    <p>One setting chooses what an instance runs, so each part can be scaled and placed on its own. Everything durable lives in Postgres, so any number of each can run at once.</p>
+    <p>一项设置决定实例运行什么，因此每个部分都可以单独扩展和部署。所有持久数据都存放在 Postgres 中，因此每种实例都可以同时运行任意多个。</p>
   </div>
 </section>
 
 <vox-grid min="220px" gap="lg">
   <vox-card heading="Web">
     <vox-icon slot="icon" name="dashboard"></vox-icon>
-    <span>The console and its API, behind your load balancer.</span>
+    <span>控制台及其 API，位于你的负载均衡器之后。</span>
   </vox-card>
   <vox-card heading="Orchestrator">
     <vox-icon slot="icon" name="orchestrate"></vox-icon>
-    <span>Holds the connections to your nodes and runs the jobs sent down them.</span>
+    <span>持有与你的 Nodes 之间的连接，并运行通过这些连接下发的 Jobs。</span>
   </vox-card>
   <vox-card heading="Worker">
     <vox-icon slot="icon" name="schedule"></vox-icon>
-    <span>Background work, such as vulnerability syncs, done exactly once however many run.</span>
+    <span>后台工作，例如漏洞同步，无论运行多少个实例都只执行一次。</span>
   </vox-card>
   <vox-card heading="ENC">
     <vox-icon slot="icon" name="classifier"></vox-icon>
-    <span>Classification only, running beside your compilers.</span>
+    <span>仅提供分类，运行在你的编译器旁边。</span>
   </vox-card>
 </vox-grid>
 
 <section class="site-section">
-  <h2 class="vox-ts-xxl">Clustered, and secured by default</h2>
+  <h2 class="vox-ts-xxl">集群化，并且默认安全</h2>
   <div class="vox-prose">
-    <p>Instances join one cluster over mutual TLS, using the certificates your OpenVox CA already issues. A revoked login or node certificate is refused by every instance at once, and a job started on any instance reaches a node connected to any other.</p>
-    <p>Classification instances attach from the outside in: the connection runs from beside the compilers to the core, so the core never needs a way into that network, and those instances never carry node traffic.</p>
+    <p>实例通过双向 TLS 加入同一个集群，使用的是你的 OpenVox CA 已经签发的证书。被吊销的登录或 Node 证书会同时被每个实例拒绝，在任何实例上启动的 Job 都能到达连接在任何其他实例上的 Node。</p>
+    <p>分类实例由外向内接入：连接从编译器旁边发起，连到核心，因此核心永远不需要进入那个网络的通道，而且这些实例从不承载 Node 流量。</p>
   </div>
 </section>
 
 <section class="site-section">
-  <h2 class="vox-ts-xxl">The whole fleet on one page</h2>
+  <h2 class="vox-ts-xxl">一个页面看遍所有实例</h2>
   <div class="vox-prose">
-    <p>The System page asks every instance to describe itself: its run mode, health, uptime and background work, and how it sees each service the console depends on. An instance that should have answered and did not is called out rather than left off.</p>
+    <p>系统页面会请每个实例描述自身情况：其运行模式、健康状况、运行时间和后台工作，以及它眼中控制台所依赖的每项服务的状态。本应应答却没有应答的实例会被明确指出，而不是被悄悄略去。</p>
   </div>
 </section>
 
@@ -170,45 +170,39 @@
   <a class="shot-link" href="../../assets/screenshots/fleet-status-light-zh.png">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/fleet-status-dark-zh.png" data-theme-dark="../../assets/screenshots/fleet-status-dark-zh.png" data-theme-light="../../assets/screenshots/fleet-status-light-zh.png"/>
-      <img src="../../assets/screenshots/fleet-status-light-zh.png" alt="The System page&#39;s fleet status, listing every running console instance grouped by run mode - an all-in-one instance, a worker, an orchestrator and an ENC instance - with each one&#39;s health, uptime and background work, and the health of every service the console depends on" width="1440"/>
+      <img src="../../assets/screenshots/fleet-status-light-zh.png" alt="系统页面的集群状态，列出每个正在运行的控制台实例并按运行模式分组——一个一体化实例、一个 worker、一个 orchestrator 和一个 ENC 实例——显示每个实例的健康状况、运行时间和后台工作，以及控制台所依赖的每项服务的健康状况" width="1440"/>
     </picture>
     <span class="vox-sr-only">Open full size</span>
   </a>
 </figure>
 
-<vox-callout variant="tip" heading="Grow into it one step at a time">
-  <p>Add a second all-in-one instance first, then split roles out as load demands. Every step can be undone by setting an instance back to running everything.</p>
+<vox-callout variant="tip" heading="一步一步逐渐扩展">
+  <p>先添加第二个一体化实例，再根据负载需要拆分角色。每一步都可以撤销，只需把实例改回运行全部功能即可。</p>
 </vox-callout>
 
       
       <section class="site-section do-it" aria-labelledby="do-it-heading">
-        <h2 id="do-it-heading" class="vox-ts-xxl">Do it</h2>
+        <h2 id="do-it-heading" class="vox-ts-xxl">动手操作</h2>
         <vox-grid min="16rem">
-          <vox-card heading="Run modes" href="../guides/run-modes.html"><p>What each of the console&#39;s run modes serves and runs, and what each one needs configured.</p></vox-card>
-          <vox-card heading="Run more instances" href="../guides/cluster.html"><p>Cluster a second console instance, split instances into run modes, and place classification next to the compilers.</p></vox-card>
+          <vox-card heading="运行模式" href="../guides/run-modes.html"><p>控制台的每种运行模式提供和运行什么，以及每种模式需要配置什么。</p></vox-card>
+          <vox-card heading="运行更多实例" href="../guides/cluster.html"><p>将第二个控制台实例加入集群，把实例拆分为不同的运行模式，并把分类服务部署在编译器旁边。</p></vox-card>
           </vox-grid>
       </section>
       </div>
 
       
       <vox-cta-band heading="自己动手运行">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console 以容器镜像形式发布，每次 push 都会构建 amd64 和 arm64 版本，同时也提供单个二进制文件。安装指南将带你从一台空主机走到一套可用的部署——openvoxserver、openvoxdb、Postgres 和控制台——可以用容器，也可以用软件包。</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">安装指南</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">GitHub 上的源码</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">容器镜像</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="全尺寸截图">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">关闭</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -217,18 +211,18 @@
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">概览</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">源码</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">安装指南</a>
       </vox-footer-column>
       <vox-footer-column heading="功能">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">分类</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">编排</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">补丁管理</a>
         <a href="../features/security.html">安全</a>
         <a href="../features/access-control.html">访问控制</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">AI 代理</a>
+        <a href="../features/scaling.html">扩展</a>
         </vox-footer-column>
       
       <vox-footer-column heading="语言">

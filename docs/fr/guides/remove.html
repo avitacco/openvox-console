@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="fr" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Delete a node from the console, what that does in openvoxdb and the CA, and what it keeps."/>
+    <meta name="description" content="Supprimer un Node depuis la console : ce que cela fait dans openvoxdb et dans la CA, et ce qui est conservé."/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Remove a node - OpenVox Console</title>
+    <title>Retirer un Node - OpenVox Console</title>
 
     
     <script>
@@ -104,109 +104,101 @@
       <a href="../features/classification.html">Classification</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">Orchestration</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">Mise à jour corrective</a>
       <a href="../features/security.html">Sécurité</a>
       <a href="../features/access-control.html">Contrôle d&#39;accès</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">Agents d&#39;IA</a>
+      <a href="../features/scaling.html">Montée en charge</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="Guides" toggle-label="Tous les guides">
+    <vox-sidenav-group heading="Installer">
+      <vox-sidenav-item href="../guides/plan.html"><span>Planifier un déploiement</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>Installer avec des conteneurs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>Installer à partir de paquets et de binaires</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes" open="">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html" current="" aria-current="page"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>Ajouter des Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>Gérer les certificats des Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html" current="" aria-current="page"><span>Retirer un Node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Tenir les agents de Node à jour</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
-      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="Passer à l&#39;échelle">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>Modes d&#39;exécution</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>Faire tourner plus d&#39;instances</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="Utiliser">
+      <vox-sidenav-item href="../guides/classify.html"><span>Classifier les Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>Déployer du code</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>Lancer des Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>Exécuter des Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Planifier des Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>Utilisateurs, rôles et jetons</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Suivre les vulnérabilités</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>Trouver et appliquer les mises à jour manquantes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>Exécuter des Tasks sur des hôtes sans agent</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>Exécuter des Plans issus de votre code</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>Laisser des agents d&#39;IA utiliser la console</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="Exploiter">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Basculer vers une base de données de secours</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Renouveler la clé de signature des jetons</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Mettre à niveau les bases de données en conteneurs vers Postgres 18</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
     <p class="guide-eyebrow">Nodes</p>
-    <h1 class="guide-title vox-ts-xxl">Remove a node</h1>
-    <p class="guide-summary">Delete a node from the console, what that does in openvoxdb and the CA, and what it keeps.</p>
+    <h1 class="guide-title vox-ts-xxl">Retirer un Node</h1>
+    <p class="guide-summary">Supprimer un Node depuis la console : ce que cela fait dans openvoxdb et dans la CA, et ce qui est conservé.</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<h2 id="delete-a-node">Delete a node</h2>
-<p>On the <strong>Nodes</strong> page, choose <strong>Delete</strong> on the node, and confirm. This
-needs the <code>nodes:manage</code> permission, on a role whose node groups
-include the node.</p>
-<p>Deleting does two things, together:</p>
+<h2 id="delete-a-node">Supprimer un Node</h2>
+<p>Sur la page <strong>Nodes</strong>, choisissez <strong>Supprimer</strong> sur le Node, puis confirmez. Cela nécessite la permission <code>nodes:manage</code>, sur un rôle dont les groupes de Nodes incluent le Node.</p>
+<figure class="shot">
+  <a class="shot-link" href="../../assets/screenshots/node-delete-confirm-light-fr.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/node-delete-confirm-dark-fr.png" data-theme-dark="../../assets/screenshots/node-delete-confirm-dark-fr.png" data-theme-light="../../assets/screenshots/node-delete-confirm-light-fr.png"/>
+      <img src="../../assets/screenshots/node-delete-confirm-light-fr.png" alt="La confirmation affichée avant la suppression d&#39;un Node, qui explique qu&#39;il quitte immédiatement la liste, qu&#39;openvoxdb supprime son historique plus tard et que la console ne peut pas annuler l&#39;opération" width="1440"/>
+    </picture>
+    <span class="vox-sr-only">Open full size</span>
+  </a>
+</figure>
+<p>La suppression fait deux choses à la fois :</p>
 <ul>
-<li>it <strong>deactivates the node in openvoxdb</strong>, so it no longer appears in
-the fleet;</li>
-<li>it <strong>cleans the node&#39;s certificate from the CA</strong>, the same as the
-<strong>Clean</strong> action, so the certname can never authenticate again and is
-free to enroll afresh.</li>
+<li>elle <strong>désactive le Node dans openvoxdb</strong>, qui n&#39;apparaît donc plus dans le parc ;</li>
+<li>elle <strong>nettoie le certificat du Node dans la CA</strong>, comme l&#39;action <strong>Nettoyer</strong>, si bien que le certname ne peut plus jamais s&#39;authentifier et peut s&#39;enrôler à nouveau.</li>
 </ul>
-<p>Both halves are needed for the node to disappear from the page, which
-lists nodes known to openvoxdb and nodes known to the CA. If the console
-has no certificate-admin credential, only the openvoxdb half happens, and
-the node may go on appearing through its certificate.</p>
-<p>Before deleting a machine you are decommissioning, stop its node agent
-and Puppet agent, or remove them, so it does not report or connect again.</p>
-<h2 id="what-deleting-does-not-do">What deleting does not do</h2>
+<p>Les deux moitiés sont nécessaires pour que le Node disparaisse de la page, qui liste les Nodes connus d&#39;openvoxdb et ceux connus de la CA. Si la console n&#39;a pas d&#39;identifiant d&#39;administration des certificats, seule la moitié openvoxdb a lieu, et le Node peut continuer d&#39;apparaître à travers son certificat.</p>
+<p>Avant de supprimer une machine que vous retirez du service, arrêtez son agent de Node et son agent Puppet, ou désinstallez-les, pour qu&#39;elle n&#39;envoie plus de Report et ne se reconnecte plus.</p>
+<h2 id="what-deleting-does-not-do">Ce que la suppression ne fait pas</h2>
 <ul>
-<li><strong>It does not erase the node&#39;s history straight away.</strong> Its facts,
-catalogs and reports stay in openvoxdb until openvoxdb&#39;s own garbage
-collection removes them, on its own schedule.</li>
-<li><strong>There is no list of deleted nodes.</strong> openvoxdb leaves deactivated
-nodes out of every listing, and the console keeps no separate record,
-so a deleted node is gone from the console&#39;s pages.</li>
+<li><strong>Il n&#39;efface pas immédiatement l&#39;historique du Node.</strong> Ses Facts, catalogues et Reports restent dans openvoxdb jusqu&#39;à ce que le ramasse-miettes d&#39;openvoxdb lui-même les supprime, selon son propre calendrier.</li>
+<li><strong>Il n&#39;existe pas de liste des Nodes supprimés.</strong> openvoxdb exclut les Nodes désactivés de toutes ses listes, et la console ne tient aucun registre à part : un Node supprimé disparaît donc des pages de la console.</li>
 </ul>
-<h2 id="bring-a-node-back">Bring a node back</h2>
-<p>A deleted node&#39;s certificate has been cleaned, so bringing it back is the
-same as adding a new node: run the install script on it again, and sign
-its new request. See <a href="add.html">Add nodes</a>.</p>
+<h2 id="bring-a-node-back">Faire revenir un Node</h2>
+<p>Le certificat d&#39;un Node supprimé a été nettoyé : le faire revenir revient donc à ajouter un nouveau Node. Relancez le script d&#39;installation sur la machine et signez sa nouvelle demande. Voir <a href="add.html">Ajouter des Nodes</a>.</p>
 
     </div>
 
-    <vox-series-nav label="Nodes" previous-text="Previous" next-text="Next" previous-href="../guides/certificates.html" previous-label="Manage node certificates" next-href="../guides/agent-upgrades.html" next-label="Keep node agents current"></vox-series-nav>
+    <vox-series-nav label="Nodes" previous-text="Précédent" next-text="Suivant" previous-href="../guides/certificates.html" previous-label="Gérer les certificats des Nodes" next-href="../guides/agent-upgrades.html" next-label="Tenir les agents de Node à jour"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#delete-a-node"><span>Delete a node</span>
+    <vox-toc heading="Sur cette page">
+      <vox-toc-item href="#delete-a-node"><span>Supprimer un Node</span>
       </vox-toc-item>
-      <vox-toc-item href="#what-deleting-does-not-do"><span>What deleting does not do</span>
+      <vox-toc-item href="#what-deleting-does-not-do"><span>Ce que la suppression ne fait pas</span>
       </vox-toc-item>
-      <vox-toc-item href="#bring-a-node-back"><span>Bring a node back</span>
+      <vox-toc-item href="#bring-a-node-back"><span>Faire revenir un Node</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -216,23 +208,17 @@ its new request. See <a href="add.html">Add nodes</a>.</p>
 
       
       <vox-cta-band heading="Faites-le tourner vous-même">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console est distribué sous forme d&#39;images de conteneur, construites pour amd64 et arm64 à chaque push, et d&#39;un binaire unique. Les guides d&#39;installation vous mènent d&#39;un hôte vide à un déploiement fonctionnel - openvoxserver, openvoxdb, Postgres et la console - avec des conteneurs ou avec des paquets.</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">Guides d&#39;installation</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">Source sur GitHub</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">Images de conteneur</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="Capture d&#39;écran en taille réelle">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">Fermer</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -241,18 +227,18 @@ its new request. See <a href="add.html">Add nodes</a>.</p>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">Aperçu</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">Source</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">Guides d&#39;installation</a>
       </vox-footer-column>
       <vox-footer-column heading="Fonctionnalités">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">Classification</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">Orchestration</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">Mise à jour corrective</a>
         <a href="../features/security.html">Sécurité</a>
         <a href="../features/access-control.html">Contrôle d&#39;accès</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">Agents d&#39;IA</a>
+        <a href="../features/scaling.html">Montée en charge</a>
         </vox-footer-column>
       
       <vox-footer-column heading="Langue">

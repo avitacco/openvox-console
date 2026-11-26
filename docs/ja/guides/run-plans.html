@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="ja" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Build a plan - a list of Puppet runs and tasks carried out in order - keep it, run it on the nodes you choose, and watch each step."/>
+    <meta name="description" content="Plan (順番に実行される Puppet run と Task の一覧) を組み立てて保存し、選んだ Node で実行して、各ステップを見守ります。"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Run plans - OpenVox Console</title>
+    <title>Plans を実行する - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">ガイド</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,232 +104,170 @@
       <a href="../features/classification.html">分類</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">オーケストレーション</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">パッチ適用</a>
       <a href="../features/security.html">セキュリティ</a>
       <a href="../features/access-control.html">アクセス制御</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">AI エージェント</a>
+      <a href="../features/scaling.html">スケーリング</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="ガイド" toggle-label="すべてのガイド">
+    <vox-sidenav-group heading="インストール">
+      <vox-sidenav-item href="../guides/plan.html"><span>デプロイを計画する</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>コンテナでインストールする</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>パッケージとバイナリからインストールする</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>Node を追加する</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>Node の証明書を管理する</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>Node を削除する</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Node エージェントを最新に保つ</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
-      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="スケール">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>実行モード</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>インスタンスを増やす</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use" open="">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html" current="" aria-current="page"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="使う" open="">
+      <vox-sidenav-item href="../guides/classify.html"><span>Node を分類する</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>コードを deploy する</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>Jobs を実行する</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html" current="" aria-current="page"><span>Plans を実行する</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Jobs をスケジュールする</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>ユーザー、ロール、トークン</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>脆弱性を追跡する</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>不足している更新を見つけて適用する</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>エージェントのないホストで Task を実行する</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>コード内の Plan を実行する</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>AI エージェントにコンソールを使わせる</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="運用">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>スタンバイデータベースにフェイルオーバーする</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>トークン署名鍵をローテーションする</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>コンテナのデータベースを Postgres 18 にアップグレードする</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Use</p>
-    <h1 class="guide-title vox-ts-xxl">Run plans</h1>
-    <p class="guide-summary">Build a plan - a list of Puppet runs and tasks carried out in order - keep it, run it on the nodes you choose, and watch each step.</p>
+    <p class="guide-eyebrow">使う</p>
+    <h1 class="guide-title vox-ts-xxl">Plans を実行する</h1>
+    <p class="guide-summary">Plan (順番に実行される Puppet run と Task の一覧) を組み立てて保存し、選んだ Node で実行して、各ステップを見守ります。</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>A <strong>plan</strong> is a list of steps carried out in order on the same nodes.
-Each step is a Puppet run or a task, exactly as you would start one by
-hand - see <a href="run-jobs.html">Run jobs</a>. A plan is kept in the console so
-it can be run again, on different nodes each time.</p>
-<p>Seeing plans needs <code>orchestrator:read</code>. Creating, changing, deleting
-and running them needs <code>orchestrator:run</code>.</p>
-<vox-callout variant="info" heading="Note"><p>A plan here is a list of steps built in the console. It is not a plan
-written in the Puppet language, which the console does not run. A plan
-written in YAML in your own modules is run from the same page: see
-<a href="code-plans.html">Run plans from your code</a>.</p>
+<p><strong>Plan</strong> は、同じ Node に対して順番に実行されるステップの一覧です。各ステップは Puppet run または Task で、手動で開始する場合とまったく同じです。<a href="run-jobs.html">Jobs を実行する</a>を参照してください。Plan はコンソールに保存されるため、毎回異なる Node に対して再実行できます。</p>
+<p>Plans の閲覧には <code>orchestrator:read</code> が、作成、変更、削除、実行には <code>orchestrator:run</code> が必要です。</p>
+<vox-callout variant="info" heading="メモ"><p>ここでいう Plan は、コンソールで組み立てたステップの一覧です。Puppet 言語で書かれた Plan ではなく、コンソールはそれを実行しません。独自のモジュール内に YAML で書かれた Plan は同じページから実行できます: <a href="code-plans.html">コード内の Plan を実行する</a>を参照してください。</p>
 </vox-callout>
-<h2 id="build-a-plan">Build a plan</h2>
-<p>Open <strong>Jobs</strong>, then <strong>Plans</strong>, then <strong>New plan</strong>.</p>
+<h2 id="build-a-plan">Plan を組み立てる</h2>
+<p><strong>Jobs</strong>、<strong>Plans</strong>、<strong>新しい Plan</strong> の順に開きます。</p>
 <ol>
-<li>Give it a <strong>Name</strong> and, if you like, a description. A name can be
-used by one plan only.</li>
-<li><span>Add steps with <strong>Add a Puppet run step</strong> and <strong>Add a task step</strong>. A
-plan has between 1 and 20 steps.
-</span><ul>
-<li>A Puppet run step takes the <a href="run-jobs.html#run-options">run options</a>:
-no-op, debug and an environment.</li>
-<li>A task step takes an environment, a task, its parameters and a
-timeout, as in <a href="run-jobs.html#run-a-task">Run a task</a>.</li>
+<li><strong>名前</strong>を付け、必要なら説明も付けます。1 つの名前は 1 つの Plan にしか使えません。</li>
+<li><span><strong>Puppet 実行ステップを追加</strong>と <strong>Task ステップを追加</strong>でステップを追加します。Plan のステップ数は 1～20 です。</span><ul>
+<li>Puppet run のステップには<a href="run-jobs.html#run-options">実行オプション</a>を指定できます: no-op、デバッグ、Environment。</li>
+<li>Task ステップには、<a href="run-jobs.html#run-a-task">Task を実行する</a>と同様に、Environment、Task、そのパラメーター、タイムアウトを指定します。</li>
 </ul>
 </li>
-<li>Put the steps in order with <strong>Move up</strong> and <strong>Move down</strong>. What you
-have typed in a step moves with it.</li>
-<li><strong>Save plan</strong>.</li>
+<li><strong>上へ移動</strong>と<strong>下へ移動</strong>でステップを並べ替えます。ステップに入力した内容は一緒に移動します。</li>
+<li><strong>Plan を保存</strong>。</li>
 </ol>
-<p>The console checks every step when you save, as it would check the run
-or the task if you started it now. A step it refuses is marked with the
-reason, and nothing you typed is lost.</p>
-<p>A plan does not say which nodes it runs on. That is chosen each time it
-is run.</p>
-<h3 id="sensitive-task-values">Sensitive task values</h3>
-<p>A task parameter marked <code>sensitive</code> - a password, a token - is never
-kept in a plan. Its field is left out of the editor, and the value is
-asked for each time the plan is run. This is because a plan is shared:
-everyone who can run jobs can open it.</p>
-<h3 id="who-can-change-a-plan">Who can change a plan</h3>
-<p>Everyone with <code>orchestrator:run</code> can change or delete any plan,
-whichever node groups their role is granted on. A plan names no nodes,
-so there is nothing in it for node groups to limit. What a person can
-run a plan <em>on</em> is limited as for any job. A person whose role is
-limited to some tasks can save a plan only with tasks they may run.</p>
-<h2 id="run-a-plan">Run a plan</h2>
-<p>On the <strong>Plans</strong> page, choose <strong>Run</strong> beside a plan, or open the plan
-and choose <strong>Run</strong>.</p>
+<p>コンソールは保存時に、今すぐ実行や Task を開始した場合と同じようにすべてのステップを検査します。拒否されたステップには理由の印が付き、入力した内容は何も失われません。</p>
+<p>Plan には、どの Node で実行するかが記されていません。それは実行のたびに選びます。</p>
+<h3 id="sensitive-task-values">機密の Task の値</h3>
+<p><code>sensitive</code> とマークされた Task パラメーター (パスワードやトークン) が Plan に保存されることはありません。そのフィールドはエディターから除外され、値は Plan を実行するたびに入力を求められます。Plan は共有されるもので、Jobs を実行できる全員が開けるためです。</p>
+<h3 id="who-can-change-a-plan">Plan を変更できる人</h3>
+<p><code>orchestrator:run</code> を持つ全員が、ロールがどの Node グループに付与されているかに関係なく、どの Plan でも変更・削除できます。Plan は Node を指定しないため、Node グループで制限すべきものが含まれていないのです。Plan を<em>どの Node で</em>実行できるかは、他の Job と同様に制限されます。ロールが一部の Task に限定されている人は、実行できる Task だけを含む Plan しか保存できません。</p>
+<h2 id="run-a-plan">Plan を実行する</h2>
+<p><strong>Plans</strong> ページで Plan の横にある<strong>実行</strong>を選ぶか、Plan を開いて<strong>実行</strong>を選びます。</p>
 <ol>
-<li>Choose the nodes: a list, a query, or a node group, as in
-<a href="run-jobs.html#choose-the-nodes">Choose the nodes</a>. <strong>Preview nodes</strong>
-shows what it would run on.</li>
-<li>Enter any sensitive values the steps ask for. Each is labelled with
-its step.</li>
-<li><strong>Run plan</strong>. The plan&#39;s job page opens.</li>
+<li>Node を選びます: <a href="run-jobs.html#choose-the-nodes">Node を選ぶ</a>と同様に、一覧、クエリ、または Node グループ。<strong>Nodes をプレビュー</strong>で、何に対して実行されるかを確認できます。</li>
+<li>ステップが求める機密の値を入力します。それぞれにステップ名のラベルが付いています。</li>
+<li><strong>Plan を実行</strong>。Plan の Job ページが開きます。</li>
 </ol>
-<p>The nodes are worked out once, when the plan starts, and every step
-runs on those nodes. If your role is granted on particular node groups,
-a query or a group is narrowed to your nodes, and a list that names a
-node outside them is refused whole, as for any job.</p>
-<p>Every step is checked before anything starts. If one would be refused -
-a task that has since been removed from the code, say - the plan is
-refused and names the step, and nothing runs.</p>
-<p>A plan with a step that can no longer run shows a warning on that step.
-Edit the plan before running it.</p>
-<h3 id="tasks-your-roles-do-not-allow">Tasks your roles do not allow</h3>
-<p>If your role is limited to some tasks - see
-<a href="access.html#limit-a-role-to-some-tasks">Limit a role to some tasks</a> -
-a plan someone else saved may contain a task you may not run. You still
-see every step, and the ones you may not run are marked <strong>Your roles do
-not allow the task ...</strong>. <strong>Run</strong> is switched off for that plan, and
-the API refuses it with <code>403</code>, naming the step and the task. Editing the
-plan will not help unless you remove those steps; saving it with them
-is refused the same way.</p>
-<p>When the target is a query or a node group, the plan runs on the nodes
-that <strong>every</strong> task step may be run on by you, so all its steps still
-share one set of nodes. Puppet-run steps are not limited.</p>
-<h2 id="watch-a-plan">Watch a plan</h2>
-<p>A plan&#39;s job page lists its steps in order. Each shows what it does,
-its state, when it started and finished, and each node&#39;s result. The
-page updates by itself while the plan runs.</p>
+<p>Node は Plan の開始時に一度だけ割り出され、すべてのステップがそれらの Node で実行されます。ロールが特定の Node グループに対して付与されている場合、他の Job と同様に、クエリやグループは自分の Node に絞り込まれ、グループ外の Node を指定した一覧は全体が拒否されます。</p>
+<p>何かが始まる前に、すべてのステップが検査されます。拒否されるステップがある場合 (たとえば、その後コードから削除された Task)、Plan はそのステップを示して拒否され、何も実行されません。</p>
+<p>実行できなくなったステップを含む Plan では、そのステップに警告が表示されます。実行する前に Plan を編集してください。</p>
+<h3 id="tasks-your-roles-do-not-allow">ロールで許可されていない Task</h3>
+<p>ロールが一部の Task に限定されている場合 (<a href="access.html#limit-a-role-to-some-tasks">ロールを一部の Task に限定する</a>を参照)、他の人が保存した Plan に実行できない Task が含まれていることがあります。その場合もすべてのステップが表示され、実行できないものには<strong>あなたのロールでは Task ... が許可されていません</strong>と表示されます。その Plan では<strong>実行</strong>が無効になり、API はステップと Task を示して <code>403</code> で拒否します。それらのステップを削除しない限り、Plan を編集しても解決しません。それらを含んだまま保存しようとしても同様に拒否されます。</p>
+<p>対象がクエリや Node グループの場合、Plan は、あなたが<strong>すべての</strong> Task ステップを実行できる Node で実行されるため、すべてのステップは引き続き 1 組の Node を共有します。Puppet run のステップは制限されません。</p>
+<h2 id="watch-a-plan">Plan を見守る</h2>
+<p>Plan の Job ページには、ステップが順番に一覧表示されます。それぞれに、何を行うか、状態、開始・終了日時、各 Node の結果が表示されます。Plan の実行中、ページは自動的に更新されます。</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>State</th>
-<th>Means</th>
+<th>状態</th>
+<th>意味</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Waiting</td>
-<td>an earlier step has not finished yet</td>
+<td>待機中</td>
+<td>前のステップがまだ完了していない</td>
 </tr>
 <tr>
-<td>Running</td>
-<td>sent to the nodes, and not all have answered</td>
+<td>実行中</td>
+<td>Node に送信され、まだすべてが応答していない</td>
 </tr>
 <tr>
-<td>Succeeded</td>
-<td>finished on every node</td>
+<td>成功</td>
+<td>すべての Node で完了した</td>
 </tr>
 <tr>
-<td>Failed</td>
-<td>failed on at least one node</td>
+<td>失敗</td>
+<td>少なくとも 1 つの Node で失敗した</td>
 </tr>
 <tr>
-<td>Not run</td>
-<td>an earlier step failed, so this one was never sent to any node</td>
+<td>未実行</td>
+<td>前のステップが失敗したため、このステップはどの Node にも送られなかった</td>
 </tr>
 </tbody>
 </table></div>
-<p>A step&#39;s number links to that step&#39;s own job page, which links back to
-the plan. The <strong>Jobs</strong> list shows a plan as one line, not one for each
-step.</p>
-<h3 id="when-a-step-fails">When a step fails</h3>
-<p>A step fails if it fails on any of its nodes, including a node that was
-not connected. The plan stops there: the steps after it are marked
-<strong>Not run</strong>, and nothing is sent to any node for them. The plan&#39;s job
-is failed.</p>
-<p>There is no option to carry on past a failed step, to skip the nodes
-that failed, or to try a step again. Fix what failed and run the plan
-again; a plan that should not repeat its first steps can be split into
-two.</p>
-<h2 id="schedule-a-plan">Schedule a plan</h2>
-<p>In the Run plan dialog choose <strong>Schedule instead</strong>, or create a
-schedule and choose <strong>Run a plan</strong> - see
-<a href="schedule-jobs.html">Schedule jobs</a>.</p>
-<p>A schedule keeps <strong>its own copy</strong> of the plan&#39;s steps, taken when the
-schedule is saved. If the plan is changed or deleted afterwards, the
-schedule goes on running the steps it was saved with. To pick up a
-change, edit the schedule, choose the plan again, and save.</p>
-<p>This is deliberate. A schedule runs with its owner&#39;s access, and
-everyone who can run jobs can change a plan. If a schedule followed the
-plan, someone limited to a few nodes could change what an
-administrator&#39;s schedule runs on every node.</p>
-<h2 id="through-the-api">Through the API</h2>
-<p>Saved plans:</p>
+<p>ステップの番号はそのステップ自身の Job ページにリンクしており、そこから Plan に戻れます。<strong>Jobs</strong> の一覧では、Plan はステップごとではなく 1 行で表示されます。</p>
+<h3 id="when-a-step-fails">ステップが失敗した場合</h3>
+<p>ステップは、未接続の Node を含め、いずれかの Node で失敗すると失敗となります。Plan はそこで停止します: それ以降のステップは<strong>未実行</strong>とマークされ、それらについてはどの Node にも何も送られません。Plan の Job は失敗となります。</p>
+<p>失敗したステップを越えて続行したり、失敗した Node をスキップしたり、ステップを再試行したりするオプションはありません。失敗したものを修正して Plan を再度実行してください。最初のステップを繰り返すべきでない Plan は、2 つに分割できます。</p>
+<h2 id="schedule-a-plan">Plan をスケジュールする</h2>
+<p>Plan の実行ダイアログで<strong>代わりにスケジュール</strong>を選ぶか、スケジュールを作成して <strong>Plan を実行</strong>を選びます。<a href="schedule-jobs.html">Jobs をスケジュールする</a>を参照してください。</p>
+<p>スケジュールは、保存時点の Plan のステップの<strong>独自のコピー</strong>を保持します。その後 Plan が変更または削除されても、スケジュールは保存時のステップを実行し続けます。変更を反映するには、スケジュールを編集し、Plan を選び直して保存します。</p>
+<p>これは意図的なものです。スケジュールは所有者のアクセス権で実行され、Jobs を実行できる全員が Plan を変更できます。スケジュールが Plan に追従すると、少数の Node に限定された人が、管理者のスケジュールがすべての Node で実行する内容を変更できてしまいます。</p>
+<h2 id="through-the-api">API から</h2>
+<p>保存された Plans:</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Request</th>
-<th>Does</th>
+<th>リクエスト</th>
+<th>内容</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>GET /api/v1/orchestrator/saved-plans</code></td>
-<td>lists plans, without their steps</td>
+<td>Plans を一覧表示する (ステップは含まない)</td>
 </tr>
 <tr>
 <td><code>GET /api/v1/orchestrator/saved-plans/&lt;id&gt;</code></td>
-<td>one plan with its steps</td>
+<td>ステップを含む 1 つの Plan を返す</td>
 </tr>
 <tr>
 <td><code>POST /api/v1/orchestrator/saved-plans</code></td>
-<td>creates a plan</td>
+<td>Plan を作成する</td>
 </tr>
 <tr>
 <td><code>PUT /api/v1/orchestrator/saved-plans/&lt;id&gt;</code></td>
-<td>replaces a plan</td>
+<td>Plan を置き換える</td>
 </tr>
 <tr>
 <td><code>DELETE /api/v1/orchestrator/saved-plans/&lt;id&gt;</code></td>
-<td>deletes a plan</td>
+<td>Plan を削除する</td>
 </tr>
 </tbody>
 </table></div>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -X POST https://console.example.com/api/v1/orchestrator/saved-plans \
+<vox-code-block language="sh" copy-label="コードをコピー" copied-label="コピーしました" copied-message="クリップボードにコピーしました"><code>curl -X POST https://console.example.com/api/v1/orchestrator/saved-plans \
   -H &#34;Authorization: Bearer &lt;access token&gt;&#34; \
   -H &#39;Content-Type: application/json&#39; \
   -d &#39;{&#34;name&#34;:&#34;Restart web tier&#34;,
@@ -340,13 +278,9 @@ administrator&#39;s schedule runs on every node.</p>
           &#34;params&#34;:{&#34;name&#34;:&#34;nginx&#34;,&#34;action&#34;:&#34;restart&#34;},&#34;timeoutSeconds&#34;:300}
        ]}&#39;
 </code></vox-code-block>
-<p>A plan as read lists, on each task step, the sensitive parameters to
-supply when running it (<code>needs</code>), and a <code>problem</code> if its task can no
-longer be found.</p>
-<p>There is no request that runs a plan by its id. To run one, send its
-steps - with the sensitive values added to each step&#39;s <code>params</code> - and
-the nodes:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -X POST https://console.example.com/api/v1/orchestrator/plans \
+<p>読み込まれた Plan では、各 Task ステップについて、実行時に指定すべき機密パラメーター (<code>needs</code>) が列挙され、Task が見つからなくなった場合は <code>problem</code> が示されます。</p>
+<p>ID で Plan を実行するリクエストはありません。実行するには、そのステップ (各ステップの <code>params</code> に機密の値を追加したもの) と Node を送ります:</p>
+<vox-code-block language="sh" copy-label="コードをコピー" copied-label="コピーしました" copied-message="クリップボードにコピーしました"><code>curl -X POST https://console.example.com/api/v1/orchestrator/plans \
   -H &#34;Authorization: Bearer &lt;access token&gt;&#34; \
   -H &#39;Content-Type: application/json&#39; \
   -d &#39;{&#34;name&#34;:&#34;Restart web tier&#34;,
@@ -357,46 +291,35 @@ the nodes:</p>
           &#34;params&#34;:{&#34;name&#34;:&#34;nginx&#34;,&#34;action&#34;:&#34;restart&#34;}}
        ]}&#39;
 </code></vox-code-block>
-<p>The nodes are <code>targets</code>, <code>query</code> or <code>group</code>. The reply is the plan&#39;s
-job. Read it with <code>GET /api/v1/orchestrator/jobs/&lt;id&gt;</code>, which returns
-its <code>steps</code>, each with a <code>state</code> of <code>waiting</code>, <code>running</code>, <code>succeeded</code>,
-<code>failed</code> or <code>not_run</code>.</p>
-<p>A refused request answers <code>400</code> (or <code>403</code> for a node outside your node
-groups) with an <code>error</code>. When one step is the cause it also carries
-<code>step</code>, counted from 1, and for a task&#39;s parameters <code>fields</code>.</p>
-<p><code>GET /api/v1/orchestrator/jobs</code> no longer lists a plan&#39;s steps as jobs
-of their own. Add <code>?parent=&lt;plan job id&gt;</code> to list them.</p>
-<h2 id="in-a-split-deployment">In a split deployment</h2>
-<p>A plan started in the console is sent and followed, step by step, by
-the instance that took the request: a <code>web</code> instance in a split
-deployment (see <a href="run-modes.html">run modes</a>). If that instance stops
-before the plan ends, the steps still running are marked failed and the
-rest are closed as not run; start the plan again. A scheduled plan is
-started and followed by an <code>orchestrator</code> instance in the same way.</p>
+<p>Node は <code>targets</code>、<code>query</code>、<code>group</code> で指定します。応答は Plan の Job です。<code>GET /api/v1/orchestrator/jobs/&lt;id&gt;</code> で読み取ると、その <code>steps</code> が返され、それぞれの <code>state</code> は <code>waiting</code>、<code>running</code>、<code>succeeded</code>、<code>failed</code>、<code>not_run</code> のいずれかです。</p>
+<p>拒否されたリクエストは <code>400</code> (自分の Node グループ外の Node の場合は <code>403</code>) で <code>error</code> とともに応答します。1 つのステップが原因の場合は 1 から数えた <code>step</code> も含まれ、Task のパラメーターについては <code>fields</code> も含まれます。</p>
+<p><code>GET /api/v1/orchestrator/jobs</code> は、Plan のステップを独立した Jobs として一覧表示しなくなりました。それらを一覧表示するには <code>?parent=&lt;plan job id&gt;</code> を追加します。</p>
+<h2 id="in-a-split-deployment">分割されたデプロイの場合</h2>
+<p>コンソールで開始された Plan は、リクエストを受けたインスタンス (分割されたデプロイでは <code>web</code> インスタンス。<a href="run-modes.html">実行モード</a>を参照) によって、ステップごとに送信・追跡されます。Plan が終わる前にそのインスタンスが停止すると、実行中のステップは失敗としてマークされ、残りは未実行として閉じられます。Plan を再度開始してください。スケジュールされた Plan は、同様に <code>orchestrator</code> インスタンスによって開始・追跡されます。</p>
 
     </div>
 
-    <vox-series-nav label="Use" previous-text="Previous" next-text="Next" previous-href="../guides/run-jobs.html" previous-label="Run jobs" next-href="../guides/schedule-jobs.html" next-label="Schedule jobs"></vox-series-nav>
+    <vox-series-nav label="使う" previous-text="前へ" next-text="次へ" previous-href="../guides/run-jobs.html" previous-label="Jobs を実行する" next-href="../guides/schedule-jobs.html" next-label="Jobs をスケジュールする"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#build-a-plan"><span>Build a plan</span>
-        <vox-toc-item slot="children" href="#sensitive-task-values"><span>Sensitive task values</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#who-can-change-a-plan"><span>Who can change a plan</span></vox-toc-item>
+    <vox-toc heading="このページの内容">
+      <vox-toc-item href="#build-a-plan"><span>Plan を組み立てる</span>
+        <vox-toc-item slot="children" href="#sensitive-task-values"><span>機密の Task の値</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#who-can-change-a-plan"><span>Plan を変更できる人</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#run-a-plan"><span>Run a plan</span>
-        <vox-toc-item slot="children" href="#tasks-your-roles-do-not-allow"><span>Tasks your roles do not allow</span></vox-toc-item>
+      <vox-toc-item href="#run-a-plan"><span>Plan を実行する</span>
+        <vox-toc-item slot="children" href="#tasks-your-roles-do-not-allow"><span>ロールで許可されていない Task</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#watch-a-plan"><span>Watch a plan</span>
-        <vox-toc-item slot="children" href="#when-a-step-fails"><span>When a step fails</span></vox-toc-item>
+      <vox-toc-item href="#watch-a-plan"><span>Plan を見守る</span>
+        <vox-toc-item slot="children" href="#when-a-step-fails"><span>ステップが失敗した場合</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#schedule-a-plan"><span>Schedule a plan</span>
+      <vox-toc-item href="#schedule-a-plan"><span>Plan をスケジュールする</span>
       </vox-toc-item>
-      <vox-toc-item href="#through-the-api"><span>Through the API</span>
+      <vox-toc-item href="#through-the-api"><span>API から</span>
       </vox-toc-item>
-      <vox-toc-item href="#in-a-split-deployment"><span>In a split deployment</span>
+      <vox-toc-item href="#in-a-split-deployment"><span>分割されたデプロイの場合</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -406,23 +329,17 @@ started and followed by an <code>orchestrator</code> instance in the same way.</
 
       
       <vox-cta-band heading="自分で動かしてみる">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console は、push のたびに amd64 と arm64 向けにビルドされるコンテナイメージと、単一のバイナリとして提供されます。インストールガイドでは、コンテナまたはパッケージを使って、空のホストから openvoxserver、openvoxdb、Postgres、コンソールからなる稼働するデプロイまでを案内します。</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">インストールガイド</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">GitHub のソース</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">コンテナイメージ</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="フルサイズのスクリーンショット">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">閉じる</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -431,18 +348,18 @@ started and followed by an <code>orchestrator</code> instance in the same way.</
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">概要</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">ソース</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">インストールガイド</a>
       </vox-footer-column>
       <vox-footer-column heading="機能">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">分類</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">オーケストレーション</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">パッチ適用</a>
         <a href="../features/security.html">セキュリティ</a>
         <a href="../features/access-control.html">アクセス制御</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">AI エージェント</a>
+        <a href="../features/scaling.html">スケーリング</a>
         </vox-footer-column>
       
       <vox-footer-column heading="言語">

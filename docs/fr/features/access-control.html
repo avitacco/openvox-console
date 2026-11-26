@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="fr" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Single sign-on through your identity provider, role-based access control down to tasks and node groups, service and agent tokens, and an audit trail of who changed what."/>
+    <meta name="description" content="L&#39;authentification unique via votre fournisseur d&#39;identité, un contrôle d&#39;accès par rôles jusqu&#39;aux Tasks et aux groupes de Nodes, des jetons de service et d&#39;agent, et un journal d&#39;audit de qui a modifié quoi."/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
@@ -104,25 +104,25 @@
       <a href="../features/classification.html">Classification</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">Orchestration</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">Mise à jour corrective</a>
       <a href="../features/security.html">Sécurité</a>
       <a aria-current="page" href="../features/access-control.html">Contrôle d&#39;accès</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">Agents d&#39;IA</a>
+      <a href="../features/scaling.html">Montée en charge</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
-<vox-hero eyebrow="Contrôle d&#39;accès et audit" heading="Your identity provider, your roles, your record">
-  <p>Sign people in through the identity provider you already run, give them exactly the access they need, give your automation its own credentials, and keep a record of every change.</p>
+<vox-hero eyebrow="Contrôle d&#39;accès et audit" heading="Votre fournisseur d&#39;identité, vos rôles, votre historique">
+  <p>Connectez les personnes via le fournisseur d&#39;identité que vous utilisez déjà, donnez à chacun exactement l&#39;accès dont il a besoin, donnez à votre automatisation ses propres identifiants, et gardez une trace de chaque changement.</p>
 </vox-hero>
 
 <section class="site-section">
-  <h2 class="vox-ts-xxl">Single sign-on, with roles that follow your groups</h2>
+  <h2 class="vox-ts-xxl">L&#39;authentification unique, avec des rôles qui suivent vos groupes</h2>
   <div class="vox-prose">
-    <p>The console signs people in through OpenID Connect, so accounts, passwords and multi-factor rules stay where they already live. The groups your provider puts in a person&#39;s ID token are mapped onto console roles each time they sign in: move someone between groups and their access in the console follows at their next sign-in.</p>
-    <p>A role you assign by hand is never touched by that mapping, and local accounts keep working alongside single sign-on, for break-glass access when the provider is down.</p>
+    <p>La console connecte les personnes via OpenID Connect : comptes, mots de passe et règles d&#39;authentification multifacteur restent là où ils se trouvent déjà. Les groupes que votre fournisseur place dans l&#39;ID token d&#39;une personne sont mappés sur les rôles de la console à chacune de ses connexions : changez quelqu&#39;un de groupe, et son accès à la console suit dès sa connexion suivante.</p>
+    <p>Un rôle que vous attribuez à la main n&#39;est jamais modifié par ce mappage, et les comptes locaux continuent de fonctionner à côté de l&#39;authentification unique, pour un accès de secours lorsque le fournisseur est indisponible.</p>
   </div>
 </section>
 
@@ -137,17 +137,17 @@
   <a class="shot-link" href="../../assets/screenshots/roles-light-fr.png">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/roles-dark-fr.png" data-theme-dark="../../assets/screenshots/roles-dark-fr.png" data-theme-light="../../assets/screenshots/roles-light-fr.png"/>
-      <img src="../../assets/screenshots/roles-light-fr.png" alt="Role-based access control showing roles and the specific permissions each one grants" width="1440"/>
+      <img src="../../assets/screenshots/roles-light-fr.png" alt="Le contrôle d&#39;accès par rôles, avec les rôles et les permissions précises accordées par chacun" width="1440"/>
     </picture>
     <span class="vox-sr-only">Open full size</span>
   </a>
 </figure>
 
 <section class="site-section">
-  <h2 class="vox-ts-xxl">Access that stops at the nodes and tasks it should</h2>
+  <h2 class="vox-ts-xxl">Un accès qui s&#39;arrête aux Nodes et aux Tasks prévus</h2>
   <div class="vox-prose">
-    <p>A role applies to the node groups you name, so an operator can act on the web tier and nothing else — and sees only those nodes in every list, report and job. A role can also be limited to named tasks, or a module&#39;s tasks, so someone who may patch cannot run anything else.</p>
-    <p>Give roles to a user group and everyone in it gets them, alongside any they hold directly. An account policy sets password rules and locks an account after repeated failed sign-ins.</p>
+    <p>Un rôle s&#39;applique aux groupes de Nodes que vous désignez : un opérateur peut ainsi agir sur la couche web et rien d&#39;autre — et ne voit que ces Nodes dans chaque liste, Report et Job. Un rôle peut aussi être limité à des Tasks nommés, ou aux Tasks d&#39;un module, si bien qu&#39;une personne autorisée à appliquer des correctifs ne peut rien exécuter d&#39;autre.</p>
+    <p>Attribuez des rôles à un groupe d&#39;utilisateurs, et chacun de ses membres les reçoit, en plus de ceux qu&#39;il détient directement. Une politique de comptes fixe les règles de mot de passe et verrouille un compte après des échecs de connexion répétés.</p>
   </div>
 </section>
 
@@ -162,7 +162,7 @@
     Service tokens scoped to just the permissions an integration needs.
     Shown once, revocable at any time.
   </vox-card>
-  <vox-card heading="AI agents">
+  <vox-card heading="Agents d&#39;IA">
     <vox-icon slot="icon" name="key"></vox-icon>
     Agent tokens that expire, reach only the node groups and tasks you
     name, and can only ask: a person approves every change.
@@ -185,7 +185,7 @@
   <a class="shot-link" href="../../assets/screenshots/activity-light-fr.png">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/activity-dark-fr.png" data-theme-dark="../../assets/screenshots/activity-dark-fr.png" data-theme-light="../../assets/screenshots/activity-light-fr.png"/>
-      <img src="../../assets/screenshots/activity-light-fr.png" alt="The audit trail recording who changed what in the console and when" width="1440"/>
+      <img src="../../assets/screenshots/activity-light-fr.png" alt="Le journal d&#39;audit, qui consigne qui a modifié quoi dans la console et quand" width="1440"/>
     </picture>
     <span class="vox-sr-only">Open full size</span>
   </a>
@@ -197,32 +197,26 @@
 
       
       <section class="site-section do-it" aria-labelledby="do-it-heading">
-        <h2 id="do-it-heading" class="vox-ts-xxl">Do it</h2>
+        <h2 id="do-it-heading" class="vox-ts-xxl">Passez à la pratique</h2>
         <vox-grid min="16rem">
-          <vox-card heading="Users, roles and tokens" href="../guides/access.html"><p>Give people access through roles and permissions, sign in with your identity provider, and issue tokens for programs.</p></vox-card>
+          <vox-card heading="Utilisateurs, rôles et jetons" href="../guides/access.html"><p>Donnez accès aux personnes par des rôles et des permissions, connectez-vous avec votre fournisseur d&#39;identité, et émettez des jetons pour les programmes.</p></vox-card>
           </vox-grid>
       </section>
       </div>
 
       
       <vox-cta-band heading="Faites-le tourner vous-même">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console est distribué sous forme d&#39;images de conteneur, construites pour amd64 et arm64 à chaque push, et d&#39;un binaire unique. Les guides d&#39;installation vous mènent d&#39;un hôte vide à un déploiement fonctionnel - openvoxserver, openvoxdb, Postgres et la console - avec des conteneurs ou avec des paquets.</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">Guides d&#39;installation</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">Source sur GitHub</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">Images de conteneur</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="Capture d&#39;écran en taille réelle">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">Fermer</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -231,18 +225,18 @@
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">Aperçu</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">Source</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">Guides d&#39;installation</a>
       </vox-footer-column>
       <vox-footer-column heading="Fonctionnalités">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">Classification</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">Orchestration</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">Mise à jour corrective</a>
         <a href="../features/security.html">Sécurité</a>
         <a href="../features/access-control.html">Contrôle d&#39;accès</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">Agents d&#39;IA</a>
+        <a href="../features/scaling.html">Montée en charge</a>
         </vox-footer-column>
       
       <vox-footer-column heading="Langue">

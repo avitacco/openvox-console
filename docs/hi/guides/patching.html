@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="hi" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Scan Linux nodes for pending package updates, then patch them in batches with a dry run, a stop threshold and an optional reboot."/>
+    <meta name="description" content="Linux Nodes को लंबित पैकेज अपडेट के लिए स्कैन कीजिए, फिर उन्हें ड्राई रन, रुकने की सीमा और वैकल्पिक रीबूट के साथ बैचों में पैच कीजिए।"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Find and apply missing updates - OpenVox Console</title>
+    <title>छूटे हुए अपडेट खोजें और लागू करें - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">गाइड</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,229 +104,141 @@
       <a href="../features/classification.html">वर्गीकरण</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">ऑर्केस्ट्रेशन</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">पैचिंग</a>
       <a href="../features/security.html">सुरक्षा</a>
       <a href="../features/access-control.html">पहुँच नियंत्रण</a>
       <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/scaling.html">विस्तार</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="गाइड" toggle-label="सभी गाइड">
+    <vox-sidenav-group heading="इंस्टॉल">
+      <vox-sidenav-item href="../guides/plan.html"><span>परिनियोजन की योजना बनाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>कंटेनरों से इंस्टॉल करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>पैकेजों और बाइनरी से इंस्टॉल करें</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>Nodes जोड़ें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>Node प्रमाणपत्र प्रबंधित करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>किसी Node को हटाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Node एजेंटों को नवीनतम रखें</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
+    <vox-sidenav-group heading="विस्तार">
       <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>अधिक इंस्टेंस चलाएँ</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use" open="">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html" current="" aria-current="page"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="उपयोग" open="">
+      <vox-sidenav-item href="../guides/classify.html"><span>Nodes का वर्गीकरण करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>कोड deploy करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>Jobs चलाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>Plans चलाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Jobs शेड्यूल करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>उपयोगकर्ता, भूमिकाएँ और टोकन</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>कमज़ोरियों पर नज़र रखें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html" current="" aria-current="page"><span>छूटे हुए अपडेट खोजें और लागू करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>बिना एजेंट वाले होस्टों पर Tasks चलाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>अपने कोड से Plans चलाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>AI एजेंटों को कंसोल का उपयोग करने दें</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="संचालन">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>standby डेटाबेस पर failover करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>टोकन हस्ताक्षर कुंजी बदलें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>कंटेनर डेटाबेस को Postgres 18 पर अपग्रेड करें</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Use</p>
-    <h1 class="guide-title vox-ts-xxl">Find and apply missing updates</h1>
-    <p class="guide-summary">Scan Linux nodes for pending package updates, then patch them in batches with a dry run, a stop threshold and an optional reboot.</p>
+    <p class="guide-eyebrow">उपयोग</p>
+    <h1 class="guide-title vox-ts-xxl">छूटे हुए अपडेट खोजें और लागू करें</h1>
+    <p class="guide-summary">Linux Nodes को लंबित पैकेज अपडेट के लिए स्कैन कीजिए, फिर उन्हें ड्राई रन, रुकने की सीमा और वैकल्पिक रीबूट के साथ बैचों में पैच कीजिए।</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>The <strong>Patching</strong> page shows which updates each node is missing, as the
-node&#39;s own package manager reports them. A scan only looks. A
-<a href="#patch-nodes">patch run</a> installs them.</p>
-<p>This covers Linux nodes that use <strong>apt</strong>, or <strong>dnf</strong> or <strong>yum</strong>. Windows,
-macOS and zypper (SUSE) are not scanned: a node on one of them is listed
-as unable to report, never as fully patched.</p>
-<p>Seeing results needs <code>nodes:read</code>, limited to the node groups your role
-names. Scanning or patching a node or a group needs <code>orchestrator:run</code>,
-again for the nodes your role covers. Changing how often the console scans
-needs <code>nodes:manage</code>. No new permission is involved.</p>
-<h2 id="what-a-scan-does">What a scan does</h2>
-<p>A scan asks the node&#39;s agent to run its package manager in a mode that
-changes nothing: it refreshes the package lists, then reports what an
-upgrade would replace. For each pending update you see the package, the
-installed version, the available version, and whether the package manager
-marks it a <strong>security</strong> update. A node also reports whether it already
-needs a reboot.</p>
-<p>Refreshing the lists means a scan reaches the node&#39;s mirrors. A node that
-cannot reach them records that the scan failed, and keeps showing the
-updates from the last scan that worked, marked as older than the last
-attempt.</p>
-<p>Two things to read carefully:</p>
+<p><strong>पैचिंग</strong> पृष्ठ दिखाता है कि हर Node में कौन-से अपडेट छूटे हुए हैं, जैसे Node का अपना package manager उन्हें बताता है। स्कैन केवल देखता है। <a href="#patch-nodes">patch रन</a> उन्हें इंस्टॉल करता है।</p>
+<p>यह <strong>apt</strong>, या <strong>dnf</strong> या <strong>yum</strong> का उपयोग करने वाले Linux Nodes पर लागू होता है। Windows, macOS और zypper (SUSE) स्कैन नहीं होते: इनमें से किसी पर चलने वाला Node रिपोर्ट करने में असमर्थ के रूप में सूचीबद्ध होता है, कभी पूरी तरह पैच किया हुआ नहीं।</p>
+<p>परिणाम देखने के लिए <code>nodes:read</code> चाहिए, आपकी भूमिका में नामित Node समूहों तक सीमित। किसी Node या समूह को स्कैन या पैच करने के लिए <code>orchestrator:run</code> चाहिए, फिर से आपकी भूमिका द्वारा कवर किए गए Nodes के लिए। कंसोल कितनी बार स्कैन करे, यह बदलने के लिए <code>nodes:manage</code> चाहिए। कोई नई अनुमति शामिल नहीं है।</p>
+<h2 id="what-a-scan-does">स्कैन क्या करता है</h2>
+<p>स्कैन Node के agent से उसके package manager को ऐसे मोड में चलाने को कहता है जो कुछ नहीं बदलता: यह पैकेज सूचियाँ ताज़ा करता है, फिर बताता है कि अपग्रेड क्या बदलेगा। हर लंबित अपडेट के लिए आपको पैकेज, इंस्टॉल संस्करण, उपलब्ध संस्करण, और यह दिखता है कि package manager उसे <strong>सुरक्षा</strong> अपडेट चिह्नित करता है या नहीं। Node यह भी बताता है कि उसे पहले से रीबूट की ज़रूरत है या नहीं।</p>
+<p>सूचियाँ ताज़ा करने का अर्थ है कि स्कैन Node के mirrors तक पहुँचता है। जो Node उन तक नहीं पहुँच पाता, वह दर्ज करता है कि स्कैन विफल हुआ, और अंतिम सफल स्कैन के अपडेट दिखाता रहता है, अंतिम प्रयास से पुराने के रूप में चिह्नित।</p>
+<p>दो बातें ध्यान से पढ़िए:</p>
 <ul>
-<li><strong>Security</strong> is what the package manager says. A system whose
-repositories carry no security information shows none, which is not the
-same as having none. Ubuntu and Debian mark them in the repository names;
-on RHEL-family systems the console asks <code>dnf updateinfo</code> for the
-security set.</li>
-<li><strong>Never scanned</strong> is not <strong>nothing pending</strong>. A node that has not been
-scanned is listed as not scanned, without counts.</li>
+<li><strong>सुरक्षा</strong> वही है जो package manager बताता है। जिस सिस्टम की रिपॉज़िटरी में कोई सुरक्षा जानकारी नहीं होती, वह कोई नहीं दिखाता, जो कोई न होने के बराबर नहीं है। Ubuntu और Debian इन्हें रिपॉज़िटरी के नामों में चिह्नित करते हैं; RHEL-family सिस्टमों पर कंसोल सुरक्षा समुच्चय के लिए <code>dnf updateinfo</code> से पूछता है।</li>
+<li><strong>कभी स्कैन नहीं हुआ</strong> का अर्थ <strong>कुछ भी लंबित नहीं</strong> नहीं है। जिस Node को स्कैन नहीं किया गया, वह बिना गिनती के, स्कैन नहीं हुआ के रूप में सूचीबद्ध होता है।</li>
 </ul>
-<p>The node&#39;s agent must be built from a version that includes scanning. An
-older agent answers that it does not know the request, and the node is
-shown as one that cannot report until the agent is upgraded: see
-<a href="agent-upgrades.html">Keep node agents current</a>.</p>
-<h2 id="read-the-fleet">Read the fleet</h2>
-<p>Open <strong>Patching</strong>. The figures at the top count the nodes you can see:
-those with pending updates, those with security updates, those needing a
-reboot, those not scanned, and those whose last scan is out of date.</p>
-<p>A scan is <strong>out of date</strong> when it is older than twice the scan interval,
-so a node that quietly stopped being scanned stands out. With automatic
-scanning off, it is judged against a day.</p>
-<p>Filter by:</p>
+<p>Node का एजेंट ऐसे संस्करण से build होना चाहिए जिसमें स्कैनिंग शामिल हो। पुराना एजेंट उत्तर देता है कि वह अनुरोध नहीं जानता, और एजेंट अपग्रेड होने तक Node रिपोर्ट न कर सकने वाले के रूप में दिखाया जाता है: देखें <a href="agent-upgrades.html">Node एजेंटों को नवीनतम रखें</a>।</p>
+<h2 id="read-the-fleet">फ़्लीट पढ़ें</h2>
+<p><strong>पैचिंग</strong> खोलिए। ऊपर के आँकड़े आपको दिखने वाले Nodes गिनते हैं: लंबित अपडेट वाले, सुरक्षा अपडेट वाले, रीबूट की ज़रूरत वाले, स्कैन न हुए, और वे जिनका पिछला स्कैन पुराना है।</p>
+<p>स्कैन तब <strong>पुराना</strong> माना जाता है जब वह स्कैन अंतराल के दोगुने से अधिक पुराना हो, ताकि जिस Node का स्कैन चुपचाप बंद हो गया, वह अलग से दिख जाए। स्वचालित स्कैनिंग बंद होने पर इसे एक दिन के आधार पर आँका जाता है।</p>
+<p>इनसे छानिए:</p>
 <ul>
-<li><strong>Operating system</strong>, to see one family at a time.</li>
-<li><strong>Group</strong>, if your role can read node groups.</li>
-<li><strong>Pending package</strong>, which switches the list to the nodes that have an
-update waiting for a package matching that name, with the installed and
-available versions. Searching <code>openssl</code> is how you find who still needs
-the fix.</li>
+<li><strong>ऑपरेटिंग सिस्टम</strong>, एक बार में एक family देखने के लिए।</li>
+<li><strong>समूह</strong>, यदि आपकी भूमिका Node समूह पढ़ सकती है।</li>
+<li><strong>लंबित पैकेज</strong>, जो सूची को उन Nodes पर ले जाता है जिनमें उस नाम से मेल खाने वाले पैकेज का अपडेट प्रतीक्षा में है, इंस्टॉल और उपलब्ध संस्करणों के साथ। <code>openssl</code> खोजकर ही आप पता लगाते हैं कि सुधार की ज़रूरत अभी किसे है।</li>
 </ul>
-<p>Select a node to open its page. The <strong>Patches</strong> tab lists its updates,
-security first, with when it was last scanned.</p>
-<h2 id="scan-now">Scan now</h2>
-<p>On a node&#39;s <strong>Patches</strong> tab, <strong>Scan now</strong> scans that node. On the Patching
-page, choose a group and <strong>Scan this group now</strong> scans every node of the
-group you may act on. The answer says, node by node, which were scanned,
-which failed, which were offline, and how many were left out because they
-are outside your node groups.</p>
-<p>A node that is offline is not scanned and keeps what it had; it is
-scanned on the next pass once it reconnects. A group scan runs a few nodes
-at a time, so a large group takes a while.</p>
-<p>Each scan you request is recorded in the audit log with who asked and the
-node or group.</p>
-<h2 id="scan-automatically">Scan automatically</h2>
-<p>Unless you switch it off, the console scans every connected node once a
-day. Under <strong>Automatic scanning</strong> on the Patching page (for <code>nodes:manage</code>)
-set the interval anywhere from 15 minutes to 7 days, or turn it off.</p>
+<p>किसी Node का पृष्ठ खोलने के लिए उसे चुनिए। <strong>पैच</strong> टैब उसके अपडेट सूचीबद्ध करता है, सुरक्षा अपडेट पहले, साथ में यह भी कि उसे अंतिम बार कब स्कैन किया गया।</p>
+<h2 id="scan-now">अभी स्कैन करें</h2>
+<p>किसी Node के <strong>पैच</strong> टैब पर, <strong>अभी स्कैन करें</strong> उस Node को स्कैन करता है। पैचिंग पृष्ठ पर, एक समूह चुनिए और <strong>इस समूह को अभी स्कैन करें</strong> समूह के उन सभी Nodes को स्कैन करता है जिन पर आप कार्रवाई कर सकते हैं। उत्तर Node-दर-Node बताता है कि कौन स्कैन हुए, कौन विफल हुए, कौन ऑफ़लाइन थे, और कितने छोड़ दिए गए क्योंकि वे आपके Node समूहों के बाहर हैं।</p>
+<p>ऑफ़लाइन Node स्कैन नहीं होता और उसका पिछला परिणाम बना रहता है; दोबारा कनेक्ट होने के बाद अगले चक्र में उसे स्कैन किया जाता है। समूह स्कैन एक बार में कुछ ही Nodes पर चलता है, इसलिए बड़े समूह में कुछ समय लगता है।</p>
+<p>आपके द्वारा माँगा गया हर स्कैन, माँगने वाले और Node या समूह के साथ, ऑडिट लॉग में दर्ज होता है।</p>
+<h2 id="scan-automatically">अपने-आप स्कैन करें</h2>
+<p>जब तक आप इसे बंद न करें, कंसोल हर कनेक्टेड Node को दिन में एक बार स्कैन करता है। पैचिंग पृष्ठ पर <strong>स्वचालित स्कैन</strong> के अंतर्गत (<code>nodes:manage</code> वालों के लिए) अंतराल 15 मिनट से 7 दिन के बीच कुछ भी सेट कीजिए, या इसे बंद कीजिए।</p>
 <ul>
-<li>Only one console instance runs the automatic scan at a time, however
-many you run, and a node scanned within the interval is not scanned
-again.</li>
-<li>A node whose scan failed is tried again after the next interval, not on
-every pass.</li>
-<li>Automatic scans write no audit entry per node. A change to the interval
-is audited.</li>
-<li>With <a href="run-modes.html">run modes</a>, the scan runs in <code>all</code> and <code>worker</code>
-instances.</li>
-<li>Results for a node nothing has tried for 90 days are removed.</li>
+<li>आप चाहे कितने भी कंसोल इंस्टेंस चलाएँ, स्वचालित स्कैन एक समय में केवल एक ही चलाता है, और अंतराल के भीतर स्कैन हुआ Node फिर से स्कैन नहीं होता।</li>
+<li>जिस Node का स्कैन विफल हुआ, उस पर अगले अंतराल के बाद फिर प्रयास होता है, हर चक्र में नहीं।</li>
+<li>स्वचालित स्कैन प्रति Node कोई ऑडिट प्रविष्टि नहीं लिखते। अंतराल में बदलाव का ऑडिट होता है।</li>
+<li><a href="run-modes.html">run modes</a> के साथ, स्कैन <code>all</code> और <code>worker</code> इंस्टेंसों में चलता है।</li>
+<li>जिस Node पर 90 दिनों तक कोई प्रयास नहीं हुआ, उसके परिणाम हटा दिए जाते हैं।</li>
 </ul>
-<h2 id="patch-nodes">Patch nodes</h2>
-<p>A <strong>patch run</strong> installs pending updates on Linux nodes (apt, dnf or yum).
-Start one from the Patching page with <strong>Patch this group…</strong>, or from a
-node&#39;s <strong>Patches</strong> tab with <strong>Patch now…</strong>. It needs <code>orchestrator:run</code>, and
-like any run it is refused whole, naming the nodes, if any of them is
-outside your node groups.</p>
-<p>Choose:</p>
+<h2 id="patch-nodes">Nodes पैच करें</h2>
+<p><strong>patch रन</strong> Linux Nodes पर लंबित अपडेट इंस्टॉल करता है (apt, dnf या yum)। इसे पैचिंग पृष्ठ से <strong>इस समूह को पैच करें…</strong> से, या किसी Node के <strong>पैच</strong> टैब से <strong>अभी पैच करें…</strong> से शुरू कीजिए। इसके लिए <code>orchestrator:run</code> चाहिए, और किसी भी रन की तरह, यदि इसका कोई Node आपके Node समूहों के बाहर है, तो यह उन Nodes का नाम बताते हुए पूरा का पूरा अस्वीकार हो जाता है।</p>
+<p>चुनिए:</p>
 <ul>
-<li><strong>Updates to apply</strong>: <strong>security updates only</strong>, <strong>all pending updates</strong>,
-or <strong>named packages</strong>. A named package that has no update pending is
-reported as nothing to apply and nothing else is touched. On dnf and yum,
-security-only needs the repository&#39;s security information; without it the
-node fails the run rather than installing everything.</li>
-<li><strong>Dry run</strong>, which reports what would be upgraded and changes, restarts
-and reboots nothing.</li>
-<li><strong>Reboot a node that needs it</strong>, which reboots a node after a successful
-run only if it reports that it needs one. A dry run or a failed node is
-never rebooted. The node delivers its result first and reboots about half
-a minute later.</li>
-<li><strong>Nodes at a time</strong> (1 to 100, default 10) and <strong>Stop after failed nodes</strong>
-(default 3, <strong>0</strong> never stops).</li>
+<li><strong>लागू करने वाले अपडेट</strong>: <strong>केवल सुरक्षा अपडेट</strong>, <strong>सभी लंबित अपडेट</strong>, या <strong>नाम से चुने गए पैकेज</strong>। नाम से चुने गए जिस पैकेज का कोई अपडेट लंबित नहीं है, उसके लिए बताया जाता है कि लागू करने को कुछ नहीं है, और कुछ और नहीं छुआ जाता। dnf और yum पर केवल-सुरक्षा के लिए रिपॉज़िटरी की सुरक्षा जानकारी चाहिए; उसके बिना Node सब कुछ इंस्टॉल करने के बजाय रन को विफल कर देता है।</li>
+<li><strong>ड्राई रन</strong>, जो बताता है कि क्या अपग्रेड होगा, और कुछ भी नहीं बदलता, पुनः आरंभ या रीबूट नहीं करता।</li>
+<li><strong>जिस नोड को ज़रूरत हो, उसे रीबूट करें</strong>, जो सफल रन के बाद किसी Node को तभी रीबूट करता है जब वह बताए कि उसे इसकी ज़रूरत है। ड्राई रन में या विफल Node को कभी रीबूट नहीं किया जाता। Node पहले अपना परिणाम भेजता है और लगभग आधे मिनट बाद रीबूट होता है।</li>
+<li><strong>एक बार में नोड</strong> (1 से 100, डिफ़ॉल्ट 10) और <strong>इतने नोड विफल होने पर रुकें</strong> (डिफ़ॉल्ट 3, <strong>0</strong> कभी नहीं रुकता)।</li>
 </ul>
-<h3 id="batches-and-stopping">Batches and stopping</h3>
-<p>Nodes are patched a batch at a time, in node-name order. A batch is patched
-at once and the next starts only when it has finished. When the number of
-failed nodes reaches the threshold, no further batch starts: the nodes not
-reached are recorded as <strong>not started</strong>, and nothing is sent to them. Use a
-small first batch on something you can afford to lose, then let the rest
-follow.</p>
-<p>A node that is already being patched by another run is not started again:
-the request is refused, naming it.</p>
-<h3 id="watch-a-run">Watch a run</h3>
-<p>The run opens as a job. It lists each node with its batch, status, exit
-status and the packages it upgraded (<strong>from</strong> and <strong>to</strong> versions), and
-under <strong>Details</strong> the package manager&#39;s own output. The page refreshes while
-the run is going. The node&#39;s <strong>Patches</strong> tab shows the last run on that
-node, and the Patching page lists recent runs.</p>
-<p>A run can take hours. The console asks each node how it is getting on every
-15 seconds, and every answer counts as proof the run is alive. A node that
-says nothing for ten minutes is failed, as is one still working after four
-hours, and the run carries on with the others. If the console instance
-following the run stops, the job is failed ten minutes after it was last
-heard from, with the reason recorded. The patch itself carries on on the
-node, so scan it again to see where it stands.</p>
-<h3 id="afterwards">Afterwards</h3>
-<p>When a node finishes, the packages it still has pending are what the
-Patching page shows: the node&#39;s own scan is taken at the end of its run. A
-node that rebooted is scanned again once it reconnects, for up to ten
-minutes. If it does not come back in that time its snapshot says the scan
-failed, and the run itself is not failed for it.</p>
-<p>Each run is audited when it starts, with who started it, the nodes&#39; source
-and every option chosen, and again when it ends. Both appear in the
-activity log.</p>
-<p>A node whose agent is too old to patch is failed with a reason saying so and
-nothing is installed on it: see <a href="agent-upgrades.html">Keep node agents
-current</a>.</p>
-<h2 id="not-covered">Not covered</h2>
-<p>This version does not schedule patch windows or blackouts, group nodes for
-patching, roll a patch back, patch Windows or macOS, or relate pending
-updates to known vulnerabilities: see
-<a href="vulnerabilities.html">Track vulnerabilities</a> for what is installed
-against known advisories.</p>
+<h3 id="batches-and-stopping">बैच और रुकना</h3>
+<p>Nodes एक बार में एक बैच के रूप में, Node-नाम के क्रम में, पैच होते हैं। एक बैच एक साथ पैच होता है और अगला तभी शुरू होता है जब वह पूरा हो जाए। जब विफल Nodes की संख्या सीमा तक पहुँच जाती है, तो आगे कोई बैच शुरू नहीं होता: जिन Nodes तक नहीं पहुँचा गया, वे <strong>शुरू नहीं हुआ</strong> के रूप में दर्ज होते हैं, और उन्हें कुछ नहीं भेजा जाता। पहला बैच छोटा रखिए, ऐसी चीज़ पर जिसे खोना आपको भारी न पड़े, फिर बाक़ी को आगे बढ़ने दीजिए।</p>
+<p>जिस Node को पहले से किसी दूसरे रन द्वारा पैच किया जा रहा है, उस पर फिर से शुरू नहीं किया जाता: अनुरोध, उसका नाम बताते हुए, अस्वीकार कर दिया जाता है।</p>
+<h3 id="watch-a-run">रन पर नज़र रखें</h3>
+<p>रन एक Job के रूप में खुलता है। यह हर Node को उसके बैच, स्थिति, निकास स्थिति और अपग्रेड किए गए पैकेजों (<strong>से</strong> और <strong>तक</strong> संस्करण) के साथ सूचीबद्ध करता है, और <strong>विवरण</strong> के अंतर्गत package manager का अपना आउटपुट। रन चलते समय पृष्ठ ताज़ा होता रहता है। Node का <strong>पैच</strong> टैब उस Node पर अंतिम रन दिखाता है, और पैचिंग पृष्ठ हाल के रन सूचीबद्ध करता है।</p>
+<p>रन में घंटों लग सकते हैं। कंसोल हर 15 सेकंड पर हर Node से उसकी प्रगति पूछता है, और हर उत्तर इस बात का प्रमाण माना जाता है कि रन जीवित है। जो Node दस मिनट तक कुछ नहीं कहता, उसे विफल कर दिया जाता है, और उसे भी जो चार घंटे बाद भी काम कर रहा हो, और रन बाक़ी Nodes के साथ जारी रहता है। यदि रन पर नज़र रखने वाला कंसोल इंस्टेंस रुक जाए, तो उससे अंतिम बार सूचना मिलने के दस मिनट बाद Job, कारण दर्ज करते हुए, विफल कर दिया जाता है। पैच स्वयं Node पर जारी रहता है, इसलिए उसकी स्थिति देखने के लिए उसे फिर से स्कैन कीजिए।</p>
+<h3 id="afterwards">बाद में</h3>
+<p>जब कोई Node पूरा कर लेता है, तो पैचिंग पृष्ठ वही पैकेज दिखाता है जो उसके पास अभी भी लंबित हैं: Node का अपना स्कैन उसके रन के अंत में लिया जाता है। रीबूट हुए Node को दोबारा कनेक्ट होने पर, दस मिनट तक, फिर से स्कैन किया जाता है। यदि वह उस समय में वापस नहीं आता, तो उसका snapshot बताता है कि स्कैन विफल हुआ, और इसके कारण रन स्वयं विफल नहीं होता।</p>
+<p>हर रन का ऑडिट शुरू होते समय होता है — किसने शुरू किया, Nodes का स्रोत और चुना गया हर विकल्प — और फिर समाप्त होते समय। दोनों गतिविधि लॉग में दिखते हैं।</p>
+<p>जिस Node का agent पैच करने के लिए बहुत पुराना है, उसे यही कारण बताते हुए विफल कर दिया जाता है और उस पर कुछ भी इंस्टॉल नहीं होता: देखें <a href="agent-upgrades.html">node agents को नवीनतम रखें</a>।</p>
+<h2 id="not-covered">शामिल नहीं</h2>
+<p>यह संस्करण patch windows या blackouts शेड्यूल नहीं करता, पैचिंग के लिए Nodes को समूहित नहीं करता, पैच वापस नहीं लेता, Windows या macOS को पैच नहीं करता, और लंबित अपडेट को ज्ञात कमज़ोरियों से नहीं जोड़ता: ज्ञात सलाहों के विरुद्ध क्या इंस्टॉल है, इसके लिए देखें <a href="vulnerabilities.html">कमज़ोरियों पर नज़र रखें</a>।</p>
 
     </div>
 
-    <vox-series-nav label="Use" previous-text="Previous" next-text="Next" previous-href="../guides/vulnerabilities.html" previous-label="Track vulnerabilities" next-href="../guides/agentless.html" next-label="Run tasks on hosts without an agent"></vox-series-nav>
+    <vox-series-nav label="उपयोग" previous-text="पिछला" next-text="अगला" previous-href="../guides/vulnerabilities.html" previous-label="कमज़ोरियों पर नज़र रखें" next-href="../guides/agentless.html" next-label="बिना एजेंट वाले होस्टों पर Tasks चलाएँ"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#what-a-scan-does"><span>What a scan does</span>
+    <vox-toc heading="इस पृष्ठ पर">
+      <vox-toc-item href="#what-a-scan-does"><span>स्कैन क्या करता है</span>
       </vox-toc-item>
-      <vox-toc-item href="#read-the-fleet"><span>Read the fleet</span>
+      <vox-toc-item href="#read-the-fleet"><span>फ़्लीट पढ़ें</span>
       </vox-toc-item>
-      <vox-toc-item href="#scan-now"><span>Scan now</span>
+      <vox-toc-item href="#scan-now"><span>अभी स्कैन करें</span>
       </vox-toc-item>
-      <vox-toc-item href="#scan-automatically"><span>Scan automatically</span>
+      <vox-toc-item href="#scan-automatically"><span>अपने-आप स्कैन करें</span>
       </vox-toc-item>
-      <vox-toc-item href="#patch-nodes"><span>Patch nodes</span>
-        <vox-toc-item slot="children" href="#batches-and-stopping"><span>Batches and stopping</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#watch-a-run"><span>Watch a run</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#afterwards"><span>Afterwards</span></vox-toc-item>
+      <vox-toc-item href="#patch-nodes"><span>Nodes पैच करें</span>
+        <vox-toc-item slot="children" href="#batches-and-stopping"><span>बैच और रुकना</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#watch-a-run"><span>रन पर नज़र रखें</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#afterwards"><span>बाद में</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#not-covered"><span>Not covered</span>
+      <vox-toc-item href="#not-covered"><span>शामिल नहीं</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -336,23 +248,17 @@ against known advisories.</p>
 
       
       <vox-cta-band heading="स्वयं चलाकर देखिए">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console कंटेनर इमेजों के रूप में आता है, जो हर push पर amd64 और arm64 के लिए बनती हैं, और एक अकेली बाइनरी के रूप में भी। इंस्टॉल गाइड आपको खाली होस्ट से एक चालू परिनियोजन तक ले जाते हैं - openvoxserver, openvoxdb, Postgres और कंसोल - कंटेनरों से या पैकेजों से।</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">इंस्टॉल गाइड</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">GitHub पर स्रोत</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">कंटेनर इमेज</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="पूर्ण आकार का स्क्रीनशॉट">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">बंद करें</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -361,18 +267,18 @@ against known advisories.</p>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">सिंहावलोकन</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">स्रोत</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">इंस्टॉल गाइड</a>
       </vox-footer-column>
       <vox-footer-column heading="क्षमताएँ">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">वर्गीकरण</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">ऑर्केस्ट्रेशन</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">पैचिंग</a>
         <a href="../features/security.html">सुरक्षा</a>
         <a href="../features/access-control.html">पहुँच नियंत्रण</a>
         <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/scaling.html">विस्तार</a>
         </vox-footer-column>
       
       <vox-footer-column heading="भाषा">

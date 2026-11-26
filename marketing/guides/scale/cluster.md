@@ -57,6 +57,13 @@ Every peer connection is encrypted and authenticated in two ways:
   also holds a certificate from the CA, and the secret is what keeps its
   certificate from being enough to join.
 
+If you give an instance a certificate of its own rather than the shared
+one, openvoxserver must also let it read the class list: its rule names
+the certificate it allows, `console` by default, and refuses any other
+with `HTTP 403`. Add every `web` and `all` instance's certname to that
+rule, or the group page on those instances says the list is
+unavailable. See [Install from packages and binaries](packages.html).
+
 Leaves use a second secret of their own, which must differ from the
 cluster secret: an `enc` host is the least trusted place a console runs,
 and must not be able to join as a full peer.

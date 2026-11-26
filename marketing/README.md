@@ -378,6 +378,104 @@ top. Each locale's build prints its guide coverage:
 Generated 26 pages into ../docs/de (de) - guides 412/430 passages translated
 ```
 
+### Guide review log
+
+A guide is walked on a fresh machine, start to finish, by somebody
+following it literally, before it is called done. Each walk is
+recorded here, with what it found.
+
+**Install with containers** - 2026-11-25. Fresh Debian 12 (bookworm)
+cloud image under KVM, 4 vCPU / 6 GB, Docker Engine 29.10.1 and Compose
+v5.8.0 from Docker's apt repository, Caddy 2.6.2 from Debian. Images
+`ghcr.io/avitacco/openvox-console:main` and `-server:main` (revision
+3e44295), openvoxdb `26.04`, openvoxserver 9.2.0, Postgres 18-alpine.
+Walked to enc-bridge returning `{}` and then a pinned group's classes;
+every service healthy. Found and fixed:
+
+- `mkdir` under `/opt` fails as a normal user; the guide now creates the
+  directory with `sudo` and hands it to the user, and says the user must
+  be able to run `docker`.
+- `.env` never set `CONSOLE_BOOTSTRAP_ADMIN_USERNAME`, so no admin was
+  created and nobody could log in. Now set.
+- Nothing provided the `https://` base URL: the console serves plain
+  HTTP and no guide put TLS in front of it, so the health check failed.
+  New shared step `_partials/tls-proxy.md` (Caddy example, node transport
+  kept off the proxy); the console's port is published on loopback only
+  (`CONSOLE_HTTP_PORT=127.0.0.1:8080`); the health check now tries the
+  console directly, then through the proxy.
+- `puppetserver ca generate` prints `Error: Signed certificate ... could
+  not be found` before succeeding; a note now says that is expected.
+- The checklist's openvoxdb check cannot reach an unpublished port; the
+  guide now gives the in-container form.
+
+The corrected guide was then walked again on a second fresh VM, scripted
+from its commands, and reached the same result with no divergence.
+
+**Install from packages and binaries** - 2026-11-25, every part on one
+host, under KVM, 4 vCPU / 6 GB. Console built from `main` at 0926e81 with
+Go 1.27.4 from go.dev; Caddy as the TLS proxy with its own local CA.
+
+- *Debian 12 (bookworm)*: openvox-server 8.18.0, openvoxdb 8.18.1,
+  openvox-agent 8.34.0, PostgreSQL 15.20, Caddy 2.6.2.
+- *Rocky Linux 9.9*, SELinux enforcing: the same OpenVox versions,
+  PostgreSQL 13.23, Caddy 2.6.4 from EPEL.
+
+Both walked to enc-bridge returning `{}` and then a pinned group's
+classes, and further: a Puppet run on the server itself through
+openvoxserver failing `Could not find class ntp` (classification is
+live), then succeeding with a value read from the group's configuration
+data. Found and fixed:
+
+- The package does not create the CA; its first start does.
+- The CA refuses to sign a request with alternative names until
+  `allow-subject-alt-names` is set, leaving the node transport
+  certificate unsigned. New step before any certificate is issued.
+- openvoxdb's HTTPS port requires a client certificate; the status check
+  now passes the host's own. Its "read-database user is not configured
+  properly" log error is explained as harmless.
+- `/etc/openvox-console` was created after the step that copies
+  certificates into it; it is now created first.
+- `sudo chown ... /etc/openvox-console/*` cannot work, because the
+  reader's own shell expands the glob in a directory it cannot read; now
+  `sudo sh -c '...'`.
+- `CONSOLE_HTTP_ADDR=:8080` collided with openvoxdb on a shared host and
+  bypassed the proxy; now loopback, with 8088 named for a shared host.
+- The same missing TLS step as the containers guide, plus: enc-bridge
+  checks the proxy's certificate against the system store, so a private
+  CA must be added there (both distributions' commands given).
+- The configuration-data function's directory does not exist on a
+  packaged server; it goes in Puppet's `vendor_ruby` functions directory,
+  and the package ships a placeholder global `hiera.yaml`.
+- RHEL: `pg_trgm` needs `postgresql-contrib`; the default `ident` rules
+  refuse openvoxdb's and the console's password logins (openvoxdb
+  retried forever, never becoming active), so the guide switches them to
+  `scram-sha-256` before the users are created; Caddy comes from EPEL; the
+  remote-listen step had only Debian paths.
+- `psql` for the connection check needs `postgresql-client` on a separate
+  console host.
+
+The Rocky walk was run, scripted, on a fresh VM after the Debian fixes
+were in the guide; the RHEL-only fixes were found there and the walk
+repeated on a fresh VM to the end.
+
+**Run more instances** - 2026-11-25, on the Rocky Linux 9.9 host left
+by the packages walk (versions above), all instances on that one host,
+told apart by port, each a systemd unit with its own environment file.
+Walked from one `all` instance to two clustered `all` instances (both
+logged `cluster joined`; Fleet Status listed 2 of 2), then to `web`,
+`orchestrator` and `worker` instances plus an `enc` instance attached as
+a leaf, with the node transport moved to `orchestrator`. The host itself
+was enrolled as a node with the install script first. Confirmed: a
+Puppet run started through `web` succeeded on the node connected to
+`orchestrator`; a service token revoked through `web` was refused by the
+`enc` leaf within a second (200 before, 401 after); classification
+answered through both `web` and `enc`; every instance's `/health` named
+its mode. The second and third core instances had certificates of their
+own, so `CONSOLE_CLUSTER_ADVERTISE` was set on each, as the guide says.
+Found and fixed: an instance with its own certificate cannot read the
+class list (`HTTP 403`) unless openvoxserver's rule names it; the guide
+now says so.
+
 ## Accessibility
 
 The target is **WCAG 2.2 level AA**.

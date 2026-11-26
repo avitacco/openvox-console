@@ -247,6 +247,63 @@ var All = withDefaults([]Shot{
 		ReadyWhen:   "#results tbody tr",
 		MustContain: "Auditor",
 	},
+
+	// --- guides ---
+	// Views the step-by-step guides show, beyond the capability pages'
+	// own. Each is the state a guide's step leaves the reader in.
+	{
+		Name:      "node-delete-confirm",
+		Path:      "/nodes.html",
+		Caption:   N_("The confirmation shown before a node is deleted, explaining that it leaves the list at once, that openvoxdb removes its history later, and that the console cannot undo it"),
+		ReadyWhen: "#results tbody tr",
+		Interactions: []Interaction{
+			// The first row, so the click scrolls nothing into view:
+			// further down, a development database's own nodes can sit
+			// among the demo fleet's, and must not reach an image.
+			{Click: `vox-button[data-delete-certname="api-01.team-a.example.com"]`, WaitFor: "vox-dialog"},
+		},
+		MustContain: "api-01.team-a.example.com",
+	},
+	{
+		Name: "group-editor",
+		// The demo database is created fresh for every refresh and its
+		// groups are seeded in a fixed order after the root, so Web Tier
+		// is always the sixth (see internal/demodata/console.go).
+		Path:        "/group.html?id=6",
+		Caption:     N_("A node group's editor, showing its name, parent group, priority and environment, the classes it applies with their parameters, and the rule that decides which nodes it matches"),
+		// The class names sit in inputs, which page text does not
+		// include; the matching nodes are rendered text, and only the
+		// demo fleet has web nodes under prod.example.com.
+		ReadyWhen:   "#matching-nodes li a",
+		MustContain: "web-03.prod.example.com",
+	},
+	{
+		Name:      "job-result",
+		Path:      "/jobs.html",
+		Caption:   N_("A finished job's page, showing what was run, who started it and when, and the outcome on every node it targeted"),
+		ReadyWhen: "#results tbody tr",
+		Interactions: []Interaction{
+			{Click: `#results tbody tr:first-child a[href^="/job.html"]`, WaitFor: "#targets > *"},
+		},
+		MustContain: "prod.example.com",
+	},
+	{
+		Name:      "role-editor",
+		Path:      "/roles.html",
+		Caption:   N_("Editing a role: its permissions as checkboxes, and the node groups it is limited to, chosen from the group tree"),
+		ReadyWhen: "#results tbody tr",
+		Interactions: []Interaction{
+			{Click: `#results tbody tr:first-child vox-button[data-edit-groups]`, WaitFor: "[data-group-editor]:not(.vox-hide)"},
+		},
+		MustContain: "Auditor",
+	},
+	{
+		Name:        "vulnerability-providers",
+		Path:        "/vulnerability-providers.html",
+		Caption:     N_("Vulnerability providers configured in the console, each with its type, whether it is enabled, how often it syncs, its status and when it last synced"),
+		ReadyWhen:   "#providers tbody tr",
+		MustContain: "OSV advisory feed",
+	},
 	{
 		Name:        "activity",
 		Path:        "/activity.html",

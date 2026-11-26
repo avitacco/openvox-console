@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="ar" dir="rtl"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Recover from losing the console&#39;s database by promoting a streaming-replication standby."/>
+    <meta name="description" content="تعافَ من فقدان قاعدة بيانات وحدة التحكم بترقية خادم احتياطي يعمل بالنسخ المتماثل المتدفق."/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Fail over to a standby database - OpenVox Console</title>
+    <title>الانتقال إلى قاعدة بيانات احتياطية عند الفشل - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">الأدلة</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,113 +104,96 @@
       <a href="../features/classification.html">التصنيف</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">التنسيق</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">تثبيت التصحيحات</a>
       <a href="../features/security.html">الأمان</a>
       <a href="../features/access-control.html">التحكم في الوصول</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">وكلاء الذكاء الاصطناعي</a>
+      <a href="../features/scaling.html">التوسّع</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="الأدلة" toggle-label="كل الأدلة">
+    <vox-sidenav-group heading="التثبيت">
+      <vox-sidenav-item href="../guides/plan.html"><span>خطّط للنشر</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>التثبيت باستخدام الحاويات</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>التثبيت من الحزم والملفات التنفيذية</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>إضافة Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>إدارة شهادات الـ Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>إزالة Node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>إبقاء وكلاء الـ Nodes محدَّثين</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
-      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="التوسّع">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>أوضاع التشغيل</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>تشغيل مزيد من المثيلات</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="الاستخدام">
+      <vox-sidenav-item href="../guides/classify.html"><span>تصنيف الـ Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>deploy الكود</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>تشغيل الـ Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>تشغيل الـ Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>جدولة الـ Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>المستخدمون والأدوار والرموز</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>تتبّع الثغرات</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>العثور على التحديثات الناقصة وتطبيقها</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>تشغيل Tasks على مضيفين بلا وكيل</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>تشغيل Plans من الكود الخاص بك</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>السماح لوكلاء الذكاء الاصطناعي باستخدام وحدة التحكم</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate" open="">
-      <vox-sidenav-item href="../guides/postgres-failover.html" current="" aria-current="page"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="التشغيل" open="">
+      <vox-sidenav-item href="../guides/postgres-failover.html" current="" aria-current="page"><span>الانتقال إلى قاعدة بيانات احتياطية عند الفشل</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>تدوير مفتاح توقيع الرموز</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>ترقية قواعد بيانات الحاويات إلى Postgres 18</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Operate</p>
-    <h1 class="guide-title vox-ts-xxl">Fail over to a standby database</h1>
-    <p class="guide-summary">Recover from losing the console&#39;s database by promoting a streaming-replication standby.</p>
+    <p class="guide-eyebrow">التشغيل</p>
+    <h1 class="guide-title vox-ts-xxl">الانتقال إلى قاعدة بيانات احتياطية عند الفشل</h1>
+    <p class="guide-summary">تعافَ من فقدان قاعدة بيانات وحدة التحكم بترقية خادم احتياطي يعمل بالنسخ المتماثل المتدفق.</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>The console keeps everything durable in its Postgres database, and
-nothing in the console itself needs recovering. So losing the primary
-database is recovered by promoting a standby and pointing the console at
-it. This runbook assumes a standby kept current by Postgres&#39;s own
-streaming replication.</p>
-<h2 id="check-the-standby-before-you-need-it">Check the standby before you need it</h2>
-<p>On the standby:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>psql -U console -d console -c &#34;SELECT pg_is_in_recovery();&#34;
+<p>تحتفظ وحدة التحكم بكل ما هو دائم في قاعدة بيانات Postgres الخاصة بها، ولا شيء في وحدة التحكم نفسها يحتاج إلى استعادة. لذا يُتعافى من فقدان قاعدة البيانات الأساسية بترقية خادم احتياطي وتوجيه وحدة التحكم إليه. يفترض دليل التشغيل هذا وجود خادم احتياطي يُبقيه النسخ المتماثل المتدفق الخاص بـ Postgres محدَّثًا.</p>
+<h2 id="check-the-standby-before-you-need-it">افحص الخادم الاحتياطي قبل أن تحتاج إليه</h2>
+<p>على الخادم الاحتياطي:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>psql -U console -d console -c &#34;SELECT pg_is_in_recovery();&#34;
 </code></vox-code-block>
-<p>It answers <code>t</code>: it is still a replica. A write to it is refused with
-<code>cannot execute INSERT in a read-only transaction</code>, which is also what a
-healthy replica does.</p>
-<h2 id="promote-the-standby">Promote the standby</h2>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>psql -U console -d console -c &#34;SELECT pg_promote();&#34;
+<p>يجيب بـ <code>t</code>: أي أنه لا يزال نسخة متماثلة (replica). وتُرفض الكتابة فيه مع <code>cannot execute INSERT in a read-only transaction</code>، وهذا أيضًا ما تفعله النسخة المتماثلة السليمة.</p>
+<h2 id="promote-the-standby">رقِّ الخادم الاحتياطي</h2>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>psql -U console -d console -c &#34;SELECT pg_promote();&#34;
 </code></vox-code-block>
-<p>Within a few seconds <code>pg_is_in_recovery()</code> answers <code>f</code>: the standby is
-now an independent, writable database.</p>
-<vox-callout variant="warning" heading="Warning"><p>The promoted database does not resume replicating from the old
-primary if that comes back. Treat the old primary as retired from this
-point. To have a standby again, rebuild the old primary as a new
-standby of the promoted one, with <code>pg_basebackup -R</code>.</p>
+<p>في غضون ثوانٍ قليلة يجيب <code>pg_is_in_recovery()</code> بـ <code>f</code>: صار الخادم الاحتياطي الآن قاعدة بيانات مستقلة قابلة للكتابة.</p>
+<vox-callout variant="warning" heading="تحذير"><p>لا تستأنف قاعدة البيانات المُرقّاة النسخ المتماثل من الأساسية القديمة إذا عادت. اعتبر الأساسية القديمة متقاعدة من هذه اللحظة. ولتحصل على خادم احتياطي مجددًا، أعِد بناء الأساسية القديمة كخادم احتياطي جديد للمُرقّاة، باستخدام <code>pg_basebackup -R</code>.</p>
 </vox-callout>
-<h2 id="point-the-console-at-it">Point the console at it</h2>
-<p>Change <code>CONSOLE_POSTGRES_DSN</code> to the promoted database&#39;s address, and
-restart the console. The console opens its connections once, at startup,
-so a restart is required. With several instances, restart every one.</p>
-<vox-callout variant="tip" heading="Tip"><p>A connection pooler or proxy in front of the database gives the
-console one address that survives a failover. Then only the proxy is
-repointed, and the console&#39;s own configuration never changes.</p>
+<h2 id="point-the-console-at-it">وجّه وحدة التحكم إليها</h2>
+<p>غيّر <code>CONSOLE_POSTGRES_DSN</code> إلى عنوان قاعدة البيانات التي رُقّيت، وأعِد تشغيل وحدة التحكم. تفتح وحدة التحكم اتصالاتها مرة واحدة، عند البدء، لذا تلزم إعادة التشغيل. ومع عدة مثيلات، أعِد تشغيلها كلها.</p>
+<vox-callout variant="tip" heading="نصيحة"><p>يمنح مجمّع الاتصالات أو الوكيل الوسيط (proxy) أمام قاعدة البيانات وحدةَ التحكم عنوانًا واحدًا يصمد بعد تجاوز الفشل (failover). عندئذ لا يُعاد توجيه سوى الوكيل الوسيط، ولا تتغير تهيئة وحدة التحكم نفسها أبدًا.</p>
 </vox-callout>
-<h2 id="confirm-the-console-recovered">Confirm the console recovered</h2>
-<p><code>/health</code> reports Postgres as <code>ok</code> again. Then log in: that writes to the
-database, so it proves writes work, not only reads.</p>
+<h2 id="confirm-the-console-recovered">تأكّد من تعافي وحدة التحكم</h2>
+<p>يُبلّغ <code>/health</code> عن Postgres بالحالة <code>ok</code> مجددًا. ثم سجّل الدخول: فهذا يكتب في قاعدة البيانات، فيُثبت أن الكتابة تعمل، لا القراءة فحسب.</p>
 
     </div>
 
-    <vox-series-nav label="Operate" previous-text="Previous" next-text="Next" next-href="../guides/rotate-signing-key.html" next-label="Rotate the token signing key"></vox-series-nav>
+    <vox-series-nav label="التشغيل" previous-text="السابق" next-text="التالي" next-href="../guides/rotate-signing-key.html" next-label="تدوير مفتاح توقيع الرموز"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#check-the-standby-before-you-need-it"><span>Check the standby before you need it</span>
+    <vox-toc heading="في هذه الصفحة">
+      <vox-toc-item href="#check-the-standby-before-you-need-it"><span>افحص الخادم الاحتياطي قبل أن تحتاج إليه</span>
       </vox-toc-item>
-      <vox-toc-item href="#promote-the-standby"><span>Promote the standby</span>
+      <vox-toc-item href="#promote-the-standby"><span>رقِّ الخادم الاحتياطي</span>
       </vox-toc-item>
-      <vox-toc-item href="#point-the-console-at-it"><span>Point the console at it</span>
+      <vox-toc-item href="#point-the-console-at-it"><span>وجّه وحدة التحكم إليها</span>
       </vox-toc-item>
-      <vox-toc-item href="#confirm-the-console-recovered"><span>Confirm the console recovered</span>
+      <vox-toc-item href="#confirm-the-console-recovered"><span>تأكّد من تعافي وحدة التحكم</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -220,23 +203,17 @@ database, so it proves writes work, not only reads.</p>
 
       
       <vox-cta-band heading="شغّله بنفسك">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>يُوزَّع OpenVox Console على هيئة صور حاويات تُبنى لمعماريتَي amd64 وarm64 مع كل push، وعلى هيئة ملف تنفيذي واحد. تأخذك أدلة التثبيت من مضيف فارغ إلى نشر عامل - openvoxserver وopenvoxdb وPostgres ووحدة التحكم - باستخدام الحاويات أو الحزم.</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">أدلة التثبيت</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">الشيفرة المصدرية على GitHub</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">صور الحاويات</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="لقطة الشاشة بالحجم الكامل">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">إغلاق</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -245,18 +222,18 @@ database, so it proves writes work, not only reads.</p>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">نظرة عامة</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">الشيفرة المصدرية</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">أدلة التثبيت</a>
       </vox-footer-column>
       <vox-footer-column heading="الإمكانات">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">التصنيف</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">التنسيق</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">تثبيت التصحيحات</a>
         <a href="../features/security.html">الأمان</a>
         <a href="../features/access-control.html">التحكم في الوصول</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">وكلاء الذكاء الاصطناعي</a>
+        <a href="../features/scaling.html">التوسّع</a>
         </vox-footer-column>
       
       <vox-footer-column heading="اللغة">

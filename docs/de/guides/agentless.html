@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="de" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Register hosts the console reaches over SSH, pin their host keys, check them, and run tasks on them like any other node."/>
+    <meta name="description" content="Registrieren Sie Hosts, die die Konsole per SSH erreicht, heften Sie ihre Hostschlüssel an, prüfen Sie sie und führen Sie Tasks auf ihnen aus wie auf jedem anderen Node."/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Run tasks on hosts without an agent - OpenVox Console</title>
+    <title>Tasks auf Hosts ohne Agent ausführen - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">Anleitungen</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -107,170 +107,117 @@
       <a href="../features/patching.html">Patching</a>
       <a href="../features/security.html">Sicherheit</a>
       <a href="../features/access-control.html">Zugriffskontrolle</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">KI-Agenten</a>
+      <a href="../features/scaling.html">Skalierung</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="Anleitungen" toggle-label="Alle Anleitungen">
+    <vox-sidenav-group heading="Installation">
+      <vox-sidenav-item href="../guides/plan.html"><span>Eine Installation planen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>Installation mit Containern</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>Installation aus Paketen und Binaries</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>Nodes hinzufügen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>Node-Zertifikate verwalten</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>Einen Node entfernen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Node-Agenten aktuell halten</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
-      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="Skalierung">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>Betriebsmodi</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>Weitere Instanzen betreiben</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use" open="">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html" current="" aria-current="page"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="Nutzung" open="">
+      <vox-sidenav-item href="../guides/classify.html"><span>Nodes klassifizieren</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>Code deployen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>Jobs ausführen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>Pläne ausführen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Jobs planen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>Benutzer, Rollen und Tokens</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Sicherheitslücken verfolgen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>Fehlende Updates finden und anwenden</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html" current="" aria-current="page"><span>Tasks auf Hosts ohne Agent ausführen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>Pläne aus Ihrem Code ausführen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>KI-Agenten die Konsole nutzen lassen</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="Betrieb">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Auf eine Standby-Datenbank umschalten</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Den Token-Signaturschlüssel rotieren</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Die Container-Datenbanken auf Postgres 18 aktualisieren</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Use</p>
-    <h1 class="guide-title vox-ts-xxl">Run tasks on hosts without an agent</h1>
-    <p class="guide-summary">Register hosts the console reaches over SSH, pin their host keys, check them, and run tasks on them like any other node.</p>
+    <p class="guide-eyebrow">Nutzung</p>
+    <h1 class="guide-title vox-ts-xxl">Tasks auf Hosts ohne Agent ausführen</h1>
+    <p class="guide-summary">Registrieren Sie Hosts, die die Konsole per SSH erreicht, heften Sie ihre Hostschlüssel an, prüfen Sie sie und führen Sie Tasks auf ihnen aus wie auf jedem anderen Node.</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>Some hosts cannot or should not run the node agent: appliances, locked-down
-servers, machines not yet enrolled. The console can reach a Linux host over
-<strong>SSH</strong> instead and run <a href="run-jobs.html">tasks</a> on it. Such a host is an
-<strong>agentless target</strong>.</p>
-<p>What an agentless target can do is deliberately narrow:</p>
+<p>Manche Hosts können oder sollen den Node-Agenten nicht ausführen: Appliances, abgeschottete Server, noch nicht registrierte Maschinen. Die Konsole kann einen Linux-Host stattdessen per <strong>SSH</strong> erreichen und <a href="run-jobs.html">Tasks</a> darauf ausführen. Ein solcher Host ist ein <strong>agentenloses Ziel</strong>.</p>
+<p>Was ein agentenloses Ziel tun kann, ist bewusst eng gefasst:</p>
 <ul>
-<li><strong>Tasks run on it</strong>, on their own, in a <a href="run-plans.html">plan</a> or on a
-<a href="schedule-jobs.html">schedule</a>, with the same permissions, node groups and
-task allowlists as any node.</li>
-<li><strong>Puppet runs and patch runs do not.</strong> They need the agent. A request that
-names an agentless target for one is refused whole, naming the target, and
-nothing is sent to anyone.</li>
-<li>It has <strong>no facts or reports</strong>, so a node group&#39;s rule, which matches on
-facts, cannot include it. A group includes it by <strong>pin</strong>.</li>
+<li><strong>Tasks laufen darauf</strong>, einzeln, in einem <a href="run-plans.html">Plan</a> oder nach einem <a href="schedule-jobs.html">Zeitplan</a>, mit denselben Berechtigungen, Node-Gruppen und Task-Allowlists wie bei jedem Node.</li>
+<li><strong>Puppet-Läufe und Patch-Läufe hingegen nicht.</strong> Sie brauchen den Agenten. Eine Anfrage, die dafür ein agentenloses Ziel nennt, wird vollständig abgelehnt, mit Nennung des Ziels, und an niemanden wird etwas gesendet.</li>
+<li>Es hat <strong>keine Facts oder Reports</strong>, daher kann die Regel einer Node-Gruppe, die auf Facts prüft, es nicht einschließen. Eine Gruppe schließt es über eine <strong>feste Zuweisung</strong> ein.</li>
 </ul>
-<h2 id="add-a-target">Add a target</h2>
-<p>Open <strong>Nodes</strong>, then <strong>Agentless targets</strong>, then <strong>Add target</strong>. This needs
-<code>agentless:manage</code>. Give:</p>
+<h2 id="add-a-target">Ein Ziel hinzufügen</h2>
+<p>Öffnen Sie <strong>Nodes</strong>, dann <strong>Agentenlose Ziele</strong> und dann <strong>Ziel hinzufügen</strong>. Das erfordert <code>agentless:manage</code>. Geben Sie an:</p>
 <ul>
-<li>a <strong>name</strong>, which is how the target appears in jobs and node groups. It
-cannot be the name of a node that exists, or of another target;</li>
-<li>the <strong>address</strong> and <strong>port</strong> (22 unless you say otherwise);</li>
-<li>the <strong>login</strong>: a user, and a <strong>private key</strong> (with its passphrase if it has
-one), a <strong>password</strong>, or both. Or choose a <strong>shared credential</strong>: one login
-several targets use. A target&#39;s own login wins over a shared one;</li>
-<li>optionally a user to <strong>run tasks as</strong>. Tasks then run through
-<code>sudo -n -u &lt;user&gt;</code>, so <code>sudo</code> must not ask for a password. Password <code>sudo</code>
-is not supported.</li>
+<li>einen <strong>Namen</strong>, unter dem das Ziel in Jobs und Node-Gruppen erscheint. Es darf nicht der Name eines existierenden Nodes oder eines anderen Ziels sein;</li>
+<li>die <strong>Adresse</strong> und den <strong>Port</strong> (22, sofern Sie nichts anderes angeben);</li>
+<li>das <strong>Login</strong>: einen Benutzer und einen <strong>privaten Schlüssel</strong> (mit seiner Passphrase, falls er eine hat), ein <strong>Passwort</strong> oder beides. Oder wählen Sie ein <strong>gemeinsames Zugangsdatum</strong>: ein Login, das mehrere Ziele nutzen. Das eigene Login eines Ziels hat Vorrang vor einem gemeinsamen;</li>
+<li>optional einen Benutzer, <strong>als der Tasks laufen</strong>. Tasks laufen dann über <code>sudo -n -u &lt;user&gt;</code>, daher darf <code>sudo</code> nicht nach einem Passwort fragen. <code>sudo</code> mit Passwort wird nicht unterstützt.</li>
 </ul>
-<p>The key, passphrase and password are stored <strong>sealed</strong> with the console&#39;s
-secrets key (<code>CONSOLE_SECRETS_KEY_FILE</code>; without it a target with credentials
-cannot be added). They are never returned by the console, written to its logs
-or audit entries, or put in a job. You can set or replace one but never read
-it: leave the fields blank when you edit to keep the stored ones. A key is
-checked when you save it, and a passphrase that does not open it is refused.</p>
-<p>A target must be pinned into a node group to be seen by anyone limited to
-that group. A user limited to some node groups can add and manage targets
-only inside their groups, and cannot use shared credentials at all, since a
-shared credential belongs to no node.</p>
-<h2 id="trust-its-host-key">Trust its host key</h2>
-<p>Before the console sends a login to a host it must know it is the right one.</p>
+<p>Schlüssel, Passphrase und Passwort werden mit dem Secrets-Schlüssel der Konsole <strong>versiegelt</strong> gespeichert (<code>CONSOLE_SECRETS_KEY_FILE</code>; ohne ihn kann kein Ziel mit Zugangsdaten hinzugefügt werden). Die Konsole gibt sie nie zurück, schreibt sie nie in ihre Logs oder Audit-Einträge und legt sie nie in einen Job. Sie können einen Wert setzen oder ersetzen, aber nie lesen: Lassen Sie die Felder beim Bearbeiten leer, um die gespeicherten zu behalten. Ein Schlüssel wird beim Speichern geprüft, und eine Passphrase, die ihn nicht öffnet, wird abgelehnt.</p>
+<p>Ein Ziel muss einer Node-Gruppe fest zugewiesen sein, damit es von jemandem gesehen wird, der auf diese Gruppe beschränkt ist. Ein auf einige Node-Gruppen beschränkter Benutzer kann Ziele nur innerhalb seiner Gruppen hinzufügen und verwalten und kann gemeinsame Zugangsdaten überhaupt nicht verwenden, da gemeinsame Zugangsdaten zu keinem Node gehören.</p>
+<h2 id="trust-its-host-key">Seinem Hostschlüssel vertrauen</h2>
+<p>Bevor die Konsole Anmeldedaten an einen Host sendet, muss sie wissen, dass es der richtige ist.</p>
 <ol>
-<li><strong>Check</strong> the target. The console connects and reads the host&#39;s key
-<strong>without logging in</strong>, and shows its fingerprint.</li>
-<li>Compare that fingerprint with the host&#39;s own, for example
-<code>ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub</code> on the host, and
-choose <strong>Trust this key</strong>.</li>
-<li>Check again: now the console logs in, and reports who it logged in as
-(and as whom tasks will run, if you set a run-as user).</li>
+<li><strong>Prüfen</strong> Sie das Ziel. Die Konsole verbindet sich und liest den Schlüssel des Hosts, <strong>ohne sich anzumelden</strong>, und zeigt seinen Fingerabdruck.</li>
+<li>Vergleichen Sie diesen Fingerabdruck mit dem des Hosts selbst, etwa mit <code>ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub</code> auf dem Host, und wählen Sie <strong>Diesem Schlüssel vertrauen</strong>.</li>
+<li>Prüfen Sie erneut: Jetzt meldet sich die Konsole an und meldet, als wer sie angemeldet ist (und als wer Tasks laufen werden, falls Sie einen Run-as-Benutzer gesetzt haben).</li>
 </ol>
-<p>Until a key is trusted, a task on the target fails as &#34;not trusted&#34; and
-nothing is run. If a trusted target later presents a <strong>different key</strong>, the
-connection is refused before any login is sent, and the target shows
-<strong>Host key changed</strong> with both fingerprints. Replace the pin only if you know
-the host was rebuilt or its key rotated: that is a separate, audited action.
-Changing a target&#39;s address or port clears its pin, since a pin vouches for a
-host, not a name.</p>
-<p>A failed check says which stage failed: connecting, the host key,
-authentication, becoming the run-as user, or running a command.</p>
-<h2 id="run-a-task-on-one">Run a task on one</h2>
-<p>On the Nodes page select targets with any other nodes and choose <strong>Run
-task</strong>, or name them in a task, plan or schedule. The job shows each target&#39;s
-own result.</p>
-<p>For each target the console downloads the task&#39;s files from the Puppet
-server, verifies their checksums, then connects, creates a private directory
-on the host (<code>mktemp -d</code>, mode 700), copies the files into it over the SSH
-session, runs the task and removes the directory, whether the task succeeded,
-failed or timed out. Nothing needs to be installed on the host beyond <code>sh</code>,
-<code>cat</code>, <code>mktemp</code> and (for a run-as user) <code>sudo</code>.</p>
+<p>Solange einem Schlüssel nicht vertraut wird, schlägt ein Task auf dem Ziel als „not trusted“ fehl, und nichts wird ausgeführt. Legt ein vertrautes Ziel später einen <strong>anderen Schlüssel</strong> vor, wird die Verbindung abgelehnt, bevor Anmeldedaten gesendet werden, und das Ziel zeigt <strong>Hostschlüssel geändert</strong> mit beiden Fingerabdrücken. Ersetzen Sie die Anheftung nur, wenn Sie wissen, dass der Host neu aufgebaut oder sein Schlüssel rotiert wurde: Das ist eine eigene, auditierte Aktion. Das Ändern von Adresse oder Port eines Ziels löscht seine Anheftung, da eine Anheftung für einen Host bürgt, nicht für einen Namen.</p>
+<p>Eine fehlgeschlagene Prüfung sagt, welche Phase fehlgeschlagen ist: das Verbinden, der Hostschlüssel, die Authentifizierung, das Wechseln zum Run-as-Benutzer oder das Ausführen eines Befehls.</p>
+<h2 id="run-a-task-on-one">Einen Task auf einem ausführen</h2>
+<p>Wählen Sie auf der Seite „Nodes“ Ziele zusammen mit beliebigen anderen Nodes aus und wählen Sie <strong>Task ausführen</strong>, oder nennen Sie sie in einem Task, Plan oder Zeitplan. Der Job zeigt das eigene Ergebnis jedes Ziels.</p>
+<p>Für jedes Ziel lädt die Konsole die Dateien des Tasks vom Puppet-Server herunter, prüft ihre Prüfsummen, verbindet sich dann, legt auf dem Host ein privates Verzeichnis an (<code>mktemp -d</code>, Modus 700), kopiert die Dateien über die SSH-Sitzung hinein, führt den Task aus und entfernt das Verzeichnis, egal ob der Task erfolgreich war, fehlgeschlagen ist oder ein Timeout hatte. Auf dem Host muss außer <code>sh</code>, <code>cat</code>, <code>mktemp</code> und (für einen Run-as-Benutzer) <code>sudo</code> nichts installiert sein.</p>
 <ul>
-<li>Task <strong>parameters never appear on a command line</strong>, where any user of the
-host could read them. They reach the task on standard input or in its
-environment, as the task&#39;s metadata asks, and are never written to disk.
-What a task prints is recorded like any task&#39;s output.</li>
-<li>A task whose implementations all need the Puppet agent (<code>puppet-agent</code>)
-cannot run: the target provides a shell only.</li>
-<li>A task is limited by its <strong>timeout</strong>. When it runs out, the task is stopped
-and the target fails with that reason. Connecting is limited to 15 seconds.</li>
-<li>A target runs <strong>one task at a time</strong>; a second is refused as busy. At most
-20 SSH sessions run across the console at once, and the rest wait.</li>
-<li>A <code>/tmp</code> mounted <code>noexec</code> stops a task from running there. The failure says
-so; make a directory available or remount.</li>
+<li>Task-<strong>Parameter erscheinen nie auf einer Befehlszeile</strong>, wo jeder Benutzer des Hosts sie lesen könnte. Sie erreichen den Task über die Standardeingabe oder in seiner Umgebung, wie es die Metadaten des Tasks verlangen, und werden nie auf die Festplatte geschrieben. Was ein Task ausgibt, wird wie die Ausgabe jedes Tasks aufgezeichnet.</li>
+<li>Ein Task, dessen Implementierungen alle den Puppet-Agenten (<code>puppet-agent</code>) brauchen, kann nicht laufen: Das Ziel bietet nur eine Shell.</li>
+<li>Ein Task ist durch sein <strong>Timeout</strong> begrenzt. Läuft es ab, wird der Task gestoppt, und das Ziel schlägt mit dieser Begründung fehl. Der Verbindungsaufbau ist auf 15 Sekunden begrenzt.</li>
+<li>Ein Ziel führt <strong>jeweils einen Task</strong> aus; ein zweiter wird als beschäftigt abgelehnt. Konsolenweit laufen höchstens 20 SSH-Sitzungen gleichzeitig, der Rest wartet.</li>
+<li>Ein mit <code>noexec</code> eingebundenes <code>/tmp</code> verhindert, dass ein Task dort läuft. Die Fehlermeldung sagt das; stellen Sie ein Verzeichnis bereit oder binden Sie neu ein.</li>
 </ul>
-<h2 id="where-it-is-audited">Where it is audited</h2>
-<p>Adding, changing, deleting and checking a target, trusting or replacing a
-host key, and every shared credential change are audit entries naming who
-and what. They name which secrets were set, never their values. Jobs are
-audited as always.</p>
-<h2 id="not-covered">Not covered</h2>
-<p>Windows and WinRM, jump hosts, SSH certificates, Puppet runs, patch scans
-and patch runs, collecting facts, and Puppet-language plans.</p>
+<h2 id="where-it-is-audited">Wo es auditiert wird</h2>
+<p>Das Hinzufügen, Ändern, Löschen und Prüfen eines Ziels, das Vertrauen oder Ersetzen eines Hostschlüssels und jede Änderung an gemeinsamen Zugangsdaten sind Audit-Einträge, die nennen, wer was getan hat. Sie nennen, welche Secrets gesetzt wurden, nie deren Werte. Jobs werden wie immer auditiert.</p>
+<h2 id="not-covered">Nicht abgedeckt</h2>
+<p>Windows und WinRM, Jump-Hosts, SSH-Zertifikate, Puppet-Läufe, Patch-Scans und Patch-Läufe, das Sammeln von Facts sowie Pläne in der Puppet-Sprache.</p>
 
     </div>
 
-    <vox-series-nav label="Use" previous-text="Previous" next-text="Next" previous-href="../guides/patching.html" previous-label="Find and apply missing updates" next-href="../guides/code-plans.html" next-label="Run plans from your code"></vox-series-nav>
+    <vox-series-nav label="Nutzung" previous-text="Zurück" next-text="Weiter" previous-href="../guides/patching.html" previous-label="Fehlende Updates finden und anwenden" next-href="../guides/code-plans.html" next-label="Pläne aus Ihrem Code ausführen"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#add-a-target"><span>Add a target</span>
+    <vox-toc heading="Auf dieser Seite">
+      <vox-toc-item href="#add-a-target"><span>Ein Ziel hinzufügen</span>
       </vox-toc-item>
-      <vox-toc-item href="#trust-its-host-key"><span>Trust its host key</span>
+      <vox-toc-item href="#trust-its-host-key"><span>Seinem Hostschlüssel vertrauen</span>
       </vox-toc-item>
-      <vox-toc-item href="#run-a-task-on-one"><span>Run a task on one</span>
+      <vox-toc-item href="#run-a-task-on-one"><span>Einen Task auf einem ausführen</span>
       </vox-toc-item>
-      <vox-toc-item href="#where-it-is-audited"><span>Where it is audited</span>
+      <vox-toc-item href="#where-it-is-audited"><span>Wo es auditiert wird</span>
       </vox-toc-item>
-      <vox-toc-item href="#not-covered"><span>Not covered</span>
+      <vox-toc-item href="#not-covered"><span>Nicht abgedeckt</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -280,23 +227,17 @@ and patch runs, collecting facts, and Puppet-language plans.</p>
 
       
       <vox-cta-band heading="Selbst ausführen">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console wird als Container-Images ausgeliefert, bei jedem Push für amd64 und arm64 gebaut, sowie als einzelnes Binary. Die Installationsanleitungen führen Sie vom leeren Host zu einer funktionierenden Installation – openvoxserver, openvoxdb, Postgres und die Konsole – mit Containern oder mit Paketen.</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">Installationsanleitungen</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">Quellcode auf GitHub</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">Container-Images</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="Screenshot in voller Größe">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">Schließen</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -305,7 +246,7 @@ and patch runs, collecting facts, and Puppet-language plans.</p>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">Überblick</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">Quellcode</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">Installationsanleitungen</a>
       </vox-footer-column>
       <vox-footer-column heading="Funktionen">
         <a href="../features/nodes.html">Nodes</a>
@@ -315,8 +256,8 @@ and patch runs, collecting facts, and Puppet-language plans.</p>
         <a href="../features/patching.html">Patching</a>
         <a href="../features/security.html">Sicherheit</a>
         <a href="../features/access-control.html">Zugriffskontrolle</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">KI-Agenten</a>
+        <a href="../features/scaling.html">Skalierung</a>
         </vox-footer-column>
       
       <vox-footer-column heading="Sprache">

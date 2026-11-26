@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="fr" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Scan Linux nodes for pending package updates, then patch them in batches with a dry run, a stop threshold and an optional reboot."/>
+    <meta name="description" content="Analysez les Nodes Linux à la recherche de mises à jour de paquets en attente, puis corrigez-les par lots, avec un essai à blanc, un seuil d&#39;arrêt et un redémarrage facultatif."/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Find and apply missing updates - OpenVox Console</title>
+    <title>Trouver et appliquer les mises à jour manquantes - OpenVox Console</title>
 
     
     <script>
@@ -104,229 +104,141 @@
       <a href="../features/classification.html">Classification</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">Orchestration</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">Mise à jour corrective</a>
       <a href="../features/security.html">Sécurité</a>
       <a href="../features/access-control.html">Contrôle d&#39;accès</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">Agents d&#39;IA</a>
+      <a href="../features/scaling.html">Montée en charge</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="Guides" toggle-label="Tous les guides">
+    <vox-sidenav-group heading="Installer">
+      <vox-sidenav-item href="../guides/plan.html"><span>Planifier un déploiement</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>Installer avec des conteneurs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>Installer à partir de paquets et de binaires</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>Ajouter des Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>Gérer les certificats des Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>Retirer un Node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Tenir les agents de Node à jour</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
-      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="Passer à l&#39;échelle">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>Modes d&#39;exécution</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>Faire tourner plus d&#39;instances</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use" open="">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html" current="" aria-current="page"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="Utiliser" open="">
+      <vox-sidenav-item href="../guides/classify.html"><span>Classifier les Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>Déployer du code</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>Lancer des Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>Exécuter des Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Planifier des Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>Utilisateurs, rôles et jetons</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Suivre les vulnérabilités</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html" current="" aria-current="page"><span>Trouver et appliquer les mises à jour manquantes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>Exécuter des Tasks sur des hôtes sans agent</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>Exécuter des Plans issus de votre code</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>Laisser des agents d&#39;IA utiliser la console</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="Exploiter">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Basculer vers une base de données de secours</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Renouveler la clé de signature des jetons</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Mettre à niveau les bases de données en conteneurs vers Postgres 18</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Use</p>
-    <h1 class="guide-title vox-ts-xxl">Find and apply missing updates</h1>
-    <p class="guide-summary">Scan Linux nodes for pending package updates, then patch them in batches with a dry run, a stop threshold and an optional reboot.</p>
+    <p class="guide-eyebrow">Utiliser</p>
+    <h1 class="guide-title vox-ts-xxl">Trouver et appliquer les mises à jour manquantes</h1>
+    <p class="guide-summary">Analysez les Nodes Linux à la recherche de mises à jour de paquets en attente, puis corrigez-les par lots, avec un essai à blanc, un seuil d&#39;arrêt et un redémarrage facultatif.</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>The <strong>Patching</strong> page shows which updates each node is missing, as the
-node&#39;s own package manager reports them. A scan only looks. A
-<a href="#patch-nodes">patch run</a> installs them.</p>
-<p>This covers Linux nodes that use <strong>apt</strong>, or <strong>dnf</strong> or <strong>yum</strong>. Windows,
-macOS and zypper (SUSE) are not scanned: a node on one of them is listed
-as unable to report, never as fully patched.</p>
-<p>Seeing results needs <code>nodes:read</code>, limited to the node groups your role
-names. Scanning or patching a node or a group needs <code>orchestrator:run</code>,
-again for the nodes your role covers. Changing how often the console scans
-needs <code>nodes:manage</code>. No new permission is involved.</p>
-<h2 id="what-a-scan-does">What a scan does</h2>
-<p>A scan asks the node&#39;s agent to run its package manager in a mode that
-changes nothing: it refreshes the package lists, then reports what an
-upgrade would replace. For each pending update you see the package, the
-installed version, the available version, and whether the package manager
-marks it a <strong>security</strong> update. A node also reports whether it already
-needs a reboot.</p>
-<p>Refreshing the lists means a scan reaches the node&#39;s mirrors. A node that
-cannot reach them records that the scan failed, and keeps showing the
-updates from the last scan that worked, marked as older than the last
-attempt.</p>
-<p>Two things to read carefully:</p>
+<p>La page <strong>Mise à jour corrective</strong> montre les mises à jour qui manquent à chaque Node, telles que les signale le gestionnaire de paquets du Node lui-même. Une analyse ne fait que regarder. Une <a href="#patch-nodes">exécution de correctifs</a> les installe.</p>
+<p>Cela couvre les Nodes Linux qui utilisent <strong>apt</strong>, ou <strong>dnf</strong> ou <strong>yum</strong>. Windows, macOS et zypper (SUSE) ne sont pas analysés : un Node qui en relève est listé comme incapable de remonter ses informations, jamais comme entièrement à jour.</p>
+<p>Voir les résultats nécessite <code>nodes:read</code>, limité aux groupes de Nodes que nomme votre rôle. Analyser ou corriger un Node ou un groupe nécessite <code>orchestrator:run</code>, là encore pour les Nodes que couvre votre rôle. Modifier la fréquence d&#39;analyse de la console nécessite <code>nodes:manage</code>. Aucune nouvelle permission n&#39;entre en jeu.</p>
+<h2 id="what-a-scan-does">Ce que fait une analyse</h2>
+<p>Une analyse demande à l&#39;agent du Node d&#39;exécuter son gestionnaire de paquets dans un mode qui ne change rien : il rafraîchit les listes de paquets, puis indique ce qu&#39;une mise à jour remplacerait. Pour chaque mise à jour en attente, vous voyez le paquet, la version installée, la version disponible, et si le gestionnaire de paquets la marque comme mise à jour de <strong>sécurité</strong>. Un Node indique aussi s&#39;il a déjà besoin d&#39;un redémarrage.</p>
+<p>Rafraîchir les listes signifie qu&#39;une analyse contacte les miroirs du Node. Un Node qui ne peut pas les joindre consigne l&#39;échec de l&#39;analyse, et continue d&#39;afficher les mises à jour de la dernière analyse réussie, signalées comme antérieures à la dernière tentative.</p>
+<p>Deux points à lire attentivement :</p>
 <ul>
-<li><strong>Security</strong> is what the package manager says. A system whose
-repositories carry no security information shows none, which is not the
-same as having none. Ubuntu and Debian mark them in the repository names;
-on RHEL-family systems the console asks <code>dnf updateinfo</code> for the
-security set.</li>
-<li><strong>Never scanned</strong> is not <strong>nothing pending</strong>. A node that has not been
-scanned is listed as not scanned, without counts.</li>
+<li><strong>Sécurité</strong> reprend ce que dit le gestionnaire de paquets. Un système dont les dépôts ne portent aucune information de sécurité n&#39;en affiche aucune, ce qui ne veut pas dire qu&#39;il n&#39;y en a pas. Ubuntu et Debian les signalent dans les noms des dépôts ; sur les systèmes de la famille RHEL, la console demande l&#39;ensemble de sécurité à <code>dnf updateinfo</code>.</li>
+<li><strong>Jamais analysé</strong> n&#39;est pas <strong>rien en attente</strong>. Un Node qui n&#39;a pas été analysé figure comme non analysé, sans nombres.</li>
 </ul>
-<p>The node&#39;s agent must be built from a version that includes scanning. An
-older agent answers that it does not know the request, and the node is
-shown as one that cannot report until the agent is upgraded: see
-<a href="agent-upgrades.html">Keep node agents current</a>.</p>
-<h2 id="read-the-fleet">Read the fleet</h2>
-<p>Open <strong>Patching</strong>. The figures at the top count the nodes you can see:
-those with pending updates, those with security updates, those needing a
-reboot, those not scanned, and those whose last scan is out of date.</p>
-<p>A scan is <strong>out of date</strong> when it is older than twice the scan interval,
-so a node that quietly stopped being scanned stands out. With automatic
-scanning off, it is judged against a day.</p>
-<p>Filter by:</p>
+<p>L&#39;agent du Node doit être construit à partir d&#39;une version qui inclut l&#39;analyse. Un agent plus ancien répond qu&#39;il ne connaît pas la requête, et le Node est affiché comme incapable de remonter ses informations jusqu&#39;à la mise à jour de l&#39;agent : voir <a href="agent-upgrades.html">Tenir les agents de Node à jour</a>.</p>
+<h2 id="read-the-fleet">Lire le parc</h2>
+<p>Ouvrez <strong>Mise à jour corrective</strong>. Les chiffres en haut comptent les Nodes que vous pouvez voir : ceux qui ont des mises à jour en attente, ceux qui ont des mises à jour de sécurité, ceux qui nécessitent un redémarrage, ceux qui n&#39;ont pas été analysés, et ceux dont la dernière analyse est obsolète.</p>
+<p>Une analyse est <strong>obsolète</strong> lorsqu&#39;elle date de plus de deux fois l&#39;intervalle d&#39;analyse ; un Node qui a cessé sans bruit d&#39;être analysé se remarque donc. Avec l&#39;analyse automatique désactivée, la référence est d&#39;un jour.</p>
+<p>Filtrez par :</p>
 <ul>
-<li><strong>Operating system</strong>, to see one family at a time.</li>
-<li><strong>Group</strong>, if your role can read node groups.</li>
-<li><strong>Pending package</strong>, which switches the list to the nodes that have an
-update waiting for a package matching that name, with the installed and
-available versions. Searching <code>openssl</code> is how you find who still needs
-the fix.</li>
+<li><strong>Système d&#39;exploitation</strong>, pour voir une famille à la fois.</li>
+<li><strong>Groupe</strong>, si votre rôle peut lire les groupes de Nodes.</li>
+<li><strong>Paquet en attente</strong>, qui bascule la liste sur les Nodes ayant une mise à jour en attente pour un paquet correspondant à ce nom, avec les versions installée et disponible. Chercher <code>openssl</code> permet de trouver qui a encore besoin du correctif.</li>
 </ul>
-<p>Select a node to open its page. The <strong>Patches</strong> tab lists its updates,
-security first, with when it was last scanned.</p>
-<h2 id="scan-now">Scan now</h2>
-<p>On a node&#39;s <strong>Patches</strong> tab, <strong>Scan now</strong> scans that node. On the Patching
-page, choose a group and <strong>Scan this group now</strong> scans every node of the
-group you may act on. The answer says, node by node, which were scanned,
-which failed, which were offline, and how many were left out because they
-are outside your node groups.</p>
-<p>A node that is offline is not scanned and keeps what it had; it is
-scanned on the next pass once it reconnects. A group scan runs a few nodes
-at a time, so a large group takes a while.</p>
-<p>Each scan you request is recorded in the audit log with who asked and the
-node or group.</p>
-<h2 id="scan-automatically">Scan automatically</h2>
-<p>Unless you switch it off, the console scans every connected node once a
-day. Under <strong>Automatic scanning</strong> on the Patching page (for <code>nodes:manage</code>)
-set the interval anywhere from 15 minutes to 7 days, or turn it off.</p>
+<p>Sélectionnez un Node pour ouvrir sa page. L&#39;onglet <strong>Correctifs</strong> liste ses mises à jour, celles de sécurité en premier, avec la date de sa dernière analyse.</p>
+<h2 id="scan-now">Analyser maintenant</h2>
+<p>Dans l&#39;onglet <strong>Correctifs</strong> d&#39;un Node, <strong>Analyser maintenant</strong> analyse ce Node. Sur la page Mise à jour corrective, choisissez un groupe : <strong>Analyser ce groupe maintenant</strong> analyse chaque Node du groupe sur lequel vous pouvez agir. La réponse indique, Node par Node, lesquels ont été analysés, lesquels ont échoué, lesquels étaient hors ligne, et combien ont été laissés de côté parce qu&#39;ils sont hors de vos groupes de Nodes.</p>
+<p>Un Node hors ligne n&#39;est pas analysé et conserve ce qu&#39;il avait ; il est analysé au passage suivant une fois reconnecté. L&#39;analyse d&#39;un groupe traite quelques Nodes à la fois : un grand groupe prend donc un certain temps.</p>
+<p>Chaque analyse que vous demandez est consignée dans le journal d&#39;audit, avec l&#39;auteur de la demande et le Node ou le groupe.</p>
+<h2 id="scan-automatically">Analyser automatiquement</h2>
+<p>Sauf si vous la désactivez, la console analyse chaque Node connecté une fois par jour. Sous <strong>Analyse automatique</strong> sur la page Mise à jour corrective (pour <code>nodes:manage</code>), réglez l&#39;intervalle entre 15 minutes et 7 jours, ou désactivez-la.</p>
 <ul>
-<li>Only one console instance runs the automatic scan at a time, however
-many you run, and a node scanned within the interval is not scanned
-again.</li>
-<li>A node whose scan failed is tried again after the next interval, not on
-every pass.</li>
-<li>Automatic scans write no audit entry per node. A change to the interval
-is audited.</li>
-<li>With <a href="run-modes.html">run modes</a>, the scan runs in <code>all</code> and <code>worker</code>
-instances.</li>
-<li>Results for a node nothing has tried for 90 days are removed.</li>
+<li>Une seule instance de la console exécute l&#39;analyse automatique à la fois, quel que soit le nombre d&#39;instances, et un Node analysé au cours de l&#39;intervalle n&#39;est pas analysé de nouveau.</li>
+<li>Un Node dont l&#39;analyse a échoué est retenté après l&#39;intervalle suivant, et non à chaque passage.</li>
+<li>Les analyses automatiques n&#39;écrivent aucune entrée d&#39;audit par Node. Une modification de l&#39;intervalle est auditée.</li>
+<li>Avec les <a href="run-modes.html">modes d&#39;exécution</a>, l&#39;analyse s&#39;exécute dans les instances <code>all</code> et <code>worker</code>.</li>
+<li>Les résultats d&#39;un Node que rien n&#39;a tenté d&#39;analyser depuis 90 jours sont supprimés.</li>
 </ul>
-<h2 id="patch-nodes">Patch nodes</h2>
-<p>A <strong>patch run</strong> installs pending updates on Linux nodes (apt, dnf or yum).
-Start one from the Patching page with <strong>Patch this group…</strong>, or from a
-node&#39;s <strong>Patches</strong> tab with <strong>Patch now…</strong>. It needs <code>orchestrator:run</code>, and
-like any run it is refused whole, naming the nodes, if any of them is
-outside your node groups.</p>
-<p>Choose:</p>
+<h2 id="patch-nodes">Corriger des Nodes</h2>
+<p>Une <strong>exécution de correctifs</strong> installe les mises à jour en attente sur des Nodes Linux (apt, dnf ou yum). Lancez-en une depuis la page Mise à jour corrective avec <strong>Corriger ce groupe…</strong>, ou depuis l&#39;onglet <strong>Correctifs</strong> d&#39;un Node avec <strong>Corriger maintenant…</strong>. Elle nécessite <code>orchestrator:run</code> et, comme toute exécution, elle est refusée en bloc, en nommant les Nodes, si l&#39;un d&#39;eux est hors de vos groupes de Nodes.</p>
+<p>Choisissez :</p>
 <ul>
-<li><strong>Updates to apply</strong>: <strong>security updates only</strong>, <strong>all pending updates</strong>,
-or <strong>named packages</strong>. A named package that has no update pending is
-reported as nothing to apply and nothing else is touched. On dnf and yum,
-security-only needs the repository&#39;s security information; without it the
-node fails the run rather than installing everything.</li>
-<li><strong>Dry run</strong>, which reports what would be upgraded and changes, restarts
-and reboots nothing.</li>
-<li><strong>Reboot a node that needs it</strong>, which reboots a node after a successful
-run only if it reports that it needs one. A dry run or a failed node is
-never rebooted. The node delivers its result first and reboots about half
-a minute later.</li>
-<li><strong>Nodes at a time</strong> (1 to 100, default 10) and <strong>Stop after failed nodes</strong>
-(default 3, <strong>0</strong> never stops).</li>
+<li><strong>Mises à jour à appliquer</strong> : <strong>Mises à jour de sécurité uniquement</strong>, <strong>Toutes les mises à jour en attente</strong> ou <strong>Paquets nommés</strong>. Un paquet nommé sans mise à jour en attente est signalé comme n&#39;ayant rien à appliquer, et rien d&#39;autre n&#39;est touché. Avec dnf et yum, le mode sécurité uniquement nécessite les informations de sécurité du dépôt ; sans elles, le Node fait échouer l&#39;exécution plutôt que de tout installer.</li>
+<li><strong>Essai à blanc</strong>, qui indique ce qui serait mis à jour, sans rien modifier, redémarrer ni rebooter.</li>
+<li><strong>Redémarrer un nœud qui en a besoin</strong>, qui redémarre un Node après une exécution réussie uniquement s&#39;il signale en avoir besoin. Un essai à blanc ou un Node en échec ne provoque jamais de redémarrage. Le Node remet d&#39;abord son résultat et redémarre environ une demi-minute plus tard.</li>
+<li><strong>Nœuds à la fois</strong> (de 1 à 100, 10 par défaut) et <strong>S’arrêter après des nœuds en échec</strong> (3 par défaut, <strong>0</strong> pour ne jamais s&#39;arrêter).</li>
 </ul>
-<h3 id="batches-and-stopping">Batches and stopping</h3>
-<p>Nodes are patched a batch at a time, in node-name order. A batch is patched
-at once and the next starts only when it has finished. When the number of
-failed nodes reaches the threshold, no further batch starts: the nodes not
-reached are recorded as <strong>not started</strong>, and nothing is sent to them. Use a
-small first batch on something you can afford to lose, then let the rest
-follow.</p>
-<p>A node that is already being patched by another run is not started again:
-the request is refused, naming it.</p>
-<h3 id="watch-a-run">Watch a run</h3>
-<p>The run opens as a job. It lists each node with its batch, status, exit
-status and the packages it upgraded (<strong>from</strong> and <strong>to</strong> versions), and
-under <strong>Details</strong> the package manager&#39;s own output. The page refreshes while
-the run is going. The node&#39;s <strong>Patches</strong> tab shows the last run on that
-node, and the Patching page lists recent runs.</p>
-<p>A run can take hours. The console asks each node how it is getting on every
-15 seconds, and every answer counts as proof the run is alive. A node that
-says nothing for ten minutes is failed, as is one still working after four
-hours, and the run carries on with the others. If the console instance
-following the run stops, the job is failed ten minutes after it was last
-heard from, with the reason recorded. The patch itself carries on on the
-node, so scan it again to see where it stands.</p>
-<h3 id="afterwards">Afterwards</h3>
-<p>When a node finishes, the packages it still has pending are what the
-Patching page shows: the node&#39;s own scan is taken at the end of its run. A
-node that rebooted is scanned again once it reconnects, for up to ten
-minutes. If it does not come back in that time its snapshot says the scan
-failed, and the run itself is not failed for it.</p>
-<p>Each run is audited when it starts, with who started it, the nodes&#39; source
-and every option chosen, and again when it ends. Both appear in the
-activity log.</p>
-<p>A node whose agent is too old to patch is failed with a reason saying so and
-nothing is installed on it: see <a href="agent-upgrades.html">Keep node agents
-current</a>.</p>
-<h2 id="not-covered">Not covered</h2>
-<p>This version does not schedule patch windows or blackouts, group nodes for
-patching, roll a patch back, patch Windows or macOS, or relate pending
-updates to known vulnerabilities: see
-<a href="vulnerabilities.html">Track vulnerabilities</a> for what is installed
-against known advisories.</p>
+<h3 id="batches-and-stopping">Lots et arrêt</h3>
+<p>Les Nodes sont corrigés un lot à la fois, dans l&#39;ordre de leur nom. Un lot est corrigé d&#39;un coup, et le suivant ne démarre qu&#39;une fois celui-ci terminé. Lorsque le nombre de Nodes en échec atteint le seuil, plus aucun lot ne démarre : les Nodes non atteints sont consignés comme <strong>non démarrés</strong>, et rien ne leur est envoyé. Commencez par un petit premier lot sur des machines que vous pouvez vous permettre de perdre, puis laissez suivre le reste.</p>
+<p>Un Node déjà en cours de correction par une autre exécution n&#39;est pas relancé : la requête est refusée, en le nommant.</p>
+<h3 id="watch-a-run">Suivre une exécution</h3>
+<p>L&#39;exécution s&#39;ouvre comme un Job. Il liste chaque Node avec son lot, son statut, son code de sortie et les paquets mis à jour (versions <strong>De</strong> et <strong>Vers</strong>), et sous <strong>Détails</strong> la sortie du gestionnaire de paquets lui-même. La page se rafraîchit pendant l&#39;exécution. L&#39;onglet <strong>Correctifs</strong> du Node affiche la dernière exécution sur ce Node, et la page Mise à jour corrective liste les exécutions récentes.</p>
+<p>Une exécution peut durer des heures. La console demande à chaque Node où il en est toutes les 15 secondes, et chaque réponse vaut preuve que l&#39;exécution est en vie. Un Node silencieux pendant dix minutes est mis en échec, tout comme un Node qui travaille encore au bout de quatre heures, et l&#39;exécution se poursuit avec les autres. Si l&#39;instance de la console qui suit l&#39;exécution s&#39;arrête, le Job est mis en échec dix minutes après le dernier signe de vie, avec la raison consignée. La correction elle-même se poursuit sur le Node : analysez-le de nouveau pour voir où il en est.</p>
+<h3 id="afterwards">Après coup</h3>
+<p>Lorsqu&#39;un Node a terminé, ce sont les paquets qu&#39;il a encore en attente que montre la page Mise à jour corrective : l&#39;analyse propre du Node est effectuée à la fin de son exécution. Un Node qui a redémarré est analysé de nouveau dès qu&#39;il se reconnecte, pendant dix minutes au plus. S&#39;il ne revient pas dans ce délai, son instantané indique que l&#39;analyse a échoué, sans que l&#39;exécution elle-même soit mise en échec pour autant.</p>
+<p>Chaque exécution est auditée à son lancement, avec qui l&#39;a lancée, la source des Nodes et chaque option choisie, puis de nouveau à sa fin. Les deux apparaissent dans le journal d&#39;activité.</p>
+<p>Un Node dont l&#39;agent est trop ancien pour être corrigé est mis en échec avec une raison qui l&#39;indique, et rien n&#39;y est installé : voir <a href="agent-upgrades.html">Tenir les agents de Node à jour</a>.</p>
+<h2 id="not-covered">Non couvert</h2>
+<p>Cette version ne planifie pas de fenêtres de correction ni de périodes d&#39;interdiction, ne regroupe pas les Nodes pour la correction, n&#39;annule pas un correctif, ne corrige pas Windows ni macOS, et ne rapproche pas les mises à jour en attente des vulnérabilités connues : voir <a href="vulnerabilities.html">Suivre les vulnérabilités</a> pour confronter ce qui est installé aux avis de sécurité connus.</p>
 
     </div>
 
-    <vox-series-nav label="Use" previous-text="Previous" next-text="Next" previous-href="../guides/vulnerabilities.html" previous-label="Track vulnerabilities" next-href="../guides/agentless.html" next-label="Run tasks on hosts without an agent"></vox-series-nav>
+    <vox-series-nav label="Utiliser" previous-text="Précédent" next-text="Suivant" previous-href="../guides/vulnerabilities.html" previous-label="Suivre les vulnérabilités" next-href="../guides/agentless.html" next-label="Exécuter des Tasks sur des hôtes sans agent"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#what-a-scan-does"><span>What a scan does</span>
+    <vox-toc heading="Sur cette page">
+      <vox-toc-item href="#what-a-scan-does"><span>Ce que fait une analyse</span>
       </vox-toc-item>
-      <vox-toc-item href="#read-the-fleet"><span>Read the fleet</span>
+      <vox-toc-item href="#read-the-fleet"><span>Lire le parc</span>
       </vox-toc-item>
-      <vox-toc-item href="#scan-now"><span>Scan now</span>
+      <vox-toc-item href="#scan-now"><span>Analyser maintenant</span>
       </vox-toc-item>
-      <vox-toc-item href="#scan-automatically"><span>Scan automatically</span>
+      <vox-toc-item href="#scan-automatically"><span>Analyser automatiquement</span>
       </vox-toc-item>
-      <vox-toc-item href="#patch-nodes"><span>Patch nodes</span>
-        <vox-toc-item slot="children" href="#batches-and-stopping"><span>Batches and stopping</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#watch-a-run"><span>Watch a run</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#afterwards"><span>Afterwards</span></vox-toc-item>
+      <vox-toc-item href="#patch-nodes"><span>Corriger des Nodes</span>
+        <vox-toc-item slot="children" href="#batches-and-stopping"><span>Lots et arrêt</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#watch-a-run"><span>Suivre une exécution</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#afterwards"><span>Après coup</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#not-covered"><span>Not covered</span>
+      <vox-toc-item href="#not-covered"><span>Non couvert</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -336,23 +248,17 @@ against known advisories.</p>
 
       
       <vox-cta-band heading="Faites-le tourner vous-même">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console est distribué sous forme d&#39;images de conteneur, construites pour amd64 et arm64 à chaque push, et d&#39;un binaire unique. Les guides d&#39;installation vous mènent d&#39;un hôte vide à un déploiement fonctionnel - openvoxserver, openvoxdb, Postgres et la console - avec des conteneurs ou avec des paquets.</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">Guides d&#39;installation</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">Source sur GitHub</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">Images de conteneur</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="Capture d&#39;écran en taille réelle">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">Fermer</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -361,18 +267,18 @@ against known advisories.</p>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">Aperçu</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">Source</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">Guides d&#39;installation</a>
       </vox-footer-column>
       <vox-footer-column heading="Fonctionnalités">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">Classification</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">Orchestration</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">Mise à jour corrective</a>
         <a href="../features/security.html">Sécurité</a>
         <a href="../features/access-control.html">Contrôle d&#39;accès</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">Agents d&#39;IA</a>
+        <a href="../features/scaling.html">Montée en charge</a>
         </vox-footer-column>
       
       <vox-footer-column heading="Langue">

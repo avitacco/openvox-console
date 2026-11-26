@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="ar" dir="rtl"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Run Puppet or a Puppet task on demand on one node, a selection, the nodes a query matches, or a node group, and see what each node did."/>
+    <meta name="description" content="شغّل Puppet أو Task من Puppet عند الطلب على Node واحد، أو مجموعة مختارة، أو الـ Nodes التي يطابقها استعلام، أو مجموعة Nodes، وانظر ما فعله كل Node."/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Run jobs - OpenVox Console</title>
+    <title>تشغيل الـ Jobs - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">الأدلة</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,205 +104,137 @@
       <a href="../features/classification.html">التصنيف</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">التنسيق</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">تثبيت التصحيحات</a>
       <a href="../features/security.html">الأمان</a>
       <a href="../features/access-control.html">التحكم في الوصول</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">وكلاء الذكاء الاصطناعي</a>
+      <a href="../features/scaling.html">التوسّع</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="الأدلة" toggle-label="كل الأدلة">
+    <vox-sidenav-group heading="التثبيت">
+      <vox-sidenav-item href="../guides/plan.html"><span>خطّط للنشر</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>التثبيت باستخدام الحاويات</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>التثبيت من الحزم والملفات التنفيذية</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>إضافة Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>إدارة شهادات الـ Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>إزالة Node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>إبقاء وكلاء الـ Nodes محدَّثين</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
-      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="التوسّع">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>أوضاع التشغيل</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>تشغيل مزيد من المثيلات</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use" open="">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html" current="" aria-current="page"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="الاستخدام" open="">
+      <vox-sidenav-item href="../guides/classify.html"><span>تصنيف الـ Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>deploy الكود</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html" current="" aria-current="page"><span>تشغيل الـ Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>تشغيل الـ Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>جدولة الـ Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>المستخدمون والأدوار والرموز</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>تتبّع الثغرات</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>العثور على التحديثات الناقصة وتطبيقها</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>تشغيل Tasks على مضيفين بلا وكيل</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>تشغيل Plans من الكود الخاص بك</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>السماح لوكلاء الذكاء الاصطناعي باستخدام وحدة التحكم</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="التشغيل">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>الانتقال إلى قاعدة بيانات احتياطية عند الفشل</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>تدوير مفتاح توقيع الرموز</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>ترقية قواعد بيانات الحاويات إلى Postgres 18</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Use</p>
-    <h1 class="guide-title vox-ts-xxl">Run jobs</h1>
-    <p class="guide-summary">Run Puppet or a Puppet task on demand on one node, a selection, the nodes a query matches, or a node group, and see what each node did.</p>
+    <p class="guide-eyebrow">الاستخدام</p>
+    <h1 class="guide-title vox-ts-xxl">تشغيل الـ Jobs</h1>
+    <p class="guide-summary">شغّل Puppet أو Task من Puppet عند الطلب على Node واحد، أو مجموعة مختارة، أو الـ Nodes التي يطابقها استعلام، أو مجموعة Nodes، وانظر ما فعله كل Node.</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>The console can run Puppet on nodes right now, rather than at their next
-scheduled run, and run the Puppet tasks your deployed code contains. Each
-request is a <strong>job</strong>, recorded with every node it targeted and what
-happened on each.</p>
-<p>Starting a job needs <code>orchestrator:run</code>; seeing jobs needs
-<code>orchestrator:read</code>. A node must be connected to be reached: see
-<a href="add.html">Add nodes</a>.</p>
-<p>If your role is granted on particular node groups, you can start jobs
-only on nodes in those groups, and you see only their jobs. A job that
-names a node outside them is refused whole - nothing runs on the other
-nodes either - and the console says which nodes to leave out. See
-<a href="access.html">Users, roles and tokens</a>.</p>
-<p>To carry out several runs and tasks in order, see
-<a href="run-plans.html">Run plans</a>. To start a job later, or repeatedly, see
-<a href="schedule-jobs.html">Schedule jobs</a>.</p>
-<h2 id="run-puppet">Run Puppet</h2>
-<p>From wherever you are looking at the nodes you want:</p>
+<p>تستطيع وحدة التحكم تشغيل Puppet على الـ Nodes الآن، بدل انتظار التشغيل المجدول التالي، وتشغيل Tasks الخاصة بـ Puppet التي يحتويها الكود الذي جرى له deploy. وكل طلب <strong>Job</strong>، يُسجَّل مع كل Node استهدفه وما حدث على كلٍّ منها.</p>
+<p>يتطلب بدء Job الإذن <code>orchestrator:run</code>؛ وتتطلب رؤية الـ Jobs الإذن <code>orchestrator:read</code>. ويجب أن يكون الـ Node متصلًا ليمكن الوصول إليه: راجع <a href="add.html">إضافة Nodes</a>.</p>
+<p>إذا كان دورك ممنوحًا على مجموعات Nodes معيّنة، فلا يمكنك بدء Jobs إلا على الـ Nodes الموجودة في تلك المجموعات، ولا ترى إلا الـ Jobs الخاصة بها. والـ Job الذي يذكر Node خارجها يُرفض بكامله - فلا يُنفَّذ شيء على الـ Nodes الأخرى أيضًا - وتذكر وحدة التحكم الـ Nodes التي يجب استبعادها. راجع <a href="access.html">المستخدمون والأدوار والرموز</a>.</p>
+<p>لتنفيذ عدة تشغيلات وTasks بالترتيب، راجع <a href="run-plans.html">تشغيل الـ Plans</a>. ولبدء Job لاحقًا، أو بشكل متكرر، راجع <a href="schedule-jobs.html">جدولة الـ Jobs</a>.</p>
+<h2 id="run-puppet">تنفيذ Puppet</h2>
+<p>من أي مكان تعرض فيه الـ Nodes التي تريدها:</p>
 <ul>
-<li><strong>One node:</strong> on the node&#39;s page, run Puppet.</li>
-<li><strong>A selection:</strong> on the <strong>Nodes</strong> page, select nodes, then run Puppet
-on the selection.</li>
-<li><strong>Every node a group matches:</strong> on the group&#39;s page, run Puppet on its
-matching nodes.</li>
+<li><strong>Node واحد:</strong> في صفحة الـ Node، نفّذ Puppet.</li>
+<li><strong>مجموعة مختارة:</strong> في صفحة <strong>Nodes</strong>، حدّد الـ Nodes، ثم نفّذ Puppet على المحدَّد.</li>
+<li><strong>كل Node تطابقه مجموعة:</strong> في صفحة المجموعة، نفّذ Puppet على الـ Nodes المطابقة لها.</li>
 </ul>
-<p>Each opens a dialog naming the nodes. Confirm it to start a job, which
-you are taken to.</p>
-<p>Or start from the <strong>Jobs</strong> page, where <strong>Run Puppet</strong> and <strong>Run task</strong>
-let you say which nodes: see <a href="#choose-the-nodes">Choose the nodes</a>.</p>
-<h3 id="run-options">Run options</h3>
-<p>The dialog offers three options. With none chosen, the run is an
-ordinary one.</p>
+<p>يفتح كلٌّ منها مربع حوار يذكر الـ Nodes. أكّده لبدء Job، تنتقل إليه.</p>
+<p>أو ابدأ من صفحة <strong>Jobs</strong>، حيث يتيح لك <strong>تنفيذ Puppet</strong> و<strong>تنفيذ Task</strong> تحديد الـ Nodes: راجع <a href="#choose-the-nodes">اختيار الـ Nodes</a>.</p>
+<h3 id="run-options">خيارات التشغيل</h3>
+<p>يعرض مربع الحوار ثلاثة خيارات. وإن لم يُختر أيٌّ منها، فالتشغيل عادي.</p>
 <ul>
-<li><strong>No-op</strong> reports what the run would change and changes nothing. The
-job shows the list for each node.</li>
-<li><strong>Debug output</strong> records Puppet&#39;s debug log for each node on the job.</li>
-<li><strong>Environment</strong> asks the node to run against that environment, for
-trying a node against a branch.</li>
+<li>يُبلّغ <strong>No-op</strong> عمّا سيغيّره التشغيل ولا يغيّر شيئًا. ويعرض الـ Job القائمة لكل Node.</li>
+<li>يسجّل <strong>مخرجات تصحيح الأخطاء</strong> سجل تصحيح الأخطاء الخاص بـ Puppet لكل Node في الـ Job.</li>
+<li>يطلب <strong>Environment</strong> من الـ Node أن يعمل على ذلك الـ Environment، لتجربة Node على فرع ما.</li>
 </ul>
-<vox-callout variant="warning" heading="Warning"><p>The environment is a request, not an override. When a node&#39;s node
-groups set an environment, Puppet uses that one whatever the run asks
-for. The job marks each node that ran in a different environment from
-the one requested, once the node&#39;s report arrives.</p>
+<vox-callout variant="warning" heading="تحذير"><p>الـ Environment طلب، لا تجاوز. فحين تضبط مجموعات الـ Nodes الخاصة بـ Node ما Environment، يستخدمه Puppet أيًّا كان ما يطلبه التشغيل. ويَسِم الـ Job كل Node عمل في Environment مختلف عن المطلوب، بمجرد وصول الـ Report الخاص بالـ Node.</p>
 </vox-callout>
-<p>A run with options records what Puppet printed. Open <strong>Output</strong> under a
-node&#39;s line on the job to read it. Long output is cut off at 256 KB,
-and says so.</p>
-<p>Run options need a node agent client from this version of the console
-or later. An older client refuses the request, and the node&#39;s line
-fails saying the client is too old. Puppet is not run on that node at
-all, so a no-op request is never carried out as a real run. Upgrade the
-client - see <a href="agent-upgrades.html">Keep node agents current</a> - and run again.
-A run with no options works on every client version.</p>
-<p>Through the API, with an access token:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -X POST https://console.example.com/api/v1/orchestrator/runs \
+<p>التشغيل بخيارات يسجّل ما طبعه Puppet. افتح <strong>المخرجات</strong> تحت سطر الـ Node في الـ Job لقراءته. وتُقتطع المخرجات الطويلة عند 256 KB، مع الإشارة إلى ذلك.</p>
+<p>تحتاج خيارات التشغيل إلى عميل وكيل Node من هذا الإصدار من وحدة التحكم أو أحدث. فالعميل الأقدم يرفض الطلب، ويفشل سطر الـ Node مع ذكر أن العميل أقدم مما ينبغي. ولا يُشغَّل Puppet على ذلك الـ Node إطلاقًا، فلا يُنفَّذ طلب no-op أبدًا كتشغيل حقيقي. رقِّ العميل - راجع <a href="agent-upgrades.html">إبقاء وكلاء الـ Nodes محدَّثين</a> - وشغّل مجددًا. والتشغيل دون خيارات يعمل على كل إصدارات العميل.</p>
+<p>عبر الـ API، برمز وصول:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>curl -X POST https://console.example.com/api/v1/orchestrator/runs \
   -H &#34;Authorization: Bearer &lt;access token&gt;&#34; \
   -H &#39;Content-Type: application/json&#39; \
   -d &#39;{&#34;targets&#34;:[&#34;web01.example.com&#34;,&#34;web02.example.com&#34;]}&#39;
 </code></vox-code-block>
-<p>Add <code>options</code> for a run with options. Any of the three may be left out:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>  -d &#39;{&#34;targets&#34;:[&#34;web01.example.com&#34;],
+<p>أضف <code>options</code> لتشغيل بخيارات. ويجوز حذف أيٍّ من الثلاثة:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>  -d &#39;{&#34;targets&#34;:[&#34;web01.example.com&#34;],
        &#34;options&#34;:{&#34;noop&#34;:true,&#34;environment&#34;:&#34;feature_x&#34;,&#34;debug&#34;:true}}&#39;
 </code></vox-code-block>
-<p>The request is refused, and no job is created, if the environment name
-is not valid, if openvoxserver has no such environment, or if it names
-an option the console does not know.</p>
-<h2 id="choose-the-nodes">Choose the nodes</h2>
-<p><strong>Run Puppet</strong> and <strong>Run task</strong> on the <strong>Jobs</strong> page ask which nodes to
-run on, in one of three ways:</p>
+<p>يُرفض الطلب، ولا يُنشأ أي Job، إذا كان اسم الـ Environment غير صالح، أو لم يكن لدى openvoxserver مثل هذا الـ Environment، أو إذا ذكر خيارًا لا تعرفه وحدة التحكم.</p>
+<h2 id="choose-the-nodes">اختيار الـ Nodes</h2>
+<p>يسأل <strong>تنفيذ Puppet</strong> و<strong>تنفيذ Task</strong> في صفحة <strong>Jobs</strong> عن الـ Nodes التي سيُنفَّذ عليها، بإحدى ثلاث طرق:</p>
 <ul>
 <li>
-<p><strong>List of nodes:</strong> certnames, one per line.</p>
+<p><strong>قائمة Nodes:</strong> الـ certnames، واحد في كل سطر.</p>
 </li>
 <li>
-<p><strong>Query:</strong> a <a href="https://www.puppet.com/docs/puppetdb/latest/api/query/v4/pql.html">PQL</a>
-query that returns <code>certname</code>. The console runs it against openvoxdb
-when the job starts, and the job runs on the nodes it returns:</p>
-<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>inventory[certname] { facts.os.family = &#34;Debian&#34; and facts.os.release.major = &#34;12&#34; }
+<p><strong>استعلام:</strong> استعلام <a href="https://www.puppet.com/docs/puppetdb/latest/api/query/v4/pql.html">PQL</a> يُرجع <code>certname</code>. تشغّله وحدة التحكم على openvoxdb عند بدء الـ Job، ويعمل الـ Job على الـ Nodes التي يُرجعها:</p>
+<vox-code-block language="plaintext" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>inventory[certname] { facts.os.family = &#34;Debian&#34; and facts.os.release.major = &#34;12&#34; }
 </code></vox-code-block>
 </li>
 <li>
-<p><strong>Node group:</strong> the nodes in the group when the job starts.</p>
+<p><strong>مجموعة Nodes:</strong> الـ Nodes الموجودة في المجموعة عند بدء الـ Job.</p>
 </li>
 </ul>
-<p><strong>Preview nodes</strong> shows the nodes your choice means right now. The
-dialog always shows them to you before it starts anything: choosing
-<strong>Run</strong> the first time runs the preview, and the second time starts the
-job. A query or a group that matches no nodes starts nothing.</p>
-<p>A query must be in PQL&#39;s own syntax and return <code>certname</code>. A query the
-console or openvoxdb cannot use is refused with the reason, which for a
-syntax error is openvoxdb&#39;s own message pointing at the mistake.</p>
-<p>If your role is granted on particular node groups, a query or a group
-gives you the matching nodes that are in <em>your</em> groups, and says
-nothing about any others. Your query also cannot contain a subquery -
-one entity&#39;s braces inside another&#39;s - because such a query could be
-used to find out about nodes you cannot see. Query a single entity, as
-in the example above; <code>inventory</code> reaches every fact and trusted fact
-of a node. Nodes you name in a list are still all or nothing.</p>
-<p>Through the API, give <code>query</code> or <code>group</code> (a node group&#39;s ID) in place
-of <code>targets</code>:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -X POST https://console.example.com/api/v1/orchestrator/runs \
+<p>يعرض <strong>معاينة الـ Nodes</strong> الـ Nodes التي يعنيها اختيارك في هذه اللحظة. ويعرضها لك مربع الحوار دائمًا قبل أن يبدأ أي شيء: فاختيار <strong>تنفيذ</strong> في المرة الأولى يشغّل المعاينة، وفي المرة الثانية يبدأ الـ Job. والاستعلام أو المجموعة التي لا تطابق أي Nodes لا تبدأ شيئًا.</p>
+<p>يجب أن يكون الاستعلام بصياغة PQL نفسها وأن يُرجع <code>certname</code>. والاستعلام الذي لا تستطيع وحدة التحكم أو openvoxdb استخدامه يُرفض مع ذكر السبب، وهو في حالة الخطأ النحوي رسالة openvoxdb نفسها التي تشير إلى موضع الخطأ.</p>
+<p>إذا كان دورك ممنوحًا على مجموعات Nodes معيّنة، فإن الاستعلام أو المجموعة يعطيك الـ Nodes المطابقة الموجودة في مجموعاتك <em>أنت</em>، ولا يقول شيئًا عن غيرها. ولا يمكن أيضًا أن يحتوي استعلامك على استعلام فرعي - أقواس كيان داخل أقواس كيان آخر - لأن مثل هذا الاستعلام قد يُستخدم لمعرفة Nodes لا تستطيع رؤيتها. استعلم عن كيان واحد، كما في المثال أعلاه؛ إذ يصل <code>inventory</code> إلى كل Fact وكل Fact موثوق للـ Node. أما الـ Nodes التي تذكرها في قائمة فتظل كلها أو لا شيء.</p>
+<p>عبر الـ API، أعطِ <code>query</code> أو <code>group</code> (معرّف مجموعة Nodes) بدل <code>targets</code>:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>curl -X POST https://console.example.com/api/v1/orchestrator/runs \
   -H &#34;Authorization: Bearer &lt;access token&gt;&#34; \
   -H &#39;Content-Type: application/json&#39; \
   -d &#39;{&#34;query&#34;:&#34;inventory[certname] { facts.os.family = \&#34;Debian\&#34; }&#34;,
        &#34;options&#34;:{&#34;noop&#34;:true}}&#39;
 </code></vox-code-block>
-<p><code>POST /api/v1/orchestrator/targets/resolve</code> takes the same <code>targets</code>,
-<code>query</code> or <code>group</code> and answers with the nodes, starting nothing.</p>
-<h2 id="run-a-task">Run a task</h2>
-<p>A task is a script shipped in a module&#39;s <code>tasks</code> directory, with a
-metadata file describing its parameters. The console runs the ones in
-the code you have deployed - see <a href="deploy-code.html">Deploy code</a> - so
-there is nothing to install for a task beyond deploying the module that
-contains it.</p>
-<p>Tasks are offered in the same places as Puppet runs: <strong>Run task</strong> on a
-node&#39;s page, on the <strong>Nodes</strong> page&#39;s selection, on a group&#39;s matching
-nodes, and on the <strong>Jobs</strong> page. In the dialog:</p>
+<p>يأخذ <code>POST /api/v1/orchestrator/targets/resolve</code> الحقول نفسها <code>targets</code> أو <code>query</code> أو <code>group</code> ويجيب بالـ Nodes، دون أن يبدأ أي شيء.</p>
+<h2 id="run-a-task">تنفيذ Task</h2>
+<p>الـ Task سكربت يُوزَّع في المجلد <code>tasks</code> الخاص بوحدة، مع ملف بيانات وصفية يصف معاملاته. تشغّل وحدة التحكم الـ Tasks الموجودة في الكود الذي نفّذت له deploy - راجع <a href="deploy-code.html">deploy الكود</a> - فلا يوجد ما يُثبَّت من أجل Task سوى deploy الوحدة التي تحتويها.</p>
+<p>تُتاح الـ Tasks في الأماكن نفسها التي تُتاح فيها تشغيلات Puppet: <strong>تنفيذ Task</strong> في صفحة الـ Node، وعلى المحدَّد في صفحة <strong>Nodes</strong>، وعلى الـ Nodes المطابقة لمجموعة، وفي صفحة <strong>Jobs</strong>. في مربع الحوار:</p>
 <ol>
-<li>Pick the <strong>Environment</strong> to take the task from. Tasks are read from
-that environment&#39;s code as it is deployed right now.</li>
-<li>Pick the <strong>Task</strong>. Its description, and a field for each parameter,
-appear below it. A field marked <code>*</code> is required; one left empty gets
-the default its metadata declares.</li>
-<li>Optionally, set a <strong>Timeout</strong>. A task still running after it is
-stopped, along with anything it started, and reported as timed out.
-It is 30 minutes unless you say otherwise, and at most 55.</li>
-<li><strong>Run task</strong> starts the job and takes you to it.</li>
+<li>اختر الـ <strong>Environment</strong> الذي تؤخذ منه الـ Task. تُقرأ الـ Tasks من كود ذلك الـ Environment كما هو منشور الآن.</li>
+<li>اختر الـ <strong>Task</strong>. يظهر تحتها وصفها، وحقل لكل معامل. الحقل الموسوم بـ <code>*</code> مطلوب؛ والحقل المتروك فارغًا يأخذ القيمة الافتراضية التي تصرّح بها بياناتها الوصفية.</li>
+<li>اختياريًا، اضبط <strong>المهلة</strong>. والـ Task التي لا تزال تعمل حين تنقضي المهلة تُوقف، مع كل ما بدأته، ويُبلَّغ عنها بأن مهلتها انقضت. وهي 30 دقيقة ما لم تحدد غير ذلك، و55 على الأكثر.</li>
+<li><strong>تنفيذ Task</strong> يبدأ الـ Job وينقلك إليه.</li>
 </ol>
-<p>The console checks the parameters against the task&#39;s metadata before it
-starts anything, and marks each field it refuses with the reason. No job
-is created until they are right.</p>
-<p>A role can be limited to some tasks, and then the <strong>Task</strong> list offers
-only the ones you may run. A task you may not run is refused with <code>403</code>
-and its name, whether you pick it from the list or ask for it through the
-API - see <a href="access.html#limit-a-role-to-some-tasks">Limit a role to some tasks</a>.</p>
-<p>A parameter the task&#39;s metadata marks <code>sensitive</code> - a password, a token -
-is typed into a masked field. Its value is sent to the nodes and nowhere
-else: the job&#39;s stored parameters, its page, the activity log and the
-audit log all show <code>Sensitive [value redacted]</code> instead.</p>
-<p>Through the API, naming the task, its parameters and, optionally, the
-environment and the timeout in seconds:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -X POST https://console.example.com/api/v1/orchestrator/tasks \
+<p>تفحص وحدة التحكم المعاملات مقابل البيانات الوصفية للـ Task قبل أن تبدأ أي شيء، وتَسِم كل حقل ترفضه بالسبب. ولا يُنشأ أي Job حتى تصبح صحيحة.</p>
+<p>يمكن قصر الدور على بعض الـ Tasks، وعندئذ لا تعرض قائمة <strong>Task</strong> إلا التي يحق لك تشغيلها. والـ Task التي لا يحق لك تشغيلها تُرفض بـ <code>403</code> مع اسمها، سواء اخترتها من القائمة أو طلبتها عبر الـ API - راجع <a href="access.html#limit-a-role-to-some-tasks">قصر الدور على بعض الـ Tasks</a>.</p>
+<p>المعامل الذي تَسِمه البيانات الوصفية للـ Task بأنه <code>sensitive</code> - كلمة مرور، أو رمز - يُكتب في حقل مُقنَّع. وتُرسل قيمته إلى الـ Nodes ولا إلى أي مكان آخر: فمعاملات الـ Job المخزَّنة، وصفحته، وسجل النشاط، وسجل التدقيق، كلها تعرض <code>Sensitive [value redacted]</code> بدلًا منها.</p>
+<p>عبر الـ API، مع ذكر الـ Task ومعاملاتها، واختياريًا الـ Environment والمهلة بالثواني:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>curl -X POST https://console.example.com/api/v1/orchestrator/tasks \
   -H &#34;Authorization: Bearer &lt;access token&gt;&#34; \
   -H &#39;Content-Type: application/json&#39; \
   -d &#39;{&#34;targets&#34;:[&#34;web01.example.com&#34;],
@@ -311,82 +243,53 @@ environment and the timeout in seconds:</p>
        &#34;environment&#34;:&#34;production&#34;,
        &#34;timeoutSeconds&#34;:600}&#39;
 </code></vox-code-block>
-<p>The API checks the same way: an unknown task, a missing or unexpected
-parameter, or a value of the wrong type is refused with <code>400</code>, and its
-<code>fields</code> name each problem. The task catalogue behind the dialog is in
-the API too: <code>GET /api/v1/tasks/environments</code>,
-<code>GET /api/v1/tasks?environment=production</code>, and
-<code>GET /api/v1/tasks/&lt;module&gt;/&lt;task&gt;?environment=production</code> (a module&#39;s
-own task is <code>&lt;module&gt;/init</code>).</p>
-<h3 id="what-the-node-does">What the node does</h3>
-<p>The node&#39;s agent downloads the task&#39;s files from the Puppet server its
-own Puppet agent uses, with its own certificate, and runs nothing unless
-every file matches the checksum the console looked up. It keeps verified
-files, so running the same task again downloads nothing.</p>
-<p>A task&#39;s script is run directly, so its first line decides what runs it
-(<code>#!/bin/sh</code>, <code>#!/usr/bin/env python3</code>). Ruby tasks run with the Ruby
-that comes with the Puppet agent, and on Windows, PowerShell tasks run in
-PowerShell. Where a task offers several implementations, the node picks
-the one that suits it.</p>
-<p>A node finds its Puppet server by asking its own Puppet configuration.
-A node that finds it through DNS SRV records instead has no address to
-read there; set <code>NODE_AGENT_PUPPET_SERVER=puppet.example.com:8140</code> in
-its agent&#39;s environment.</p>
-<p>Nodes need an agent from a console with task support. A node whose agent
-is older fails every task with <code>Error: Unknown subcommand &#39;task&#39;</code>: run
-the node&#39;s install script again to upgrade it - see
-<a href="add.html">Add nodes</a>.</p>
-<h2 id="follow-a-job">Follow a job</h2>
-<p>The <strong>Jobs</strong> page lists every job, newest first. A job&#39;s page shows each
-target on its own line - its status, exit code and output - so a job that
-worked on nine nodes and failed on one says exactly that.</p>
-<p>If a job also ran on nodes outside your node groups, its page shows
-only your nodes and says so. The job&#39;s overall status still covers
-every node it ran on, so it can read <strong>failed</strong> when all the nodes you
-can see succeeded.</p>
-<p>For a task, each target&#39;s line opens to show the task&#39;s result: the
-JSON it printed, or its text under <code>_output</code>. A task fails when it exits
-with anything but 0, or reports an <code>_error</code>, whose message is shown as
-the line&#39;s error.</p>
-<p>A node that was not connected when the job started fails at once with
-&#34;agent not connected&#34;, instead of holding the job open.</p>
-<p>When a run finishes, its line links to the report that run produced, with
-every resource it changed.</p>
-<p>The jobs list and a job&#39;s page show a run&#39;s options: <strong>No-op</strong>, the
-environment it asked for, and <strong>Debug</strong>.</p>
-<p>They also show where a job&#39;s nodes came from, when it was not a list:
-the query or the node group. A job that a schedule started names the
-schedule, and is recorded as triggered by the schedule&#39;s owner. If a
-job started by a query also ran on nodes outside your node groups, you
-are shown your nodes but not the query.</p>
-<p>Every job&#39;s start and outcome is also recorded on the <strong>Activity</strong> page.</p>
-<p>A <a href="run-plans.html">plan</a> is one line in the list. Its page shows its
-steps in order, each with its own state and node results.</p>
-<h2 id="a-job-whose-instance-stopped">A job whose instance stopped</h2>
-<p>A job is followed to the end by the console instance that started it. If
-that instance stops before its targets finish, the job would otherwise
-show as running forever; instead, it is marked failed once it has been
-running far longer than any run could take.</p>
+<p>تفحص الـ API بالطريقة نفسها: الـ Task غير المعروفة، أو المعامل المفقود أو غير المتوقع، أو القيمة من النوع الخاطئ، تُرفض بـ <code>400</code>، وتذكر <code>fields</code> كل مشكلة. وفهرس الـ Tasks الذي يقف خلف مربع الحوار موجود في الـ API أيضًا: <code>GET /api/v1/tasks/environments</code>، و<code>GET /api/v1/tasks?environment=production</code>، و<code>GET /api/v1/tasks/&lt;module&gt;/&lt;task&gt;?environment=production</code> (والـ Task الخاصة بالوحدة نفسها هي <code>&lt;module&gt;/init</code>).</p>
+<h3 id="what-the-node-does">ما يفعله الـ Node</h3>
+<p>ينزّل وكيل الـ Node ملفات الـ Task من خادم Puppet الذي يستخدمه وكيل Puppet الخاص به، بشهادته الخاصة، ولا يشغّل شيئًا ما لم يطابق كل ملف المجموع الاختباري الذي استعلمت عنه وحدة التحكم. ويحتفظ بالملفات التي تحقق منها، فلا يُنزَّل شيء عند تشغيل الـ Task نفسها مجددًا.</p>
+<p>يُشغَّل سكربت الـ Task مباشرة، فسطره الأول يحدّد ما يشغّله (<code>#!/bin/sh</code>، <code>#!/usr/bin/env python3</code>). وتعمل Tasks الـ Ruby بإصدار Ruby المرفق بوكيل Puppet، وعلى Windows تعمل Tasks الـ PowerShell في PowerShell. وحيث تتيح الـ Task عدة تطبيقات، يختار الـ Node ما يناسبه منها.</p>
+<p>يجد الـ Node خادم Puppet الخاص به بسؤال تهيئة Puppet الخاصة به. أما الـ Node الذي يجده عبر سجلات DNS SRV بدلًا من ذلك فليس لديه عنوان ليقرأه هناك؛ اضبط <code>NODE_AGENT_PUPPET_SERVER=puppet.example.com:8140</code> في بيئة وكيله.</p>
+<p>تحتاج الـ Nodes إلى وكيل من وحدة تحكم تدعم الـ Tasks. والـ Node الذي يكون وكيله أقدم يُفشل كل Task مع <code>Error: Unknown subcommand &#39;task&#39;</code>: شغّل سكربت تثبيت الـ Node مجددًا لترقيته - راجع <a href="add.html">إضافة Nodes</a>.</p>
+<h2 id="follow-a-job">تابع Job</h2>
+<p>تسرد صفحة <strong>Jobs</strong> كل Job، الأحدث أولًا. وتعرض صفحة الـ Job كل هدف في سطر خاص به - حالته ورمز خروجه ومخرجاته - فالـ Job الذي نجح على تسعة Nodes وفشل على واحد يقول ذلك بالضبط.</p>
+<figure class="shot">
+  <a class="shot-link" href="../../assets/screenshots/job-result-light-ar.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/job-result-dark-ar.png" data-theme-dark="../../assets/screenshots/job-result-dark-ar.png" data-theme-light="../../assets/screenshots/job-result-light-ar.png"/>
+      <img src="../../assets/screenshots/job-result-light-ar.png" alt="صفحة Job منتهٍ، تعرض ما الذي نُفّذ، ومن بدأه ومتى، والنتيجة على كل Node استهدفه" width="1440"/>
+    </picture>
+    <span class="vox-sr-only">Open full size</span>
+  </a>
+</figure>
+<p>إذا جرى Job أيضًا على Nodes خارج مجموعات الـ Nodes الخاصة بك، فإن صفحته لا تعرض إلا الـ Nodes الخاصة بك وتذكر ذلك. وتظل الحالة الإجمالية للـ Job تشمل كل Node جرى عليه، لذا قد تظهر <strong>فشل</strong> حين تكون كل الـ Nodes التي تراها قد نجحت.</p>
+<p>بالنسبة إلى الـ Task، يُفتح سطر كل هدف ليعرض نتيجة الـ Task: الـ JSON الذي طبعته، أو نصّها تحت <code>_output</code>. وتفشل الـ Task حين تخرج بأي رمز غير 0، أو تُبلّغ عن <code>_error</code>، تُعرض رسالته كخطأ السطر.</p>
+<p>الـ Node الذي لم يكن متصلًا عند بدء الـ Job يفشل فورًا بالرسالة «agent not connected»، بدل أن يُبقي الـ Job مفتوحًا.</p>
+<p>حين ينتهي التشغيل، يرتبط سطره بالـ Report الذي أنتجه ذلك التشغيل، مع كل مورد غيّره.</p>
+<p>تعرض قائمة الـ Jobs وصفحة الـ Job خيارات التشغيل: <strong>No-op</strong>، والـ Environment الذي طلبه، و<strong>تصحيح الأخطاء</strong>.</p>
+<p>وتُظهر أيضًا من أين جاءت Nodes الـ Job، حين لا تكون قائمة: الاستعلام أو مجموعة الـ Nodes. والـ Job الذي بدأته جدولة يذكر الجدولة، ويُسجَّل على أن مالك الجدولة هو من أطلقه. وإذا جرى Job بدأه استعلام على Nodes خارج مجموعات الـ Nodes الخاصة بك أيضًا، تُعرض لك الـ Nodes الخاصة بك دون الاستعلام.</p>
+<p>يُسجَّل بدء كل Job ونتيجته أيضًا في صفحة <strong>النشاط</strong>.</p>
+<p>الـ <a href="run-plans.html">Plan</a> سطر واحد في القائمة. وتعرض صفحته خطواته بالترتيب، لكلٍّ منها حالتها ونتائج الـ Nodes الخاصة بها.</p>
+<h2 id="a-job-whose-instance-stopped">Job توقف مثيله</h2>
+<p>يتابع الـ Job حتى نهايته مثيلُ وحدة التحكم الذي بدأه. وإذا توقف ذلك المثيل قبل أن تنتهي أهدافه، لكان الـ Job سيظهر قيد التنفيذ إلى الأبد؛ لكنه بدلًا من ذلك يُوسَم بالفشل متى طال تنفيذه أكثر بكثير مما قد يستغرقه أي تشغيل.</p>
 
     </div>
 
-    <vox-series-nav label="Use" previous-text="Previous" next-text="Next" previous-href="../guides/deploy-code.html" previous-label="Deploy code" next-href="../guides/run-plans.html" next-label="Run plans"></vox-series-nav>
+    <vox-series-nav label="الاستخدام" previous-text="السابق" next-text="التالي" previous-href="../guides/deploy-code.html" previous-label="deploy الكود" next-href="../guides/run-plans.html" next-label="تشغيل الـ Plans"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#run-puppet"><span>Run Puppet</span>
-        <vox-toc-item slot="children" href="#run-options"><span>Run options</span></vox-toc-item>
+    <vox-toc heading="في هذه الصفحة">
+      <vox-toc-item href="#run-puppet"><span>تنفيذ Puppet</span>
+        <vox-toc-item slot="children" href="#run-options"><span>خيارات التشغيل</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#choose-the-nodes"><span>Choose the nodes</span>
+      <vox-toc-item href="#choose-the-nodes"><span>اختيار الـ Nodes</span>
       </vox-toc-item>
-      <vox-toc-item href="#run-a-task"><span>Run a task</span>
-        <vox-toc-item slot="children" href="#what-the-node-does"><span>What the node does</span></vox-toc-item>
+      <vox-toc-item href="#run-a-task"><span>تنفيذ Task</span>
+        <vox-toc-item slot="children" href="#what-the-node-does"><span>ما يفعله الـ Node</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#follow-a-job"><span>Follow a job</span>
+      <vox-toc-item href="#follow-a-job"><span>تابع Job</span>
       </vox-toc-item>
-      <vox-toc-item href="#a-job-whose-instance-stopped"><span>A job whose instance stopped</span>
+      <vox-toc-item href="#a-job-whose-instance-stopped"><span>Job توقف مثيله</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -396,23 +299,17 @@ running far longer than any run could take.</p>
 
       
       <vox-cta-band heading="شغّله بنفسك">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>يُوزَّع OpenVox Console على هيئة صور حاويات تُبنى لمعماريتَي amd64 وarm64 مع كل push، وعلى هيئة ملف تنفيذي واحد. تأخذك أدلة التثبيت من مضيف فارغ إلى نشر عامل - openvoxserver وopenvoxdb وPostgres ووحدة التحكم - باستخدام الحاويات أو الحزم.</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">أدلة التثبيت</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">الشيفرة المصدرية على GitHub</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">صور الحاويات</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="لقطة الشاشة بالحجم الكامل">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">إغلاق</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -421,18 +318,18 @@ running far longer than any run could take.</p>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">نظرة عامة</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">الشيفرة المصدرية</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">أدلة التثبيت</a>
       </vox-footer-column>
       <vox-footer-column heading="الإمكانات">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">التصنيف</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">التنسيق</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">تثبيت التصحيحات</a>
         <a href="../features/security.html">الأمان</a>
         <a href="../features/access-control.html">التحكم في الوصول</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">وكلاء الذكاء الاصطناعي</a>
+        <a href="../features/scaling.html">التوسّع</a>
         </vox-footer-column>
       
       <vox-footer-column heading="اللغة">

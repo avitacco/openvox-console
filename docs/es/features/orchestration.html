@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="es" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Run Puppet, tasks and plans on demand or on a schedule, on nodes or agentless hosts, and see what each node did."/>
+    <meta name="description" content="Ejecute Puppet, Tasks y Plans bajo demanda o de forma programada, en Nodes o en hosts sin agente, y vea qué hizo cada Node."/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a href="../guides/index.html" slot="actions">Guides</a>
+      <a href="../guides/index.html" slot="actions">Guías</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,18 +104,18 @@
       <a href="../features/classification.html">Clasificación</a>
       <a href="../features/code.html">Code</a>
       <a aria-current="page" href="../features/orchestration.html">Orquestación</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">Aplicación de parches</a>
       <a href="../features/security.html">Seguridad</a>
       <a href="../features/access-control.html">Control de acceso</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">Agentes de IA</a>
+      <a href="../features/scaling.html">Escalado</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <vox-hero eyebrow="Orquestación" heading="Ejecútelo ahora, en todas partes">
-  <p>Run Puppet, tasks and plans on the nodes you pick — now or on a schedule — and watch the results come back one node at a time.</p>
+  <p>Ejecute Puppet, Tasks y Plans en los Nodes que elija, ahora o de forma programada, y vea llegar los resultados Node a Node.</p>
 </vox-hero>
 
 <section class="site-section">
@@ -130,25 +130,25 @@
   <a class="shot-link" href="../../assets/screenshots/jobs-list-light-es.png">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/jobs-list-dark-es.png" data-theme-dark="../../assets/screenshots/jobs-list-dark-es.png" data-theme-light="../../assets/screenshots/jobs-list-light-es.png"/>
-      <img src="../../assets/screenshots/jobs-list-light-es.png" alt="Orchestration job history listing ad-hoc runs, tasks and plans with the nodes each targeted and whether it succeeded" width="1440"/>
+      <img src="../../assets/screenshots/jobs-list-light-es.png" alt="Historial de Jobs de orquestación con ejecuciones ad hoc, Tasks y Plans, los Nodes a los que se dirigió cada uno y si tuvo éxito" width="1440"/>
     </picture>
     <span class="vox-sr-only">Open full size</span>
   </a>
 </figure>
 
 <section class="site-section">
-  <h2 class="vox-ts-xxl">Tasks, plans and schedules</h2>
+  <h2 class="vox-ts-xxl">Tasks, Plans y programaciones</h2>
   <div class="vox-prose">
-    <p>Run a task from your deployed code, with its parameters checked against the types it declares and sensitive values kept out of every record. Chain Puppet runs and tasks into a plan you keep and run again. Or write a plan in YAML beside your code, with typed parameters and results passed from step to step, and the console runs it — no Bolt needed.</p>
-    <p>Save any of them to start later, once or repeatedly. A schedule picks its nodes each time it fires, and runs with the access its owner has at that moment, so a schedule stops doing what its owner may no longer do.</p>
+    <p>Ejecute un Task de su código desplegado, con sus parámetros comprobados contra los tipos que declara y los valores sensibles fuera de todo registro. Encadene ejecuciones de Puppet y Tasks en un Plan que guarda y vuelve a ejecutar. O escriba un Plan en YAML junto a su código, con parámetros tipados y resultados que pasan de un paso a otro, y la consola lo ejecuta, sin necesidad de Bolt.</p>
+    <p>Guarde cualquiera de ellos para que arranque más tarde, una vez o de forma repetida. Una programación elige sus Nodes cada vez que se dispara y se ejecuta con el acceso que tiene su propietario en ese momento, de modo que deja de hacer lo que su propietario ya no puede hacer.</p>
   </div>
 </section>
 
 <section class="site-section">
-  <h2 class="vox-ts-xxl">Choose targets by rule, not by list</h2>
+  <h2 class="vox-ts-xxl">Elija los destinos por regla, no por lista</h2>
   <div class="vox-prose">
-    <p>Name nodes, point at a node group, or write a PQL query, and the console works out the nodes when the job starts. Run Puppet as a no-op to see what it would change, against another environment, or with debug output — per run.</p>
-    <p>Hosts that cannot run the agent can still be reached over SSH. Tasks run on them like on any node.</p>
+    <p>Nombre los Nodes, indique un grupo de Nodes o escriba una consulta PQL, y la consola resolverá los Nodes cuando arranque el Job. Ejecute Puppet en modo no-op para ver lo que cambiaría, contra otro Environment o con salida de depuración, en cada ejecución.</p>
+    <p>Los hosts que no pueden ejecutar el agente siguen siendo accesibles por SSH. Los Tasks se ejecutan en ellos como en cualquier Node.</p>
   </div>
 </section>
 
@@ -165,35 +165,29 @@
 
       
       <section class="site-section do-it" aria-labelledby="do-it-heading">
-        <h2 id="do-it-heading" class="vox-ts-xxl">Do it</h2>
+        <h2 id="do-it-heading" class="vox-ts-xxl">Hágalo</h2>
         <vox-grid min="16rem">
-          <vox-card heading="Run jobs" href="../guides/run-jobs.html"><p>Run Puppet or a Puppet task on demand on one node, a selection, the nodes a query matches, or a node group, and see what each node did.</p></vox-card>
-          <vox-card heading="Run plans" href="../guides/run-plans.html"><p>Build a plan - a list of Puppet runs and tasks carried out in order - keep it, run it on the nodes you choose, and watch each step.</p></vox-card>
-          <vox-card heading="Schedule jobs" href="../guides/schedule-jobs.html"><p>Save a Puppet run, a task or a plan to start later, once or repeatedly, on nodes that are worked out each time it starts.</p></vox-card>
-          <vox-card heading="Run plans from your code" href="../guides/code-plans.html"><p>Run YAML plans that live in your modules, with typed parameters, results passed between steps, and every task checked against your node groups.</p></vox-card>
+          <vox-card heading="Ejecutar Jobs" href="../guides/run-jobs.html"><p>Ejecute Puppet o un Task de Puppet bajo demanda en un Node, una selección, los Nodes con los que coincide una consulta o un grupo de Nodes, y vea qué hizo cada Node.</p></vox-card>
+          <vox-card heading="Ejecutar Plans" href="../guides/run-plans.html"><p>Construya un Plan (una lista de ejecuciones de Puppet y Tasks que se llevan a cabo en orden), guárdelo, ejecútelo en los Nodes que elija y observe cada paso.</p></vox-card>
+          <vox-card heading="Programar Jobs" href="../guides/schedule-jobs.html"><p>Guarde una ejecución de Puppet, un Task o un Plan para que arranque más tarde, una vez o de forma repetida, en Nodes que se resuelven cada vez que arranca.</p></vox-card>
+          <vox-card heading="Ejecutar Plans de su código" href="../guides/code-plans.html"><p>Ejecute Plans YAML que viven en sus módulos, con parámetros tipados, resultados que pasan de un paso a otro y cada Task comprobado contra sus grupos de Nodes.</p></vox-card>
           </vox-grid>
       </section>
       </div>
 
       
       <vox-cta-band heading="Ejecútelo usted mismo">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console se distribuye como imágenes de contenedor, compiladas para amd64 y arm64 en cada push, y como un único binario. Las guías de instalación le llevan de un host vacío a un despliegue funcional (openvoxserver, openvoxdb, Postgres y la consola) con contenedores o con paquetes.</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">Guías de instalación</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">Código fuente en GitHub</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">Imágenes de contenedor</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="Captura a tamaño completo">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">Cerrar</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -202,18 +196,18 @@
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">Resumen</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">Código fuente</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">Guías de instalación</a>
       </vox-footer-column>
       <vox-footer-column heading="Capacidades">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">Clasificación</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">Orquestación</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">Aplicación de parches</a>
         <a href="../features/security.html">Seguridad</a>
         <a href="../features/access-control.html">Control de acceso</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">Agentes de IA</a>
+        <a href="../features/scaling.html">Escalado</a>
         </vox-footer-column>
       
       <vox-footer-column heading="Idioma">

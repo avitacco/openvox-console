@@ -33,12 +33,12 @@
 - [x] 4.1 Write `install/plan.md` (what you are building, decisions to make first) from `SETUP.md` sections 0 and "Decide these before you start"; verify it builds and passes the checks
 - [x] 4.2 Write partials shared by both install guides (credentials, configure, connect classification, verify) from `SETUP.md` sections 4, 5, 7 and 9, with container and package differences as tabs where they are one step; verify each renders in isolation
 - [x] 4.3 Write `install/containers.md` from the container paths of `SETUP.md` sections 1–3, 6 and 8, using the partials, with a verification step after each service; verify it builds, its blocks appear in `site.pot` after extract, it passes the drift checks and the a11y audit, and it reads correctly at 320px with every command scrolling inside its block
-- [ ] 4.4 Walk `install/containers.md` on a fresh VM from start to a console serving classification to openvoxserver, fix every divergence in the guide, and record the walk-through (host OS, versions, date, anything surprising) in the guide review log in `marketing/README.md`
+- [x] 4.4 Walk `install/containers.md` on a fresh VM from start to a console serving classification to openvoxserver, fix every divergence in the guide, and record the walk-through (host OS, versions, date, anything surprising) in the guide review log in `marketing/README.md`
 
 ## 5. Install from packages and binaries; SETUP.md
 
-- [ ] 5.1 Write `install/packages.md` from the package and binary paths of `SETUP.md`, using the same partials; verify it builds and passes the checks and the a11y audit
-- [ ] 5.2 Walk `install/packages.md` on a fresh VM (one supported Debian/Ubuntu and one EL release) to the same result, fix every divergence, and record the walk-through in the guide review log in `marketing/README.md`
+- [x] 5.1 Write `install/packages.md` from the package and binary paths of `SETUP.md`, using the same partials; verify it builds and passes the checks and the a11y audit
+- [x] 5.2 Walk `install/packages.md` on a fresh VM (one supported Debian/Ubuntu and one EL release) to the same result, fix every divergence, and record the walk-through in the guide review log in `marketing/README.md`
 - [x] 5.3 Replace `SETUP.md` with a short pointer to the site's install guides and to their Markdown sources, in the same commit that the last of its content lands in a guide; verify every procedure in the old `SETUP.md` is present in a guide (checked against a list made before deleting it)
 
 ## 6. Nodes guides
@@ -46,18 +46,19 @@
 - [x] 6.1 Write `nodes/add.md`: enrollment with the install script as Linux/macOS/Windows tabs, building agent packages when self-built, signing, verifying the node appears connected, and its first run; verify it builds and passes the checks
 - [x] 6.2 Write `nodes/certificates.md` (sign, revoke, clean, the `nodes:certs:manage` permission, what revocation does to a connected node, CRL sources) and `nodes/remove.md` (deactivate plus clean, what is and is not purged), moving the user-facing parts of the matching `operations.md` sections and leaving linked stubs; verify they build and the stubs link to the right guides
 - [ ] 6.3 Declare and capture the screenshots the Nodes guides use (pending certificate request, node connectivity, delete confirmation), with demo-seed changes if the demo fleet lacks the state; verify `make marketing-screenshots` captures them in every locale and the build uses them
+  - **2026-11-25:** delete confirmation done (`node-delete-confirm`, every locale, both themes). Still open: the demo fleet has no live agents and the demo console no CA client, so it can show neither a pending certificate request nor a connected node; the existing `nodes-list` shot shows every node "Not connected" and was deliberately not placed under "See the node connect". Needs demo-seed to fake a node connection and a CA status source without touching the development CA, whose real nodes must not reach an image.
 
 ## 7. Scale guide
 
 - [x] 7.1 Write `scale/run-modes.md` and `scale/cluster.md` from `operations.md`'s run modes, required configuration per mode, multi-instance topology, node certificate revocation, monitoring the bus, which modes may be multiple, and migration path sections, leaving linked stubs; cover peer TLS, the cluster and leaf secrets, `CONSOLE_CLUSTER_ADVERTISE`, and `enc` as a leaf; verify they build and pass the checks
-- [ ] 7.2 Walk `scale/cluster.md` from one instance to a `web`/`orchestrator`/`worker` split plus one leaf `enc` instance, confirming token revocation and a job dispatched through `web` to a node on `orchestrator`; fix every divergence and record the walk-through in the guide review log in `marketing/README.md`
+- [x] 7.2 Walk `scale/cluster.md` from one instance to a `web`/`orchestrator`/`worker` split plus one leaf `enc` instance, confirming token revocation and a job dispatched through `web` to a node on `orchestrator`; fix every divergence and record the walk-through in the guide review log in `marketing/README.md`
 
 ## 8. Use guides
 
 - [x] 8.1 Write `use/classify.md` (groups, match rules, the JSON escape hatch, ENC effect) and `use/deploy-code.md` (control repositories, sources file, webhooks, deploy history); verify they build and pass the checks
 - [x] 8.2 Write `use/run-jobs.md` (targeting, runs, tasks and plans as the console implements them, per-node results, report links) and `use/access.md` (users, roles, permissions, service tokens, OIDC role mapping); verify they build and pass the checks, and that neither describes behavior the console lacks
 - [x] 8.3 Write `use/vulnerabilities.md` from `operations.md`'s vulnerability tracking section (providers, credentials and `CONSOLE_SECRETS_KEY_FILE`, mirrors, limits), leaving a linked stub; verify it builds and passes the checks
-- [ ] 8.4 Declare and capture the screenshots the Use guides need (group editor, deploy history, job result, role editor, provider configuration); verify capture and build in every locale
+- [x] 8.4 Declare and capture the screenshots the Use guides need (group editor, deploy history, job result, role editor, provider configuration); verify capture and build in every locale
 
 ## 9. Operate guides
 
@@ -71,7 +72,7 @@
 
 ## 11. Translation
 
-- [ ] 11.1 Extract and merge, then translate every guide message into zh, hi, es, fr, de, ja and ar, leaving code untouched; verify the build passes the inline-code check in every locale and prints full coverage
+- [x] 11.1 Extract and merge, then translate every guide message into zh, hi, es, fr, de, ja and ar, leaving code untouched; verify the build passes the inline-code check in every locale and prints full coverage
 - [ ] 11.2 Review by a reader of each language, one locale at a time (zh, hi, es, fr, de, ja, ar), recording who reviewed and when in `marketing/README.md`; verify each locale's review entry exists before its task is checked
 - [ ] 11.3 Check the Arabic guide pages by hand for right-to-left layout: sidenav, tabs, series navigation, callouts, and code blocks that stay left-to-right; verify in both themes at both viewports
 

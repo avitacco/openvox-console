@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="ar" dir="rtl"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Build a plan - a list of Puppet runs and tasks carried out in order - keep it, run it on the nodes you choose, and watch each step."/>
+    <meta name="description" content="ابنِ Plan - قائمة من تشغيلات Puppet والـ Tasks تُنفَّذ بالترتيب - واحتفظ به، وشغّله على الـ Nodes التي تختارها، وراقب كل خطوة."/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Run plans - OpenVox Console</title>
+    <title>تشغيل الـ Plans - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">الأدلة</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,232 +104,170 @@
       <a href="../features/classification.html">التصنيف</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">التنسيق</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">تثبيت التصحيحات</a>
       <a href="../features/security.html">الأمان</a>
       <a href="../features/access-control.html">التحكم في الوصول</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">وكلاء الذكاء الاصطناعي</a>
+      <a href="../features/scaling.html">التوسّع</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="الأدلة" toggle-label="كل الأدلة">
+    <vox-sidenav-group heading="التثبيت">
+      <vox-sidenav-item href="../guides/plan.html"><span>خطّط للنشر</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>التثبيت باستخدام الحاويات</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>التثبيت من الحزم والملفات التنفيذية</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>إضافة Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>إدارة شهادات الـ Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>إزالة Node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>إبقاء وكلاء الـ Nodes محدَّثين</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
-      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="التوسّع">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>أوضاع التشغيل</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>تشغيل مزيد من المثيلات</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use" open="">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html" current="" aria-current="page"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="الاستخدام" open="">
+      <vox-sidenav-item href="../guides/classify.html"><span>تصنيف الـ Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>deploy الكود</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>تشغيل الـ Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html" current="" aria-current="page"><span>تشغيل الـ Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>جدولة الـ Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>المستخدمون والأدوار والرموز</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>تتبّع الثغرات</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>العثور على التحديثات الناقصة وتطبيقها</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>تشغيل Tasks على مضيفين بلا وكيل</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>تشغيل Plans من الكود الخاص بك</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>السماح لوكلاء الذكاء الاصطناعي باستخدام وحدة التحكم</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="التشغيل">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>الانتقال إلى قاعدة بيانات احتياطية عند الفشل</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>تدوير مفتاح توقيع الرموز</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>ترقية قواعد بيانات الحاويات إلى Postgres 18</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Use</p>
-    <h1 class="guide-title vox-ts-xxl">Run plans</h1>
-    <p class="guide-summary">Build a plan - a list of Puppet runs and tasks carried out in order - keep it, run it on the nodes you choose, and watch each step.</p>
+    <p class="guide-eyebrow">الاستخدام</p>
+    <h1 class="guide-title vox-ts-xxl">تشغيل الـ Plans</h1>
+    <p class="guide-summary">ابنِ Plan - قائمة من تشغيلات Puppet والـ Tasks تُنفَّذ بالترتيب - واحتفظ به، وشغّله على الـ Nodes التي تختارها، وراقب كل خطوة.</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>A <strong>plan</strong> is a list of steps carried out in order on the same nodes.
-Each step is a Puppet run or a task, exactly as you would start one by
-hand - see <a href="run-jobs.html">Run jobs</a>. A plan is kept in the console so
-it can be run again, on different nodes each time.</p>
-<p>Seeing plans needs <code>orchestrator:read</code>. Creating, changing, deleting
-and running them needs <code>orchestrator:run</code>.</p>
-<vox-callout variant="info" heading="Note"><p>A plan here is a list of steps built in the console. It is not a plan
-written in the Puppet language, which the console does not run. A plan
-written in YAML in your own modules is run from the same page: see
-<a href="code-plans.html">Run plans from your code</a>.</p>
+<p>الـ <strong>Plan</strong> قائمة خطوات تُنفَّذ بالترتيب على الـ Nodes نفسها. كل خطوة تشغيل لـ Puppet أو Task، تمامًا كما تبدأ أيًّا منهما يدويًا - راجع <a href="run-jobs.html">تشغيل الـ Jobs</a>. ويُحفظ الـ Plan في وحدة التحكم كي يمكن تشغيله مجددًا، على Nodes مختلفة في كل مرة.</p>
+<p>تتطلب رؤية الـ Plans الإذن <code>orchestrator:read</code>. ويتطلب إنشاؤها وتغييرها وحذفها وتشغيلها <code>orchestrator:run</code>.</p>
+<vox-callout variant="info" heading="ملاحظة"><p>الـ Plan هنا قائمة خطوات تُبنى في وحدة التحكم. وليس Plan مكتوبًا بلغة Puppet، فوحدة التحكم لا تشغّل مثل هذه. أما الـ Plan المكتوب بـ YAML في الوحدات الخاصة بك فيُشغَّل من الصفحة نفسها: راجع <a href="code-plans.html">تشغيل Plans من الكود الخاص بك</a>.</p>
 </vox-callout>
-<h2 id="build-a-plan">Build a plan</h2>
-<p>Open <strong>Jobs</strong>, then <strong>Plans</strong>, then <strong>New plan</strong>.</p>
+<h2 id="build-a-plan">ابنِ Plan</h2>
+<p>افتح <strong>Jobs</strong>، ثم <strong>Plans</strong>، ثم <strong>Plan جديد</strong>.</p>
 <ol>
-<li>Give it a <strong>Name</strong> and, if you like, a description. A name can be
-used by one plan only.</li>
-<li><span>Add steps with <strong>Add a Puppet run step</strong> and <strong>Add a task step</strong>. A
-plan has between 1 and 20 steps.
-</span><ul>
-<li>A Puppet run step takes the <a href="run-jobs.html#run-options">run options</a>:
-no-op, debug and an environment.</li>
-<li>A task step takes an environment, a task, its parameters and a
-timeout, as in <a href="run-jobs.html#run-a-task">Run a task</a>.</li>
+<li>امنحه <strong>الاسم</strong>، ووصفًا إن شئت. ولا يمكن استخدام الاسم إلا لـ Plan واحد.</li>
+<li><span>أضف الخطوات بـ <strong>إضافة خطوة تنفيذ Puppet</strong> و<strong>إضافة خطوة Task</strong>. للـ Plan ما بين 1 و20 خطوة.</span><ul>
+<li>تأخذ خطوة تشغيل Puppet <a href="run-jobs.html#run-options">خيارات التشغيل</a>: no-op، وdebug، وEnvironment.</li>
+<li>تأخذ خطوة الـ Task ‏Environment، وTask، ومعاملاتها، ومهلة، كما في <a href="run-jobs.html#run-a-task">تنفيذ Task</a>.</li>
 </ul>
 </li>
-<li>Put the steps in order with <strong>Move up</strong> and <strong>Move down</strong>. What you
-have typed in a step moves with it.</li>
-<li><strong>Save plan</strong>.</li>
+<li>رتّب الخطوات باستخدام <strong>تحريك لأعلى</strong> و<strong>تحريك لأسفل</strong>. وما كتبته في الخطوة ينتقل معها.</li>
+<li><strong>حفظ الـ Plan</strong>.</li>
 </ol>
-<p>The console checks every step when you save, as it would check the run
-or the task if you started it now. A step it refuses is marked with the
-reason, and nothing you typed is lost.</p>
-<p>A plan does not say which nodes it runs on. That is chosen each time it
-is run.</p>
-<h3 id="sensitive-task-values">Sensitive task values</h3>
-<p>A task parameter marked <code>sensitive</code> - a password, a token - is never
-kept in a plan. Its field is left out of the editor, and the value is
-asked for each time the plan is run. This is because a plan is shared:
-everyone who can run jobs can open it.</p>
-<h3 id="who-can-change-a-plan">Who can change a plan</h3>
-<p>Everyone with <code>orchestrator:run</code> can change or delete any plan,
-whichever node groups their role is granted on. A plan names no nodes,
-so there is nothing in it for node groups to limit. What a person can
-run a plan <em>on</em> is limited as for any job. A person whose role is
-limited to some tasks can save a plan only with tasks they may run.</p>
-<h2 id="run-a-plan">Run a plan</h2>
-<p>On the <strong>Plans</strong> page, choose <strong>Run</strong> beside a plan, or open the plan
-and choose <strong>Run</strong>.</p>
+<p>تفحص وحدة التحكم كل خطوة حين تحفظ، كما كانت ستفحص التشغيل أو الـ Task لو بدأتهما الآن. والخطوة التي ترفضها تُوسَم بالسبب، ولا يضيع شيء مما كتبته.</p>
+<p>لا يحدّد الـ Plan الـ Nodes التي يعمل عليها. فهذا يُختار في كل مرة يُشغَّل فيها.</p>
+<h3 id="sensitive-task-values">قيم الـ Task الحساسة</h3>
+<p>معامل الـ Task الموسوم بـ <code>sensitive</code> - كلمة مرور، أو رمز - لا يُحفظ أبدًا في Plan. يُستبعد حقله من المحرّر، وتُطلب القيمة في كل مرة يُشغَّل فيها الـ Plan. والسبب أن الـ Plan مشترك: فكل من يستطيع تشغيل الـ Jobs يستطيع فتحه.</p>
+<h3 id="who-can-change-a-plan">من يستطيع تغيير الـ Plan</h3>
+<p>كل من لديه <code>orchestrator:run</code> يستطيع تغيير أي Plan أو حذفه، أيًّا كانت مجموعات الـ Nodes الممنوح عليها دوره. فالـ Plan لا يذكر أي Nodes، فلا شيء فيه تقيّده مجموعات الـ Nodes. أما ما يستطيع الشخص تشغيل الـ Plan <em>عليه</em> فمقيَّد كما في أي Job. والشخص الذي يقتصر دوره على بعض الـ Tasks لا يستطيع حفظ Plan إلا بـ Tasks يحق له تشغيلها.</p>
+<h2 id="run-a-plan">تنفيذ Plan</h2>
+<p>في صفحة <strong>Plans</strong>، اختر <strong>تنفيذ</strong> بجوار Plan، أو افتح الـ Plan واختر <strong>تنفيذ</strong>.</p>
 <ol>
-<li>Choose the nodes: a list, a query, or a node group, as in
-<a href="run-jobs.html#choose-the-nodes">Choose the nodes</a>. <strong>Preview nodes</strong>
-shows what it would run on.</li>
-<li>Enter any sensitive values the steps ask for. Each is labelled with
-its step.</li>
-<li><strong>Run plan</strong>. The plan&#39;s job page opens.</li>
+<li>اختر الـ Nodes: قائمة، أو استعلام، أو مجموعة Nodes، كما في <a href="run-jobs.html#choose-the-nodes">اختيار الـ Nodes</a>. ويعرض <strong>معاينة الـ Nodes</strong> ما سيعمل عليه.</li>
+<li>أدخل أي قيم حساسة تطلبها الخطوات. وكلٌّ منها موسوم بخطوته.</li>
+<li><strong>تنفيذ الـ Plan</strong>. تُفتح صفحة الـ Job الخاصة بالـ Plan.</li>
 </ol>
-<p>The nodes are worked out once, when the plan starts, and every step
-runs on those nodes. If your role is granted on particular node groups,
-a query or a group is narrowed to your nodes, and a list that names a
-node outside them is refused whole, as for any job.</p>
-<p>Every step is checked before anything starts. If one would be refused -
-a task that has since been removed from the code, say - the plan is
-refused and names the step, and nothing runs.</p>
-<p>A plan with a step that can no longer run shows a warning on that step.
-Edit the plan before running it.</p>
-<h3 id="tasks-your-roles-do-not-allow">Tasks your roles do not allow</h3>
-<p>If your role is limited to some tasks - see
-<a href="access.html#limit-a-role-to-some-tasks">Limit a role to some tasks</a> -
-a plan someone else saved may contain a task you may not run. You still
-see every step, and the ones you may not run are marked <strong>Your roles do
-not allow the task ...</strong>. <strong>Run</strong> is switched off for that plan, and
-the API refuses it with <code>403</code>, naming the step and the task. Editing the
-plan will not help unless you remove those steps; saving it with them
-is refused the same way.</p>
-<p>When the target is a query or a node group, the plan runs on the nodes
-that <strong>every</strong> task step may be run on by you, so all its steps still
-share one set of nodes. Puppet-run steps are not limited.</p>
-<h2 id="watch-a-plan">Watch a plan</h2>
-<p>A plan&#39;s job page lists its steps in order. Each shows what it does,
-its state, when it started and finished, and each node&#39;s result. The
-page updates by itself while the plan runs.</p>
+<p>تُحسب الـ Nodes مرة واحدة، عند بدء الـ Plan، وتعمل كل خطوة على تلك الـ Nodes. وإذا كان دورك ممنوحًا على مجموعات Nodes معيّنة، يُضيَّق الاستعلام أو المجموعة إلى الـ Nodes الخاصة بك، وتُرفض بكاملها القائمة التي تذكر Node خارجها، كما في أي Job.</p>
+<p>تُفحص كل خطوة قبل أن يبدأ أي شيء. وإذا كانت إحداها ستُرفض - Task أُزيلت من الكود منذ ذلك الحين، مثلًا - يُرفض الـ Plan ويذكر الخطوة، ولا يُنفَّذ شيء.</p>
+<p>الـ Plan الذي يحتوي على خطوة لم يعد ممكنًا تنفيذها يعرض تحذيرًا على تلك الخطوة. حرّر الـ Plan قبل تشغيله.</p>
+<h3 id="tasks-your-roles-do-not-allow">Tasks لا تسمح بها أدوارك</h3>
+<p>إذا كان دورك مقصورًا على بعض الـ Tasks - راجع <a href="access.html#limit-a-role-to-some-tasks">قصر الدور على بعض الـ Tasks</a> - فقد يحتوي Plan حفظه شخص آخر على Task لا يحق لك تشغيلها. وتظل ترى كل خطوة، والخطوات التي لا يحق لك تنفيذها توسَم بـ <strong>أدوارك لا تسمح بالـ Task ...</strong>. ويُعطَّل <strong>تنفيذ</strong> لذلك الـ Plan، وترفضه الـ API بـ <code>403</code>، مع ذكر الخطوة والـ Task. ولن يفيد تحرير الـ Plan ما لم تُزِل تلك الخطوات؛ وحفظه بها يُرفض بالطريقة نفسها.</p>
+<p>حين يكون الهدف استعلامًا أو مجموعة Nodes، يعمل الـ Plan على الـ Nodes التي يحق لك تشغيل <strong>كل</strong> خطوة Task عليها، فتظل كل خطواته تتشارك مجموعة واحدة من الـ Nodes. أما خطوات تشغيل Puppet فلا تُقيَّد.</p>
+<h2 id="watch-a-plan">راقب Plan</h2>
+<p>تسرد صفحة الـ Job الخاصة بالـ Plan خطواته بالترتيب. تعرض كل خطوة ما تفعله، وحالتها، ووقت بدئها وانتهائها، ونتيجة كل Node. وتتحدّث الصفحة من تلقاء نفسها أثناء تشغيل الـ Plan.</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>State</th>
-<th>Means</th>
+<th>الحالة</th>
+<th>المعنى</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Waiting</td>
-<td>an earlier step has not finished yet</td>
+<td>في الانتظار</td>
+<td>لم تنتهِ خطوة سابقة بعد</td>
 </tr>
 <tr>
-<td>Running</td>
-<td>sent to the nodes, and not all have answered</td>
+<td>قيد التنفيذ</td>
+<td>أُرسلت إلى الـ Nodes، ولم تُجب كلها بعد</td>
 </tr>
 <tr>
-<td>Succeeded</td>
-<td>finished on every node</td>
+<td>نجح</td>
+<td>انتهت على كل Node</td>
 </tr>
 <tr>
-<td>Failed</td>
-<td>failed on at least one node</td>
+<td>فشل</td>
+<td>فشلت على Node واحد على الأقل</td>
 </tr>
 <tr>
-<td>Not run</td>
-<td>an earlier step failed, so this one was never sent to any node</td>
+<td>لم تُنفَّذ</td>
+<td>فشلت خطوة سابقة، فلم تُرسل هذه إلى أي Node أبدًا</td>
 </tr>
 </tbody>
 </table></div>
-<p>A step&#39;s number links to that step&#39;s own job page, which links back to
-the plan. The <strong>Jobs</strong> list shows a plan as one line, not one for each
-step.</p>
-<h3 id="when-a-step-fails">When a step fails</h3>
-<p>A step fails if it fails on any of its nodes, including a node that was
-not connected. The plan stops there: the steps after it are marked
-<strong>Not run</strong>, and nothing is sent to any node for them. The plan&#39;s job
-is failed.</p>
-<p>There is no option to carry on past a failed step, to skip the nodes
-that failed, or to try a step again. Fix what failed and run the plan
-again; a plan that should not repeat its first steps can be split into
-two.</p>
-<h2 id="schedule-a-plan">Schedule a plan</h2>
-<p>In the Run plan dialog choose <strong>Schedule instead</strong>, or create a
-schedule and choose <strong>Run a plan</strong> - see
-<a href="schedule-jobs.html">Schedule jobs</a>.</p>
-<p>A schedule keeps <strong>its own copy</strong> of the plan&#39;s steps, taken when the
-schedule is saved. If the plan is changed or deleted afterwards, the
-schedule goes on running the steps it was saved with. To pick up a
-change, edit the schedule, choose the plan again, and save.</p>
-<p>This is deliberate. A schedule runs with its owner&#39;s access, and
-everyone who can run jobs can change a plan. If a schedule followed the
-plan, someone limited to a few nodes could change what an
-administrator&#39;s schedule runs on every node.</p>
-<h2 id="through-the-api">Through the API</h2>
-<p>Saved plans:</p>
+<p>يرتبط رقم الخطوة بصفحة الـ Job الخاصة بتلك الخطوة، التي ترتبط بدورها بالـ Plan. وتعرض قائمة <strong>Jobs</strong> الـ Plan في سطر واحد، لا سطرًا لكل خطوة.</p>
+<h3 id="when-a-step-fails">حين تفشل خطوة</h3>
+<p>تفشل الخطوة إذا فشلت على أيٍّ من الـ Nodes الخاصة بها، بما في ذلك Node لم يكن متصلًا. ويتوقف الـ Plan عندها: تُوسَم الخطوات التي بعدها بـ <strong>لم تُنفَّذ</strong>، ولا يُرسل شيء إلى أي Node من أجلها. ويُوسَم Job الـ Plan بالفشل.</p>
+<p>لا يوجد خيار لمتابعة التشغيل بعد خطوة فاشلة، ولا لتخطي الـ Nodes التي فشلت، ولا لإعادة محاولة خطوة. أصلح ما فشل وشغّل الـ Plan مجددًا؛ والـ Plan الذي لا ينبغي أن يكرّر خطواته الأولى يمكن تقسيمه إلى اثنين.</p>
+<h2 id="schedule-a-plan">جدولة Plan</h2>
+<p>في مربع حوار تنفيذ الـ Plan اختر <strong>جدولة بدلًا من ذلك</strong>، أو أنشئ جدولة واختر <strong>تنفيذ Plan</strong> - راجع <a href="schedule-jobs.html">جدولة الـ Jobs</a>.</p>
+<p>تحتفظ الجدولة <strong>بنسختها الخاصة</strong> من خطوات الـ Plan، المأخوذة عند حفظ الجدولة. وإذا تغيّر الـ Plan أو حُذف بعد ذلك، تواصل الجدولة تشغيل الخطوات التي حُفظت بها. ولالتقاط تغيير ما، حرّر الجدولة، واختر الـ Plan مجددًا، واحفظ.</p>
+<p>هذا مقصود. فالجدولة تعمل بوصول مالكها، وكل من يستطيع تشغيل الـ Jobs يستطيع تغيير الـ Plan. ولو تبعت الجدولة الـ Plan، لاستطاع شخص مقصور على بضعة Nodes تغيير ما تشغّله جدولة مسؤول على كل Node.</p>
+<h2 id="through-the-api">عبر الـ API</h2>
+<p>الـ Plans المحفوظة:</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Request</th>
-<th>Does</th>
+<th>الطلب</th>
+<th>ما يفعله</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>GET /api/v1/orchestrator/saved-plans</code></td>
-<td>lists plans, without their steps</td>
+<td>يسرد الـ Plans، دون خطواتها</td>
 </tr>
 <tr>
 <td><code>GET /api/v1/orchestrator/saved-plans/&lt;id&gt;</code></td>
-<td>one plan with its steps</td>
+<td>Plan واحد مع خطواته</td>
 </tr>
 <tr>
 <td><code>POST /api/v1/orchestrator/saved-plans</code></td>
-<td>creates a plan</td>
+<td>يُنشئ Plan</td>
 </tr>
 <tr>
 <td><code>PUT /api/v1/orchestrator/saved-plans/&lt;id&gt;</code></td>
-<td>replaces a plan</td>
+<td>يستبدل Plan</td>
 </tr>
 <tr>
 <td><code>DELETE /api/v1/orchestrator/saved-plans/&lt;id&gt;</code></td>
-<td>deletes a plan</td>
+<td>يحذف Plan</td>
 </tr>
 </tbody>
 </table></div>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -X POST https://console.example.com/api/v1/orchestrator/saved-plans \
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>curl -X POST https://console.example.com/api/v1/orchestrator/saved-plans \
   -H &#34;Authorization: Bearer &lt;access token&gt;&#34; \
   -H &#39;Content-Type: application/json&#39; \
   -d &#39;{&#34;name&#34;:&#34;Restart web tier&#34;,
@@ -340,13 +278,9 @@ administrator&#39;s schedule runs on every node.</p>
           &#34;params&#34;:{&#34;name&#34;:&#34;nginx&#34;,&#34;action&#34;:&#34;restart&#34;},&#34;timeoutSeconds&#34;:300}
        ]}&#39;
 </code></vox-code-block>
-<p>A plan as read lists, on each task step, the sensitive parameters to
-supply when running it (<code>needs</code>), and a <code>problem</code> if its task can no
-longer be found.</p>
-<p>There is no request that runs a plan by its id. To run one, send its
-steps - with the sensitive values added to each step&#39;s <code>params</code> - and
-the nodes:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -X POST https://console.example.com/api/v1/orchestrator/plans \
+<p>يسرد الـ Plan كما يُقرأ، في كل خطوة Task، المعاملات الحساسة التي يجب تقديمها عند تشغيله (<code>needs</code>)، و<code>problem</code> إذا لم يعد بالإمكان العثور على الـ Task الخاصة بها.</p>
+<p>لا يوجد طلب يشغّل Plan بمعرّفه. ولتشغيل أحدها، أرسل خطواته - مع إضافة القيم الحساسة إلى <code>params</code> لكل خطوة - والـ Nodes:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>curl -X POST https://console.example.com/api/v1/orchestrator/plans \
   -H &#34;Authorization: Bearer &lt;access token&gt;&#34; \
   -H &#39;Content-Type: application/json&#39; \
   -d &#39;{&#34;name&#34;:&#34;Restart web tier&#34;,
@@ -357,46 +291,35 @@ the nodes:</p>
           &#34;params&#34;:{&#34;name&#34;:&#34;nginx&#34;,&#34;action&#34;:&#34;restart&#34;}}
        ]}&#39;
 </code></vox-code-block>
-<p>The nodes are <code>targets</code>, <code>query</code> or <code>group</code>. The reply is the plan&#39;s
-job. Read it with <code>GET /api/v1/orchestrator/jobs/&lt;id&gt;</code>, which returns
-its <code>steps</code>, each with a <code>state</code> of <code>waiting</code>, <code>running</code>, <code>succeeded</code>,
-<code>failed</code> or <code>not_run</code>.</p>
-<p>A refused request answers <code>400</code> (or <code>403</code> for a node outside your node
-groups) with an <code>error</code>. When one step is the cause it also carries
-<code>step</code>, counted from 1, and for a task&#39;s parameters <code>fields</code>.</p>
-<p><code>GET /api/v1/orchestrator/jobs</code> no longer lists a plan&#39;s steps as jobs
-of their own. Add <code>?parent=&lt;plan job id&gt;</code> to list them.</p>
-<h2 id="in-a-split-deployment">In a split deployment</h2>
-<p>A plan started in the console is sent and followed, step by step, by
-the instance that took the request: a <code>web</code> instance in a split
-deployment (see <a href="run-modes.html">run modes</a>). If that instance stops
-before the plan ends, the steps still running are marked failed and the
-rest are closed as not run; start the plan again. A scheduled plan is
-started and followed by an <code>orchestrator</code> instance in the same way.</p>
+<p>تُحدَّد الـ Nodes بـ <code>targets</code> أو <code>query</code> أو <code>group</code>. والرد هو Job الـ Plan. اقرأه باستخدام <code>GET /api/v1/orchestrator/jobs/&lt;id&gt;</code>، الذي يُرجع <code>steps</code> الخاصة به، لكلٍّ منها <code>state</code> قيمتها <code>waiting</code> أو <code>running</code> أو <code>succeeded</code> أو <code>failed</code> أو <code>not_run</code>.</p>
+<p>يُجاب الطلب المرفوض بـ <code>400</code> (أو <code>403</code> لـ Node خارج مجموعات الـ Nodes الخاصة بك) مع <code>error</code>. وحين تكون خطوة واحدة هي السبب يحمل أيضًا <code>step</code>، مع العدّ من 1، ولمعاملات الـ Task يحمل <code>fields</code>.</p>
+<p>لم يعد <code>GET /api/v1/orchestrator/jobs</code> يسرد خطوات الـ Plan كـ Jobs مستقلة. أضف <code>?parent=&lt;plan job id&gt;</code> لسردها.</p>
+<h2 id="in-a-split-deployment">في النشر المقسَّم</h2>
+<p>الـ Plan الذي يبدأ في وحدة التحكم يرسله ويتابعه، خطوة بخطوة، المثيلُ الذي استقبل الطلب: مثيل <code>web</code> في النشر المقسَّم (راجع <a href="run-modes.html">أوضاع التشغيل</a>). وإذا توقف ذلك المثيل قبل انتهاء الـ Plan، تُوسَم الخطوات التي لا تزال قيد التنفيذ بالفشل وتُغلق البقية على أنها لم تُنفَّذ؛ ابدأ الـ Plan مجددًا. والـ Plan المجدول يبدؤه ويتابعه مثيل <code>orchestrator</code> بالطريقة نفسها.</p>
 
     </div>
 
-    <vox-series-nav label="Use" previous-text="Previous" next-text="Next" previous-href="../guides/run-jobs.html" previous-label="Run jobs" next-href="../guides/schedule-jobs.html" next-label="Schedule jobs"></vox-series-nav>
+    <vox-series-nav label="الاستخدام" previous-text="السابق" next-text="التالي" previous-href="../guides/run-jobs.html" previous-label="تشغيل الـ Jobs" next-href="../guides/schedule-jobs.html" next-label="جدولة الـ Jobs"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#build-a-plan"><span>Build a plan</span>
-        <vox-toc-item slot="children" href="#sensitive-task-values"><span>Sensitive task values</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#who-can-change-a-plan"><span>Who can change a plan</span></vox-toc-item>
+    <vox-toc heading="في هذه الصفحة">
+      <vox-toc-item href="#build-a-plan"><span>ابنِ Plan</span>
+        <vox-toc-item slot="children" href="#sensitive-task-values"><span>قيم الـ Task الحساسة</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#who-can-change-a-plan"><span>من يستطيع تغيير الـ Plan</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#run-a-plan"><span>Run a plan</span>
-        <vox-toc-item slot="children" href="#tasks-your-roles-do-not-allow"><span>Tasks your roles do not allow</span></vox-toc-item>
+      <vox-toc-item href="#run-a-plan"><span>تنفيذ Plan</span>
+        <vox-toc-item slot="children" href="#tasks-your-roles-do-not-allow"><span>Tasks لا تسمح بها أدوارك</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#watch-a-plan"><span>Watch a plan</span>
-        <vox-toc-item slot="children" href="#when-a-step-fails"><span>When a step fails</span></vox-toc-item>
+      <vox-toc-item href="#watch-a-plan"><span>راقب Plan</span>
+        <vox-toc-item slot="children" href="#when-a-step-fails"><span>حين تفشل خطوة</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#schedule-a-plan"><span>Schedule a plan</span>
+      <vox-toc-item href="#schedule-a-plan"><span>جدولة Plan</span>
       </vox-toc-item>
-      <vox-toc-item href="#through-the-api"><span>Through the API</span>
+      <vox-toc-item href="#through-the-api"><span>عبر الـ API</span>
       </vox-toc-item>
-      <vox-toc-item href="#in-a-split-deployment"><span>In a split deployment</span>
+      <vox-toc-item href="#in-a-split-deployment"><span>في النشر المقسَّم</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -406,23 +329,17 @@ started and followed by an <code>orchestrator</code> instance in the same way.</
 
       
       <vox-cta-band heading="شغّله بنفسك">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>يُوزَّع OpenVox Console على هيئة صور حاويات تُبنى لمعماريتَي amd64 وarm64 مع كل push، وعلى هيئة ملف تنفيذي واحد. تأخذك أدلة التثبيت من مضيف فارغ إلى نشر عامل - openvoxserver وopenvoxdb وPostgres ووحدة التحكم - باستخدام الحاويات أو الحزم.</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">أدلة التثبيت</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">الشيفرة المصدرية على GitHub</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">صور الحاويات</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="لقطة الشاشة بالحجم الكامل">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">إغلاق</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -431,18 +348,18 @@ started and followed by an <code>orchestrator</code> instance in the same way.</
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">نظرة عامة</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">الشيفرة المصدرية</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">أدلة التثبيت</a>
       </vox-footer-column>
       <vox-footer-column heading="الإمكانات">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">التصنيف</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">التنسيق</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">تثبيت التصحيحات</a>
         <a href="../features/security.html">الأمان</a>
         <a href="../features/access-control.html">التحكم في الوصول</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">وكلاء الذكاء الاصطناعي</a>
+        <a href="../features/scaling.html">التوسّع</a>
         </vox-footer-column>
       
       <vox-footer-column heading="اللغة">

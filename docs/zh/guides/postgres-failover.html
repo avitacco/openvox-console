@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="zh" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Recover from losing the console&#39;s database by promoting a streaming-replication standby."/>
+    <meta name="description" content="通过提升流复制备库，从控制台数据库丢失中恢复。"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Fail over to a standby database - OpenVox Console</title>
+    <title>故障切换到备用数据库 - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">指南</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,113 +104,96 @@
       <a href="../features/classification.html">分类</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">编排</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">补丁管理</a>
       <a href="../features/security.html">安全</a>
       <a href="../features/access-control.html">访问控制</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">AI 代理</a>
+      <a href="../features/scaling.html">扩展</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="指南" toggle-label="所有指南">
+    <vox-sidenav-group heading="安装">
+      <vox-sidenav-item href="../guides/plan.html"><span>规划部署</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>使用容器安装</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>从软件包和二进制文件安装</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>添加 Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>管理 Node 证书</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>移除 Node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>保持 Node 代理为最新</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
-      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="扩展">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>运行模式</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>运行更多实例</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="使用">
+      <vox-sidenav-item href="../guides/classify.html"><span>为 Nodes 分类</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy 代码</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>运行 Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>运行 Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>计划 Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>用户、角色与令牌</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>跟踪漏洞</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>查找并应用缺失的更新</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>在没有代理的主机上运行 Tasks</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>运行代码中的 Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>让 AI 代理使用控制台</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate" open="">
-      <vox-sidenav-item href="../guides/postgres-failover.html" current="" aria-current="page"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="运维" open="">
+      <vox-sidenav-item href="../guides/postgres-failover.html" current="" aria-current="page"><span>故障切换到备用数据库</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>轮换令牌签名密钥</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>将容器数据库升级到 Postgres 18</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Operate</p>
-    <h1 class="guide-title vox-ts-xxl">Fail over to a standby database</h1>
-    <p class="guide-summary">Recover from losing the console&#39;s database by promoting a streaming-replication standby.</p>
+    <p class="guide-eyebrow">运维</p>
+    <h1 class="guide-title vox-ts-xxl">故障切换到备用数据库</h1>
+    <p class="guide-summary">通过提升流复制备库，从控制台数据库丢失中恢复。</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>The console keeps everything durable in its Postgres database, and
-nothing in the console itself needs recovering. So losing the primary
-database is recovered by promoting a standby and pointing the console at
-it. This runbook assumes a standby kept current by Postgres&#39;s own
-streaming replication.</p>
-<h2 id="check-the-standby-before-you-need-it">Check the standby before you need it</h2>
-<p>On the standby:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>psql -U console -d console -c &#34;SELECT pg_is_in_recovery();&#34;
+<p>控制台把所有持久数据都保存在其 Postgres 数据库中，控制台本身没有任何需要恢复的东西。因此，主数据库丢失后的恢复方法就是提升一个备库，并让控制台指向它。本操作手册假定备库通过 Postgres 自身的流复制保持同步。</p>
+<h2 id="check-the-standby-before-you-need-it">在需要之前先检查备库</h2>
+<p>在备库上：</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>psql -U console -d console -c &#34;SELECT pg_is_in_recovery();&#34;
 </code></vox-code-block>
-<p>It answers <code>t</code>: it is still a replica. A write to it is refused with
-<code>cannot execute INSERT in a read-only transaction</code>, which is also what a
-healthy replica does.</p>
-<h2 id="promote-the-standby">Promote the standby</h2>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>psql -U console -d console -c &#34;SELECT pg_promote();&#34;
+<p>它返回 <code>t</code>：它仍然是副本。对它的写入会被拒绝并报 <code>cannot execute INSERT in a read-only transaction</code>，健康的副本也是如此。</p>
+<h2 id="promote-the-standby">提升备库</h2>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>psql -U console -d console -c &#34;SELECT pg_promote();&#34;
 </code></vox-code-block>
-<p>Within a few seconds <code>pg_is_in_recovery()</code> answers <code>f</code>: the standby is
-now an independent, writable database.</p>
-<vox-callout variant="warning" heading="Warning"><p>The promoted database does not resume replicating from the old
-primary if that comes back. Treat the old primary as retired from this
-point. To have a standby again, rebuild the old primary as a new
-standby of the promoted one, with <code>pg_basebackup -R</code>.</p>
+<p>几秒钟内 <code>pg_is_in_recovery()</code> 就会返回 <code>f</code>：备库现在是一个独立的、可写的数据库。</p>
+<vox-callout variant="warning" heading="警告"><p>即使旧主库恢复，被提升的数据库也不会继续从旧主库复制。从此刻起，请把旧主库视为已退役。如需重新拥有备库，请用 <code>pg_basebackup -R</code> 把旧主库重建为被提升数据库的新备库。</p>
 </vox-callout>
-<h2 id="point-the-console-at-it">Point the console at it</h2>
-<p>Change <code>CONSOLE_POSTGRES_DSN</code> to the promoted database&#39;s address, and
-restart the console. The console opens its connections once, at startup,
-so a restart is required. With several instances, restart every one.</p>
-<vox-callout variant="tip" heading="Tip"><p>A connection pooler or proxy in front of the database gives the
-console one address that survives a failover. Then only the proxy is
-repointed, and the console&#39;s own configuration never changes.</p>
+<h2 id="point-the-console-at-it">让控制台指向它</h2>
+<p>把 <code>CONSOLE_POSTGRES_DSN</code> 改为被提升的数据库的地址，然后重启控制台。控制台只在启动时建立一次连接，因此必须重启。如果有多个实例，请逐一重启。</p>
+<vox-callout variant="tip" heading="提示"><p>在数据库前放置一个连接池或代理，可以为控制台提供一个在故障切换后依然有效的地址。这样只需重新指向代理，控制台自身的配置永远不必改动。</p>
 </vox-callout>
-<h2 id="confirm-the-console-recovered">Confirm the console recovered</h2>
-<p><code>/health</code> reports Postgres as <code>ok</code> again. Then log in: that writes to the
-database, so it proves writes work, not only reads.</p>
+<h2 id="confirm-the-console-recovered">确认控制台已恢复</h2>
+<p><code>/health</code> 再次报告 Postgres 为 <code>ok</code>。然后登录：登录会写入数据库，因此它证明的是写入正常，而不仅仅是读取正常。</p>
 
     </div>
 
-    <vox-series-nav label="Operate" previous-text="Previous" next-text="Next" next-href="../guides/rotate-signing-key.html" next-label="Rotate the token signing key"></vox-series-nav>
+    <vox-series-nav label="运维" previous-text="上一篇" next-text="下一篇" next-href="../guides/rotate-signing-key.html" next-label="轮换令牌签名密钥"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#check-the-standby-before-you-need-it"><span>Check the standby before you need it</span>
+    <vox-toc heading="本页内容">
+      <vox-toc-item href="#check-the-standby-before-you-need-it"><span>在需要之前先检查备库</span>
       </vox-toc-item>
-      <vox-toc-item href="#promote-the-standby"><span>Promote the standby</span>
+      <vox-toc-item href="#promote-the-standby"><span>提升备库</span>
       </vox-toc-item>
-      <vox-toc-item href="#point-the-console-at-it"><span>Point the console at it</span>
+      <vox-toc-item href="#point-the-console-at-it"><span>让控制台指向它</span>
       </vox-toc-item>
-      <vox-toc-item href="#confirm-the-console-recovered"><span>Confirm the console recovered</span>
+      <vox-toc-item href="#confirm-the-console-recovered"><span>确认控制台已恢复</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -220,23 +203,17 @@ database, so it proves writes work, not only reads.</p>
 
       
       <vox-cta-band heading="自己动手运行">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console 以容器镜像形式发布，每次 push 都会构建 amd64 和 arm64 版本，同时也提供单个二进制文件。安装指南将带你从一台空主机走到一套可用的部署——openvoxserver、openvoxdb、Postgres 和控制台——可以用容器，也可以用软件包。</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">安装指南</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">GitHub 上的源码</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">容器镜像</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="全尺寸截图">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">关闭</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -245,18 +222,18 @@ database, so it proves writes work, not only reads.</p>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">概览</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">源码</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">安装指南</a>
       </vox-footer-column>
       <vox-footer-column heading="功能">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">分类</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">编排</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">补丁管理</a>
         <a href="../features/security.html">安全</a>
         <a href="../features/access-control.html">访问控制</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">AI 代理</a>
+        <a href="../features/scaling.html">扩展</a>
         </vox-footer-column>
       
       <vox-footer-column heading="语言">

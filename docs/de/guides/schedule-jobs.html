@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="de" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Save a Puppet run, a task or a plan to start later, once or repeatedly, on nodes that are worked out each time it starts."/>
+    <meta name="description" content="Speichern Sie einen Puppet-Lauf, einen Task oder einen Plan, um ihn später zu starten, einmal oder wiederholt, auf Nodes, die bei jedem Start neu ermittelt werden."/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Schedule jobs - OpenVox Console</title>
+    <title>Jobs planen - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">Anleitungen</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -107,230 +107,151 @@
       <a href="../features/patching.html">Patching</a>
       <a href="../features/security.html">Sicherheit</a>
       <a href="../features/access-control.html">Zugriffskontrolle</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">KI-Agenten</a>
+      <a href="../features/scaling.html">Skalierung</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="Anleitungen" toggle-label="Alle Anleitungen">
+    <vox-sidenav-group heading="Installation">
+      <vox-sidenav-item href="../guides/plan.html"><span>Eine Installation planen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>Installation mit Containern</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>Installation aus Paketen und Binaries</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>Nodes hinzufügen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>Node-Zertifikate verwalten</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>Einen Node entfernen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Node-Agenten aktuell halten</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
-      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="Skalierung">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>Betriebsmodi</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>Weitere Instanzen betreiben</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use" open="">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html" current="" aria-current="page"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="Nutzung" open="">
+      <vox-sidenav-item href="../guides/classify.html"><span>Nodes klassifizieren</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>Code deployen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>Jobs ausführen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>Pläne ausführen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html" current="" aria-current="page"><span>Jobs planen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>Benutzer, Rollen und Tokens</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Sicherheitslücken verfolgen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>Fehlende Updates finden und anwenden</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>Tasks auf Hosts ohne Agent ausführen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>Pläne aus Ihrem Code ausführen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>KI-Agenten die Konsole nutzen lassen</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="Betrieb">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Auf eine Standby-Datenbank umschalten</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Den Token-Signaturschlüssel rotieren</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Die Container-Datenbanken auf Postgres 18 aktualisieren</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Use</p>
-    <h1 class="guide-title vox-ts-xxl">Schedule jobs</h1>
-    <p class="guide-summary">Save a Puppet run, a task or a plan to start later, once or repeatedly, on nodes that are worked out each time it starts.</p>
+    <p class="guide-eyebrow">Nutzung</p>
+    <h1 class="guide-title vox-ts-xxl">Jobs planen</h1>
+    <p class="guide-summary">Speichern Sie einen Puppet-Lauf, einen Task oder einen Plan, um ihn später zu starten, einmal oder wiederholt, auf Nodes, die bei jedem Start neu ermittelt werden.</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>A <strong>schedule</strong> is a Puppet run, a task or a <a href="run-plans.html">plan</a> saved to start by itself: once,
-at a time you choose, or repeatedly. It does what the same job would do
-if you started it by hand at that moment - see <a href="run-jobs.html">Run jobs</a> -
-and each time it starts, it is recorded as a job like any other.</p>
-<p>Creating and changing schedules needs <code>orchestrator:run</code>; seeing them
-needs <code>orchestrator:read</code>.</p>
-<h2 id="create-a-schedule">Create a schedule</h2>
-<p>Open <strong>Jobs</strong>, then <strong>Scheduled jobs</strong>, then <strong>New schedule</strong>. Or fill
-in <strong>Run Puppet</strong>, <strong>Run task</strong> or <strong>Run plan</strong> anywhere and choose <strong>Schedule
-instead</strong>, which opens the same form with what you had filled in. From
-a node group&#39;s page, that schedules the group, not the nodes in it
-today.</p>
+<p>Ein <strong>Zeitplan</strong> ist ein Puppet-Lauf, ein Task oder ein <a href="run-plans.html">Plan</a>, der so gespeichert ist, dass er von selbst startet: einmal, zu einer von Ihnen gewählten Zeit, oder wiederholt. Er tut, was derselbe Job täte, wenn Sie ihn in diesem Moment von Hand starten würden – siehe <a href="run-jobs.html">Jobs ausführen</a> –, und bei jedem Start wird er wie jeder andere als Job verzeichnet.</p>
+<p>Zeitpläne zu erstellen und zu ändern erfordert <code>orchestrator:run</code>; sie zu sehen erfordert <code>orchestrator:read</code>.</p>
+<h2 id="create-a-schedule">Einen Zeitplan erstellen</h2>
+<p>Öffnen Sie <strong>Jobs</strong>, dann <strong>Geplante Jobs</strong> und dann <strong>Neuer Zeitplan</strong>. Oder füllen Sie irgendwo <strong>Puppet ausführen</strong>, <strong>Task ausführen</strong> oder <strong>Plan ausführen</strong> aus und wählen Sie <strong>Stattdessen planen</strong>, was dasselbe Formular mit Ihren Eingaben öffnet. Von der Seite einer Node-Gruppe aus plant das die Gruppe ein, nicht die Nodes, die heute darin sind.</p>
 <ol>
-<li>Give it a <strong>Name</strong>. Jobs it starts are labelled with it.</li>
-<li>Choose <strong>What to run</strong>: Puppet, with any
-<a href="run-jobs.html#run-options">run options</a>; a task, with its
-parameters; or a plan, chosen from the saved plans.</li>
-<li>Choose <strong>Which nodes</strong>: a list, a query, or a node group, as in
-<a href="run-jobs.html#choose-the-nodes">Choose the nodes</a>. <strong>Preview nodes</strong>
-shows what it would run on now.</li>
-<li>Choose <strong>When</strong>: the start time and, if it should repeat, how often.</li>
-<li><strong>Save schedule</strong>.</li>
+<li>Geben Sie ihm einen <strong>Namen</strong>. Von ihm gestartete Jobs werden damit beschriftet.</li>
+<li>Wählen Sie <strong>Was ausgeführt wird</strong>: Puppet, mit beliebigen <a href="run-jobs.html#run-options">Laufoptionen</a>; einen Task mit seinen Parametern; oder einen Plan, ausgewählt aus den gespeicherten Plänen.</li>
+<li>Wählen Sie <strong>Welche Nodes</strong>: eine Liste, eine Abfrage oder eine Node-Gruppe, wie in <a href="run-jobs.html#choose-the-nodes">Die Nodes wählen</a>. <strong>Nodes anzeigen</strong> zeigt, worauf er jetzt laufen würde.</li>
+<li>Wählen Sie <strong>Wann</strong>: die Startzeit und, falls er sich wiederholen soll, wie oft.</li>
+<li><strong>Zeitplan speichern</strong>.</li>
 </ol>
-<p>The console checks a schedule when you save it exactly as it would
-check the job if you started it now, and refuses it with the reason
-beside the part that is wrong. One difference: a query or a group that
-matches no nodes yet can be saved.</p>
-<h3 id="nodes-are-worked-out-each-time">Nodes are worked out each time</h3>
-<p>A query or a node group is worked out again every time the schedule
-starts. A node that joins the group next week is included next week; a
-node that stops matching the query is left out.</p>
-<h3 id="times-and-repeating">Times and repeating</h3>
-<p>Times are entered and shown in your browser&#39;s time zone, which the form
-names. Someone in another zone sees the same moment in theirs.</p>
-<p>A schedule that does not repeat starts once, and is then shown as
-<strong>Finished</strong>. A repeating schedule starts at its start time and then
-every so many minutes, hours, days or weeks after it. The shortest
-repeat is 5 minutes.</p>
-<vox-callout variant="info" heading="Note"><p>A repeat is a fixed length of time: a day is 24 hours and a week is
-seven of them. Where the clocks change for daylight saving, a daily
-schedule keeps its time in UTC and moves by an hour on the local
-clock. There are no calendar rules such as &#34;the first Monday&#34;.</p>
+<p>Die Konsole prüft einen Zeitplan beim Speichern genau so, wie sie den Job prüfen würde, wenn Sie ihn jetzt starteten, und lehnt ihn mit der Begründung neben dem fehlerhaften Teil ab. Ein Unterschied: Eine Abfrage oder Gruppe, die noch auf keine Nodes zutrifft, kann gespeichert werden.</p>
+<h3 id="nodes-are-worked-out-each-time">Nodes werden jedes Mal neu ermittelt</h3>
+<p>Eine Abfrage oder eine Node-Gruppe wird bei jedem Start des Zeitplans neu ausgewertet. Ein Node, der der Gruppe nächste Woche beitritt, ist nächste Woche dabei; ein Node, der nicht mehr auf die Abfrage passt, bleibt außen vor.</p>
+<h3 id="times-and-repeating">Zeiten und Wiederholung</h3>
+<p>Zeiten werden in der Zeitzone Ihres Browsers eingegeben und angezeigt, die das Formular nennt. Jemand in einer anderen Zone sieht denselben Zeitpunkt in seiner.</p>
+<p>Ein Zeitplan ohne Wiederholung startet einmal und wird danach als <strong>Abgeschlossen</strong> angezeigt. Ein wiederkehrender Zeitplan startet zu seiner Startzeit und danach alle so und so viele Minuten, Stunden, Tage oder Wochen. Die kürzeste Wiederholung beträgt 5 Minuten.</p>
+<vox-callout variant="info" heading="Hinweis"><p>Eine Wiederholung ist eine feste Zeitspanne: Ein Tag sind 24 Stunden und eine Woche sieben davon. Wo die Uhren für die Sommerzeit umgestellt werden, hält ein täglicher Zeitplan seine Zeit in UTC und verschiebt sich auf der lokalen Uhr um eine Stunde. Kalenderregeln wie „der erste Montag“ gibt es nicht.</p>
 </vox-callout>
-<p>A repeating schedule may be given a start time in the past. It next
-starts at its first repeat that is still ahead.</p>
-<h2 id="what-a-schedule-runs-as">What a schedule runs as</h2>
-<p>A schedule runs as its <strong>owner</strong>: the person who last saved it. Each
-time it starts, the console applies the owner&#39;s roles as they are at
-that moment, not as they were when it was saved:</p>
+<p>Einem wiederkehrenden Zeitplan kann eine Startzeit in der Vergangenheit gegeben werden. Er startet dann bei seiner ersten noch bevorstehenden Wiederholung.</p>
+<h2 id="what-a-schedule-runs-as">Als wer ein Zeitplan läuft</h2>
+<p>Ein Zeitplan läuft als sein <strong>Besitzer</strong>: die Person, die ihn zuletzt gespeichert hat. Bei jedem Start wendet die Konsole die Rollen des Besitzers so an, wie sie in diesem Moment sind, nicht wie zum Zeitpunkt des Speicherns:</p>
 <ul>
-<li>If the owner can no longer run jobs - their role was removed, or
-their account or service token deleted - nothing is started.</li>
-<li>If the owner&#39;s role is granted on particular node groups, a query or
-a group gives the matching nodes in those groups. Nodes named in a
-list must all still be in them, or nothing is started.</li>
-<li>If the owner&#39;s role is limited to some tasks, the schedule starts only
-tasks they may still run, and only on the nodes they may run them on.
-Saving a schedule for a task you may not run is refused, naming it.</li>
+<li>Kann der Besitzer keine Jobs mehr ausführen – weil seine Rolle entfernt oder sein Konto oder Service-Token gelöscht wurde –, wird nichts gestartet.</li>
+<li>Ist die Rolle des Besitzers auf bestimmten Node-Gruppen gewährt, liefert eine Abfrage oder eine Gruppe die passenden Nodes in diesen Gruppen. In einer Liste genannte Nodes müssen alle noch darin sein, sonst wird nichts gestartet.</li>
+<li>Ist die Rolle des Besitzers auf einige Tasks beschränkt, startet der Zeitplan nur Tasks, die er noch ausführen darf, und nur auf den Nodes, auf denen er sie ausführen darf. Das Speichern eines Zeitplans für einen Task, den Sie nicht ausführen dürfen, wird mit Nennung des Tasks abgelehnt.</li>
 </ul>
-<p>Saving a change to a schedule makes you its owner, and the form says so
-when you open someone else&#39;s. That is how to take over a schedule from
-someone who has left: open it and save it. Pausing and resuming do not
-change the owner.</p>
-<p>You can see and change the schedules you own. Someone whose role is
-granted on <strong>All Nodes</strong> can see and change everyone&#39;s. See
-<a href="access.html">Users, roles and tokens</a>.</p>
-<h2 id="when-a-schedule-does-not-start">When a schedule does not start</h2>
-<p>A schedule&#39;s page lists what happened each time it came due.</p>
+<p>Das Speichern einer Änderung an einem Zeitplan macht Sie zu seinem Besitzer, und das Formular weist darauf hin, wenn Sie den einer anderen Person öffnen. So übernehmen Sie einen Zeitplan von jemandem, der gegangen ist: Öffnen und speichern Sie ihn. Pausieren und Fortsetzen ändern den Besitzer nicht.</p>
+<p>Sie können die Zeitpläne sehen und ändern, die Ihnen gehören. Jemand, dessen Rolle auf <strong>All Nodes</strong> gewährt ist, kann die aller sehen und ändern. Siehe <a href="access.html">Benutzer, Rollen und Tokens</a>.</p>
+<h2 id="when-a-schedule-does-not-start">Wenn ein Zeitplan nicht startet</h2>
+<p>Die Seite eines Zeitplans listet auf, was jedes Mal geschehen ist, wenn er fällig wurde.</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Outcome</th>
-<th>What it means</th>
+<th>Ergebnis</th>
+<th>Was es bedeutet</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>Started</strong></td>
-<td>A job was started. The line links to it.</td>
+<td><strong>Gestartet</strong></td>
+<td>Ein Job wurde gestartet. Die Zeile verlinkt darauf.</td>
 </tr>
 <tr>
-<td><strong>Skipped</strong></td>
-<td>Nothing was started, for the reason shown. The schedule carries on at its next time.</td>
+<td><strong>Übersprungen</strong></td>
+<td>Es wurde nichts gestartet, aus dem angezeigten Grund. Der Zeitplan setzt zu seinem nächsten Zeitpunkt fort.</td>
 </tr>
 <tr>
-<td><strong>Missed</strong></td>
-<td>No console was running the scheduler when it came due, and by the time one was, it was more than 15 minutes late.</td>
+<td><strong>Verpasst</strong></td>
+<td>Als er fällig wurde, lief keine Konsole mit dem Scheduler, und als wieder eine lief, war es mehr als 15 Minuten zu spät.</td>
 </tr>
 <tr>
-<td><strong>Interrupted</strong></td>
-<td>The console instance starting it stopped before it could.</td>
+<td><strong>Unterbrochen</strong></td>
+<td>Die Konsoleninstanz, die ihn starten sollte, wurde gestoppt, bevor sie es konnte.</td>
 </tr>
 </tbody>
 </table></div>
-<p>A schedule is skipped when:</p>
+<p>Ein Zeitplan wird übersprungen, wenn:</p>
 <ul>
-<li>its query or group matches no nodes, or none the owner can act on;</li>
-<li>its owner can no longer run jobs, or a node it names has left the
-owner&#39;s node groups;</li>
-<li>its task, or one of its plan&#39;s tasks, is one its owner&#39;s roles no
-longer allow (the firing names the task, and the step for a plan) -
-see <a href="access.html#limit-a-role-to-some-tasks">Limit a role to some tasks</a>;</li>
-<li>its task, a task parameter, its environment or its node group no
-longer exists as the schedule describes it;</li>
-<li>openvoxdb or the Puppet server could not be reached to work out the
-nodes or the task;</li>
-<li>the job it started last time is still running.</li>
+<li>seine Abfrage oder Gruppe auf keine Nodes zutrifft oder auf keine, auf die der Besitzer wirken darf;</li>
+<li>sein Besitzer keine Jobs mehr ausführen darf oder ein von ihm genannter Node die Node-Gruppen des Besitzers verlassen hat;</li>
+<li>sein Task oder einer der Tasks seines Plans von den Rollen seines Besitzers nicht mehr erlaubt wird (die Auslösung nennt den Task und bei einem Plan den Schritt) – siehe <a href="access.html#limit-a-role-to-some-tasks">Eine Rolle auf einige Tasks beschränken</a>;</li>
+<li>sein Task, ein Task-Parameter, sein Environment oder seine Node-Gruppe nicht mehr so existiert, wie der Zeitplan sie beschreibt;</li>
+<li>openvoxdb oder der Puppet-Server nicht erreichbar war, um die Nodes oder den Task zu ermitteln;</li>
+<li>der Job, den er beim letzten Mal gestartet hat, noch läuft.</li>
 </ul>
-<p>A firing that did not start is never retried. A run meant for 02:00
-does not start at 09:00 because the console was down overnight, and a
-task is never started twice for one due time. A repeating schedule that
-was missed over several repeats records one missed firing and resumes
-at its next time.</p>
-<p>Skipped and missed firings are also recorded on the <strong>Activity</strong> page,
-and the <strong>Scheduled jobs</strong> list shows each schedule&#39;s last outcome.</p>
-<p>A node that is not connected when a schedule starts fails in that job
-with &#34;agent not connected&#34;, as in a job started by hand; the job still
-starts for the other nodes.</p>
-<h3 id="a-scheduled-plan-keeps-its-own-steps">A scheduled plan keeps its own steps</h3>
-<p>When you choose a plan, the schedule takes a copy of its steps and
-shows them. From then on the schedule runs that copy. Changing or
-deleting the saved plan does not change what the schedule runs.</p>
-<p>To pick up a change to the plan, edit the schedule, choose the plan
-under <strong>Plan</strong> again, and save. Leaving <strong>Plan</strong> at &#34;Keep the steps
-shown below&#34; keeps the copy as it is.</p>
-<p>The reason is that a schedule runs with its owner&#39;s access, while
-everyone who can run jobs can change a plan - see
-<a href="run-plans.html#schedule-a-plan">Run plans</a>.</p>
-<p>If a step can no longer run when the schedule comes due - its task has
-been removed from the code, say - nothing is started, and that time is
-recorded as <strong>Skipped</strong>, naming the step.</p>
-<h2 id="pause-change-or-delete-a-schedule">Pause, change or delete a schedule</h2>
-<p>On the schedule&#39;s page:</p>
+<p>Eine Auslösung, die nicht gestartet ist, wird nie wiederholt. Ein Lauf für 02:00 Uhr startet nicht um 09:00 Uhr, weil die Konsole über Nacht ausgefallen war, und ein Task wird für einen Fälligkeitszeitpunkt nie zweimal gestartet. Ein wiederkehrender Zeitplan, der über mehrere Wiederholungen hinweg verpasst wurde, verzeichnet eine verpasste Auslösung und setzt zu seinem nächsten Zeitpunkt fort.</p>
+<p>Übersprungene und verpasste Auslösungen werden außerdem auf der Seite <strong>Aktivität</strong> verzeichnet, und die Liste <strong>Geplante Jobs</strong> zeigt das letzte Ergebnis jedes Zeitplans.</p>
+<p>Ein Node, der beim Start eines Zeitplans nicht verbunden ist, schlägt in diesem Job mit „agent not connected“ fehl, wie bei einem von Hand gestarteten Job; für die anderen Nodes startet der Job trotzdem.</p>
+<h3 id="a-scheduled-plan-keeps-its-own-steps">Ein geplanter Plan behält seine eigenen Schritte</h3>
+<p>Wenn Sie einen Plan wählen, übernimmt der Zeitplan eine Kopie seiner Schritte und zeigt sie an. Ab dann führt der Zeitplan diese Kopie aus. Das Ändern oder Löschen des gespeicherten Plans ändert nicht, was der Zeitplan ausführt.</p>
+<p>Um eine Änderung am Plan zu übernehmen, bearbeiten Sie den Zeitplan, wählen unter <strong>Plan</strong> erneut den Plan und speichern. Bleibt <strong>Plan</strong> auf „Die unten gezeigten Schritte behalten“, bleibt die Kopie unverändert.</p>
+<p>Der Grund ist, dass ein Zeitplan mit dem Zugriff seines Besitzers läuft, während jeder, der Jobs ausführen darf, einen Plan ändern kann – siehe <a href="run-plans.html#schedule-a-plan">Pläne ausführen</a>.</p>
+<p>Kann ein Schritt nicht mehr ausgeführt werden, wenn der Zeitplan fällig wird – etwa weil sein Task aus dem Code entfernt wurde –, wird nichts gestartet, und dieser Zeitpunkt wird als <strong>Übersprungen</strong> verzeichnet, mit Nennung des Schritts.</p>
+<h2 id="pause-change-or-delete-a-schedule">Einen Zeitplan pausieren, ändern oder löschen</h2>
+<p>Auf der Seite des Zeitplans:</p>
 <ul>
-<li><strong>Pause</strong> stops it coming due. <strong>Resume</strong> starts it again from its
-next time still ahead; nothing is started for the times that passed.
-A schedule that does not repeat, and whose time passed while it was
-paused, needs a new start time instead.</li>
-<li><strong>Edit</strong> opens the form. Saving checks it again, as a new schedule.</li>
-<li><strong>Delete</strong> removes it. The jobs it started stay in the job history,
-still naming it.</li>
+<li><strong>Pausieren</strong> verhindert, dass er fällig wird. <strong>Fortsetzen</strong> startet ihn wieder ab seinem nächsten noch bevorstehenden Zeitpunkt; für die verstrichenen Zeitpunkte wird nichts gestartet. Ein Zeitplan ohne Wiederholung, dessen Zeitpunkt während der Pause verstrichen ist, braucht stattdessen eine neue Startzeit.</li>
+<li><strong>Bearbeiten</strong> öffnet das Formular. Beim Speichern wird es erneut geprüft, wie ein neuer Zeitplan.</li>
+<li><strong>Löschen</strong> entfernt ihn. Die Jobs, die er gestartet hat, bleiben im Job-Verlauf und nennen ihn weiterhin.</li>
 </ul>
-<p>Deleting a node group does not delete the schedules that target it.
-They are skipped, saying the group no longer exists, until you change
-or delete them.</p>
-<h2 id="sensitive-task-parameters">Sensitive task parameters</h2>
-<p>A task parameter marked <code>sensitive</code> - a password, a token - has to be
-kept until the schedule starts. The console stores it encrypted with
-its secrets key and shows <code>Sensitive [value redacted]</code> everywhere the
-schedule or its jobs appear. The same goes for the sensitive values of
-a scheduled plan&#39;s task steps, which the schedule form asks for under
-each step.</p>
+<p>Das Löschen einer Node-Gruppe löscht nicht die Zeitpläne, die sie als Ziel haben. Diese werden übersprungen, mit dem Hinweis, dass die Gruppe nicht mehr existiert, bis Sie sie ändern oder löschen.</p>
+<h2 id="sensitive-task-parameters">Sensible Task-Parameter</h2>
+<p>Ein als <code>sensitive</code> markierter Task-Parameter – ein Passwort, ein Token – muss bis zum Start des Zeitplans aufbewahrt werden. Die Konsole speichert ihn mit ihrem Secrets-Schlüssel verschlüsselt und zeigt überall dort, wo der Zeitplan oder seine Jobs erscheinen, <code>Sensitive [value redacted]</code>. Dasselbe gilt für die sensiblen Werte der Task-Schritte eines geplanten Plans, die das Zeitplanformular unter jedem Schritt abfragt.</p>
 <ul>
-<li>Without a secrets key, a schedule with a sensitive value is refused.
-Set <code>CONSOLE_SECRETS_KEY_FILE</code> - see
-<a href="vulnerabilities.html">Track vulnerabilities</a>, which uses the same
-key - on every instance that serves the console or runs the
-scheduler.</li>
-<li>When you edit your own schedule, leave a sensitive field empty to
-keep the stored value.</li>
-<li>When you save someone else&#39;s schedule, you must enter its sensitive
-values again. The console does not hand a stored secret to a new
-owner.</li>
-<li>If the secrets key changes, the stored values can no longer be read.
-The schedule is skipped, saying so, until it is saved again with the
-values.</li>
+<li>Ohne Secrets-Schlüssel wird ein Zeitplan mit einem sensiblen Wert abgelehnt. Setzen Sie <code>CONSOLE_SECRETS_KEY_FILE</code> – siehe <a href="vulnerabilities.html">Sicherheitslücken verfolgen</a>, das denselben Schlüssel verwendet – auf jeder Instanz, die die Konsole bereitstellt oder den Scheduler betreibt.</li>
+<li>Wenn Sie Ihren eigenen Zeitplan bearbeiten, lassen Sie ein sensibles Feld leer, um den gespeicherten Wert zu behalten.</li>
+<li>Wenn Sie den Zeitplan einer anderen Person speichern, müssen Sie dessen sensible Werte erneut eingeben. Die Konsole gibt ein gespeichertes Secret nicht an einen neuen Besitzer weiter.</li>
+<li>Ändert sich der Secrets-Schlüssel, können die gespeicherten Werte nicht mehr gelesen werden. Der Zeitplan wird mit entsprechendem Hinweis übersprungen, bis er erneut mit den Werten gespeichert wird.</li>
 </ul>
-<h2 id="through-the-api">Through the API</h2>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -X POST https://console.example.com/api/v1/orchestrator/schedules \
+<h2 id="through-the-api">Über die API</h2>
+<vox-code-block language="sh" copy-label="Code kopieren" copied-label="Kopiert" copied-message="In die Zwischenablage kopiert"><code>curl -X POST https://console.example.com/api/v1/orchestrator/schedules \
   -H &#34;Authorization: Bearer &lt;access token&gt;&#34; \
   -H &#39;Content-Type: application/json&#39; \
   -d &#39;{&#34;name&#34;:&#34;Weekly no-op&#34;,
@@ -340,75 +261,65 @@ values.</li>
        &#34;startAt&#34;:&#34;2026-01-04T03:00:00Z&#34;,
        &#34;repeat&#34;:{&#34;every&#34;:1,&#34;unit&#34;:&#34;week&#34;}}&#39;
 </code></vox-code-block>
-<p><code>kind</code> is <code>run</code> (with <code>options</code>), <code>task</code> (with <code>task</code>, <code>params</code>,
-<code>environment</code> and <code>timeoutSeconds</code>, as in a task request) or <code>plan</code>
-(with <code>planName</code> and <code>steps</code>, as in a
-<a href="run-plans.html#through-the-api">plan request</a>). The nodes
-are <code>targets</code>, <code>query</code> or <code>group</code>. <code>repeat.unit</code> is <code>minute</code>, <code>hour</code>,
-<code>day</code> or <code>week</code>; leave <code>repeat</code> out for a schedule that starts once.</p>
+<p><code>kind</code> ist <code>run</code> (mit <code>options</code>), <code>task</code> (mit <code>task</code>, <code>params</code>, <code>environment</code> und <code>timeoutSeconds</code>, wie in einer Task-Anfrage) oder <code>plan</code> (mit <code>planName</code> und <code>steps</code>, wie in einer <a href="run-plans.html#through-the-api">Plan-Anfrage</a>). Die Nodes sind <code>targets</code>, <code>query</code> oder <code>group</code>. <code>repeat.unit</code> ist <code>minute</code>, <code>hour</code>, <code>day</code> oder <code>week</code>; lassen Sie <code>repeat</code> für einen Zeitplan weg, der einmal startet.</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Request</th>
-<th>Does</th>
+<th>Anfrage</th>
+<th>Bewirkt</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>GET /api/v1/orchestrator/schedules</code></td>
-<td>lists the schedules you can see</td>
+<td>listet die Zeitpläne auf, die Sie sehen können</td>
 </tr>
 <tr>
 <td><code>GET /api/v1/orchestrator/schedules/&lt;id&gt;</code></td>
-<td>one schedule, with what happened each time it came due</td>
+<td>ein Zeitplan, mit dem, was jedes Mal geschah, wenn er fällig wurde</td>
 </tr>
 <tr>
 <td><code>PUT /api/v1/orchestrator/schedules/&lt;id&gt;</code></td>
-<td>replaces it, and makes you its owner</td>
+<td>ersetzt ihn und macht Sie zu seinem Besitzer</td>
 </tr>
 <tr>
-<td><code>POST /api/v1/orchestrator/schedules/&lt;id&gt;/pause</code> and <code>/resume</code></td>
-<td>pauses or resumes it</td>
+<td><code>POST /api/v1/orchestrator/schedules/&lt;id&gt;/pause</code> und <code>/resume</code></td>
+<td>pausiert ihn oder setzt ihn fort</td>
 </tr>
 <tr>
 <td><code>DELETE /api/v1/orchestrator/schedules/&lt;id&gt;</code></td>
-<td>deletes it</td>
+<td>löscht ihn</td>
 </tr>
 </tbody>
 </table></div>
-<p>A refused request answers <code>400</code> (or <code>403</code> for a node outside your node
-groups) with an <code>error</code>, and a <code>field</code> naming the part of the schedule
-it concerns - and, for a plan, the <code>step</code> that was refused. A schedule owned by a service token runs for as long as
-that token exists and holds <code>orchestrator:run</code>.</p>
-<h2 id="where-schedules-are-started">Where schedules are started</h2>
-<p>Schedules are started by instances in the <code>all</code> and <code>orchestrator</code>
-<a href="run-modes.html">run modes</a>. When several are running, each due time is
-started by exactly one of them.</p>
+<p>Eine abgelehnte Anfrage antwortet mit <code>400</code> (oder <code>403</code> für einen Node außerhalb Ihrer Node-Gruppen), einem <code>error</code> und einem <code>field</code>, das den betroffenen Teil des Zeitplans nennt – und bei einem Plan mit dem abgelehnten <code>step</code>. Ein Zeitplan, der einem Service-Token gehört, läuft, solange dieses Token existiert und <code>orchestrator:run</code> hält.</p>
+<h2 id="where-schedules-are-started">Wo Zeitpläne gestartet werden</h2>
+<p>Zeitpläne werden von Instanzen in den <a href="run-modes.html">Betriebsmodi</a> <code>all</code> und <code>orchestrator</code> gestartet. Laufen mehrere, wird jeder Fälligkeitszeitpunkt von genau einer davon gestartet.</p>
 
     </div>
 
-    <vox-series-nav label="Use" previous-text="Previous" next-text="Next" previous-href="../guides/run-plans.html" previous-label="Run plans" next-href="../guides/access.html" next-label="Users, roles and tokens"></vox-series-nav>
+    <vox-series-nav label="Nutzung" previous-text="Zurück" next-text="Weiter" previous-href="../guides/run-plans.html" previous-label="Pläne ausführen" next-href="../guides/access.html" next-label="Benutzer, Rollen und Tokens"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#create-a-schedule"><span>Create a schedule</span>
-        <vox-toc-item slot="children" href="#nodes-are-worked-out-each-time"><span>Nodes are worked out each time</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#times-and-repeating"><span>Times and repeating</span></vox-toc-item>
+    <vox-toc heading="Auf dieser Seite">
+      <vox-toc-item href="#create-a-schedule"><span>Einen Zeitplan erstellen</span>
+        <vox-toc-item slot="children" href="#nodes-are-worked-out-each-time"><span>Nodes werden jedes Mal neu ermittelt</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#times-and-repeating"><span>Zeiten und Wiederholung</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#what-a-schedule-runs-as"><span>What a schedule runs as</span>
+      <vox-toc-item href="#what-a-schedule-runs-as"><span>Als wer ein Zeitplan läuft</span>
       </vox-toc-item>
-      <vox-toc-item href="#when-a-schedule-does-not-start"><span>When a schedule does not start</span>
-        <vox-toc-item slot="children" href="#a-scheduled-plan-keeps-its-own-steps"><span>A scheduled plan keeps its own steps</span></vox-toc-item>
+      <vox-toc-item href="#when-a-schedule-does-not-start"><span>Wenn ein Zeitplan nicht startet</span>
+        <vox-toc-item slot="children" href="#a-scheduled-plan-keeps-its-own-steps"><span>Ein geplanter Plan behält seine eigenen Schritte</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#pause-change-or-delete-a-schedule"><span>Pause, change or delete a schedule</span>
+      <vox-toc-item href="#pause-change-or-delete-a-schedule"><span>Einen Zeitplan pausieren, ändern oder löschen</span>
       </vox-toc-item>
-      <vox-toc-item href="#sensitive-task-parameters"><span>Sensitive task parameters</span>
+      <vox-toc-item href="#sensitive-task-parameters"><span>Sensible Task-Parameter</span>
       </vox-toc-item>
-      <vox-toc-item href="#through-the-api"><span>Through the API</span>
+      <vox-toc-item href="#through-the-api"><span>Über die API</span>
       </vox-toc-item>
-      <vox-toc-item href="#where-schedules-are-started"><span>Where schedules are started</span>
+      <vox-toc-item href="#where-schedules-are-started"><span>Wo Zeitpläne gestartet werden</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -418,23 +329,17 @@ started by exactly one of them.</p>
 
       
       <vox-cta-band heading="Selbst ausführen">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console wird als Container-Images ausgeliefert, bei jedem Push für amd64 und arm64 gebaut, sowie als einzelnes Binary. Die Installationsanleitungen führen Sie vom leeren Host zu einer funktionierenden Installation – openvoxserver, openvoxdb, Postgres und die Konsole – mit Containern oder mit Paketen.</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">Installationsanleitungen</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">Quellcode auf GitHub</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">Container-Images</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="Screenshot in voller Größe">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">Schließen</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -443,7 +348,7 @@ started by exactly one of them.</p>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">Überblick</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">Quellcode</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">Installationsanleitungen</a>
       </vox-footer-column>
       <vox-footer-column heading="Funktionen">
         <a href="../features/nodes.html">Nodes</a>
@@ -453,8 +358,8 @@ started by exactly one of them.</p>
         <a href="../features/patching.html">Patching</a>
         <a href="../features/security.html">Sicherheit</a>
         <a href="../features/access-control.html">Zugriffskontrolle</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">KI-Agenten</a>
+        <a href="../features/scaling.html">Skalierung</a>
         </vox-footer-column>
       
       <vox-footer-column heading="Sprache">

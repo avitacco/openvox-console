@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="zh" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Scan Linux nodes for pending package updates, then patch them in batches with a dry run, a stop threshold and an optional reboot."/>
+    <meta name="description" content="扫描 Linux Nodes 上待安装的软件包更新，然后分批为它们打补丁，支持试运行、停止阈值和可选的重启。"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Find and apply missing updates - OpenVox Console</title>
+    <title>查找并应用缺失的更新 - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">指南</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,229 +104,141 @@
       <a href="../features/classification.html">分类</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">编排</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">补丁管理</a>
       <a href="../features/security.html">安全</a>
       <a href="../features/access-control.html">访问控制</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">AI 代理</a>
+      <a href="../features/scaling.html">扩展</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="指南" toggle-label="所有指南">
+    <vox-sidenav-group heading="安装">
+      <vox-sidenav-item href="../guides/plan.html"><span>规划部署</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>使用容器安装</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>从软件包和二进制文件安装</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>添加 Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>管理 Node 证书</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>移除 Node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>保持 Node 代理为最新</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
-      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="扩展">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>运行模式</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>运行更多实例</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use" open="">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html" current="" aria-current="page"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="使用" open="">
+      <vox-sidenav-item href="../guides/classify.html"><span>为 Nodes 分类</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy 代码</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>运行 Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>运行 Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>计划 Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>用户、角色与令牌</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>跟踪漏洞</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html" current="" aria-current="page"><span>查找并应用缺失的更新</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>在没有代理的主机上运行 Tasks</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>运行代码中的 Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>让 AI 代理使用控制台</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="运维">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>故障切换到备用数据库</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>轮换令牌签名密钥</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>将容器数据库升级到 Postgres 18</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Use</p>
-    <h1 class="guide-title vox-ts-xxl">Find and apply missing updates</h1>
-    <p class="guide-summary">Scan Linux nodes for pending package updates, then patch them in batches with a dry run, a stop threshold and an optional reboot.</p>
+    <p class="guide-eyebrow">使用</p>
+    <h1 class="guide-title vox-ts-xxl">查找并应用缺失的更新</h1>
+    <p class="guide-summary">扫描 Linux Nodes 上待安装的软件包更新，然后分批为它们打补丁，支持试运行、停止阈值和可选的重启。</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>The <strong>Patching</strong> page shows which updates each node is missing, as the
-node&#39;s own package manager reports them. A scan only looks. A
-<a href="#patch-nodes">patch run</a> installs them.</p>
-<p>This covers Linux nodes that use <strong>apt</strong>, or <strong>dnf</strong> or <strong>yum</strong>. Windows,
-macOS and zypper (SUSE) are not scanned: a node on one of them is listed
-as unable to report, never as fully patched.</p>
-<p>Seeing results needs <code>nodes:read</code>, limited to the node groups your role
-names. Scanning or patching a node or a group needs <code>orchestrator:run</code>,
-again for the nodes your role covers. Changing how often the console scans
-needs <code>nodes:manage</code>. No new permission is involved.</p>
-<h2 id="what-a-scan-does">What a scan does</h2>
-<p>A scan asks the node&#39;s agent to run its package manager in a mode that
-changes nothing: it refreshes the package lists, then reports what an
-upgrade would replace. For each pending update you see the package, the
-installed version, the available version, and whether the package manager
-marks it a <strong>security</strong> update. A node also reports whether it already
-needs a reboot.</p>
-<p>Refreshing the lists means a scan reaches the node&#39;s mirrors. A node that
-cannot reach them records that the scan failed, and keeps showing the
-updates from the last scan that worked, marked as older than the last
-attempt.</p>
-<p>Two things to read carefully:</p>
+<p><strong>补丁管理</strong>页面显示每个 Node 缺少哪些更新，以 Node 自己的包管理器所报告的为准。扫描只是查看。<a href="#patch-nodes">补丁运行</a>才会安装它们。</p>
+<p>此功能涵盖使用 <strong>apt</strong>、<strong>dnf</strong> 或 <strong>yum</strong> 的 Linux Nodes。Windows、macOS 和 zypper（SUSE）不会被扫描：使用它们的 Node 会被列为无法上报，而绝不会显示为已完全打好补丁。</p>
+<p>查看结果需要 <code>nodes:read</code>，且仅限于你的角色所指定的 Node 组。扫描某个 Node 或组、或为其打补丁需要 <code>orchestrator:run</code>，同样仅限于你的角色覆盖的 Nodes。更改控制台的扫描频率需要 <code>nodes:manage</code>。不涉及任何新权限。</p>
+<h2 id="what-a-scan-does">扫描做了什么</h2>
+<p>扫描会让 Node 的代理以不做任何更改的模式运行其包管理器：先刷新软件包列表，然后报告升级将会替换什么。对于每个待安装的更新，你都能看到软件包、已安装版本、可用版本，以及包管理器是否将其标记为<strong>安全</strong>更新。Node 还会报告它是否已经需要重启。</p>
+<p>刷新列表意味着扫描会访问 Node 的镜像源。无法访问镜像源的 Node 会记录扫描失败，并继续显示上一次成功扫描得到的更新，同时标注它们早于最近一次尝试。</p>
+<p>有两点需要仔细理解：</p>
 <ul>
-<li><strong>Security</strong> is what the package manager says. A system whose
-repositories carry no security information shows none, which is not the
-same as having none. Ubuntu and Debian mark them in the repository names;
-on RHEL-family systems the console asks <code>dnf updateinfo</code> for the
-security set.</li>
-<li><strong>Never scanned</strong> is not <strong>nothing pending</strong>. A node that has not been
-scanned is listed as not scanned, without counts.</li>
+<li><strong>安全</strong>以包管理器的说法为准。如果系统的仓库不带安全信息，就不会显示任何安全更新，但这并不等于没有安全更新。Ubuntu 和 Debian 在仓库名称中标记安全更新；在 RHEL 系列系统上，控制台会通过 <code>dnf updateinfo</code> 查询安全更新集合。</li>
+<li><strong>从未扫描</strong>不等于<strong>没有待处理的内容</strong>。尚未扫描过的 Node 会列为未扫描，且不显示计数。</li>
 </ul>
-<p>The node&#39;s agent must be built from a version that includes scanning. An
-older agent answers that it does not know the request, and the node is
-shown as one that cannot report until the agent is upgraded: see
-<a href="agent-upgrades.html">Keep node agents current</a>.</p>
-<h2 id="read-the-fleet">Read the fleet</h2>
-<p>Open <strong>Patching</strong>. The figures at the top count the nodes you can see:
-those with pending updates, those with security updates, those needing a
-reboot, those not scanned, and those whose last scan is out of date.</p>
-<p>A scan is <strong>out of date</strong> when it is older than twice the scan interval,
-so a node that quietly stopped being scanned stands out. With automatic
-scanning off, it is judged against a day.</p>
-<p>Filter by:</p>
+<p>Node 的代理必须由包含扫描功能的版本构建。较旧的代理会回应说它不认识该请求，在代理升级之前，该 Node 会显示为无法上报：参见<a href="agent-upgrades.html">保持 Node 代理为最新</a>。</p>
+<h2 id="read-the-fleet">查看机群</h2>
+<p>打开<strong>补丁管理</strong>。顶部的数字统计的是你能看到的 Nodes：有待安装更新的、有安全更新的、需要重启的、未扫描的，以及上次扫描已过期的。</p>
+<p>当扫描结果早于扫描间隔的两倍时，就被视为<strong>已过期</strong>，因此悄悄停止被扫描的 Node 会显得很醒目。关闭自动扫描时，以一天为判断标准。</p>
+<p>筛选条件：</p>
 <ul>
-<li><strong>Operating system</strong>, to see one family at a time.</li>
-<li><strong>Group</strong>, if your role can read node groups.</li>
-<li><strong>Pending package</strong>, which switches the list to the nodes that have an
-update waiting for a package matching that name, with the installed and
-available versions. Searching <code>openssl</code> is how you find who still needs
-the fix.</li>
+<li><strong>操作系统</strong>，用于一次查看一个系统家族。</li>
+<li><strong>组</strong>，如果你的角色可以读取 Node 组。</li>
+<li><strong>待更新的软件包</strong>：把列表切换为那些有名称与之匹配的软件包更新正在等待的 Nodes，并显示已安装版本和可用版本。搜索 <code>openssl</code> 就能找出还有谁需要该修复。</li>
 </ul>
-<p>Select a node to open its page. The <strong>Patches</strong> tab lists its updates,
-security first, with when it was last scanned.</p>
-<h2 id="scan-now">Scan now</h2>
-<p>On a node&#39;s <strong>Patches</strong> tab, <strong>Scan now</strong> scans that node. On the Patching
-page, choose a group and <strong>Scan this group now</strong> scans every node of the
-group you may act on. The answer says, node by node, which were scanned,
-which failed, which were offline, and how many were left out because they
-are outside your node groups.</p>
-<p>A node that is offline is not scanned and keeps what it had; it is
-scanned on the next pass once it reconnects. A group scan runs a few nodes
-at a time, so a large group takes a while.</p>
-<p>Each scan you request is recorded in the audit log with who asked and the
-node or group.</p>
-<h2 id="scan-automatically">Scan automatically</h2>
-<p>Unless you switch it off, the console scans every connected node once a
-day. Under <strong>Automatic scanning</strong> on the Patching page (for <code>nodes:manage</code>)
-set the interval anywhere from 15 minutes to 7 days, or turn it off.</p>
+<p>选择一个 Node 以打开其页面。<strong>补丁</strong>标签页会列出它的更新（安全更新在前），以及上次扫描的时间。</p>
+<h2 id="scan-now">立即扫描</h2>
+<p>在某个 Node 的<strong>补丁</strong>标签页上，<strong>立即扫描</strong>会扫描该 Node。在补丁管理页面上选择一个组，<strong>立即扫描此组</strong>会扫描该组中你有权操作的每个 Node。返回结果会逐个 Node 说明哪些已被扫描、哪些失败、哪些离线，以及有多少个因不在你的 Node 组内而被排除。</p>
+<p>离线的 Node 不会被扫描，并保留原有结果；它重新连接后，会在下一轮中被扫描。组扫描每次只处理少量 Nodes，因此大型组需要一段时间。</p>
+<p>你请求的每次扫描都会记录在审计日志中，注明请求者以及对应的 Node 或组。</p>
+<h2 id="scan-automatically">自动扫描</h2>
+<p>除非你将其关闭，否则控制台每天扫描一次每个已连接的 Node。在补丁管理页面的<strong>自动扫描</strong>下（需要 <code>nodes:manage</code>），可以把间隔设置为 15 分钟到 7 天之间的任意值，或者将其关闭。</p>
 <ul>
-<li>Only one console instance runs the automatic scan at a time, however
-many you run, and a node scanned within the interval is not scanned
-again.</li>
-<li>A node whose scan failed is tried again after the next interval, not on
-every pass.</li>
-<li>Automatic scans write no audit entry per node. A change to the interval
-is audited.</li>
-<li>With <a href="run-modes.html">run modes</a>, the scan runs in <code>all</code> and <code>worker</code>
-instances.</li>
-<li>Results for a node nothing has tried for 90 days are removed.</li>
+<li>无论你运行多少个控制台实例，同一时间只有一个实例执行自动扫描，而且在间隔内已被扫描过的 Node 不会被再次扫描。</li>
+<li>扫描失败的 Node 会在下一个间隔之后再试，而不是在每一轮都重试。</li>
+<li>自动扫描不会为每个 Node 写入审计条目。对间隔的更改会被审计。</li>
+<li>使用<a href="run-modes.html">运行模式</a>时，扫描在 <code>all</code> 和 <code>worker</code> 实例中运行。</li>
+<li>90 天内没有任何尝试的 Node，其结果会被删除。</li>
 </ul>
-<h2 id="patch-nodes">Patch nodes</h2>
-<p>A <strong>patch run</strong> installs pending updates on Linux nodes (apt, dnf or yum).
-Start one from the Patching page with <strong>Patch this group…</strong>, or from a
-node&#39;s <strong>Patches</strong> tab with <strong>Patch now…</strong>. It needs <code>orchestrator:run</code>, and
-like any run it is refused whole, naming the nodes, if any of them is
-outside your node groups.</p>
-<p>Choose:</p>
+<h2 id="patch-nodes">为节点打补丁</h2>
+<p><strong>补丁运行</strong>会在 Linux Nodes 上安装待安装的更新（apt、dnf 或 yum）。可以在补丁管理页面通过<strong>为此组打补丁…</strong>启动，也可以在某个 Node 的<strong>补丁</strong>标签页通过<strong>立即打补丁…</strong>启动。它需要 <code>orchestrator:run</code>，并且与任何运行一样，只要其中有任何 Node 不在你的 Node 组内，就会被整体拒绝，并指出这些 Nodes。</p>
+<p>选择：</p>
 <ul>
-<li><strong>Updates to apply</strong>: <strong>security updates only</strong>, <strong>all pending updates</strong>,
-or <strong>named packages</strong>. A named package that has no update pending is
-reported as nothing to apply and nothing else is touched. On dnf and yum,
-security-only needs the repository&#39;s security information; without it the
-node fails the run rather than installing everything.</li>
-<li><strong>Dry run</strong>, which reports what would be upgraded and changes, restarts
-and reboots nothing.</li>
-<li><strong>Reboot a node that needs it</strong>, which reboots a node after a successful
-run only if it reports that it needs one. A dry run or a failed node is
-never rebooted. The node delivers its result first and reboots about half
-a minute later.</li>
-<li><strong>Nodes at a time</strong> (1 to 100, default 10) and <strong>Stop after failed nodes</strong>
-(default 3, <strong>0</strong> never stops).</li>
+<li><strong>要应用的更新</strong>：<strong>仅安全更新</strong>、<strong>所有待安装的更新</strong>或<strong>指定的软件包</strong>。没有待安装更新的指定软件包会被报告为无需应用，其他任何东西都不会被改动。在 dnf 和 yum 上，仅安全更新需要仓库提供安全信息；没有安全信息时，Node 会让本次运行失败，而不会安装所有更新。</li>
+<li><strong>试运行</strong>：报告将会升级的内容，不做任何更改、不重启任何服务、不重启任何机器。</li>
+<li><strong>打完补丁后重启需要重启的节点</strong>：只有当 Node 在成功运行后报告自己需要重启时，才会重启它。试运行或失败的 Node 永远不会被重启。Node 会先交付结果，大约半分钟后再重启。</li>
+<li><strong>同时处理的节点数</strong>（1 到 100，默认 10）和<strong>失败节点达到此数量后停止</strong>（默认 3，<strong>0</strong> 表示永不停止）。</li>
 </ul>
-<h3 id="batches-and-stopping">Batches and stopping</h3>
-<p>Nodes are patched a batch at a time, in node-name order. A batch is patched
-at once and the next starts only when it has finished. When the number of
-failed nodes reaches the threshold, no further batch starts: the nodes not
-reached are recorded as <strong>not started</strong>, and nothing is sent to them. Use a
-small first batch on something you can afford to lose, then let the rest
-follow.</p>
-<p>A node that is already being patched by another run is not started again:
-the request is refused, naming it.</p>
-<h3 id="watch-a-run">Watch a run</h3>
-<p>The run opens as a job. It lists each node with its batch, status, exit
-status and the packages it upgraded (<strong>from</strong> and <strong>to</strong> versions), and
-under <strong>Details</strong> the package manager&#39;s own output. The page refreshes while
-the run is going. The node&#39;s <strong>Patches</strong> tab shows the last run on that
-node, and the Patching page lists recent runs.</p>
-<p>A run can take hours. The console asks each node how it is getting on every
-15 seconds, and every answer counts as proof the run is alive. A node that
-says nothing for ten minutes is failed, as is one still working after four
-hours, and the run carries on with the others. If the console instance
-following the run stops, the job is failed ten minutes after it was last
-heard from, with the reason recorded. The patch itself carries on on the
-node, so scan it again to see where it stands.</p>
-<h3 id="afterwards">Afterwards</h3>
-<p>When a node finishes, the packages it still has pending are what the
-Patching page shows: the node&#39;s own scan is taken at the end of its run. A
-node that rebooted is scanned again once it reconnects, for up to ten
-minutes. If it does not come back in that time its snapshot says the scan
-failed, and the run itself is not failed for it.</p>
-<p>Each run is audited when it starts, with who started it, the nodes&#39; source
-and every option chosen, and again when it ends. Both appear in the
-activity log.</p>
-<p>A node whose agent is too old to patch is failed with a reason saying so and
-nothing is installed on it: see <a href="agent-upgrades.html">Keep node agents
-current</a>.</p>
-<h2 id="not-covered">Not covered</h2>
-<p>This version does not schedule patch windows or blackouts, group nodes for
-patching, roll a patch back, patch Windows or macOS, or relate pending
-updates to known vulnerabilities: see
-<a href="vulnerabilities.html">Track vulnerabilities</a> for what is installed
-against known advisories.</p>
+<h3 id="batches-and-stopping">批次与停止</h3>
+<p>Nodes 按批次打补丁，按 Node 名称排序。一个批次中的 Nodes 同时打补丁，只有在该批次完成后才会开始下一批。当失败的 Node 数量达到阈值时，就不会再启动后续批次：未处理到的 Nodes 会被记录为<strong>未启动</strong>，也不会向它们发送任何东西。请让第一个批次规模小一些，并放在你承受得起损失的机器上，然后再让其余的跟进。</p>
+<p>已经在被另一次运行打补丁的 Node 不会被再次启动：请求会被拒绝，并指出该 Node。</p>
+<h3 id="watch-a-run">观察运行</h3>
+<p>该运行会以 Job 的形式打开。它会列出每个 Node 及其批次、状态、退出状态和它升级的软件包（<strong>原版本</strong>和<strong>新版本</strong>），并在<strong>详情</strong>下显示包管理器自身的输出。运行期间页面会不断刷新。Node 的<strong>补丁</strong>标签页显示该 Node 上最近一次运行，补丁管理页面则列出最近的各次运行。</p>
+<p>一次运行可能需要数小时。控制台每 15 秒询问一次每个 Node 的进展，每次应答都被视为运行仍然存活的证明。十分钟内毫无回应的 Node 会被判为失败，四小时后仍在运行的 Node 也是如此，运行会在其他 Nodes 上继续。如果跟踪该运行的控制台实例停止，该 Job 会在最后一次收到消息的十分钟后被判为失败，并记录原因。补丁过程本身会在 Node 上继续，因此请再次扫描它以了解其进展。</p>
+<h3 id="afterwards">之后</h3>
+<p>Node 完成后，补丁管理页面显示的就是它仍待安装的软件包：Node 自己的扫描会在其运行结束时进行。已重启的 Node 会在重新连接后再次扫描，最多等待十分钟。如果它在这段时间内没有恢复，其快照会显示扫描失败，但本次运行不会因此判为失败。</p>
+<p>每次运行在启动时都会被审计，记录启动者、Nodes 的来源以及所选的每个选项，结束时还会再审计一次。两者都会出现在活动日志中。</p>
+<p>代理版本过旧、无法打补丁的 Node 会以失败告终，并附上说明原因，且不会在其上安装任何东西：参见<a href="agent-upgrades.html">保持 Node 代理为最新</a>。</p>
+<h2 id="not-covered">不涵盖的内容</h2>
+<p>此版本不支持安排补丁窗口或禁止时段、为打补丁而对 Nodes 分组、回滚补丁、为 Windows 或 macOS 打补丁，也不支持把待安装的更新与已知漏洞关联起来：要对照已知公告查看已安装的内容，参见<a href="vulnerabilities.html">跟踪漏洞</a>。</p>
 
     </div>
 
-    <vox-series-nav label="Use" previous-text="Previous" next-text="Next" previous-href="../guides/vulnerabilities.html" previous-label="Track vulnerabilities" next-href="../guides/agentless.html" next-label="Run tasks on hosts without an agent"></vox-series-nav>
+    <vox-series-nav label="使用" previous-text="上一篇" next-text="下一篇" previous-href="../guides/vulnerabilities.html" previous-label="跟踪漏洞" next-href="../guides/agentless.html" next-label="在没有代理的主机上运行 Tasks"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#what-a-scan-does"><span>What a scan does</span>
+    <vox-toc heading="本页内容">
+      <vox-toc-item href="#what-a-scan-does"><span>扫描做了什么</span>
       </vox-toc-item>
-      <vox-toc-item href="#read-the-fleet"><span>Read the fleet</span>
+      <vox-toc-item href="#read-the-fleet"><span>查看机群</span>
       </vox-toc-item>
-      <vox-toc-item href="#scan-now"><span>Scan now</span>
+      <vox-toc-item href="#scan-now"><span>立即扫描</span>
       </vox-toc-item>
-      <vox-toc-item href="#scan-automatically"><span>Scan automatically</span>
+      <vox-toc-item href="#scan-automatically"><span>自动扫描</span>
       </vox-toc-item>
-      <vox-toc-item href="#patch-nodes"><span>Patch nodes</span>
-        <vox-toc-item slot="children" href="#batches-and-stopping"><span>Batches and stopping</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#watch-a-run"><span>Watch a run</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#afterwards"><span>Afterwards</span></vox-toc-item>
+      <vox-toc-item href="#patch-nodes"><span>为节点打补丁</span>
+        <vox-toc-item slot="children" href="#batches-and-stopping"><span>批次与停止</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#watch-a-run"><span>观察运行</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#afterwards"><span>之后</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#not-covered"><span>Not covered</span>
+      <vox-toc-item href="#not-covered"><span>不涵盖的内容</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -336,23 +248,17 @@ against known advisories.</p>
 
       
       <vox-cta-band heading="自己动手运行">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console 以容器镜像形式发布，每次 push 都会构建 amd64 和 arm64 版本，同时也提供单个二进制文件。安装指南将带你从一台空主机走到一套可用的部署——openvoxserver、openvoxdb、Postgres 和控制台——可以用容器，也可以用软件包。</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">安装指南</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">GitHub 上的源码</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">容器镜像</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="全尺寸截图">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">关闭</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -361,18 +267,18 @@ against known advisories.</p>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">概览</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">源码</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">安装指南</a>
       </vox-footer-column>
       <vox-footer-column heading="功能">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">分类</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">编排</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">补丁管理</a>
         <a href="../features/security.html">安全</a>
         <a href="../features/access-control.html">访问控制</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">AI 代理</a>
+        <a href="../features/scaling.html">扩展</a>
         </vox-footer-column>
       
       <vox-footer-column heading="语言">

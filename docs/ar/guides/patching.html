@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="ar" dir="rtl"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Scan Linux nodes for pending package updates, then patch them in batches with a dry run, a stop threshold and an optional reboot."/>
+    <meta name="description" content="امسح Nodes الـ Linux بحثًا عن تحديثات الحزم المعلّقة، ثم صحّحها على دفعات مع تشغيل تجريبي، وحدّ للتوقف، وإعادة تشغيل اختيارية."/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Find and apply missing updates - OpenVox Console</title>
+    <title>العثور على التحديثات الناقصة وتطبيقها - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">الأدلة</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,229 +104,141 @@
       <a href="../features/classification.html">التصنيف</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">التنسيق</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">تثبيت التصحيحات</a>
       <a href="../features/security.html">الأمان</a>
       <a href="../features/access-control.html">التحكم في الوصول</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">وكلاء الذكاء الاصطناعي</a>
+      <a href="../features/scaling.html">التوسّع</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="الأدلة" toggle-label="كل الأدلة">
+    <vox-sidenav-group heading="التثبيت">
+      <vox-sidenav-item href="../guides/plan.html"><span>خطّط للنشر</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>التثبيت باستخدام الحاويات</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>التثبيت من الحزم والملفات التنفيذية</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>إضافة Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>إدارة شهادات الـ Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>إزالة Node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>إبقاء وكلاء الـ Nodes محدَّثين</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
-      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="التوسّع">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>أوضاع التشغيل</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>تشغيل مزيد من المثيلات</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use" open="">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html" current="" aria-current="page"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="الاستخدام" open="">
+      <vox-sidenav-item href="../guides/classify.html"><span>تصنيف الـ Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>deploy الكود</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>تشغيل الـ Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>تشغيل الـ Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>جدولة الـ Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>المستخدمون والأدوار والرموز</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>تتبّع الثغرات</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html" current="" aria-current="page"><span>العثور على التحديثات الناقصة وتطبيقها</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>تشغيل Tasks على مضيفين بلا وكيل</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>تشغيل Plans من الكود الخاص بك</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>السماح لوكلاء الذكاء الاصطناعي باستخدام وحدة التحكم</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="التشغيل">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>الانتقال إلى قاعدة بيانات احتياطية عند الفشل</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>تدوير مفتاح توقيع الرموز</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>ترقية قواعد بيانات الحاويات إلى Postgres 18</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Use</p>
-    <h1 class="guide-title vox-ts-xxl">Find and apply missing updates</h1>
-    <p class="guide-summary">Scan Linux nodes for pending package updates, then patch them in batches with a dry run, a stop threshold and an optional reboot.</p>
+    <p class="guide-eyebrow">الاستخدام</p>
+    <h1 class="guide-title vox-ts-xxl">العثور على التحديثات الناقصة وتطبيقها</h1>
+    <p class="guide-summary">امسح Nodes الـ Linux بحثًا عن تحديثات الحزم المعلّقة، ثم صحّحها على دفعات مع تشغيل تجريبي، وحدّ للتوقف، وإعادة تشغيل اختيارية.</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>The <strong>Patching</strong> page shows which updates each node is missing, as the
-node&#39;s own package manager reports them. A scan only looks. A
-<a href="#patch-nodes">patch run</a> installs them.</p>
-<p>This covers Linux nodes that use <strong>apt</strong>, or <strong>dnf</strong> or <strong>yum</strong>. Windows,
-macOS and zypper (SUSE) are not scanned: a node on one of them is listed
-as unable to report, never as fully patched.</p>
-<p>Seeing results needs <code>nodes:read</code>, limited to the node groups your role
-names. Scanning or patching a node or a group needs <code>orchestrator:run</code>,
-again for the nodes your role covers. Changing how often the console scans
-needs <code>nodes:manage</code>. No new permission is involved.</p>
-<h2 id="what-a-scan-does">What a scan does</h2>
-<p>A scan asks the node&#39;s agent to run its package manager in a mode that
-changes nothing: it refreshes the package lists, then reports what an
-upgrade would replace. For each pending update you see the package, the
-installed version, the available version, and whether the package manager
-marks it a <strong>security</strong> update. A node also reports whether it already
-needs a reboot.</p>
-<p>Refreshing the lists means a scan reaches the node&#39;s mirrors. A node that
-cannot reach them records that the scan failed, and keeps showing the
-updates from the last scan that worked, marked as older than the last
-attempt.</p>
-<p>Two things to read carefully:</p>
+<p>تعرض صفحة <strong>تثبيت التصحيحات</strong> التحديثات الناقصة لدى كل Node، كما يُبلّغ عنها مدير الحزم في الـ Node نفسه. المسح ينظر فقط. أما <a href="#patch-nodes">تشغيل التصحيح</a> فيثبّتها.</p>
+<p>يشمل هذا Nodes الـ Linux التي تستخدم <strong>apt</strong>، أو <strong>dnf</strong> أو <strong>yum</strong>. ولا تُمسح Windows وmacOS وzypper ‏(SUSE): فالـ Node الذي يعمل بأحدها يُدرج على أنه غير قادر على الإبلاغ، ولا يُعرض أبدًا على أنه مُصحَّح بالكامل.</p>
+<p>تتطلب رؤية النتائج <code>nodes:read</code>، مقصورًا على مجموعات الـ Nodes التي يذكرها دورك. ويتطلب مسح Node أو مجموعة أو تصحيحهما <code>orchestrator:run</code>، وكذلك للـ Nodes التي يشملها دورك. ويتطلب تغيير عدد مرات المسح في وحدة التحكم <code>nodes:manage</code>. ولا يدخل في ذلك أي إذن جديد.</p>
+<h2 id="what-a-scan-does">ما يفعله المسح</h2>
+<p>يطلب المسح من وكيل الـ Node تشغيل مدير الحزم الخاص به في وضع لا يغيّر شيئًا: فيحدّث قوائم الحزم، ثم يُبلّغ عمّا ستستبدله الترقية. ولكل تحديث معلّق ترى الحزمة، والإصدار المثبَّت، والإصدار المتاح، وما إذا كان مدير الحزم يَسِمه تحديثًا <strong>أمنيًا</strong>. ويُبلّغ الـ Node أيضًا عمّا إذا كان يحتاج بالفعل إلى إعادة تشغيل.</p>
+<p>تحديث القوائم يعني أن المسح يصل إلى النسخ المرآة التي يستخدمها الـ Node. والـ Node الذي لا يستطيع الوصول إليها يسجّل أن المسح فشل، ويظل يعرض التحديثات من آخر مسح نجح، موسومةً بأنها أقدم من آخر محاولة.</p>
+<p>أمران ينبغي قراءتهما بعناية:</p>
 <ul>
-<li><strong>Security</strong> is what the package manager says. A system whose
-repositories carry no security information shows none, which is not the
-same as having none. Ubuntu and Debian mark them in the repository names;
-on RHEL-family systems the console asks <code>dnf updateinfo</code> for the
-security set.</li>
-<li><strong>Never scanned</strong> is not <strong>nothing pending</strong>. A node that has not been
-scanned is listed as not scanned, without counts.</li>
+<li><strong>الأمان</strong> هو ما يقوله مدير الحزم. والنظام الذي لا تحمل مستودعاته معلومات أمنية لا يعرض أيًّا منها، وهذا ليس كأن لا يكون لديه أيٌّ منها. يَسِمها Ubuntu وDebian في أسماء المستودعات؛ وعلى الأنظمة من عائلة RHEL تسأل وحدة التحكم <code>dnf updateinfo</code> عن مجموعة التحديثات الأمنية.</li>
+<li><strong>لم يُمسح قط</strong> ليس هو <strong>لا شيء معلّق</strong>. فالـ Node الذي لم يُمسح يُدرج على أنه لم يُمسح، دون أعداد.</li>
 </ul>
-<p>The node&#39;s agent must be built from a version that includes scanning. An
-older agent answers that it does not know the request, and the node is
-shown as one that cannot report until the agent is upgraded: see
-<a href="agent-upgrades.html">Keep node agents current</a>.</p>
-<h2 id="read-the-fleet">Read the fleet</h2>
-<p>Open <strong>Patching</strong>. The figures at the top count the nodes you can see:
-those with pending updates, those with security updates, those needing a
-reboot, those not scanned, and those whose last scan is out of date.</p>
-<p>A scan is <strong>out of date</strong> when it is older than twice the scan interval,
-so a node that quietly stopped being scanned stands out. With automatic
-scanning off, it is judged against a day.</p>
-<p>Filter by:</p>
+<p>يجب أن يكون وكيل الـ Node مبنيًّا من إصدار يتضمن المسح. فالوكيل الأقدم يجيب بأنه لا يعرف الطلب، ويُعرض الـ Node على أنه غير قادر على الإبلاغ حتى يُرقّى الوكيل: راجع <a href="agent-upgrades.html">إبقاء وكلاء الـ Nodes محدَّثين</a>.</p>
+<h2 id="read-the-fleet">اقرأ الأسطول</h2>
+<p>افتح <strong>تثبيت التصحيحات</strong>. تُحصي الأرقام في الأعلى الـ Nodes التي تستطيع رؤيتها: التي لديها تحديثات معلّقة، والتي لديها تحديثات أمنية، والتي تحتاج إلى إعادة تشغيل، والتي لم تُمسح، والتي آخر مسح لها قديم.</p>
+<p>يكون المسح <strong>قديمًا</strong> حين يكون أقدم من ضعف الفاصل الزمني للمسح، فيبرز الـ Node الذي توقف مسحه بصمت. ومع إيقاف المسح التلقائي، يُقاس مقابل يوم واحد.</p>
+<p>صفِّ حسب:</p>
 <ul>
-<li><strong>Operating system</strong>, to see one family at a time.</li>
-<li><strong>Group</strong>, if your role can read node groups.</li>
-<li><strong>Pending package</strong>, which switches the list to the nodes that have an
-update waiting for a package matching that name, with the installed and
-available versions. Searching <code>openssl</code> is how you find who still needs
-the fix.</li>
+<li><strong>نظام التشغيل</strong>، لرؤية عائلة واحدة في كل مرة.</li>
+<li><strong>المجموعة</strong>، إن كان دورك يستطيع قراءة مجموعات الـ Nodes.</li>
+<li><strong>حزمة معلّقة</strong>، الذي يحوّل القائمة إلى الـ Nodes التي لديها تحديث ينتظر لحزمة تطابق ذلك الاسم، مع الإصدارين المثبَّت والمتاح. والبحث عن <code>openssl</code> هو الطريقة لمعرفة من لا يزال يحتاج إلى الإصلاح.</li>
 </ul>
-<p>Select a node to open its page. The <strong>Patches</strong> tab lists its updates,
-security first, with when it was last scanned.</p>
-<h2 id="scan-now">Scan now</h2>
-<p>On a node&#39;s <strong>Patches</strong> tab, <strong>Scan now</strong> scans that node. On the Patching
-page, choose a group and <strong>Scan this group now</strong> scans every node of the
-group you may act on. The answer says, node by node, which were scanned,
-which failed, which were offline, and how many were left out because they
-are outside your node groups.</p>
-<p>A node that is offline is not scanned and keeps what it had; it is
-scanned on the next pass once it reconnects. A group scan runs a few nodes
-at a time, so a large group takes a while.</p>
-<p>Each scan you request is recorded in the audit log with who asked and the
-node or group.</p>
-<h2 id="scan-automatically">Scan automatically</h2>
-<p>Unless you switch it off, the console scans every connected node once a
-day. Under <strong>Automatic scanning</strong> on the Patching page (for <code>nodes:manage</code>)
-set the interval anywhere from 15 minutes to 7 days, or turn it off.</p>
+<p>حدّد Node لفتح صفحته. يسرد تبويب <strong>التصحيحات</strong> تحديثاته، الأمنية أولًا، مع وقت آخر مسح له.</p>
+<h2 id="scan-now">امسح الآن</h2>
+<p>في تبويب <strong>التصحيحات</strong> الخاص بـ Node، يمسح <strong>امسح الآن</strong> ذلك الـ Node. وفي صفحة تثبيت التصحيحات، اختر مجموعة فيمسح <strong>امسح هذه المجموعة الآن</strong> كل Node في المجموعة يحق لك التصرف فيه. وتذكر الإجابة، Node تلو Node، ما مُسح منها، وما فشل، وما كان غير متصل، وعدد ما استُبعد لأنه خارج مجموعات الـ Nodes الخاصة بك.</p>
+<p>الـ Node غير المتصل لا يُمسح ويحتفظ بما كان لديه؛ ويُمسح في الجولة التالية بعد أن يعاود الاتصال. ويجري مسح المجموعة على بضعة Nodes في كل مرة، لذا تستغرق المجموعة الكبيرة بعض الوقت.</p>
+<p>يُسجَّل كل مسح تطلبه في سجل التدقيق مع من طلبه والـ Node أو المجموعة.</p>
+<h2 id="scan-automatically">المسح التلقائي</h2>
+<p>ما لم توقفه، تمسح وحدة التحكم كل Node متصل مرة في اليوم. تحت <strong>المسح التلقائي</strong> في صفحة تثبيت التصحيحات (لمن لديه <code>nodes:manage</code>) اضبط الفاصل الزمني على أي قيمة من 15 دقيقة إلى 7 أيام، أو أوقفه.</p>
 <ul>
-<li>Only one console instance runs the automatic scan at a time, however
-many you run, and a node scanned within the interval is not scanned
-again.</li>
-<li>A node whose scan failed is tried again after the next interval, not on
-every pass.</li>
-<li>Automatic scans write no audit entry per node. A change to the interval
-is audited.</li>
-<li>With <a href="run-modes.html">run modes</a>, the scan runs in <code>all</code> and <code>worker</code>
-instances.</li>
-<li>Results for a node nothing has tried for 90 days are removed.</li>
+<li>لا يشغّل المسح التلقائي إلا مثيل واحد من وحدة التحكم في كل مرة، مهما كان عدد المثيلات التي تشغّلها، والـ Node الذي مُسح ضمن الفاصل الزمني لا يُمسح مرة أخرى.</li>
+<li>الـ Node الذي فشل مسحه يُعاد المحاولة معه بعد الفاصل الزمني التالي، لا في كل جولة.</li>
+<li>لا تكتب عمليات المسح التلقائي إدخال تدقيق لكل Node. أما تغيير الفاصل الزمني فيُدقَّق.</li>
+<li>مع <a href="run-modes.html">أوضاع التشغيل</a>، يعمل المسح في مثيلات <code>all</code> و<code>worker</code>.</li>
+<li>تُزال نتائج الـ Node الذي لم يحاول أي شيء مسحه لمدة 90 يومًا.</li>
 </ul>
-<h2 id="patch-nodes">Patch nodes</h2>
-<p>A <strong>patch run</strong> installs pending updates on Linux nodes (apt, dnf or yum).
-Start one from the Patching page with <strong>Patch this group…</strong>, or from a
-node&#39;s <strong>Patches</strong> tab with <strong>Patch now…</strong>. It needs <code>orchestrator:run</code>, and
-like any run it is refused whole, naming the nodes, if any of them is
-outside your node groups.</p>
-<p>Choose:</p>
+<h2 id="patch-nodes">تثبيت التصحيحات على الـ Nodes</h2>
+<p><strong>تشغيل التصحيح</strong> يثبّت التحديثات المعلّقة على Nodes الـ Linux ‏(apt أو dnf أو yum). ابدأه من صفحة تثبيت التصحيحات بـ <strong>ترقيع هذه المجموعة…</strong>، أو من تبويب <strong>التصحيحات</strong> في صفحة الـ Node بـ <strong>ترقيع الآن…</strong>. ويحتاج إلى <code>orchestrator:run</code>، ومثل أي تشغيل يُرفض بكامله، مع ذكر الـ Nodes، إذا كان أيٌّ منها خارج مجموعات الـ Nodes الخاصة بك.</p>
+<p>اختر:</p>
 <ul>
-<li><strong>Updates to apply</strong>: <strong>security updates only</strong>, <strong>all pending updates</strong>,
-or <strong>named packages</strong>. A named package that has no update pending is
-reported as nothing to apply and nothing else is touched. On dnf and yum,
-security-only needs the repository&#39;s security information; without it the
-node fails the run rather than installing everything.</li>
-<li><strong>Dry run</strong>, which reports what would be upgraded and changes, restarts
-and reboots nothing.</li>
-<li><strong>Reboot a node that needs it</strong>, which reboots a node after a successful
-run only if it reports that it needs one. A dry run or a failed node is
-never rebooted. The node delivers its result first and reboots about half
-a minute later.</li>
-<li><strong>Nodes at a time</strong> (1 to 100, default 10) and <strong>Stop after failed nodes</strong>
-(default 3, <strong>0</strong> never stops).</li>
+<li><strong>التحديثات المطلوب تطبيقها</strong>: <strong>التحديثات الأمنية فقط</strong>، أو <strong>كل التحديثات المعلقة</strong>، أو <strong>حزم محددة بالاسم</strong>. والحزمة المحددة بالاسم التي ليس لها تحديث معلّق يُبلَّغ عنها بأنه لا شيء لتطبيقه ولا يُمَس أي شيء آخر. وعلى dnf وyum، يحتاج خيار الأمان فقط إلى المعلومات الأمنية للمستودع؛ ومن دونها يُفشل الـ Node التشغيل بدل أن يثبّت كل شيء.</li>
+<li><strong>تشغيل تجريبي</strong>، يُبلّغ عمّا ستتم ترقيته ولا يغيّر شيئًا ولا يعيد تشغيل أي خدمة أو جهاز.</li>
+<li><strong>إعادة تشغيل العقدة التي تحتاج إلى ذلك</strong>، الذي يعيد تشغيل الـ Node بعد تشغيل ناجح فقط إن أبلغ بأنه يحتاج إلى ذلك. ولا يُعاد تشغيل الـ Node أبدًا في التشغيل التجريبي أو إذا فشل. يسلّم الـ Node نتيجته أولًا ثم يُعاد تشغيله بعد نحو نصف دقيقة.</li>
+<li><strong>عدد العقد في كل مرة</strong> (من 1 إلى 100، الافتراضي 10) و<strong>التوقف بعد فشل عدد من العقد</strong> (الافتراضي 3، و<strong>0</strong> لا يتوقف أبدًا).</li>
 </ul>
-<h3 id="batches-and-stopping">Batches and stopping</h3>
-<p>Nodes are patched a batch at a time, in node-name order. A batch is patched
-at once and the next starts only when it has finished. When the number of
-failed nodes reaches the threshold, no further batch starts: the nodes not
-reached are recorded as <strong>not started</strong>, and nothing is sent to them. Use a
-small first batch on something you can afford to lose, then let the rest
-follow.</p>
-<p>A node that is already being patched by another run is not started again:
-the request is refused, naming it.</p>
-<h3 id="watch-a-run">Watch a run</h3>
-<p>The run opens as a job. It lists each node with its batch, status, exit
-status and the packages it upgraded (<strong>from</strong> and <strong>to</strong> versions), and
-under <strong>Details</strong> the package manager&#39;s own output. The page refreshes while
-the run is going. The node&#39;s <strong>Patches</strong> tab shows the last run on that
-node, and the Patching page lists recent runs.</p>
-<p>A run can take hours. The console asks each node how it is getting on every
-15 seconds, and every answer counts as proof the run is alive. A node that
-says nothing for ten minutes is failed, as is one still working after four
-hours, and the run carries on with the others. If the console instance
-following the run stops, the job is failed ten minutes after it was last
-heard from, with the reason recorded. The patch itself carries on on the
-node, so scan it again to see where it stands.</p>
-<h3 id="afterwards">Afterwards</h3>
-<p>When a node finishes, the packages it still has pending are what the
-Patching page shows: the node&#39;s own scan is taken at the end of its run. A
-node that rebooted is scanned again once it reconnects, for up to ten
-minutes. If it does not come back in that time its snapshot says the scan
-failed, and the run itself is not failed for it.</p>
-<p>Each run is audited when it starts, with who started it, the nodes&#39; source
-and every option chosen, and again when it ends. Both appear in the
-activity log.</p>
-<p>A node whose agent is too old to patch is failed with a reason saying so and
-nothing is installed on it: see <a href="agent-upgrades.html">Keep node agents
-current</a>.</p>
-<h2 id="not-covered">Not covered</h2>
-<p>This version does not schedule patch windows or blackouts, group nodes for
-patching, roll a patch back, patch Windows or macOS, or relate pending
-updates to known vulnerabilities: see
-<a href="vulnerabilities.html">Track vulnerabilities</a> for what is installed
-against known advisories.</p>
+<h3 id="batches-and-stopping">الدفعات والتوقف</h3>
+<p>تُصحَّح الـ Nodes دفعةً تلو دفعة، بترتيب أسماء الـ Nodes. تُصحَّح الدفعة كلها معًا ولا تبدأ التالية إلا حين تنتهي. وحين يبلغ عدد الـ Nodes الفاشلة الحد، لا تبدأ أي دفعة أخرى: وتُسجَّل الـ Nodes التي لم يُوصل إليها على أنها <strong>لم تبدأ</strong>، ولا يُرسل إليها شيء. استخدم دفعة أولى صغيرة على شيء يمكنك تحمّل خسارته، ثم دع البقية تتبعها.</p>
+<p>الـ Node الذي يجري تصحيحه بالفعل بتشغيل آخر لا يُبدأ عليه مرة أخرى: يُرفض الطلب، مع ذكر اسمه.</p>
+<h3 id="watch-a-run">راقب تشغيلًا</h3>
+<p>يُفتح التشغيل كـ Job. يسرد كل Node مع دفعته، وحالته، وحالة خروجه، والحزم التي رقّاها (الإصدار <strong>من</strong> والإصدار <strong>إلى</strong>)، وتحت <strong>التفاصيل</strong> مخرجات مدير الحزم نفسه. وتتحدّث الصفحة أثناء سير التشغيل. ويعرض تبويب <strong>التصحيحات</strong> الخاص بالـ Node آخر تشغيل على ذلك الـ Node، وتسرد صفحة تثبيت التصحيحات التشغيلات الأخيرة.</p>
+<p>قد يستغرق التشغيل ساعات. تسأل وحدة التحكم كل Node عن تقدّمه كل 15 ثانية، وكل إجابة تُعدّ دليلًا على أن التشغيل حيّ. والـ Node الذي لا يقول شيئًا لعشر دقائق يُوسَم بالفشل، وكذلك الذي لا يزال يعمل بعد أربع ساعات، ويواصل التشغيل مع البقية. وإذا توقف مثيل وحدة التحكم الذي يتابع التشغيل، يُوسَم الـ Job بالفشل بعد عشر دقائق من آخر إشارة منه، مع تسجيل السبب. ويستمر التصحيح نفسه على الـ Node، لذا امسحه مجددًا لترى أين وصل.</p>
+<h3 id="afterwards">بعد ذلك</h3>
+<p>حين ينتهي Node، فإن الحزم التي لا تزال معلّقة لديه هي ما تعرضه صفحة تثبيت التصحيحات: إذ يُؤخذ مسح الـ Node نفسه في نهاية تشغيله. والـ Node الذي أُعيد تشغيله يُمسح مجددًا بعد أن يعاود الاتصال، خلال مدة تصل إلى عشر دقائق. وإذا لم يعد خلال تلك المدة، تذكر لقطته أن المسح فشل، ولا يُوسَم التشغيل نفسه بالفشل بسببه.</p>
+<p>يُدقَّق كل تشغيل عند بدئه، مع من بدأه، ومصدر الـ Nodes، وكل خيار اختير، ومرة أخرى عند انتهائه. ويظهر كلاهما في سجل النشاط.</p>
+<p>الـ Node الذي يكون وكيله أقدم من أن يُجرى عليه التصحيح يُوسَم بالفشل مع سبب يذكر ذلك ولا يُثبَّت عليه شيء: راجع <a href="agent-upgrades.html">إبقاء وكلاء الـ Nodes محدَّثين</a>.</p>
+<h2 id="not-covered">ما لا يشمله</h2>
+<p>لا يجدول هذا الإصدار نوافذ التصحيح أو فترات الحظر، ولا يجمّع الـ Nodes للتصحيح، ولا يتراجع عن تصحيح، ولا يصحّح Windows أو macOS، ولا يربط التحديثات المعلّقة بالثغرات المعروفة: راجع <a href="vulnerabilities.html">تتبّع الثغرات</a> لمعرفة ما هو مثبَّت مقابل التنبيهات الأمنية المعروفة.</p>
 
     </div>
 
-    <vox-series-nav label="Use" previous-text="Previous" next-text="Next" previous-href="../guides/vulnerabilities.html" previous-label="Track vulnerabilities" next-href="../guides/agentless.html" next-label="Run tasks on hosts without an agent"></vox-series-nav>
+    <vox-series-nav label="الاستخدام" previous-text="السابق" next-text="التالي" previous-href="../guides/vulnerabilities.html" previous-label="تتبّع الثغرات" next-href="../guides/agentless.html" next-label="تشغيل Tasks على مضيفين بلا وكيل"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#what-a-scan-does"><span>What a scan does</span>
+    <vox-toc heading="في هذه الصفحة">
+      <vox-toc-item href="#what-a-scan-does"><span>ما يفعله المسح</span>
       </vox-toc-item>
-      <vox-toc-item href="#read-the-fleet"><span>Read the fleet</span>
+      <vox-toc-item href="#read-the-fleet"><span>اقرأ الأسطول</span>
       </vox-toc-item>
-      <vox-toc-item href="#scan-now"><span>Scan now</span>
+      <vox-toc-item href="#scan-now"><span>امسح الآن</span>
       </vox-toc-item>
-      <vox-toc-item href="#scan-automatically"><span>Scan automatically</span>
+      <vox-toc-item href="#scan-automatically"><span>المسح التلقائي</span>
       </vox-toc-item>
-      <vox-toc-item href="#patch-nodes"><span>Patch nodes</span>
-        <vox-toc-item slot="children" href="#batches-and-stopping"><span>Batches and stopping</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#watch-a-run"><span>Watch a run</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#afterwards"><span>Afterwards</span></vox-toc-item>
+      <vox-toc-item href="#patch-nodes"><span>تثبيت التصحيحات على الـ Nodes</span>
+        <vox-toc-item slot="children" href="#batches-and-stopping"><span>الدفعات والتوقف</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#watch-a-run"><span>راقب تشغيلًا</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#afterwards"><span>بعد ذلك</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#not-covered"><span>Not covered</span>
+      <vox-toc-item href="#not-covered"><span>ما لا يشمله</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -336,23 +248,17 @@ against known advisories.</p>
 
       
       <vox-cta-band heading="شغّله بنفسك">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>يُوزَّع OpenVox Console على هيئة صور حاويات تُبنى لمعماريتَي amd64 وarm64 مع كل push، وعلى هيئة ملف تنفيذي واحد. تأخذك أدلة التثبيت من مضيف فارغ إلى نشر عامل - openvoxserver وopenvoxdb وPostgres ووحدة التحكم - باستخدام الحاويات أو الحزم.</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">أدلة التثبيت</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">الشيفرة المصدرية على GitHub</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">صور الحاويات</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="لقطة الشاشة بالحجم الكامل">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">إغلاق</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -361,18 +267,18 @@ against known advisories.</p>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">نظرة عامة</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">الشيفرة المصدرية</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">أدلة التثبيت</a>
       </vox-footer-column>
       <vox-footer-column heading="الإمكانات">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">التصنيف</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">التنسيق</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">تثبيت التصحيحات</a>
         <a href="../features/security.html">الأمان</a>
         <a href="../features/access-control.html">التحكم في الوصول</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">وكلاء الذكاء الاصطناعي</a>
+        <a href="../features/scaling.html">التوسّع</a>
         </vox-footer-column>
       
       <vox-footer-column heading="اللغة">

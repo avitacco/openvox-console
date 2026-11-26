@@ -187,12 +187,15 @@
 <p>This guide runs the whole stack from the project&#39;s production compose
 file and published images. Nothing is built on the host. Settle the names
 in <a href="plan.html">Plan a deployment</a> before you start.</p>
-<p>You need a Linux host with Docker Engine and the Compose plugin.</p>
+<p>You need a Linux host with Docker Engine and the Compose plugin, and a
+user that can run <code>docker</code> without <code>sudo</code>.</p>
 <h2 id="get-the-compose-file">Get the compose file</h2>
 <p><code>docker-compose.yml</code> in the project repository is the production stack:
 the console, both databases, openvoxserver and openvoxdb. Copy that one
-file to the host, into a directory of its own:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>mkdir -p /opt/openvox-console/secrets /opt/openvox-console/certs
+file to the host, into a directory of its own, owned by your user:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo mkdir -p /opt/openvox-console
+sudo chown &#34;$USER&#34;: /opt/openvox-console
+mkdir -p /opt/openvox-console/secrets /opt/openvox-console/certs
 cd /opt/openvox-console
 curl -fsSLO https://raw.githubusercontent.com/avitacco/openvox-console/main/docker-compose.yml
 </code></vox-code-block>
@@ -218,6 +221,16 @@ OPENVOXSERVER_DNS_ALT_NAMES=puppet.example.com
 # The Puppet server a node should enroll against, written into the node
 # install script. Must be one of the names above.
 CONSOLE_PUPPET_SERVER_PUBLIC_ADDR=puppet.example.com
+
+# The first admin user, created only while there are no users. Its
+# password is a secret file, below. Without this name no admin is
+# created and nobody can log in.
+CONSOLE_BOOTSTRAP_ADMIN_USERNAME=admin
+
+# The console&#39;s plain-HTTP port, published on loopback only, so the
+# TLS proxy in front of it is the only way in. See &#34;Put TLS in front of
+# the console&#34; below.
+CONSOLE_HTTP_PORT=127.0.0.1:8080
 </code></vox-code-block>
 <p>Choose which console image to run. <code>CONSOLE_IMAGE_TAG</code> defaults to
 <code>main</code>, which follows the latest commit. For a deployment you want to hold
@@ -278,6 +291,10 @@ docker compose -f docker-compose.yml cp \
 docker compose -f docker-compose.yml cp \
   openvoxserver:/etc/puppetlabs/puppet/ssl/certs/ca.pem certs/ca.pem
 </code></vox-code-block>
+<vox-callout variant="info" heading="Note"><p><code>puppetserver ca generate</code> starts by printing <code>Error: Signed certificate console could not be found on the CA</code>. That is it checking
+that the name is free, not a failure. What matters is the lines after
+it, ending in <code>Successfully saved certificate</code>.</p>
+</vox-callout>
 <h3 id="the-node-transport-certificate">The node transport certificate</h3>
 <p>Nodes check this certificate when they connect to the console, so it
 must carry the exact name they dial: the host part of
@@ -423,6 +440,33 @@ docker compose -f docker-compose.yml up -d openvoxdb
 <code>docker volume ls</code>. Skipping the <code>ca clean</code> leaves the CA holding a signed
 certificate for <code>openvoxdb</code> with no key to match, and the fresh start
 fails with <code>No keypair on disk and CA already has signed certificate</code>.</p>
+<h2 id="put-tls-in-front-of-the-console">Put TLS in front of the console</h2>
+<p>The console serves its web interface and API over plain HTTP. The
+<code>https://</code> base URL is reached through a reverse proxy that terminates
+TLS and passes requests to the console. Any reverse proxy works. This
+uses <a href="https://caddyserver.com/">Caddy</a>, on the console&#39;s host:</p>
+<vox-tabs class="guide-tabs"><vox-tab slot="tab" panel="tab1-debian-and-ubuntu" data-tab-key="debian-and-ubuntu" selected="">Debian and Ubuntu</vox-tab><vox-tab-panel name="tab1-debian-and-ubuntu"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo apt-get install -y caddy
+</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab1-rhel-rocky-and-almalinux" data-tab-key="rhel-rocky-and-almalinux">RHEL, Rocky and AlmaLinux</vox-tab><vox-tab-panel name="tab1-rhel-rocky-and-almalinux"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo dnf install -y epel-release
+sudo dnf install -y caddy
+sudo systemctl enable --now caddy
+</code></vox-code-block></vox-tab-panel></vox-tabs><p>This is then the whole <code>/etc/caddy/Caddyfile</code>:</p>
+<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>console.example.com {
+	reverse_proxy 127.0.0.1:8080
+}
+</code></vox-code-block>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo systemctl reload caddy
+</code></vox-code-block>
+<p>If the console listens on another port, because it shares a host with
+openvoxdb, put that port in <code>reverse_proxy</code> instead.</p>
+<p>For a name the internet can resolve, Caddy obtains and renews the
+certificate itself. For an internal name, give it a certificate from your
+own CA with a <code>tls &lt;cert file&gt; &lt;key file&gt;</code> line inside the block. For a
+trial, <code>tls internal</code> makes Caddy issue one from a local CA of its own,
+which browsers warn about.</p>
+<vox-callout variant="warning" heading="Warning"><p>Only the web interface goes through the proxy. The node transport, port
+8142, carries its own TLS and checks each node&#39;s certificate itself, so
+nodes must reach it directly. Never put it behind the proxy.</p>
+</vox-callout>
 <h2 id="log-in-for-the-first-time">Log in for the first time</h2>
 <p>On its first start the console creates its database schema, then creates
 the bootstrap admin while the users table is still empty. Its log shows
@@ -431,10 +475,14 @@ three lines once it is up:</p>
 node transport ready   addr=[::]:8142
 console ready          addr=:8080
 </code></vox-code-block>
-<p>Check that it reports itself healthy:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -fsS https://console.example.com/health
+<p>Check that it reports itself healthy, first directly on the console&#39;s
+host, then through the TLS proxy at its base URL:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -fsS http://127.0.0.1:8080/health
+curl -fsS https://console.example.com/health
 </code></vox-code-block>
-<p>The reply lists each dependency as <code>ok</code>. Then open the console&#39;s base URL,
+<p>Each reply lists each dependency as <code>ok</code>. If only the second fails, the
+console is fine and the proxy is not. Use the console&#39;s own port in the
+first if you moved it off 8080. Then open the console&#39;s base URL,
 log in as the bootstrap admin, and change its password straight away.</p>
 <p>The bootstrap admin&#39;s password must have at least 12 characters and
 must not be the same as its username. If it does not, no admin is
@@ -527,6 +575,9 @@ what changed:</p>
 <vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml pull
 docker compose -f docker-compose.yml up -d
 </code></vox-code-block>
+<p>The compose file does not publish openvoxdb&#39;s port, so for the check
+below, ask it from inside its container:
+<code>docker compose -f docker-compose.yml exec openvoxdb curl -ksS https://127.0.0.1:8081/status/v1/simple</code></p>
 <h2 id="check-the-whole-deployment">Check the whole deployment</h2>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
@@ -541,7 +592,7 @@ docker compose -f docker-compose.yml up -d
 <td><code>running</code></td>
 </tr>
 <tr>
-<td><code>curl -ksS https://&lt;openvoxdb&gt;:8081/status/v1/simple</code></td>
+<td><code>curl -ksS https://&lt;openvoxdb&gt;:8081/status/v1/simple</code>, from somewhere that can reach it</td>
 <td><code>running</code></td>
 </tr>
 <tr>
@@ -591,6 +642,8 @@ docker compose -f docker-compose.yml up -d
       </vox-toc-item>
       <vox-toc-item href="#start-everything-else"><span>Start everything else</span>
         <vox-toc-item slot="children" href="#if-openvoxdb-never-becomes-healthy"><span>If openvoxdb never becomes healthy</span></vox-toc-item>
+      </vox-toc-item>
+      <vox-toc-item href="#put-tls-in-front-of-the-console"><span>Put TLS in front of the console</span>
       </vox-toc-item>
       <vox-toc-item href="#log-in-for-the-first-time"><span>Log in for the first time</span>
       </vox-toc-item>

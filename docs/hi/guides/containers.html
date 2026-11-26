@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="hi" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Run openvoxserver, openvoxdb, both databases and the console with Docker Compose, from an empty host to a console ready for nodes."/>
+    <meta name="description" content="openvoxserver, openvoxdb, दोनों डेटाबेस और कंसोल को Docker Compose से चलाइए — खाली होस्ट से Nodes के लिए तैयार कंसोल तक।"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Install with containers - OpenVox Console</title>
+    <title>कंटेनरों से इंस्टॉल करें - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">गाइड</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,88 +104,77 @@
       <a href="../features/classification.html">वर्गीकरण</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">ऑर्केस्ट्रेशन</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">पैचिंग</a>
       <a href="../features/security.html">सुरक्षा</a>
       <a href="../features/access-control.html">पहुँच नियंत्रण</a>
       <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/scaling.html">विस्तार</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install" open="">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html" current="" aria-current="page"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="गाइड" toggle-label="सभी गाइड">
+    <vox-sidenav-group heading="इंस्टॉल" open="">
+      <vox-sidenav-item href="../guides/plan.html"><span>परिनियोजन की योजना बनाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html" current="" aria-current="page"><span>कंटेनरों से इंस्टॉल करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>पैकेजों और बाइनरी से इंस्टॉल करें</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>Nodes जोड़ें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>Node प्रमाणपत्र प्रबंधित करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>किसी Node को हटाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Node एजेंटों को नवीनतम रखें</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
+    <vox-sidenav-group heading="विस्तार">
       <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>अधिक इंस्टेंस चलाएँ</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="उपयोग">
+      <vox-sidenav-item href="../guides/classify.html"><span>Nodes का वर्गीकरण करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>कोड deploy करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>Jobs चलाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>Plans चलाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Jobs शेड्यूल करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>उपयोगकर्ता, भूमिकाएँ और टोकन</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>कमज़ोरियों पर नज़र रखें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>छूटे हुए अपडेट खोजें और लागू करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>बिना एजेंट वाले होस्टों पर Tasks चलाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>अपने कोड से Plans चलाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>AI एजेंटों को कंसोल का उपयोग करने दें</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="संचालन">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>standby डेटाबेस पर failover करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>टोकन हस्ताक्षर कुंजी बदलें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>कंटेनर डेटाबेस को Postgres 18 पर अपग्रेड करें</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Install</p>
-    <h1 class="guide-title vox-ts-xxl">Install with containers</h1>
-    <p class="guide-summary">Run openvoxserver, openvoxdb, both databases and the console with Docker Compose, from an empty host to a console ready for nodes.</p>
+    <p class="guide-eyebrow">इंस्टॉल</p>
+    <h1 class="guide-title vox-ts-xxl">कंटेनरों से इंस्टॉल करें</h1>
+    <p class="guide-summary">openvoxserver, openvoxdb, दोनों डेटाबेस और कंसोल को Docker Compose से चलाइए — खाली होस्ट से Nodes के लिए तैयार कंसोल तक।</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>This guide runs the whole stack from the project&#39;s production compose
-file and published images. Nothing is built on the host. Settle the names
-in <a href="plan.html">Plan a deployment</a> before you start.</p>
-<p>You need a Linux host with Docker Engine and the Compose plugin.</p>
-<h2 id="get-the-compose-file">Get the compose file</h2>
-<p><code>docker-compose.yml</code> in the project repository is the production stack:
-the console, both databases, openvoxserver and openvoxdb. Copy that one
-file to the host, into a directory of its own:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>mkdir -p /opt/openvox-console/secrets /opt/openvox-console/certs
+<p>यह गाइड पूरे स्टैक को प्रोजेक्ट की प्रोडक्शन compose फ़ाइल और प्रकाशित इमेजों से चलाता है। होस्ट पर कुछ भी build नहीं होता। शुरू करने से पहले <a href="plan.html">परिनियोजन की योजना बनाएँ</a> में नाम तय कर लीजिए।</p>
+<p>आपको Docker Engine और Compose plugin वाला एक Linux होस्ट चाहिए, और एक ऐसा उपयोगकर्ता जो <code>sudo</code> के बिना <code>docker</code> चला सके।</p>
+<h2 id="get-the-compose-file">compose फ़ाइल प्राप्त करें</h2>
+<p>प्रोजेक्ट रिपॉज़िटरी में मौजूद <code>docker-compose.yml</code> प्रोडक्शन स्टैक है: कंसोल, दोनों डेटाबेस, openvoxserver और openvoxdb। वह एक फ़ाइल होस्ट पर, उसकी अपनी अलग डायरेक्टरी में कॉपी कीजिए, जिसका स्वामी आपका उपयोगकर्ता हो:</p>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>sudo mkdir -p /opt/openvox-console
+sudo chown &#34;$USER&#34;: /opt/openvox-console
+mkdir -p /opt/openvox-console/secrets /opt/openvox-console/certs
 cd /opt/openvox-console
 curl -fsSLO https://raw.githubusercontent.com/avitacco/openvox-console/main/docker-compose.yml
 </code></vox-code-block>
-<vox-callout variant="warning" heading="Warning"><p>Do not deploy from a checkout of the repository. A checkout also
-carries <code>docker-compose.override.yml</code>, the development stack, which a
-bare <code>docker compose up</code> loads silently: throwaway passwords, open
-database ports and automatic certificate signing. Every command in
-this guide passes <code>-f docker-compose.yml</code> so that only the production
-file is ever read.</p>
+<vox-callout variant="warning" heading="चेतावनी"><p>रिपॉज़िटरी के checkout से परिनियोजन न करें। checkout में <code>docker-compose.override.yml</code> भी होती है — यानी डेवलपमेंट स्टैक — जिसे साधारण <code>docker compose up</code> चुपचाप लोड कर लेता है: अस्थायी पासवर्ड, खुले डेटाबेस पोर्ट और स्वचालित प्रमाणपत्र हस्ताक्षर। इस गाइड की हर कमांड <code>-f docker-compose.yml</code> देती है, ताकि केवल प्रोडक्शन फ़ाइल ही पढ़ी जाए।</p>
 </vox-callout>
-<h2 id="set-the-deployment-s-own-values">Set the deployment&#39;s own values</h2>
-<p>Create <code>.env</code> beside the compose file. The compose file refuses to start
-while any of the first three is unset, so a deployment cannot come up on a
-placeholder:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CONSOLE_BASE_URL=https://console.example.com
+<h2 id="set-the-deployment-s-own-values">परिनियोजन के अपने मान सेट करें</h2>
+<p>compose फ़ाइल के बगल में <code>.env</code> बनाइए। पहले तीन में से कोई भी सेट न होने पर compose फ़ाइल शुरू होने से मना कर देती है, ताकि कोई परिनियोजन प्लेसहोल्डर मान पर चालू न हो सके:</p>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>CONSOLE_BASE_URL=https://console.example.com
 CONSOLE_NODE_TRANSPORT_PUBLIC_ADDR=console.example.com:8142
 OPENVOXDB_POSTGRES_PASSWORD=&lt;a strong password&gt;
 
@@ -196,57 +185,50 @@ OPENVOXSERVER_DNS_ALT_NAMES=puppet.example.com
 # The Puppet server a node should enroll against, written into the node
 # install script. Must be one of the names above.
 CONSOLE_PUPPET_SERVER_PUBLIC_ADDR=puppet.example.com
+
+# The first admin user, created only while there are no users. Its
+# password is a secret file, below. Without this name no admin is
+# created and nobody can log in.
+CONSOLE_BOOTSTRAP_ADMIN_USERNAME=admin
+
+# The console&#39;s plain-HTTP port, published on loopback only, so the
+# TLS proxy in front of it is the only way in. See &#34;Put TLS in front of
+# the console&#34; below.
+CONSOLE_HTTP_PORT=127.0.0.1:8080
 </code></vox-code-block>
-<p>Choose which console image to run. <code>CONSOLE_IMAGE_TAG</code> defaults to
-<code>main</code>, which follows the latest commit. For a deployment you want to hold
-still, pin the immutable tag of one commit instead:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CONSOLE_IMAGE_TAG=sha-a1b2c3d
+<p>चुनिए कि कंसोल की कौन-सी इमेज चलानी है। <code>CONSOLE_IMAGE_TAG</code> का डिफ़ॉल्ट <code>main</code> है, जो नवीनतम commit के साथ चलता है। जिस परिनियोजन को आप स्थिर रखना चाहते हैं, उसके लिए इसके बजाय किसी एक commit का अपरिवर्तनीय टैग पिन कीजिए:</p>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>CONSOLE_IMAGE_TAG=sha-a1b2c3d
 </code></vox-code-block>
-<vox-callout variant="info" heading="Note"><p>Version tags such as <code>v1.2.3</code>, and <code>latest</code>, are published only once a
-release is cut. Until then, asking for <code>latest</code> fails with
-<code>manifest unknown</code>.</p>
+<vox-callout variant="info" heading="नोट"><p><code>v1.2.3</code> जैसे संस्करण टैग, और <code>latest</code>, केवल release जारी होने के बाद ही प्रकाशित होते हैं। तब तक <code>latest</code> माँगना <code>manifest unknown</code> के साथ विफल होता है।</p>
 </vox-callout>
-<h2 id="write-the-secrets">Write the secrets</h2>
-<p>Secrets are files in <code>secrets/</code>, one value per file, rather than
-environment variables, so they never appear in <code>docker inspect</code>:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>printf &#39;%s&#39; &#39;&lt;console database password&gt;&#39; &gt; secrets/console_postgres_password
+<h2 id="write-the-secrets">गोपनीय मान लिखें</h2>
+<p>गोपनीय मान environment variables नहीं, बल्कि <code>secrets/</code> में फ़ाइलें होते हैं, हर फ़ाइल में एक मान, ताकि वे कभी <code>docker inspect</code> में न दिखें:</p>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>printf &#39;%s&#39; &#39;&lt;console database password&gt;&#39; &gt; secrets/console_postgres_password
 printf &#39;postgres://console:%s@console-postgres:5432/console?sslmode=disable&#39; &#39;&lt;console database password&gt;&#39; \
   &gt; secrets/console_postgres_dsn
 printf &#39;%s&#39; &#39;&lt;a strong password, 12 characters or more&gt;&#39; &gt; secrets/console_bootstrap_admin_password
 chmod 600 secrets/*
 </code></vox-code-block>
-<p>The console&#39;s database connection string must use the same password as
-<code>console_postgres_password</code>. <code>sslmode=disable</code> is deliberate: the
-Postgres container runs without TLS, and the connection never leaves the
-compose network, so asking for TLS would only make the console fail to
-connect.</p>
-<p>openvoxserver also needs a token file, <code>enc_bridge_token</code>, which you
-fill in once the console is running. Create it empty for now, because
-openvoxserver will not start without it:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>: &gt; secrets/enc_bridge_token
+<p>कंसोल की डेटाबेस connection string में वही पासवर्ड होना चाहिए जो <code>console_postgres_password</code> में है। <code>sslmode=disable</code> जानबूझकर रखा गया है: Postgres कंटेनर TLS के बिना चलता है, और कनेक्शन कभी compose नेटवर्क से बाहर नहीं जाता, इसलिए TLS माँगने से कंसोल बस कनेक्ट होने में विफल हो जाएगा।</p>
+<p>openvoxserver को एक टोकन फ़ाइल, <code>enc_bridge_token</code>, की भी ज़रूरत है, जिसे आप कंसोल चालू होने के बाद भरते हैं। अभी इसे खाली बना दीजिए, क्योंकि इसके बिना openvoxserver शुरू नहीं होगा:</p>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>: &gt; secrets/enc_bridge_token
 </code></vox-code-block>
-<h2 id="start-the-certificate-authority">Start the certificate authority</h2>
-<p>openvoxserver is the CA every other part&#39;s certificate comes from, so it
-starts first and on its own:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml up -d openvoxserver
+<h2 id="start-the-certificate-authority">प्रमाणपत्र प्राधिकरण शुरू करें</h2>
+<p>openvoxserver ही वह CA है जिससे बाक़ी हर हिस्से का प्रमाणपत्र आता है, इसलिए यह सबसे पहले और अकेले शुरू होता है:</p>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>docker compose -f docker-compose.yml up -d openvoxserver
 </code></vox-code-block>
-<p>Its first start creates the CA, which takes a minute or two. Wait until
-it reports itself running:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml exec openvoxserver \
+<p>इसकी पहली शुरुआत CA बनाती है, जिसमें एक-दो मिनट लगते हैं। तब तक प्रतीक्षा कीजिए जब तक यह स्वयं को चालू न बताए:</p>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>docker compose -f docker-compose.yml exec openvoxserver \
   curl -ksS https://127.0.0.1:8140/status/v1/simple
 </code></vox-code-block>
-<p>The reply is <code>running</code>.</p>
-<vox-callout variant="danger" heading="Caution"><p>The <code>openvoxserver-ca</code> volume <em>is</em> your certificate authority. Losing
-it means every node has to enroll again. Back it up, and never remove it
-with <code>docker compose down -v</code>.</p>
+<p>उत्तर <code>running</code> होता है।</p>
+<vox-callout variant="danger" heading="सावधानी"><p><code>openvoxserver-ca</code> volume <em>ही</em> आपका प्रमाणपत्र प्राधिकरण है। इसके खोने का अर्थ है कि हर Node को फिर से नामांकित होना पड़ेगा। इसका बैकअप लीजिए, और इसे कभी <code>docker compose down -v</code> से न हटाइए।</p>
 </vox-callout>
-<h2 id="issue-the-console-s-certificates">Issue the console&#39;s certificates</h2>
-<p>The console needs two certificates from the CA, and optionally a third.
-Issue them inside the running openvoxserver container and copy them
-into <code>certs/</code>, where the compose file mounts them for the console.</p>
-<h3 id="the-openvoxdb-client-certificate">The openvoxdb client certificate</h3>
-<p>This is how the console authenticates to openvoxdb:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml exec openvoxserver \
+<h2 id="issue-the-console-s-certificates">कंसोल के प्रमाणपत्र जारी करें</h2>
+<p>कंसोल को CA से दो प्रमाणपत्र चाहिए, और वैकल्पिक रूप से एक तीसरा। उन्हें चालू openvoxserver कंटेनर के भीतर जारी कीजिए और <code>certs/</code> में कॉपी कीजिए, जहाँ से compose फ़ाइल उन्हें कंसोल के लिए माउंट करती है।</p>
+<h3 id="the-openvoxdb-client-certificate">openvoxdb क्लाइंट प्रमाणपत्र</h3>
+<p>इसी से कंसोल openvoxdb के समक्ष प्रमाणित होता है:</p>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>docker compose -f docker-compose.yml exec openvoxserver \
   puppetserver ca generate --certname console
 
 docker compose -f docker-compose.yml cp \
@@ -256,11 +238,11 @@ docker compose -f docker-compose.yml cp \
 docker compose -f docker-compose.yml cp \
   openvoxserver:/etc/puppetlabs/puppet/ssl/certs/ca.pem certs/ca.pem
 </code></vox-code-block>
-<h3 id="the-node-transport-certificate">The node transport certificate</h3>
-<p>Nodes check this certificate when they connect to the console, so it
-must carry the exact name they dial: the host part of
-<code>CONSOLE_NODE_TRANSPORT_PUBLIC_ADDR</code>.</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml exec openvoxserver \
+<vox-callout variant="info" heading="नोट"><p><code>puppetserver ca generate</code> शुरुआत में <code>Error: Signed certificate console could not be found on the CA</code> छापता है। यह विफलता नहीं, बल्कि इस बात की जाँच है कि नाम उपलब्ध है। महत्वपूर्ण वे पंक्तियाँ हैं जो इसके बाद आती हैं और <code>Successfully saved certificate</code> पर समाप्त होती हैं।</p>
+</vox-callout>
+<h3 id="the-node-transport-certificate">Node ट्रांसपोर्ट प्रमाणपत्र</h3>
+<p>Nodes कंसोल से जुड़ते समय इस प्रमाणपत्र की जाँच करते हैं, इसलिए इसमें ठीक वही नाम होना चाहिए जिस पर वे कनेक्ट करते हैं: <code>CONSOLE_NODE_TRANSPORT_PUBLIC_ADDR</code> का होस्ट वाला हिस्सा।</p>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>docker compose -f docker-compose.yml exec openvoxserver \
   puppetserver ca generate --certname node-transport \
   --subject-alt-names console.example.com,node-transport
 
@@ -269,41 +251,25 @@ docker compose -f docker-compose.yml cp \
 docker compose -f docker-compose.yml cp \
   openvoxserver:/etc/puppetlabs/puppet/ssl/private_keys/node-transport.pem certs/node-transport-key.pem
 </code></vox-code-block>
-<p>Nodes authenticate back with their own certificates from the same CA,
-which is why the console needs no other file for them.</p>
-<h3 id="the-token-signing-key">The token signing key</h3>
-<p>The console signs its own login tokens with an ES256 key. This one does
-not come from the CA. Generate it on any machine with OpenSSL:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>openssl ecparam -genkey -name prime256v1 -noout -out rbac-signing-key.pem
+<p>Nodes बदले में उसी CA से मिले अपने प्रमाणपत्रों से प्रमाणित होते हैं, इसीलिए कंसोल को उनके लिए किसी और फ़ाइल की ज़रूरत नहीं होती।</p>
+<h3 id="the-token-signing-key">टोकन हस्ताक्षर कुंजी</h3>
+<p>कंसोल अपने लॉगिन टोकनों पर एक ES256 कुंजी से हस्ताक्षर करता है। यह कुंजी CA से नहीं आती। इसे किसी भी मशीन पर OpenSSL से बनाइए:</p>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>openssl ecparam -genkey -name prime256v1 -noout -out rbac-signing-key.pem
 </code></vox-code-block>
-<vox-callout variant="danger" heading="Caution"><p>Back this file up. Losing it invalidates every issued token, which logs
-everyone out; leaking it lets anyone mint tokens. See
-<a href="rotate-signing-key.html">Rotate the token signing key</a> to replace it
-safely.</p>
+<vox-callout variant="danger" heading="सावधानी"><p>इस फ़ाइल का बैकअप लीजिए। इसके खोने से हर जारी टोकन अमान्य हो जाता है, जिससे सभी लॉग आउट हो जाते हैं; इसके लीक होने से कोई भी टोकन गढ़ सकता है। इसे सुरक्षित रूप से बदलने के लिए देखें <a href="rotate-signing-key.html">टोकन हस्ताक्षर कुंजी बदलें</a>।</p>
 </vox-callout>
-<p>Generate it straight into <code>certs/</code>:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>openssl ecparam -genkey -name prime256v1 -noout -out certs/rbac-signing-key.pem
+<p>इसे सीधे <code>certs/</code> में बनाइए:</p>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>openssl ecparam -genkey -name prime256v1 -noout -out certs/rbac-signing-key.pem
 </code></vox-code-block>
-<h3 id="the-certificate-admin-credential-optional">The certificate-admin credential (optional)</h3>
-<p>This credential is what lets the <strong>Nodes</strong> page show certificate status,
-and sign, revoke and clean certificates. Without it the console lists
-only nodes that have already connected or reported. A node waiting for
-its certificate to be signed does not appear at all, because the CA is
-the only part that knows it exists.</p>
-<vox-callout variant="warning" heading="Warning"><p>This credential is full CA admin. openvoxserver gates every CA
-endpoint behind one authorization extension, so a certificate that can
-read statuses can also sign, revoke and clean <em>any</em> node&#39;s certificate.
-There is no read-only variant. Keep it only where the console runs, and
-read <a href="certificates.html">Manage node certificates</a> before issuing it.</p>
+<h3 id="the-certificate-admin-credential-optional">certificate-admin क्रेडेंशियल (वैकल्पिक)</h3>
+<p>यही क्रेडेंशियल <strong>Nodes</strong> पृष्ठ को प्रमाणपत्र की स्थिति दिखाने, और प्रमाणपत्रों पर हस्ताक्षर करने, उन्हें निरस्त करने और साफ़ करने देता है। इसके बिना कंसोल केवल वही Nodes सूचीबद्ध करता है जो पहले ही कनेक्ट हो चुके हैं या रिपोर्ट कर चुके हैं। जो Node अपने प्रमाणपत्र पर हस्ताक्षर की प्रतीक्षा कर रहा है, वह दिखता ही नहीं, क्योंकि केवल CA ही जानता है कि वह मौजूद है।</p>
+<vox-callout variant="warning" heading="चेतावनी"><p>यह क्रेडेंशियल पूर्ण CA admin है। openvoxserver हर CA endpoint को एक ही authorization extension के पीछे रखता है, इसलिए जो प्रमाणपत्र स्थितियाँ पढ़ सकता है, वह <em>किसी भी</em> Node के प्रमाणपत्र पर हस्ताक्षर कर सकता है, उसे निरस्त और साफ़ भी कर सकता है। इसका कोई केवल-पढ़ने वाला रूप नहीं है। इसे केवल वहीं रखिए जहाँ कंसोल चलता है, और जारी करने से पहले <a href="certificates.html">Node प्रमाणपत्र प्रबंधित करें</a> पढ़िए।</p>
 </vox-callout>
-<p>Issuing it writes to CA state that a running openvoxserver also writes,
-so stop openvoxserver first and issue it from a one-off container using
-the same volumes. Compose names volumes after the project directory, so
-check the exact names first:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker volume ls | grep openvoxserver
+<p>इसे जारी करना उस CA स्थिति में लिखता है जिसमें चालू openvoxserver भी लिखता है, इसलिए पहले openvoxserver को रोकिए और उन्हीं volumes का उपयोग करने वाले एक बार के कंटेनर से इसे जारी कीजिए। Compose volumes के नाम प्रोजेक्ट डायरेक्टरी के नाम पर रखता है, इसलिए पहले सटीक नाम जाँच लीजिए:</p>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>docker volume ls | grep openvoxserver
 </code></vox-code-block>
-<p>Then, using the two names it printed:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml stop openvoxserver
+<p>फिर, उसके द्वारा छापे गए दोनों नामों का उपयोग करते हुए:</p>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>docker compose -f docker-compose.yml stop openvoxserver
 
 docker run --rm --entrypoint &#34;&#34; \
   -v openvox-console_openvoxserver-ssl:/etc/puppetlabs/puppet/ssl \
@@ -313,169 +279,127 @@ docker run --rm --entrypoint &#34;&#34; \
 
 docker compose -f docker-compose.yml start openvoxserver
 </code></vox-code-block>
-<vox-callout variant="warning" heading="Warning"><p><code>--force</code> is required here. Before signing, the command checks that
-the server is really stopped, and inside a bare container it cannot
-tell, so without <code>--force</code> it prints &#34;Could not determine whether
-Puppet Server is online&#34; and exits having created nothing. Read its
-output rather than assuming it worked.</p>
+<vox-callout variant="warning" heading="चेतावनी"><p>यहाँ <code>--force</code> आवश्यक है। हस्ताक्षर करने से पहले कमांड जाँचती है कि सर्वर सचमुच बंद है, और एक साधारण कंटेनर के भीतर वह यह पता नहीं लगा पाती, इसलिए <code>--force</code> के बिना वह &#34;Could not determine whether Puppet Server is online&#34; छापकर कुछ भी बनाए बिना बाहर निकल जाती है। यह मान लेने के बजाय कि काम हो गया, उसका आउटपुट पढ़िए।</p>
 </vox-callout>
-<p>It reports writing its files under a long <code>.puppetlabs</code> path. Ignore
-that: in the volumes they land in the usual place. Copy them out:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml cp \
+<p>यह बताता है कि इसने अपनी फ़ाइलें एक लंबे <code>.puppetlabs</code> पथ के अंतर्गत लिखी हैं। इसे अनदेखा कीजिए: volumes में वे सामान्य स्थान पर ही पहुँचती हैं। उन्हें बाहर कॉपी कीजिए:</p>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>docker compose -f docker-compose.yml cp \
   openvoxserver:/etc/puppetlabs/puppet/ssl/certs/console-ca-client.pem certs/ca-client-cert.pem
 docker compose -f docker-compose.yml cp \
   openvoxserver:/etc/puppetlabs/puppet/ssl/private_keys/console-ca-client.pem certs/ca-client-key.pem
 </code></vox-code-block>
-<p>Then tell the console where the CA is, in <code>.env</code>. Inside the compose
-network the console reaches openvoxserver by its container name, which
-is always in openvoxserver&#39;s certificate:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CONSOLE_CA_CLIENT_URL=https://openvoxserver:8140
+<p>फिर <code>.env</code> में कंसोल को बताइए कि CA कहाँ है। compose नेटवर्क के भीतर कंसोल openvoxserver तक उसके कंटेनर नाम से पहुँचता है, जो openvoxserver के प्रमाणपत्र में हमेशा होता है:</p>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>CONSOLE_CA_CLIENT_URL=https://openvoxserver:8140
 </code></vox-code-block>
-<p>Confirm the credential is accepted, from inside openvoxserver:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml exec openvoxserver \
+<p>openvoxserver के भीतर से पुष्टि कीजिए कि क्रेडेंशियल स्वीकार किया जाता है:</p>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>docker compose -f docker-compose.yml exec openvoxserver \
   curl -sS -o /dev/null -w &#39;HTTP %{http_code}\n&#39; \
   --cert /etc/puppetlabs/puppet/ssl/certs/console-ca-client.pem \
   --key /etc/puppetlabs/puppet/ssl/private_keys/console-ca-client.pem \
   --cacert /etc/puppetlabs/puppet/ssl/certs/ca.pem \
   https://openvoxserver:8140/puppet-ca/v1/certificate_statuses/all
 </code></vox-code-block>
-<p><code>HTTP 200</code> means the CA accepts it.</p>
+<p><code>HTTP 200</code> का अर्थ है कि CA उसे स्वीकार करता है।</p>
 <h3 id="tasks">Tasks</h3>
-<p>Running Puppet tasks needs nothing more. The console asks openvoxserver
-which tasks your deployed code contains, at
-<code>https://openvoxserver:8140</code>, using the openvoxdb client certificate you
-already issued; openvoxserver lets any certificate from its CA read
-tasks. To turn tasks off, set the address to nothing in <code>.env</code>:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CONSOLE_PUPPET_SERVER_URL=
+<p>Puppet Tasks चलाने के लिए और कुछ नहीं चाहिए। कंसोल, आपके पहले से जारी openvoxdb क्लाइंट प्रमाणपत्र का उपयोग करते हुए, <code>https://openvoxserver:8140</code> पर openvoxserver से पूछता है कि आपके deploy किए गए कोड में कौन-से Tasks हैं; openvoxserver अपने CA के किसी भी प्रमाणपत्र को Tasks पढ़ने देता है। Tasks बंद करने के लिए <code>.env</code> में पता खाली सेट कीजिए:</p>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>CONSOLE_PUPPET_SERVER_URL=
 </code></vox-code-block>
-<p>See <a href="run-jobs.html">Run jobs</a> for running them.</p>
-<h3 id="the-class-list">The class list</h3>
-<p>A node group&#39;s page offers the classes your deployed code defines, with
-their parameters, so they are picked rather than typed. The console
-reads them from openvoxserver over the same connection as tasks.</p>
-<p>openvoxserver does not let any certificate read classes by default. The
-server image in the compose file adds the rule on every start, allowing
-the certificate named <code>console</code> - the openvoxdb client certificate you
-issued above. If you issued it under another name, set that name in
-<code>.env</code>:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CLASS_DISCOVERY_CERTNAME=my-console-cert
+<p>इन्हें चलाने के लिए देखें <a href="run-jobs.html">Jobs चलाएँ</a>।</p>
+<h3 id="the-class-list">क्लास सूची</h3>
+<p>Node समूह का पृष्ठ आपके deploy किए गए कोड द्वारा परिभाषित क्लासें, उनके पैरामीटरों के साथ, प्रस्तुत करता है, ताकि उन्हें टाइप करने के बजाय चुना जा सके। कंसोल उन्हें openvoxserver से उसी कनेक्शन पर पढ़ता है जिस पर Tasks।</p>
+<p>openvoxserver डिफ़ॉल्ट रूप से किसी भी प्रमाणपत्र को क्लासें पढ़ने नहीं देता। compose फ़ाइल की server इमेज हर शुरुआत पर यह नियम जोड़ती है, जो <code>console</code> नाम वाले प्रमाणपत्र को अनुमति देता है - यानी ऊपर आपके द्वारा जारी openvoxdb क्लाइंट प्रमाणपत्र को। यदि आपने उसे किसी और नाम से जारी किया है, तो वह नाम <code>.env</code> में सेट कीजिए:</p>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>CLASS_DISCOVERY_CERTNAME=my-console-cert
 </code></vox-code-block>
-<p>Check it from inside openvoxserver, with the console&#39;s certificate.
-<code>HTTP 200</code> means the list can be read:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml exec openvoxserver \
+<p>इसे openvoxserver के भीतर से, कंसोल के प्रमाणपत्र के साथ जाँचिए। <code>HTTP 200</code> का अर्थ है कि सूची पढ़ी जा सकती है:</p>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>docker compose -f docker-compose.yml exec openvoxserver \
   curl -sS -o /dev/null -w &#39;HTTP %{http_code}\n&#39; \
   --cert /etc/puppetlabs/puppet/ssl/certs/console.pem \
   --key /etc/puppetlabs/puppet/ssl/private_keys/console.pem \
   --cacert /etc/puppetlabs/puppet/ssl/certs/ca.pem \
   &#39;https://openvoxserver:8140/puppet/v3/environment_classes?environment=production&#39;
 </code></vox-code-block>
-<p><code>HTTP 403</code> means the rule does not name this certificate. Nothing else
-depends on it: the group page then says the list is unavailable, and
-classes are entered by name, as they were before the list existed. See
-<a href="classify.html">Classify nodes</a>.</p>
-<h2 id="start-everything-else">Start everything else</h2>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml pull
+<p><code>HTTP 403</code> का अर्थ है कि नियम में इस प्रमाणपत्र का नाम नहीं है। और कुछ इस पर निर्भर नहीं है: तब समूह पृष्ठ बताता है कि सूची उपलब्ध नहीं है, और क्लासें नाम से दर्ज की जाती हैं, जैसे सूची के आने से पहले होती थीं। देखें <a href="classify.html">Nodes का वर्गीकरण करें</a>।</p>
+<h2 id="start-everything-else">बाक़ी सब कुछ शुरू करें</h2>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>docker compose -f docker-compose.yml pull
 docker compose -f docker-compose.yml up -d
 </code></vox-code-block>
-<p>openvoxdb requests its own certificate from the CA on first start. The
-compose file signs exactly that one request automatically, through an
-allow list holding only <code>openvoxdb</code>; nodes are never signed that way.
-openvoxdb then waits for its database, and the console waits for both.
-Watch them come up:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml ps
+<p>openvoxdb पहली शुरुआत पर CA से अपना प्रमाणपत्र माँगता है। compose फ़ाइल ठीक उसी एक अनुरोध पर स्वचालित रूप से हस्ताक्षर करती है, एक allow list के ज़रिये जिसमें केवल <code>openvoxdb</code> है; Nodes पर कभी इस तरह हस्ताक्षर नहीं होते। फिर openvoxdb अपने डेटाबेस की प्रतीक्षा करता है, और कंसोल दोनों की। उन्हें चालू होते देखिए:</p>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>docker compose -f docker-compose.yml ps
 </code></vox-code-block>
-<p>Every service reaches <code>healthy</code> within a few minutes.</p>
-<h3 id="if-openvoxdb-never-becomes-healthy">If openvoxdb never becomes healthy</h3>
-<p>openvoxdb gives up if its certificate request is not signed within two
-minutes, and when it does, it writes the failure into its own certificate
-file. Every restart after that sees a certificate file, skips enrolling,
-and fails with <code>No certs found in &#39;ssl-cert&#39; file</code>. It does not recover
-on its own. Reset its identity rather than restarting it:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml rm -sf openvoxdb
+<p>हर सेवा कुछ ही मिनटों में <code>healthy</code> तक पहुँच जाती है।</p>
+<h3 id="if-openvoxdb-never-becomes-healthy">यदि openvoxdb कभी स्वस्थ न हो</h3>
+<p>यदि openvoxdb के प्रमाणपत्र अनुरोध पर दो मिनट के भीतर हस्ताक्षर नहीं होते, तो वह हार मान लेता है, और ऐसा होने पर विफलता को अपनी ही प्रमाणपत्र फ़ाइल में लिख देता है। उसके बाद हर पुनः आरंभ को एक प्रमाणपत्र फ़ाइल दिखती है, वह नामांकन छोड़ देता है, और <code>No certs found in &#39;ssl-cert&#39; file</code> के साथ विफल होता है। यह अपने-आप ठीक नहीं होता। इसे पुनः आरंभ करने के बजाय इसकी पहचान रीसेट कीजिए:</p>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>docker compose -f docker-compose.yml rm -sf openvoxdb
 docker volume rm openvox-console_openvoxdb-ssl
 docker compose -f docker-compose.yml exec openvoxserver \
   puppetserver ca clean --certname openvoxdb
 docker compose -f docker-compose.yml up -d openvoxdb
 </code></vox-code-block>
-<p>The volume name follows the project directory&#39;s name; check it with
-<code>docker volume ls</code>. Skipping the <code>ca clean</code> leaves the CA holding a signed
-certificate for <code>openvoxdb</code> with no key to match, and the fresh start
-fails with <code>No keypair on disk and CA already has signed certificate</code>.</p>
-<h2 id="log-in-for-the-first-time">Log in for the first time</h2>
-<p>On its first start the console creates its database schema, then creates
-the bootstrap admin while the users table is still empty. Its log shows
-three lines once it is up:</p>
-<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>database migrations up to date
+<p>volume का नाम प्रोजेक्ट डायरेक्टरी के नाम पर होता है; इसे <code>docker volume ls</code> से जाँचिए। <code>ca clean</code> छोड़ देने से CA के पास <code>openvoxdb</code> का एक हस्ताक्षरित प्रमाणपत्र रह जाता है जिससे मेल खाने वाली कोई कुंजी नहीं होती, और नई शुरुआत <code>No keypair on disk and CA already has signed certificate</code> के साथ विफल होती है।</p>
+<h2 id="put-tls-in-front-of-the-console">कंसोल के आगे TLS लगाएँ</h2>
+<p>कंसोल अपना वेब इंटरफ़ेस और API सादे HTTP पर देता है। <code>https://</code> base URL तक एक reverse proxy के ज़रिये पहुँचा जाता है जो TLS समाप्त करके अनुरोध कंसोल तक पहुँचाता है। कोई भी reverse proxy काम करता है। यहाँ कंसोल के होस्ट पर <a href="https://caddyserver.com/">Caddy</a> का उपयोग किया गया है:</p>
+<vox-tabs class="guide-tabs"><vox-tab slot="tab" panel="tab1-debian-and-ubuntu" data-tab-key="debian-and-ubuntu" selected="">Debian और Ubuntu</vox-tab><vox-tab-panel name="tab1-debian-and-ubuntu"><vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>sudo apt-get install -y caddy
+</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab1-rhel-rocky-and-almalinux" data-tab-key="rhel-rocky-and-almalinux">RHEL, Rocky और AlmaLinux</vox-tab><vox-tab-panel name="tab1-rhel-rocky-and-almalinux"><vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>sudo dnf install -y epel-release
+sudo dnf install -y caddy
+sudo systemctl enable --now caddy
+</code></vox-code-block></vox-tab-panel></vox-tabs><p>तब पूरी <code>/etc/caddy/Caddyfile</code> बस इतनी है:</p>
+<vox-code-block language="plaintext" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>console.example.com {
+	reverse_proxy 127.0.0.1:8080
+}
+</code></vox-code-block>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>sudo systemctl reload caddy
+</code></vox-code-block>
+<p>यदि कंसोल openvoxdb के साथ होस्ट साझा करने के कारण किसी दूसरे पोर्ट पर सुनता है, तो <code>reverse_proxy</code> में वही पोर्ट डालिए।</p>
+<p>इंटरनेट पर resolve हो सकने वाले नाम के लिए Caddy प्रमाणपत्र स्वयं प्राप्त और नवीनीकृत करता है। आंतरिक नाम के लिए, block के भीतर <code>tls &lt;cert file&gt; &lt;key file&gt;</code> पंक्ति से उसे अपने CA का प्रमाणपत्र दीजिए। परीक्षण के लिए, <code>tls internal</code> से Caddy अपने स्थानीय CA से प्रमाणपत्र जारी करता है, जिस पर browsers चेतावनी देते हैं।</p>
+<vox-callout variant="warning" heading="चेतावनी"><p>केवल वेब इंटरफ़ेस proxy से होकर जाता है। Node ट्रांसपोर्ट, पोर्ट 8142, अपना TLS स्वयं रखता है और हर Node का प्रमाणपत्र स्वयं जाँचता है, इसलिए Nodes को उस तक सीधे पहुँचना चाहिए। इसे कभी proxy के पीछे न रखें।</p>
+</vox-callout>
+<h2 id="log-in-for-the-first-time">पहली बार लॉग इन करें</h2>
+<p>पहली शुरुआत पर कंसोल अपना डेटाबेस schema बनाता है, फिर users तालिका के खाली रहते ही bootstrap admin बनाता है। चालू होने पर उसके लॉग में तीन पंक्तियाँ दिखती हैं:</p>
+<vox-code-block language="plaintext" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>database migrations up to date
 node transport ready   addr=[::]:8142
 console ready          addr=:8080
 </code></vox-code-block>
-<p>Check that it reports itself healthy:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -fsS https://console.example.com/health
+<p>जाँचिए कि यह स्वयं को स्वस्थ बताता है, पहले सीधे कंसोल के होस्ट पर, फिर उसके base URL पर TLS proxy के ज़रिये:</p>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>curl -fsS http://127.0.0.1:8080/health
+curl -fsS https://console.example.com/health
 </code></vox-code-block>
-<p>The reply lists each dependency as <code>ok</code>. Then open the console&#39;s base URL,
-log in as the bootstrap admin, and change its password straight away.</p>
-<p>The bootstrap admin&#39;s password must have at least 12 characters and
-must not be the same as its username. If it does not, no admin is
-created and nobody can log in. The log says so:</p>
-<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CONSOLE_BOOTSTRAP_ADMIN_PASSWORD does not meet the account policy, so no administrator was created
+<p>हर उत्तर हर निर्भरता को <code>ok</code> के रूप में सूचीबद्ध करता है। यदि केवल दूसरा विफल हो, तो कंसोल ठीक है और proxy नहीं। यदि आपने कंसोल को 8080 से हटाया है, तो पहले में कंसोल का अपना पोर्ट उपयोग कीजिए। फिर कंसोल का base URL खोलिए, bootstrap admin के रूप में लॉग इन कीजिए, और उसका पासवर्ड तुरंत बदल दीजिए।</p>
+<p>bootstrap admin के पासवर्ड में कम से कम 12 अक्षर होने चाहिए और वह उसके username जैसा नहीं होना चाहिए। अन्यथा कोई admin नहीं बनता और कोई लॉग इन नहीं कर सकता। लॉग यह बताता है:</p>
+<vox-code-block language="plaintext" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>CONSOLE_BOOTSTRAP_ADMIN_PASSWORD does not meet the account policy, so no administrator was created
 </code></vox-code-block>
-<p>Set a longer password and start the console again. See
-<a href="access.html#passwords-and-lockout">Passwords and lockout</a>.</p>
-<vox-callout variant="info" heading="Note"><p>Once you have logged in and changed the password, remove the bootstrap
-admin settings from the console&#39;s configuration. They are only read
-while the users table is empty, but there is no reason to keep a
-password lying around.</p>
+<p>लंबा पासवर्ड सेट कीजिए और कंसोल फिर से शुरू कीजिए। देखें <a href="access.html#passwords-and-lockout">पासवर्ड और लॉकआउट</a>।</p>
+<vox-callout variant="info" heading="नोट"><p>लॉग इन करके पासवर्ड बदल लेने के बाद, कंसोल के कॉन्फ़िगरेशन से bootstrap admin सेटिंग्स हटा दीजिए। वे केवल तभी पढ़ी जाती हैं जब users तालिका खाली हो, फिर भी किसी पासवर्ड को यूँ ही पड़ा रहने देने का कोई कारण नहीं है।</p>
 </vox-callout>
-<h2 id="connect-classification">Connect classification</h2>
-<p>openvoxserver asks the console which classes each node gets, through
-Puppet&#39;s standard <code>exec</code> node terminus. A small program, <code>enc-bridge</code>,
-makes that request on openvoxserver&#39;s behalf, and it needs a token to do
-so.</p>
-<h3 id="issue-enc-bridge-a-token">Issue enc-bridge a token</h3>
-<p>A service token carries a fixed set of permissions chosen when it is
-created, with no role involved. Create one allowed only to read
-classification:</p>
+<h2 id="connect-classification">वर्गीकरण जोड़ें</h2>
+<p>openvoxserver, Puppet के मानक <code>exec</code> node terminus के ज़रिये, कंसोल से पूछता है कि हर Node को कौन-सी क्लासें मिलेंगी। एक छोटा प्रोग्राम, <code>enc-bridge</code>, openvoxserver की ओर से यह अनुरोध करता है, और इसके लिए उसे एक टोकन चाहिए।</p>
+<h3 id="issue-enc-bridge-a-token">enc-bridge के लिए टोकन जारी करें</h3>
+<p>सेवा टोकन में अनुमतियों का एक निश्चित समुच्चय होता है जो उसे बनाते समय चुना जाता है, बिना किसी भूमिका के। ऐसा एक टोकन बनाइए जिसे केवल वर्गीकरण पढ़ने की अनुमति हो:</p>
 <ol>
-<li>In the console, open <strong>Admin</strong>, then <strong>Service tokens</strong>.</li>
-<li>Under <strong>New service token</strong>, name it <code>enc-bridge</code> and give it only the
-<code>enc:read</code> permission.</li>
-<li>Choose <strong>Create service token</strong>.</li>
+<li>कंसोल में <strong>प्रशासन</strong> खोलिए, फिर <strong>सेवा टोकन</strong>।</li>
+<li><strong>नया सेवा टोकन</strong> के अंतर्गत इसका नाम <code>enc-bridge</code> रखिए और इसे केवल <code>enc:read</code> अनुमति दीजिए।</li>
+<li><strong>सेवा टोकन बनाएँ</strong> चुनिए।</li>
 </ol>
-<p>The token is shown <strong>once</strong>. Copy it now.</p>
-<vox-callout variant="tip" heading="Tip"><p>The same through the API, with an access token from an admin login:
-<code>curl -X POST https://console.example.com/api/v1/service-tokens -H &#34;Authorization: Bearer &lt;admin access token&gt;&#34; -H &#39;Content-Type: application/json&#39; -d &#39;{&#34;name&#34;:&#34;enc-bridge&#34;,&#34;permissions&#34;:[&#34;enc:read&#34;]}&#39;</code></p>
+<p>टोकन केवल <strong>एक बार</strong> दिखाया जाता है। इसे अभी कॉपी कर लीजिए।</p>
+<vox-callout variant="tip" heading="सुझाव"><p>यही काम API से, admin लॉगिन के access token के साथ: <code>curl -X POST https://console.example.com/api/v1/service-tokens -H &#34;Authorization: Bearer &lt;admin access token&gt;&#34; -H &#39;Content-Type: application/json&#39; -d &#39;{&#34;name&#34;:&#34;enc-bridge&#34;,&#34;permissions&#34;:[&#34;enc:read&#34;]}&#39;</code></p>
 </vox-callout>
-<h3 id="give-openvoxserver-the-token">Give openvoxserver the token</h3>
-<p>The openvoxserver image already contains <code>enc-bridge</code>, the Puppet
-configuration that uses it, and the Hiera function that lets nodes read
-<a href="classify.html#set-configuration-data">configuration data</a>, so all
-it needs is the token. Write it to the
-secret file you created empty earlier:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>printf &#39;%s&#39; &#39;&lt;the enc:read service token&gt;&#39; &gt; secrets/enc_bridge_token
+<h3 id="give-openvoxserver-the-token">openvoxserver को टोकन दें</h3>
+<p>openvoxserver इमेज में <code>enc-bridge</code>, उसका उपयोग करने वाला Puppet कॉन्फ़िगरेशन, और Nodes को <a href="classify.html#set-configuration-data">कॉन्फ़िगरेशन डेटा</a> पढ़ने देने वाला Hiera function पहले से है, इसलिए इसे केवल टोकन चाहिए। इसे उस secret फ़ाइल में लिखिए जिसे आपने पहले खाली बनाया था:</p>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>printf &#39;%s&#39; &#39;&lt;the enc:read service token&gt;&#39; &gt; secrets/enc_bridge_token
 </code></vox-code-block>
-<p>openvoxserver does not run as root inside its container, and Compose
-mounts secret files with their ownership on the host. A file readable only
-by your own user is therefore unreadable to openvoxserver, and
-classification fails. Give group 0 read access and protect the directory
-instead:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo chgrp 0 secrets/enc_bridge_token
+<p>openvoxserver अपने कंटेनर के भीतर root के रूप में नहीं चलता, और Compose गोपनीय फ़ाइलों को होस्ट पर उनके स्वामित्व के साथ ही माउंट करता है। इसलिए जो फ़ाइल केवल आपके अपने उपयोगकर्ता द्वारा पढ़ी जा सकती है, उसे openvoxserver नहीं पढ़ सकता, और वर्गीकरण विफल हो जाता है। इसके बजाय group 0 को पढ़ने की अनुमति दीजिए और डायरेक्टरी को सुरक्षित कीजिए:</p>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>sudo chgrp 0 secrets/enc_bridge_token
 chmod 640 secrets/enc_bridge_token
 chmod 700 secrets
 </code></vox-code-block>
-<p>Recreate openvoxserver so it reads the new token:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml up -d --force-recreate openvoxserver
+<p>openvoxserver को दोबारा बनाइए ताकि वह नया टोकन पढ़े:</p>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>docker compose -f docker-compose.yml up -d --force-recreate openvoxserver
 </code></vox-code-block>
-<h3 id="check-classification">Check classification</h3>
-<p>Ask enc-bridge directly, as openvoxserver runs it. This checks the
-program, the token, the file permissions and the console&#39;s answer in one
-command:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml exec -u puppet:0 openvoxserver \
+<h3 id="check-classification">वर्गीकरण जाँचें</h3>
+<p>enc-bridge से सीधे पूछिए, ठीक वैसे जैसे openvoxserver उसे चलाता है। यह एक ही कमांड में प्रोग्राम, टोकन, फ़ाइल अनुमतियाँ और कंसोल का उत्तर जाँच लेता है:</p>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>docker compose -f docker-compose.yml exec -u puppet:0 openvoxserver \
   /usr/local/bin/enc-bridge &lt;a certname&gt;
 </code></vox-code-block>
-<p><code>{}</code> means classification works and that node matches no group yet.
-Create a node group on the console&#39;s <strong>Groups</strong> page that pins that
-certname, run the same command again, and its classes come back:</p>
-<vox-code-block language="yaml" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>classes:
+<p><code>{}</code> का अर्थ है कि वर्गीकरण काम कर रहा है और वह Node अभी किसी समूह से मेल नहीं खाता। कंसोल के <strong>समूह</strong> पृष्ठ पर एक Node समूह बनाइए जो उस certname को पिन करे, वही कमांड फिर चलाइए, और उसकी क्लासें लौट आती हैं:</p>
+<vox-code-block language="yaml" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>classes:
     ntp:
         servers:
             - time.example.com
@@ -483,34 +407,28 @@ parameters:
     role: prodtest
 environment: production
 </code></vox-code-block>
-<p>An error here is the failure to catch. <code>permission denied</code> means the
-token is not readable by the user openvoxserver runs as, and a 401 means
-the token is wrong or lacks <code>enc:read</code>.</p>
-<vox-callout variant="tip" heading="Tip"><p>If a node&#39;s next Puppet run fails with <code>Could not find class &lt;name&gt;</code>,
-classification is working: the console told openvoxserver to include a
-class your Puppet code does not define yet.</p>
+<p>यहाँ आने वाली त्रुटि ही वह विफलता है जिसे पकड़ना है। <code>permission denied</code> का अर्थ है कि openvoxserver जिस उपयोगकर्ता के रूप में चलता है, वह टोकन को पढ़ नहीं सकता, और 401 का अर्थ है कि टोकन गलत है या उसमें <code>enc:read</code> नहीं है।</p>
+<vox-callout variant="tip" heading="सुझाव"><p>यदि किसी Node का अगला Puppet रन <code>Could not find class &lt;name&gt;</code> के साथ विफल होता है, तो वर्गीकरण काम कर रहा है: कंसोल ने openvoxserver से एक ऐसी क्लास शामिल करने को कहा है जिसे आपका Puppet कोड अभी परिभाषित नहीं करता।</p>
 </vox-callout>
-<p>openvoxserver caches environments, so after adding Puppet code, flush its
-cache or the same error persists:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml exec openvoxserver sh -c \
+<p>openvoxserver Environments को कैश करता है, इसलिए Puppet कोड जोड़ने के बाद उसका कैश साफ़ कीजिए, वरना वही त्रुटि बनी रहती है:</p>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>docker compose -f docker-compose.yml exec openvoxserver sh -c \
   &#39;curl -ksS -X DELETE \
      --cert /etc/puppetlabs/puppet/ssl/certs/openvoxserver.pem \
      --key /etc/puppetlabs/puppet/ssl/private_keys/openvoxserver.pem \
      https://127.0.0.1:8140/puppet-admin-api/v1/environment-cache&#39;
 </code></vox-code-block>
-<h2 id="upgrade-later">Upgrade later</h2>
-<p>To move to a newer console, change <code>CONSOLE_IMAGE_TAG</code> (or pull again if
-you follow <code>main</code>) and bring the stack up again. Compose recreates only
-what changed:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml pull
+<h2 id="upgrade-later">बाद में अपग्रेड करें</h2>
+<p>नए कंसोल पर जाने के लिए <code>CONSOLE_IMAGE_TAG</code> बदलिए (या यदि आप <code>main</code> का अनुसरण करते हैं तो फिर से pull कीजिए) और स्टैक को दोबारा चालू कीजिए। Compose केवल वही दोबारा बनाता है जो बदला है:</p>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>docker compose -f docker-compose.yml pull
 docker compose -f docker-compose.yml up -d
 </code></vox-code-block>
-<h2 id="check-the-whole-deployment">Check the whole deployment</h2>
+<p>compose फ़ाइल openvoxdb का पोर्ट प्रकाशित नहीं करती, इसलिए नीचे की जाँच के लिए उससे उसके कंटेनर के भीतर से पूछिए: <code>docker compose -f docker-compose.yml exec openvoxdb curl -ksS https://127.0.0.1:8081/status/v1/simple</code></p>
+<h2 id="check-the-whole-deployment">पूरे परिनियोजन की जाँच करें</h2>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Check</th>
-<th>Expect</th>
+<th>जाँच</th>
+<th>अपेक्षित परिणाम</th>
 </tr>
 </thead>
 <tbody>
@@ -519,67 +437,68 @@ docker compose -f docker-compose.yml up -d
 <td><code>running</code></td>
 </tr>
 <tr>
-<td><code>curl -ksS https://&lt;openvoxdb&gt;:8081/status/v1/simple</code></td>
+<td><code>curl -ksS https://&lt;openvoxdb&gt;:8081/status/v1/simple</code>, किसी ऐसी जगह से जो उस तक पहुँच सके</td>
 <td><code>running</code></td>
 </tr>
 <tr>
 <td><code>curl -fsS https://console.example.com/health</code></td>
-<td>every dependency <code>ok</code></td>
+<td>हर निर्भरता <code>ok</code></td>
 </tr>
 <tr>
-<td>The console&#39;s log on start</td>
-<td>migrations, node transport, console ready</td>
+<td>शुरू होने पर कंसोल का लॉग</td>
+<td>migrations, Node ट्रांसपोर्ट, कंसोल तैयार</td>
 </tr>
 <tr>
-<td>Logging in as the bootstrap admin</td>
-<td>succeeds, and the password has been changed</td>
+<td>bootstrap admin के रूप में लॉग इन करना</td>
+<td>सफल होता है, और पासवर्ड बदल दिया गया है</td>
 </tr>
 <tr>
-<td>The <strong>Groups</strong> page</td>
-<td>a group matches the nodes you expect</td>
+<td><strong>समूह</strong> पृष्ठ</td>
+<td>कोई समूह उन्हीं Nodes से मेल खाता है जिनकी आप अपेक्षा करते हैं</td>
 </tr>
 </tbody>
 </table></div>
-<p>Your console is ready for nodes. Continue with
-<a href="add.html">Add nodes</a> to enroll the first one.</p>
+<p>आपका कंसोल Nodes के लिए तैयार है। पहला Node नामांकित करने के लिए <a href="add.html">Nodes जोड़ें</a> पर आगे बढ़िए।</p>
 
     </div>
 
-    <vox-series-nav label="Install" previous-text="Previous" next-text="Next" previous-href="../guides/plan.html" previous-label="Plan a deployment" next-href="../guides/packages.html" next-label="Install from packages and binaries"></vox-series-nav>
+    <vox-series-nav label="इंस्टॉल" previous-text="पिछला" next-text="अगला" previous-href="../guides/plan.html" previous-label="परिनियोजन की योजना बनाएँ" next-href="../guides/packages.html" next-label="पैकेजों और बाइनरी से इंस्टॉल करें"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#get-the-compose-file"><span>Get the compose file</span>
+    <vox-toc heading="इस पृष्ठ पर">
+      <vox-toc-item href="#get-the-compose-file"><span>compose फ़ाइल प्राप्त करें</span>
       </vox-toc-item>
-      <vox-toc-item href="#set-the-deployment-s-own-values"><span>Set the deployment&#39;s own values</span>
+      <vox-toc-item href="#set-the-deployment-s-own-values"><span>परिनियोजन के अपने मान सेट करें</span>
       </vox-toc-item>
-      <vox-toc-item href="#write-the-secrets"><span>Write the secrets</span>
+      <vox-toc-item href="#write-the-secrets"><span>गोपनीय मान लिखें</span>
       </vox-toc-item>
-      <vox-toc-item href="#start-the-certificate-authority"><span>Start the certificate authority</span>
+      <vox-toc-item href="#start-the-certificate-authority"><span>प्रमाणपत्र प्राधिकरण शुरू करें</span>
       </vox-toc-item>
-      <vox-toc-item href="#issue-the-console-s-certificates"><span>Issue the console&#39;s certificates</span>
-        <vox-toc-item slot="children" href="#the-openvoxdb-client-certificate"><span>The openvoxdb client certificate</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#the-node-transport-certificate"><span>The node transport certificate</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#the-token-signing-key"><span>The token signing key</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#the-certificate-admin-credential-optional"><span>The certificate-admin credential (optional)</span></vox-toc-item>
+      <vox-toc-item href="#issue-the-console-s-certificates"><span>कंसोल के प्रमाणपत्र जारी करें</span>
+        <vox-toc-item slot="children" href="#the-openvoxdb-client-certificate"><span>openvoxdb क्लाइंट प्रमाणपत्र</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#the-node-transport-certificate"><span>Node ट्रांसपोर्ट प्रमाणपत्र</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#the-token-signing-key"><span>टोकन हस्ताक्षर कुंजी</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#the-certificate-admin-credential-optional"><span>certificate-admin क्रेडेंशियल (वैकल्पिक)</span></vox-toc-item>
         <vox-toc-item slot="children" href="#tasks"><span>Tasks</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#the-class-list"><span>The class list</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#the-class-list"><span>क्लास सूची</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#start-everything-else"><span>Start everything else</span>
-        <vox-toc-item slot="children" href="#if-openvoxdb-never-becomes-healthy"><span>If openvoxdb never becomes healthy</span></vox-toc-item>
+      <vox-toc-item href="#start-everything-else"><span>बाक़ी सब कुछ शुरू करें</span>
+        <vox-toc-item slot="children" href="#if-openvoxdb-never-becomes-healthy"><span>यदि openvoxdb कभी स्वस्थ न हो</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#log-in-for-the-first-time"><span>Log in for the first time</span>
+      <vox-toc-item href="#put-tls-in-front-of-the-console"><span>कंसोल के आगे TLS लगाएँ</span>
       </vox-toc-item>
-      <vox-toc-item href="#connect-classification"><span>Connect classification</span>
-        <vox-toc-item slot="children" href="#issue-enc-bridge-a-token"><span>Issue enc-bridge a token</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#give-openvoxserver-the-token"><span>Give openvoxserver the token</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#check-classification"><span>Check classification</span></vox-toc-item>
+      <vox-toc-item href="#log-in-for-the-first-time"><span>पहली बार लॉग इन करें</span>
       </vox-toc-item>
-      <vox-toc-item href="#upgrade-later"><span>Upgrade later</span>
+      <vox-toc-item href="#connect-classification"><span>वर्गीकरण जोड़ें</span>
+        <vox-toc-item slot="children" href="#issue-enc-bridge-a-token"><span>enc-bridge के लिए टोकन जारी करें</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#give-openvoxserver-the-token"><span>openvoxserver को टोकन दें</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#check-classification"><span>वर्गीकरण जाँचें</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#check-the-whole-deployment"><span>Check the whole deployment</span>
+      <vox-toc-item href="#upgrade-later"><span>बाद में अपग्रेड करें</span>
+      </vox-toc-item>
+      <vox-toc-item href="#check-the-whole-deployment"><span>पूरे परिनियोजन की जाँच करें</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -589,23 +508,17 @@ docker compose -f docker-compose.yml up -d
 
       
       <vox-cta-band heading="स्वयं चलाकर देखिए">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console कंटेनर इमेजों के रूप में आता है, जो हर push पर amd64 और arm64 के लिए बनती हैं, और एक अकेली बाइनरी के रूप में भी। इंस्टॉल गाइड आपको खाली होस्ट से एक चालू परिनियोजन तक ले जाते हैं - openvoxserver, openvoxdb, Postgres और कंसोल - कंटेनरों से या पैकेजों से।</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">इंस्टॉल गाइड</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">GitHub पर स्रोत</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">कंटेनर इमेज</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="पूर्ण आकार का स्क्रीनशॉट">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">बंद करें</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -614,18 +527,18 @@ docker compose -f docker-compose.yml up -d
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">सिंहावलोकन</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">स्रोत</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">इंस्टॉल गाइड</a>
       </vox-footer-column>
       <vox-footer-column heading="क्षमताएँ">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">वर्गीकरण</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">ऑर्केस्ट्रेशन</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">पैचिंग</a>
         <a href="../features/security.html">सुरक्षा</a>
         <a href="../features/access-control.html">पहुँच नियंत्रण</a>
         <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/scaling.html">विस्तार</a>
         </vox-footer-column>
       
       <vox-footer-column heading="भाषा">

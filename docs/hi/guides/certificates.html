@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="hi" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Sign, revoke and clean node certificates from the console, and what each does to a connected node."/>
+    <meta name="description" content="कंसोल से Node प्रमाणपत्रों पर हस्ताक्षर कीजिए, उन्हें निरस्त और साफ़ कीजिए — और जानिए कि हर कार्रवाई कनेक्टेड Node पर क्या असर डालती है।"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Manage node certificates - OpenVox Console</title>
+    <title>Node प्रमाणपत्र प्रबंधित करें - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">गाइड</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,238 +104,190 @@
       <a href="../features/classification.html">वर्गीकरण</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">ऑर्केस्ट्रेशन</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">पैचिंग</a>
       <a href="../features/security.html">सुरक्षा</a>
       <a href="../features/access-control.html">पहुँच नियंत्रण</a>
       <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/scaling.html">विस्तार</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="गाइड" toggle-label="सभी गाइड">
+    <vox-sidenav-group heading="इंस्टॉल">
+      <vox-sidenav-item href="../guides/plan.html"><span>परिनियोजन की योजना बनाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>कंटेनरों से इंस्टॉल करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>पैकेजों और बाइनरी से इंस्टॉल करें</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes" open="">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html" current="" aria-current="page"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>Nodes जोड़ें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html" current="" aria-current="page"><span>Node प्रमाणपत्र प्रबंधित करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>किसी Node को हटाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Node एजेंटों को नवीनतम रखें</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
+    <vox-sidenav-group heading="विस्तार">
       <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>अधिक इंस्टेंस चलाएँ</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="उपयोग">
+      <vox-sidenav-item href="../guides/classify.html"><span>Nodes का वर्गीकरण करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>कोड deploy करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>Jobs चलाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>Plans चलाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Jobs शेड्यूल करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>उपयोगकर्ता, भूमिकाएँ और टोकन</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>कमज़ोरियों पर नज़र रखें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>छूटे हुए अपडेट खोजें और लागू करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>बिना एजेंट वाले होस्टों पर Tasks चलाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>अपने कोड से Plans चलाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>AI एजेंटों को कंसोल का उपयोग करने दें</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="संचालन">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>standby डेटाबेस पर failover करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>टोकन हस्ताक्षर कुंजी बदलें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>कंटेनर डेटाबेस को Postgres 18 पर अपग्रेड करें</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
     <p class="guide-eyebrow">Nodes</p>
-    <h1 class="guide-title vox-ts-xxl">Manage node certificates</h1>
-    <p class="guide-summary">Sign, revoke and clean node certificates from the console, and what each does to a connected node.</p>
+    <h1 class="guide-title vox-ts-xxl">Node प्रमाणपत्र प्रबंधित करें</h1>
+    <p class="guide-summary">कंसोल से Node प्रमाणपत्रों पर हस्ताक्षर कीजिए, उन्हें निरस्त और साफ़ कीजिए — और जानिए कि हर कार्रवाई कनेक्टेड Node पर क्या असर डालती है।</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>Every node&#39;s identity is a certificate from openvoxserver&#39;s CA. With the
-certificate-admin credential configured, the console&#39;s <strong>Nodes</strong> page
-shows each certificate&#39;s state and lets you act on it.</p>
-<h2 id="turn-certificate-management-on">Turn certificate management on</h2>
-<p>Certificate management needs the certificate-admin credential, issued
-during installation. Both install guides cover issuing it. The console
-uses it when all four settings are present:</p>
+<p>हर Node की पहचान openvoxserver के CA से मिला एक प्रमाणपत्र है। certificate-admin क्रेडेंशियल कॉन्फ़िगर होने पर, कंसोल का <strong>Nodes</strong> पृष्ठ हर प्रमाणपत्र की स्थिति दिखाता है और आपको उस पर कार्रवाई करने देता है।</p>
+<h2 id="turn-certificate-management-on">प्रमाणपत्र प्रबंधन चालू करें</h2>
+<p>प्रमाणपत्र प्रबंधन के लिए certificate-admin क्रेडेंशियल चाहिए, जो इंस्टॉलेशन के दौरान जारी होता है। दोनों इंस्टॉल गाइड इसे जारी करना बताते हैं। कंसोल इसका उपयोग तब करता है जब चारों सेटिंग्स मौजूद हों:</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Setting</th>
-<th>What it is</th>
+<th>सेटिंग</th>
+<th>यह क्या है</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>CONSOLE_CA_CLIENT_URL</code></td>
-<td>openvoxserver&#39;s address, as the console reaches it</td>
+<td>openvoxserver का पता, जिससे कंसोल उस तक पहुँचता है</td>
 </tr>
 <tr>
 <td><code>CONSOLE_CA_CLIENT_CERT_FILE</code></td>
-<td>the credential&#39;s certificate</td>
+<td>क्रेडेंशियल का प्रमाणपत्र</td>
 </tr>
 <tr>
 <td><code>CONSOLE_CA_CLIENT_KEY_FILE</code></td>
-<td>its private key</td>
+<td>इसकी private key</td>
 </tr>
 <tr>
 <td><code>CONSOLE_CA_CLIENT_CA_FILE</code></td>
-<td>the CA bundle, to verify openvoxserver</td>
+<td>CA bundle, openvoxserver को सत्यापित करने के लिए</td>
 </tr>
 </tbody>
 </table></div>
-<p>With any one unset, every node&#39;s certificate state reads <code>unknown</code> and
-the rest of the console works as usual.</p>
-<vox-callout variant="warning" heading="Warning"><p>The credential is full CA admin: anything that can use it can sign,
-revoke and clean <em>any</em> node&#39;s certificate. openvoxserver has no
-narrower variant. Keep its key readable only by the console.</p>
+<p>इनमें से कोई एक भी सेट न होने पर, हर Node के प्रमाणपत्र की स्थिति <code>unknown</code> दिखती है और कंसोल का बाक़ी हिस्सा सामान्य रूप से काम करता है।</p>
+<vox-callout variant="warning" heading="चेतावनी"><p>यह क्रेडेंशियल पूर्ण CA admin है: जो कुछ भी इसका उपयोग कर सकता है, वह <em>किसी भी</em> Node के प्रमाणपत्र पर हस्ताक्षर कर सकता है, उसे निरस्त और साफ़ कर सकता है। openvoxserver में इसका कोई सीमित रूप नहीं है। इसकी कुंजी को केवल कंसोल द्वारा पठनीय रखिए।</p>
 </vox-callout>
-<h2 id="decide-who-may-act-on-certificates">Decide who may act on certificates</h2>
-<p>Two permissions are involved, and they are deliberately far apart:</p>
+<h2 id="decide-who-may-act-on-certificates">तय करें कि प्रमाणपत्रों पर कौन कार्रवाई कर सकता है</h2>
+<p>दो अनुमतियाँ शामिल हैं, और उन्हें जानबूझकर एक-दूसरे से बहुत अलग रखा गया है:</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Permission</th>
-<th>Allows</th>
+<th>अनुमति</th>
+<th>अनुमति देता है</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>nodes:read</code></td>
-<td>seeing each node and its certificate state</td>
+<td>हर Node और उसके प्रमाणपत्र की स्थिति देखना</td>
 </tr>
 <tr>
 <td><code>nodes:certs:manage</code></td>
-<td>signing, revoking and cleaning certificates</td>
+<td>प्रमाणपत्रों पर हस्ताक्षर करना, उन्हें निरस्त करना और साफ़ करना</td>
 </tr>
 </tbody>
 </table></div>
-<p>Granting <code>nodes:certs:manage</code> is equivalent to giving shell access to the
-CA: there is no way to allow signing but not revoking, or one node but
-not another. Give it to specific trusted operators, not to everyone who
-needs to see node status.</p>
-<h3 id="letting-a-team-sign-its-own-nodes">Letting a team sign its own nodes</h3>
-<p>A role granted on particular node groups can act only on certificates
-of nodes in those groups - see
-<a href="access.html">Users, roles and tokens</a>. A new node waiting to be signed
-has never run Puppet, so it has no facts and is in no group&#39;s rule.
-For a team to sign it, pin its name to the team&#39;s group first:</p>
+<p><code>nodes:certs:manage</code> देना CA की shell पहुँच देने के बराबर है: ऐसा कोई तरीक़ा नहीं कि हस्ताक्षर की अनुमति हो पर निरस्त करने की नहीं, या एक Node की हो पर दूसरे की नहीं। इसे विशिष्ट भरोसेमंद ऑपरेटरों को दीजिए, हर उस व्यक्ति को नहीं जिसे Node की स्थिति देखनी है।</p>
+<h3 id="letting-a-team-sign-its-own-nodes">किसी टीम को अपने Nodes पर स्वयं हस्ताक्षर करने देना</h3>
+<p>विशेष Node समूहों पर दी गई भूमिका केवल उन्हीं समूहों के Nodes के प्रमाणपत्रों पर कार्रवाई कर सकती है - देखें <a href="access.html">उपयोगकर्ता, भूमिकाएँ और टोकन</a>। हस्ताक्षर की प्रतीक्षा कर रहे नए Node ने कभी Puppet नहीं चलाया, इसलिए उसके पास कोई Facts नहीं हैं और वह किसी समूह के नियम में नहीं है। किसी टीम द्वारा उस पर हस्ताक्षर के लिए, पहले उसका नाम टीम के समूह में पिन कीजिए:</p>
 <ol>
-<li>Open <strong>Groups</strong> and the team&#39;s group. The group must sit directly
-under <strong>All Nodes</strong>; a pin in a deeper group counts only if the node
-is pinned to each group above it as well.</li>
-<li>Under <strong>Pinned nodes</strong>, add the node&#39;s name exactly as it will
-enrol, and save. This needs <code>classifier:write</code>.</li>
-<li>The team&#39;s <code>nodes:certs:manage</code> holders now see the request on the
-<strong>Nodes</strong> page and can sign it.</li>
+<li><strong>समूह</strong> खोलिए और टीम का समूह खोलिए। समूह सीधे <strong>All Nodes</strong> के नीचे होना चाहिए; किसी गहरे समूह में पिन तभी मान्य होता है जब Node उसके ऊपर के हर समूह में भी पिन हो।</li>
+<li><strong>पिन किए गए Nodes</strong> के अंतर्गत Node का नाम ठीक वैसा ही जोड़िए जैसे वह नामांकित होगा, और सहेजिए। इसके लिए <code>classifier:write</code> चाहिए।</li>
+<li>टीम के <code>nodes:certs:manage</code> धारकों को अब <strong>Nodes</strong> पृष्ठ पर अनुरोध दिखता है और वे उस पर हस्ताक्षर कर सकते हैं।</li>
 </ol>
-<p>Once the node has run Puppet, its facts place it in groups as usual
-and the pin can be removed. Anyone whose role is granted on
-<strong>All Nodes</strong> signs any request, as before.</p>
-<h2 id="sign-revoke-or-clean">Sign, revoke or clean</h2>
-<p>On the <strong>Nodes</strong> page, each node&#39;s certificate state is one of
-<code>requested</code>, <code>signed</code>, <code>revoked</code> or <code>unknown</code>, and the actions offered
-follow from it:</p>
+<p>Node के Puppet चला लेने के बाद, उसके Facts उसे सामान्य रूप से समूहों में रख देते हैं और पिन हटाया जा सकता है। जिसकी भूमिका <strong>All Nodes</strong> पर दी गई है, वह पहले की तरह किसी भी अनुरोध पर हस्ताक्षर कर सकता है।</p>
+<h2 id="sign-revoke-or-clean">हस्ताक्षर, निरस्त या साफ़ करें</h2>
+<p><strong>Nodes</strong> पृष्ठ पर, हर Node के प्रमाणपत्र की स्थिति <code>requested</code>, <code>signed</code>, <code>revoked</code> या <code>unknown</code> में से एक होती है, और उपलब्ध कार्रवाइयाँ उसी से तय होती हैं:</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Action</th>
-<th>Available when</th>
+<th>कार्रवाई</th>
+<th>कब उपलब्ध</th>
 <th>यह क्या करता है</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>Sign</strong></td>
+<td><strong>हस्ताक्षर करें</strong></td>
 <td><code>requested</code></td>
-<td>Issues the node&#39;s certificate, so it can authenticate</td>
+<td>Node का प्रमाणपत्र जारी करता है, ताकि वह प्रमाणित हो सके</td>
 </tr>
 <tr>
-<td><strong>Revoke</strong></td>
+<td><strong>निरस्त करें</strong></td>
 <td><code>signed</code></td>
-<td>Stops the certificate being accepted anywhere, for good</td>
+<td>प्रमाणपत्र को हमेशा के लिए कहीं भी स्वीकार किए जाने से रोक देता है</td>
 </tr>
 <tr>
-<td><strong>Clean</strong></td>
-<td>any known state</td>
-<td>Revokes the certificate if needed, then removes the CA&#39;s record of the certname entirely</td>
+<td><strong>साफ़ करें</strong></td>
+<td>कोई भी ज्ञात स्थिति</td>
+<td>ज़रूरत हो तो प्रमाणपत्र निरस्त करता है, फिर CA से उस certname का रिकॉर्ड पूरी तरह हटा देता है</td>
 </tr>
 </tbody>
 </table></div>
-<p>Clean is what to use before a node enrolls again under the same name: once
-the record is gone, the certname can submit a fresh request.</p>
-<p>An action the CA refuses, such as signing a certificate that is not
-waiting to be signed, fails with the reason and changes nothing. Each
-completed action is written to the audit log as
-<code>node.certificate.signed</code>, <code>node.certificate.revoked</code> or
-<code>node.certificate.cleaned</code>.</p>
-<h2 id="what-revocation-does-to-a-connected-node">What revocation does to a connected node</h2>
-<p>A node revoked or cleaned through the console is cut off at once. Every
-console instance is told, and whichever one holds the node&#39;s connection
-closes it. Each instance also fetches the CA&#39;s current revocation list
-first, so the node cannot simply reconnect.</p>
-<p>Certificates revoked outside the console, with
-<code>puppetserver ca revoke</code> on the CA host, are caught too: each instance
-re-reads the revocation list every minute, and drops any live connection
-it now revokes.</p>
-<p>The revocation list comes from one of two places:</p>
+<p>जब कोई Node उसी नाम से फिर से नामांकित होने वाला हो, तो उससे पहले साफ़ करें का उपयोग कीजिए: रिकॉर्ड हट जाने पर वह certname नया अनुरोध भेज सकता है।</p>
+<p>जिस कार्रवाई को CA अस्वीकार करता है, जैसे ऐसे प्रमाणपत्र पर हस्ताक्षर करना जो हस्ताक्षर की प्रतीक्षा में नहीं है, वह कारण के साथ विफल होती है और कुछ नहीं बदलती। हर पूर्ण कार्रवाई ऑडिट लॉग में <code>node.certificate.signed</code>, <code>node.certificate.revoked</code> या <code>node.certificate.cleaned</code> के रूप में लिखी जाती है।</p>
+<h2 id="what-revocation-does-to-a-connected-node">निरस्तीकरण कनेक्टेड Node पर क्या असर डालता है</h2>
+<p>कंसोल के ज़रिये निरस्त या साफ़ किया गया Node तुरंत काट दिया जाता है। हर कंसोल इंस्टेंस को सूचित किया जाता है, और जिसके पास भी उस Node का कनेक्शन है, वह उसे बंद कर देता है। हर इंस्टेंस पहले CA की मौजूदा निरस्तीकरण सूची भी ले आता है, ताकि Node बस यूँ ही दोबारा कनेक्ट न हो सके।</p>
+<p>कंसोल के बाहर, CA होस्ट पर <code>puppetserver ca revoke</code> से निरस्त किए गए प्रमाणपत्र भी पकड़े जाते हैं: हर इंस्टेंस हर मिनट निरस्तीकरण सूची फिर से पढ़ता है, और उन सभी चालू कनेक्शनों को काट देता है जिन्हें वह सूची अब निरस्त करती है।</p>
+<p>निरस्तीकरण सूची दो में से किसी एक जगह से आती है:</p>
 <ul>
-<li>the file named by <code>CONSOLE_NODE_TRANSPORT_CRL_FILE</code>, typically the
-console host&#39;s own Puppet agent&#39;s <code>crl.pem</code>, which the agent keeps
-current. The console refuses to start if this is set but unreadable;</li>
-<li>otherwise, the CA itself, through the certificate-admin credential.</li>
+<li><code>CONSOLE_NODE_TRANSPORT_CRL_FILE</code> द्वारा नामित फ़ाइल, आमतौर पर कंसोल होस्ट के अपने Puppet agent की <code>crl.pem</code>, जिसे agent अद्यतन रखता है। यदि यह सेट हो पर पढ़ी न जा सके, तो कंसोल शुरू होने से मना कर देता है;</li>
+<li>अन्यथा, स्वयं CA से, certificate-admin क्रेडेंशियल के ज़रिये।</li>
 </ul>
-<p>With neither, the console logs a warning at startup: a revoked node
-certificate can then still connect.</p>
-<h2 id="infrastructure-certificates">Infrastructure certificates</h2>
-<p>The Nodes page lists every certname the CA knows, which includes the
-console&#39;s own certificates and those of the servers it talks to:
-<code>console</code>, <code>node-transport</code>, <code>console-ca-client</code>, <code>openvoxdb</code> and
-<code>openvoxserver</code> in a default install. These are recognized automatically
-and hidden by default. <strong>Show infrastructure certs</strong> reveals them,
-marked, and revoking or cleaning one asks for confirmation naming what
-would break.</p>
-<h2 id="retire-the-certificate-admin-credential">Retire the certificate-admin credential</h2>
-<p>Because it is full CA admin, clean the credential as soon as it is no
-longer needed, for example when a console instance is decommissioned. On
-the CA host:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo /opt/puppetlabs/bin/puppetserver ca clean --certname console-ca-client
+<p>दोनों में से कोई न होने पर, कंसोल शुरुआत में एक चेतावनी लॉग करता है: तब निरस्त Node प्रमाणपत्र भी कनेक्ट हो सकता है।</p>
+<h2 id="infrastructure-certificates">इन्फ्रास्ट्रक्चर प्रमाणपत्र</h2>
+<p>Nodes पृष्ठ CA को ज्ञात हर certname सूचीबद्ध करता है, जिसमें कंसोल के अपने प्रमाणपत्र और उन सर्वरों के प्रमाणपत्र भी शामिल हैं जिनसे वह बात करता है: डिफ़ॉल्ट इंस्टॉल में <code>console</code>, <code>node-transport</code>, <code>console-ca-client</code>, <code>openvoxdb</code> और <code>openvoxserver</code>। इन्हें स्वचालित रूप से पहचाना जाता है और डिफ़ॉल्ट रूप से छिपाया जाता है। <strong>अवसंरचना प्रमाणपत्र दिखाएँ</strong> उन्हें चिह्नित करके दिखाता है, और उनमें से किसी को निरस्त करने या साफ़ करने पर पुष्टि माँगी जाती है, यह बताते हुए कि क्या टूट जाएगा।</p>
+<h2 id="retire-the-certificate-admin-credential">certificate-admin क्रेडेंशियल को सेवानिवृत्त करें</h2>
+<p>क्योंकि यह पूर्ण CA admin है, जैसे ही इसकी ज़रूरत न रहे, क्रेडेंशियल को साफ़ कर दीजिए, उदाहरण के लिए जब कोई कंसोल इंस्टेंस सेवा से हटाया जाए। CA होस्ट पर:</p>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>sudo /opt/puppetlabs/bin/puppetserver ca clean --certname console-ca-client
 </code></vox-code-block>
-<p>Then remove the four <code>CONSOLE_CA_CLIENT_*</code> settings from every console
-still configured with it. A console still holding the cleaned credential
-simply reports every certificate as <code>unknown</code>; nothing else stops working.</p>
+<p>फिर हर उस कंसोल से चारों <code>CONSOLE_CA_CLIENT_*</code> सेटिंग्स हटाइए जो अभी भी इससे कॉन्फ़िगर है। जिस कंसोल के पास अभी भी साफ़ किया गया क्रेडेंशियल है, वह बस हर प्रमाणपत्र को <code>unknown</code> बताता है; और कुछ भी काम करना बंद नहीं करता।</p>
 
     </div>
 
-    <vox-series-nav label="Nodes" previous-text="Previous" next-text="Next" previous-href="../guides/add.html" previous-label="Add nodes" next-href="../guides/remove.html" next-label="Remove a node"></vox-series-nav>
+    <vox-series-nav label="Nodes" previous-text="पिछला" next-text="अगला" previous-href="../guides/add.html" previous-label="Nodes जोड़ें" next-href="../guides/remove.html" next-label="किसी Node को हटाएँ"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#turn-certificate-management-on"><span>Turn certificate management on</span>
+    <vox-toc heading="इस पृष्ठ पर">
+      <vox-toc-item href="#turn-certificate-management-on"><span>प्रमाणपत्र प्रबंधन चालू करें</span>
       </vox-toc-item>
-      <vox-toc-item href="#decide-who-may-act-on-certificates"><span>Decide who may act on certificates</span>
-        <vox-toc-item slot="children" href="#letting-a-team-sign-its-own-nodes"><span>Letting a team sign its own nodes</span></vox-toc-item>
+      <vox-toc-item href="#decide-who-may-act-on-certificates"><span>तय करें कि प्रमाणपत्रों पर कौन कार्रवाई कर सकता है</span>
+        <vox-toc-item slot="children" href="#letting-a-team-sign-its-own-nodes"><span>किसी टीम को अपने Nodes पर स्वयं हस्ताक्षर करने देना</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#sign-revoke-or-clean"><span>Sign, revoke or clean</span>
+      <vox-toc-item href="#sign-revoke-or-clean"><span>हस्ताक्षर, निरस्त या साफ़ करें</span>
       </vox-toc-item>
-      <vox-toc-item href="#what-revocation-does-to-a-connected-node"><span>What revocation does to a connected node</span>
+      <vox-toc-item href="#what-revocation-does-to-a-connected-node"><span>निरस्तीकरण कनेक्टेड Node पर क्या असर डालता है</span>
       </vox-toc-item>
-      <vox-toc-item href="#infrastructure-certificates"><span>Infrastructure certificates</span>
+      <vox-toc-item href="#infrastructure-certificates"><span>इन्फ्रास्ट्रक्चर प्रमाणपत्र</span>
       </vox-toc-item>
-      <vox-toc-item href="#retire-the-certificate-admin-credential"><span>Retire the certificate-admin credential</span>
+      <vox-toc-item href="#retire-the-certificate-admin-credential"><span>certificate-admin क्रेडेंशियल को सेवानिवृत्त करें</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -345,23 +297,17 @@ simply reports every certificate as <code>unknown</code>; nothing else stops wor
 
       
       <vox-cta-band heading="स्वयं चलाकर देखिए">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console कंटेनर इमेजों के रूप में आता है, जो हर push पर amd64 और arm64 के लिए बनती हैं, और एक अकेली बाइनरी के रूप में भी। इंस्टॉल गाइड आपको खाली होस्ट से एक चालू परिनियोजन तक ले जाते हैं - openvoxserver, openvoxdb, Postgres और कंसोल - कंटेनरों से या पैकेजों से।</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">इंस्टॉल गाइड</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">GitHub पर स्रोत</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">कंटेनर इमेज</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="पूर्ण आकार का स्क्रीनशॉट">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">बंद करें</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -370,18 +316,18 @@ simply reports every certificate as <code>unknown</code>; nothing else stops wor
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">सिंहावलोकन</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">स्रोत</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">इंस्टॉल गाइड</a>
       </vox-footer-column>
       <vox-footer-column heading="क्षमताएँ">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">वर्गीकरण</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">ऑर्केस्ट्रेशन</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">पैचिंग</a>
         <a href="../features/security.html">सुरक्षा</a>
         <a href="../features/access-control.html">पहुँच नियंत्रण</a>
         <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/scaling.html">विस्तार</a>
         </vox-footer-column>
       
       <vox-footer-column heading="भाषा">

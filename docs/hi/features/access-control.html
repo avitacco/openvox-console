@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="hi" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Single sign-on through your identity provider, role-based access control down to tasks and node groups, service and agent tokens, and an audit trail of who changed what."/>
+    <meta name="description" content="आपके पहचान प्रदाता के ज़रिये single sign-on, Tasks और Node समूहों तक पहुँचने वाला भूमिका-आधारित पहुँच नियंत्रण, सेवा और एजेंट टोकन, और किसने क्या बदला इसका ऑडिट रिकॉर्ड।"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a href="../guides/index.html" slot="actions">Guides</a>
+      <a href="../guides/index.html" slot="actions">गाइड</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,25 +104,25 @@
       <a href="../features/classification.html">वर्गीकरण</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">ऑर्केस्ट्रेशन</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">पैचिंग</a>
       <a href="../features/security.html">सुरक्षा</a>
       <a aria-current="page" href="../features/access-control.html">पहुँच नियंत्रण</a>
       <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/scaling.html">विस्तार</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
-<vox-hero eyebrow="पहुँच नियंत्रण और ऑडिट" heading="Your identity provider, your roles, your record">
-  <p>Sign people in through the identity provider you already run, give them exactly the access they need, give your automation its own credentials, and keep a record of every change.</p>
+<vox-hero eyebrow="पहुँच नियंत्रण और ऑडिट" heading="आपका पहचान प्रदाता, आपकी भूमिकाएँ, आपका रिकॉर्ड">
+  <p>लोगों को उसी पहचान प्रदाता से साइन इन कराइए जो आप पहले से चलाते हैं, उन्हें ठीक उतनी ही पहुँच दीजिए जितनी चाहिए, अपने स्वचालन को उसकी अपनी साख दीजिए, और हर बदलाव का रिकॉर्ड रखिए।</p>
 </vox-hero>
 
 <section class="site-section">
-  <h2 class="vox-ts-xxl">Single sign-on, with roles that follow your groups</h2>
+  <h2 class="vox-ts-xxl">Single sign-on, ऐसी भूमिकाओं के साथ जो आपके समूहों का अनुसरण करती हैं</h2>
   <div class="vox-prose">
-    <p>The console signs people in through OpenID Connect, so accounts, passwords and multi-factor rules stay where they already live. The groups your provider puts in a person&#39;s ID token are mapped onto console roles each time they sign in: move someone between groups and their access in the console follows at their next sign-in.</p>
-    <p>A role you assign by hand is never touched by that mapping, and local accounts keep working alongside single sign-on, for break-glass access when the provider is down.</p>
+    <p>कंसोल लोगों को OpenID Connect के ज़रिये साइन इन कराता है, इसलिए खाते, पासवर्ड और multi-factor नियम वहीं रहते हैं जहाँ वे पहले से हैं। आपका प्रदाता किसी व्यक्ति के ID token में जो समूह रखता है, वे हर साइन-इन पर कंसोल की भूमिकाओं से जोड़े जाते हैं: किसी को एक समूह से दूसरे में ले जाइए और कंसोल में उसकी पहुँच उसके अगले साइन-इन पर बदल जाती है।</p>
+    <p>आपके द्वारा हाथ से सौंपी गई भूमिका को वह mapping कभी नहीं छूता, और स्थानीय खाते single sign-on के साथ-साथ काम करते रहते हैं, ताकि प्रदाता के बंद होने पर आपातकालीन पहुँच बनी रहे।</p>
   </div>
 </section>
 
@@ -137,17 +137,17 @@
   <a class="shot-link" href="../../assets/screenshots/roles-light-hi.png">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/roles-dark-hi.png" data-theme-dark="../../assets/screenshots/roles-dark-hi.png" data-theme-light="../../assets/screenshots/roles-light-hi.png"/>
-      <img src="../../assets/screenshots/roles-light-hi.png" alt="Role-based access control showing roles and the specific permissions each one grants" width="1440"/>
+      <img src="../../assets/screenshots/roles-light-hi.png" alt="भूमिका-आधारित पहुँच नियंत्रण, जिसमें भूमिकाएँ और हर भूमिका द्वारा दी जाने वाली विशिष्ट अनुमतियाँ दिख रही हैं" width="1440"/>
     </picture>
     <span class="vox-sr-only">Open full size</span>
   </a>
 </figure>
 
 <section class="site-section">
-  <h2 class="vox-ts-xxl">Access that stops at the nodes and tasks it should</h2>
+  <h2 class="vox-ts-xxl">पहुँच जो ठीक उन्हीं Nodes और Tasks पर रुकती है जहाँ उसे रुकना चाहिए</h2>
   <div class="vox-prose">
-    <p>A role applies to the node groups you name, so an operator can act on the web tier and nothing else — and sees only those nodes in every list, report and job. A role can also be limited to named tasks, or a module&#39;s tasks, so someone who may patch cannot run anything else.</p>
-    <p>Give roles to a user group and everyone in it gets them, alongside any they hold directly. An account policy sets password rules and locks an account after repeated failed sign-ins.</p>
+    <p>भूमिका उन्हीं Node समूहों पर लागू होती है जिनका आप नाम देते हैं, इसलिए कोई ऑपरेटर web tier पर काम कर सकता है और किसी और पर नहीं — और उसे हर सूची, Report और Job में केवल वही Nodes दिखते हैं। भूमिका को नामित Tasks, या किसी module के Tasks, तक भी सीमित किया जा सकता है, ताकि पैच करने की अनुमति वाला व्यक्ति और कुछ न चला सके।</p>
+    <p>किसी उपयोगकर्ता समूह को भूमिकाएँ दीजिए और उसके हर सदस्य को वे मिल जाती हैं, उनकी सीधे मिली भूमिकाओं के साथ। खाता नीति पासवर्ड नियम तय करती है और बार-बार विफल साइन-इन के बाद खाते को लॉक कर देती है।</p>
   </div>
 </section>
 
@@ -185,7 +185,7 @@
   <a class="shot-link" href="../../assets/screenshots/activity-light-hi.png">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/activity-dark-hi.png" data-theme-dark="../../assets/screenshots/activity-dark-hi.png" data-theme-light="../../assets/screenshots/activity-light-hi.png"/>
-      <img src="../../assets/screenshots/activity-light-hi.png" alt="The audit trail recording who changed what in the console and when" width="1440"/>
+      <img src="../../assets/screenshots/activity-light-hi.png" alt="ऑडिट रिकॉर्ड, जिसमें दर्ज है कि कंसोल में किसने क्या और कब बदला" width="1440"/>
     </picture>
     <span class="vox-sr-only">Open full size</span>
   </a>
@@ -197,32 +197,26 @@
 
       
       <section class="site-section do-it" aria-labelledby="do-it-heading">
-        <h2 id="do-it-heading" class="vox-ts-xxl">Do it</h2>
+        <h2 id="do-it-heading" class="vox-ts-xxl">स्वयं कीजिए</h2>
         <vox-grid min="16rem">
-          <vox-card heading="Users, roles and tokens" href="../guides/access.html"><p>Give people access through roles and permissions, sign in with your identity provider, and issue tokens for programs.</p></vox-card>
+          <vox-card heading="उपयोगकर्ता, भूमिकाएँ और टोकन" href="../guides/access.html"><p>भूमिकाओं और अनुमतियों के ज़रिये लोगों को पहुँच दीजिए, अपने पहचान प्रदाता से साइन इन कीजिए, और प्रोग्रामों के लिए टोकन जारी कीजिए।</p></vox-card>
           </vox-grid>
       </section>
       </div>
 
       
       <vox-cta-band heading="स्वयं चलाकर देखिए">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console कंटेनर इमेजों के रूप में आता है, जो हर push पर amd64 और arm64 के लिए बनती हैं, और एक अकेली बाइनरी के रूप में भी। इंस्टॉल गाइड आपको खाली होस्ट से एक चालू परिनियोजन तक ले जाते हैं - openvoxserver, openvoxdb, Postgres और कंसोल - कंटेनरों से या पैकेजों से।</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">इंस्टॉल गाइड</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">GitHub पर स्रोत</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">कंटेनर इमेज</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="पूर्ण आकार का स्क्रीनशॉट">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">बंद करें</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -231,18 +225,18 @@
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">सिंहावलोकन</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">स्रोत</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">इंस्टॉल गाइड</a>
       </vox-footer-column>
       <vox-footer-column heading="क्षमताएँ">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">वर्गीकरण</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">ऑर्केस्ट्रेशन</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">पैचिंग</a>
         <a href="../features/security.html">सुरक्षा</a>
         <a href="../features/access-control.html">पहुँच नियंत्रण</a>
         <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/scaling.html">विस्तार</a>
         </vox-footer-column>
       
       <vox-footer-column heading="भाषा">

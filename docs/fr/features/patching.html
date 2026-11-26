@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="fr" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Scan Linux nodes for pending updates and patch them in batches, with a dry run, a stop threshold and an optional reboot."/>
+    <meta name="description" content="Analysez les Nodes Linux à la recherche de mises à jour en attente et corrigez-les par lots, avec un essai à blanc, un seuil d&#39;arrêt et un redémarrage facultatif."/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Patching - OpenVox Console</title>
+    <title>Mise à jour corrective - OpenVox Console</title>
 
     
     <script>
@@ -104,25 +104,25 @@
       <a href="../features/classification.html">Classification</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">Orchestration</a>
-      <a aria-current="page" href="../features/patching.html">Patching</a>
+      <a aria-current="page" href="../features/patching.html">Mise à jour corrective</a>
       <a href="../features/security.html">Sécurité</a>
       <a href="../features/access-control.html">Contrôle d&#39;accès</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">Agents d&#39;IA</a>
+      <a href="../features/scaling.html">Montée en charge</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
-<vox-hero eyebrow="Patching" heading="See what is out of date, then patch it safely">
-  <p>Scan Linux nodes for the updates they are missing, and apply them in batches with a way to stop before a bad update reaches the whole fleet.</p>
+<vox-hero eyebrow="Mise à jour corrective" heading="Voyez ce qui est obsolète, puis corrigez-le en toute sécurité">
+  <p>Analysez les Nodes Linux à la recherche des mises à jour qui leur manquent, et appliquez-les par lots, avec un moyen de s&#39;arrêter avant qu&#39;une mauvaise mise à jour n&#39;atteigne tout le parc.</p>
 </vox-hero>
 
 <section class="site-section">
-  <h2 class="vox-ts-xxl">Pending updates, as each node&#39;s package manager reports them</h2>
+  <h2 class="vox-ts-xxl">Les mises à jour en attente, telles que les signale le gestionnaire de paquets de chaque Node</h2>
   <div class="vox-prose">
-    <p>A scan asks the node&#39;s agent to run apt, dnf or yum in a mode that changes nothing, then shows each pending update with its installed and available versions and whether the package manager calls it a security update. A node also says whether it already needs a reboot.</p>
-    <p>Scans run on a schedule you control, or on demand for one node or a whole group. A node that cannot be scanned is listed as unable to report — never shown as fully patched.</p>
+    <p>Une analyse demande à l&#39;agent du Node d&#39;exécuter apt, dnf ou yum dans un mode qui ne change rien, puis affiche chaque mise à jour en attente avec ses versions installée et disponible, et indique si le gestionnaire de paquets la qualifie de mise à jour de sécurité. Un Node indique aussi s&#39;il a déjà besoin d&#39;un redémarrage.</p>
+    <p>Les analyses s&#39;exécutent selon un calendrier que vous maîtrisez, ou à la demande pour un Node ou un groupe entier. Un Node qui ne peut pas être analysé est listé comme incapable de remonter ses informations — jamais comme entièrement à jour.</p>
   </div>
 </section>
 
@@ -130,72 +130,66 @@
   <a class="shot-link" href="../../assets/screenshots/patching-light-fr.png">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/patching-dark-fr.png" data-theme-dark="../../assets/screenshots/patching-dark-fr.png" data-theme-light="../../assets/screenshots/patching-light-fr.png"/>
-      <img src="../../assets/screenshots/patching-light-fr.png" alt="The Patching page listing each Linux node with its pending updates, how many of them are security fixes and whether it needs a reboot, with options to scan and to patch a node group" width="1440"/>
+      <img src="../../assets/screenshots/patching-light-fr.png" alt="La page Mise à jour corrective, qui liste chaque Node Linux avec ses mises à jour en attente, le nombre de correctifs de sécurité parmi elles et la nécessité ou non d&#39;un redémarrage, avec des options pour analyser et corriger un groupe de Nodes" width="1440"/>
     </picture>
     <span class="vox-sr-only">Open full size</span>
   </a>
 </figure>
 
 <section class="site-section">
-  <h2 class="vox-ts-xxl">Patch in batches, with a safety stop</h2>
+  <h2 class="vox-ts-xxl">Corrigez par lots, avec un arrêt de sécurité</h2>
   <div class="vox-prose">
-    <p>Choose security updates, everything, or named packages, and how many nodes to patch at once. Set how many failures end the run, so that no further batch starts once something has gone wrong. Preview with a dry run that installs nothing, and let nodes that need it reboot when they are done.</p>
-    <p>Progress is shown node by node, a node that goes quiet part-way is reported as having done so instead of hanging forever, and when it finishes the node is scanned again so the page shows what is really left.</p>
+    <p>Choisissez les mises à jour de sécurité, tout, ou des paquets nommés, ainsi que le nombre de Nodes à corriger à la fois. Fixez le nombre d&#39;échecs qui met fin à l&#39;exécution, pour qu&#39;aucun lot supplémentaire ne démarre une fois qu&#39;un problème est survenu. Prévisualisez avec un essai à blanc qui n&#39;installe rien, et laissez les Nodes qui en ont besoin redémarrer une fois terminés.</p>
+    <p>La progression s&#39;affiche Node par Node, un Node qui devient muet en cours de route est signalé comme tel au lieu de rester suspendu indéfiniment, et à la fin le Node est analysé de nouveau pour que la page montre ce qu&#39;il reste réellement.</p>
   </div>
 </section>
 
 <vox-timeline>
-  <vox-timeline-item heading="Scan">Each node reports what its package manager would upgrade.</vox-timeline-item>
-  <vox-timeline-item heading="Dry run">Preview a run on the nodes you chose. Nothing is installed.</vox-timeline-item>
-  <vox-timeline-item heading="Batches">Patch a few nodes at a time, stopping after as many failures as you allow.</vox-timeline-item>
-  <vox-timeline-item heading="Rescan">Each patched node is scanned again, so what remains is on record.</vox-timeline-item>
+  <vox-timeline-item heading="Analyse">Each node reports what its package manager would upgrade.</vox-timeline-item>
+  <vox-timeline-item heading="Essai à blanc">Preview a run on the nodes you chose. Nothing is installed.</vox-timeline-item>
+  <vox-timeline-item heading="Lots">Patch a few nodes at a time, stopping after as many failures as you allow.</vox-timeline-item>
+  <vox-timeline-item heading="Nouvelle analyse">Each patched node is scanned again, so what remains is on record.</vox-timeline-item>
 </vox-timeline>
 
 <vox-grid min="240px" gap="lg">
-  <vox-card heading="Scoped to your nodes">
+  <vox-card heading="Limité à vos Nodes">
     <vox-icon slot="icon" name="node-group"></vox-icon>
     Scanning and patching follow the same node group access as every other
     action: people can patch the nodes their roles cover, and no others.
   </vox-card>
-  <vox-card heading="Scheduled or on demand">
+  <vox-card heading="Planifié ou à la demande">
     <vox-icon slot="icon" name="orchestrate"></vox-icon>
     Patch runs are jobs like any other, with results per node, and show up
     in the job history with their options.
   </vox-card>
 </vox-grid>
 
-<vox-callout variant="warning" heading="Linux with apt, dnf or yum">
-  <p>Windows, macOS and zypper (SUSE) nodes are not scanned. They are listed as unable to report, so a gap in coverage is visible rather than mistaken for a clean bill of health.</p>
+<vox-callout variant="warning" heading="Linux avec apt, dnf ou yum">
+  <p>Les Nodes Windows, macOS et zypper (SUSE) ne sont pas analysés. Ils sont listés comme incapables de remonter leurs informations : une lacune de couverture est ainsi visible au lieu d&#39;être prise pour un bilan de santé irréprochable.</p>
 </vox-callout>
 
       
       <section class="site-section do-it" aria-labelledby="do-it-heading">
-        <h2 id="do-it-heading" class="vox-ts-xxl">Do it</h2>
+        <h2 id="do-it-heading" class="vox-ts-xxl">Passez à la pratique</h2>
         <vox-grid min="16rem">
-          <vox-card heading="Find and apply missing updates" href="../guides/patching.html"><p>Scan Linux nodes for pending package updates, then patch them in batches with a dry run, a stop threshold and an optional reboot.</p></vox-card>
+          <vox-card heading="Trouver et appliquer les mises à jour manquantes" href="../guides/patching.html"><p>Analysez les Nodes Linux à la recherche de mises à jour de paquets en attente, puis corrigez-les par lots, avec un essai à blanc, un seuil d&#39;arrêt et un redémarrage facultatif.</p></vox-card>
           </vox-grid>
       </section>
       </div>
 
       
       <vox-cta-band heading="Faites-le tourner vous-même">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console est distribué sous forme d&#39;images de conteneur, construites pour amd64 et arm64 à chaque push, et d&#39;un binaire unique. Les guides d&#39;installation vous mènent d&#39;un hôte vide à un déploiement fonctionnel - openvoxserver, openvoxdb, Postgres et la console - avec des conteneurs ou avec des paquets.</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">Guides d&#39;installation</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">Source sur GitHub</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">Images de conteneur</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="Capture d&#39;écran en taille réelle">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">Fermer</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -204,18 +198,18 @@
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">Aperçu</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">Source</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">Guides d&#39;installation</a>
       </vox-footer-column>
       <vox-footer-column heading="Fonctionnalités">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">Classification</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">Orchestration</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">Mise à jour corrective</a>
         <a href="../features/security.html">Sécurité</a>
         <a href="../features/access-control.html">Contrôle d&#39;accès</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">Agents d&#39;IA</a>
+        <a href="../features/scaling.html">Montée en charge</a>
         </vox-footer-column>
       
       <vox-footer-column heading="Langue">

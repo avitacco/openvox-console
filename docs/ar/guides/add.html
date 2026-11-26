@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="ar" dir="rtl"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Enroll a node with one script on Linux, macOS or Windows, sign its certificate, and see it connect and run."/>
+    <meta name="description" content="سجّل Node بسكربت واحد على Linux أو macOS أو Windows، ووقّع شهادته، وشاهده يتصل ويعمل."/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Add nodes - OpenVox Console</title>
+    <title>إضافة Nodes - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">الأدلة</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,184 +104,143 @@
       <a href="../features/classification.html">التصنيف</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">التنسيق</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">تثبيت التصحيحات</a>
       <a href="../features/security.html">الأمان</a>
       <a href="../features/access-control.html">التحكم في الوصول</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">وكلاء الذكاء الاصطناعي</a>
+      <a href="../features/scaling.html">التوسّع</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="الأدلة" toggle-label="كل الأدلة">
+    <vox-sidenav-group heading="التثبيت">
+      <vox-sidenav-item href="../guides/plan.html"><span>خطّط للنشر</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>التثبيت باستخدام الحاويات</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>التثبيت من الحزم والملفات التنفيذية</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes" open="">
-      <vox-sidenav-item href="../guides/add.html" current="" aria-current="page"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html" current="" aria-current="page"><span>إضافة Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>إدارة شهادات الـ Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>إزالة Node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>إبقاء وكلاء الـ Nodes محدَّثين</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
-      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="التوسّع">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>أوضاع التشغيل</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>تشغيل مزيد من المثيلات</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="الاستخدام">
+      <vox-sidenav-item href="../guides/classify.html"><span>تصنيف الـ Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>deploy الكود</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>تشغيل الـ Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>تشغيل الـ Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>جدولة الـ Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>المستخدمون والأدوار والرموز</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>تتبّع الثغرات</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>العثور على التحديثات الناقصة وتطبيقها</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>تشغيل Tasks على مضيفين بلا وكيل</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>تشغيل Plans من الكود الخاص بك</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>السماح لوكلاء الذكاء الاصطناعي باستخدام وحدة التحكم</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="التشغيل">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>الانتقال إلى قاعدة بيانات احتياطية عند الفشل</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>تدوير مفتاح توقيع الرموز</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>ترقية قواعد بيانات الحاويات إلى Postgres 18</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
     <p class="guide-eyebrow">Nodes</p>
-    <h1 class="guide-title vox-ts-xxl">Add nodes</h1>
-    <p class="guide-summary">Enroll a node with one script on Linux, macOS or Windows, sign its certificate, and see it connect and run.</p>
+    <h1 class="guide-title vox-ts-xxl">إضافة Nodes</h1>
+    <p class="guide-summary">سجّل Node بسكربت واحد على Linux أو macOS أو Windows، ووقّع شهادته، وشاهده يتصل ويعمل.</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>Adding a node is one script, run once on the node. It installs the
-OpenVox agent, enrolls the node with the CA if it has no certificate yet,
-installs the console&#39;s node agent from the console&#39;s own package
-repository, and starts it as a service. It is safe to run again.</p>
-<h2 id="before-you-start">Before you start</h2>
-<p>The console has to know two addresses a node will use, both set when you
-installed it:</p>
+<p>إضافة Node سكربت واحد يُشغَّل مرة واحدة على الـ Node. يثبّت وكيل OpenVox، ويسجّل الـ Node لدى الـ CA إن لم تكن لديه شهادة بعد، ويثبّت وكيل الـ Node الخاص بوحدة التحكم من مستودع الحزم الخاص بوحدة التحكم، ويشغّله كخدمة. ويمكن تشغيله مجددًا بأمان.</p>
+<h2 id="before-you-start">قبل أن تبدأ</h2>
+<p>يجب أن تعرف وحدة التحكم عنوانين سيستخدمهما الـ Node، وكلاهما ضُبط عند تثبيتها:</p>
 <ul>
-<li><code>CONSOLE_NODE_TRANSPORT_PUBLIC_ADDR</code>, the address nodes dial to keep
-their connection to the console open. Its host must be in the node
-transport certificate.</li>
-<li><code>CONSOLE_PUPPET_SERVER_PUBLIC_ADDR</code>, the Puppet server a node enrolls
-against. It must be a name in openvoxserver&#39;s certificate. If it is
-unset, the script leaves the node&#39;s Puppet server configuration alone,
-which suits nodes already pointed at a server some other way.</li>
+<li><code>CONSOLE_NODE_TRANSPORT_PUBLIC_ADDR</code>، العنوان الذي تتصل به الـ Nodes لتُبقي اتصالها بوحدة التحكم مفتوحًا. ويجب أن يكون المضيف الوارد فيه موجودًا في شهادة نقل الـ Nodes.</li>
+<li><code>CONSOLE_PUPPET_SERVER_PUBLIC_ADDR</code>، خادم Puppet الذي يسجّل الـ Node لديه. ويجب أن يكون اسمًا موجودًا في شهادة openvoxserver. وإن لم يُضبط، يترك السكربت تهيئة خادم Puppet على الـ Node كما هي، وهذا يناسب الـ Nodes الموجَّهة بالفعل إلى خادم بطريقة أخرى.</li>
 </ul>
-<p>Each node must be able to reach the console&#39;s base URL, openvoxserver on
-port 8140, and the node transport address.</p>
-<vox-callout variant="info" heading="Note"><p>The published console image already contains the node agent packages
-the script installs. If you built the console yourself, build them
-before the console, as the packages install guide describes, or every
-node install fails with a 404.</p>
+<p>يجب أن يكون كل Node قادرًا على الوصول إلى عنوان URL الأساسي لوحدة التحكم، وإلى openvoxserver على المنفذ 8140، وإلى عنوان نقل الـ Nodes.</p>
+<vox-callout variant="info" heading="ملاحظة"><p>تحتوي صورة وحدة التحكم المنشورة بالفعل على حزم وكيل الـ Node التي يثبّتها السكربت. إذا بنيت وحدة التحكم بنفسك، فابنِ تلك الحزم قبل وحدة التحكم، كما يصف دليل التثبيت من الحزم، وإلا فشل كل تثبيت على الـ Nodes مع 404.</p>
 </vox-callout>
-<h2 id="run-the-install-script">Run the install script</h2>
-<p>On the node, as an administrator:</p>
-<vox-tabs class="guide-tabs"><vox-tab slot="tab" panel="tab1-linux" data-tab-key="linux" selected="">Linux</vox-tab><vox-tab-panel name="tab1-linux"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -fsSL https://console.example.com/packages/install.sh | sudo bash
-</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab1-macos" data-tab-key="macos">macOS</vox-tab><vox-tab-panel name="tab1-macos"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -fsSL https://console.example.com/packages/install-macos.sh | sudo bash
-</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab1-windows" data-tab-key="windows">Windows</vox-tab><vox-tab-panel name="tab1-windows"><vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>Invoke-WebRequest https://console.example.com/packages/install.ps1 -OutFile install.ps1
+<h2 id="run-the-install-script">شغّل سكربت التثبيت</h2>
+<p>على الـ Node، بصفتك مسؤولًا:</p>
+<vox-tabs class="guide-tabs"><vox-tab slot="tab" panel="tab1-linux" data-tab-key="linux" selected="">Linux</vox-tab><vox-tab-panel name="tab1-linux"><vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>curl -fsSL https://console.example.com/packages/install.sh | sudo bash
+</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab1-macos" data-tab-key="macos">macOS</vox-tab><vox-tab-panel name="tab1-macos"><vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>curl -fsSL https://console.example.com/packages/install-macos.sh | sudo bash
+</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab1-windows" data-tab-key="windows">Windows</vox-tab><vox-tab-panel name="tab1-windows"><vox-code-block language="plaintext" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>Invoke-WebRequest https://console.example.com/packages/install.ps1 -OutFile install.ps1
 .\install.ps1
-</code></vox-code-block></vox-tab-panel></vox-tabs><p>On Windows, run PowerShell as Administrator.</p>
-<vox-callout variant="info" heading="Note"><p>The macOS and Windows scripts are checked by the project&#39;s tests but
-have not yet been run end to end on real macOS and Windows hosts, as
-the Linux script has. Report anything that does not go as described
-here.</p>
+</code></vox-code-block></vox-tab-panel></vox-tabs><p>على Windows، شغّل PowerShell بصلاحيات المسؤول (Administrator).</p>
+<vox-callout variant="info" heading="ملاحظة"><p>تخضع سكربتات macOS وWindows لاختبارات المشروع لكنها لم تُشغَّل بعدُ من البداية إلى النهاية على مضيفي macOS وWindows حقيقيين، كما شُغّل سكربت Linux. أبلِغ عن أي شيء لا يجري كما هو موصوف هنا.</p>
 </vox-callout>
-<h2 id="sign-the-node-s-certificate">Sign the node&#39;s certificate</h2>
-<p>If the CA signs requests automatically, the script finishes on its own.
-If not, it waits for up to five minutes, checking every 15 seconds. Sign
-the request while it waits and the same run carries on to the end:</p>
+<h2 id="sign-the-node-s-certificate">وقّع شهادة الـ Node</h2>
+<p>إذا كانت الـ CA توقّع الطلبات تلقائيًا، فإن السكربت ينتهي من تلقاء نفسه. وإلا فإنه ينتظر حتى خمس دقائق، متحققًا كل 15 ثانية. وقّع الطلب أثناء انتظاره، فيمضي التشغيل نفسه حتى النهاية:</p>
 <ol>
-<li>Open the console&#39;s <strong>Nodes</strong> page. The node is listed with a pending
-certificate request.</li>
-<li>Choose <strong>Sign</strong>.</li>
+<li>افتح صفحة <strong>Nodes</strong> في وحدة التحكم. يظهر الـ Node في القائمة مع طلب شهادة قيد الانتظار.</li>
+<li>اختر <strong>توقيع</strong>.</li>
 </ol>
-<p>Signing from the console needs the certificate-admin credential, and a
-user holding the <code>nodes:certs:manage</code> permission; see
-<a href="certificates.html">Manage node certificates</a>. You can also sign on the
-CA host itself:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo /opt/puppetlabs/bin/puppetserver ca sign --certname &lt;node certname&gt;
+<p>يتطلب التوقيع من وحدة التحكم بيانات اعتماد إدارة الشهادات، ومستخدمًا يحمل الإذن <code>nodes:certs:manage</code>؛ راجع <a href="certificates.html">إدارة شهادات الـ Nodes</a>. ويمكنك أيضًا التوقيع على مضيف الـ CA نفسه:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>sudo /opt/puppetlabs/bin/puppetserver ca sign --certname &lt;node certname&gt;
 </code></vox-code-block>
-<p>The script ends in one of three ways:</p>
+<p>ينتهي السكربت بإحدى ثلاث طرق:</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>What happened</th>
-<th>What you see</th>
+<th>ما حدث</th>
+<th>ما تراه</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>The request was signed while it waited</td>
-<td>It carries on and finishes the install</td>
+<td>وُقّع الطلب أثناء الانتظار</td>
+<td>يواصل ويُنهي التثبيت</td>
 </tr>
 <tr>
-<td>The wait ran out with the request still unsigned</td>
-<td>It stops, naming the Nodes page to sign it on; sign it, then run the script again</td>
+<td>انقضت مدة الانتظار والطلب لا يزال غير موقَّع</td>
+<td>يتوقف، ويُشير إلى صفحة Nodes لتوقيعه منها؛ وقّعه، ثم شغّل السكربت مجددًا</td>
 </tr>
 <tr>
-<td>It could not reach the CA</td>
-<td>It stops, reporting a connection or TLS problem - not a pending request</td>
+<td>تعذّر عليه الوصول إلى الـ CA</td>
+<td>يتوقف، مُبلّغًا عن مشكلة في الاتصال أو في TLS - لا عن طلب قيد الانتظار</td>
 </tr>
 </tbody>
 </table></div>
-<vox-callout variant="tip" heading="Tip"><p>An unreachable CA is only reported once the full wait has passed,
-because the agent keeps retrying in case the problem is brief. If you
-see a connection error, check name resolution and port 8140 rather than
-looking for a request to sign.</p>
+<vox-callout variant="tip" heading="نصيحة"><p>لا يُبلَّغ عن تعذّر الوصول إلى الـ CA إلا بعد انقضاء مدة الانتظار كاملة، لأن الوكيل يواصل إعادة المحاولة تحسّبًا لأن تكون المشكلة عابرة. إذا رأيت خطأ اتصال، فتحقّق من تحليل الأسماء ومن المنفذ 8140 بدل البحث عن طلب لتوقيعه.</p>
 </vox-callout>
-<h2 id="see-the-node-connect">See the node connect</h2>
-<p>On the <strong>Nodes</strong> page, the node shows as connected, with a signed
-certificate.</p>
-<p>A node that connects before it has ever reported to openvoxdb would
-otherwise sit there empty until its next scheduled Puppet run, so the
-console starts its first run for it straight away. That run appears on
-the <strong>Jobs</strong> page like any other, recorded as started by
-<code>system:initial-run</code>. Once it finishes, the node&#39;s page shows its facts,
-its reports and the classes applied to it.</p>
-<h2 id="after-that-the-node-agent-looks-after-itself">After that, the node agent looks after itself</h2>
-<p>You do not run the script again to upgrade the node agent. When you
-upgrade the console, it upgrades the node agent on each connected node
-for you; see <a href="agent-upgrades.html">Keep node agents current</a>.</p>
-<h2 id="report-the-node-s-packages-optional">Report the node&#39;s packages (optional)</h2>
-<p>Package inventory is off for each node until you turn it on. On the
-node&#39;s page, in its <strong>Packages</strong> section, switch reporting on. The
-console tells the node to add the package fact and runs Puppet straight
-away, so the inventory appears within that run rather than at the next
-scheduled one. Switching it off removes the fact the same way.</p>
-<p>The switch needs the <code>orchestrator:run</code> permission, and works only while
-the node is connected: it acts on the node there and then, rather than
-queueing a change for later.</p>
+<h2 id="see-the-node-connect">شاهد الـ Node وهو يتصل</h2>
+<p>في صفحة <strong>Nodes</strong>، يظهر الـ Node متصلًا، بشهادة موقَّعة.</p>
+<p>الـ Node الذي يتصل قبل أن يكون قد أبلغ openvoxdb بأي شيء كان سيبقى فارغًا حتى تشغيل Puppet المجدول التالي له، لذا تبدأ وحدة التحكم تشغيله الأول فورًا. يظهر ذلك التشغيل في صفحة <strong>Jobs</strong> مثل أي تشغيل آخر، مسجَّلًا على أن <code>system:initial-run</code> هو من بدأه. وحين ينتهي، تعرض صفحة الـ Node الـ Facts والـ Reports الخاصة به والفئات المطبَّقة عليه.</p>
+<h2 id="after-that-the-node-agent-looks-after-itself">بعد ذلك، يعتني وكيل الـ Node بنفسه</h2>
+<p>لا تحتاج إلى تشغيل السكربت مجددًا لترقية وكيل الـ Node. فحين ترقّي وحدة التحكم، ترقّي هي وكيل الـ Node على كل Node متصل نيابة عنك؛ راجع <a href="agent-upgrades.html">إبقاء وكلاء الـ Nodes محدَّثين</a>.</p>
+<h2 id="report-the-node-s-packages-optional">أبلغ عن حزم الـ Node (اختياري)</h2>
+<p>جرد الحزم معطَّل لكل Node إلى أن تشغّله. في صفحة الـ Node، في قسم <strong>الحزم</strong>، شغّل الإبلاغ. تطلب وحدة التحكم من الـ Node إضافة Fact الحزم وتنفّذ Puppet فورًا، فيظهر الجرد ضمن ذلك التشغيل بدل التشغيل المجدول التالي. وإيقافه يزيل الـ Fact بالطريقة نفسها.</p>
+<p>يتطلب المفتاح الإذن <code>orchestrator:run</code>، ولا يعمل إلا ما دام الـ Node متصلًا: فهو يؤثر في الـ Node في الحال، بدل أن يضع تغييرًا في قائمة الانتظار لوقت لاحق.</p>
 
     </div>
 
-    <vox-series-nav label="Nodes" previous-text="Previous" next-text="Next" next-href="../guides/certificates.html" next-label="Manage node certificates"></vox-series-nav>
+    <vox-series-nav label="Nodes" previous-text="السابق" next-text="التالي" next-href="../guides/certificates.html" next-label="إدارة شهادات الـ Nodes"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#before-you-start"><span>Before you start</span>
+    <vox-toc heading="في هذه الصفحة">
+      <vox-toc-item href="#before-you-start"><span>قبل أن تبدأ</span>
       </vox-toc-item>
-      <vox-toc-item href="#run-the-install-script"><span>Run the install script</span>
+      <vox-toc-item href="#run-the-install-script"><span>شغّل سكربت التثبيت</span>
       </vox-toc-item>
-      <vox-toc-item href="#sign-the-node-s-certificate"><span>Sign the node&#39;s certificate</span>
+      <vox-toc-item href="#sign-the-node-s-certificate"><span>وقّع شهادة الـ Node</span>
       </vox-toc-item>
-      <vox-toc-item href="#see-the-node-connect"><span>See the node connect</span>
+      <vox-toc-item href="#see-the-node-connect"><span>شاهد الـ Node وهو يتصل</span>
       </vox-toc-item>
-      <vox-toc-item href="#after-that-the-node-agent-looks-after-itself"><span>After that, the node agent looks after itself</span>
+      <vox-toc-item href="#after-that-the-node-agent-looks-after-itself"><span>بعد ذلك، يعتني وكيل الـ Node بنفسه</span>
       </vox-toc-item>
-      <vox-toc-item href="#report-the-node-s-packages-optional"><span>Report the node&#39;s packages (optional)</span>
+      <vox-toc-item href="#report-the-node-s-packages-optional"><span>أبلغ عن حزم الـ Node (اختياري)</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -291,23 +250,17 @@ queueing a change for later.</p>
 
       
       <vox-cta-band heading="شغّله بنفسك">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>يُوزَّع OpenVox Console على هيئة صور حاويات تُبنى لمعماريتَي amd64 وarm64 مع كل push، وعلى هيئة ملف تنفيذي واحد. تأخذك أدلة التثبيت من مضيف فارغ إلى نشر عامل - openvoxserver وopenvoxdb وPostgres ووحدة التحكم - باستخدام الحاويات أو الحزم.</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">أدلة التثبيت</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">الشيفرة المصدرية على GitHub</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">صور الحاويات</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="لقطة الشاشة بالحجم الكامل">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">إغلاق</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -316,18 +269,18 @@ queueing a change for later.</p>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">نظرة عامة</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">الشيفرة المصدرية</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">أدلة التثبيت</a>
       </vox-footer-column>
       <vox-footer-column heading="الإمكانات">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">التصنيف</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">التنسيق</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">تثبيت التصحيحات</a>
         <a href="../features/security.html">الأمان</a>
         <a href="../features/access-control.html">التحكم في الوصول</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">وكلاء الذكاء الاصطناعي</a>
+        <a href="../features/scaling.html">التوسّع</a>
         </vox-footer-column>
       
       <vox-footer-column heading="اللغة">

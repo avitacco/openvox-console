@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="hi" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Set up vulnerability providers, read the findings for the fleet, and know what each provider can and cannot see."/>
+    <meta name="description" content="कमज़ोरी प्रदाता सेट अप कीजिए, फ़्लीट के निष्कर्ष पढ़िए, और जानिए कि हर प्रदाता क्या देख सकता है और क्या नहीं।"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Track vulnerabilities - OpenVox Console</title>
+    <title>कमज़ोरियों पर नज़र रखें - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">गाइड</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,213 +104,183 @@
       <a href="../features/classification.html">वर्गीकरण</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">ऑर्केस्ट्रेशन</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">पैचिंग</a>
       <a href="../features/security.html">सुरक्षा</a>
       <a href="../features/access-control.html">पहुँच नियंत्रण</a>
       <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/scaling.html">विस्तार</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="गाइड" toggle-label="सभी गाइड">
+    <vox-sidenav-group heading="इंस्टॉल">
+      <vox-sidenav-item href="../guides/plan.html"><span>परिनियोजन की योजना बनाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>कंटेनरों से इंस्टॉल करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>पैकेजों और बाइनरी से इंस्टॉल करें</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>Nodes जोड़ें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>Node प्रमाणपत्र प्रबंधित करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>किसी Node को हटाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Node एजेंटों को नवीनतम रखें</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
+    <vox-sidenav-group heading="विस्तार">
       <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>अधिक इंस्टेंस चलाएँ</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use" open="">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html" current="" aria-current="page"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="उपयोग" open="">
+      <vox-sidenav-item href="../guides/classify.html"><span>Nodes का वर्गीकरण करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>कोड deploy करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>Jobs चलाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>Plans चलाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Jobs शेड्यूल करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>उपयोगकर्ता, भूमिकाएँ और टोकन</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html" current="" aria-current="page"><span>कमज़ोरियों पर नज़र रखें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>छूटे हुए अपडेट खोजें और लागू करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>बिना एजेंट वाले होस्टों पर Tasks चलाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>अपने कोड से Plans चलाएँ</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>AI एजेंटों को कंसोल का उपयोग करने दें</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="संचालन">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>standby डेटाबेस पर failover करें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>टोकन हस्ताक्षर कुंजी बदलें</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>कंटेनर डेटाबेस को Postgres 18 पर अपग्रेड करें</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Use</p>
-    <h1 class="guide-title vox-ts-xxl">Track vulnerabilities</h1>
-    <p class="guide-summary">Set up vulnerability providers, read the findings for the fleet, and know what each provider can and cannot see.</p>
+    <p class="guide-eyebrow">उपयोग</p>
+    <h1 class="guide-title vox-ts-xxl">कमज़ोरियों पर नज़र रखें</h1>
+    <p class="guide-summary">कमज़ोरी प्रदाता सेट अप कीजिए, फ़्लीट के निष्कर्ष पढ़िए, और जानिए कि हर प्रदाता क्या देख सकता है और क्या नहीं।</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>The console reports which nodes are affected by which known
-vulnerabilities, merged from one or more <strong>providers</strong>. It matches each
-provider&#39;s data against the packages each node reports, so nodes need
-package reporting switched on: see <a href="add.html">Add nodes</a>.</p>
-<p>Seeing findings needs <code>vulnerabilities:read</code>; configuring providers needs
-<code>vulnerabilities:manage</code>. Neither is implied by <code>nodes:read</code>: findings are
-more sensitive than an inventory.</p>
-<h2 id="choose-a-provider">Choose a provider</h2>
+<p>कंसोल बताता है कि कौन-से Nodes किन ज्ञात कमज़ोरियों से प्रभावित हैं, एक या अधिक <strong>प्रदाताओं</strong> के डेटा को मिलाकर। यह हर प्रदाता के डेटा का मिलान हर Node द्वारा बताए गए पैकेजों से करता है, इसलिए Nodes पर पैकेज रिपोर्टिंग चालू होनी चाहिए: देखें <a href="add.html">Nodes जोड़ें</a>।</p>
+<p>निष्कर्ष देखने के लिए <code>vulnerabilities:read</code> चाहिए; प्रदाता कॉन्फ़िगर करने के लिए <code>vulnerabilities:manage</code>। <code>nodes:read</code> में इनमें से कोई भी शामिल नहीं है: निष्कर्ष किसी सूची से अधिक संवेदनशील होते हैं।</p>
+<h2 id="choose-a-provider">प्रदाता चुनें</h2>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Provider</th>
-<th>Data from</th>
-<th>Credentials</th>
+<th>प्रदाता</th>
+<th>डेटा स्रोत</th>
+<th>क्रेडेंशियल</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>OSV</td>
-<td>the public OSV database, or your own mirror of it</td>
-<td>none</td>
+<td>सार्वजनिक OSV डेटाबेस, या उसका आपका अपना mirror</td>
+<td>कोई नहीं</td>
 </tr>
 <tr>
 <td>Tenable</td>
-<td>your Tenable tenant</td>
-<td>API keys</td>
+<td>आपका Tenable tenant</td>
+<td>API कुंजियाँ</td>
 </tr>
 </tbody>
 </table></div>
-<p>Any number of providers can run at once, including two OSV providers with
-different data locations. A vulnerability reported by several shows once,
-listing each provider&#39;s own severity and fixed version.</p>
-<p>Nothing leaves the console until you enable a provider.</p>
-<h2 id="prepare-for-credentials">Prepare for credentials</h2>
-<p>A provider with credentials needs a key to seal them with in the
-database. Generate one, and name it in <code>CONSOLE_SECRETS_KEY_FILE</code>:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>openssl rand -base64 32 &gt; secrets.key
+<p>कितने भी प्रदाता एक साथ चल सकते हैं, जिनमें अलग-अलग डेटा स्थानों वाले दो OSV प्रदाता भी शामिल हैं। कई प्रदाताओं द्वारा बताई गई कमज़ोरी एक ही बार दिखती है, हर प्रदाता की अपनी गंभीरता और सुधरे हुए संस्करण के साथ।</p>
+<p>जब तक आप कोई प्रदाता सक्षम नहीं करते, कंसोल से कुछ भी बाहर नहीं जाता।</p>
+<h2 id="prepare-for-credentials">क्रेडेंशियल के लिए तैयारी करें</h2>
+<p>क्रेडेंशियल वाले प्रदाता को डेटाबेस में उन्हें सील करने के लिए एक कुंजी चाहिए। एक कुंजी बनाइए, और उसे <code>CONSOLE_SECRETS_KEY_FILE</code> में दर्ज कीजिए:</p>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>openssl rand -base64 32 &gt; secrets.key
 chmod 600 secrets.key
 </code></vox-code-block>
-<p>Without it, OSV works, and a provider needing credentials is refused with
-an error naming the setting.</p>
-<vox-callout variant="danger" heading="Caution"><p>Back the key up with your database backups, but store it apart from
-them. Losing it loses no findings, but every stored credential becomes
-unreadable, and those providers fail until their credentials are
-entered again under a new key.</p>
+<p>इसके बिना OSV काम करता है, और क्रेडेंशियल की ज़रूरत वाला प्रदाता सेटिंग का नाम बताने वाली त्रुटि के साथ अस्वीकार कर दिया जाता है।</p>
+<vox-callout variant="danger" heading="सावधानी"><p>इस कुंजी का बैकअप अपने डेटाबेस बैकअप के साथ लीजिए, पर उसे उनसे अलग रखिए। इसके खो जाने से कोई निष्कर्ष नहीं खोता, लेकिन हर संग्रहीत क्रेडेंशियल अपठनीय हो जाता है, और वे प्रदाता तब तक विफल रहते हैं जब तक उनके क्रेडेंशियल नई कुंजी के तहत फिर से दर्ज न किए जाएँ।</p>
 </vox-callout>
-<h2 id="add-a-provider">Add a provider</h2>
+<h2 id="add-a-provider">प्रदाता जोड़ें</h2>
 <ol>
-<li>Open <strong>Vulnerabilities</strong>, then <strong>Providers</strong>.</li>
-<li>Add a provider of the type you want, and fill in its settings and any
-credentials. The console never shows a stored credential again; leave
-a credential field empty when editing to keep the stored one.</li>
-<li>Enable it.</li>
+<li><strong>भेद्यताएँ</strong> खोलिए, फिर <strong>प्रदाता</strong>।</li>
+<li>मनचाहे प्रकार का प्रदाता जोड़िए, और उसकी सेटिंग्स और कोई क्रेडेंशियल भरिए। कंसोल संग्रहीत क्रेडेंशियल को फिर कभी नहीं दिखाता; संपादन करते समय संग्रहीत क्रेडेंशियल बनाए रखने के लिए क्रेडेंशियल फ़ील्ड खाली छोड़ दीजिए।</li>
+<li>इसे सक्षम कीजिए।</li>
 </ol>
-<p>It syncs straight away and then on a schedule, hourly by default for OSV.
-Findings refresh when a provider syncs, not at every Puppet run.</p>
-<h3 id="what-osv-downloads">What OSV downloads</h3>
-<p>OSV downloads data only for the distributions your fleet runs, over
-HTTPS from <code>storage.googleapis.com</code> by default. The first sync of a
-distribution downloads its whole archive - around 70 MB for Debian and
-700 MB for Ubuntu - and later syncs only what changed.</p>
-<h3 id="air-gapped-sites">Air-gapped sites</h3>
-<p>Point an OSV provider&#39;s <strong>Data location</strong> at an internal mirror of the
-OSV bucket, laid out the same way for each distribution: its <code>all.zip</code>,
-its <code>modified_id.csv</code>, and a JSON file per changed record. A plain static
-web server is enough, and copying each distribution&#39;s directory is
-enough to fill it:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>gsutil -m rsync -r gs://osv-vulnerabilities/Debian ./Debian
+<figure class="shot">
+  <a class="shot-link" href="../../assets/screenshots/vulnerability-providers-light-hi.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/vulnerability-providers-dark-hi.png" data-theme-dark="../../assets/screenshots/vulnerability-providers-dark-hi.png" data-theme-light="../../assets/screenshots/vulnerability-providers-light-hi.png"/>
+      <img src="../../assets/screenshots/vulnerability-providers-light-hi.png" alt="कंसोल में कॉन्फ़िगर किए गए कमज़ोरी प्रदाता, हर एक अपने प्रकार, सक्षम है या नहीं, कितनी बार sync होता है, उसकी स्थिति और अंतिम sync के समय के साथ" width="1440"/>
+    </picture>
+    <span class="vox-sr-only">Open full size</span>
+  </a>
+</figure>
+<p>यह तुरंत sync होता है और फिर एक समय-सारणी पर, OSV के लिए डिफ़ॉल्ट रूप से हर घंटे। निष्कर्ष तब ताज़ा होते हैं जब प्रदाता sync होता है, हर Puppet रन पर नहीं।</p>
+<h3 id="what-osv-downloads">OSV क्या डाउनलोड करता है</h3>
+<p>OSV केवल उन्हीं डिस्ट्रीब्यूशनों का डेटा डाउनलोड करता है जो आपका फ़्लीट चलाता है, डिफ़ॉल्ट रूप से HTTPS पर <code>storage.googleapis.com</code> से। किसी डिस्ट्रीब्यूशन का पहला sync उसका पूरा archive डाउनलोड करता है - Debian के लिए लगभग 70 MB और Ubuntu के लिए 700 MB - और बाद के sync केवल बदलाव।</p>
+<h3 id="air-gapped-sites">Air-gapped साइटें</h3>
+<p>OSV प्रदाता के <strong>डेटा स्थान</strong> को OSV bucket के किसी आंतरिक mirror पर लगाइए, जिसकी संरचना हर डिस्ट्रीब्यूशन के लिए वैसी ही हो: उसकी <code>all.zip</code>, उसकी <code>modified_id.csv</code>, और हर बदले हुए रिकॉर्ड के लिए एक JSON फ़ाइल। एक साधारण static वेब सर्वर पर्याप्त है, और उसे भरने के लिए हर डिस्ट्रीब्यूशन की डायरेक्टरी कॉपी कर देना पर्याप्त है:</p>
+<vox-code-block language="sh" copy-label="कोड कॉपी करें" copied-label="कॉपी हो गया" copied-message="क्लिपबोर्ड पर कॉपी हो गया"><code>gsutil -m rsync -r gs://osv-vulnerabilities/Debian ./Debian
 </code></vox-code-block>
-<p>Directory names contain spaces, such as <code>Rocky Linux</code> and <code>Red Hat</code>.</p>
+<p>डायरेक्टरी नामों में spaces होते हैं, जैसे <code>Rocky Linux</code> और <code>Red Hat</code>।</p>
 <h3 id="tenable">Tenable</h3>
-<p>A Tenable provider imports every open finding, then only changes. Each
-Tenable asset is matched to a node by its names against each node&#39;s
-certname and reported FQDN. An asset matching no node, or several, is
-skipped and counted as unmatched; a growing count usually means Tenable
-sees different names than your certnames.</p>
-<h2 id="read-the-findings">Read the findings</h2>
-<p>The <strong>Vulnerabilities</strong> page lists findings across the fleet, most severe
-first, with how many nodes each affects. It shows findings with a fix
-available by default, which is what patching would change; set <strong>Fix</strong> to
-<strong>All</strong> to include those with no fix released.</p>
-<p>A node that no enabled provider could assess is shown as <strong>not
-assessed</strong>, with each provider&#39;s reason, never as clean:</p>
+<p>Tenable प्रदाता पहले हर खुला निष्कर्ष आयात करता है, फिर केवल बदलाव। हर Tenable asset का मिलान उसके नामों के आधार पर हर Node के certname और बताए गए FQDN से किया जाता है। जो asset किसी Node से मेल नहीं खाता, या कई से खाता है, उसे छोड़ दिया जाता है और बेमेल गिना जाता है; बढ़ती गिनती का आमतौर पर अर्थ है कि Tenable को आपके certnames से अलग नाम दिखते हैं।</p>
+<h2 id="read-the-findings">निष्कर्ष पढ़ें</h2>
+<p><strong>भेद्यताएँ</strong> पृष्ठ पूरे फ़्लीट के निष्कर्ष, सबसे गंभीर से शुरू करके, सूचीबद्ध करता है, साथ में यह भी कि हर एक कितने Nodes को प्रभावित करता है। डिफ़ॉल्ट रूप से यह वे निष्कर्ष दिखाता है जिनका सुधार उपलब्ध है, यानी जिन्हें patching बदल सकती है; जिनका कोई सुधार जारी नहीं हुआ उन्हें भी शामिल करने के लिए <strong>समाधान</strong> को <strong>सभी</strong> पर सेट कीजिए।</p>
+<p>जिस Node का कोई भी सक्षम प्रदाता मूल्यांकन नहीं कर सका, वह हर प्रदाता के कारण के साथ <strong>मूल्यांकित नहीं</strong> के रूप में दिखाया जाता है, कभी साफ़ के रूप में नहीं:</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Reason</th>
-<th>Means</th>
+<th>कारण</th>
+<th>अर्थ</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>unsupported OS</td>
-<td>OSV covers Debian, Ubuntu, AlmaLinux, Rocky Linux and RHEL 7 to 10</td>
+<td>असमर्थित OS</td>
+<td>OSV, Debian, Ubuntu, AlmaLinux, Rocky Linux और RHEL 7 से 10 तक को कवर करता है</td>
 </tr>
 <tr>
-<td>no package data</td>
-<td>the node reports no packages; switch reporting on for it</td>
+<td>कोई पैकेज डेटा नहीं</td>
+<td>Node कोई पैकेज नहीं बताता; उसके लिए रिपोर्टिंग चालू कीजिए</td>
 </tr>
 <tr>
-<td>agent upgrade required</td>
-<td>the node&#39;s package data is too old to match reliably; upgrading its node agent fixes it at its next Puppet run</td>
+<td>agent अपग्रेड आवश्यक</td>
+<td>Node का पैकेज डेटा भरोसेमंद मिलान के लिए बहुत पुराना है; उसका node agent अपग्रेड करने से यह उसके अगले Puppet रन पर ठीक हो जाता है</td>
 </tr>
 <tr>
-<td>not seen by Tenable</td>
-<td>no Tenable asset matched the node</td>
+<td>Tenable को नहीं दिखा</td>
+<td>कोई Tenable asset इस Node से मेल नहीं खाया</td>
 </tr>
 <tr>
-<td>not yet synced</td>
-<td>the provider has not finished a sync</td>
+<td>अभी sync नहीं हुआ</td>
+<td>प्रदाता ने अभी कोई sync पूरा नहीं किया है</td>
 </tr>
 </tbody>
 </table></div>
-<h2 id="what-to-expect-from-osv">What to expect from OSV</h2>
+<h2 id="what-to-expect-from-osv">OSV से क्या अपेक्षा करें</h2>
 <ul>
-<li>On Debian and Ubuntu, many vulnerabilities the distribution rates as
-negligible, or has decided not to fix, still appear, as findings with
-no fix released. That is why the list starts at &#34;fix available&#34;.</li>
-<li>RHEL nodes are matched against the main repositories only. Nodes using
-extended-support or add-on repositories may show findings they do not
-have.</li>
-<li>AlmaLinux publishes no severity, so its findings show <strong>Unknown</strong>.</li>
+<li>Debian और Ubuntu पर, ऐसी कई कमज़ोरियाँ जिन्हें डिस्ट्रीब्यूशन नगण्य मानता है, या जिन्हें ठीक न करने का निर्णय ले चुका है, फिर भी दिखती हैं — ऐसे निष्कर्षों के रूप में जिनका कोई सुधार जारी नहीं हुआ। इसीलिए सूची &#34;fix available&#34; से शुरू होती है।</li>
+<li>RHEL Nodes का मिलान केवल मुख्य रिपॉज़िटरी से होता है। extended-support या add-on रिपॉज़िटरी का उपयोग करने वाले Nodes ऐसे निष्कर्ष दिखा सकते हैं जो उन पर लागू नहीं होते।</li>
+<li>AlmaLinux कोई गंभीरता प्रकाशित नहीं करता, इसलिए उसके निष्कर्ष <strong>अज्ञात</strong> दिखाते हैं।</li>
 </ul>
-<vox-callout variant="tip" heading="Tip"><p>Findings against old kernels and other packages you removed long ago
-usually come from packages removed without purging, whose
-configuration files remain. Purge them on the node with
-<code>apt purge &#39;~c&#39;</code>; the findings close at the provider&#39;s next sync.</p>
+<vox-callout variant="tip" heading="सुझाव"><p>पुराने कर्नेलों और बहुत पहले हटाए गए अन्य पैकेजों के विरुद्ध निष्कर्ष आमतौर पर उन पैकेजों से आते हैं जिन्हें purge किए बिना हटाया गया था, और जिनकी कॉन्फ़िगरेशन फ़ाइलें बची रह गई हैं। Node पर <code>apt purge &#39;~c&#39;</code> से उन्हें purge कीजिए; प्रदाता के अगले sync पर निष्कर्ष बंद हो जाते हैं।</p>
 </vox-callout>
 
     </div>
 
-    <vox-series-nav label="Use" previous-text="Previous" next-text="Next" previous-href="../guides/access.html" previous-label="Users, roles and tokens" next-href="../guides/patching.html" next-label="Find and apply missing updates"></vox-series-nav>
+    <vox-series-nav label="उपयोग" previous-text="पिछला" next-text="अगला" previous-href="../guides/access.html" previous-label="उपयोगकर्ता, भूमिकाएँ और टोकन" next-href="../guides/patching.html" next-label="छूटे हुए अपडेट खोजें और लागू करें"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#choose-a-provider"><span>Choose a provider</span>
+    <vox-toc heading="इस पृष्ठ पर">
+      <vox-toc-item href="#choose-a-provider"><span>प्रदाता चुनें</span>
       </vox-toc-item>
-      <vox-toc-item href="#prepare-for-credentials"><span>Prepare for credentials</span>
+      <vox-toc-item href="#prepare-for-credentials"><span>क्रेडेंशियल के लिए तैयारी करें</span>
       </vox-toc-item>
-      <vox-toc-item href="#add-a-provider"><span>Add a provider</span>
-        <vox-toc-item slot="children" href="#what-osv-downloads"><span>What OSV downloads</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#air-gapped-sites"><span>Air-gapped sites</span></vox-toc-item>
+      <vox-toc-item href="#add-a-provider"><span>प्रदाता जोड़ें</span>
+        <vox-toc-item slot="children" href="#what-osv-downloads"><span>OSV क्या डाउनलोड करता है</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#air-gapped-sites"><span>Air-gapped साइटें</span></vox-toc-item>
         <vox-toc-item slot="children" href="#tenable"><span>Tenable</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#read-the-findings"><span>Read the findings</span>
+      <vox-toc-item href="#read-the-findings"><span>निष्कर्ष पढ़ें</span>
       </vox-toc-item>
-      <vox-toc-item href="#what-to-expect-from-osv"><span>What to expect from OSV</span>
+      <vox-toc-item href="#what-to-expect-from-osv"><span>OSV से क्या अपेक्षा करें</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -320,23 +290,17 @@ configuration files remain. Purge them on the node with
 
       
       <vox-cta-band heading="स्वयं चलाकर देखिए">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console कंटेनर इमेजों के रूप में आता है, जो हर push पर amd64 और arm64 के लिए बनती हैं, और एक अकेली बाइनरी के रूप में भी। इंस्टॉल गाइड आपको खाली होस्ट से एक चालू परिनियोजन तक ले जाते हैं - openvoxserver, openvoxdb, Postgres और कंसोल - कंटेनरों से या पैकेजों से।</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">इंस्टॉल गाइड</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">GitHub पर स्रोत</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">कंटेनर इमेज</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="पूर्ण आकार का स्क्रीनशॉट">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">बंद करें</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -345,18 +309,18 @@ configuration files remain. Purge them on the node with
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">सिंहावलोकन</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">स्रोत</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">इंस्टॉल गाइड</a>
       </vox-footer-column>
       <vox-footer-column heading="क्षमताएँ">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">वर्गीकरण</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">ऑर्केस्ट्रेशन</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">पैचिंग</a>
         <a href="../features/security.html">सुरक्षा</a>
         <a href="../features/access-control.html">पहुँच नियंत्रण</a>
         <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/scaling.html">विस्तार</a>
         </vox-footer-column>
       
       <vox-footer-column heading="भाषा">

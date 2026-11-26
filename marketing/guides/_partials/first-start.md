@@ -10,13 +10,17 @@ node transport ready   addr=[::]:8142
 console ready          addr=:8080
 ```
 
-Check that it reports itself healthy:
+Check that it reports itself healthy, first directly on the console's
+host, then through the TLS proxy at its base URL:
 
 ```sh
+curl -fsS http://127.0.0.1:8080/health
 curl -fsS https://console.example.com/health
 ```
 
-The reply lists each dependency as `ok`. Then open the console's base URL,
+Each reply lists each dependency as `ok`. If only the second fails, the
+console is fine and the proxy is not. Use the console's own port in the
+first if you moved it off 8080. Then open the console's base URL,
 log in as the bootstrap admin, and change its password straight away.
 
 The bootstrap admin's password must have at least 12 characters and

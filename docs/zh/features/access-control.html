@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="zh" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Single sign-on through your identity provider, role-based access control down to tasks and node groups, service and agent tokens, and an audit trail of who changed what."/>
+    <meta name="description" content="通过你的身份提供方实现单点登录，基于角色的访问控制可细化到 Tasks 和 Node 组，提供服务令牌和代理令牌，并有记录谁更改了什么的审计记录。"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a href="../guides/index.html" slot="actions">Guides</a>
+      <a href="../guides/index.html" slot="actions">指南</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,25 +104,25 @@
       <a href="../features/classification.html">分类</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">编排</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">补丁管理</a>
       <a href="../features/security.html">安全</a>
       <a aria-current="page" href="../features/access-control.html">访问控制</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">AI 代理</a>
+      <a href="../features/scaling.html">扩展</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
-<vox-hero eyebrow="访问控制与审计" heading="Your identity provider, your roles, your record">
-  <p>Sign people in through the identity provider you already run, give them exactly the access they need, give your automation its own credentials, and keep a record of every change.</p>
+<vox-hero eyebrow="访问控制与审计" heading="你的身份提供方、你的角色、你的记录">
+  <p>通过你已经在运行的身份提供方让人员登录，给每个人恰好所需的访问权限，给你的自动化专属的凭据，并记录每一次变更。</p>
 </vox-hero>
 
 <section class="site-section">
-  <h2 class="vox-ts-xxl">Single sign-on, with roles that follow your groups</h2>
+  <h2 class="vox-ts-xxl">单点登录，角色随你的组而定</h2>
   <div class="vox-prose">
-    <p>The console signs people in through OpenID Connect, so accounts, passwords and multi-factor rules stay where they already live. The groups your provider puts in a person&#39;s ID token are mapped onto console roles each time they sign in: move someone between groups and their access in the console follows at their next sign-in.</p>
-    <p>A role you assign by hand is never touched by that mapping, and local accounts keep working alongside single sign-on, for break-glass access when the provider is down.</p>
+    <p>控制台通过 OpenID Connect 让人员登录，因此账户、密码和多因素认证规则都留在它们原本所在的地方。你的提供方放入某人 ID token 中的组，会在其每次登录时映射为控制台角色：把某人调到其他组，其在控制台中的访问权限就会在下次登录时随之改变。</p>
+    <p>你手动分配的角色永远不会被这种映射改动，本地账户也可以与单点登录并行使用，以便在提供方宕机时进行紧急访问。</p>
   </div>
 </section>
 
@@ -137,17 +137,17 @@
   <a class="shot-link" href="../../assets/screenshots/roles-light-zh.png">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/roles-dark-zh.png" data-theme-dark="../../assets/screenshots/roles-dark-zh.png" data-theme-light="../../assets/screenshots/roles-light-zh.png"/>
-      <img src="../../assets/screenshots/roles-light-zh.png" alt="Role-based access control showing roles and the specific permissions each one grants" width="1440"/>
+      <img src="../../assets/screenshots/roles-light-zh.png" alt="基于角色的访问控制，显示各个角色及其授予的具体权限" width="1440"/>
     </picture>
     <span class="vox-sr-only">Open full size</span>
   </a>
 </figure>
 
 <section class="site-section">
-  <h2 class="vox-ts-xxl">Access that stops at the nodes and tasks it should</h2>
+  <h2 class="vox-ts-xxl">访问权限止步于它应止步的 Nodes 和 Tasks</h2>
   <div class="vox-prose">
-    <p>A role applies to the node groups you name, so an operator can act on the web tier and nothing else — and sees only those nodes in every list, report and job. A role can also be limited to named tasks, or a module&#39;s tasks, so someone who may patch cannot run anything else.</p>
-    <p>Give roles to a user group and everyone in it gets them, alongside any they hold directly. An account policy sets password rules and locks an account after repeated failed sign-ins.</p>
+    <p>角色作用于你指定的 Node 组，因此操作员可以只对 Web 层进行操作，而不能触及其他任何东西——并且在每个列表、Report 和 Job 中只能看到那些 Nodes。角色还可以被限制为只能运行指定的 Tasks 或某个模块的 Tasks，这样有权打补丁的人就无法运行其他任何东西。</p>
+    <p>为用户组分配角色，组中的每个人都会获得这些角色，并与其直接持有的角色并存。账户策略可以设置密码规则，并在多次登录失败后锁定账户。</p>
   </div>
 </section>
 
@@ -162,7 +162,7 @@
     Service tokens scoped to just the permissions an integration needs.
     Shown once, revocable at any time.
   </vox-card>
-  <vox-card heading="AI agents">
+  <vox-card heading="AI 代理">
     <vox-icon slot="icon" name="key"></vox-icon>
     Agent tokens that expire, reach only the node groups and tasks you
     name, and can only ask: a person approves every change.
@@ -185,7 +185,7 @@
   <a class="shot-link" href="../../assets/screenshots/activity-light-zh.png">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/activity-dark-zh.png" data-theme-dark="../../assets/screenshots/activity-dark-zh.png" data-theme-light="../../assets/screenshots/activity-light-zh.png"/>
-      <img src="../../assets/screenshots/activity-light-zh.png" alt="The audit trail recording who changed what in the console and when" width="1440"/>
+      <img src="../../assets/screenshots/activity-light-zh.png" alt="审计记录，记录谁在何时于控制台中更改了什么" width="1440"/>
     </picture>
     <span class="vox-sr-only">Open full size</span>
   </a>
@@ -197,32 +197,26 @@
 
       
       <section class="site-section do-it" aria-labelledby="do-it-heading">
-        <h2 id="do-it-heading" class="vox-ts-xxl">Do it</h2>
+        <h2 id="do-it-heading" class="vox-ts-xxl">动手操作</h2>
         <vox-grid min="16rem">
-          <vox-card heading="Users, roles and tokens" href="../guides/access.html"><p>Give people access through roles and permissions, sign in with your identity provider, and issue tokens for programs.</p></vox-card>
+          <vox-card heading="用户、角色与令牌" href="../guides/access.html"><p>通过角色和权限授予人员访问权限，使用你的身份提供方登录，并为程序签发令牌。</p></vox-card>
           </vox-grid>
       </section>
       </div>
 
       
       <vox-cta-band heading="自己动手运行">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console 以容器镜像形式发布，每次 push 都会构建 amd64 和 arm64 版本，同时也提供单个二进制文件。安装指南将带你从一台空主机走到一套可用的部署——openvoxserver、openvoxdb、Postgres 和控制台——可以用容器，也可以用软件包。</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">安装指南</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">GitHub 上的源码</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">容器镜像</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="全尺寸截图">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">关闭</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -231,18 +225,18 @@
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">概览</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">源码</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">安装指南</a>
       </vox-footer-column>
       <vox-footer-column heading="功能">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">分类</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">编排</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">补丁管理</a>
         <a href="../features/security.html">安全</a>
         <a href="../features/access-control.html">访问控制</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">AI 代理</a>
+        <a href="../features/scaling.html">扩展</a>
         </vox-footer-column>
       
       <vox-footer-column heading="语言">

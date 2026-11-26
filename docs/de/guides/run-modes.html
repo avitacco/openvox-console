@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="de" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="What each of the console&#39;s run modes serves and runs, and what each one needs configured."/>
+    <meta name="description" content="Was jeder Betriebsmodus der Konsole bedient und betreibt und was jeder davon an Konfiguration braucht."/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Run modes - OpenVox Console</title>
+    <title>Betriebsmodi - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">Anleitungen</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -107,216 +107,176 @@
       <a href="../features/patching.html">Patching</a>
       <a href="../features/security.html">Sicherheit</a>
       <a href="../features/access-control.html">Zugriffskontrolle</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">KI-Agenten</a>
+      <a href="../features/scaling.html">Skalierung</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="Anleitungen" toggle-label="Alle Anleitungen">
+    <vox-sidenav-group heading="Installation">
+      <vox-sidenav-item href="../guides/plan.html"><span>Eine Installation planen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>Installation mit Containern</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>Installation aus Paketen und Binaries</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>Nodes hinzufügen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>Node-Zertifikate verwalten</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>Einen Node entfernen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Node-Agenten aktuell halten</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale" open="">
-      <vox-sidenav-item href="../guides/run-modes.html" current="" aria-current="page"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="Skalierung" open="">
+      <vox-sidenav-item href="../guides/run-modes.html" current="" aria-current="page"><span>Betriebsmodi</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>Weitere Instanzen betreiben</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="Nutzung">
+      <vox-sidenav-item href="../guides/classify.html"><span>Nodes klassifizieren</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>Code deployen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>Jobs ausführen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>Pläne ausführen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Jobs planen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>Benutzer, Rollen und Tokens</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Sicherheitslücken verfolgen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>Fehlende Updates finden und anwenden</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>Tasks auf Hosts ohne Agent ausführen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>Pläne aus Ihrem Code ausführen</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>KI-Agenten die Konsole nutzen lassen</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="Betrieb">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Auf eine Standby-Datenbank umschalten</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Den Token-Signaturschlüssel rotieren</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Die Container-Datenbanken auf Postgres 18 aktualisieren</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Scale</p>
-    <h1 class="guide-title vox-ts-xxl">Run modes</h1>
-    <p class="guide-summary">What each of the console&#39;s run modes serves and runs, and what each one needs configured.</p>
+    <p class="guide-eyebrow">Skalierung</p>
+    <h1 class="guide-title vox-ts-xxl">Betriebsmodi</h1>
+    <p class="guide-summary">Was jeder Betriebsmodus der Konsole bedient und betreibt und was jeder davon an Konfiguration braucht.</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>One image, one binary. <code>CONSOLE_RUN_MODE</code> selects which parts of the
-console an instance runs, so parts with very different loads can be
-scaled and placed separately. Unset, it is <code>all</code>: everything in one
-instance, which is what a single-instance deployment always runs.</p>
-<h2 id="what-each-mode-runs">What each mode runs</h2>
+<p>Ein Image, ein Binary. <code>CONSOLE_RUN_MODE</code> wählt, welche Teile der Konsole eine Instanz betreibt, damit Teile mit sehr unterschiedlicher Last getrennt skaliert und platziert werden können. Nicht gesetzt ist er <code>all</code>: alles in einer Instanz, was eine Installation mit einer Instanz immer betreibt.</p>
+<h2 id="what-each-mode-runs">Was jeder Modus betreibt</h2>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Mode</th>
-<th>Serves</th>
-<th>Listens</th>
-<th>Runs in the background</th>
+<th>Modus</th>
+<th>Bedient</th>
+<th>Lauscht auf</th>
+<th>Läuft im Hintergrund</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>all</code> (the default)</td>
-<td>everything</td>
-<td>HTTP, node transport</td>
-<td>every background task</td>
+<td><code>all</code> (der Standard)</td>
+<td>alles</td>
+<td>HTTP, Node-Transport</td>
+<td>jede Hintergrundaufgabe</td>
 </tr>
 <tr>
 <td><code>web</code></td>
-<td>the console, its API, code-deploy webhooks and classification</td>
+<td>die Konsole, ihre API, Code-Deploy-Webhooks und Klassifizierung</td>
 <td>HTTP</td>
-<td>following the jobs started through it</td>
+<td>Verfolgen der darüber gestarteten Jobs</td>
 </tr>
 <tr>
 <td><code>enc</code></td>
-<td>classification only</td>
+<td>nur Klassifizierung</td>
 <td>HTTP</td>
-<td>nothing</td>
+<td>nichts</td>
 </tr>
 <tr>
 <td><code>orchestrator</code></td>
-<td>nothing beyond health and metrics</td>
-<td>HTTP, node transport</td>
-<td>job dispatch, scheduled jobs, the first run of new nodes, and node agent upgrades</td>
+<td>nichts außer Health und Metriken</td>
+<td>HTTP, Node-Transport</td>
+<td>Job-Verteilung, geplante Jobs, der erste Lauf neuer Nodes und Upgrades des Node-Agenten</td>
 </tr>
 <tr>
 <td><code>worker</code></td>
-<td>nothing beyond health and metrics</td>
+<td>nichts außer Health und Metriken</td>
 <td>HTTP</td>
-<td>vulnerability syncs, and cleanup of abandoned jobs</td>
+<td>Synchronisierungen von Sicherheitslücken und Aufräumen verwaister Jobs</td>
 </tr>
 </tbody>
 </table></div>
-<p>Every mode serves <code>/health</code> and <code>/metrics</code>, so any instance can be
-checked without knowing its mode, and <code>/health</code> reports the mode it is
-running.</p>
-<p>Two choices in that table are deliberate:</p>
+<p>Jeder Modus stellt <code>/health</code> und <code>/metrics</code> bereit, sodass jede Instanz geprüft werden kann, ohne ihren Modus zu kennen, und <code>/health</code> meldet den Modus, in dem sie läuft.</p>
+<p>Zwei Entscheidungen in dieser Tabelle sind bewusst getroffen:</p>
 <ul>
-<li><strong><code>web</code> answers classification too.</strong> <code>enc</code> exists so classification
-<em>can</em> run on its own, next to the compilers, not so that it is missing
-everywhere else. A split that quietly stopped classifying nodes would
-be far worse than <code>web</code> carrying some of that load.</li>
-<li><strong><code>orchestrator</code> serves no API.</strong> It holds the node connections and
-sends jobs down them. Starting a job is <code>web</code>&#39;s job, and <code>web</code> reaches
-those connections through the cluster.</li>
-<li><strong>A job is followed by the instance that started it.</strong> A run, task or
-plan started in the console is sent and tracked by the <code>web</code> instance
-that took the request, so <code>web</code> instances must be
-<a href="cluster.html">clustered</a> with the <code>orchestrator</code> instances to reach
-any node. If that <code>web</code> instance stops before the job ends, the job is
-marked failed by a <code>worker</code> instance.</li>
+<li><strong><code>web</code> beantwortet ebenfalls Klassifizierungsanfragen.</strong> <code>enc</code> existiert, damit die Klassifizierung eigenständig neben den Compilern laufen <em>kann</em>, nicht damit sie überall sonst fehlt. Eine Aufteilung, die stillschweigend aufhört, Nodes zu klassifizieren, wäre weit schlimmer, als dass <code>web</code> einen Teil dieser Last trägt.</li>
+<li><strong><code>orchestrator</code> stellt keine API bereit.</strong> Er hält die Node-Verbindungen und schickt Jobs darüber. Einen Job zu starten ist Aufgabe von <code>web</code>, und <code>web</code> erreicht diese Verbindungen über den Cluster.</li>
+<li><strong>Ein Job wird von der Instanz verfolgt, die ihn gestartet hat.</strong> Ein in der Konsole gestarteter Lauf, Task oder Plan wird von der <code>web</code>-Instanz gesendet und verfolgt, die die Anfrage entgegengenommen hat. <code>web</code>-Instanzen müssen daher mit den <code>orchestrator</code>-Instanzen <a href="cluster.html">geclustert</a> sein, um einen Node zu erreichen. Stoppt diese <code>web</code>-Instanz, bevor der Job endet, markiert eine <code>worker</code>-Instanz den Job als fehlgeschlagen.</li>
 </ul>
-<h2 id="what-each-mode-needs">What each mode needs</h2>
-<p>Each mode requires only what it uses, and refuses to start without it,
-naming the missing setting:</p>
+<h2 id="what-each-mode-needs">Was jeder Modus braucht</h2>
+<p>Jeder Modus verlangt nur, was er nutzt, und verweigert ohne es den Start, wobei er die fehlende Einstellung nennt:</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Mode</th>
-<th>Requires</th>
+<th>Modus</th>
+<th>Erfordert</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>every mode</td>
-<td><code>CONSOLE_POSTGRES_DSN</code> and the four <code>CONSOLE_OPENVOXDB_*</code> settings</td>
+<td>jeder Modus</td>
+<td><code>CONSOLE_POSTGRES_DSN</code> und die vier <code>CONSOLE_OPENVOXDB_*</code>-Einstellungen</td>
 </tr>
 <tr>
 <td><code>all</code>, <code>web</code></td>
-<td><code>CONSOLE_RBAC_SIGNING_KEY_FILE</code>: these are the only modes that issue login tokens</td>
+<td><code>CONSOLE_RBAC_SIGNING_KEY_FILE</code>: Nur diese Modi stellen Login-Tokens aus</td>
 </tr>
 <tr>
 <td><code>enc</code>, <code>orchestrator</code>, <code>worker</code></td>
-<td><code>CONSOLE_RBAC_VERIFICATION_KEYS_DIR</code>: they check tokens, but never issue them</td>
+<td><code>CONSOLE_RBAC_VERIFICATION_KEYS_DIR</code>: Sie prüfen Tokens, stellen aber nie welche aus</td>
 </tr>
 <tr>
 <td><code>orchestrator</code></td>
-<td><code>CONSOLE_NODE_TRANSPORT_ADDR</code>: without a node listener every job would fail &#34;not connected&#34; on an instance that looked healthy</td>
+<td><code>CONSOLE_NODE_TRANSPORT_ADDR</code>: Ohne Node-Listener würde jeder Job auf einer gesund wirkenden Instanz mit „not connected“ fehlschlagen</td>
 </tr>
 </tbody>
 </table></div>
-<h3 id="give-the-scheduler-what-scheduled-jobs-use">Give the scheduler what scheduled jobs use</h3>
-<p><a href="schedule-jobs.html">Scheduled jobs</a> are started by <code>all</code> and
-<code>orchestrator</code> instances, not by <code>web</code>. An <code>orchestrator</code> instance
-starts without these, but a schedule that needs one is skipped, saying
-why, until the instance has it:</p>
+<h3 id="give-the-scheduler-what-scheduled-jobs-use">Dem Scheduler geben, was geplante Jobs nutzen</h3>
+<p><a href="schedule-jobs.html">Geplante Jobs</a> werden von <code>all</code>- und <code>orchestrator</code>-Instanzen gestartet, nicht von <code>web</code>. Eine <code>orchestrator</code>-Instanz startet auch ohne Folgendes, aber ein Zeitplan, der es braucht, wird mit Begründung übersprungen, bis die Instanz es hat:</p>
 <ul>
-<li><code>CONSOLE_PUPPET_SERVER_URL</code>, to start a scheduled task: the task is
-looked up in the deployed code when the schedule starts.</li>
-<li><code>CONSOLE_SECRETS_KEY_FILE</code>, the same key as on <code>web</code>, to start a
-scheduled task that has a sensitive parameter.</li>
+<li><code>CONSOLE_PUPPET_SERVER_URL</code>, um einen geplanten Task zu starten: Der Task wird beim Start des Zeitplans im deployten Code nachgeschlagen.</li>
+<li><code>CONSOLE_SECRETS_KEY_FILE</code>, derselbe Schlüssel wie auf <code>web</code>, um einen geplanten Task mit einem sensiblen Parameter zu starten.</li>
 </ul>
-<p>When several instances run the scheduler, each due time is started by
-exactly one of them. If none is running when a schedule comes due, it
-starts when one is - unless that is more than 15 minutes late, in which
-case that time is recorded as missed.</p>
-<h3 id="give-non-issuing-modes-the-verification-keys">Give non-issuing modes the verification keys</h3>
-<p>An instance that only checks tokens reads the keys to check them against
-from a directory, one file per key, named after the key&#39;s ID. A
-deployment that has never rotated its key uses the ID <code>default</code>, so the
-directory holds one file, <code>default.pem</code>, which is the signing key file
-itself:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo install -d -m 0750 -o root -g openvox-console /etc/openvox-console/rbac-verification-keys
+<p>Betreiben mehrere Instanzen den Scheduler, wird jeder Fälligkeitszeitpunkt von genau einer davon gestartet. Läuft keine, wenn ein Zeitplan fällig wird, startet er, sobald eine läuft – es sei denn, das ist mehr als 15 Minuten zu spät; dann wird dieser Zeitpunkt als verpasst verzeichnet.</p>
+<h3 id="give-non-issuing-modes-the-verification-keys">Nicht ausstellenden Modi die Verifizierungsschlüssel geben</h3>
+<p>Eine Instanz, die Tokens nur prüft, liest die Schlüssel, gegen die sie prüft, aus einem Verzeichnis, eine Datei pro Schlüssel, benannt nach der ID des Schlüssels. Eine Installation, die ihren Schlüssel nie rotiert hat, verwendet die ID <code>default</code>. Das Verzeichnis enthält also eine Datei, <code>default.pem</code>, die die Signaturschlüsseldatei selbst ist:</p>
+<vox-code-block language="sh" copy-label="Code kopieren" copied-label="Kopiert" copied-message="In die Zwischenablage kopiert"><code>sudo install -d -m 0750 -o root -g openvox-console /etc/openvox-console/rbac-verification-keys
 sudo install -m 0640 -o root -g openvox-console \
   rbac-signing-key.pem /etc/openvox-console/rbac-verification-keys/default.pem
 </code></vox-code-block>
-<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CONSOLE_RUN_MODE=enc
+<vox-code-block language="plaintext" copy-label="Code kopieren" copied-label="Kopiert" copied-message="In die Zwischenablage kopiert"><code>CONSOLE_RUN_MODE=enc
 CONSOLE_RBAC_VERIFICATION_KEYS_DIR=/etc/openvox-console/rbac-verification-keys
 </code></vox-code-block>
-<vox-callout variant="warning" heading="Warning"><p>The verification directory currently accepts keys only in the same
-format as the signing key: the private key, of which the console uses
-only the public half. So an instance given the directory also holds a
-key that could sign tokens. Protect it on every host exactly as you
-protect the signing key, including <code>enc</code> instances beside the
-compilers.</p>
+<vox-callout variant="warning" heading="Warnung"><p>Das Verifizierungsverzeichnis akzeptiert Schlüssel derzeit nur im selben Format wie den Signaturschlüssel: den privaten Schlüssel, von dem die Konsole nur die öffentliche Hälfte nutzt. Eine Instanz, die das Verzeichnis erhält, hält also auch einen Schlüssel, der Tokens signieren könnte. Schützen Sie ihn auf jedem Host genau wie den Signaturschlüssel, auch auf <code>enc</code>-Instanzen neben den Compilern.</p>
 </vox-callout>
-<p>When you rotate the signing key, every instance&#39;s verification directory
-needs the new key too; <a href="rotate-signing-key.html">Rotate the token signing key</a> covers the order.</p>
-<h2 id="changing-an-instance-s-mode">Changing an instance&#39;s mode</h2>
-<p>Set <code>CONSOLE_RUN_MODE</code> and restart the instance. No data moves: every
-mode reads and writes the same database. Setting it back to <code>all</code> undoes
-the change.</p>
-<p>A lone instance can change mode, but a mode other than <code>all</code> only makes
-sense among clustered instances that between them run every mode. See
-<a href="cluster.html">Run more instances</a>.</p>
+<p>Wenn Sie den Signaturschlüssel rotieren, braucht auch das Verifizierungsverzeichnis jeder Instanz den neuen Schlüssel; <a href="rotate-signing-key.html">Den Token-Signaturschlüssel rotieren</a> beschreibt die Reihenfolge.</p>
+<h2 id="changing-an-instance-s-mode">Den Modus einer Instanz ändern</h2>
+<p>Setzen Sie <code>CONSOLE_RUN_MODE</code> und starten Sie die Instanz neu. Es werden keine Daten verschoben: Jeder Modus liest und schreibt dieselbe Datenbank. Den Wert wieder auf <code>all</code> zu setzen macht die Änderung rückgängig.</p>
+<p>Eine einzelne Instanz kann ihren Modus wechseln, aber ein anderer Modus als <code>all</code> ergibt nur unter geclusterten Instanzen Sinn, die zusammen jeden Modus betreiben. Siehe <a href="cluster.html">Weitere Instanzen betreiben</a>.</p>
 
     </div>
 
-    <vox-series-nav label="Scale" previous-text="Previous" next-text="Next" next-href="../guides/cluster.html" next-label="Run more instances"></vox-series-nav>
+    <vox-series-nav label="Skalierung" previous-text="Zurück" next-text="Weiter" next-href="../guides/cluster.html" next-label="Weitere Instanzen betreiben"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#what-each-mode-runs"><span>What each mode runs</span>
+    <vox-toc heading="Auf dieser Seite">
+      <vox-toc-item href="#what-each-mode-runs"><span>Was jeder Modus betreibt</span>
       </vox-toc-item>
-      <vox-toc-item href="#what-each-mode-needs"><span>What each mode needs</span>
-        <vox-toc-item slot="children" href="#give-the-scheduler-what-scheduled-jobs-use"><span>Give the scheduler what scheduled jobs use</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#give-non-issuing-modes-the-verification-keys"><span>Give non-issuing modes the verification keys</span></vox-toc-item>
+      <vox-toc-item href="#what-each-mode-needs"><span>Was jeder Modus braucht</span>
+        <vox-toc-item slot="children" href="#give-the-scheduler-what-scheduled-jobs-use"><span>Dem Scheduler geben, was geplante Jobs nutzen</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#give-non-issuing-modes-the-verification-keys"><span>Nicht ausstellenden Modi die Verifizierungsschlüssel geben</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#changing-an-instance-s-mode"><span>Changing an instance&#39;s mode</span>
+      <vox-toc-item href="#changing-an-instance-s-mode"><span>Den Modus einer Instanz ändern</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -326,23 +286,17 @@ sense among clustered instances that between them run every mode. See
 
       
       <vox-cta-band heading="Selbst ausführen">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console wird als Container-Images ausgeliefert, bei jedem Push für amd64 und arm64 gebaut, sowie als einzelnes Binary. Die Installationsanleitungen führen Sie vom leeren Host zu einer funktionierenden Installation – openvoxserver, openvoxdb, Postgres und die Konsole – mit Containern oder mit Paketen.</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">Installationsanleitungen</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">Quellcode auf GitHub</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">Container-Images</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="Screenshot in voller Größe">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">Schließen</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -351,7 +305,7 @@ sense among clustered instances that between them run every mode. See
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">Überblick</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">Quellcode</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">Installationsanleitungen</a>
       </vox-footer-column>
       <vox-footer-column heading="Funktionen">
         <a href="../features/nodes.html">Nodes</a>
@@ -361,8 +315,8 @@ sense among clustered instances that between them run every mode. See
         <a href="../features/patching.html">Patching</a>
         <a href="../features/security.html">Sicherheit</a>
         <a href="../features/access-control.html">Zugriffskontrolle</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">KI-Agenten</a>
+        <a href="../features/scaling.html">Skalierung</a>
         </vox-footer-column>
       
       <vox-footer-column heading="Sprache">

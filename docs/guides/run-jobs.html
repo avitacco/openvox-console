@@ -306,8 +306,8 @@ that environment&#39;s code as it is deployed right now.</li>
 <li>Pick the <strong>Task</strong>. Its description, and a field for each parameter,
 appear below it. A field marked <code>*</code> is required; one left empty gets
 the default its metadata declares.</li>
-<li>Optionally, set a <strong>Timeout</strong>. A task still running after it is
-stopped, along with anything it started, and reported as timed out.
+<li>Optionally, set a <strong>Timeout</strong>. A task still running when it runs out
+is stopped, along with anything it started, and reported as timed out.
 It is 30 minutes unless you say otherwise, and at most 55.</li>
 <li><strong>Run task</strong> starts the job and takes you to it.</li>
 </ol>
@@ -362,6 +362,15 @@ the node&#39;s install script again to upgrade it - see
 <p>The <strong>Jobs</strong> page lists every job, newest first. A job&#39;s page shows each
 target on its own line - its status, exit code and output - so a job that
 worked on nine nodes and failed on one says exactly that.</p>
+<figure class="shot">
+  <a class="shot-link" href="../assets/screenshots/job-result-light.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="../assets/screenshots/job-result-dark.png" data-theme-dark="../assets/screenshots/job-result-dark.png" data-theme-light="../assets/screenshots/job-result-light.png"/>
+      <img src="../assets/screenshots/job-result-light.png" alt="A finished job&#39;s page, showing what was run, who started it and when, and the outcome on every node it targeted" width="1440"/>
+    </picture>
+    <span class="vox-sr-only">Open full size</span>
+  </a>
+</figure>
 <p>If a job also ran on nodes outside your node groups, its page shows
 only your nodes and says so. The job&#39;s overall status still covers
 every node it ran on, so it can read <strong>failed</strong> when all the nodes you

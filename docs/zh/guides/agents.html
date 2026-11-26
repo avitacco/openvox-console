@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="zh" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Give an AI agent its own limited token, let it read the fleet and ask for changes, and approve each change yourself before anything runs."/>
+    <meta name="description" content="为 AI 代理提供专属的受限令牌，让它读取机群并请求更改，并在任何东西运行之前由你亲自批准每项更改。"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Let AI agents use the console - OpenVox Console</title>
+    <title>让 AI 代理使用控制台 - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">指南</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,149 +104,121 @@
       <a href="../features/classification.html">分类</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">编排</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">补丁管理</a>
       <a href="../features/security.html">安全</a>
       <a href="../features/access-control.html">访问控制</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">AI 代理</a>
+      <a href="../features/scaling.html">扩展</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="指南" toggle-label="所有指南">
+    <vox-sidenav-group heading="安装">
+      <vox-sidenav-item href="../guides/plan.html"><span>规划部署</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>使用容器安装</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>从软件包和二进制文件安装</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>添加 Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>管理 Node 证书</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>移除 Node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>保持 Node 代理为最新</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
-      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="扩展">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>运行模式</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>运行更多实例</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use" open="">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html" current="" aria-current="page"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="使用" open="">
+      <vox-sidenav-item href="../guides/classify.html"><span>为 Nodes 分类</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy 代码</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>运行 Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>运行 Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>计划 Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>用户、角色与令牌</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>跟踪漏洞</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>查找并应用缺失的更新</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>在没有代理的主机上运行 Tasks</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>运行代码中的 Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html" current="" aria-current="page"><span>让 AI 代理使用控制台</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="运维">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>故障切换到备用数据库</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>轮换令牌签名密钥</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>将容器数据库升级到 Postgres 18</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Use</p>
-    <h1 class="guide-title vox-ts-xxl">Let AI agents use the console</h1>
-    <p class="guide-summary">Give an AI agent its own limited token, let it read the fleet and ask for changes, and approve each change yourself before anything runs.</p>
+    <p class="guide-eyebrow">使用</p>
+    <h1 class="guide-title vox-ts-xxl">让 AI 代理使用控制台</h1>
+    <p class="guide-summary">为 AI 代理提供专属的受限令牌，让它读取机群并请求更改，并在任何东西运行之前由你亲自批准每项更改。</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>The console has an endpoint for AI agents, built on MCP (the Model Context
-Protocol), at <code>/mcp</code>. An agent connected to it can look at your nodes, node
-groups, tasks and jobs. When it wants to change something - run a task, run
-Puppet, run a plan or patch nodes - it does not start anything. It <strong>asks</strong>,
-and the request waits on the <strong>Approvals</strong> page until a person approves it.</p>
-<p>Everything an agent can see or ask for is limited by its own token: which
-permissions it has, which node groups it can reach, and which tasks it may
-ask to run. Everything it does is in the audit log under its own name.</p>
-<h2 id="turn-the-endpoint-on">Turn the endpoint on</h2>
-<p>The endpoint is off. Set <code>CONSOLE_MCP_ENABLED=true</code> on the console and
-restart it. Until then <code>/mcp</code> does not exist: it answers as any unknown
-path does.</p>
+<p>控制台在 <code>/mcp</code> 上为 AI 代理提供了一个基于 MCP（Model Context Protocol）的端点。连接到它的代理可以查看你的 Nodes、Node 组、Tasks 和 Jobs。当它想要更改什么——运行 Task、运行 Puppet、运行 Plan 或为 Nodes 打补丁——它不会启动任何东西。它会<strong>提出请求</strong>，请求会在<strong>批准</strong>页面上等待，直到有人批准。</p>
+<p>代理能看到或请求的一切都受其自身令牌的限制：它拥有哪些权限、能访问哪些 Node 组，以及可以请求运行哪些 Tasks。它所做的一切都以它自己的名义记录在审计日志中。</p>
+<h2 id="turn-the-endpoint-on">开启端点</h2>
+<p>该端点默认关闭。在控制台上设置 <code>CONSOLE_MCP_ENABLED=true</code> 并重启。在此之前，<code>/mcp</code> 并不存在：它的应答与任何未知路径相同。</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Setting</th>
-<th>Meaning</th>
-<th>Default</th>
+<th>设置</th>
+<th>含义</th>
+<th>默认值</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>CONSOLE_MCP_ENABLED</code></td>
-<td>serve <code>/mcp</code></td>
-<td>off</td>
+<td>提供 <code>/mcp</code></td>
+<td>关闭</td>
 </tr>
 <tr>
 <td><code>CONSOLE_MCP_RATE_LIMIT</code></td>
-<td>calls a minute one token may make</td>
+<td>一个令牌每分钟可发起的调用次数</td>
 <td>60</td>
 </tr>
 <tr>
 <td><code>CONSOLE_AGENT_REQUEST_TTL</code></td>
-<td>how long a request waits for a decision, such as <code>30m</code></td>
+<td>请求等待决定的时长，例如 <code>30m</code></td>
 <td><code>1h</code></td>
 </tr>
 <tr>
 <td><code>CONSOLE_AGENT_TOKEN_MAX_DAYS</code></td>
-<td>the longest an agent token may last</td>
+<td>代理令牌的最长有效期</td>
 <td>90</td>
 </tr>
 </tbody>
 </table></div>
-<p>The rate limit is kept by each console instance, so a token may make that
-many calls a minute on every instance. Put the endpoint behind TLS, as you
-do the rest of the console: the token is a bearer credential.</p>
-<h2 id="issue-a-token-for-an-agent">Issue a token for an agent</h2>
-<p>An agent token is its own kind of token. It is not a service token: it
-expires, it is limited to node groups, and it works only at <code>/mcp</code>. A leaked
-one cannot be used against the rest of the console&#39;s API.</p>
+<p>速率限制由每个控制台实例各自维护，因此一个令牌在每个实例上每分钟都可以发起这么多次调用。请像控制台的其余部分一样，把该端点放在 TLS 之后：令牌是一种 bearer 凭据。</p>
+<h2 id="issue-a-token-for-an-agent">为代理签发令牌</h2>
+<p>代理令牌是一种独立的令牌。它不是服务令牌：它会过期，它仅限于 Node 组，而且只在 <code>/mcp</code> 上有效。泄露的代理令牌无法被用来访问控制台 API 的其余部分。</p>
 <ol>
-<li>Open <strong>Admin</strong>, then <strong>Agent tokens</strong>.</li>
-<li>Name the token for the agent it is for, such as <code>ops-assistant</code>.</li>
-<li>Choose its <strong>permissions</strong>. An agent token can carry only
-<code>nodes:read</code>, <code>classifier:read</code>, <code>orchestrator:read</code>, <code>orchestrator:run</code>
-and <code>vulnerabilities:read</code>.
-<code>orchestrator:run</code> does not let the agent run anything: it lets it
-<strong>ask</strong>.</li>
-<li>Choose the <strong>node groups</strong> it may reach. A token with none reaches no
-nodes. Everything the agent reads or asks for is limited to those groups
-and the groups beneath them.</li>
-<li>Optionally, under <strong>Tasks it may ask to run</strong>, list the tasks it may ask
-for, one pattern per line, as for a <a href="access.html#limit-a-role-to-some-tasks">role</a>.
-Leave it empty to allow every task. Both the node groups and the tasks
-are fixed when the token is created.</li>
-<li>Set how many days it lasts. A token must expire, and cannot last longer
-than <code>CONSOLE_AGENT_TOKEN_MAX_DAYS</code>. Thirty days is a good start.</li>
-<li>Choose <strong>Create agent token</strong> and copy the token: it is shown once.</li>
+<li>打开<strong>管理</strong>，然后打开<strong>代理令牌</strong>。</li>
+<li>以令牌所服务的代理来命名令牌，例如 <code>ops-assistant</code>。</li>
+<li>选择其<strong>权限</strong>。代理令牌只能携带 <code>nodes:read</code>、<code>classifier:read</code>、<code>orchestrator:read</code>、<code>orchestrator:run</code> 和 <code>vulnerabilities:read</code>。<code>orchestrator:run</code> 并不能让代理运行任何东西：它只能让代理<strong>提出请求</strong>。</li>
+<li>选择它可以访问的 <strong>Node 组</strong>。没有任何 Node 组的令牌无法访问任何 Node。代理读取或请求的一切都仅限于这些组及其下属组。</li>
+<li>可选：在<strong>可请求运行的 Task</strong> 下列出它可以请求的 Tasks，每行一个模式，与<a href="access.html#limit-a-role-to-some-tasks">角色</a>相同。留空则允许所有 Task。Node 组和 Tasks 都在令牌创建时固定。</li>
+<li>设置它的有效天数。令牌必须会过期，且有效期不能超过 <code>CONSOLE_AGENT_TOKEN_MAX_DAYS</code>。三十天是个不错的起点。</li>
+<li>选择<strong>创建代理令牌</strong>并复制令牌：它只显示一次。</li>
 </ol>
-<p><strong>Revoke</strong> on the same page ends the token at once, on every console
-instance. Its requests stay on the Approvals page as a record, and any it
-had waiting are marked failed.</p>
-<h2 id="connect-an-agent">Connect an agent</h2>
-<p>Give the agent the console&#39;s address with <code>/mcp</code> on the end, and the token
-as a bearer token. The endpoint speaks streamable HTTP, and answers each
-POSTed message directly. For Claude Code, for example:</p>
-<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>claude mcp add --transport http openvox https://console.example.com/mcp \
+<p>在同一页面上点击<strong>吊销</strong>会立即在每个控制台实例上终止该令牌。它的请求会作为记录保留在「批准」页面上，其中仍在等待的请求会被标记为失败。</p>
+<h2 id="connect-an-agent">连接代理</h2>
+<p>把控制台的地址加上 <code>/mcp</code> 后缀提供给代理，并把令牌作为 bearer token。该端点使用 streamable HTTP，并直接应答每条 POST 的消息。以 Claude Code 为例：</p>
+<vox-code-block language="plaintext" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>claude mcp add --transport http openvox https://console.example.com/mcp \
   --header &#34;Authorization: Bearer &lt;the token&gt;&#34;
 </code></vox-code-block>
-<p>The agent is offered only the tools its token allows.</p>
+<p>代理只会获得其令牌允许的工具。</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Tool</th>
-<th>Needs</th>
+<th>工具</th>
+<th>所需权限</th>
 <th>它能做什么</th>
 </tr>
 </thead>
@@ -254,148 +226,111 @@ POSTed message directly. For Claude Code, for example:</p>
 <tr>
 <td><code>list_nodes</code>, <code>get_node</code>, <code>get_node_reports</code></td>
 <td><code>nodes:read</code></td>
-<td>look at nodes, their facts and reports</td>
+<td>查看 Nodes 及其 Facts 和 Reports</td>
 </tr>
 <tr>
 <td><code>get_node_patches</code>, <code>get_patch_inventory</code></td>
 <td><code>nodes:read</code></td>
-<td>pending operating system updates</td>
+<td>待安装的操作系统更新</td>
 </tr>
 <tr>
 <td><code>list_groups</code>, <code>get_group</code>, <code>get_group_nodes</code></td>
 <td><code>classifier:read</code></td>
-<td>node groups</td>
+<td>Node 组</td>
 </tr>
 <tr>
 <td><code>list_tasks</code>, <code>get_task</code>, <code>list_code_plans</code>, <code>get_code_plan</code></td>
 <td><code>orchestrator:read</code></td>
-<td>what the deployed code offers, and each one&#39;s parameters</td>
+<td>已 deploy 的代码提供了什么，以及每一项的参数</td>
 </tr>
 <tr>
 <td><code>list_jobs</code>, <code>get_job</code></td>
 <td><code>orchestrator:read</code></td>
-<td>jobs and their results</td>
+<td>Jobs 及其结果</td>
 </tr>
 <tr>
 <td><code>resolve_targets</code></td>
 <td><code>orchestrator:run</code></td>
-<td>which nodes a target would name</td>
+<td>目标将会指向哪些 Nodes</td>
 </tr>
 <tr>
 <td><code>request_task</code>, <code>request_puppet_run</code>, <code>request_plan</code>, <code>request_patch_run</code>, <code>request_code_plan</code></td>
 <td><code>orchestrator:run</code></td>
-<td>ask to run something (see below)</td>
+<td>请求运行某些东西（见下文）</td>
 </tr>
 <tr>
 <td><code>get_request</code>, <code>list_requests</code></td>
 <td><code>orchestrator:run</code></td>
-<td>the agent&#39;s own requests and how they were decided</td>
+<td>代理自己的请求及其决定结果</td>
 </tr>
 </tbody>
 </table></div>
-<p>Everything an agent reads comes through the console&#39;s own endpoints with its
-token, so it sees exactly what a person with that token&#39;s permissions and node
-groups would, and sensitive values are masked as everywhere else. A long
-result is cut, with a note telling the agent how to ask for less.</p>
-<h2 id="approve-what-an-agent-asks-for">Approve what an agent asks for</h2>
-<p>When an agent calls one of the <code>request_</code> tools, the console checks the
-request exactly as it would check yours - the task and its parameters, the
-nodes, the agent&#39;s node groups and task list - and, if it passes, stores it
-and tells the agent it is awaiting approval. Nothing runs. A request that
-fails a check is refused with the reason, so the agent can correct it.</p>
-<p>Open <strong>Jobs</strong>, then <strong>Approvals</strong> (the tab shows how many are waiting, as does
-the navigation). <strong>Review</strong> a request to see:</p>
+<p>代理读取的一切都通过控制台自己的端点、使用其令牌获取，因此它看到的内容与拥有该令牌权限和 Node 组的人看到的完全相同，敏感值也会像其他地方一样被遮罩。过长的结果会被截断，并附上提示，告诉代理如何请求更少的数据。</p>
+<h2 id="approve-what-an-agent-asks-for">批准代理的请求</h2>
+<p>当代理调用某个 <code>request_</code> 工具时，控制台会像检查你的请求一样检查它——Task 及其参数、Nodes、代理的 Node 组和 Task 列表——如果通过检查，就保存该请求，并告诉代理它正在等待批准。不会运行任何东西。未通过检查的请求会被拒绝并给出原因，以便代理进行更正。</p>
+<p>打开 <strong>Jobs</strong>，然后打开<strong>批准</strong>（该标签页会显示有多少请求在等待，导航栏也是如此）。<strong>审阅</strong>某个请求即可看到：</p>
 <ul>
-<li>which agent asked and when, and when the request expires</li>
-<li>the task, plan or kind of run, and its environment</li>
-<li>the <strong>exact nodes</strong>, resolved when the agent asked</li>
-<li>the parameters, with sensitive values masked</li>
+<li>是哪个代理在何时发出的请求，以及请求何时过期</li>
+<li>Task、Plan 或运行类型，以及其 Environment</li>
+<li><strong>确切的 Nodes</strong>，在代理发出请求时解析</li>
+<li>参数，敏感值已遮罩</li>
 </ul>
-<p>Choose <strong>Approve and run</strong> to start the job, or <strong>Reject</strong>, with a note if you
-like: the agent is told. Approving starts exactly what you saw - parameters
-and nodes are frozen when the request is made - as the agent&#39;s token. The job
-shows that an AI agent asked for it and who approved it, and <strong>Jobs</strong> can be
-limited to jobs started that way.</p>
-<p>A request that nobody decides expires, after an hour unless you set
-<code>CONSOLE_AGENT_REQUEST_TTL</code>, and can no longer be approved. An agent can hold
-only so many waiting requests at once.</p>
-<h3 id="who-can-approve">Who can approve</h3>
-<p>Two permissions, which go on roles for people and cannot be given to an agent
-token:</p>
+<p>选择<strong>批准并运行</strong>以启动 Job，或选择<strong>拒绝</strong>，可以附上备注：代理会收到通知。批准会以该代理令牌的身份启动你所看到的内容，丝毫不差——参数和 Nodes 在请求发出时就已固定。该 Job 会显示它是由 AI 代理请求的以及由谁批准的，而且 <strong>Jobs</strong> 可以被筛选为只显示以这种方式启动的 Jobs。</p>
+<p>无人决定的请求会过期（默认一小时，除非你设置了 <code>CONSOLE_AGENT_REQUEST_TTL</code>），之后便无法再被批准。一个代理同时持有的等待中请求数量是有上限的。</p>
+<h3 id="who-can-approve">谁可以批准</h3>
+<p>两项权限，它们授予人员所用的角色，不能授予代理令牌：</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Permission</th>
-<th>Lets someone</th>
+<th>权限</th>
+<th>允许某人</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>agent-requests:read</code></td>
-<td>see requests on the Approvals page</td>
+<td>在「批准」页面上查看请求</td>
 </tr>
 <tr>
 <td><code>agent-requests:approve</code></td>
-<td>approve and reject them</td>
+<td>批准和拒绝这些请求</td>
 </tr>
 </tbody>
 </table></div>
-<p>An approver also needs <code>orchestrator:run</code> over every node the request acts on,
-and may run the task. You cannot approve a request on nodes you could not run
-the task on yourself. Someone who can see only some node groups sees only the
-requests that name nodes in them.</p>
-<p>The person who issued an agent&#39;s token cannot approve its requests, though
-they can reject them. With only one administrator, create a second account
-for approving.</p>
-<vox-callout variant="info" heading="Note"><p>A permission added in a newer console version is not added to existing roles
-for you. After an upgrade, grant <code>agent-requests:read</code> and
-<code>agent-requests:approve</code> on the <strong>Roles</strong> page to the roles that should have
-them. The bootstrap administrator of a new installation has both.</p>
+<p>批准者还需要对请求所作用的每个 Node 拥有 <code>orchestrator:run</code>，并且有权运行该 Task。你无法批准一个作用于你自己都无法运行该 Task 的 Nodes 上的请求。只能看到部分 Node 组的人，只能看到指向这些组中 Nodes 的请求。</p>
+<p>签发某个代理令牌的人不能批准该代理的请求，但可以拒绝。如果只有一个管理员，请另建一个账户用于批准。</p>
+<vox-callout variant="info" heading="说明"><p>新版控制台中新增的权限不会自动添加到现有角色中。升级之后，请在<strong>角色</strong>页面上把 <code>agent-requests:read</code> 和 <code>agent-requests:approve</code> 授予应当拥有它们的角色。新安装的引导管理员同时拥有这两项权限。</p>
 </vox-callout>
-<p>If an agent&#39;s token is revoked or has expired by the time you approve, nothing
-is started, and the request says why.</p>
-<h2 id="plans-from-code">Plans from code</h2>
-<p><code>request_code_plan</code> asks to run a <a href="code-plans.html">plan from your code</a>.
-Such a plan chooses its own nodes while it runs, within what the agent&#39;s token
-reaches, so approving it needs <code>orchestrator:run</code> over everything that token
-reaches. Plans run only on the console instance that deploys your code, so
-approve them there, or the request fails with that reason.</p>
-<h2 id="what-is-recorded">What is recorded</h2>
-<p>The audit log, at the orchestrator category&#39;s level, records each request, each
-approval, rejection and expiry, naming the agent as <code>agent:&lt;token name&gt;</code> and the
-person who decided, with the request&#39;s number. Reads an agent makes are
-audited as any read is, under the same name. Sensitive values never appear in
-the audit log, the activity log or the request itself: they are kept encrypted
-with the console&#39;s secrets key (<code>CONSOLE_SECRETS_KEY</code>), without which a request
-that carries one is refused.</p>
-<h2 id="the-api-description">The API description</h2>
-<p><code>/api/v1/openapi.json</code> describes the REST API for programs you write yourself,
-for anyone who is signed in. Agent tokens cannot call that API, and a program
-using a service token is not asked to wait for approval. To let an agent act
-with a person&#39;s approval in the loop, connect it to <code>/mcp</code>.</p>
+<p>如果在你批准时代理的令牌已被吊销或已过期，就不会启动任何东西，请求中会说明原因。</p>
+<h2 id="plans-from-code">来自代码的 Plans</h2>
+<p><code>request_code_plan</code> 请求运行一个<a href="code-plans.html">来自你代码中的 Plan</a>。这类 Plan 在运行时自行选择 Nodes（在该代理令牌可访问的范围内），因此批准它需要对该令牌可访问的所有对象拥有 <code>orchestrator:run</code>。Plans 只在 deploy 你的代码的控制台实例上运行，因此请在那个实例上批准，否则请求会因此失败并说明原因。</p>
+<h2 id="what-is-recorded">会记录什么</h2>
+<p>审计日志会按 orchestrator 类别的级别，记录每个请求以及每次批准、拒绝和过期，以 <code>agent:&lt;token name&gt;</code> 标注代理，并注明做出决定的人以及请求编号。代理进行的读取会像任何读取一样以同一名称接受审计。敏感值永远不会出现在审计日志、活动日志或请求本身中：它们用控制台的机密密钥（<code>CONSOLE_SECRETS_KEY</code>）加密保存，没有该密钥时，携带敏感值的请求会被拒绝。</p>
+<h2 id="the-api-description">API 描述</h2>
+<p><code>/api/v1/openapi.json</code> 描述了 REST API，供你自己编写的程序使用，任何已登录的人都可以访问。代理令牌不能调用该 API，而使用服务令牌的程序也不会被要求等待批准。若要让代理在有人参与批准的情况下执行操作，请把它连接到 <code>/mcp</code>。</p>
 
     </div>
 
-    <vox-series-nav label="Use" previous-text="Previous" next-text="Next" previous-href="../guides/code-plans.html" previous-label="Run plans from your code"></vox-series-nav>
+    <vox-series-nav label="使用" previous-text="上一篇" next-text="下一篇" previous-href="../guides/code-plans.html" previous-label="运行代码中的 Plans"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#turn-the-endpoint-on"><span>Turn the endpoint on</span>
+    <vox-toc heading="本页内容">
+      <vox-toc-item href="#turn-the-endpoint-on"><span>开启端点</span>
       </vox-toc-item>
-      <vox-toc-item href="#issue-a-token-for-an-agent"><span>Issue a token for an agent</span>
+      <vox-toc-item href="#issue-a-token-for-an-agent"><span>为代理签发令牌</span>
       </vox-toc-item>
-      <vox-toc-item href="#connect-an-agent"><span>Connect an agent</span>
+      <vox-toc-item href="#connect-an-agent"><span>连接代理</span>
       </vox-toc-item>
-      <vox-toc-item href="#approve-what-an-agent-asks-for"><span>Approve what an agent asks for</span>
-        <vox-toc-item slot="children" href="#who-can-approve"><span>Who can approve</span></vox-toc-item>
+      <vox-toc-item href="#approve-what-an-agent-asks-for"><span>批准代理的请求</span>
+        <vox-toc-item slot="children" href="#who-can-approve"><span>谁可以批准</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#plans-from-code"><span>Plans from code</span>
+      <vox-toc-item href="#plans-from-code"><span>来自代码的 Plans</span>
       </vox-toc-item>
-      <vox-toc-item href="#what-is-recorded"><span>What is recorded</span>
+      <vox-toc-item href="#what-is-recorded"><span>会记录什么</span>
       </vox-toc-item>
-      <vox-toc-item href="#the-api-description"><span>The API description</span>
+      <vox-toc-item href="#the-api-description"><span>API 描述</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -405,23 +340,17 @@ with a person&#39;s approval in the loop, connect it to <code>/mcp</code>.</p>
 
       
       <vox-cta-band heading="自己动手运行">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console 以容器镜像形式发布，每次 push 都会构建 amd64 和 arm64 版本，同时也提供单个二进制文件。安装指南将带你从一台空主机走到一套可用的部署——openvoxserver、openvoxdb、Postgres 和控制台——可以用容器，也可以用软件包。</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">安装指南</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">GitHub 上的源码</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">容器镜像</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="全尺寸截图">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">关闭</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -430,18 +359,18 @@ with a person&#39;s approval in the loop, connect it to <code>/mcp</code>.</p>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">概览</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">源码</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">安装指南</a>
       </vox-footer-column>
       <vox-footer-column heading="功能">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">分类</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">编排</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">补丁管理</a>
         <a href="../features/security.html">安全</a>
         <a href="../features/access-control.html">访问控制</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">AI 代理</a>
+        <a href="../features/scaling.html">扩展</a>
         </vox-footer-column>
       
       <vox-footer-column heading="语言">

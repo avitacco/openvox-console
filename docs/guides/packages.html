@@ -203,10 +203,10 @@ sudo apt-get install -y /tmp/openvox8-release.deb
 sudo apt-get update &amp;&amp; sudo apt-get install -y openvox-server
 </code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab1-rhel-rocky-and-almalinux" data-tab-key="rhel-rocky-and-almalinux">RHEL, Rocky and AlmaLinux</vox-tab><vox-tab-panel name="tab1-rhel-rocky-and-almalinux"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo dnf install -y https://yum.voxpupuli.org/openvox8-release-el-9.noarch.rpm
 sudo dnf install -y openvox-server
-</code></vox-code-block></vox-tab-panel></vox-tabs><p>Installing the package <strong>already creates the CA and this server&#39;s own
-certificate</strong>, issued for the host&#39;s certname, normally its fully
-qualified name. In the common case there is nothing more to do than start
-it:</p>
+</code></vox-code-block></vox-tab-panel></vox-tabs><p>The package does not create the CA itself. Its <strong>first start creates the
+CA and this server&#39;s own certificate</strong>, issued for the host&#39;s certname,
+normally its fully qualified name. In the common case there is nothing
+more to do than start it:</p>
 <vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo systemctl enable --now puppetserver
 </code></vox-code-block>
 <vox-callout variant="danger" heading="Caution"><p>Do not run <code>puppetserver ca setup</code> on a host that already has a CA. It
@@ -215,6 +215,19 @@ stops with &#34;Existing file at .../ca_crt.pem&#34;. Deleting those files as
 the message suggests destroys your CA and every certificate it has ever
 issued, including every enrolled node&#39;s.</p>
 </vox-callout>
+<h3 id="let-the-ca-sign-alternative-names">Let the CA sign alternative names</h3>
+<p>The console&#39;s node transport certificate, and this server&#39;s own if you
+reissue it below, carry more than one name. Out of the box the CA refuses
+to sign such a request and leaves it waiting, so allow it once. In
+<code>/etc/puppetlabs/puppetserver/conf.d/ca.conf</code>, add the setting inside the
+<code>certificate-authority</code> block:</p>
+<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>certificate-authority: {
+    allow-subject-alt-names: true
+    ...
+}
+</code></vox-code-block>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo systemctl restart puppetserver
+</code></vox-code-block>
 <h3 id="check-its-certificate-s-names">Check its certificate&#39;s names</h3>
 <p>A certificate is always valid for its own certname. If nodes and the
 console both reach this server by its certname, there is nothing to
@@ -257,10 +270,17 @@ has a certificate.</p>
 create:</p>
 <vox-tabs class="guide-tabs"><vox-tab slot="tab" panel="tab2-debian-and-ubuntu" data-tab-key="debian-and-ubuntu" selected="">Debian and Ubuntu</vox-tab><vox-tab-panel name="tab2-debian-and-ubuntu"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo apt-get install -y postgresql
 sudo systemctl enable --now postgresql
-</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab2-rhel-rocky-and-almalinux" data-tab-key="rhel-rocky-and-almalinux">RHEL, Rocky and AlmaLinux</vox-tab><vox-tab-panel name="tab2-rhel-rocky-and-almalinux"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo dnf install -y postgresql-server
+</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab2-rhel-rocky-and-almalinux" data-tab-key="rhel-rocky-and-almalinux">RHEL, Rocky and AlmaLinux</vox-tab><vox-tab-panel name="tab2-rhel-rocky-and-almalinux"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo dnf install -y postgresql-server postgresql-contrib
 sudo postgresql-setup --initdb
+# Accept passwords over local connections, which are refused by the
+# default &#34;ident&#34; rules, and store passwords to match.
+sudo sed -i -E &#39;s/^(host .*)(ident)$/\1scram-sha-256/&#39; /var/lib/pgsql/data/pg_hba.conf
+echo &#34;password_encryption = &#39;scram-sha-256&#39;&#34; | sudo tee -a /var/lib/pgsql/data/postgresql.conf
 sudo systemctl enable --now postgresql
-</code></vox-code-block></vox-tab-panel></vox-tabs><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo -u postgres createuser --pwprompt puppetdb
+</code></vox-code-block></vox-tab-panel></vox-tabs><p>On RHEL and its rebuilds, <code>pg_trgm</code> below comes from <code>postgresql-contrib</code>,
+and the password change has to come before the users are created: a
+password stored before it cannot be checked by the new rules.</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo -u postgres createuser --pwprompt puppetdb
 sudo -u postgres createdb --owner=puppetdb puppetdb
 # openvoxdb refuses to start without this extension, and creating it
 # needs superuser rights - so it is run as postgres, not as puppetdb.
@@ -302,9 +322,17 @@ reports to openvoxdb:</p>
 <vox-tabs class="guide-tabs"><vox-tab slot="tab" panel="tab4-debian-and-ubuntu" data-tab-key="debian-and-ubuntu" selected="">Debian and Ubuntu</vox-tab><vox-tab-panel name="tab4-debian-and-ubuntu"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo apt-get install -y openvoxdb-termini
 </code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab4-rhel-rocky-and-almalinux" data-tab-key="rhel-rocky-and-almalinux">RHEL, Rocky and AlmaLinux</vox-tab><vox-tab-panel name="tab4-rhel-rocky-and-almalinux"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo dnf install -y openvoxdb-termini
 </code></vox-code-block></vox-tab-panel></vox-tabs><h3 id="check-it-is-running-2">Check it is running</h3>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -ksS https://&lt;openvoxdb host&gt;:8081/status/v1/simple
+<p>openvoxdb&#39;s HTTPS port insists on a client certificate, so ask with the
+host&#39;s own. Without one, the reply is <code>certificate required</code>:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>H=$(hostname -f)
+sudo curl -sS --cert /etc/puppetlabs/puppet/ssl/certs/$H.pem \
+  --key /etc/puppetlabs/puppet/ssl/private_keys/$H.pem \
+  --cacert /etc/puppetlabs/puppet/ssl/certs/ca.pem \
+  https://$H:8081/status/v1/simple
 </code></vox-code-block>
-<p>The reply is <code>running</code>.</p>
+<p>The reply is <code>running</code>. The log may report that &#34;the read-database user
+is not configured properly&#34;. That is about a separate read-only user
+this guide does not set up, and openvoxdb runs without one.</p>
 <h2 id="create-the-console-s-database">Create the console&#39;s database</h2>
 <p>The console keeps its own data in a database separate from openvoxdb&#39;s.
 It creates its schema itself on first start; all it needs is an empty
@@ -313,15 +341,19 @@ database and a role that owns it. On the Postgres host:</p>
 sudo -u postgres createdb --owner=console console
 </code></vox-code-block>
 <p>If the console will run on a different host, Postgres also has to listen
-on the network. Debian and Ubuntu listen on <code>localhost</code> only, so a remote
-connection is refused even though <code>pg_isready</code> passes locally:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo -u postgres psql -c &#34;ALTER SYSTEM SET listen_addresses = &#39;*&#39;;&#34;
-# allow the console&#39;s host or subnet - adjust the address range:
+on the network. It listens on <code>localhost</code> only by default, so a remote
+connection is refused even though <code>pg_isready</code> passes locally. Allow the
+console&#39;s host or subnet, adjusting the address range:</p>
+<vox-tabs class="guide-tabs"><vox-tab slot="tab" panel="tab5-debian-and-ubuntu" data-tab-key="debian-and-ubuntu" selected="">Debian and Ubuntu</vox-tab><vox-tab-panel name="tab5-debian-and-ubuntu"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo -u postgres psql -c &#34;ALTER SYSTEM SET listen_addresses = &#39;*&#39;;&#34;
 echo &#39;host console console 10.0.0.0/24 scram-sha-256&#39; \
   | sudo tee -a /etc/postgresql/*/main/pg_hba.conf
 sudo systemctl restart postgresql@*-main.service
-</code></vox-code-block>
-<p>Check the console&#39;s role can connect, from the console&#39;s host:</p>
+</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab5-rhel-rocky-and-almalinux" data-tab-key="rhel-rocky-and-almalinux">RHEL, Rocky and AlmaLinux</vox-tab><vox-tab-panel name="tab5-rhel-rocky-and-almalinux"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo -u postgres psql -c &#34;ALTER SYSTEM SET listen_addresses = &#39;*&#39;;&#34;
+echo &#39;host console console 10.0.0.0/24 scram-sha-256&#39; \
+  | sudo tee -a /var/lib/pgsql/data/pg_hba.conf
+sudo systemctl restart postgresql
+</code></vox-code-block></vox-tab-panel></vox-tabs><p>Check the console&#39;s role can connect, from the console&#39;s host (<code>psql</code>
+comes with the <code>postgresql-client</code> package there):</p>
 <vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>PGPASSWORD=&#39;&lt;password&gt;&#39; psql -h &lt;postgres host&gt; -U console -d console -c &#39;select 1;&#39;
 </code></vox-code-block>
 <vox-callout variant="tip" heading="Tip"><p>Keep the single quotes. A password containing <code>$</code> is otherwise expanded
@@ -330,11 +362,19 @@ by the shell before psql sees it.</p>
 <h2 id="issue-the-console-s-certificates">Issue the console&#39;s certificates</h2>
 <p>The console needs two certificates from the CA, and optionally a third.
 Generate them on the openvoxserver host, then copy them to the console&#39;s
-host, into <code>/etc/openvox-console/</code>.</p>
+host, into <code>/etc/openvox-console/</code>. Create that directory first, on the
+console&#39;s host, with the user the console will run as:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo useradd --system --home-dir /nonexistent --shell /usr/sbin/nologin openvox-console
+sudo install -d -m 0750 -o root -g openvox-console /etc/openvox-console
+</code></vox-code-block>
 <h3 id="the-openvoxdb-client-certificate">The openvoxdb client certificate</h3>
 <p>This is how the console authenticates to openvoxdb:</p>
 <vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo /opt/puppetlabs/bin/puppetserver ca generate --certname console
 </code></vox-code-block>
+<vox-callout variant="info" heading="Note"><p><code>puppetserver ca generate</code> starts by printing <code>Error: Signed certificate console could not be found on the CA</code>. That is it checking
+that the name is free, not a failure. What matters is the lines after
+it, ending in <code>Successfully saved certificate</code>.</p>
+</vox-callout>
 <p>It writes three files the console needs. Copy them across under these
 names:</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
@@ -429,11 +469,8 @@ host:</p>
 <vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo install -m 0755 bin/console /usr/local/bin/console
 </code></vox-code-block>
 <h2 id="configure-the-console">Configure the console</h2>
-<p>The console is configured with environment variables only. Create a user
-for it, and a configuration file only that user can read:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo useradd --system --home-dir /nonexistent --shell /usr/sbin/nologin openvox-console
-sudo install -d -m 0750 -o root -g openvox-console /etc/openvox-console
-</code></vox-code-block>
+<p>The console is configured with environment variables only, in a file in
+the <code>/etc/openvox-console/</code> directory you created for its certificates.</p>
 <p>Six settings are required, and the console refuses to start without them,
 naming the one that is missing. Put them in
 <code>/etc/openvox-console/console.env</code>:</p>
@@ -450,8 +487,10 @@ a host and Postgres has no certificate, use <code>sslmode=disable</code>.</p>
 </vox-callout>
 <p>The rest is optional, and each optional feature switches itself off
 rather than blocking startup. For a real deployment, add:</p>
-<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code># Where the console listens, and how the outside world reaches it.
-CONSOLE_HTTP_ADDR=:8080
+<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code># Where the console listens, and how the outside world reaches it. It
+# listens on loopback only: the TLS proxy in front of it is the way in.
+# On a host shared with openvoxdb, which holds 8080, use 127.0.0.1:8088.
+CONSOLE_HTTP_ADDR=127.0.0.1:8080
 CONSOLE_BASE_URL=https://console.example.com
 
 # The first admin user, created only while there are no users. The
@@ -532,9 +571,11 @@ CONSOLE_BOOTSTRAP_ADMIN_PASSWORD_FILE=/etc/openvox-console/bootstrap-admin-passw
 cannot be read stops the console from starting, rather than letting it
 start with the value silently empty.</p>
 <p>Finally, make every file readable by the console&#39;s user and nobody else:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo chown root:openvox-console /etc/openvox-console/*
-sudo chmod 0640 /etc/openvox-console/*
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo sh -c &#39;chown root:openvox-console /etc/openvox-console/* &amp;&amp; chmod 0640 /etc/openvox-console/*&#39;
 </code></vox-code-block>
+<p>The <code>sh -c</code> matters: your own shell cannot list that directory, so a
+plain <code>sudo chown ... /etc/openvox-console/*</code> fails with &#34;No such file
+or directory&#34;.</p>
 <h2 id="run-it-under-systemd">Run it under systemd</h2>
 <p>Create <code>/etc/systemd/system/openvox-console.service</code>:</p>
 <vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>[Unit]
@@ -557,6 +598,33 @@ WantedBy=multi-user.target
 sudo systemctl enable --now openvox-console
 journalctl -u openvox-console -f
 </code></vox-code-block>
+<h2 id="put-tls-in-front-of-the-console">Put TLS in front of the console</h2>
+<p>The console serves its web interface and API over plain HTTP. The
+<code>https://</code> base URL is reached through a reverse proxy that terminates
+TLS and passes requests to the console. Any reverse proxy works. This
+uses <a href="https://caddyserver.com/">Caddy</a>, on the console&#39;s host:</p>
+<vox-tabs class="guide-tabs"><vox-tab slot="tab" panel="tab6-debian-and-ubuntu" data-tab-key="debian-and-ubuntu" selected="">Debian and Ubuntu</vox-tab><vox-tab-panel name="tab6-debian-and-ubuntu"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo apt-get install -y caddy
+</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab6-rhel-rocky-and-almalinux" data-tab-key="rhel-rocky-and-almalinux">RHEL, Rocky and AlmaLinux</vox-tab><vox-tab-panel name="tab6-rhel-rocky-and-almalinux"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo dnf install -y epel-release
+sudo dnf install -y caddy
+sudo systemctl enable --now caddy
+</code></vox-code-block></vox-tab-panel></vox-tabs><p>This is then the whole <code>/etc/caddy/Caddyfile</code>:</p>
+<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>console.example.com {
+	reverse_proxy 127.0.0.1:8080
+}
+</code></vox-code-block>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo systemctl reload caddy
+</code></vox-code-block>
+<p>If the console listens on another port, because it shares a host with
+openvoxdb, put that port in <code>reverse_proxy</code> instead.</p>
+<p>For a name the internet can resolve, Caddy obtains and renews the
+certificate itself. For an internal name, give it a certificate from your
+own CA with a <code>tls &lt;cert file&gt; &lt;key file&gt;</code> line inside the block. For a
+trial, <code>tls internal</code> makes Caddy issue one from a local CA of its own,
+which browsers warn about.</p>
+<vox-callout variant="warning" heading="Warning"><p>Only the web interface goes through the proxy. The node transport, port
+8142, carries its own TLS and checks each node&#39;s certificate itself, so
+nodes must reach it directly. Never put it behind the proxy.</p>
+</vox-callout>
 <h2 id="log-in-for-the-first-time">Log in for the first time</h2>
 <p>On its first start the console creates its database schema, then creates
 the bootstrap admin while the users table is still empty. Its log shows
@@ -565,10 +633,14 @@ three lines once it is up:</p>
 node transport ready   addr=[::]:8142
 console ready          addr=:8080
 </code></vox-code-block>
-<p>Check that it reports itself healthy:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -fsS https://console.example.com/health
+<p>Check that it reports itself healthy, first directly on the console&#39;s
+host, then through the TLS proxy at its base URL:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -fsS http://127.0.0.1:8080/health
+curl -fsS https://console.example.com/health
 </code></vox-code-block>
-<p>The reply lists each dependency as <code>ok</code>. Then open the console&#39;s base URL,
+<p>Each reply lists each dependency as <code>ok</code>. If only the second fails, the
+console is fine and the proxy is not. Use the console&#39;s own port in the
+first if you moved it off 8080. Then open the console&#39;s base URL,
 log in as the bootstrap admin, and change its password straight away.</p>
 <p>The bootstrap admin&#39;s password must have at least 12 characters and
 must not be the same as its username. If it does not, no admin is
@@ -618,7 +690,15 @@ both, with <code>sudo systemctl edit puppetserver</code>:</p>
 Environment=ENC_BRIDGE_URL=https://console.example.com
 Environment=ENC_BRIDGE_TOKEN_FILE=/etc/puppetlabs/enc-bridge-token
 </code></vox-code-block>
-<p>Then point Puppet at it, in the <code>[server]</code> section of
+<p>enc-bridge checks the console&#39;s certificate against the openvoxserver
+host&#39;s system certificate store. If the proxy&#39;s certificate comes from
+your own CA, add that CA to the store, or classification fails with
+<code>certificate signed by unknown authority</code>:</p>
+<vox-tabs class="guide-tabs"><vox-tab slot="tab" panel="tab7-debian-and-ubuntu" data-tab-key="debian-and-ubuntu" selected="">Debian and Ubuntu</vox-tab><vox-tab-panel name="tab7-debian-and-ubuntu"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo cp &lt;your CA&gt;.crt /usr/local/share/ca-certificates/
+sudo update-ca-certificates
+</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab7-rhel-rocky-and-almalinux" data-tab-key="rhel-rocky-and-almalinux">RHEL, Rocky and AlmaLinux</vox-tab><vox-tab-panel name="tab7-rhel-rocky-and-almalinux"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo cp &lt;your CA&gt;.crt /etc/pki/ca-trust/source/anchors/
+sudo update-ca-trust
+</code></vox-code-block></vox-tab-panel></vox-tabs><p>Then point Puppet at it, in the <code>[server]</code> section of
 <code>/etc/puppetlabs/puppet/puppet.conf</code>, and restart openvoxserver:</p>
 <vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>[server]
 node_terminus = exec
@@ -632,15 +712,16 @@ groups with <code>lookup()</code>, ahead of your control repo&#39;s Hiera data. 
 function runs <code>enc-bridge --data</code>, so it uses the same console address and
 token as classification and needs nothing more configured. It needs an
 enc-bridge built from this version.</p>
-<p>The function has to be installed in the openvox gem&#39;s own function
-directory, the only place openvoxserver loads a global Hiera function
-from. The directory carries the gem&#39;s version, so find it:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>FUNCTIONS=$(ls -d /opt/puppetlabs/server/data/puppetserver/jruby-gems/gems/openvox-[0-9]*/lib/puppet/functions | tail -n 1)
-sudo install -m 0644 openvoxserver-init/console_config_data.rb &#34;$FUNCTIONS/console_config_data.rb&#34;
+<p>The function has to be installed in Puppet&#39;s own function directory,
+the only place openvoxserver loads a global Hiera function from. From
+your build&#39;s checkout:</p>
+<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo install -m 0644 openvoxserver-init/console_config_data.rb \
+  /opt/puppetlabs/puppet/lib/ruby/vendor_ruby/puppet/functions/console_config_data.rb
 </code></vox-code-block>
 <p>Then add it to the <strong>global</strong> Hiera configuration,
 <code>/etc/puppetlabs/puppet/hiera.yaml</code>, first in the hierarchy so that
-console data wins. If the file does not exist, this is all of it:</p>
+console data wins. The package installs a placeholder file there; if you
+have not changed it, replace it with this:</p>
 <vox-code-block language="yaml" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>---
 version: 5
 hierarchy:
@@ -651,10 +732,10 @@ hierarchy:
 your own entries after it.</p>
 <vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo systemctl restart puppetserver
 </code></vox-code-block>
-<p>Do this again after upgrading the openvox gem: the new version has its own
-directory. If a node&#39;s run fails with &#34;Unable to find &#39;data_hash&#39;
-function named &#39;console_config_data&#39;&#34;, the function is not in the
-directory of the gem that is running. The container image does all of
+<p>Check after upgrading the <code>openvox-agent</code> package that the file is still
+there, and install it again if not. If a node&#39;s run fails with &#34;Unable to find &#39;data_hash&#39;
+function named &#39;console_config_data&#39;&#34;, the function is not in that
+directory. The container image does all of
 this itself on every start.</p>
 <h3 id="check-classification">Check classification</h3>
 <p>Run enc-bridge the way openvoxserver does: as its user, with the same
@@ -706,7 +787,7 @@ sudo systemctl restart openvox-console
 <td><code>running</code></td>
 </tr>
 <tr>
-<td><code>curl -ksS https://&lt;openvoxdb&gt;:8081/status/v1/simple</code></td>
+<td><code>curl -ksS https://&lt;openvoxdb&gt;:8081/status/v1/simple</code>, from somewhere that can reach it</td>
 <td><code>running</code></td>
 </tr>
 <tr>
@@ -739,6 +820,7 @@ sudo systemctl restart openvox-console
   <div class="guide-toc-rail">
     <vox-toc heading="On this page">
       <vox-toc-item href="#install-openvoxserver"><span>Install openvoxserver</span>
+        <vox-toc-item slot="children" href="#let-the-ca-sign-alternative-names"><span>Let the CA sign alternative names</span></vox-toc-item>
         <vox-toc-item slot="children" href="#check-its-certificate-s-names"><span>Check its certificate&#39;s names</span></vox-toc-item>
         <vox-toc-item slot="children" href="#check-it-is-running"><span>Check it is running</span></vox-toc-item>
       </vox-toc-item>
@@ -764,6 +846,8 @@ sudo systemctl restart openvox-console
         <vox-toc-item slot="children" href="#keep-secrets-in-files"><span>Keep secrets in files</span></vox-toc-item>
       </vox-toc-item>
       <vox-toc-item href="#run-it-under-systemd"><span>Run it under systemd</span>
+      </vox-toc-item>
+      <vox-toc-item href="#put-tls-in-front-of-the-console"><span>Put TLS in front of the console</span>
       </vox-toc-item>
       <vox-toc-item href="#log-in-for-the-first-time"><span>Log in for the first time</span>
       </vox-toc-item>

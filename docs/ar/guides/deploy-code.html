@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="ar" dir="rtl"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Deploy Puppet code from one or more control repositories into the environments openvoxserver compiles from."/>
+    <meta name="description" content="انشر كود Puppet من مستودع تحكم واحد أو أكثر إلى الـ Environments التي يُجمِّع منها openvoxserver."/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Deploy code - OpenVox Console</title>
+    <title>deploy الكود - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">الأدلة</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,112 +104,101 @@
       <a href="../features/classification.html">التصنيف</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">التنسيق</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">تثبيت التصحيحات</a>
       <a href="../features/security.html">الأمان</a>
       <a href="../features/access-control.html">التحكم في الوصول</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">وكلاء الذكاء الاصطناعي</a>
+      <a href="../features/scaling.html">التوسّع</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="الأدلة" toggle-label="كل الأدلة">
+    <vox-sidenav-group heading="التثبيت">
+      <vox-sidenav-item href="../guides/plan.html"><span>خطّط للنشر</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>التثبيت باستخدام الحاويات</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>التثبيت من الحزم والملفات التنفيذية</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>إضافة Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>إدارة شهادات الـ Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>إزالة Node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>إبقاء وكلاء الـ Nodes محدَّثين</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
-      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="التوسّع">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>أوضاع التشغيل</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>تشغيل مزيد من المثيلات</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use" open="">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html" current="" aria-current="page"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="الاستخدام" open="">
+      <vox-sidenav-item href="../guides/classify.html"><span>تصنيف الـ Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html" current="" aria-current="page"><span>deploy الكود</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>تشغيل الـ Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>تشغيل الـ Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>جدولة الـ Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>المستخدمون والأدوار والرموز</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>تتبّع الثغرات</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>العثور على التحديثات الناقصة وتطبيقها</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>تشغيل Tasks على مضيفين بلا وكيل</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>تشغيل Plans من الكود الخاص بك</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>السماح لوكلاء الذكاء الاصطناعي باستخدام وحدة التحكم</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="التشغيل">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>الانتقال إلى قاعدة بيانات احتياطية عند الفشل</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>تدوير مفتاح توقيع الرموز</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>ترقية قواعد بيانات الحاويات إلى Postgres 18</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Use</p>
-    <h1 class="guide-title vox-ts-xxl">Deploy code</h1>
-    <p class="guide-summary">Deploy Puppet code from one or more control repositories into the environments openvoxserver compiles from.</p>
+    <p class="guide-eyebrow">الاستخدام</p>
+    <h1 class="guide-title vox-ts-xxl">deploy الكود</h1>
+    <p class="guide-summary">انشر كود Puppet من مستودع تحكم واحد أو أكثر إلى الـ Environments التي يُجمِّع منها openvoxserver.</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>The console deploys Puppet code from control repositories - a Puppetfile
-and manifests in git - into the environments directory openvoxserver
-reads, using g10k. Each branch of a control repository becomes one
-environment.</p>
-<p>Viewing deploys needs <code>code:read</code>; starting one needs <code>code:deploy</code>.</p>
-<h2 id="turn-code-deployment-on">Turn code deployment on</h2>
-<p>Code deployment stays off until the console knows where g10k is, what to
-deploy, and where to put it:</p>
+<p>تنفّذ وحدة التحكم deploy لكود Puppet من مستودعات التحكم - ملف Puppetfile والـ manifests في git - إلى مجلد الـ Environments الذي يقرؤه openvoxserver، باستخدام g10k. يصبح كل فرع من مستودع التحكم Environment واحدًا.</p>
+<p>يتطلب عرض عمليات الـ deploy الإذن <code>code:read</code>؛ ويتطلب بدء إحداها <code>code:deploy</code>.</p>
+<h2 id="turn-code-deployment-on">شغّل deploy الكود</h2>
+<p>يبقى deploy الكود معطَّلًا إلى أن تعرف وحدة التحكم مكان g10k، وما الذي يجري له deploy، وأين تضعه:</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Setting</th>
-<th>What it is</th>
+<th>الإعداد</th>
+<th>ما هو</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>CONSOLE_G10K_BIN_PATH</code></td>
-<td>the g10k program. The console&#39;s container image includes it and sets this already</td>
+<td>برنامج g10k. تتضمنه صورة حاوية وحدة التحكم وتضبط هذا الإعداد بالفعل</td>
 </tr>
 <tr>
 <td><code>CONSOLE_CONTROL_REPO_URL</code></td>
-<td>a single control repository to deploy from</td>
+<td>مستودع تحكم واحد يجري منه الـ deploy</td>
 </tr>
 <tr>
 <td><code>CONSOLE_CODE_SOURCES_PATH</code></td>
-<td>or, instead, a file declaring several (see below)</td>
+<td>أو، بدلًا من ذلك، ملف يصرّح بعدة مستودعات (انظر أدناه)</td>
 </tr>
 <tr>
 <td><code>CONSOLE_CODE_DIR_PATH</code></td>
-<td>the directory openvoxserver reads its code from; the console deploys into its <code>environments</code> directory</td>
+<td>المجلد الذي يقرأ منه openvoxserver الكود الخاص به؛ وتنفّذ وحدة التحكم deploy داخل المجلد <code>environments</code> الذي بداخله</td>
 </tr>
 <tr>
 <td><code>CONSOLE_CODE_WEBHOOK_SECRET</code></td>
-<td>the secret git host webhooks are signed with</td>
+<td>السر الذي تُوقَّع به webhooks مضيف git</td>
 </tr>
 </tbody>
 </table></div>
-<p><code>CONSOLE_CONTROL_REPO_URL</code> and <code>CONSOLE_CODE_SOURCES_PATH</code> cannot both
-be set: the console refuses to start rather than combine them.</p>
-<p>The console and openvoxserver must share that directory. With packages
-on one host, point <code>CONSOLE_CODE_DIR_PATH</code> at <code>/etc/puppetlabs/code</code> and
-let the console&#39;s user write to its <code>environments</code> directory.</p>
-<h3 id="with-the-container-stack">With the container stack</h3>
-<p>The production compose file passes none of these settings through to the
-console, and does not give it openvoxserver&#39;s code volume. Add both in a
-<code>compose.code.yml</code> beside it:</p>
-<vox-code-block language="yaml" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>services:
+<p>لا يمكن ضبط <code>CONSOLE_CONTROL_REPO_URL</code> و<code>CONSOLE_CODE_SOURCES_PATH</code> معًا: إذ ترفض وحدة التحكم البدء بدل أن تجمع بينهما.</p>
+<p>يجب أن تتشارك وحدة التحكم وopenvoxserver ذلك المجلد. مع التثبيت بالحزم على مضيف واحد، وجّه <code>CONSOLE_CODE_DIR_PATH</code> إلى <code>/etc/puppetlabs/code</code> واسمح لمستخدم وحدة التحكم بالكتابة في المجلد <code>environments</code> الذي بداخله.</p>
+<h3 id="with-the-container-stack">مع منظومة الحاويات</h3>
+<p>لا يمرّر ملف compose الإنتاجي أيًّا من هذه الإعدادات إلى وحدة التحكم، ولا يمنحها وحدة تخزين الكود الخاصة بـ openvoxserver. أضف الاثنين في ملف <code>compose.code.yml</code> بجواره:</p>
+<vox-code-block language="yaml" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>services:
   console:
     environment:
       CONSOLE_CONTROL_REPO_URL: ${CONSOLE_CONTROL_REPO_URL:?set the control repository}
@@ -224,18 +213,14 @@ secrets:
   code_webhook_secret:
     file: ./secrets/code_webhook_secret
 </code></vox-code-block>
-<p>Then pass it after the main file in every command:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>docker compose -f docker-compose.yml -f compose.code.yml up -d console
+<p>ثم مرّره بعد الملف الرئيسي في كل أمر:</p>
+<vox-code-block language="sh" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>docker compose -f docker-compose.yml -f compose.code.yml up -d console
 </code></vox-code-block>
-<vox-callout variant="info" heading="Note"><p>This combination has not yet been walked through end to end the way
-the install guides have. If a deploy succeeds but openvoxserver does
-not see the code, check that both containers show the same files
-under <code>/etc/puppetlabs/code/environments</code>.</p>
+<vox-callout variant="info" heading="ملاحظة"><p>لم تُجرَّب هذه التركيبة بعدُ من البداية إلى النهاية كما جُرّبت أدلة التثبيت. إذا نجح الـ deploy لكن openvoxserver لا يرى الكود، فتحقّق من أن الحاويتين كلتيهما تُظهران الملفات نفسها تحت <code>/etc/puppetlabs/code/environments</code>.</p>
 </vox-callout>
-<h2 id="deploy-from-several-control-repositories">Deploy from several control repositories</h2>
-<p>To deploy from more than one repository, declare them in a YAML file and
-point <code>CONSOLE_CODE_SOURCES_PATH</code> at it:</p>
-<vox-code-block language="yaml" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sources:
+<h2 id="deploy-from-several-control-repositories">deploy من عدة مستودعات تحكم</h2>
+<p>لتنفيذ deploy من أكثر من مستودع، صرّح بها في ملف YAML ووجّه <code>CONSOLE_CODE_SOURCES_PATH</code> إليه:</p>
+<vox-code-block language="yaml" copy-label="نسخ الكود" copied-label="نُسخ" copied-message="نُسخ إلى الحافظة"><code>sources:
   control:
     remote: git@github.com:org/control-repo.git
     prefix: false        # branch production -&gt; environment production
@@ -246,77 +231,62 @@ point <code>CONSOLE_CODE_SOURCES_PATH</code> at it:</p>
     webhook_secret_file: /etc/openvox-console/team_a_webhook
 </code></vox-code-block>
 <ul>
-<li>A source&#39;s name may contain only lower-case letters, digits and <code>_</code>,
-because it becomes part of environment names.</li>
-<li><code>prefix</code> decides the environment names a source&#39;s branches produce:
-<code>true</code> prefixes them with the source&#39;s name, <code>false</code> or unset leaves
-them bare, and a string is used as the prefix. Two sources may not end
-up with the same prefix, so at most one can be unprefixed; the console
-refuses to start otherwise.</li>
-<li>Each source can have its own deploy key and its own webhook secret.</li>
+<li>لا يجوز أن يحتوي اسم المصدر إلا على أحرف لاتينية صغيرة وأرقام و<code>_</code>، لأنه يصبح جزءًا من أسماء الـ Environments.</li>
+<li>يحدّد <code>prefix</code> أسماء الـ Environments التي تنتجها فروع المصدر: <code>true</code> يسبقها باسم المصدر، و<code>false</code> أو تركه دون ضبط يتركها مجرّدة، وأي سلسلة نصية تُستخدم كبادئة. ولا يجوز أن ينتهي مصدران إلى البادئة نفسها، لذا يمكن لمصدر واحد على الأكثر أن يكون بلا بادئة؛ وإلا ترفض وحدة التحكم البدء.</li>
+<li>يمكن أن يكون لكل مصدر مفتاح deploy خاص به وسر webhook خاص به.</li>
 </ul>
-<vox-callout variant="tip" heading="Tip"><p>A new prefixed source deploys successfully and changes nothing, until
-nodes are classified into its new environment names. Nothing moves
-nodes there for you.</p>
+<vox-callout variant="tip" heading="نصيحة"><p>المصدر الجديد ذو البادئة ينجح في الـ deploy ولا يغيّر شيئًا، إلى أن تُصنَّف الـ Nodes في أسماء الـ Environments الجديدة الخاصة به. ولا شيء ينقل الـ Nodes إلى هناك نيابة عنك.</p>
 </vox-callout>
 <h2 id="deploy">Deploy</h2>
-<p>Open <strong>Code</strong>. The <strong>Repositories</strong> tab lists each repository with its
-environments and last deploy; <strong>Deploy</strong> on a repository deploys its
-<code>production</code> branch. <strong>Deploy now</strong> on the <strong>Deploy history</strong> tab does
-the same for the default repository.</p>
-<p>Deploys of the same environment never overlap, however many console
-instances run. Each appears in the deploy history, with who started it,
-and on the <strong>Activity</strong> page.</p>
-<h2 id="deploy-on-every-push">Deploy on every push</h2>
-<p>To deploy whenever a branch is pushed, add a webhook to the repository
-on your git host:</p>
+<p>افتح <strong>Code</strong>. يسرد تبويب <strong>المستودعات</strong> كل مستودع مع الـ Environments الخاصة به وآخر deploy له؛ ويؤدي <strong>Deploy</strong> على مستودع إلى deploy الفرع <code>production</code> الخاص به. ويفعل <strong>نفّذ deploy الآن</strong> في تبويب <strong>سجل Deploy</strong> الشيء نفسه للمستودع الافتراضي.</p>
+<p>لا تتداخل عمليات deploy للـ Environment نفسه أبدًا، مهما كان عدد مثيلات وحدة التحكم العاملة. وتظهر كل عملية في سجل الـ deploy، مع من بدأها، وفي صفحة <strong>النشاط</strong>.</p>
+<figure class="shot">
+  <a class="shot-link" href="../../assets/screenshots/code-deploys-light-ar.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/code-deploys-dark-ar.png" data-theme-dark="../../assets/screenshots/code-deploys-dark-ar.png" data-theme-light="../../assets/screenshots/code-deploys-light-ar.png"/>
+      <img src="../../assets/screenshots/code-deploys-light-ar.png" alt="سجل عمليات deploy للكود يعرض عمليات deploy ناجحة من مستودعَي تحكم منفصلين، ولكلٍّ منها المصدر الذي جاءت منه، والـ Environment الذي كتبته، والـ ref الخاص بها، ومن أطلقها ومتى نُفّذت" width="1440"/>
+    </picture>
+    <span class="vox-sr-only">Open full size</span>
+  </a>
+</figure>
+<h2 id="deploy-on-every-push">deploy مع كل push</h2>
+<p>لتنفيذ deploy كلما جرى push لفرع، أضف webhook إلى المستودع على مضيف git لديك:</p>
 <ul>
-<li><strong>URL:</strong> <code>https://console.example.com/api/v1/code-deploys/webhook</code>,
-or, for one source among several,
-<code>https://console.example.com/api/v1/code-deploys/webhook/&lt;source name&gt;</code></li>
-<li><strong>Content type:</strong> JSON</li>
-<li><strong>Secret:</strong> the webhook secret for that source</li>
-<li><strong>Events:</strong> pushes</li>
+<li><strong>عنوان URL:</strong> <code>https://console.example.com/api/v1/code-deploys/webhook</code>، أو، لمصدر واحد من بين عدة مصادر، <code>https://console.example.com/api/v1/code-deploys/webhook/&lt;source name&gt;</code></li>
+<li><strong>نوع المحتوى:</strong> JSON</li>
+<li><strong>السر:</strong> سر الـ webhook الخاص بذلك المصدر</li>
+<li><strong>الأحداث:</strong> pushes</li>
 </ul>
-<p>The console checks each delivery&#39;s signature (the <code>X-Hub-Signature-256</code>
-header) against the secret, and deploys the branch that was pushed.</p>
-<h2 id="read-the-repositories-tab">Read the Repositories tab</h2>
-<p>Each repository shows two node counts, and the gap between them is the
-useful part:</p>
+<p>تتحقق وحدة التحكم من توقيع كل تسليم (الترويسة <code>X-Hub-Signature-256</code>) مقابل السر، وتنفّذ deploy للفرع الذي جرى له push.</p>
+<h2 id="read-the-repositories-tab">اقرأ تبويب المستودعات</h2>
+<p>يعرض كل مستودع عددين للـ Nodes، والفارق بينهما هو الجزء المفيد:</p>
 <ul>
-<li><strong>Assigned</strong>: nodes classification sends to one of the repository&#39;s
-environments.</li>
-<li><strong>Reporting</strong>: nodes whose latest Puppet run used one of them.</li>
+<li><strong>المُسنَدة</strong>: الـ Nodes التي يوجّهها التصنيف إلى أحد Environments المستودع.</li>
+<li><strong>المُبلِّغة</strong>: الـ Nodes التي استخدم آخر تشغيل Puppet لها أحدها.</li>
 </ul>
-<p>Assigned with nothing reporting means code that has deployed but no node
-has run yet. Reporting with nothing assigned means nodes running code no
-group sends them to - usually an environment left behind by a removed
-source, or a node with an <code>environment</code> set in its own <code>puppet.conf</code>.</p>
-<p><strong>Size</strong> is the size of the deployed files, not disk use: g10k shares
-modules between environments, so repositories&#39; sizes overlap.</p>
-<vox-callout variant="warning" heading="Warning"><p>Removing a source from the configuration stops its deploys, but leaves
-its environments on disk, where openvoxserver keeps compiling from
-them. Delete them yourself if that is what you meant.</p>
+<p>وجود Nodes مُسنَدة دون أي Node مُبلِّغ يعني كودًا جرى له deploy لكن لم يُشغّله أي Node بعد. ووجود Nodes مُبلِّغة دون أي Node مُسنَد يعني Nodes تشغّل كودًا لا توجّهها إليه أي مجموعة - وعادةً ما يكون ذلك Environment خلّفه مصدر أُزيل، أو Node ضُبط فيه <code>environment</code> داخل ملف <code>puppet.conf</code> الخاص به.</p>
+<p><strong>الحجم</strong> هو حجم الملفات التي جرى لها deploy، لا استخدام القرص: إذ يشارك g10k الوحدات بين الـ Environments، فتتداخل أحجام المستودعات.</p>
+<vox-callout variant="warning" heading="تحذير"><p>إزالة مصدر من التهيئة توقف عمليات الـ deploy الخاصة به، لكنها تترك الـ Environments الخاصة به على القرص، حيث يواصل openvoxserver التجميع منها. احذفها بنفسك إن كان هذا ما قصدته.</p>
 </vox-callout>
 
     </div>
 
-    <vox-series-nav label="Use" previous-text="Previous" next-text="Next" previous-href="../guides/classify.html" previous-label="Classify nodes" next-href="../guides/run-jobs.html" next-label="Run jobs"></vox-series-nav>
+    <vox-series-nav label="الاستخدام" previous-text="السابق" next-text="التالي" previous-href="../guides/classify.html" previous-label="تصنيف الـ Nodes" next-href="../guides/run-jobs.html" next-label="تشغيل الـ Jobs"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#turn-code-deployment-on"><span>Turn code deployment on</span>
-        <vox-toc-item slot="children" href="#with-the-container-stack"><span>With the container stack</span></vox-toc-item>
+    <vox-toc heading="في هذه الصفحة">
+      <vox-toc-item href="#turn-code-deployment-on"><span>شغّل deploy الكود</span>
+        <vox-toc-item slot="children" href="#with-the-container-stack"><span>مع منظومة الحاويات</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#deploy-from-several-control-repositories"><span>Deploy from several control repositories</span>
+      <vox-toc-item href="#deploy-from-several-control-repositories"><span>deploy من عدة مستودعات تحكم</span>
       </vox-toc-item>
       <vox-toc-item href="#deploy"><span>Deploy</span>
       </vox-toc-item>
-      <vox-toc-item href="#deploy-on-every-push"><span>Deploy on every push</span>
+      <vox-toc-item href="#deploy-on-every-push"><span>deploy مع كل push</span>
       </vox-toc-item>
-      <vox-toc-item href="#read-the-repositories-tab"><span>Read the Repositories tab</span>
+      <vox-toc-item href="#read-the-repositories-tab"><span>اقرأ تبويب المستودعات</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -326,23 +296,17 @@ them. Delete them yourself if that is what you meant.</p>
 
       
       <vox-cta-band heading="شغّله بنفسك">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>يُوزَّع OpenVox Console على هيئة صور حاويات تُبنى لمعماريتَي amd64 وarm64 مع كل push، وعلى هيئة ملف تنفيذي واحد. تأخذك أدلة التثبيت من مضيف فارغ إلى نشر عامل - openvoxserver وopenvoxdb وPostgres ووحدة التحكم - باستخدام الحاويات أو الحزم.</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">أدلة التثبيت</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">الشيفرة المصدرية على GitHub</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">صور الحاويات</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="لقطة الشاشة بالحجم الكامل">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">إغلاق</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -351,18 +315,18 @@ them. Delete them yourself if that is what you meant.</p>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">نظرة عامة</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">الشيفرة المصدرية</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">أدلة التثبيت</a>
       </vox-footer-column>
       <vox-footer-column heading="الإمكانات">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">التصنيف</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">التنسيق</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">تثبيت التصحيحات</a>
         <a href="../features/security.html">الأمان</a>
         <a href="../features/access-control.html">التحكم في الوصول</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">وكلاء الذكاء الاصطناعي</a>
+        <a href="../features/scaling.html">التوسّع</a>
         </vox-footer-column>
       
       <vox-footer-column heading="اللغة">

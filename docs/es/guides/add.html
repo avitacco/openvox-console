@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="es" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Enroll a node with one script on Linux, macOS or Windows, sign its certificate, and see it connect and run."/>
+    <meta name="description" content="Incorpore un Node con un único script en Linux, macOS o Windows, firme su certificado y vea cómo se conecta y se ejecuta."/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Add nodes - OpenVox Console</title>
+    <title>Añadir Nodes - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">Guías</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,184 +104,143 @@
       <a href="../features/classification.html">Clasificación</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">Orquestación</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">Aplicación de parches</a>
       <a href="../features/security.html">Seguridad</a>
       <a href="../features/access-control.html">Control de acceso</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">Agentes de IA</a>
+      <a href="../features/scaling.html">Escalado</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="Guías" toggle-label="Todas las guías">
+    <vox-sidenav-group heading="Instalar">
+      <vox-sidenav-item href="../guides/plan.html"><span>Planificar un despliegue</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>Instalar con contenedores</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>Instalar desde paquetes y binarios</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes" open="">
-      <vox-sidenav-item href="../guides/add.html" current="" aria-current="page"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html" current="" aria-current="page"><span>Añadir Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>Gestionar los certificados de los Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>Quitar un Node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Mantener al día los agentes de Node</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
-      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="Escalar">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>Modos de ejecución</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>Ejecutar más instancias</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="Usar">
+      <vox-sidenav-item href="../guides/classify.html"><span>Clasificar Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>Desplegar código</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>Ejecutar Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>Ejecutar Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Programar Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>Usuarios, roles y tokens</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Seguir las vulnerabilidades</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>Encontrar y aplicar las actualizaciones que faltan</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>Ejecutar Tasks en hosts sin agente</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>Ejecutar Plans de su código</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>Permitir que los agentes de IA usen la consola</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="Operar">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Hacer failover a una base de datos de reserva</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotar la clave de firma de tokens</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Actualizar las bases de datos de los contenedores a Postgres 18</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
     <p class="guide-eyebrow">Nodes</p>
-    <h1 class="guide-title vox-ts-xxl">Add nodes</h1>
-    <p class="guide-summary">Enroll a node with one script on Linux, macOS or Windows, sign its certificate, and see it connect and run.</p>
+    <h1 class="guide-title vox-ts-xxl">Añadir Nodes</h1>
+    <p class="guide-summary">Incorpore un Node con un único script en Linux, macOS o Windows, firme su certificado y vea cómo se conecta y se ejecuta.</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>Adding a node is one script, run once on the node. It installs the
-OpenVox agent, enrolls the node with the CA if it has no certificate yet,
-installs the console&#39;s node agent from the console&#39;s own package
-repository, and starts it as a service. It is safe to run again.</p>
-<h2 id="before-you-start">Before you start</h2>
-<p>The console has to know two addresses a node will use, both set when you
-installed it:</p>
+<p>Añadir un Node es un único script que se ejecuta una vez en el Node. Instala el agente de OpenVox, incorpora el Node a la CA si aún no tiene certificado, instala el agente de Node de la consola desde el propio repositorio de paquetes de la consola y lo arranca como servicio. Puede volver a ejecutarse sin riesgo.</p>
+<h2 id="before-you-start">Antes de empezar</h2>
+<p>La consola tiene que conocer dos direcciones que usará un Node, ambas definidas al instalarla:</p>
 <ul>
-<li><code>CONSOLE_NODE_TRANSPORT_PUBLIC_ADDR</code>, the address nodes dial to keep
-their connection to the console open. Its host must be in the node
-transport certificate.</li>
-<li><code>CONSOLE_PUPPET_SERVER_PUBLIC_ADDR</code>, the Puppet server a node enrolls
-against. It must be a name in openvoxserver&#39;s certificate. If it is
-unset, the script leaves the node&#39;s Puppet server configuration alone,
-which suits nodes already pointed at a server some other way.</li>
+<li><code>CONSOLE_NODE_TRANSPORT_PUBLIC_ADDR</code>, la dirección a la que se conectan los Nodes para mantener abierta su conexión con la consola. Su host debe figurar en el certificado del transporte de Nodes.</li>
+<li><code>CONSOLE_PUPPET_SERVER_PUBLIC_ADDR</code>, el servidor de Puppet ante el que se incorpora un Node. Debe ser un nombre que figure en el certificado de openvoxserver. Si no está definido, el script no toca la configuración del servidor de Puppet del Node, lo que conviene a los Nodes que ya apuntan a un servidor por otra vía.</li>
 </ul>
-<p>Each node must be able to reach the console&#39;s base URL, openvoxserver on
-port 8140, and the node transport address.</p>
-<vox-callout variant="info" heading="Note"><p>The published console image already contains the node agent packages
-the script installs. If you built the console yourself, build them
-before the console, as the packages install guide describes, or every
-node install fails with a 404.</p>
+<p>Cada Node debe poder alcanzar la URL base de la consola, openvoxserver en el puerto 8140 y la dirección del transporte de Nodes.</p>
+<vox-callout variant="info" heading="Nota"><p>La imagen publicada de la consola ya contiene los paquetes del agente de Node que instala el script. Si compiló la consola usted mismo, compílelos antes que la consola, como describe la guía de instalación con paquetes, o todas las instalaciones de Nodes fallarán con un 404.</p>
 </vox-callout>
-<h2 id="run-the-install-script">Run the install script</h2>
-<p>On the node, as an administrator:</p>
-<vox-tabs class="guide-tabs"><vox-tab slot="tab" panel="tab1-linux" data-tab-key="linux" selected="">Linux</vox-tab><vox-tab-panel name="tab1-linux"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -fsSL https://console.example.com/packages/install.sh | sudo bash
-</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab1-macos" data-tab-key="macos">macOS</vox-tab><vox-tab-panel name="tab1-macos"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -fsSL https://console.example.com/packages/install-macos.sh | sudo bash
-</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab1-windows" data-tab-key="windows">Windows</vox-tab><vox-tab-panel name="tab1-windows"><vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>Invoke-WebRequest https://console.example.com/packages/install.ps1 -OutFile install.ps1
+<h2 id="run-the-install-script">Ejecutar el script de instalación</h2>
+<p>En el Node, como administrador:</p>
+<vox-tabs class="guide-tabs"><vox-tab slot="tab" panel="tab1-linux" data-tab-key="linux" selected="">Linux</vox-tab><vox-tab-panel name="tab1-linux"><vox-code-block language="sh" copy-label="Copiar código" copied-label="Copiado" copied-message="Copiado al portapapeles"><code>curl -fsSL https://console.example.com/packages/install.sh | sudo bash
+</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab1-macos" data-tab-key="macos">macOS</vox-tab><vox-tab-panel name="tab1-macos"><vox-code-block language="sh" copy-label="Copiar código" copied-label="Copiado" copied-message="Copiado al portapapeles"><code>curl -fsSL https://console.example.com/packages/install-macos.sh | sudo bash
+</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab1-windows" data-tab-key="windows">Windows</vox-tab><vox-tab-panel name="tab1-windows"><vox-code-block language="plaintext" copy-label="Copiar código" copied-label="Copiado" copied-message="Copiado al portapapeles"><code>Invoke-WebRequest https://console.example.com/packages/install.ps1 -OutFile install.ps1
 .\install.ps1
-</code></vox-code-block></vox-tab-panel></vox-tabs><p>On Windows, run PowerShell as Administrator.</p>
-<vox-callout variant="info" heading="Note"><p>The macOS and Windows scripts are checked by the project&#39;s tests but
-have not yet been run end to end on real macOS and Windows hosts, as
-the Linux script has. Report anything that does not go as described
-here.</p>
+</code></vox-code-block></vox-tab-panel></vox-tabs><p>En Windows, ejecute PowerShell como administrador.</p>
+<vox-callout variant="info" heading="Nota"><p>Los scripts de macOS y Windows están cubiertos por las pruebas del proyecto, pero aún no se han ejecutado de principio a fin en hosts macOS y Windows reales, como sí el script de Linux. Informe de cualquier cosa que no funcione como se describe aquí.</p>
 </vox-callout>
-<h2 id="sign-the-node-s-certificate">Sign the node&#39;s certificate</h2>
-<p>If the CA signs requests automatically, the script finishes on its own.
-If not, it waits for up to five minutes, checking every 15 seconds. Sign
-the request while it waits and the same run carries on to the end:</p>
+<h2 id="sign-the-node-s-certificate">Firmar el certificado del Node</h2>
+<p>Si la CA firma las solicitudes automáticamente, el script termina por sí solo. Si no, espera hasta cinco minutos, comprobando cada 15 segundos. Firme la solicitud mientras espera y la misma ejecución seguirá hasta el final:</p>
 <ol>
-<li>Open the console&#39;s <strong>Nodes</strong> page. The node is listed with a pending
-certificate request.</li>
-<li>Choose <strong>Sign</strong>.</li>
+<li>Abra la página <strong>Nodes</strong> de la consola. El Node aparece con una solicitud de certificado pendiente.</li>
+<li>Elija <strong>Firmar</strong>.</li>
 </ol>
-<p>Signing from the console needs the certificate-admin credential, and a
-user holding the <code>nodes:certs:manage</code> permission; see
-<a href="certificates.html">Manage node certificates</a>. You can also sign on the
-CA host itself:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo /opt/puppetlabs/bin/puppetserver ca sign --certname &lt;node certname&gt;
+<p>Firmar desde la consola requiere la credencial de administración de certificados y un usuario con el permiso <code>nodes:certs:manage</code>; consulte <a href="certificates.html">Gestionar los certificados de los Nodes</a>. También puede firmar en el propio host de la CA:</p>
+<vox-code-block language="sh" copy-label="Copiar código" copied-label="Copiado" copied-message="Copiado al portapapeles"><code>sudo /opt/puppetlabs/bin/puppetserver ca sign --certname &lt;node certname&gt;
 </code></vox-code-block>
-<p>The script ends in one of three ways:</p>
+<p>El script termina de una de estas tres formas:</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>What happened</th>
-<th>What you see</th>
+<th>Qué ocurrió</th>
+<th>Qué verá</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>The request was signed while it waited</td>
-<td>It carries on and finishes the install</td>
+<td>La solicitud se firmó mientras esperaba</td>
+<td>Continúa y termina la instalación</td>
 </tr>
 <tr>
-<td>The wait ran out with the request still unsigned</td>
-<td>It stops, naming the Nodes page to sign it on; sign it, then run the script again</td>
+<td>La espera terminó con la solicitud aún sin firmar</td>
+<td>Se detiene e indica la página Nodes donde firmarla; fírmela y vuelva a ejecutar el script</td>
 </tr>
 <tr>
-<td>It could not reach the CA</td>
-<td>It stops, reporting a connection or TLS problem - not a pending request</td>
+<td>No pudo alcanzar la CA</td>
+<td>Se detiene e informa de un problema de conexión o de TLS, no de una solicitud pendiente</td>
 </tr>
 </tbody>
 </table></div>
-<vox-callout variant="tip" heading="Tip"><p>An unreachable CA is only reported once the full wait has passed,
-because the agent keeps retrying in case the problem is brief. If you
-see a connection error, check name resolution and port 8140 rather than
-looking for a request to sign.</p>
+<vox-callout variant="tip" heading="Consejo"><p>Una CA inalcanzable solo se notifica cuando ha transcurrido toda la espera, porque el agente sigue reintentando por si el problema es pasajero. Si ve un error de conexión, compruebe la resolución de nombres y el puerto 8140 en lugar de buscar una solicitud que firmar.</p>
 </vox-callout>
-<h2 id="see-the-node-connect">See the node connect</h2>
-<p>On the <strong>Nodes</strong> page, the node shows as connected, with a signed
-certificate.</p>
-<p>A node that connects before it has ever reported to openvoxdb would
-otherwise sit there empty until its next scheduled Puppet run, so the
-console starts its first run for it straight away. That run appears on
-the <strong>Jobs</strong> page like any other, recorded as started by
-<code>system:initial-run</code>. Once it finishes, the node&#39;s page shows its facts,
-its reports and the classes applied to it.</p>
-<h2 id="after-that-the-node-agent-looks-after-itself">After that, the node agent looks after itself</h2>
-<p>You do not run the script again to upgrade the node agent. When you
-upgrade the console, it upgrades the node agent on each connected node
-for you; see <a href="agent-upgrades.html">Keep node agents current</a>.</p>
-<h2 id="report-the-node-s-packages-optional">Report the node&#39;s packages (optional)</h2>
-<p>Package inventory is off for each node until you turn it on. On the
-node&#39;s page, in its <strong>Packages</strong> section, switch reporting on. The
-console tells the node to add the package fact and runs Puppet straight
-away, so the inventory appears within that run rather than at the next
-scheduled one. Switching it off removes the fact the same way.</p>
-<p>The switch needs the <code>orchestrator:run</code> permission, and works only while
-the node is connected: it acts on the node there and then, rather than
-queueing a change for later.</p>
+<h2 id="see-the-node-connect">Ver cómo se conecta el Node</h2>
+<p>En la página <strong>Nodes</strong>, el Node aparece como conectado, con un certificado firmado.</p>
+<p>Un Node que se conecta antes de haber enviado nunca un Report a openvoxdb se quedaría vacío hasta su siguiente ejecución programada de Puppet, así que la consola inicia de inmediato su primera ejecución. Esa ejecución aparece en la página <strong>Jobs</strong> como cualquier otra, registrada como iniciada por <code>system:initial-run</code>. Cuando termina, la página del Node muestra sus Facts, sus Reports y las clases que se le aplican.</p>
+<h2 id="after-that-the-node-agent-looks-after-itself">A partir de ahí, el agente de Node se ocupa de sí mismo</h2>
+<p>No hace falta volver a ejecutar el script para actualizar el agente de Node. Cuando actualiza la consola, esta actualiza por usted el agente de Node en cada Node conectado; consulte <a href="agent-upgrades.html">Mantener al día los agentes de Node</a>.</p>
+<h2 id="report-the-node-s-packages-optional">Reportar los paquetes del Node (opcional)</h2>
+<p>El inventario de paquetes está desactivado en cada Node hasta que lo active. En la página del Node, en su sección <strong>Paquetes</strong>, active el reporte. La consola indica al Node que añada el Fact de paquetes y ejecuta Puppet de inmediato, así que el inventario aparece en esa ejecución y no en la siguiente programada. Desactivarlo quita el Fact de la misma forma.</p>
+<p>El interruptor requiere el permiso <code>orchestrator:run</code> y solo funciona mientras el Node está conectado: actúa sobre el Node en ese mismo momento, en lugar de encolar un cambio para más tarde.</p>
 
     </div>
 
-    <vox-series-nav label="Nodes" previous-text="Previous" next-text="Next" next-href="../guides/certificates.html" next-label="Manage node certificates"></vox-series-nav>
+    <vox-series-nav label="Nodes" previous-text="Anterior" next-text="Siguiente" next-href="../guides/certificates.html" next-label="Gestionar los certificados de los Nodes"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#before-you-start"><span>Before you start</span>
+    <vox-toc heading="En esta página">
+      <vox-toc-item href="#before-you-start"><span>Antes de empezar</span>
       </vox-toc-item>
-      <vox-toc-item href="#run-the-install-script"><span>Run the install script</span>
+      <vox-toc-item href="#run-the-install-script"><span>Ejecutar el script de instalación</span>
       </vox-toc-item>
-      <vox-toc-item href="#sign-the-node-s-certificate"><span>Sign the node&#39;s certificate</span>
+      <vox-toc-item href="#sign-the-node-s-certificate"><span>Firmar el certificado del Node</span>
       </vox-toc-item>
-      <vox-toc-item href="#see-the-node-connect"><span>See the node connect</span>
+      <vox-toc-item href="#see-the-node-connect"><span>Ver cómo se conecta el Node</span>
       </vox-toc-item>
-      <vox-toc-item href="#after-that-the-node-agent-looks-after-itself"><span>After that, the node agent looks after itself</span>
+      <vox-toc-item href="#after-that-the-node-agent-looks-after-itself"><span>A partir de ahí, el agente de Node se ocupa de sí mismo</span>
       </vox-toc-item>
-      <vox-toc-item href="#report-the-node-s-packages-optional"><span>Report the node&#39;s packages (optional)</span>
+      <vox-toc-item href="#report-the-node-s-packages-optional"><span>Reportar los paquetes del Node (opcional)</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -291,23 +250,17 @@ queueing a change for later.</p>
 
       
       <vox-cta-band heading="Ejecútelo usted mismo">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console se distribuye como imágenes de contenedor, compiladas para amd64 y arm64 en cada push, y como un único binario. Las guías de instalación le llevan de un host vacío a un despliegue funcional (openvoxserver, openvoxdb, Postgres y la consola) con contenedores o con paquetes.</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">Guías de instalación</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">Código fuente en GitHub</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">Imágenes de contenedor</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="Captura a tamaño completo">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">Cerrar</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -316,18 +269,18 @@ queueing a change for later.</p>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">Resumen</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">Código fuente</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">Guías de instalación</a>
       </vox-footer-column>
       <vox-footer-column heading="Capacidades">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">Clasificación</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">Orquestación</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">Aplicación de parches</a>
         <a href="../features/security.html">Seguridad</a>
         <a href="../features/access-control.html">Control de acceso</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">Agentes de IA</a>
+        <a href="../features/scaling.html">Escalado</a>
         </vox-footer-column>
       
       <vox-footer-column heading="Idioma">

@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="zh" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Register hosts the console reaches over SSH, pin their host keys, check them, and run tasks on them like any other node."/>
+    <meta name="description" content="注册控制台通过 SSH 访问的主机，固定其主机密钥，检查它们，并像在任何其他 Node 上一样在其上运行 Tasks。"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Run tasks on hosts without an agent - OpenVox Console</title>
+    <title>在没有代理的主机上运行 Tasks - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">指南</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,173 +104,120 @@
       <a href="../features/classification.html">分类</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">编排</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">补丁管理</a>
       <a href="../features/security.html">安全</a>
       <a href="../features/access-control.html">访问控制</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">AI 代理</a>
+      <a href="../features/scaling.html">扩展</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="指南" toggle-label="所有指南">
+    <vox-sidenav-group heading="安装">
+      <vox-sidenav-item href="../guides/plan.html"><span>规划部署</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>使用容器安装</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>从软件包和二进制文件安装</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>添加 Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>管理 Node 证书</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>移除 Node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>保持 Node 代理为最新</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
-      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="扩展">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>运行模式</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>运行更多实例</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use" open="">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html" current="" aria-current="page"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="使用" open="">
+      <vox-sidenav-item href="../guides/classify.html"><span>为 Nodes 分类</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy 代码</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>运行 Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>运行 Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>计划 Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>用户、角色与令牌</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>跟踪漏洞</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>查找并应用缺失的更新</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html" current="" aria-current="page"><span>在没有代理的主机上运行 Tasks</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>运行代码中的 Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>让 AI 代理使用控制台</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="运维">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>故障切换到备用数据库</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>轮换令牌签名密钥</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>将容器数据库升级到 Postgres 18</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Use</p>
-    <h1 class="guide-title vox-ts-xxl">Run tasks on hosts without an agent</h1>
-    <p class="guide-summary">Register hosts the console reaches over SSH, pin their host keys, check them, and run tasks on them like any other node.</p>
+    <p class="guide-eyebrow">使用</p>
+    <h1 class="guide-title vox-ts-xxl">在没有代理的主机上运行 Tasks</h1>
+    <p class="guide-summary">注册控制台通过 SSH 访问的主机，固定其主机密钥，检查它们，并像在任何其他 Node 上一样在其上运行 Tasks。</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>Some hosts cannot or should not run the node agent: appliances, locked-down
-servers, machines not yet enrolled. The console can reach a Linux host over
-<strong>SSH</strong> instead and run <a href="run-jobs.html">tasks</a> on it. Such a host is an
-<strong>agentless target</strong>.</p>
-<p>What an agentless target can do is deliberately narrow:</p>
+<p>有些主机无法或不应运行 Node 代理：设备、锁定的服务器、尚未注册的机器。控制台可以改为通过 <strong>SSH</strong> 访问 Linux 主机，并在其上运行 <a href="run-jobs.html">Tasks</a>。这样的主机就是<strong>无代理目标</strong>。</p>
+<p>无代理目标能做的事被有意限制得很窄：</p>
 <ul>
-<li><strong>Tasks run on it</strong>, on their own, in a <a href="run-plans.html">plan</a> or on a
-<a href="schedule-jobs.html">schedule</a>, with the same permissions, node groups and
-task allowlists as any node.</li>
-<li><strong>Puppet runs and patch runs do not.</strong> They need the agent. A request that
-names an agentless target for one is refused whole, naming the target, and
-nothing is sent to anyone.</li>
-<li>It has <strong>no facts or reports</strong>, so a node group&#39;s rule, which matches on
-facts, cannot include it. A group includes it by <strong>pin</strong>.</li>
+<li><strong>可以在其上运行 Tasks</strong>，无论是单独运行、在 <a href="run-plans.html">Plan</a> 中运行，还是按<a href="schedule-jobs.html">计划</a>运行，适用的权限、Node 组和 Task 允许列表与任何 Node 相同。</li>
+<li><strong>Puppet 运行和补丁运行则不行。</strong>它们需要代理。为其中任一种指定了无代理目标的请求会被整体拒绝，并指出该目标，不会向任何对象发送任何东西。</li>
+<li>它<strong>没有 Facts 或 Reports</strong>，因此按 Facts 匹配的 Node 组规则无法包含它。组只能通过<strong>固定</strong>来包含它。</li>
 </ul>
-<h2 id="add-a-target">Add a target</h2>
-<p>Open <strong>Nodes</strong>, then <strong>Agentless targets</strong>, then <strong>Add target</strong>. This needs
-<code>agentless:manage</code>. Give:</p>
+<h2 id="add-a-target">添加目标</h2>
+<p>打开 <strong>Nodes</strong>，然后打开<strong>无代理目标</strong>，再选择<strong>添加目标</strong>。这需要 <code>agentless:manage</code>。填写：</p>
 <ul>
-<li>a <strong>name</strong>, which is how the target appears in jobs and node groups. It
-cannot be the name of a node that exists, or of another target;</li>
-<li>the <strong>address</strong> and <strong>port</strong> (22 unless you say otherwise);</li>
-<li>the <strong>login</strong>: a user, and a <strong>private key</strong> (with its passphrase if it has
-one), a <strong>password</strong>, or both. Or choose a <strong>shared credential</strong>: one login
-several targets use. A target&#39;s own login wins over a shared one;</li>
-<li>optionally a user to <strong>run tasks as</strong>. Tasks then run through
-<code>sudo -n -u &lt;user&gt;</code>, so <code>sudo</code> must not ask for a password. Password <code>sudo</code>
-is not supported.</li>
+<li><strong>名称</strong>，即目标在 Jobs 和 Node 组中显示的名称。它不能与已存在的 Node 或其他目标同名；</li>
+<li><strong>地址</strong>和<strong>端口</strong>（除非另行指定，否则为 22）；</li>
+<li><strong>登录凭据</strong>：一个用户，以及<strong>私钥</strong>（如有口令则一并提供）、<strong>密码</strong>或两者。或者选择一个<strong>共享凭据</strong>：供多个目标使用的同一登录凭据。目标自己的登录凭据优先于共享凭据；</li>
+<li>可选：一个<strong>运行 Tasks 所用的用户</strong>。此时 Tasks 会通过 <code>sudo -n -u &lt;user&gt;</code> 运行，因此 <code>sudo</code> 不能要求输入密码。不支持需要密码的 <code>sudo</code>。</li>
 </ul>
-<p>The key, passphrase and password are stored <strong>sealed</strong> with the console&#39;s
-secrets key (<code>CONSOLE_SECRETS_KEY_FILE</code>; without it a target with credentials
-cannot be added). They are never returned by the console, written to its logs
-or audit entries, or put in a job. You can set or replace one but never read
-it: leave the fields blank when you edit to keep the stored ones. A key is
-checked when you save it, and a passphrase that does not open it is refused.</p>
-<p>A target must be pinned into a node group to be seen by anyone limited to
-that group. A user limited to some node groups can add and manage targets
-only inside their groups, and cannot use shared credentials at all, since a
-shared credential belongs to no node.</p>
-<h2 id="trust-its-host-key">Trust its host key</h2>
-<p>Before the console sends a login to a host it must know it is the right one.</p>
+<p>密钥、口令和密码会用控制台的机密密钥<strong>加密封存</strong>（<code>CONSOLE_SECRETS_KEY_FILE</code>；没有它就无法添加带凭据的目标）。控制台永远不会返回它们，也不会把它们写入日志或审计条目，或放入 Job 中。你可以设置或替换它们，但永远无法读取：编辑时将字段留空即可保留已存储的值。密钥会在保存时被检查，无法打开该密钥的口令会被拒绝。</p>
+<p>目标必须被固定到某个 Node 组中，仅限该组的人才能看到它。仅限部分 Node 组的用户只能在其组内添加和管理目标，并且完全不能使用共享凭据，因为共享凭据不属于任何 Node。</p>
+<h2 id="trust-its-host-key">信任其主机密钥</h2>
+<p>在控制台把登录凭据发送给某台主机之前，它必须确认那就是正确的主机。</p>
 <ol>
-<li><strong>Check</strong> the target. The console connects and reads the host&#39;s key
-<strong>without logging in</strong>, and shows its fingerprint.</li>
-<li>Compare that fingerprint with the host&#39;s own, for example
-<code>ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub</code> on the host, and
-choose <strong>Trust this key</strong>.</li>
-<li>Check again: now the console logs in, and reports who it logged in as
-(and as whom tasks will run, if you set a run-as user).</li>
+<li><strong>检查</strong>该目标。控制台会连接并读取主机的密钥，<strong>但不登录</strong>，然后显示其指纹。</li>
+<li>将该指纹与主机自身的指纹进行比较，例如在主机上运行 <code>ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub</code>，然后选择<strong>信任此密钥</strong>。</li>
+<li>再次检查：现在控制台会登录，并报告它以谁的身份登录（如果你设置了运行身份用户，还会报告 Tasks 将以谁的身份运行）。</li>
 </ol>
-<p>Until a key is trusted, a task on the target fails as &#34;not trusted&#34; and
-nothing is run. If a trusted target later presents a <strong>different key</strong>, the
-connection is refused before any login is sent, and the target shows
-<strong>Host key changed</strong> with both fingerprints. Replace the pin only if you know
-the host was rebuilt or its key rotated: that is a separate, audited action.
-Changing a target&#39;s address or port clears its pin, since a pin vouches for a
-host, not a name.</p>
-<p>A failed check says which stage failed: connecting, the host key,
-authentication, becoming the run-as user, or running a command.</p>
-<h2 id="run-a-task-on-one">Run a task on one</h2>
-<p>On the Nodes page select targets with any other nodes and choose <strong>Run
-task</strong>, or name them in a task, plan or schedule. The job shows each target&#39;s
-own result.</p>
-<p>For each target the console downloads the task&#39;s files from the Puppet
-server, verifies their checksums, then connects, creates a private directory
-on the host (<code>mktemp -d</code>, mode 700), copies the files into it over the SSH
-session, runs the task and removes the directory, whether the task succeeded,
-failed or timed out. Nothing needs to be installed on the host beyond <code>sh</code>,
-<code>cat</code>, <code>mktemp</code> and (for a run-as user) <code>sudo</code>.</p>
+<p>在密钥被信任之前，目标上的 Task 会以 &#34;not trusted&#34; 失败，不会运行任何东西。如果一个已信任的目标之后出示了<strong>不同的密钥</strong>，连接会在发送任何登录凭据之前被拒绝，该目标会显示<strong>主机密钥已更改</strong>以及两个指纹。只有当你确知该主机已被重建或其密钥已轮换时，才替换固定的密钥：这是一项单独的、会被审计的操作。更改目标的地址或端口会清除其固定的密钥，因为固定的密钥担保的是主机，而不是名称。</p>
+<p>检查失败时会说明是哪个阶段失败：连接、主机密钥、认证、切换为运行身份用户，或运行命令。</p>
+<h2 id="run-a-task-on-one">在其上运行 Task</h2>
+<p>在 Nodes 页面上，将目标与任何其他 Nodes 一起选中，然后选择<strong>运行 Task</strong>，或者在 Task、Plan 或计划中指定它们。Job 会显示每个目标各自的结果。</p>
+<p>对于每个目标，控制台会从 Puppet 服务器下载 Task 的文件并校验其校验和，然后建立连接，在主机上创建一个私有目录（<code>mktemp -d</code>，权限 700），通过 SSH 会话把文件复制进去，运行 Task，最后删除该目录——无论 Task 成功、失败还是超时。除了 <code>sh</code>、<code>cat</code>、<code>mktemp</code> 以及（使用运行身份用户时的）<code>sudo</code> 之外，主机上无需安装任何东西。</p>
 <ul>
-<li>Task <strong>parameters never appear on a command line</strong>, where any user of the
-host could read them. They reach the task on standard input or in its
-environment, as the task&#39;s metadata asks, and are never written to disk.
-What a task prints is recorded like any task&#39;s output.</li>
-<li>A task whose implementations all need the Puppet agent (<code>puppet-agent</code>)
-cannot run: the target provides a shell only.</li>
-<li>A task is limited by its <strong>timeout</strong>. When it runs out, the task is stopped
-and the target fails with that reason. Connecting is limited to 15 seconds.</li>
-<li>A target runs <strong>one task at a time</strong>; a second is refused as busy. At most
-20 SSH sessions run across the console at once, and the rest wait.</li>
-<li>A <code>/tmp</code> mounted <code>noexec</code> stops a task from running there. The failure says
-so; make a directory available or remount.</li>
+<li>Task <strong>参数永远不会出现在命令行中</strong>，因为主机上的任何用户都能读取命令行。它们按 Task 元数据的要求，通过标准输入或环境变量传给 Task，并且永远不会写入磁盘。Task 打印的内容会像任何 Task 的输出一样被记录下来。</li>
+<li>如果某个 Task 的所有实现都需要 Puppet 代理（<code>puppet-agent</code>），它就无法运行：目标只提供 shell。</li>
+<li>Task 受其<strong>超时</strong>限制。时间耗尽时，Task 会被停止，目标会以此原因失败。连接限时 15 秒。</li>
+<li>一个目标<strong>同一时间只运行一个 Task</strong>；第二个会因忙碌而被拒绝。整个控制台同时最多运行 20 个 SSH 会话，其余的需要等待。</li>
+<li>如果 <code>/tmp</code> 以 <code>noexec</code> 方式挂载，Task 将无法在那里运行。失败信息会说明这一点；请提供一个可用的目录，或重新挂载。</li>
 </ul>
-<h2 id="where-it-is-audited">Where it is audited</h2>
-<p>Adding, changing, deleting and checking a target, trusting or replacing a
-host key, and every shared credential change are audit entries naming who
-and what. They name which secrets were set, never their values. Jobs are
-audited as always.</p>
-<h2 id="not-covered">Not covered</h2>
-<p>Windows and WinRM, jump hosts, SSH certificates, Puppet runs, patch scans
-and patch runs, collecting facts, and Puppet-language plans.</p>
+<h2 id="where-it-is-audited">在哪里审计</h2>
+<p>添加、更改、删除和检查目标，信任或替换主机密钥，以及每一次共享凭据的变更，都会生成审计条目，注明操作者和操作对象。条目会注明设置了哪些机密，但绝不记录其值。Jobs 照常接受审计。</p>
+<h2 id="not-covered">不涵盖的内容</h2>
+<p>Windows 和 WinRM、跳板机、SSH 证书、Puppet 运行、补丁扫描和补丁运行、收集 Facts，以及 Puppet 语言 Plans。</p>
 
     </div>
 
-    <vox-series-nav label="Use" previous-text="Previous" next-text="Next" previous-href="../guides/patching.html" previous-label="Find and apply missing updates" next-href="../guides/code-plans.html" next-label="Run plans from your code"></vox-series-nav>
+    <vox-series-nav label="使用" previous-text="上一篇" next-text="下一篇" previous-href="../guides/patching.html" previous-label="查找并应用缺失的更新" next-href="../guides/code-plans.html" next-label="运行代码中的 Plans"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#add-a-target"><span>Add a target</span>
+    <vox-toc heading="本页内容">
+      <vox-toc-item href="#add-a-target"><span>添加目标</span>
       </vox-toc-item>
-      <vox-toc-item href="#trust-its-host-key"><span>Trust its host key</span>
+      <vox-toc-item href="#trust-its-host-key"><span>信任其主机密钥</span>
       </vox-toc-item>
-      <vox-toc-item href="#run-a-task-on-one"><span>Run a task on one</span>
+      <vox-toc-item href="#run-a-task-on-one"><span>在其上运行 Task</span>
       </vox-toc-item>
-      <vox-toc-item href="#where-it-is-audited"><span>Where it is audited</span>
+      <vox-toc-item href="#where-it-is-audited"><span>在哪里审计</span>
       </vox-toc-item>
-      <vox-toc-item href="#not-covered"><span>Not covered</span>
+      <vox-toc-item href="#not-covered"><span>不涵盖的内容</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -280,23 +227,17 @@ and patch runs, collecting facts, and Puppet-language plans.</p>
 
       
       <vox-cta-band heading="自己动手运行">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console 以容器镜像形式发布，每次 push 都会构建 amd64 和 arm64 版本，同时也提供单个二进制文件。安装指南将带你从一台空主机走到一套可用的部署——openvoxserver、openvoxdb、Postgres 和控制台——可以用容器，也可以用软件包。</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">安装指南</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">GitHub 上的源码</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">容器镜像</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="全尺寸截图">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">关闭</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -305,18 +246,18 @@ and patch runs, collecting facts, and Puppet-language plans.</p>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">概览</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">源码</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">安装指南</a>
       </vox-footer-column>
       <vox-footer-column heading="功能">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">分类</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">编排</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">补丁管理</a>
         <a href="../features/security.html">安全</a>
         <a href="../features/access-control.html">访问控制</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">AI 代理</a>
+        <a href="../features/scaling.html">扩展</a>
         </vox-footer-column>
       
       <vox-footer-column heading="语言">

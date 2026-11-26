@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="zh" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Delete a node from the console, what that does in openvoxdb and the CA, and what it keeps."/>
+    <meta name="description" content="从控制台删除 Node、此操作在 openvoxdb 和 CA 中的作用，以及会保留哪些内容。"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Remove a node - OpenVox Console</title>
+    <title>移除 Node - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">指南</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,109 +104,101 @@
       <a href="../features/classification.html">分类</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">编排</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">补丁管理</a>
       <a href="../features/security.html">安全</a>
       <a href="../features/access-control.html">访问控制</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">AI 代理</a>
+      <a href="../features/scaling.html">扩展</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="指南" toggle-label="所有指南">
+    <vox-sidenav-group heading="安装">
+      <vox-sidenav-item href="../guides/plan.html"><span>规划部署</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>使用容器安装</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>从软件包和二进制文件安装</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes" open="">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html" current="" aria-current="page"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>添加 Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>管理 Node 证书</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html" current="" aria-current="page"><span>移除 Node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>保持 Node 代理为最新</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
-      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="扩展">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>运行模式</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>运行更多实例</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="使用">
+      <vox-sidenav-item href="../guides/classify.html"><span>为 Nodes 分类</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy 代码</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>运行 Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>运行 Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>计划 Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>用户、角色与令牌</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>跟踪漏洞</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>查找并应用缺失的更新</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>在没有代理的主机上运行 Tasks</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>运行代码中的 Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>让 AI 代理使用控制台</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="运维">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>故障切换到备用数据库</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>轮换令牌签名密钥</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>将容器数据库升级到 Postgres 18</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
     <p class="guide-eyebrow">Nodes</p>
-    <h1 class="guide-title vox-ts-xxl">Remove a node</h1>
-    <p class="guide-summary">Delete a node from the console, what that does in openvoxdb and the CA, and what it keeps.</p>
+    <h1 class="guide-title vox-ts-xxl">移除 Node</h1>
+    <p class="guide-summary">从控制台删除 Node、此操作在 openvoxdb 和 CA 中的作用，以及会保留哪些内容。</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<h2 id="delete-a-node">Delete a node</h2>
-<p>On the <strong>Nodes</strong> page, choose <strong>Delete</strong> on the node, and confirm. This
-needs the <code>nodes:manage</code> permission, on a role whose node groups
-include the node.</p>
-<p>Deleting does two things, together:</p>
+<h2 id="delete-a-node">删除 Node</h2>
+<p>在 <strong>Nodes</strong> 页面上，对该 Node 选择<strong>删除</strong>并确认。这需要 <code>nodes:manage</code> 权限，并且该权限所在角色的 Node 组需包含该 Node。</p>
+<figure class="shot">
+  <a class="shot-link" href="../../assets/screenshots/node-delete-confirm-light-zh.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/node-delete-confirm-dark-zh.png" data-theme-dark="../../assets/screenshots/node-delete-confirm-dark-zh.png" data-theme-light="../../assets/screenshots/node-delete-confirm-light-zh.png"/>
+      <img src="../../assets/screenshots/node-delete-confirm-light-zh.png" alt="删除 Node 之前显示的确认对话框，说明它会立即从列表中消失、openvoxdb 稍后会删除其历史记录，以及控制台无法撤销此操作" width="1440"/>
+    </picture>
+    <span class="vox-sr-only">Open full size</span>
+  </a>
+</figure>
+<p>删除操作会同时做两件事：</p>
 <ul>
-<li>it <strong>deactivates the node in openvoxdb</strong>, so it no longer appears in
-the fleet;</li>
-<li>it <strong>cleans the node&#39;s certificate from the CA</strong>, the same as the
-<strong>Clean</strong> action, so the certname can never authenticate again and is
-free to enroll afresh.</li>
+<li>它会<strong>在 openvoxdb 中停用该 Node</strong>，使其不再出现在机群中；</li>
+<li>它会<strong>从 CA 中清理该 Node 的证书</strong>，与<strong>清理</strong>操作相同，因此该 certname 再也无法通过认证，并且可以重新注册。</li>
 </ul>
-<p>Both halves are needed for the node to disappear from the page, which
-lists nodes known to openvoxdb and nodes known to the CA. If the console
-has no certificate-admin credential, only the openvoxdb half happens, and
-the node may go on appearing through its certificate.</p>
-<p>Before deleting a machine you are decommissioning, stop its node agent
-and Puppet agent, or remove them, so it does not report or connect again.</p>
-<h2 id="what-deleting-does-not-do">What deleting does not do</h2>
+<p>要让该 Node 从页面上消失，两部分都必须完成，因为该页面同时列出 openvoxdb 已知的 Nodes 和 CA 已知的 Nodes。如果控制台没有证书管理员凭据，就只会完成 openvoxdb 那一部分，该 Node 可能会因其证书而继续出现。</p>
+<p>在删除一台要退役的机器之前，请先停止或卸载它的 Node 代理和 Puppet 代理，以免它再次上报或连接。</p>
+<h2 id="what-deleting-does-not-do">删除不会做的事</h2>
 <ul>
-<li><strong>It does not erase the node&#39;s history straight away.</strong> Its facts,
-catalogs and reports stay in openvoxdb until openvoxdb&#39;s own garbage
-collection removes them, on its own schedule.</li>
-<li><strong>There is no list of deleted nodes.</strong> openvoxdb leaves deactivated
-nodes out of every listing, and the console keeps no separate record,
-so a deleted node is gone from the console&#39;s pages.</li>
+<li><strong>它不会立即清除该 Node 的历史。</strong>它的 Facts、catalog 和 Reports 会保留在 openvoxdb 中，直到 openvoxdb 自己的垃圾回收按其自身的计划将其删除。</li>
+<li><strong>没有已删除 Nodes 的列表。</strong>openvoxdb 会在所有列表中略去已停用的 Nodes，而控制台也不保留单独的记录，因此已删除的 Node 会从控制台的页面中消失。</li>
 </ul>
-<h2 id="bring-a-node-back">Bring a node back</h2>
-<p>A deleted node&#39;s certificate has been cleaned, so bringing it back is the
-same as adding a new node: run the install script on it again, and sign
-its new request. See <a href="add.html">Add nodes</a>.</p>
+<h2 id="bring-a-node-back">恢复 Node</h2>
+<p>已删除 Node 的证书已被清理，因此恢复它与添加一个新 Node 完全相同：在其上再次运行安装脚本，并为其新请求签名。参见<a href="add.html">添加 Nodes</a>。</p>
 
     </div>
 
-    <vox-series-nav label="Nodes" previous-text="Previous" next-text="Next" previous-href="../guides/certificates.html" previous-label="Manage node certificates" next-href="../guides/agent-upgrades.html" next-label="Keep node agents current"></vox-series-nav>
+    <vox-series-nav label="Nodes" previous-text="上一篇" next-text="下一篇" previous-href="../guides/certificates.html" previous-label="管理 Node 证书" next-href="../guides/agent-upgrades.html" next-label="保持 Node 代理为最新"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#delete-a-node"><span>Delete a node</span>
+    <vox-toc heading="本页内容">
+      <vox-toc-item href="#delete-a-node"><span>删除 Node</span>
       </vox-toc-item>
-      <vox-toc-item href="#what-deleting-does-not-do"><span>What deleting does not do</span>
+      <vox-toc-item href="#what-deleting-does-not-do"><span>删除不会做的事</span>
       </vox-toc-item>
-      <vox-toc-item href="#bring-a-node-back"><span>Bring a node back</span>
+      <vox-toc-item href="#bring-a-node-back"><span>恢复 Node</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -216,23 +208,17 @@ its new request. See <a href="add.html">Add nodes</a>.</p>
 
       
       <vox-cta-band heading="自己动手运行">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console 以容器镜像形式发布，每次 push 都会构建 amd64 和 arm64 版本，同时也提供单个二进制文件。安装指南将带你从一台空主机走到一套可用的部署——openvoxserver、openvoxdb、Postgres 和控制台——可以用容器，也可以用软件包。</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">安装指南</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">GitHub 上的源码</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">容器镜像</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="全尺寸截图">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">关闭</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -241,18 +227,18 @@ its new request. See <a href="add.html">Add nodes</a>.</p>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">概览</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">源码</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">安装指南</a>
       </vox-footer-column>
       <vox-footer-column heading="功能">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">分类</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">编排</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">补丁管理</a>
         <a href="../features/security.html">安全</a>
         <a href="../features/access-control.html">访问控制</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">AI 代理</a>
+        <a href="../features/scaling.html">扩展</a>
         </vox-footer-column>
       
       <vox-footer-column heading="语言">

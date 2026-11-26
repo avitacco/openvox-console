@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a href="../guides/index.html" slot="actions">Guides</a>
+      <a href="../guides/index.html" slot="actions">गाइड</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,11 +104,11 @@
       <a href="../features/classification.html">वर्गीकरण</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">ऑर्केस्ट्रेशन</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">पैचिंग</a>
       <a href="../features/security.html">सुरक्षा</a>
       <a href="../features/access-control.html">पहुँच नियंत्रण</a>
       <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/scaling.html">विस्तार</a>
       </vox-subnav>
     </div>
 
@@ -129,7 +129,7 @@
   <a class="shot-link" href="../../assets/screenshots/dashboard-light-hi.png">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/dashboard-dark-hi.png" data-theme-dark="../../assets/screenshots/dashboard-dark-hi.png" data-theme-light="../../assets/screenshots/dashboard-light-hi.png"/>
-      <img src="../../assets/screenshots/dashboard-light-hi.png" alt="The OpenVox Console dashboard showing fleet run status across 26 nodes, with counts of unchanged, changed and failed runs, recent jobs and recent activity" width="1440"/>
+      <img src="../../assets/screenshots/dashboard-light-hi.png" alt="OpenVox Console का Dashboard, जिसमें 26 Nodes के फ़्लीट की रन स्थिति दिख रही है — अपरिवर्तित, परिवर्तित और विफल रनों की गिनती, हाल के Jobs और हाल की गतिविधि के साथ" width="1440"/>
     </picture>
     <span class="vox-sr-only">Open full size</span>
   </a>
@@ -147,7 +147,7 @@
   <a class="shot-link" href="../../assets/screenshots/nodes-list-light-hi.png">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/nodes-list-dark-hi.png" data-theme-dark="../../assets/screenshots/nodes-list-dark-hi.png" data-theme-light="../../assets/screenshots/nodes-list-light-hi.png"/>
-      <img src="../../assets/screenshots/nodes-list-light-hi.png" alt="The node inventory listing managed nodes with their connection state, certificate status and last report time" width="1440"/>
+      <img src="../../assets/screenshots/nodes-list-light-hi.png" alt="Node सूची, जिसमें प्रबंधित Nodes उनकी कनेक्शन स्थिति, प्रमाणपत्र स्थिति और अंतिम Report के समय के साथ सूचीबद्ध हैं" width="1440"/>
     </picture>
     <span class="vox-sr-only">Open full size</span>
   </a>
@@ -164,17 +164,17 @@
   <a class="shot-link" href="../../assets/screenshots/node-detail-light-hi.png">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/node-detail-dark-hi.png" data-theme-dark="../../assets/screenshots/node-detail-dark-hi.png" data-theme-light="../../assets/screenshots/node-detail-light-hi.png"/>
-      <img src="../../assets/screenshots/node-detail-light-hi.png" alt="A single node&#39;s detail page showing its facts, recent Puppet runs and the classes applied to it" width="1440"/>
+      <img src="../../assets/screenshots/node-detail-light-hi.png" alt="किसी एक Node का विवरण पृष्ठ, जिसमें उसके Facts, हाल के Puppet रन और उस पर लागू क्लासें दिख रही हैं" width="1440"/>
     </picture>
     <span class="vox-sr-only">Open full size</span>
   </a>
 </figure>
 
 <section class="site-section">
-  <h2 class="vox-ts-xxl">Hosts with no agent</h2>
+  <h2 class="vox-ts-xxl">बिना एजेंट वाले होस्ट</h2>
   <div class="vox-prose">
-    <p>Appliances, locked-down servers and machines not yet enrolled can be registered as agentless targets. The console reaches them over SSH with a key or password stored sealed and never shown again, pins each host&#39;s key the first time it connects, and refuses to carry on if the key later changes until a person accepts the new one.</p>
-    <p>Tasks run on them, on their own, in plans and on schedules, with the same node group access and task permissions as any other node.</p>
+    <p>Appliances, कड़े प्रतिबंधों वाले सर्वर और अभी नामांकित न हुई मशीनें agentless लक्ष्यों के रूप में पंजीकृत की जा सकती हैं। कंसोल उन तक SSH पर एक कुंजी या पासवर्ड से पहुँचता है जो सील करके संग्रहीत होता है और फिर कभी नहीं दिखाया जाता, पहली बार कनेक्ट होने पर हर होस्ट की कुंजी पिन करता है, और यदि बाद में कुंजी बदल जाए तो तब तक आगे बढ़ने से मना करता है जब तक कोई व्यक्ति नई कुंजी स्वीकार न करे।</p>
+    <p>इन पर Tasks चलते हैं, अकेले, Plans में और शेड्यूल पर, किसी भी अन्य Node जैसी Node समूह पहुँच और Task अनुमतियों के साथ।</p>
   </div>
 </section>
 
@@ -184,35 +184,29 @@
 
       
       <section class="site-section do-it" aria-labelledby="do-it-heading">
-        <h2 id="do-it-heading" class="vox-ts-xxl">Do it</h2>
+        <h2 id="do-it-heading" class="vox-ts-xxl">स्वयं कीजिए</h2>
         <vox-grid min="16rem">
-          <vox-card heading="Add nodes" href="../guides/add.html"><p>Enroll a node with one script on Linux, macOS or Windows, sign its certificate, and see it connect and run.</p></vox-card>
-          <vox-card heading="Manage node certificates" href="../guides/certificates.html"><p>Sign, revoke and clean node certificates from the console, and what each does to a connected node.</p></vox-card>
-          <vox-card heading="Remove a node" href="../guides/remove.html"><p>Delete a node from the console, what that does in openvoxdb and the CA, and what it keeps.</p></vox-card>
-          <vox-card heading="Run tasks on hosts without an agent" href="../guides/agentless.html"><p>Register hosts the console reaches over SSH, pin their host keys, check them, and run tasks on them like any other node.</p></vox-card>
+          <vox-card heading="Nodes जोड़ें" href="../guides/add.html"><p>Linux, macOS या Windows पर एक स्क्रिप्ट से Node को नामांकित कीजिए, उसके प्रमाणपत्र पर हस्ताक्षर कीजिए, और उसे कनेक्ट होते और चलते देखिए।</p></vox-card>
+          <vox-card heading="Node प्रमाणपत्र प्रबंधित करें" href="../guides/certificates.html"><p>कंसोल से Node प्रमाणपत्रों पर हस्ताक्षर कीजिए, उन्हें निरस्त और साफ़ कीजिए — और जानिए कि हर कार्रवाई कनेक्टेड Node पर क्या असर डालती है।</p></vox-card>
+          <vox-card heading="किसी Node को हटाएँ" href="../guides/remove.html"><p>कंसोल से किसी Node को हटाइए — इससे openvoxdb और CA में क्या होता है, और क्या बना रहता है।</p></vox-card>
+          <vox-card heading="बिना एजेंट वाले होस्टों पर Tasks चलाएँ" href="../guides/agentless.html"><p>उन होस्टों को पंजीकृत कीजिए जिन तक कंसोल SSH से पहुँचता है, उनकी host keys पिन कीजिए, उन्हें जाँचिए, और उन पर किसी भी अन्य Node की तरह Tasks चलाइए।</p></vox-card>
           </vox-grid>
       </section>
       </div>
 
       
       <vox-cta-band heading="स्वयं चलाकर देखिए">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console कंटेनर इमेजों के रूप में आता है, जो हर push पर amd64 और arm64 के लिए बनती हैं, और एक अकेली बाइनरी के रूप में भी। इंस्टॉल गाइड आपको खाली होस्ट से एक चालू परिनियोजन तक ले जाते हैं - openvoxserver, openvoxdb, Postgres और कंसोल - कंटेनरों से या पैकेजों से।</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">इंस्टॉल गाइड</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">GitHub पर स्रोत</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">कंटेनर इमेज</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="पूर्ण आकार का स्क्रीनशॉट">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">बंद करें</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -221,18 +215,18 @@
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">सिंहावलोकन</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">स्रोत</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">इंस्टॉल गाइड</a>
       </vox-footer-column>
       <vox-footer-column heading="क्षमताएँ">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">वर्गीकरण</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">ऑर्केस्ट्रेशन</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">पैचिंग</a>
         <a href="../features/security.html">सुरक्षा</a>
         <a href="../features/access-control.html">पहुँच नियंत्रण</a>
         <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/scaling.html">विस्तार</a>
         </vox-footer-column>
       
       <vox-footer-column heading="भाषा">

@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="zh" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="What each of the console&#39;s run modes serves and runs, and what each one needs configured."/>
+    <meta name="description" content="控制台的每种运行模式提供和运行什么，以及每种模式需要配置什么。"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Run modes - OpenVox Console</title>
+    <title>运行模式 - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">指南</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,219 +104,179 @@
       <a href="../features/classification.html">分类</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">编排</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">补丁管理</a>
       <a href="../features/security.html">安全</a>
       <a href="../features/access-control.html">访问控制</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">AI 代理</a>
+      <a href="../features/scaling.html">扩展</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="指南" toggle-label="所有指南">
+    <vox-sidenav-group heading="安装">
+      <vox-sidenav-item href="../guides/plan.html"><span>规划部署</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>使用容器安装</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>从软件包和二进制文件安装</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>添加 Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>管理 Node 证书</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>移除 Node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>保持 Node 代理为最新</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale" open="">
-      <vox-sidenav-item href="../guides/run-modes.html" current="" aria-current="page"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="扩展" open="">
+      <vox-sidenav-item href="../guides/run-modes.html" current="" aria-current="page"><span>运行模式</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>运行更多实例</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="使用">
+      <vox-sidenav-item href="../guides/classify.html"><span>为 Nodes 分类</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy 代码</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>运行 Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>运行 Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>计划 Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>用户、角色与令牌</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>跟踪漏洞</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>查找并应用缺失的更新</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>在没有代理的主机上运行 Tasks</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>运行代码中的 Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>让 AI 代理使用控制台</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="运维">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>故障切换到备用数据库</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>轮换令牌签名密钥</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>将容器数据库升级到 Postgres 18</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Scale</p>
-    <h1 class="guide-title vox-ts-xxl">Run modes</h1>
-    <p class="guide-summary">What each of the console&#39;s run modes serves and runs, and what each one needs configured.</p>
+    <p class="guide-eyebrow">扩展</p>
+    <h1 class="guide-title vox-ts-xxl">运行模式</h1>
+    <p class="guide-summary">控制台的每种运行模式提供和运行什么，以及每种模式需要配置什么。</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>One image, one binary. <code>CONSOLE_RUN_MODE</code> selects which parts of the
-console an instance runs, so parts with very different loads can be
-scaled and placed separately. Unset, it is <code>all</code>: everything in one
-instance, which is what a single-instance deployment always runs.</p>
-<h2 id="what-each-mode-runs">What each mode runs</h2>
+<p>同一个镜像，同一个二进制文件。<code>CONSOLE_RUN_MODE</code> 决定一个实例运行控制台的哪些部分，这样负载差异很大的部分就可以分别扩展和部署。不设置时为 <code>all</code>：所有部分都在同一个实例中，单实例部署始终如此运行。</p>
+<h2 id="what-each-mode-runs">每种模式运行什么</h2>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Mode</th>
-<th>Serves</th>
-<th>Listens</th>
-<th>Runs in the background</th>
+<th>模式</th>
+<th>提供内容</th>
+<th>监听</th>
+<th>后台运行内容</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>all</code> (the default)</td>
-<td>everything</td>
-<td>HTTP, node transport</td>
-<td>every background task</td>
+<td><code>all</code>（默认）</td>
+<td>所有内容</td>
+<td>HTTP、Node 传输</td>
+<td>所有后台任务</td>
 </tr>
 <tr>
 <td><code>web</code></td>
-<td>the console, its API, code-deploy webhooks and classification</td>
+<td>控制台、其 API、代码 deploy webhook 以及分类</td>
 <td>HTTP</td>
-<td>following the jobs started through it</td>
+<td>跟踪通过它启动的 Jobs</td>
 </tr>
 <tr>
 <td><code>enc</code></td>
-<td>classification only</td>
+<td>仅分类</td>
 <td>HTTP</td>
-<td>nothing</td>
+<td>无</td>
 </tr>
 <tr>
 <td><code>orchestrator</code></td>
-<td>nothing beyond health and metrics</td>
-<td>HTTP, node transport</td>
-<td>job dispatch, scheduled jobs, the first run of new nodes, and node agent upgrades</td>
+<td>仅健康检查和指标</td>
+<td>HTTP、Node 传输</td>
+<td>Job 派发、计划的 Jobs、新 Nodes 的首次运行，以及 Node 代理升级</td>
 </tr>
 <tr>
 <td><code>worker</code></td>
-<td>nothing beyond health and metrics</td>
+<td>仅健康检查和指标</td>
 <td>HTTP</td>
-<td>vulnerability syncs, and cleanup of abandoned jobs</td>
+<td>漏洞同步，以及清理被遗弃的 Jobs</td>
 </tr>
 </tbody>
 </table></div>
-<p>Every mode serves <code>/health</code> and <code>/metrics</code>, so any instance can be
-checked without knowing its mode, and <code>/health</code> reports the mode it is
-running.</p>
-<p>Two choices in that table are deliberate:</p>
+<p>每种模式都提供 <code>/health</code> 和 <code>/metrics</code>，因此无需知道实例的模式就可以检查它，而且 <code>/health</code> 会报告它正在运行的模式。</p>
+<p>该表中有两个选择是有意为之：</p>
 <ul>
-<li><strong><code>web</code> answers classification too.</strong> <code>enc</code> exists so classification
-<em>can</em> run on its own, next to the compilers, not so that it is missing
-everywhere else. A split that quietly stopped classifying nodes would
-be far worse than <code>web</code> carrying some of that load.</li>
-<li><strong><code>orchestrator</code> serves no API.</strong> It holds the node connections and
-sends jobs down them. Starting a job is <code>web</code>&#39;s job, and <code>web</code> reaches
-those connections through the cluster.</li>
-<li><strong>A job is followed by the instance that started it.</strong> A run, task or
-plan started in the console is sent and tracked by the <code>web</code> instance
-that took the request, so <code>web</code> instances must be
-<a href="cluster.html">clustered</a> with the <code>orchestrator</code> instances to reach
-any node. If that <code>web</code> instance stops before the job ends, the job is
-marked failed by a <code>worker</code> instance.</li>
+<li><strong><code>web</code> 同样提供分类应答。</strong><code>enc</code> 的存在是为了让分类<em>可以</em>单独运行在编译器旁边，而不是让其他地方都缺失分类。一个悄无声息地停止为 Nodes 分类的拆分方案，远比让 <code>web</code> 分担部分负载糟糕得多。</li>
+<li><strong><code>orchestrator</code> 不提供 API。</strong>它持有 Node 连接，并通过这些连接下发 Jobs。启动 Job 是 <code>web</code> 的工作，<code>web</code> 通过集群访问这些连接。</li>
+<li><strong>Job 由启动它的实例跟踪。</strong>在控制台中启动的运行、Task 或 Plan 由接收该请求的 <code>web</code> 实例发送和跟踪，因此 <code>web</code> 实例必须与 <code>orchestrator</code> 实例组成<a href="cluster.html">集群</a>，才能访问任何 Node。如果该 <code>web</code> 实例在 Job 结束前停止，该 Job 会被某个 <code>worker</code> 实例标记为失败。</li>
 </ul>
-<h2 id="what-each-mode-needs">What each mode needs</h2>
-<p>Each mode requires only what it uses, and refuses to start without it,
-naming the missing setting:</p>
+<h2 id="what-each-mode-needs">每种模式需要什么</h2>
+<p>每种模式只要求它用到的设置，缺少时会拒绝启动，并指出缺少的设置：</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Mode</th>
-<th>Requires</th>
+<th>模式</th>
+<th>所需设置</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>every mode</td>
-<td><code>CONSOLE_POSTGRES_DSN</code> and the four <code>CONSOLE_OPENVOXDB_*</code> settings</td>
+<td>所有模式</td>
+<td><code>CONSOLE_POSTGRES_DSN</code> 以及四个 <code>CONSOLE_OPENVOXDB_*</code> 设置</td>
 </tr>
 <tr>
 <td><code>all</code>, <code>web</code></td>
-<td><code>CONSOLE_RBAC_SIGNING_KEY_FILE</code>: these are the only modes that issue login tokens</td>
+<td><code>CONSOLE_RBAC_SIGNING_KEY_FILE</code>：只有这些模式会签发登录令牌</td>
 </tr>
 <tr>
 <td><code>enc</code>, <code>orchestrator</code>, <code>worker</code></td>
-<td><code>CONSOLE_RBAC_VERIFICATION_KEYS_DIR</code>: they check tokens, but never issue them</td>
+<td><code>CONSOLE_RBAC_VERIFICATION_KEYS_DIR</code>：它们校验令牌，但从不签发令牌</td>
 </tr>
 <tr>
 <td><code>orchestrator</code></td>
-<td><code>CONSOLE_NODE_TRANSPORT_ADDR</code>: without a node listener every job would fail &#34;not connected&#34; on an instance that looked healthy</td>
+<td><code>CONSOLE_NODE_TRANSPORT_ADDR</code>：如果没有 Node 监听器，在一个看起来健康的实例上，每个 Job 都会以 &#34;not connected&#34; 失败</td>
 </tr>
 </tbody>
 </table></div>
-<h3 id="give-the-scheduler-what-scheduled-jobs-use">Give the scheduler what scheduled jobs use</h3>
-<p><a href="schedule-jobs.html">Scheduled jobs</a> are started by <code>all</code> and
-<code>orchestrator</code> instances, not by <code>web</code>. An <code>orchestrator</code> instance
-starts without these, but a schedule that needs one is skipped, saying
-why, until the instance has it:</p>
+<h3 id="give-the-scheduler-what-scheduled-jobs-use">为调度器提供计划的 Jobs 所需的设置</h3>
+<p><a href="schedule-jobs.html">计划的 Jobs</a> 由 <code>all</code> 和 <code>orchestrator</code> 实例启动，而不是由 <code>web</code> 启动。<code>orchestrator</code> 实例没有以下设置也能启动，但需要其中某项设置的计划会被跳过（并说明原因），直到该实例具备该设置为止：</p>
 <ul>
-<li><code>CONSOLE_PUPPET_SERVER_URL</code>, to start a scheduled task: the task is
-looked up in the deployed code when the schedule starts.</li>
-<li><code>CONSOLE_SECRETS_KEY_FILE</code>, the same key as on <code>web</code>, to start a
-scheduled task that has a sensitive parameter.</li>
+<li><code>CONSOLE_PUPPET_SERVER_URL</code>，用于启动计划的 Task：计划启动时，会在已 deploy 的代码中查找该 Task。</li>
+<li><code>CONSOLE_SECRETS_KEY_FILE</code>（与 <code>web</code> 上的密钥相同），用于启动带有敏感参数的计划 Task。</li>
 </ul>
-<p>When several instances run the scheduler, each due time is started by
-exactly one of them. If none is running when a schedule comes due, it
-starts when one is - unless that is more than 15 minutes late, in which
-case that time is recorded as missed.</p>
-<h3 id="give-non-issuing-modes-the-verification-keys">Give non-issuing modes the verification keys</h3>
-<p>An instance that only checks tokens reads the keys to check them against
-from a directory, one file per key, named after the key&#39;s ID. A
-deployment that has never rotated its key uses the ID <code>default</code>, so the
-directory holds one file, <code>default.pem</code>, which is the signing key file
-itself:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo install -d -m 0750 -o root -g openvox-console /etc/openvox-console/rbac-verification-keys
+<p>当多个实例运行调度器时，每个到期时间都只由其中一个实例启动。如果计划到期时没有实例在运行，它会在有实例运行时启动——除非已经晚了超过 15 分钟，那样的话该次时间会被记录为已错过。</p>
+<h3 id="give-non-issuing-modes-the-verification-keys">为不签发令牌的模式提供验证密钥</h3>
+<p>只校验令牌的实例会从一个目录中读取用于校验的密钥，每个密钥一个文件，以密钥 ID 命名。从未轮换过密钥的部署使用 ID <code>default</code>，因此该目录中只有一个文件 <code>default.pem</code>，也就是签名密钥文件本身：</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo install -d -m 0750 -o root -g openvox-console /etc/openvox-console/rbac-verification-keys
 sudo install -m 0640 -o root -g openvox-console \
   rbac-signing-key.pem /etc/openvox-console/rbac-verification-keys/default.pem
 </code></vox-code-block>
-<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>CONSOLE_RUN_MODE=enc
+<vox-code-block language="plaintext" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>CONSOLE_RUN_MODE=enc
 CONSOLE_RBAC_VERIFICATION_KEYS_DIR=/etc/openvox-console/rbac-verification-keys
 </code></vox-code-block>
-<vox-callout variant="warning" heading="Warning"><p>The verification directory currently accepts keys only in the same
-format as the signing key: the private key, of which the console uses
-only the public half. So an instance given the directory also holds a
-key that could sign tokens. Protect it on every host exactly as you
-protect the signing key, including <code>enc</code> instances beside the
-compilers.</p>
+<vox-callout variant="warning" heading="警告"><p>验证目录目前只接受与签名密钥格式相同的密钥：即私钥，控制台只使用其中的公钥部分。因此，被提供该目录的实例也持有一个可以签名令牌的密钥。请在每台主机上像保护签名密钥一样保护它，包括编译器旁边的 <code>enc</code> 实例。</p>
 </vox-callout>
-<p>When you rotate the signing key, every instance&#39;s verification directory
-needs the new key too; <a href="rotate-signing-key.html">Rotate the token signing key</a> covers the order.</p>
-<h2 id="changing-an-instance-s-mode">Changing an instance&#39;s mode</h2>
-<p>Set <code>CONSOLE_RUN_MODE</code> and restart the instance. No data moves: every
-mode reads and writes the same database. Setting it back to <code>all</code> undoes
-the change.</p>
-<p>A lone instance can change mode, but a mode other than <code>all</code> only makes
-sense among clustered instances that between them run every mode. See
-<a href="cluster.html">Run more instances</a>.</p>
+<p>轮换签名密钥时，每个实例的验证目录也需要加入新密钥；具体顺序参见<a href="rotate-signing-key.html">轮换令牌签名密钥</a>。</p>
+<h2 id="changing-an-instance-s-mode">更改实例的模式</h2>
+<p>设置 <code>CONSOLE_RUN_MODE</code> 并重启该实例。不会迁移任何数据：每种模式都读写同一个数据库。把它改回 <code>all</code> 即可撤销更改。</p>
+<p>单个实例也可以更改模式，但只有在多个集群实例共同运行所有模式时，<code>all</code> 以外的模式才有意义。参见<a href="cluster.html">运行更多实例</a>。</p>
 
     </div>
 
-    <vox-series-nav label="Scale" previous-text="Previous" next-text="Next" next-href="../guides/cluster.html" next-label="Run more instances"></vox-series-nav>
+    <vox-series-nav label="扩展" previous-text="上一篇" next-text="下一篇" next-href="../guides/cluster.html" next-label="运行更多实例"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#what-each-mode-runs"><span>What each mode runs</span>
+    <vox-toc heading="本页内容">
+      <vox-toc-item href="#what-each-mode-runs"><span>每种模式运行什么</span>
       </vox-toc-item>
-      <vox-toc-item href="#what-each-mode-needs"><span>What each mode needs</span>
-        <vox-toc-item slot="children" href="#give-the-scheduler-what-scheduled-jobs-use"><span>Give the scheduler what scheduled jobs use</span></vox-toc-item>
-        <vox-toc-item slot="children" href="#give-non-issuing-modes-the-verification-keys"><span>Give non-issuing modes the verification keys</span></vox-toc-item>
+      <vox-toc-item href="#what-each-mode-needs"><span>每种模式需要什么</span>
+        <vox-toc-item slot="children" href="#give-the-scheduler-what-scheduled-jobs-use"><span>为调度器提供计划的 Jobs 所需的设置</span></vox-toc-item>
+        <vox-toc-item slot="children" href="#give-non-issuing-modes-the-verification-keys"><span>为不签发令牌的模式提供验证密钥</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#changing-an-instance-s-mode"><span>Changing an instance&#39;s mode</span>
+      <vox-toc-item href="#changing-an-instance-s-mode"><span>更改实例的模式</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -326,23 +286,17 @@ sense among clustered instances that between them run every mode. See
 
       
       <vox-cta-band heading="自己动手运行">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console 以容器镜像形式发布，每次 push 都会构建 amd64 和 arm64 版本，同时也提供单个二进制文件。安装指南将带你从一台空主机走到一套可用的部署——openvoxserver、openvoxdb、Postgres 和控制台——可以用容器，也可以用软件包。</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">安装指南</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">GitHub 上的源码</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">容器镜像</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="全尺寸截图">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">关闭</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -351,18 +305,18 @@ sense among clustered instances that between them run every mode. See
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">概览</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">源码</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">安装指南</a>
       </vox-footer-column>
       <vox-footer-column heading="功能">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">分类</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">编排</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">补丁管理</a>
         <a href="../features/security.html">安全</a>
         <a href="../features/access-control.html">访问控制</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">AI 代理</a>
+        <a href="../features/scaling.html">扩展</a>
         </vox-footer-column>
       
       <vox-footer-column heading="语言">

@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="zh" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Enroll a node with one script on Linux, macOS or Windows, sign its certificate, and see it connect and run."/>
+    <meta name="description" content="在 Linux、macOS 或 Windows 上用一个脚本注册 Node，为其证书签名，并看到它连接和运行。"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Add nodes - OpenVox Console</title>
+    <title>添加 Nodes - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">指南</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,184 +104,143 @@
       <a href="../features/classification.html">分类</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">编排</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">补丁管理</a>
       <a href="../features/security.html">安全</a>
       <a href="../features/access-control.html">访问控制</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">AI 代理</a>
+      <a href="../features/scaling.html">扩展</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="指南" toggle-label="所有指南">
+    <vox-sidenav-group heading="安装">
+      <vox-sidenav-item href="../guides/plan.html"><span>规划部署</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>使用容器安装</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>从软件包和二进制文件安装</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes" open="">
-      <vox-sidenav-item href="../guides/add.html" current="" aria-current="page"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html" current="" aria-current="page"><span>添加 Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>管理 Node 证书</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>移除 Node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>保持 Node 代理为最新</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
-      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="扩展">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>运行模式</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>运行更多实例</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="使用">
+      <vox-sidenav-item href="../guides/classify.html"><span>为 Nodes 分类</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy 代码</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>运行 Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>运行 Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>计划 Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>用户、角色与令牌</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>跟踪漏洞</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>查找并应用缺失的更新</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>在没有代理的主机上运行 Tasks</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>运行代码中的 Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>让 AI 代理使用控制台</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="运维">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>故障切换到备用数据库</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>轮换令牌签名密钥</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>将容器数据库升级到 Postgres 18</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
     <p class="guide-eyebrow">Nodes</p>
-    <h1 class="guide-title vox-ts-xxl">Add nodes</h1>
-    <p class="guide-summary">Enroll a node with one script on Linux, macOS or Windows, sign its certificate, and see it connect and run.</p>
+    <h1 class="guide-title vox-ts-xxl">添加 Nodes</h1>
+    <p class="guide-summary">在 Linux、macOS 或 Windows 上用一个脚本注册 Node，为其证书签名，并看到它连接和运行。</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>Adding a node is one script, run once on the node. It installs the
-OpenVox agent, enrolls the node with the CA if it has no certificate yet,
-installs the console&#39;s node agent from the console&#39;s own package
-repository, and starts it as a service. It is safe to run again.</p>
-<h2 id="before-you-start">Before you start</h2>
-<p>The console has to know two addresses a node will use, both set when you
-installed it:</p>
+<p>添加 Node 只需一个脚本，在 Node 上运行一次即可。它会安装 OpenVox 代理；如果该 Node 还没有证书，就向 CA 注册；从控制台自己的软件包仓库安装控制台的 Node 代理，并将其作为服务启动。重复运行也是安全的。</p>
+<h2 id="before-you-start">开始之前</h2>
+<p>控制台需要知道 Node 将使用的两个地址，二者都在安装时设置：</p>
 <ul>
-<li><code>CONSOLE_NODE_TRANSPORT_PUBLIC_ADDR</code>, the address nodes dial to keep
-their connection to the console open. Its host must be in the node
-transport certificate.</li>
-<li><code>CONSOLE_PUPPET_SERVER_PUBLIC_ADDR</code>, the Puppet server a node enrolls
-against. It must be a name in openvoxserver&#39;s certificate. If it is
-unset, the script leaves the node&#39;s Puppet server configuration alone,
-which suits nodes already pointed at a server some other way.</li>
+<li><code>CONSOLE_NODE_TRANSPORT_PUBLIC_ADDR</code>，即 Nodes 为保持与控制台的连接而拨号的地址。其主机部分必须包含在 Node 传输证书中。</li>
+<li><code>CONSOLE_PUPPET_SERVER_PUBLIC_ADDR</code>，即 Node 注册时所针对的 Puppet 服务器。它必须是 openvoxserver 证书中的某个名称。如果未设置，脚本不会改动 Node 的 Puppet 服务器配置，这适合那些已经通过其他方式指向某台服务器的 Nodes。</li>
 </ul>
-<p>Each node must be able to reach the console&#39;s base URL, openvoxserver on
-port 8140, and the node transport address.</p>
-<vox-callout variant="info" heading="Note"><p>The published console image already contains the node agent packages
-the script installs. If you built the console yourself, build them
-before the console, as the packages install guide describes, or every
-node install fails with a 404.</p>
+<p>每个 Node 都必须能够访问控制台的基础 URL、8140 端口上的 openvoxserver 以及 Node 传输地址。</p>
+<vox-callout variant="info" heading="说明"><p>已发布的控制台镜像已经包含了脚本要安装的 Node 代理软件包。如果你自己构建控制台，请按照软件包安装指南所述，在构建控制台之前先构建它们，否则每次 Node 安装都会以 404 失败。</p>
 </vox-callout>
-<h2 id="run-the-install-script">Run the install script</h2>
-<p>On the node, as an administrator:</p>
-<vox-tabs class="guide-tabs"><vox-tab slot="tab" panel="tab1-linux" data-tab-key="linux" selected="">Linux</vox-tab><vox-tab-panel name="tab1-linux"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -fsSL https://console.example.com/packages/install.sh | sudo bash
-</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab1-macos" data-tab-key="macos">macOS</vox-tab><vox-tab-panel name="tab1-macos"><vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>curl -fsSL https://console.example.com/packages/install-macos.sh | sudo bash
-</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab1-windows" data-tab-key="windows">Windows</vox-tab><vox-tab-panel name="tab1-windows"><vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>Invoke-WebRequest https://console.example.com/packages/install.ps1 -OutFile install.ps1
+<h2 id="run-the-install-script">运行安装脚本</h2>
+<p>在 Node 上，以管理员身份执行：</p>
+<vox-tabs class="guide-tabs"><vox-tab slot="tab" panel="tab1-linux" data-tab-key="linux" selected="">Linux</vox-tab><vox-tab-panel name="tab1-linux"><vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>curl -fsSL https://console.example.com/packages/install.sh | sudo bash
+</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab1-macos" data-tab-key="macos">macOS</vox-tab><vox-tab-panel name="tab1-macos"><vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>curl -fsSL https://console.example.com/packages/install-macos.sh | sudo bash
+</code></vox-code-block></vox-tab-panel><vox-tab slot="tab" panel="tab1-windows" data-tab-key="windows">Windows</vox-tab><vox-tab-panel name="tab1-windows"><vox-code-block language="plaintext" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>Invoke-WebRequest https://console.example.com/packages/install.ps1 -OutFile install.ps1
 .\install.ps1
-</code></vox-code-block></vox-tab-panel></vox-tabs><p>On Windows, run PowerShell as Administrator.</p>
-<vox-callout variant="info" heading="Note"><p>The macOS and Windows scripts are checked by the project&#39;s tests but
-have not yet been run end to end on real macOS and Windows hosts, as
-the Linux script has. Report anything that does not go as described
-here.</p>
+</code></vox-code-block></vox-tab-panel></vox-tabs><p>在 Windows 上，请以管理员身份运行 PowerShell。</p>
+<vox-callout variant="info" heading="说明"><p>macOS 和 Windows 脚本已通过项目测试的检查，但还没有像 Linux 脚本那样在真实的 macOS 和 Windows 主机上完整地端到端运行过。如有任何与此处描述不符的情况，请反馈。</p>
 </vox-callout>
-<h2 id="sign-the-node-s-certificate">Sign the node&#39;s certificate</h2>
-<p>If the CA signs requests automatically, the script finishes on its own.
-If not, it waits for up to five minutes, checking every 15 seconds. Sign
-the request while it waits and the same run carries on to the end:</p>
+<h2 id="sign-the-node-s-certificate">为 Node 的证书签名</h2>
+<p>如果 CA 自动签发请求，脚本会自行完成。否则，它最多等待五分钟，每 15 秒检查一次。在它等待期间为请求签名，同一次运行就会继续执行到结束：</p>
 <ol>
-<li>Open the console&#39;s <strong>Nodes</strong> page. The node is listed with a pending
-certificate request.</li>
-<li>Choose <strong>Sign</strong>.</li>
+<li>打开控制台的 <strong>Nodes</strong> 页面。该 Node 会出现在列表中，并带有一个待处理的证书请求。</li>
+<li>选择<strong>签名</strong>。</li>
 </ol>
-<p>Signing from the console needs the certificate-admin credential, and a
-user holding the <code>nodes:certs:manage</code> permission; see
-<a href="certificates.html">Manage node certificates</a>. You can also sign on the
-CA host itself:</p>
-<vox-code-block language="sh" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>sudo /opt/puppetlabs/bin/puppetserver ca sign --certname &lt;node certname&gt;
+<p>从控制台签名需要证书管理员凭据，以及一个拥有 <code>nodes:certs:manage</code> 权限的用户；参见<a href="certificates.html">管理 Node 证书</a>。你也可以直接在 CA 主机上签名：</p>
+<vox-code-block language="sh" copy-label="复制代码" copied-label="已复制" copied-message="已复制到剪贴板"><code>sudo /opt/puppetlabs/bin/puppetserver ca sign --certname &lt;node certname&gt;
 </code></vox-code-block>
-<p>The script ends in one of three ways:</p>
+<p>脚本会以以下三种方式之一结束：</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>What happened</th>
-<th>What you see</th>
+<th>发生了什么</th>
+<th>你会看到什么</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>The request was signed while it waited</td>
-<td>It carries on and finishes the install</td>
+<td>请求在等待期间被签名</td>
+<td>它会继续并完成安装</td>
 </tr>
 <tr>
-<td>The wait ran out with the request still unsigned</td>
-<td>It stops, naming the Nodes page to sign it on; sign it, then run the script again</td>
+<td>等待超时，请求仍未签名</td>
+<td>它会停止，并指明到 Nodes 页面去签名；签名后再次运行脚本</td>
 </tr>
 <tr>
-<td>It could not reach the CA</td>
-<td>It stops, reporting a connection or TLS problem - not a pending request</td>
+<td>它无法访问 CA</td>
+<td>它会停止，并报告连接或 TLS 问题——而不是待处理的请求</td>
 </tr>
 </tbody>
 </table></div>
-<vox-callout variant="tip" heading="Tip"><p>An unreachable CA is only reported once the full wait has passed,
-because the agent keeps retrying in case the problem is brief. If you
-see a connection error, check name resolution and port 8140 rather than
-looking for a request to sign.</p>
+<vox-callout variant="tip" heading="提示"><p>CA 无法访问的情况要等完整的等待时间过去后才会报告，因为代理会不断重试，以防问题只是短暂的。如果看到连接错误，请检查名称解析和 8140 端口，而不是去找待签名的请求。</p>
 </vox-callout>
-<h2 id="see-the-node-connect">See the node connect</h2>
-<p>On the <strong>Nodes</strong> page, the node shows as connected, with a signed
-certificate.</p>
-<p>A node that connects before it has ever reported to openvoxdb would
-otherwise sit there empty until its next scheduled Puppet run, so the
-console starts its first run for it straight away. That run appears on
-the <strong>Jobs</strong> page like any other, recorded as started by
-<code>system:initial-run</code>. Once it finishes, the node&#39;s page shows its facts,
-its reports and the classes applied to it.</p>
-<h2 id="after-that-the-node-agent-looks-after-itself">After that, the node agent looks after itself</h2>
-<p>You do not run the script again to upgrade the node agent. When you
-upgrade the console, it upgrades the node agent on each connected node
-for you; see <a href="agent-upgrades.html">Keep node agents current</a>.</p>
-<h2 id="report-the-node-s-packages-optional">Report the node&#39;s packages (optional)</h2>
-<p>Package inventory is off for each node until you turn it on. On the
-node&#39;s page, in its <strong>Packages</strong> section, switch reporting on. The
-console tells the node to add the package fact and runs Puppet straight
-away, so the inventory appears within that run rather than at the next
-scheduled one. Switching it off removes the fact the same way.</p>
-<p>The switch needs the <code>orchestrator:run</code> permission, and works only while
-the node is connected: it acts on the node there and then, rather than
-queueing a change for later.</p>
+<h2 id="see-the-node-connect">查看 Node 连接</h2>
+<p>在 <strong>Nodes</strong> 页面上，该 Node 显示为已连接，并持有已签名的证书。</p>
+<p>如果一个 Node 在从未向 openvoxdb 上报过的情况下就建立了连接，它本会一直空着，直到下一次计划内的 Puppet 运行，因此控制台会立即为它启动首次运行。该运行会像其他运行一样出现在 <strong>Jobs</strong> 页面上，记录为由 <code>system:initial-run</code> 启动。完成后，该 Node 的页面会显示它的 Facts、Reports 以及应用于它的类。</p>
+<h2 id="after-that-the-node-agent-looks-after-itself">此后，Node 代理会自行照管</h2>
+<p>升级 Node 代理时无需再次运行脚本。当你升级控制台时，它会替你升级每个已连接 Node 上的 Node 代理；参见<a href="agent-upgrades.html">保持 Node 代理为最新</a>。</p>
+<h2 id="report-the-node-s-packages-optional">上报 Node 的软件包（可选）</h2>
+<p>每个 Node 的软件包清单默认关闭，直到你开启它。在该 Node 的页面上，于其<strong>软件包</strong>部分打开上报。控制台会通知该 Node 添加软件包 Fact，并立即运行 Puppet，因此清单会在这次运行中出现，而不必等到下一次计划运行。关闭上报时，也会以同样的方式删除该 Fact。</p>
+<p>该开关需要 <code>orchestrator:run</code> 权限，并且只在 Node 已连接时有效：它会当场对该 Node 执行操作，而不是把更改排队留待以后。</p>
 
     </div>
 
-    <vox-series-nav label="Nodes" previous-text="Previous" next-text="Next" next-href="../guides/certificates.html" next-label="Manage node certificates"></vox-series-nav>
+    <vox-series-nav label="Nodes" previous-text="上一篇" next-text="下一篇" next-href="../guides/certificates.html" next-label="管理 Node 证书"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#before-you-start"><span>Before you start</span>
+    <vox-toc heading="本页内容">
+      <vox-toc-item href="#before-you-start"><span>开始之前</span>
       </vox-toc-item>
-      <vox-toc-item href="#run-the-install-script"><span>Run the install script</span>
+      <vox-toc-item href="#run-the-install-script"><span>运行安装脚本</span>
       </vox-toc-item>
-      <vox-toc-item href="#sign-the-node-s-certificate"><span>Sign the node&#39;s certificate</span>
+      <vox-toc-item href="#sign-the-node-s-certificate"><span>为 Node 的证书签名</span>
       </vox-toc-item>
-      <vox-toc-item href="#see-the-node-connect"><span>See the node connect</span>
+      <vox-toc-item href="#see-the-node-connect"><span>查看 Node 连接</span>
       </vox-toc-item>
-      <vox-toc-item href="#after-that-the-node-agent-looks-after-itself"><span>After that, the node agent looks after itself</span>
+      <vox-toc-item href="#after-that-the-node-agent-looks-after-itself"><span>此后，Node 代理会自行照管</span>
       </vox-toc-item>
-      <vox-toc-item href="#report-the-node-s-packages-optional"><span>Report the node&#39;s packages (optional)</span>
+      <vox-toc-item href="#report-the-node-s-packages-optional"><span>上报 Node 的软件包（可选）</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -291,23 +250,17 @@ queueing a change for later.</p>
 
       
       <vox-cta-band heading="自己动手运行">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console 以容器镜像形式发布，每次 push 都会构建 amd64 和 arm64 版本，同时也提供单个二进制文件。安装指南将带你从一台空主机走到一套可用的部署——openvoxserver、openvoxdb、Postgres 和控制台——可以用容器，也可以用软件包。</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">安装指南</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">GitHub 上的源码</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">容器镜像</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="全尺寸截图">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">关闭</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -316,18 +269,18 @@ queueing a change for later.</p>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">概览</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">源码</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">安装指南</a>
       </vox-footer-column>
       <vox-footer-column heading="功能">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">分类</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">编排</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">补丁管理</a>
         <a href="../features/security.html">安全</a>
         <a href="../features/access-control.html">访问控制</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">AI 代理</a>
+        <a href="../features/scaling.html">扩展</a>
         </vox-footer-column>
       
       <vox-footer-column heading="语言">

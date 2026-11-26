@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="ar" dir="rtl"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Delete a node from the console, what that does in openvoxdb and the CA, and what it keeps."/>
+    <meta name="description" content="احذف Node من وحدة التحكم، وما يفعله ذلك في openvoxdb والـ CA، وما الذي يُبقيه."/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Remove a node - OpenVox Console</title>
+    <title>إزالة Node - OpenVox Console</title>
 
     
     <script>
@@ -93,7 +93,7 @@
       </nav>
       <vox-theme-toggle slot="actions"></vox-theme-toggle>
       
-      <a aria-current="page" href="../guides/index.html" slot="actions">Guides</a>
+      <a aria-current="page" href="../guides/index.html" slot="actions">الأدلة</a>
       <a href="https://github.com/avitacco/openvox-console" rel="noopener" slot="actions" target="_blank">GitHub</a>
     </vox-header>
 
@@ -104,109 +104,101 @@
       <a href="../features/classification.html">التصنيف</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">التنسيق</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">تثبيت التصحيحات</a>
       <a href="../features/security.html">الأمان</a>
       <a href="../features/access-control.html">التحكم في الوصول</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">وكلاء الذكاء الاصطناعي</a>
+      <a href="../features/scaling.html">التوسّع</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="الأدلة" toggle-label="كل الأدلة">
+    <vox-sidenav-group heading="التثبيت">
+      <vox-sidenav-item href="../guides/plan.html"><span>خطّط للنشر</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>التثبيت باستخدام الحاويات</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>التثبيت من الحزم والملفات التنفيذية</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes" open="">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html" current="" aria-current="page"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>إضافة Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>إدارة شهادات الـ Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html" current="" aria-current="page"><span>إزالة Node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>إبقاء وكلاء الـ Nodes محدَّثين</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
-      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="التوسّع">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>أوضاع التشغيل</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>تشغيل مزيد من المثيلات</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="الاستخدام">
+      <vox-sidenav-item href="../guides/classify.html"><span>تصنيف الـ Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>deploy الكود</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>تشغيل الـ Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>تشغيل الـ Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>جدولة الـ Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>المستخدمون والأدوار والرموز</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>تتبّع الثغرات</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>العثور على التحديثات الناقصة وتطبيقها</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>تشغيل Tasks على مضيفين بلا وكيل</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>تشغيل Plans من الكود الخاص بك</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html"><span>السماح لوكلاء الذكاء الاصطناعي باستخدام وحدة التحكم</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="التشغيل">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>الانتقال إلى قاعدة بيانات احتياطية عند الفشل</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>تدوير مفتاح توقيع الرموز</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>ترقية قواعد بيانات الحاويات إلى Postgres 18</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
     <p class="guide-eyebrow">Nodes</p>
-    <h1 class="guide-title vox-ts-xxl">Remove a node</h1>
-    <p class="guide-summary">Delete a node from the console, what that does in openvoxdb and the CA, and what it keeps.</p>
+    <h1 class="guide-title vox-ts-xxl">إزالة Node</h1>
+    <p class="guide-summary">احذف Node من وحدة التحكم، وما يفعله ذلك في openvoxdb والـ CA، وما الذي يُبقيه.</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<h2 id="delete-a-node">Delete a node</h2>
-<p>On the <strong>Nodes</strong> page, choose <strong>Delete</strong> on the node, and confirm. This
-needs the <code>nodes:manage</code> permission, on a role whose node groups
-include the node.</p>
-<p>Deleting does two things, together:</p>
+<h2 id="delete-a-node">احذف Node</h2>
+<p>في صفحة <strong>Nodes</strong>، اختر <strong>حذف</strong> على الـ Node، وأكّد. يحتاج هذا إلى الإذن <code>nodes:manage</code>، على دور تتضمن مجموعات الـ Nodes الخاصة به ذلك الـ Node.</p>
+<figure class="shot">
+  <a class="shot-link" href="../../assets/screenshots/node-delete-confirm-light-ar.png">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="../../assets/screenshots/node-delete-confirm-dark-ar.png" data-theme-dark="../../assets/screenshots/node-delete-confirm-dark-ar.png" data-theme-light="../../assets/screenshots/node-delete-confirm-light-ar.png"/>
+      <img src="../../assets/screenshots/node-delete-confirm-light-ar.png" alt="رسالة التأكيد المعروضة قبل حذف Node، توضّح أنه يغادر القائمة فورًا، وأن openvoxdb يزيل سجله لاحقًا، وأن وحدة التحكم لا تستطيع التراجع عن ذلك" width="1440"/>
+    </picture>
+    <span class="vox-sr-only">Open full size</span>
+  </a>
+</figure>
+<p>يفعل الحذف أمرين معًا:</p>
 <ul>
-<li>it <strong>deactivates the node in openvoxdb</strong>, so it no longer appears in
-the fleet;</li>
-<li>it <strong>cleans the node&#39;s certificate from the CA</strong>, the same as the
-<strong>Clean</strong> action, so the certname can never authenticate again and is
-free to enroll afresh.</li>
+<li><strong>يعطّل الـ Node في openvoxdb</strong>، فلا يعود يظهر في الأسطول؛</li>
+<li><strong>ينظّف شهادة الـ Node من الـ CA</strong>، مثل إجراء <strong>تنظيف</strong> تمامًا، فلا يعود الـ certname قادرًا على المصادقة أبدًا، ويصبح حرًّا في التسجيل من جديد.</li>
 </ul>
-<p>Both halves are needed for the node to disappear from the page, which
-lists nodes known to openvoxdb and nodes known to the CA. If the console
-has no certificate-admin credential, only the openvoxdb half happens, and
-the node may go on appearing through its certificate.</p>
-<p>Before deleting a machine you are decommissioning, stop its node agent
-and Puppet agent, or remove them, so it does not report or connect again.</p>
-<h2 id="what-deleting-does-not-do">What deleting does not do</h2>
+<p>يلزم الشقّان كلاهما كي يختفي الـ Node من الصفحة، التي تسرد الـ Nodes المعروفة لدى openvoxdb والـ Nodes المعروفة لدى الـ CA. وإذا لم تكن لدى وحدة التحكم بيانات اعتماد إدارة الشهادات، فلا يحدث إلا شقّ openvoxdb، وقد يستمر الـ Node في الظهور عبر شهادته.</p>
+<p>قبل حذف جهاز تُخرجه من الخدمة، أوقف وكيل الـ Node ووكيل Puppet عليه، أو أزِلهما، حتى لا يعود إلى الإبلاغ أو الاتصال.</p>
+<h2 id="what-deleting-does-not-do">ما لا يفعله الحذف</h2>
 <ul>
-<li><strong>It does not erase the node&#39;s history straight away.</strong> Its facts,
-catalogs and reports stay in openvoxdb until openvoxdb&#39;s own garbage
-collection removes them, on its own schedule.</li>
-<li><strong>There is no list of deleted nodes.</strong> openvoxdb leaves deactivated
-nodes out of every listing, and the console keeps no separate record,
-so a deleted node is gone from the console&#39;s pages.</li>
+<li><strong>لا يمحو سجل الـ Node فورًا.</strong> تبقى الـ Facts والـ catalogs والـ Reports الخاصة به في openvoxdb حتى يزيلها جمع المهملات الخاص بـ openvoxdb، وفق جدوله الخاص.</li>
+<li><strong>لا توجد قائمة بالـ Nodes المحذوفة.</strong> يستبعد openvoxdb الـ Nodes المعطَّلة من كل قائمة، ولا تحتفظ وحدة التحكم بسجل منفصل، لذا يختفي الـ Node المحذوف من صفحات وحدة التحكم.</li>
 </ul>
-<h2 id="bring-a-node-back">Bring a node back</h2>
-<p>A deleted node&#39;s certificate has been cleaned, so bringing it back is the
-same as adding a new node: run the install script on it again, and sign
-its new request. See <a href="add.html">Add nodes</a>.</p>
+<h2 id="bring-a-node-back">أعِد Node</h2>
+<p>شهادة الـ Node المحذوف قد نُظِّفت، لذا فإن إعادته مثل إضافة Node جديد تمامًا: شغّل سكربت التثبيت عليه مجددًا، ووقّع طلبه الجديد. راجع <a href="add.html">إضافة Nodes</a>.</p>
 
     </div>
 
-    <vox-series-nav label="Nodes" previous-text="Previous" next-text="Next" previous-href="../guides/certificates.html" previous-label="Manage node certificates" next-href="../guides/agent-upgrades.html" next-label="Keep node agents current"></vox-series-nav>
+    <vox-series-nav label="Nodes" previous-text="السابق" next-text="التالي" previous-href="../guides/certificates.html" previous-label="إدارة شهادات الـ Nodes" next-href="../guides/agent-upgrades.html" next-label="إبقاء وكلاء الـ Nodes محدَّثين"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#delete-a-node"><span>Delete a node</span>
+    <vox-toc heading="في هذه الصفحة">
+      <vox-toc-item href="#delete-a-node"><span>احذف Node</span>
       </vox-toc-item>
-      <vox-toc-item href="#what-deleting-does-not-do"><span>What deleting does not do</span>
+      <vox-toc-item href="#what-deleting-does-not-do"><span>ما لا يفعله الحذف</span>
       </vox-toc-item>
-      <vox-toc-item href="#bring-a-node-back"><span>Bring a node back</span>
+      <vox-toc-item href="#bring-a-node-back"><span>أعِد Node</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -216,23 +208,17 @@ its new request. See <a href="add.html">Add nodes</a>.</p>
 
       
       <vox-cta-band heading="شغّله بنفسك">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>يُوزَّع OpenVox Console على هيئة صور حاويات تُبنى لمعماريتَي amd64 وarm64 مع كل push، وعلى هيئة ملف تنفيذي واحد. تأخذك أدلة التثبيت من مضيف فارغ إلى نشر عامل - openvoxserver وopenvoxdb وPostgres ووحدة التحكم - باستخدام الحاويات أو الحزم.</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">أدلة التثبيت</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">الشيفرة المصدرية على GitHub</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">صور الحاويات</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="لقطة الشاشة بالحجم الكامل">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">إغلاق</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -241,18 +227,18 @@ its new request. See <a href="add.html">Add nodes</a>.</p>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">نظرة عامة</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">الشيفرة المصدرية</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">أدلة التثبيت</a>
       </vox-footer-column>
       <vox-footer-column heading="الإمكانات">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">التصنيف</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">التنسيق</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">تثبيت التصحيحات</a>
         <a href="../features/security.html">الأمان</a>
         <a href="../features/access-control.html">التحكم في الوصول</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">وكلاء الذكاء الاصطناعي</a>
+        <a href="../features/scaling.html">التوسّع</a>
         </vox-footer-column>
       
       <vox-footer-column heading="اللغة">

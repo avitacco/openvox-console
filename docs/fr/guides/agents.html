@@ -1,11 +1,11 @@
 <!DOCTYPE html><html lang="fr" dir="ltr"><head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="description" content="Give an AI agent its own limited token, let it read the fleet and ask for changes, and approve each change yourself before anything runs."/>
+    <meta name="description" content="Donnez à un agent d&#39;IA son propre jeton limité, laissez-le lire le parc et demander des changements, et approuvez vous-même chaque changement avant que quoi que ce soit ne s&#39;exécute."/>
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,500&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
-    <title>Let AI agents use the console - OpenVox Console</title>
+    <title>Laisser des agents d&#39;IA utiliser la console - OpenVox Console</title>
 
     
     <script>
@@ -104,149 +104,121 @@
       <a href="../features/classification.html">Classification</a>
       <a href="../features/code.html">Code</a>
       <a href="../features/orchestration.html">Orchestration</a>
-      <a href="../features/patching.html">Patching</a>
+      <a href="../features/patching.html">Mise à jour corrective</a>
       <a href="../features/security.html">Sécurité</a>
       <a href="../features/access-control.html">Contrôle d&#39;accès</a>
-      <a href="../features/ai-agents.html">AI agents</a>
-      <a href="../features/scaling.html">Scaling</a>
+      <a href="../features/ai-agents.html">Agents d&#39;IA</a>
+      <a href="../features/scaling.html">Montée en charge</a>
       </vox-subnav>
     </div>
 
     <main id="main">
       <div class="site-main vox-container">
 <div class="guide-layout">
-  <vox-sidenav class="guide-nav" label="Guides" toggle-label="All guides">
-    <vox-sidenav-group heading="Install">
-      <vox-sidenav-item href="../guides/plan.html"><span>Plan a deployment</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/containers.html"><span>Install with containers</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/packages.html"><span>Install from packages and binaries</span></vox-sidenav-item>
+  <vox-sidenav class="guide-nav" label="Guides" toggle-label="Tous les guides">
+    <vox-sidenav-group heading="Installer">
+      <vox-sidenav-item href="../guides/plan.html"><span>Planifier un déploiement</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/containers.html"><span>Installer avec des conteneurs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/packages.html"><span>Installer à partir de paquets et de binaires</span></vox-sidenav-item>
       </vox-sidenav-group>
     <vox-sidenav-group heading="Nodes">
-      <vox-sidenav-item href="../guides/add.html"><span>Add nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/certificates.html"><span>Manage node certificates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/remove.html"><span>Remove a node</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Keep node agents current</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/add.html"><span>Ajouter des Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/certificates.html"><span>Gérer les certificats des Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/remove.html"><span>Retirer un Node</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agent-upgrades.html"><span>Tenir les agents de Node à jour</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Scale">
-      <vox-sidenav-item href="../guides/run-modes.html"><span>Run modes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/cluster.html"><span>Run more instances</span></vox-sidenav-item>
+    <vox-sidenav-group heading="Passer à l&#39;échelle">
+      <vox-sidenav-item href="../guides/run-modes.html"><span>Modes d&#39;exécution</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/cluster.html"><span>Faire tourner plus d&#39;instances</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Use" open="">
-      <vox-sidenav-item href="../guides/classify.html"><span>Classify nodes</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/deploy-code.html"><span>Deploy code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-jobs.html"><span>Run jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/run-plans.html"><span>Run plans</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Schedule jobs</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/access.html"><span>Users, roles and tokens</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Track vulnerabilities</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/patching.html"><span>Find and apply missing updates</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agentless.html"><span>Run tasks on hosts without an agent</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/code-plans.html"><span>Run plans from your code</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/agents.html" current="" aria-current="page"><span>Let AI agents use the console</span></vox-sidenav-item>
+    <vox-sidenav-group heading="Utiliser" open="">
+      <vox-sidenav-item href="../guides/classify.html"><span>Classifier les Nodes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/deploy-code.html"><span>Déployer du code</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-jobs.html"><span>Lancer des Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/run-plans.html"><span>Exécuter des Plans</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/schedule-jobs.html"><span>Planifier des Jobs</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/access.html"><span>Utilisateurs, rôles et jetons</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/vulnerabilities.html"><span>Suivre les vulnérabilités</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/patching.html"><span>Trouver et appliquer les mises à jour manquantes</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agentless.html"><span>Exécuter des Tasks sur des hôtes sans agent</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/code-plans.html"><span>Exécuter des Plans issus de votre code</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/agents.html" current="" aria-current="page"><span>Laisser des agents d&#39;IA utiliser la console</span></vox-sidenav-item>
       </vox-sidenav-group>
-    <vox-sidenav-group heading="Operate">
-      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Fail over to a standby database</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Rotate the token signing key</span></vox-sidenav-item>
-      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Upgrade the container databases to Postgres 18</span></vox-sidenav-item>
+    <vox-sidenav-group heading="Exploiter">
+      <vox-sidenav-item href="../guides/postgres-failover.html"><span>Basculer vers une base de données de secours</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/rotate-signing-key.html"><span>Renouveler la clé de signature des jetons</span></vox-sidenav-item>
+      <vox-sidenav-item href="../guides/upgrade-postgres.html"><span>Mettre à niveau les bases de données en conteneurs vers Postgres 18</span></vox-sidenav-item>
       </vox-sidenav-group>
     </vox-sidenav>
 
   <article class="guide">
-    <p class="guide-eyebrow">Use</p>
-    <h1 class="guide-title vox-ts-xxl">Let AI agents use the console</h1>
-    <p class="guide-summary">Give an AI agent its own limited token, let it read the fleet and ask for changes, and approve each change yourself before anything runs.</p>
+    <p class="guide-eyebrow">Utiliser</p>
+    <h1 class="guide-title vox-ts-xxl">Laisser des agents d&#39;IA utiliser la console</h1>
+    <p class="guide-summary">Donnez à un agent d&#39;IA son propre jeton limité, laissez-le lire le parc et demander des changements, et approuvez vous-même chaque changement avant que quoi que ce soit ne s&#39;exécute.</p>
 
     
-    <vox-callout variant="info" heading="Not fully translated yet">
-      <p>Parts of this guide have not been translated into this language yet, and are shown in English.</p>
-    </vox-callout>
+    
 
     <div class="guide-body vox-prose">
-<p>The console has an endpoint for AI agents, built on MCP (the Model Context
-Protocol), at <code>/mcp</code>. An agent connected to it can look at your nodes, node
-groups, tasks and jobs. When it wants to change something - run a task, run
-Puppet, run a plan or patch nodes - it does not start anything. It <strong>asks</strong>,
-and the request waits on the <strong>Approvals</strong> page until a person approves it.</p>
-<p>Everything an agent can see or ask for is limited by its own token: which
-permissions it has, which node groups it can reach, and which tasks it may
-ask to run. Everything it does is in the audit log under its own name.</p>
-<h2 id="turn-the-endpoint-on">Turn the endpoint on</h2>
-<p>The endpoint is off. Set <code>CONSOLE_MCP_ENABLED=true</code> on the console and
-restart it. Until then <code>/mcp</code> does not exist: it answers as any unknown
-path does.</p>
+<p>La console dispose d&#39;un endpoint pour les agents d&#39;IA, fondé sur MCP (Model Context Protocol), à <code>/mcp</code>. Un agent qui s&#39;y connecte peut consulter vos Nodes, groupes de Nodes, Tasks et Jobs. Lorsqu&#39;il veut changer quelque chose - exécuter un Task, exécuter Puppet, exécuter un Plan ou corriger des Nodes -, il ne lance rien. Il <strong>demande</strong>, et la demande attend sur la page <strong>Approbations</strong> qu&#39;une personne l&#39;approuve.</p>
+<p>Tout ce qu&#39;un agent peut voir ou demander est limité par son propre jeton : ses permissions, les groupes de Nodes qu&#39;il peut atteindre et les Tasks dont il peut demander l&#39;exécution. Tout ce qu&#39;il fait figure dans le journal d&#39;audit sous son propre nom.</p>
+<h2 id="turn-the-endpoint-on">Activer l&#39;endpoint</h2>
+<p>L&#39;endpoint est désactivé. Définissez <code>CONSOLE_MCP_ENABLED=true</code> sur la console et redémarrez-la. D&#39;ici là, <code>/mcp</code> n&#39;existe pas : il répond comme n&#39;importe quel chemin inconnu.</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Setting</th>
-<th>Meaning</th>
-<th>Default</th>
+<th>Paramètre</th>
+<th>Signification</th>
+<th>Par défaut</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>CONSOLE_MCP_ENABLED</code></td>
-<td>serve <code>/mcp</code></td>
-<td>off</td>
+<td>servir <code>/mcp</code></td>
+<td>désactivé</td>
 </tr>
 <tr>
 <td><code>CONSOLE_MCP_RATE_LIMIT</code></td>
-<td>calls a minute one token may make</td>
+<td>nombre d&#39;appels par minute autorisés pour un jeton</td>
 <td>60</td>
 </tr>
 <tr>
 <td><code>CONSOLE_AGENT_REQUEST_TTL</code></td>
-<td>how long a request waits for a decision, such as <code>30m</code></td>
+<td>le temps pendant lequel une demande attend une décision, par exemple <code>30m</code></td>
 <td><code>1h</code></td>
 </tr>
 <tr>
 <td><code>CONSOLE_AGENT_TOKEN_MAX_DAYS</code></td>
-<td>the longest an agent token may last</td>
+<td>la durée de vie maximale d&#39;un jeton d&#39;agent</td>
 <td>90</td>
 </tr>
 </tbody>
 </table></div>
-<p>The rate limit is kept by each console instance, so a token may make that
-many calls a minute on every instance. Put the endpoint behind TLS, as you
-do the rest of the console: the token is a bearer credential.</p>
-<h2 id="issue-a-token-for-an-agent">Issue a token for an agent</h2>
-<p>An agent token is its own kind of token. It is not a service token: it
-expires, it is limited to node groups, and it works only at <code>/mcp</code>. A leaked
-one cannot be used against the rest of the console&#39;s API.</p>
+<p>La limite de débit est tenue par chaque instance de la console : un jeton peut donc effectuer ce nombre d&#39;appels par minute sur chaque instance. Placez l&#39;endpoint derrière TLS, comme le reste de la console : le jeton est un identifiant de type bearer.</p>
+<h2 id="issue-a-token-for-an-agent">Émettre un jeton pour un agent</h2>
+<p>Un jeton d&#39;agent est un type de jeton à part. Ce n&#39;est pas un jeton de service : il expire, il est limité à des groupes de Nodes, et il ne fonctionne qu&#39;à <code>/mcp</code>. Un jeton d&#39;agent qui a fuité ne peut pas être utilisé contre le reste de l&#39;API de la console.</p>
 <ol>
-<li>Open <strong>Admin</strong>, then <strong>Agent tokens</strong>.</li>
-<li>Name the token for the agent it is for, such as <code>ops-assistant</code>.</li>
-<li>Choose its <strong>permissions</strong>. An agent token can carry only
-<code>nodes:read</code>, <code>classifier:read</code>, <code>orchestrator:read</code>, <code>orchestrator:run</code>
-and <code>vulnerabilities:read</code>.
-<code>orchestrator:run</code> does not let the agent run anything: it lets it
-<strong>ask</strong>.</li>
-<li>Choose the <strong>node groups</strong> it may reach. A token with none reaches no
-nodes. Everything the agent reads or asks for is limited to those groups
-and the groups beneath them.</li>
-<li>Optionally, under <strong>Tasks it may ask to run</strong>, list the tasks it may ask
-for, one pattern per line, as for a <a href="access.html#limit-a-role-to-some-tasks">role</a>.
-Leave it empty to allow every task. Both the node groups and the tasks
-are fixed when the token is created.</li>
-<li>Set how many days it lasts. A token must expire, and cannot last longer
-than <code>CONSOLE_AGENT_TOKEN_MAX_DAYS</code>. Thirty days is a good start.</li>
-<li>Choose <strong>Create agent token</strong> and copy the token: it is shown once.</li>
+<li>Ouvrez <strong>Administration</strong>, puis <strong>Jetons d&#39;agent</strong>.</li>
+<li>Nommez le jeton d&#39;après l&#39;agent auquel il est destiné, par exemple <code>ops-assistant</code>.</li>
+<li>Choisissez ses <strong>permissions</strong>. Un jeton d&#39;agent ne peut porter que <code>nodes:read</code>, <code>classifier:read</code>, <code>orchestrator:read</code>, <code>orchestrator:run</code> et <code>vulnerabilities:read</code>. <code>orchestrator:run</code> ne permet à l&#39;agent de rien exécuter : il lui permet de <strong>demander</strong>.</li>
+<li>Choisissez les <strong>groupes de Nodes</strong> qu&#39;il peut atteindre. Un jeton sans groupe n&#39;atteint aucun Node. Tout ce que l&#39;agent lit ou demande est limité à ces groupes et aux groupes situés en dessous.</li>
+<li>Vous pouvez aussi, sous <strong>Tasks qu&#39;il peut demander d&#39;exécuter</strong>, lister les Tasks qu&#39;il peut demander, un motif par ligne, comme pour un <a href="access.html#limit-a-role-to-some-tasks">rôle</a>. Laissez vide pour autoriser tous les Tasks. Les groupes de Nodes comme les Tasks sont figés à la création du jeton.</li>
+<li>Fixez sa durée de vie en jours. Un jeton doit expirer, et ne peut pas durer plus longtemps que <code>CONSOLE_AGENT_TOKEN_MAX_DAYS</code>. Trente jours constituent un bon point de départ.</li>
+<li>Choisissez <strong>Créer un jeton d&#39;agent</strong> et copiez le jeton : il n&#39;est affiché qu&#39;une fois.</li>
 </ol>
-<p><strong>Revoke</strong> on the same page ends the token at once, on every console
-instance. Its requests stay on the Approvals page as a record, and any it
-had waiting are marked failed.</p>
-<h2 id="connect-an-agent">Connect an agent</h2>
-<p>Give the agent the console&#39;s address with <code>/mcp</code> on the end, and the token
-as a bearer token. The endpoint speaks streamable HTTP, and answers each
-POSTed message directly. For Claude Code, for example:</p>
-<vox-code-block language="plaintext" copy-label="Copy code" copied-label="Copied" copied-message="Copied to clipboard"><code>claude mcp add --transport http openvox https://console.example.com/mcp \
+<p><strong>Révoquer</strong>, sur la même page, met fin immédiatement au jeton, sur toutes les instances de la console. Ses requêtes restent sur la page Approbations pour mémoire, et celles qui étaient en attente sont marquées en échec.</p>
+<h2 id="connect-an-agent">Connecter un agent</h2>
+<p>Donnez à l&#39;agent l&#39;adresse de la console suivie de <code>/mcp</code>, et le jeton en tant que bearer token. L&#39;endpoint parle le HTTP streamable et répond directement à chaque message envoyé par POST. Pour Claude Code, par exemple :</p>
+<vox-code-block language="plaintext" copy-label="Copier le code" copied-label="Copié" copied-message="Copié dans le presse-papiers"><code>claude mcp add --transport http openvox https://console.example.com/mcp \
   --header &#34;Authorization: Bearer &lt;the token&gt;&#34;
 </code></vox-code-block>
-<p>The agent is offered only the tools its token allows.</p>
+<p>Seuls les outils qu&#39;autorise son jeton sont proposés à l&#39;agent.</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
-<th>Tool</th>
-<th>Needs</th>
+<th>Outil</th>
+<th>Nécessite</th>
 <th>Ce qu&#39;elle fait</th>
 </tr>
 </thead>
@@ -254,148 +226,111 @@ POSTed message directly. For Claude Code, for example:</p>
 <tr>
 <td><code>list_nodes</code>, <code>get_node</code>, <code>get_node_reports</code></td>
 <td><code>nodes:read</code></td>
-<td>look at nodes, their facts and reports</td>
+<td>consulter les Nodes, leurs Facts et leurs Reports</td>
 </tr>
 <tr>
 <td><code>get_node_patches</code>, <code>get_patch_inventory</code></td>
 <td><code>nodes:read</code></td>
-<td>pending operating system updates</td>
+<td>les mises à jour du système d&#39;exploitation en attente</td>
 </tr>
 <tr>
 <td><code>list_groups</code>, <code>get_group</code>, <code>get_group_nodes</code></td>
 <td><code>classifier:read</code></td>
-<td>node groups</td>
+<td>groupes de Nodes</td>
 </tr>
 <tr>
 <td><code>list_tasks</code>, <code>get_task</code>, <code>list_code_plans</code>, <code>get_code_plan</code></td>
 <td><code>orchestrator:read</code></td>
-<td>what the deployed code offers, and each one&#39;s parameters</td>
+<td>ce que propose le code déployé, et les paramètres de chaque élément</td>
 </tr>
 <tr>
 <td><code>list_jobs</code>, <code>get_job</code></td>
 <td><code>orchestrator:read</code></td>
-<td>jobs and their results</td>
+<td>les Jobs et leurs résultats</td>
 </tr>
 <tr>
 <td><code>resolve_targets</code></td>
 <td><code>orchestrator:run</code></td>
-<td>which nodes a target would name</td>
+<td>les Nodes que désignerait une cible</td>
 </tr>
 <tr>
 <td><code>request_task</code>, <code>request_puppet_run</code>, <code>request_plan</code>, <code>request_patch_run</code>, <code>request_code_plan</code></td>
 <td><code>orchestrator:run</code></td>
-<td>ask to run something (see below)</td>
+<td>demander l&#39;exécution de quelque chose (voir ci-dessous)</td>
 </tr>
 <tr>
 <td><code>get_request</code>, <code>list_requests</code></td>
 <td><code>orchestrator:run</code></td>
-<td>the agent&#39;s own requests and how they were decided</td>
+<td>les demandes de l&#39;agent lui-même et les décisions prises</td>
 </tr>
 </tbody>
 </table></div>
-<p>Everything an agent reads comes through the console&#39;s own endpoints with its
-token, so it sees exactly what a person with that token&#39;s permissions and node
-groups would, and sensitive values are masked as everywhere else. A long
-result is cut, with a note telling the agent how to ask for less.</p>
-<h2 id="approve-what-an-agent-asks-for">Approve what an agent asks for</h2>
-<p>When an agent calls one of the <code>request_</code> tools, the console checks the
-request exactly as it would check yours - the task and its parameters, the
-nodes, the agent&#39;s node groups and task list - and, if it passes, stores it
-and tells the agent it is awaiting approval. Nothing runs. A request that
-fails a check is refused with the reason, so the agent can correct it.</p>
-<p>Open <strong>Jobs</strong>, then <strong>Approvals</strong> (the tab shows how many are waiting, as does
-the navigation). <strong>Review</strong> a request to see:</p>
+<p>Tout ce que lit un agent passe par les propres endpoints de la console avec son jeton : il voit donc exactement ce que verrait une personne dotée des permissions et des groupes de Nodes de ce jeton, et les valeurs sensibles sont masquées comme partout ailleurs. Un résultat long est tronqué, avec une note indiquant à l&#39;agent comment demander moins.</p>
+<h2 id="approve-what-an-agent-asks-for">Approuver ce que demande un agent</h2>
+<p>Lorsqu&#39;un agent appelle l&#39;un des outils <code>request_</code>, la console vérifie la demande exactement comme elle vérifierait la vôtre - le Task et ses paramètres, les Nodes, les groupes de Nodes et la liste de Tasks de l&#39;agent - et, si elle est valide, l&#39;enregistre et indique à l&#39;agent qu&#39;elle attend une approbation. Rien ne s&#39;exécute. Une demande qui échoue à une vérification est refusée avec la raison, pour que l&#39;agent puisse la corriger.</p>
+<p>Ouvrez <strong>Jobs</strong>, puis <strong>Approbations</strong> (l&#39;onglet indique combien de demandes attendent, tout comme la navigation). <strong>Examiner</strong> une demande permet de voir :</p>
 <ul>
-<li>which agent asked and when, and when the request expires</li>
-<li>the task, plan or kind of run, and its environment</li>
-<li>the <strong>exact nodes</strong>, resolved when the agent asked</li>
-<li>the parameters, with sensitive values masked</li>
+<li>quel agent a demandé et quand, et quand la demande expire</li>
+<li>le Task, le Plan ou le type d&#39;exécution, et son Environment</li>
+<li>les <strong>Nodes exacts</strong>, résolus au moment de la demande de l&#39;agent</li>
+<li>les paramètres, avec les valeurs sensibles masquées</li>
 </ul>
-<p>Choose <strong>Approve and run</strong> to start the job, or <strong>Reject</strong>, with a note if you
-like: the agent is told. Approving starts exactly what you saw - parameters
-and nodes are frozen when the request is made - as the agent&#39;s token. The job
-shows that an AI agent asked for it and who approved it, and <strong>Jobs</strong> can be
-limited to jobs started that way.</p>
-<p>A request that nobody decides expires, after an hour unless you set
-<code>CONSOLE_AGENT_REQUEST_TTL</code>, and can no longer be approved. An agent can hold
-only so many waiting requests at once.</p>
-<h3 id="who-can-approve">Who can approve</h3>
-<p>Two permissions, which go on roles for people and cannot be given to an agent
-token:</p>
+<p>Choisissez <strong>Approuver et exécuter</strong> pour lancer le Job, ou <strong>Rejeter</strong>, avec une note si vous le souhaitez : l&#39;agent en est informé. L&#39;approbation lance exactement ce que vous avez vu - les paramètres et les Nodes sont figés au moment de la demande - en tant que jeton de l&#39;agent. Le Job indique qu&#39;un agent d&#39;IA l&#39;a demandé et qui l&#39;a approuvé, et <strong>Jobs</strong> peut être filtré sur les Jobs lancés de cette façon.</p>
+<p>Une demande sur laquelle personne ne statue expire, au bout d&#39;une heure sauf si vous définissez <code>CONSOLE_AGENT_REQUEST_TTL</code>, et ne peut alors plus être approuvée. Un agent ne peut détenir qu&#39;un nombre limité de demandes en attente à la fois.</p>
+<h3 id="who-can-approve">Qui peut approuver</h3>
+<p>Deux permissions, qui s&#39;attribuent à des rôles destinés à des personnes et ne peuvent pas être données à un jeton d&#39;agent :</p>
 <div class="guide-table" tabindex="0"><table class="vox-table">
 <thead>
 <tr>
 <th>Permission</th>
-<th>Lets someone</th>
+<th>Permet de</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>agent-requests:read</code></td>
-<td>see requests on the Approvals page</td>
+<td>voir les demandes sur la page Approbations</td>
 </tr>
 <tr>
 <td><code>agent-requests:approve</code></td>
-<td>approve and reject them</td>
+<td>les approuver et les rejeter</td>
 </tr>
 </tbody>
 </table></div>
-<p>An approver also needs <code>orchestrator:run</code> over every node the request acts on,
-and may run the task. You cannot approve a request on nodes you could not run
-the task on yourself. Someone who can see only some node groups sees only the
-requests that name nodes in them.</p>
-<p>The person who issued an agent&#39;s token cannot approve its requests, though
-they can reject them. With only one administrator, create a second account
-for approving.</p>
-<vox-callout variant="info" heading="Note"><p>A permission added in a newer console version is not added to existing roles
-for you. After an upgrade, grant <code>agent-requests:read</code> and
-<code>agent-requests:approve</code> on the <strong>Roles</strong> page to the roles that should have
-them. The bootstrap administrator of a new installation has both.</p>
+<p>Un approbateur a aussi besoin de <code>orchestrator:run</code> sur chaque Node visé par la demande, et doit avoir le droit d&#39;exécuter le Task. Vous ne pouvez pas approuver une demande sur des Nodes où vous ne pourriez pas exécuter le Task vous-même. Une personne qui ne voit que certains groupes de Nodes ne voit que les demandes qui nomment des Nodes de ces groupes.</p>
+<p>La personne qui a émis le jeton d&#39;un agent ne peut pas approuver ses demandes, mais elle peut les rejeter. Avec un seul administrateur, créez un second compte pour les approbations.</p>
+<vox-callout variant="info" heading="Remarque"><p>Une permission ajoutée dans une version plus récente de la console n&#39;est pas ajoutée pour vous aux rôles existants. Après une mise à jour, accordez <code>agent-requests:read</code> et <code>agent-requests:approve</code> sur la page <strong>Rôles</strong> aux rôles qui doivent en disposer. L&#39;administrateur initial d&#39;une nouvelle installation dispose des deux.</p>
 </vox-callout>
-<p>If an agent&#39;s token is revoked or has expired by the time you approve, nothing
-is started, and the request says why.</p>
-<h2 id="plans-from-code">Plans from code</h2>
-<p><code>request_code_plan</code> asks to run a <a href="code-plans.html">plan from your code</a>.
-Such a plan chooses its own nodes while it runs, within what the agent&#39;s token
-reaches, so approving it needs <code>orchestrator:run</code> over everything that token
-reaches. Plans run only on the console instance that deploys your code, so
-approve them there, or the request fails with that reason.</p>
-<h2 id="what-is-recorded">What is recorded</h2>
-<p>The audit log, at the orchestrator category&#39;s level, records each request, each
-approval, rejection and expiry, naming the agent as <code>agent:&lt;token name&gt;</code> and the
-person who decided, with the request&#39;s number. Reads an agent makes are
-audited as any read is, under the same name. Sensitive values never appear in
-the audit log, the activity log or the request itself: they are kept encrypted
-with the console&#39;s secrets key (<code>CONSOLE_SECRETS_KEY</code>), without which a request
-that carries one is refused.</p>
-<h2 id="the-api-description">The API description</h2>
-<p><code>/api/v1/openapi.json</code> describes the REST API for programs you write yourself,
-for anyone who is signed in. Agent tokens cannot call that API, and a program
-using a service token is not asked to wait for approval. To let an agent act
-with a person&#39;s approval in the loop, connect it to <code>/mcp</code>.</p>
+<p>Si le jeton d&#39;un agent a été révoqué ou a expiré au moment où vous approuvez, rien n&#39;est lancé, et la demande en indique la raison.</p>
+<h2 id="plans-from-code">Plans issus du code</h2>
+<p><code>request_code_plan</code> demande l&#39;exécution d&#39;un <a href="code-plans.html">Plan issu de votre code</a>. Un tel Plan choisit ses propres Nodes en cours d&#39;exécution, dans les limites de ce qu&#39;atteint le jeton de l&#39;agent ; l&#39;approuver nécessite donc <code>orchestrator:run</code> sur tout ce qu&#39;atteint ce jeton. Les Plans ne s&#39;exécutent que sur l&#39;instance de la console qui déploie votre code : approuvez-les donc sur celle-ci, sinon la requête échoue pour cette raison.</p>
+<h2 id="what-is-recorded">Ce qui est consigné</h2>
+<p>Le journal d&#39;audit, au niveau de la catégorie orchestrator, consigne chaque demande, chaque approbation, rejet et expiration, en nommant l&#39;agent sous la forme <code>agent:&lt;token name&gt;</code> et la personne qui a statué, avec le numéro de la demande. Les lectures d&#39;un agent sont auditées comme toute lecture, sous le même nom. Les valeurs sensibles n&#39;apparaissent jamais dans le journal d&#39;audit, le journal d&#39;activité ni la demande elle-même : elles sont conservées chiffrées avec la clé de secrets de la console (<code>CONSOLE_SECRETS_KEY</code>), sans laquelle une demande qui en contient est refusée.</p>
+<h2 id="the-api-description">La description de l&#39;API</h2>
+<p><code>/api/v1/openapi.json</code> décrit l&#39;API REST destinée aux programmes que vous écrivez vous-même, pour toute personne connectée. Les jetons d&#39;agent ne peuvent pas appeler cette API, et un programme utilisant un jeton de service n&#39;a pas à attendre d&#39;approbation. Pour qu&#39;un agent agisse avec l&#39;approbation d&#39;une personne dans la boucle, connectez-le à <code>/mcp</code>.</p>
 
     </div>
 
-    <vox-series-nav label="Use" previous-text="Previous" next-text="Next" previous-href="../guides/code-plans.html" previous-label="Run plans from your code"></vox-series-nav>
+    <vox-series-nav label="Utiliser" previous-text="Précédent" next-text="Suivant" previous-href="../guides/code-plans.html" previous-label="Exécuter des Plans issus de votre code"></vox-series-nav>
   </article>
 
   
   <div class="guide-toc-rail">
-    <vox-toc heading="On this page">
-      <vox-toc-item href="#turn-the-endpoint-on"><span>Turn the endpoint on</span>
+    <vox-toc heading="Sur cette page">
+      <vox-toc-item href="#turn-the-endpoint-on"><span>Activer l&#39;endpoint</span>
       </vox-toc-item>
-      <vox-toc-item href="#issue-a-token-for-an-agent"><span>Issue a token for an agent</span>
+      <vox-toc-item href="#issue-a-token-for-an-agent"><span>Émettre un jeton pour un agent</span>
       </vox-toc-item>
-      <vox-toc-item href="#connect-an-agent"><span>Connect an agent</span>
+      <vox-toc-item href="#connect-an-agent"><span>Connecter un agent</span>
       </vox-toc-item>
-      <vox-toc-item href="#approve-what-an-agent-asks-for"><span>Approve what an agent asks for</span>
-        <vox-toc-item slot="children" href="#who-can-approve"><span>Who can approve</span></vox-toc-item>
+      <vox-toc-item href="#approve-what-an-agent-asks-for"><span>Approuver ce que demande un agent</span>
+        <vox-toc-item slot="children" href="#who-can-approve"><span>Qui peut approuver</span></vox-toc-item>
       </vox-toc-item>
-      <vox-toc-item href="#plans-from-code"><span>Plans from code</span>
+      <vox-toc-item href="#plans-from-code"><span>Plans issus du code</span>
       </vox-toc-item>
-      <vox-toc-item href="#what-is-recorded"><span>What is recorded</span>
+      <vox-toc-item href="#what-is-recorded"><span>Ce qui est consigné</span>
       </vox-toc-item>
-      <vox-toc-item href="#the-api-description"><span>The API description</span>
+      <vox-toc-item href="#the-api-description"><span>La description de l&#39;API</span>
       </vox-toc-item>
       </vox-toc>
   </div>
@@ -405,23 +340,17 @@ with a person&#39;s approval in the loop, connect it to <code>/mcp</code>.</p>
 
       
       <vox-cta-band heading="Faites-le tourner vous-même">
-      <p>
-        OpenVox Console ships as container images, built for amd64 and
-        arm64 on every push, and as a single binary. The install guides
-        take you from an empty host to a working deployment -
-        openvoxserver, openvoxdb, Postgres and the console - with
-        containers or with packages.
-      </p>
-      <vox-cta slot="actions" href="../guides/index.html#install">Install guides</vox-cta>
+      <p>OpenVox Console est distribué sous forme d&#39;images de conteneur, construites pour amd64 et arm64 à chaque push, et d&#39;un binaire unique. Les guides d&#39;installation vous mènent d&#39;un hôte vide à un déploiement fonctionnel - openvoxserver, openvoxdb, Postgres et la console - avec des conteneurs ou avec des paquets.</p>
+      <vox-cta slot="actions" href="../guides/index.html#install">Guides d&#39;installation</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console" target="_blank">Source sur GitHub</vox-cta>
       <vox-cta slot="actions" href="https://github.com/avitacco/openvox-console/pkgs/container/openvox-console" target="_blank">Images de conteneur</vox-cta>
       </vox-cta-band>
     </main>
 
     
-    <dialog class="lightbox" aria-label="Full-size screenshot">
+    <dialog class="lightbox" aria-label="Capture d&#39;écran en taille réelle">
       <div class="lightbox-bar">
-        <vox-button class="lightbox-close" size="sm">Close</vox-button>
+        <vox-button class="lightbox-close" size="sm">Fermer</vox-button>
       </div>
       <img class="lightbox-image" alt=""/>
     </dialog>
@@ -430,18 +359,18 @@ with a person&#39;s approval in the loop, connect it to <code>/mcp</code>.</p>
       <vox-footer-column heading="OpenVox Console">
         <a href="../index.html">Aperçu</a>
         <a href="https://github.com/avitacco/openvox-console" rel="noopener" target="_blank">Source</a>
-        <a href="../guides/index.html#install">Install guides</a>
+        <a href="../guides/index.html#install">Guides d&#39;installation</a>
       </vox-footer-column>
       <vox-footer-column heading="Fonctionnalités">
         <a href="../features/nodes.html">Nodes</a>
         <a href="../features/classification.html">Classification</a>
         <a href="../features/code.html">Code</a>
         <a href="../features/orchestration.html">Orchestration</a>
-        <a href="../features/patching.html">Patching</a>
+        <a href="../features/patching.html">Mise à jour corrective</a>
         <a href="../features/security.html">Sécurité</a>
         <a href="../features/access-control.html">Contrôle d&#39;accès</a>
-        <a href="../features/ai-agents.html">AI agents</a>
-        <a href="../features/scaling.html">Scaling</a>
+        <a href="../features/ai-agents.html">Agents d&#39;IA</a>
+        <a href="../features/scaling.html">Montée en charge</a>
         </vox-footer-column>
       
       <vox-footer-column heading="Langue">
